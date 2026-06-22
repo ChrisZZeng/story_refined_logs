@@ -1,0 +1,4 @@
+interface:
+  display_name: "Root Cause Coordinator"
+  short_description: "编排一批叙事一致性问题的根因分析。"
+  default_prompt: "请使用该 skill 为 consistency evaluator 的输出做全量根因分析。为每个 issue 生成任务，派发 subagents 使用 issue tracer，最后聚合机制分布和修复优先级。报告请用中文编写。"
