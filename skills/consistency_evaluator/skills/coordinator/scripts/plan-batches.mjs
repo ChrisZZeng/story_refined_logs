@@ -101,8 +101,14 @@ ${outDir}
 function inferRunDir({ timelinePath, outDir }) {
   const timelineName = path.basename(timelinePath);
   const timelineParent = path.dirname(timelinePath);
-  if (timelineName === 'visible-timeline.jsonl' && path.resolve(timelineParent) === path.resolve(outDir)) {
-    return path.join(path.dirname(outDir), 'run');
+  const reviewName = path.basename(outDir);
+  const reviewParent = path.basename(path.dirname(outDir));
+  if (
+    timelineName === 'visible-timeline.jsonl' &&
+    path.resolve(timelineParent) === path.resolve(outDir) &&
+    reviewParent === 'consistency-review'
+  ) {
+    return path.join(path.dirname(path.dirname(outDir)), 'run_logs', reviewName);
   }
   return undefined;
 }

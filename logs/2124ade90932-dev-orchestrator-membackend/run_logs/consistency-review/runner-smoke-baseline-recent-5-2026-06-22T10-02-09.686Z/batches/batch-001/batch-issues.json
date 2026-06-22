@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "小贩在第 3 轮再次说：“暗街。卡琳娜阁下住在那边。如果你真想打听消息——那边什么都有，只要你能找到对的路。”",
+    "conflictingEvidence": "第 2 轮小贩已经给出几乎相同的暗街线索：“你要找人的话，不妨往暗街那边走一走。那边……什么消息都有。只要你能找到对的路。”",
+    "conflictingTurns": [2],
+    "source": "model-output",
+    "reason": "同一名小贩在相邻轮次把刚给过的暗街指引重新当作新信息讲出，造成轻微重复演出和分支合流感。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 3 轮选项文字：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "此前上下文只建立了“前往暗街寻找敏特或卡琳娜线索”的行动目标，没有建立“往日总是如影随形”这个可执行动作或语义关联。",
+    "conflictingTurns": [],
+    "source": "model-output",
+    "reason": "选项后半句像误混入的抒情残片，不是清晰的玩家行动，降低选择可读性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 8,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "第 8 轮突然写道：“沙发角落，那只黑猫——卡尔——一直蜷在毛毯尾端，像是睡着了。”",
+    "conflictingEvidence": "第 7 轮完整观察公寓客厅时只描述了沙发、毛毯、茶几、薄荷和帆布背包，且卡琳娜还“弯腰把沙发上的毛毯叠了一下”；此前唯一出现的猫是第 6 轮巷子里的“瘦削的灰猫”，不是室内黑猫卡尔。",
+    "conflictingTurns": [6, 7],
+    "source": "model-output",
+    "reason": "正文把一只未被介绍过的室内黑猫当作玩家已知且一直在场的对象处理，物件/角色出现缺少可见铺垫。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 9 轮写道：“沙发角落里，黑猫卡尔从窗台上跳下来，轻盈地落在木地板上。”",
+    "conflictingEvidence": "第 8 轮卡尔已经从沙发跳到窗台边：“轻盈地跳下沙发，走到窗台边，在薄荷盆栽旁边蹲坐下来”；第 9 轮这句又以“沙发角落里”开头，同时说它从窗台跳下。",
+    "conflictingTurns": [8],
+    "source": "model-output",
+    "reason": "同一句话把卡尔的位置同时锚定在沙发角落和窗台，动作承接不清。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮帕兹描述照片：“港口区边缘的街景，废弃的仓库，敏特站在镜头前，但目光看向别处。”",
+    "conflictingEvidence": "第 1 轮匿名信照片的内容是：“背景却是完全陌生的街道。路灯、石板路、远处的椰子酒招牌。”没有港口区边缘或废弃仓库。",
+    "conflictingTurns": [1],
+    "source": "model-output",
+    "reason": "同一张作为寻人关键线索的照片背景被改写，影响玩家对敏特线索位置的理解。"
+  }
+]

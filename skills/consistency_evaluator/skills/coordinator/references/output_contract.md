@@ -2,7 +2,7 @@
 
 ## 目录约定
 
-一次评测目录为 `logs/<branch+version>/`。`runDir` 指向 `logs/<branch+version>/run`，评测输出目录通常是同级的 `logs/<branch+version>/consistency-review`。Coordinator 不直接调用 `oreturn`；来自 `oreturn` 的 playthrough 需要先导出成这个文件化 `run/turn-*` 结构。
+一次评测目录为 `logs/<branch+version>/`。`runDir` 指向 `logs/<branch+version>/run_logs/<run-id>`，评测输出目录通常是 `logs/<branch+version>/consistency-review/<run-id>`。Coordinator 不直接调用 `oreturn`；来自 `oreturn` 的 playthrough 需要先导出成这个文件化 `run_logs/<run-id>/turn-*` 结构。
 
 ## visible-timeline.jsonl
 

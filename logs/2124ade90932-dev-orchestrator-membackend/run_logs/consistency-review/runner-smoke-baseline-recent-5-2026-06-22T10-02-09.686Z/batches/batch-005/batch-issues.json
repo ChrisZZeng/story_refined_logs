@@ -1,0 +1,87 @@
+[
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第43轮再次使用同一组停顿和物件动作：卡琳娜没有立刻回答，右手食指在搪瓷杯壁上停住，画圆动作在半途中断，低头看半截凉透的茶水，然后抬起头。",
+    "conflictingEvidence": "第41轮已经写过“右手食指在搪瓷杯壁上停住”“那个画圆的动作在半途中断”“低头看着杯子里剩下的半截茶水”；第42轮又写过“手指在搪瓷杯壁上停住”“低着头，看着杯子里那半截已经凉透的茶水”“然后她抬起头来”。",
+    "conflictingTurns": [
+      41,
+      42
+    ],
+    "source": "model-output",
+    "reason": "连续对话被近乎相同的沉默、杯子和凉茶动作反复包装，形成机械重复的阅读体验。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 47,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第47轮写卡琳娜靠在厨房台边时有“白色棉衣的袖口”；第48轮继续写“白色棉衣的轮廓边缘被光线染成了半透明”。",
+    "conflictingEvidence": "第33轮早晨客厅中明确写卡琳娜“穿着一件宽大的、褪成近乎灰色的毛衣，领口松垮地滑到一侧肩膀，露出锁骨和白色的棉布吊带”。第34-46轮没有玩家可见的换衣动作。",
+    "conflictingTurns": [
+      33
+    ],
+    "source": "model-output",
+    "reason": "同一清晨场景里，卡琳娜从灰色毛衣无承接漂移回前一日的白色棉衣外观。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第49轮写“她的手刚搭上里间窗台，听到你的声音，停住了。她没有回头，只是侧过脸来，用余光看你”。",
+    "conflictingEvidence": "第48轮结尾卡琳娜已经“终于完全转过身来，靠在窗台上，双手交握在身前”，并且“视线重新落在你脸上”，最后“就那样站在原地，隔着几步的距离，看着你”。",
+    "conflictingTurns": [
+      48
+    ],
+    "source": "model-output",
+    "reason": "前一轮她已经面对玩家并靠在窗台上，本轮却无过渡回退成刚把手搭上窗台且背对玩家。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第50轮选项提供“在客厅里慢慢走动，留意书架上的书和墙上的照片”。",
+    "conflictingEvidence": "第7轮首次观察公寓客厅时明确写“没有多余的装饰，没有照片墙，没有招贴画”，且“唯一的‘装饰’是墙角一只帆布背包”。",
+    "conflictingTurns": [
+      7
+    ],
+    "source": "model-output",
+    "reason": "选项把此前玩家可见环境中明确不存在的墙上照片当成可检查对象，制造了错误的交互 affordance。"
+  }
+]

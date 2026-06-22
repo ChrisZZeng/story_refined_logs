@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 11,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 11: \"窗台上那只黑猫——卡尔——从叶片间抬起头来，耳朵转动了一下\"。",
+    "conflictingEvidence": "Turn 10 ended with 卡尔 leaving the window area: \"卡尔从窗台上跳下来，无声地落在木地板上。它绕了一圈，走到沙发的另一端，蹲坐下来\"。",
+    "conflictingTurns": [10],
+    "source": "model-output",
+    "reason": "紧邻轮次中卡尔刚从窗台移动到沙发另一端，下一轮又无承接地出现在窗台薄荷叶间，造成轻微位置连续性漂移。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 19 opens with: \"德索洛的单膝跪在地板上...他的左手握着卡琳娜纤细的指尖，头颅埋得很低\"。",
+    "conflictingEvidence": "Turn 18 left 德索洛 standing/低头 but not kneeling or touching 卡琳娜: \"德索洛的双手垂在身侧...然后他开口了...‘……阁下。’\" and 卡琳娜 then says \"你女儿的事，我可以查\"。",
+    "conflictingTurns": [18],
+    "source": "model-output",
+    "reason": "德索洛从站立、双手垂在身侧突然变成单膝跪地并握住卡琳娜手指，中间没有玩家可见动作承接，明显改变了人物姿态和互动状态。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 19 repeats the exchange: \"……阁下。\" / \"很好。\" / \"你女儿的事，我可以查。\" / \"不过你应该知道我的规矩。\"",
+    "conflictingEvidence": "Turn 18 already completed the same exchange: 德索洛 says \"……阁下。\", 卡琳娜 replies \"很好。\", then \"你女儿的事，我可以查。\" and \"不过你应该知道我的规矩。\"",
+    "conflictingTurns": [18],
+    "source": "model-output",
+    "reason": "上一轮刚完成的称呼、同意调查和规矩提醒在第 19 轮被当作新内容再次演出，导致剧情进度倒退和重复。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 19: \"他显然是知道的，只是不想在提起她面前——在一个陌生提她面前——再经历一次那个过程。\"",
+    "conflictingEvidence": "同一段上下文需要表达德索洛不想在卡琳娜和陌生人面前再次经历屈辱，但这句话出现 \"提起她面前\"、\"陌生提她面前\" 这类残缺误写。",
+    "conflictingTurns": [19],
+    "source": "model-output",
+    "reason": "句子存在明显残缺和误词，影响玩家阅读理解，属于局部文本质量回退。"
+  }
+]

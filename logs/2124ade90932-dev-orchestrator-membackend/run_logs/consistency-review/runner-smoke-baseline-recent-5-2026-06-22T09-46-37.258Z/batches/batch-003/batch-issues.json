@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 27 先写到脚步声“不止一个人，从主巷两端的黑暗中同时向中间收拢”；随后又写“余光里，三个穿深色夹克的人影从你刚刚穿过的那条岔道口方向走来”，并说另外两人封住往古董街方向的退路。",
+    "conflictingEvidence": "同一轮对围堵者的来向先描述为主巷两端同时收拢，后描述为三个黑夹克人影都从玩家刚穿过的岔道口方向走来。",
+    "conflictingTurns": [
+      27
+    ],
+    "source": "model-output",
+    "reason": "同一场围堵的空间调度前后不一致，玩家难以判断黑帮到底从两端包抄还是从单一岔道方向出现。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 27 中卡琳娜在昏暗巷道里开口说：“午安，记者。”同一轮已经写到“主巷的轮廓在前方重新打开，宽度从三块砖变成五块砖，头顶的天空重新露出那条狭窄的深蓝色裂隙”和“昏黄的灯光”。",
+    "conflictingEvidence": "Turn 19 已推进到鼓乐队黄昏临近，“头顶那道窄窄的光线已经变成了淡橘色”；turn 20 写“天空已经从淡橘色沉入紫灰”；turn 24 写“头顶的天色已经几乎完全沉入夜蓝”。",
+    "conflictingTurns": [
+      19,
+      20,
+      24
+    ],
+    "source": "model-output",
+    "reason": "时间已经是黄昏后到夜间，角色仍使用午间问候，造成轻微但可见的时间语感冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "Turn 28 玩家输入是“站在原地追问她准备带我去哪”。卡琳娜回答“公寓”后，正文直接写“你抬起了脚。你跟她走了上去”，后续 choices 也全部以已经跟随为前提，包括“观察周围环境，默默记下走过的路线和地标”和“保持沉默，一边走一边留意身后是否有尾巴”。",
+    "conflictingEvidence": "Turn 27 的选项把“跟上卡琳娜，接受她的邀请”和“站在原地追问她准备带我去哪”分成两个不同选择；玩家选择的是先停在原地追问，并没有选择接受邀请或开始跟随。",
+    "conflictingTurns": [
+      27
+    ],
+    "source": "model-output",
+    "reason": "模型在回答玩家追问后自动替玩家决定跟随卡琳娜，并让后续选项默认进入同行状态，削弱了玩家刚刚选择的停步追问意图。"
+  }
+]

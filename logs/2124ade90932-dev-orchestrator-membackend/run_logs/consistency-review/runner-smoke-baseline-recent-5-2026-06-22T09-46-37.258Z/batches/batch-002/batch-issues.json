@@ -1,0 +1,68 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 13,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "裁缝说：“你把这东西带回来，我就告诉你纸条上那个人在哪——以及为什么那张纸条会出现在古董街的猫底下。”",
+    "conflictingEvidence": "turn 7 的纸条内容只有“暗街——找‘裁缝’”；turn 12 裁缝本人已经确认“我就是”。纸条没有写敏特，也没有指向另一个待定位的人。",
+    "conflictingTurns": [
+      7,
+      12
+    ],
+    "source": "model-output",
+    "reason": "模型把“找裁缝”的纸条线索滑写成“纸条上那个人在哪”，混淆了纸条指向的裁缝和玩家真正寻找的照片人物。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 15,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "裁缝解释铁盒任务后说：“铁盒里装的东西就是我要的。你把它带回来，我就告诉你纸条上那个人在哪。”",
+    "conflictingEvidence": "turn 7 的纸条只写着“暗街——找‘裁缝’”；turn 12 已经把裁缝本人展示在玩家面前，并未建立“纸条上另有一个人”的事实。",
+    "conflictingTurns": [
+      7,
+      12,
+      13
+    ],
+    "source": "model-output",
+    "reason": "关键任务条件再次把纸条误当成包含某个待定位人物的线索，延续并强化了线索归属混淆。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "裁缝说：“最好趁白天去。现在离正午还有一阵，庆典的人流还没散到这边，运气好的话整条巷子都是空的。”",
+    "conflictingEvidence": "turn 8 在暗街入口对峙结束处已经写明“夜色里，灯泡吱地响了一声”，此后没有玩家可见的倒叙、睡眠或长时间跳转来把时间拉回正午前。",
+    "conflictingTurns": [
+      8
+    ],
+    "source": "model-output",
+    "reason": "前文已用“夜色”锚定暗街行动的时间，后文突然改成正午前的白天行动窗口，造成当前任务时间状态断裂。"
+  }
+]

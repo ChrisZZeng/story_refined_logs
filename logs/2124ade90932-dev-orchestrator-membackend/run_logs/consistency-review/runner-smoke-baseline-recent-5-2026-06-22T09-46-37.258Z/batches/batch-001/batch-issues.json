@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 7,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 7 选项写作：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "同轮正文中纸条只提供行动线索：“暗街——找‘裁缝’。”此前上下文没有把“往日总是如影随形”建立为当前可执行意图或明确选项内容。",
+    "conflictingTurns": [7],
+    "source": "model-output",
+    "reason": "选项前半句是明确行动，后半句却混入缺少承接的诗性片段，使玩家可见选项读起来像残缺或拼接错误。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 8,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 8 写道：“夜色里，灯泡吱地响了一声。”拦路者还说：“找人？这时间？这倒是稀奇。”",
+    "conflictingEvidence": "Turn 1 中帕兹醒来时“阳光刺得你本能的眯起眼”，随后 Turn 4-7 只是从庆典区步行到古董街并查看摊位，没有可见的长时间流逝或天色转暗过渡。",
+    "conflictingTurns": [1, 4, 5, 6, 7],
+    "source": "model-output",
+    "reason": "叙事从白天庆典切到夜色中的暗街，但缺少玩家可见的时间过渡，造成轻微时间连续性断裂。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 9 开头重复：“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了。”",
+    "conflictingEvidence": "Turn 8 在同一对峙中已经写过：“你用力咬了一下口腔内侧的软肉，疼痛像一根针，把那个画面扎破了。你重新看清了眼前的三个人。”",
+    "conflictingTurns": [8],
+    "source": "model-output",
+    "reason": "上一轮已完成的恢复动作在下一轮被几乎原句重演，像把即时场景回退了一小步。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 9 中帕兹说：“这相机是我战友的遗产！我也没拍什么，胶卷和记忆卡都给你！”",
+    "conflictingEvidence": "Turn 1 已建立帕兹身上是一台“老旧的胶卷相机”；Turn 8 也围绕“胶卷”威胁：“你的命就不值一卷胶卷的钱。”此前没有建立这台相机有数字存储介质。",
+    "conflictingTurns": [1, 8],
+    "source": "model-output",
+    "reason": "即使这是示弱台词，正文没有把“记忆卡”标成谎话或口误，导致已建立的胶卷相机道具出现轻微属性漂移。"
+  }
+]

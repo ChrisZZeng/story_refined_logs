@@ -1,0 +1,44 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 36 轮先写“你没有翻开它。——因为门响了。不是敲门。三声，间隔均匀，力度适中——指节叩在旧木料上的声音”，随后又写“敲门声又响了一次”。",
+    "conflictingEvidence": "同一段可见正文既否定这是敲门，又明确描述为指节叩在旧木料上的声音，并在后文按敲门处理。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "同一声音事件在当前可见正文中被同时写成“不是敲门”和“敲门”，造成局部事件性质不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 37 轮写“‘咚咚咚。’ 第三声敲门。这一次更重，间隔更短”。",
+    "conflictingEvidence": "第 36 轮已经出现一组“三声”敲击，随后又出现“敲门声又响了一次。这次更短——两声”；到第 37 轮时再写“第三声敲门”会让敲门次数/声数的承接变得混乱。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "敲门序列的计数表述没有承接上一轮已经出现的多次敲击，容易让玩家误解当前是第三声、第三次还是另一组敲门。"
+  }
+]

@@ -1,0 +1,308 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 8,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 8 写道：“夜色里，灯泡吱地响了一声。”拦路者还说：“找人？这时间？这倒是稀奇。”",
+    "conflictingEvidence": "Turn 1 中帕兹醒来时“阳光刺得你本能的眯起眼”，随后 Turn 4-7 只是从庆典区步行到古董街并查看摊位，没有可见的长时间流逝或天色转暗过渡。",
+    "conflictingTurns": [
+      1,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": "model-output",
+    "reason": "叙事从白天庆典切到夜色中的暗街，但缺少玩家可见的时间过渡，造成轻微时间连续性断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 9 中帕兹说：“这相机是我战友的遗产！我也没拍什么，胶卷和记忆卡都给你！”",
+    "conflictingEvidence": "Turn 1 已建立帕兹身上是一台“老旧的胶卷相机”；Turn 8 也围绕“胶卷”威胁：“你的命就不值一卷胶卷的钱。”此前没有建立这台相机有数字存储介质。",
+    "conflictingTurns": [
+      1,
+      8
+    ],
+    "source": "model-output",
+    "reason": "即使这是示弱台词，正文没有把“记忆卡”标成谎话或口误，导致已建立的胶卷相机道具出现轻微属性漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 9 开头重复：“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了。”",
+    "conflictingEvidence": "Turn 8 在同一对峙中已经写过：“你用力咬了一下口腔内侧的软肉，疼痛像一根针，把那个画面扎破了。你重新看清了眼前的三个人。”",
+    "conflictingTurns": [
+      8
+    ],
+    "source": "model-output",
+    "reason": "上一轮已完成的恢复动作在下一轮被几乎原句重演，像把即时场景回退了一小步。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 13,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "裁缝说：“你把这东西带回来，我就告诉你纸条上那个人在哪——以及为什么那张纸条会出现在古董街的猫底下。”",
+    "conflictingEvidence": "turn 7 的纸条内容只有“暗街——找‘裁缝’”；turn 12 裁缝本人已经确认“我就是”。纸条没有写敏特，也没有指向另一个待定位的人。",
+    "conflictingTurns": [
+      7,
+      12
+    ],
+    "source": "model-output",
+    "reason": "模型把“找裁缝”的纸条线索滑写成“纸条上那个人在哪”，混淆了纸条指向的裁缝和玩家真正寻找的照片人物。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 15,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "裁缝解释铁盒任务后说：“铁盒里装的东西就是我要的。你把它带回来，我就告诉你纸条上那个人在哪。”",
+    "conflictingEvidence": "turn 7 的纸条只写着“暗街——找‘裁缝’”；turn 12 已经把裁缝本人展示在玩家面前，并未建立“纸条上另有一个人”的事实。",
+    "conflictingTurns": [
+      7,
+      12,
+      13
+    ],
+    "source": "model-output",
+    "reason": "关键任务条件再次把纸条误当成包含某个待定位人物的线索，延续并强化了线索归属混淆。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "裁缝说：“最好趁白天去。现在离正午还有一阵，庆典的人流还没散到这边，运气好的话整条巷子都是空的。”",
+    "conflictingEvidence": "turn 8 在暗街入口对峙结束处已经写明“夜色里，灯泡吱地响了一声”，此后没有玩家可见的倒叙、睡眠或长时间跳转来把时间拉回正午前。",
+    "conflictingTurns": [
+      8
+    ],
+    "source": "model-output",
+    "reason": "前文已用“夜色”锚定暗街行动的时间，后文突然改成正午前的白天行动窗口，造成当前任务时间状态断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 27 先写到脚步声“不止一个人，从主巷两端的黑暗中同时向中间收拢”；随后又写“余光里，三个穿深色夹克的人影从你刚刚穿过的那条岔道口方向走来”，并说另外两人封住往古董街方向的退路。",
+    "conflictingEvidence": "同一轮对围堵者的来向先描述为主巷两端同时收拢，后描述为三个黑夹克人影都从玩家刚穿过的岔道口方向走来。",
+    "conflictingTurns": [
+      27
+    ],
+    "source": "model-output",
+    "reason": "同一场围堵的空间调度前后不一致，玩家难以判断黑帮到底从两端包抄还是从单一岔道方向出现。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 27 中卡琳娜在昏暗巷道里开口说：“午安，记者。”同一轮已经写到“主巷的轮廓在前方重新打开，宽度从三块砖变成五块砖，头顶的天空重新露出那条狭窄的深蓝色裂隙”和“昏黄的灯光”。",
+    "conflictingEvidence": "Turn 19 已推进到鼓乐队黄昏临近，“头顶那道窄窄的光线已经变成了淡橘色”；turn 20 写“天空已经从淡橘色沉入紫灰”；turn 24 写“头顶的天色已经几乎完全沉入夜蓝”。",
+    "conflictingTurns": [
+      19,
+      20,
+      24
+    ],
+    "source": "model-output",
+    "reason": "时间已经是黄昏后到夜间，角色仍使用午间问候，造成轻微但可见的时间语感冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 36 轮先写“你没有翻开它。——因为门响了。不是敲门。三声，间隔均匀，力度适中——指节叩在旧木料上的声音”，随后又写“敲门声又响了一次”。",
+    "conflictingEvidence": "同一段可见正文既否定这是敲门，又明确描述为指节叩在旧木料上的声音，并在后文按敲门处理。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "同一声音事件在当前可见正文中被同时写成“不是敲门”和“敲门”，造成局部事件性质不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 37 轮写“‘咚咚咚。’ 第三声敲门。这一次更重，间隔更短”。",
+    "conflictingEvidence": "第 36 轮已经出现一组“三声”敲击，随后又出现“敲门声又响了一次。这次更短——两声”；到第 37 轮时再写“第三声敲门”会让敲门次数/声数的承接变得混乱。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "敲门序列的计数表述没有承接上一轮已经出现的多次敲击，容易让玩家误解当前是第三声、第三次还是另一组敲门。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 42,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "high",
+    "currentEvidence": "德索洛先说女儿被骗、抵抗后“她的舌头被割了”，紧接着又出现“我再也不能唱歌了”，随后又说“我女儿受伤是假的”。",
+    "conflictingEvidence": "Turn 41 已用“我女儿……他们把她——”铺垫女儿遭遇；Turn 42 同一段先把伤害写成真实且严重，后又称受伤是假的。",
+    "conflictingTurns": [
+      41,
+      42
+    ],
+    "source": "model-output",
+    "reason": "德索洛求助的核心动机在同一轮中从女儿遭受严重伤害变成伤害为假，且 pronoun 从“她”漂到“我”，破坏关键事件理解。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 42,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "叙事先写“卡琳娜没给他回答的机会”，随后对白内容是“你从来没有称过我'阁下'……”，但插入叙述却写成“你的声音甚至没有抬高”。",
+    "conflictingEvidence": "这段对白内容明显属于卡琳娜对德索洛的控诉；玩家此前没有被建立为被德索洛疏远、未被称为阁下或未被邀请聚餐的一方。",
+    "conflictingTurns": [
+      41,
+      42
+    ],
+    "source": "model-output",
+    "reason": "说话人从卡琳娜漂移到第二人称玩家，导致玩家难以判断是谁在控诉德索洛。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 45,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "卡琳娜讲述卡尔来历时出现“有一天夜里，它蹲在我的窗台上——浑身湿透，瘦得肋骨一根根数得清。她伸出手……”。",
+    "conflictingEvidence": "该段落前面使用引号标记卡琳娜发言，但在转入叙述“她伸出手”前没有闭合引号或换清叙述层级。",
+    "conflictingTurns": [
+      45
+    ],
+    "source": "model-output",
+    "reason": "对白和叙述边界断裂，造成局部可读性和格式质量问题。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 49 以“你踏入宴会厅的那一刻”重新描写宴会厅暖意、穹顶吊灯、人群和卡琳娜半步位置，并再次出现“别站在门口太久。你一停，别人就会注意你。”",
+    "conflictingEvidence": "Turn 48 已经完整演出玩家跟随卡琳娜进入宴会厅、站在门槛、观察吊灯人群、听到同一句提醒，并跟上她进入厅内。",
+    "conflictingTurns": [
+      48
+    ],
+    "source": "model-output",
+    "reason": "玩家选择远观康纳后，正文把刚完成的入场段落重新当作新场景演出，造成进度回退感。"
+  }
+]

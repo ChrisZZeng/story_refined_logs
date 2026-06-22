@@ -1,0 +1,22 @@
+# Window Timeline 31-50
+
+- Turn 31: Player closes the old book, puts it back on the bedside crate, and looks out the inner-room window at the quiet night alley.
+- Turn 32: Player sleeps. During the night there are faint alley sounds; by morning the festival drums are gone.
+- Turn 33: Player folds the sheet and enters the living room. Karina sits by the window in a loose grayish sweater, holding an enamel cup, and asks how the player slept.
+- Turn 34: Player says sleep was fine and asks about Karina. She gives a short answer and remains guarded.
+- Turn 35: Player sits on the sofa and quietly drinks tea from a prepared enamel cup.
+- Turn 36: Player presses whether Karina really slept well. She says she only slept late because someone moved in the alley.
+- Turn 37: Player asks whether she saw the person. Karina says she did not.
+- Turn 38: Player asks whether she knows who it was. Karina deflects and asks whether the player wants to confirm it or put it in his photos.
+- Turn 39: Player says he can go check. Karina asks whether he came to find that person or prove he can find that person.
+- Turn 40: Player says he came to find someone he knows. Karina asks whether that person is still alive.
+- Turn 41: Player says he does not know and came to confirm. Karina asks what he would do if the woman is alive.
+- Turn 42: Player says he would take her away. Karina asks what comes after that and whether he knows why she came to New Sicily.
+- Turn 43: Player says he is not sure and asks whether Karina knows why. Karina gives an evasive answer and says the player will know, but not now.
+- Turn 44: Player asks when she will tell him. Karina answers, "when you are ready."
+- Turn 45: Player asks what "ready" means. Karina says it means hearing the answer without hating her.
+- Turn 46: Player insists he will not hate her and asks for the truth. Karina refuses, brings up Desolo, cleans up at the kitchen sink, and says the player must live until the answer can be given.
+- Turn 47: Player asks why Karina mentioned Desolo. She says Desolo's transaction is not finished, tells the player to wait for the "tail" of the deal, and goes toward the inner room.
+- Turn 48: Player follows to ask for transaction details. Karina remains evasive at the inner-room window and says the player will know when the "tail" comes.
+- Turn 49: Player asks what the "tail" means. Karina continues the metaphor, says breakfast can be self-served, and disappears deeper into the inner room.
+- Turn 50: Player goes to the kitchen, pours tea, notes Karina has not come out, and receives choices to inspect the alley, living room details, or his camera and pockets.

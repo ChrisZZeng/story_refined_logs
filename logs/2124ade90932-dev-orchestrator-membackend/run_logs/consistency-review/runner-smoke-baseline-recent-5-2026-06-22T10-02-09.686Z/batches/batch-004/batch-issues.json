@@ -1,0 +1,24 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 38,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第38轮正文写道：\"像是窗台上那道即将爬过桌腿的光斑\"，后文又写\"窗台上的灰尘旋又开始旋转\"。",
+    "conflictingEvidence": "第35轮已把该光斑定位为\"切在地板上的那枚菱形光斑\"并向墙根移动；第37轮继续写\"那枚菱形光斑已经从墙根滑到了旧茶几的桌腿边缘\"。",
+    "conflictingTurns": [
+      35,
+      37
+    ],
+    "source": "model-output",
+    "reason": "同一道晨光光斑刚被建立在地板/茶几桌腿附近，第38轮却称其在窗台上且即将爬过桌腿，造成局部空间描述混乱。"
+  }
+]

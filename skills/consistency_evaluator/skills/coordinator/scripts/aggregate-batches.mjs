@@ -111,7 +111,12 @@ function countBy(items, key) {
 }
 
 function inferRunDir(reviewDir) {
-  return path.join(path.dirname(reviewDir), 'run');
+  const reviewName = path.basename(reviewDir);
+  const reviewParent = path.basename(path.dirname(reviewDir));
+  if (reviewParent === 'consistency-review') {
+    return path.join(path.dirname(path.dirname(reviewDir)), 'run_logs', reviewName);
+  }
+  return null;
 }
 
 function buildReportSummary({ reviewDir, runDir, turnCount, batchCount, issues, reportMode }) {

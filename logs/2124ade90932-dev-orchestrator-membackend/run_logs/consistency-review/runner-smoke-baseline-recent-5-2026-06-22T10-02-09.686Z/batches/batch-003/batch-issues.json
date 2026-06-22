@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 21 opens by replaying the prior scene: \"你跟在卡琳娜身后走回公寓里。她没有关门，任由门扇虚掩着...\" and repeats Karina's question \"你一句话都没说。\" / \"你觉得他可怜吗？\" before finally applying the selected answer.",
+    "conflictingEvidence": "Turn 20 had already presented the same beat: \"你跟在卡琳娜身后走回公寓里。她没有关门，只是任由门扇虚掩着...\" and ended with Karina asking \"你觉得他可怜吗？\" The player then selected the answer \"可怜。但走投无路才想起你，这更可悲。\"",
+    "conflictingTurns": [20],
+    "source": "model-output",
+    "reason": "上一轮已经完成的跟进、站到窗台前、询问德索洛是否可怜的场景在第 21 轮被完整当作新正文重复，导致交互进度短暂回退。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 29,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 29 choices include \"仔细观察照片正面，寻找更多细节\" and \"把照片小心夹回书里，关灯躺下休息\".",
+    "conflictingEvidence": "Turn 29 visibleText has already completed that object state: \"你把照片夹回原页，合上书。\" and \"那本书安安静静地躺回床头柜上，像什么都没发生过。\"",
+    "conflictingTurns": [29],
+    "source": "model-output",
+    "reason": "正文已经把照片夹回书中并合上书、放回床头柜，但同一轮选项仍把照片当作可直接继续观察或尚未夹回的对象，造成轻微交互状态不一致。"
+  }
+]
