@@ -1,0 +1,88 @@
+{
+  "turn": 2,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "progress",
+  "selectedFromPreviousTurn": {
+    "text": "询问敏特的事",
+    "actionId": "choice:理想"
+  },
+  "submittedSelectedAction": {
+    "actionId": "choice:理想",
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 2
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 2
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "追上前去，向卡琳娜道谢或询问她的身份",
+    "actionId": "choice:未来"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "追上前去，向卡琳娜道谢或询问她的身份",
+        "actionId": "choice:未来"
+      },
+      {
+        "text": "质疑小贩的身份：“你看起来不像是普通的小贩。”",
+        "actionId": "choice:现在"
+      },
+      {
+        "text": "趁天色还早，直接前往暗街寻找敏特的线索"
+      }
+    ]
+  },
+  "visibleChars": 542,
+  "durationMs": 39330.65,
+  "memory": {
+    "recentTurns": 1,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

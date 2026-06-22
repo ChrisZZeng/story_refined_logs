@@ -1,0 +1,86 @@
+{
+  "turn": 7,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "random",
+  "selectedFromPreviousTurn": {
+    "text": "尝试与那只脏猫互动，看它是否会透露什么"
+  },
+  "submittedSelectedAction": {
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 5
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 5
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 6
+  },
+  "selectedForNext": {
+    "text": "直接去暗街，往日总是如影随形",
+    "actionId": "choice:前往暗街"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:前往暗街",
+      "id": "前往暗街",
+      "text": "直接去暗街，往日总是如影随形",
+      "key": true,
+      "satisfyAnchors": [
+        "玩家主动进入暗街"
+      ]
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:察觉到异常",
+      "id": "察觉到异常",
+      "text": "你注意到了不寻常的目光——你被盯上了？",
+      "key": true,
+      "satisfyAnchors": [
+        "察觉异常"
+      ]
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "直接去暗街，往日总是如影随形",
+        "actionId": "choice:前往暗街"
+      },
+      {
+        "text": "你注意到了不寻常的目光——你被盯上了？",
+        "actionId": "choice:察觉到异常"
+      }
+    ],
+    "lockInput": true
+  },
+  "visibleChars": 416,
+  "durationMs": 30549.97,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}
