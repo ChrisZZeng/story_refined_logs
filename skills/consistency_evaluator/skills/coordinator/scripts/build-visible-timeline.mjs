@@ -93,6 +93,15 @@ function relativeFile(runDir, filePath) {
   return path.relative(runDir, filePath);
 }
 
+function inferOutPath(runDir) {
+  const runName = path.basename(runDir);
+  const runParent = path.basename(path.dirname(runDir));
+  if (runParent === 'run_logs') {
+    return path.join(path.dirname(path.dirname(runDir)), 'consistency-review', runName, 'visible-timeline.jsonl');
+  }
+  return path.join(runDir, 'visible-timeline.jsonl');
+}
+
 async function buildTurnRecord(runDir, turnDir) {
   const dir = path.join(runDir, turnDir.name);
   const summaryPath = path.join(dir, '01-summary.json');
@@ -130,7 +139,7 @@ async function buildTurnRecord(runDir, turnDir) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const runDir = path.resolve(args.runDir);
-  const outPath = path.resolve(args.out ?? path.join(runDir, 'visible-timeline.jsonl'));
+  const outPath = path.resolve(args.out ?? inferOutPath(runDir));
   const turnDirs = await listTurnDirs(runDir);
 
   if (turnDirs.length === 0) {

@@ -5,17 +5,17 @@
 
 ```text
 请在仓库根目录：
-/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/oreturn
+current_dir/oreturn
 
 直接读取并遵循这个 coordinator skill：
-/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/skills/consistency_evaluator/skills/coordinator/SKILL.md
+current_dir/story_refined_logs/skills/consistency_evaluator/skills/coordinator/SKILL.md
 
 请顺序评测这两个 run：
-/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/oreturn/tmp/v7_test/runner-smoke-baseline-recent-5-2026-06-17T19-52-51.669Z
-/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/oreturn/tmp/v7_test/runner-smoke-baseline-recent-5-2026-06-17T20-40-00.127Z
+current_dir/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z
+current_dir/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z
 
-把结果写到：
-/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/main-v0.0.1/consistency-review
+把结果分别写到：
+current_dir/story_refined_logs/logs/<current_branch>-<current_version>/consistency-review/<run-id>
 
 每个 run 都请生成玩家可见 timeline、切分 batch，并显式使用 subagents 审阅各 batch。
 派发 subagent 时，直接复用 plan-batches 生成的 batches/<batch-id>/task.md 中文内容，不要改写成英文。
