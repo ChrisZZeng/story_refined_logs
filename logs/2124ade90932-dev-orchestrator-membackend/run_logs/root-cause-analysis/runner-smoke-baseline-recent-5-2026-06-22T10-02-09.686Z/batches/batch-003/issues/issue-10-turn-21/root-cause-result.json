@@ -1,0 +1,94 @@
+{
+  "issueId": "issue-10-turn-21",
+  "issueIndex": 10,
+  "turn": 21,
+  "issueValidity": "valid",
+  "problemSummary": "turn 20 已完成跟进、站到窗台前和询问德索洛是否可怜；turn 21 在玩家回答前完整复写该场景和提问。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见时间线显示 turn 20 已经提出问题，turn 21 应执行玩家选择的回答；重复走回公寓、窗台姿态和同一句提问构成进度回退。",
+    "playerVisibleSupport": "turn 20 和 turn 21 都出现“你跟在卡琳娜身后走回公寓里”“你一句话都没说”“你觉得他可怜吗？”",
+    "caveats": [
+      "turn 21 后半段确实执行了玩家回答并继续推进，所以这是局部重复而非整轮失效。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "卡琳娜已经在窗台前问出‘你觉得他可怜吗？’，玩家选择回答“可怜。但走投无路才想起你，这更可悲。”",
+    "relevantFacts": [
+      {
+        "claim": "turn 20 已完成窗台前提问。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-21/03-story-state.json",
+          "turn-21/06a-director-prompt.md"
+        ],
+        "notes": "recentTurns 中保留完整 turn 20。"
+      },
+      {
+        "claim": "turn 21 玩家输入是对上一轮问题的直接回答。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-21/03-story-state.json",
+          "turn-21/06a-director-prompt.md"
+        ],
+        "notes": "playerInput 即上一轮选项文本。"
+      },
+      {
+        "claim": "Director 正确理解了本轮任务。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-21/06-llm-calls.json[0].object",
+          "turn-21/04-output.json"
+        ],
+        "notes": "summary 写“玩家回答卡琳娜关于德索洛是否可怜的提问”，requiredContent 只要求回答和回应。"
+      },
+      {
+        "claim": "Narrator 缺少硬性的 last-frame start contract。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-21/06b-narrator-prompt.md"
+        ],
+        "notes": "最终指令强调落地 Director 安排，但没有结构化说明上一轮问题已显示、不得复写。"
+      }
+    ],
+    "competingPressures": [
+      "recentTurns 中 turn 20 的完整文本很近且易被复制。",
+      "Director 安排正确但没有显式 startFrame。",
+      "Narrator 被要求自然铺陈和慢节奏。",
+      "不要重复规则存在但不是最终硬约束。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-21/06-llm-calls.json[1].text",
+    "triggeringPressure": "Narrator prompt 中 recentTurns 包含 turn 20 完整场景和问题，模型将其复用为回答前铺垫。",
+    "missingGuard": "缺少 selected-choice continuation contract，没有机器可读地告诉 Narrator：该 playerInput 是上一轮最后问题的回答，本轮必须从回答开始。",
+    "mechanismStatement": "Director 正确理解选择项语义，但 handoff 未把 last-frame question already shown 与 selected answer start-now 结构化传给 Narrator；Narrator 因 recentTurn 文本和铺垫节奏牵引，先复写上一轮场景再执行回答。",
+    "directCause": "Narrator 在执行正确 Director 安排前复制了上一轮场景建立和问题对白。",
+    "propagation": "04-output.json 提交重复片段；Choice 基于重复后结尾继续生成选项；后续 turn 22 正常推进，无明显长期污染。",
+    "nonCauses": [
+      "不是 Director 根因。",
+      "不是 fixed beat consumption 主因。",
+      "不是长期 memory 问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "selected-choice-continuation",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "系统把上一轮选项文本作为 playerInput 传给 Narrator，但没有强制编码它是对 last visible question 的回答、正文起点应在问题之后；Narrator 在 recent context 牵引下复写上一轮提问场景。",
+    "fixSurface": [
+      "selected choice handoff 增加 selectedFromTurn / respondsToLastPrompt / lastVisibleFrame",
+      "Narrator prompt 最终指令强制从 player action / selected answer 开始",
+      "Narrator 输出前段与最近 visibleText 的 duplicate guard"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 20 与 turn 21 重复“你跟在卡琳娜身后走回公寓里”“你一句话都没说”“你觉得他可怜吗？”",
+    "internalTrace": "turn-21/06-llm-calls.json[0].object 正确要求玩家回答；turn-21/06-llm-calls.json[1].text 在回答前复写 turn 20。"
+  },
+  "recommendedFixArea": "selected-choice handoff、Narrator start-frame contract、recent-prefix duplicate check。",
+  "confidence": "medium"
+}

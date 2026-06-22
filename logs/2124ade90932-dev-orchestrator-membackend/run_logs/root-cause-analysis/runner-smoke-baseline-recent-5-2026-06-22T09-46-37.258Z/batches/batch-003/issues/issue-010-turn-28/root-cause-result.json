@@ -1,0 +1,95 @@
+{
+  "issueId": "issue-010-turn-28",
+  "turn": 28,
+  "issueValidity": "valid",
+  "problemSummary": "玩家选择停步追问目的地，系统回答后自动替玩家决定跟随卡琳娜，并让后续选项进入同行状态。",
+  "validityAssessment": {
+    "verdictReason": "turn 27 将接受邀请和停步追问拆成不同选项；玩家选择停步追问后，turn 28 自动写成跟随并锁定同行状态，替换了玩家核心行动边界。",
+    "playerVisibleSupport": "turn 28 先写“你站在原地，没有跟上”，但回答后写“你抬起了脚。你跟她走了上去”；后续 choices 也全部默认已经同行。",
+    "caveats": [
+      "卡琳娜可以继续催促或施压，但玩家是否跟上应留给下一次选择。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "卡琳娜在 turn 27 邀请主角去有说话的地方，并站在那里让玩家决定。玩家没有选择接受邀请，而是选择站在原地追问目的地。",
+    "relevantFacts": [
+      {
+        "claim": "turn 27 的 choice 将“跟上卡琳娜，接受她的邀请”和“站在原地追问她准备带我去哪”分开。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl:turn-27"
+        ],
+        "notes": "玩家选择的是后者，不是接受邀请。"
+      },
+      {
+        "claim": "turn 28 玩家输入是站在原地追问目的地。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-28/06a-director-prompt.md:495-496"
+        ],
+        "notes": "输入明确包含停步和追问。"
+      },
+      {
+        "claim": "storyline 强调主角需要卡琳娜这样的本地向导。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-28/03-story-state.json",
+          "turn-28/06a-director-prompt.md:326-328"
+        ],
+        "notes": "该目标对同行方向施加压力。"
+      },
+      {
+        "claim": "Director 要求卡琳娜再次示意主角跟上。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-28/06b-narrator-prompt.md:530-552"
+        ],
+        "notes": "该 handoff 没有同时声明玩家尚未接受邀请。"
+      },
+      {
+        "claim": "Narrator 不应替玩家追加新决定。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-28/06b-narrator-prompt.md:574-579"
+        ],
+        "notes": "约束存在，但被 Director handoff 的剧情压力压过。"
+      }
+    ],
+    "competingPressures": [
+      "玩家选择只要求先问目的地。",
+      "storyline 要保留“需要本地向导”的暗示。",
+      "Director requiredContent 前景化 NPC 催促，但缺少未接受状态的硬边界。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-28/04-output.json:plotPoint",
+    "triggeringPressure": "story-level 本地向导目标与 Director requiredContent 中“卡琳娜再次示意主角跟上”把本轮推向接受邀请。",
+    "missingGuard": "selected choice 的 core action 没有被绑定为 must-preserve contract；缺少“追问后仍处于未决状态”的动作边界。",
+    "mechanismStatement": "当玩家选择的是非接受型追问时，Director handoff 没有把“未接受邀请”作为硬约束，而把 storyline 的同行目标和 NPC 催促前景化，导致 Narrator 将 NPC 示意误推进为玩家行动，Choice 再把同行状态固化。",
+    "directCause": "Director 同时写“主角停留在原地追问”和“卡琳娜告知目的地并催促出发”，但没有要求在回答后停在玩家确认点。",
+    "propagation": "Narrator 写出“你跟她走了上去”； Choice generator 基于正文结尾生成同行选项；turn 29 继续以同行状态开场。",
+    "nonCauses": [
+      "Choice generator 不是第一原因，它只是传播已经写入正文的同行状态。",
+      "这不是合理互动改写，因为可见选项明确区分了追问与接受。",
+      "不是 hidden state 或记忆问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [],
+    "description": "玩家所选 choice 的核心动作是“停在原地追问”，系统没有把它绑定为本轮必须保持的行动边界。Director 的 handoff 同时承认停步追问，又把 NPC 催促和 storyline 的本地向导压力推到前景，缺少“回答后仍等待玩家确认”的 guard，导致 Narrator 和 Choice 将玩家锁入同行状态。",
+    "fixSurface": [
+      "selected choice coreAction/forbiddenAssumptions 提取",
+      "Director prompt 的玩家行动边界 contract",
+      "Narrator prompt 对询问/观察/等待型输入的 unresolved ending 规则",
+      "Choice generator 对未决邀请状态的选项保留"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 27 choices 区分跟上与追问；turn 28 玩家选择追问后正文写“等着你自己决定是否跟上来”，随后替玩家写“你跟她走了上去”；turn 29 继续以同行状态开场。",
+    "internalTrace": "turn-28/06a-director-prompt.md:495-496 有玩家输入；turn-28/06b-narrator-prompt.md:530-552 的 Director handoff 要求催促跟上；turn-28/06b-narrator-prompt.md:574-579 有不要替玩家追加决定的约束；turn-28/06c-choice-prompt.md:409-429 以已同行正文结尾生成 choices。"
+  },
+  "recommendedFixArea": "修复 choice-action-binding：为询问、观察、犹豫、等待型选项生成 must-preserve action boundary，并要求本轮停在玩家确认点。",
+  "confidence": "high"
+}

@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-002-turn-08",
+  "turn": 8,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 8 在从庆典、古董街步行到暗街入口的连续行动中突然写出“夜色里”，但玩家此前没有看到明确的长时间流逝或入夜过渡。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效但严重度低。Turn 1 明确是阳光刺眼的白天，Turn 4-7 只是连续步行、逛摊、观察猫和纸条；虽然场景逐渐昏暗，但这些描写更像区域光线和氛围变化。Turn 8 末尾直接说“夜色里”会让玩家感到时间被轻微跳过。",
+    "playerVisibleSupport": "Turn 1 显示“阳光刺得你本能的眯起眼”；Turn 4-7 没有明确长时间流逝；Turn 8 末尾写“夜色里，灯泡吱地响了一声”。",
+    "caveats": [
+      "Turn 4-8 多次写到昏黄、昏暗、灯泡和阴影，所以读者可以把“夜色”理解成暗街局部氛围；因此该问题只判低严重度。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家从复活日庆典区走到古董街，再因纸条线索前往暗街入口。可见行动是连续的短程移动，当前应表达为从明亮庆典区进入更阴暗的街巷，而不是默认已经入夜。",
+    "relevantFacts": [
+      {
+        "claim": "故事开场建立的是白天庆典。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl"
+        ],
+        "notes": "Turn 1 以“阳光刺得你本能的眯起眼”建立白天。"
+      },
+      {
+        "claim": "Turn 4-7 是连续步行和摊位观察，没有玩家可见长时间流逝。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-08/06a-director-prompt.md",
+          "turn-08/06b-narrator-prompt.md"
+        ],
+        "notes": "recentTurns 只显示从庆典区到古董街、看摊位、与猫互动，并没有停留数小时。"
+      },
+      {
+        "claim": "当前 beat 要求表现从庆典喧闹到暗街安静、从明亮到阴暗的空间反差。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-08/03-story-state.json",
+          "turn-08/06a-director-prompt.md",
+          "turn-08/06b-narrator-prompt.md"
+        ],
+        "notes": "当前故事线要求“轻松明快的庆典 → 阴暗的街道 → 无处不在的黑帮”的反差，并要求“光线变化”。"
+      },
+      {
+        "claim": "提示中缺少“仍是同一时段，只是局部变暗”的当前时间锚。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-08/06a-director-prompt.md",
+          "turn-08/06b-narrator-prompt.md"
+        ],
+        "notes": "Director 和 Narrator prompt 都强调光线与氛围变化，但没有明确禁止把区域暗度写成入夜。"
+      }
+    ],
+    "competingPressures": [
+      "固定 beat 强调“光线变化”和“阴暗街道”。",
+      "世界观和地点名“暗街”本身携带夜色、阴影的风格压力。",
+      "写作规范里允许通过光线变化暗示时间，但本轮没有当前时间锚来约束这种暗示。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-08/04-output.json narrator output",
+    "triggeringPressure": "turn-08 Director requiredContent 要求“描写暗街与中央区交界处的光线变化，从庆典喧闹到暗街安静的过渡”，pacing 又要求突出光线、声音和气味变化；当前 story beat 的情感弧线是从明快庆典到阴暗街道。",
+    "missingGuard": "prompt 没有给 Narrator 一个当前时间事实或过渡约束，例如“仍是同一天较早时段，暗是街区光线和建筑遮蔽造成的，不要直接写成夜晚”。",
+    "mechanismStatement": "固定 beat 把空间氛围的变暗前景化，缺少当前时间锚来区分局部暗度和实际入夜，Narrator 将“阴暗街道”的空间反差升级成“夜色里”的时间事实。",
+    "directCause": "Narrator 在 Turn 8 末尾输出“夜色里，灯泡吱地响了一声”，把氛围暗度写成了实际夜色。",
+    "propagation": "该时间词进入 Turn 8 visibleText，并在评测窗口中与 Turn 1 的阳光和 Turn 4-7 的连续短程行动形成轻微断裂。",
+    "nonCauses": [
+      "并非长期记忆缺失；白天庆典和最近移动都在可见上下文内。",
+      "并非玩家选择要求入夜；玩家选项只是前往暗街。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-time-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "当前 beat 和 Director handoff 强调从庆典到暗街的光线、声音、气味反差，但没有把“空间变暗不等于时间入夜”的当前场景时间锚显式传给 Narrator。缺失的时间锚让模型把氛围性的暗写成实际“夜色”，造成低度时间连续性断裂。",
+    "fixSurface": [
+      "story state/current scene model: include currentTimeOfDay or visible time anchor",
+      "Director prompt: when requesting light change, state whether it is spatial lighting or time passage",
+      "Narrator prompt/validator: flag new time-of-day claims without visible transition"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 1 为阳光白天；Turn 4-7 是连续移动和摊位互动；Turn 8 直接出现“夜色里，灯泡吱地响了一声”。",
+    "internalTrace": "turn-08/06a-director-prompt.md 第 218-239 行和 turn-08/06b-narrator-prompt.md 第 217-238 行前景化“轻松明快的庆典 → 阴暗的街道”和“光线变化”；Director 输出 requiredContent 也要求从庆典喧闹到暗街安静的过渡，但没有当前时间锚。"
+  },
+  "recommendedFixArea": "为当前 scene/beat 增加显式 time-of-day anchor，并要求 Director 在光线变化是空间转场还是时间流逝时做区分；Narrator 输出新增“夜色、清晨、黄昏”等时间词时应校验是否有玩家可见过渡。",
+  "confidence": "medium"
+}

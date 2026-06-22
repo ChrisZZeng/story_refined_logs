@@ -1,0 +1,234 @@
+{
+  "batchId": "batch-002",
+  "issueCount": 2,
+  "completedCount": 2,
+  "validityCounts": {
+    "valid": 2,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 5,
+      "turn": 10,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "同一张作为寻人关键线索的照片背景被改写，影响玩家对敏特线索位置的理解。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "memory-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "detail fact persistence for key clue objects",
+          "story state / statefold summarization",
+          "Director-to-Narrator prompt assembly",
+          "object-detail consistency check"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "将关键照片等线索物件的视觉细节持久化，并在后续涉及同一物件时注入 Narrator prompt 作为 must-preserve context；同时增加同一物件描述的 detail conflict 检查。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-002/issues/issue-005-turn-10/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-002/issues/issue-005-turn-10/root-cause-report.md",
+      "result": {
+        "issueId": "issue-5-turn-10",
+        "issueIndex": 5,
+        "turn": 10,
+        "issueValidity": "valid",
+        "problemSummary": "同一张匿名信寄来的敏特照片在 turn 10 被改写为港口区边缘和废弃仓库背景，冲突于 turn 1 已呈现的路灯、石板路、椰子酒招牌背景。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本已经明确给出同一关键照片的两套互斥背景。turn 10 的玩家输入没有要求改写照片内容，因此这是事实冲突。",
+          "playerVisibleSupport": "turn 1 的匿名信照片背景是陌生街道、路灯、石板路、椰子酒招牌；turn 10 变为港口区边缘街景和废弃仓库；turn 11 又继续引用“港口区的照片”。",
+          "caveats": []
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "帕兹因匿名信中的敏特照片来到新西西里。玩家已知照片显示敏特在陌生街道背景中，背景元素是路灯、石板路和椰子酒招牌。turn 10 玩家只是说明来意，未新增照片背景。",
+          "relevantFacts": [
+            {
+              "claim": "匿名信照片的背景是陌生街道、路灯、石板路、椰子酒招牌。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-01/04-output.json",
+                "turn-10/03-story-state.json",
+                "turn-10/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实在 turn 1 玩家可见文本中清楚存在，但 turn 10 story state 和 Narrator prompt 只保留了“照片拍摄地点是新西西里”的泛化摘要。"
+            },
+            {
+              "claim": "本轮需要让卡琳娜追问照片内容或来源。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-10/06a-director-prompt.md",
+                "turn-10/06-llm-calls.json"
+              ],
+              "notes": "该要求给 Narrator 施加了补写照片细节的局部压力，但没有附带照片既有细节。"
+            },
+            {
+              "claim": "港口区和秘密仓库是世界观中的强情节地点。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-10/03-story-state.json",
+                "turn-10/06b-narrator-prompt.md"
+              ],
+              "notes": "这些设定位于 prompt 的世界观内容中，容易被模型用来填补缺失的照片地点细节。"
+            }
+          ],
+          "competingPressures": [
+            "玩家输入要求谈照片来意",
+            "Director 要求追问照片内容或来源",
+            "世界观中港口区和仓库更像悬疑线索",
+            "原始照片具体背景没有进入本轮 prompt"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-10/06-llm-calls.json[1].text",
+          "triggeringPressure": "Director 将本轮组织成围绕照片内容的追问，但 prompt 只给出“敏特照片拍摄地点是新西西里”的粗摘要，并提供了港口区、秘密仓库等强线索地点。",
+          "missingGuard": "关键物证照片的已出现视觉背景没有被持久化为 detail fact，也没有作为 must-preserve 约束注入 Narrator prompt。",
+          "mechanismStatement": "当本轮要求追问照片内容而原始照片背景未被持久化时，Narrator 从世界观中的港口区/仓库素材补全照片细节，导致同一关键照片的玩家可见背景被改写。",
+          "directCause": "Narrator 在缺少原照片背景锚点的情况下生成了“港口区边缘的街景，废弃的仓库”。",
+          "propagation": "turn 10 的错误进入可见正文；turn 11 继续引用“那张港口区的照片”，把改写后的背景带入 recent visible context。",
+          "nonCauses": [
+            "Choice 没有提供港口区背景。",
+            "runtime-after 没有把港口区作为结构化事实写回后再驱动 turn 10。",
+            "隐藏真相不是 issue 成立的依据。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "turn 1 中作为关键线索的照片背景没有被持久化为稳定 detail fact；到 turn 10，Director 要求追问照片内容，但 handoff 缺少原背景约束，Narrator 在世界观港口区/仓库压力下补写了新地点，造成玩家可见冲突。",
+          "fixSurface": [
+            "detail fact persistence for key clue objects",
+            "story state / statefold summarization",
+            "Director-to-Narrator prompt assembly",
+            "object-detail consistency check"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 1：匿名信照片背景为陌生街道、路灯、石板路、椰子酒招牌。turn 10：照片被描述为港口区边缘街景和废弃仓库。turn 11：卡琳娜继续称其为港口区的照片。",
+          "internalTrace": "turn-10/03-story-state.json 与 turn-10/06b-narrator-prompt.md 缺少原始照片背景，只保留“照片拍摄地点是新西西里”。turn-10/06-llm-calls.json[1].text 首次生成港口区/废弃仓库。turn-10/05-runtime-after.json 无照片背景写回。"
+        },
+        "recommendedFixArea": "将关键照片等线索物件的视觉细节持久化，并在后续涉及同一物件时注入 Narrator prompt 作为 must-preserve context；同时增加同一物件描述的 detail conflict 检查。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 6,
+      "turn": 11,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "紧邻轮次中卡尔刚从窗台移动到沙发另一端，下一轮又无承接地出现在窗台薄荷叶间，造成轻微位置连续性漂移。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "current scene entity state",
+          "Narrator prompt assembly",
+          "adjacent-turn spatial continuity checker"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "为当前场景显著实体维护结构化位置锚点，并在 Narrator prompt 中前置；新增相邻轮次实体位置跳变检查，要求桥接动作或避免引用旧位置。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-002/issues/issue-006-turn-11/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-002/issues/issue-006-turn-11/root-cause-report.md",
+      "result": {
+        "issueId": "issue-6-turn-11",
+        "issueIndex": 6,
+        "turn": 11,
+        "issueValidity": "valid",
+        "problemSummary": "turn 10 结尾卡尔已从窗台移动到沙发另一端，turn 11 紧接着又无承接地写成在窗台薄荷叶间抬头，造成低强度空间连续性漂移。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本中的相邻轮次没有明显时间跳跃。卡尔当然可能移动，但 turn 11 没有桥接动作，且“从叶片间抬起头来”暗示它已在窗台。",
+          "playerVisibleSupport": "turn 10：卡尔从窗台上跳下来，绕到沙发另一端蹲坐。turn 11：窗台上那只黑猫卡尔从叶片间抬起头。",
+          "caveats": [
+            "该问题不阻断剧情，玩家可勉强理解为猫在空白间隙中移动，所以 severity 低。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜和帕兹仍在公寓同一段对话中。turn 10 末尾卡尔的当前位置是沙发另一端；turn 11 玩家只是点头承认担心敏特出事。",
+          "relevantFacts": [
+            {
+              "claim": "卡尔当前位于沙发另一端。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-10/04-output.json",
+                "turn-11/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实出现在 turn 10 可见正文末尾，并作为 recent turn 进入 turn 11 Narrator prompt。"
+            },
+            {
+              "claim": "窗台和薄荷是公寓的反复环境意象。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-11/06b-narrator-prompt.md",
+                "turn-11/03-story-state.json"
+              ],
+              "notes": "窗台薄荷在最近多轮中反复出现，形成容易复用的场景描写压力。"
+            },
+            {
+              "claim": "卡尔位置没有结构化记录。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-10/05-runtime-after.json",
+                "turn-11/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 只记录粗粒度实体状态和剧情锚点，没有 current scene position。"
+            }
+          ],
+          "competingPressures": [
+            "写作规范强调用物理细节呈现状态",
+            "卡尔角色卡鼓励用耳朵和尾巴等动作暗示",
+            "窗台薄荷是高显著环境素材",
+            "最近正文里的沙发位置没有被提升为硬约束"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-11/06-llm-calls.json[1].text",
+          "triggeringPressure": "Narrator 需要在对话中加入环境与角色动作，而 prompt 中窗台、薄荷、卡尔观察主角的意象反复出现。",
+          "missingGuard": "没有显式 current-scene entity position anchor，也没有使用卡尔动作时必须承接“沙发另一端”的硬约束或后处理检查。",
+          "mechanismStatement": "当显著实体的最近位置只埋在 long recent text 中、没有结构化 scene anchor 时，Narrator 会复用更显眼的窗台薄荷意象来写卡尔动作，造成相邻轮次位置跳变。",
+          "directCause": "Narrator 将卡尔写回窗台薄荷叶间，没有写从沙发回到窗台的桥接动作。",
+          "propagation": "错误出现在 turn 11 可见正文；后续 choices 未继续处理卡尔位置，runtime 也没有修正该位置。",
+          "nonCauses": [
+            "不是长程记忆缺失，因为 turn 10 的位置就在 turn 11 prompt 中。",
+            "不是 Choice 行为绑定错误。",
+            "不是 runtime event 或 writeback 主动移动了卡尔。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "turn 11 的 prompt 虽然包含卡尔刚在沙发另一端的 recent text，但系统没有把它提升成当前场景实体位置锚点；在窗台薄荷和卡尔动作暗示的生成压力下，Narrator 复用旧意象，把卡尔无桥接地放回窗台。",
+          "fixSurface": [
+            "current scene entity state",
+            "Narrator prompt assembly",
+            "adjacent-turn spatial continuity checker"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 10 结尾：卡尔从窗台跳下并到沙发另一端蹲坐。turn 11：卡尔在窗台薄荷叶间抬头。",
+          "internalTrace": "turn-11/06b-narrator-prompt.md present-clear 包含 turn 10 末尾位置；turn-11/06-llm-calls.json[0].object 未要求卡尔动作；turn-11/06-llm-calls.json[1].text 首次把卡尔写回窗台；runtime-after 无位置字段。"
+        },
+        "recommendedFixArea": "为当前场景显著实体维护结构化位置锚点，并在 Narrator prompt 中前置；新增相邻轮次实体位置跳变检查，要求桥接动作或避免引用旧位置。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

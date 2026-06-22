@@ -1,0 +1,84 @@
+{
+  "issueId": "issue-6-turn-11",
+  "issueIndex": 6,
+  "turn": 11,
+  "issueValidity": "valid",
+  "problemSummary": "turn 10 结尾卡尔已从窗台移动到沙发另一端，turn 11 紧接着又无承接地写成在窗台薄荷叶间抬头，造成低强度空间连续性漂移。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见文本中的相邻轮次没有明显时间跳跃。卡尔当然可能移动，但 turn 11 没有桥接动作，且“从叶片间抬起头来”暗示它已在窗台。",
+    "playerVisibleSupport": "turn 10：卡尔从窗台上跳下来，绕到沙发另一端蹲坐。turn 11：窗台上那只黑猫卡尔从叶片间抬起头。",
+    "caveats": [
+      "该问题不阻断剧情，玩家可勉强理解为猫在空白间隙中移动，所以 severity 低。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "卡琳娜和帕兹仍在公寓同一段对话中。turn 10 末尾卡尔的当前位置是沙发另一端；turn 11 玩家只是点头承认担心敏特出事。",
+    "relevantFacts": [
+      {
+        "claim": "卡尔当前位于沙发另一端。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-10/04-output.json",
+          "turn-11/06b-narrator-prompt.md"
+        ],
+        "notes": "该事实出现在 turn 10 可见正文末尾，并作为 recent turn 进入 turn 11 Narrator prompt。"
+      },
+      {
+        "claim": "窗台和薄荷是公寓的反复环境意象。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-11/06b-narrator-prompt.md",
+          "turn-11/03-story-state.json"
+        ],
+        "notes": "窗台薄荷在最近多轮中反复出现，形成容易复用的场景描写压力。"
+      },
+      {
+        "claim": "卡尔位置没有结构化记录。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-10/05-runtime-after.json",
+          "turn-11/05-runtime-after.json"
+        ],
+        "notes": "runtime-after 只记录粗粒度实体状态和剧情锚点，没有 current scene position。"
+      }
+    ],
+    "competingPressures": [
+      "写作规范强调用物理细节呈现状态",
+      "卡尔角色卡鼓励用耳朵和尾巴等动作暗示",
+      "窗台薄荷是高显著环境素材",
+      "最近正文里的沙发位置没有被提升为硬约束"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-11/06-llm-calls.json[1].text",
+    "triggeringPressure": "Narrator 需要在对话中加入环境与角色动作，而 prompt 中窗台、薄荷、卡尔观察主角的意象反复出现。",
+    "missingGuard": "没有显式 current-scene entity position anchor，也没有使用卡尔动作时必须承接“沙发另一端”的硬约束或后处理检查。",
+    "mechanismStatement": "当显著实体的最近位置只埋在 long recent text 中、没有结构化 scene anchor 时，Narrator 会复用更显眼的窗台薄荷意象来写卡尔动作，造成相邻轮次位置跳变。",
+    "directCause": "Narrator 将卡尔写回窗台薄荷叶间，没有写从沙发回到窗台的桥接动作。",
+    "propagation": "错误出现在 turn 11 可见正文；后续 choices 未继续处理卡尔位置，runtime 也没有修正该位置。",
+    "nonCauses": [
+      "不是长程记忆缺失，因为 turn 10 的位置就在 turn 11 prompt 中。",
+      "不是 Choice 行为绑定错误。",
+      "不是 runtime event 或 writeback 主动移动了卡尔。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "turn 11 的 prompt 虽然包含卡尔刚在沙发另一端的 recent text，但系统没有把它提升成当前场景实体位置锚点；在窗台薄荷和卡尔动作暗示的生成压力下，Narrator 复用旧意象，把卡尔无桥接地放回窗台。",
+    "fixSurface": [
+      "current scene entity state",
+      "Narrator prompt assembly",
+      "adjacent-turn spatial continuity checker"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 10 结尾：卡尔从窗台跳下并到沙发另一端蹲坐。turn 11：卡尔在窗台薄荷叶间抬头。",
+    "internalTrace": "turn-11/06b-narrator-prompt.md present-clear 包含 turn 10 末尾位置；turn-11/06-llm-calls.json[0].object 未要求卡尔动作；turn-11/06-llm-calls.json[1].text 首次把卡尔写回窗台；runtime-after 无位置字段。"
+  },
+  "recommendedFixArea": "为当前场景显著实体维护结构化位置锚点，并在 Narrator prompt 中前置；新增相邻轮次实体位置跳变检查，要求桥接动作或避免引用旧位置。",
+  "confidence": "medium"
+}

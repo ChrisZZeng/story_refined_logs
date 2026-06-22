@@ -1,0 +1,252 @@
+{
+  "generatedAt": "2026-06-22T14:52:55.672Z",
+  "runDir": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z",
+  "reviewDir": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z",
+  "analysisDir": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z",
+  "issuesFile": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/issues.json",
+  "timelinePath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/visible-timeline.jsonl",
+  "issueTracerSkill": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/skills/consistency_root_cause/skills/issue_tracer/SKILL.md",
+  "maxIssuesPerBatch": 4,
+  "issueCount": 21,
+  "batchCount": 7,
+  "batches": [
+    {
+      "batchId": "batch-001",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 7,
+        "end": 9
+      },
+      "issues": [
+        {
+          "issueIndex": 1,
+          "turn": 7,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "choices",
+          "summary": "选项前半句是明确行动，后半句却混入缺少承接的诗性片段，使玩家可见选项读起来像残缺或拼接错误。"
+        },
+        {
+          "issueIndex": 2,
+          "turn": 8,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "叙事从白天庆典切到夜色中的暗街，但缺少玩家可见的时间过渡，造成轻微时间连续性断裂。"
+        },
+        {
+          "issueIndex": 3,
+          "turn": 9,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "即使这是示弱台词，正文没有把“记忆卡”标成谎话或口误，导致已建立的胶卷相机道具出现轻微属性漂移。"
+        },
+        {
+          "issueIndex": 4,
+          "turn": 9,
+          "severity": "low",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "上一轮已完成的恢复动作在下一轮被几乎原句重演，像把即时场景回退了一小步。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-002",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 13,
+        "end": 16
+      },
+      "issues": [
+        {
+          "issueIndex": 5,
+          "turn": 13,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "模型把“找裁缝”的纸条线索滑写成“纸条上那个人在哪”，混淆了纸条指向的裁缝和玩家真正寻找的照片人物。"
+        },
+        {
+          "issueIndex": 6,
+          "turn": 15,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "关键任务条件再次把纸条误当成包含某个待定位人物的线索，延续并强化了线索归属混淆。"
+        },
+        {
+          "issueIndex": 7,
+          "turn": 16,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "前文已用“夜色”锚定暗街行动的时间，后文突然改成正午前的白天行动窗口，造成当前任务时间状态断裂。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-003",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 27,
+        "end": 36
+      },
+      "issues": [
+        {
+          "issueIndex": 8,
+          "turn": 27,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "同一场围堵的空间调度前后不一致，玩家难以判断黑帮到底从两端包抄还是从单一岔道方向出现。"
+        },
+        {
+          "issueIndex": 9,
+          "turn": 27,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "时间已经是黄昏后到夜间，角色仍使用午间问候，造成轻微但可见的时间语感冲突。"
+        },
+        {
+          "issueIndex": 10,
+          "turn": 28,
+          "severity": "medium",
+          "type": "user-input-ignored",
+          "scope": "mixed",
+          "summary": "模型在回答玩家追问后自动替玩家决定跟随卡琳娜，并让后续选项默认进入同行状态，削弱了玩家刚刚选择的停步追问意图。"
+        },
+        {
+          "issueIndex": 11,
+          "turn": 36,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "同一声音事件在当前可见正文中被同时写成“不是敲门”和“敲门”，造成局部事件性质不一致。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-004",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 37,
+        "end": 41
+      },
+      "issues": [
+        {
+          "issueIndex": 12,
+          "turn": 37,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "敲门序列的计数表述没有承接上一轮已经出现的多次敲击，容易让玩家误解当前是第三声、第三次还是另一组敲门。"
+        },
+        {
+          "issueIndex": 13,
+          "turn": 41,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "mixed",
+          "summary": "角色姓名、关系和旧怨被选项当作玩家已知信息使用，超出了玩家可见上下文。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-005",
+      "reason": "包含 high severity issue；同一 turn 的问题放在一起，避免重复读取同一轮证据。",
+      "turnRange": {
+        "start": 42,
+        "end": 42
+      },
+      "issues": [
+        {
+          "issueIndex": 14,
+          "turn": 42,
+          "severity": "high",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "德索洛求助的核心动机在同一轮中从女儿遭受严重伤害变成伤害为假，且 pronoun 从“她”漂到“我”，破坏关键事件理解。"
+        },
+        {
+          "issueIndex": 15,
+          "turn": 42,
+          "severity": "medium",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "说话人从卡琳娜漂移到第二人称玩家，导致玩家难以判断是谁在控诉德索洛。"
+        },
+        {
+          "issueIndex": 16,
+          "turn": 42,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "mixed",
+          "summary": "玩家已在公寓内，当前轮却把玩家重新放到门外并要求再次进屋。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-006",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 45,
+        "end": 48
+      },
+      "issues": [
+        {
+          "issueIndex": 17,
+          "turn": 45,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "对白和叙述边界断裂，造成局部可读性和格式质量问题。"
+        },
+        {
+          "issueIndex": 18,
+          "turn": 45,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "choices",
+          "summary": "选项让玩家追问一个从未玩家可见出现过的术语，并声称“刚才说的”。"
+        },
+        {
+          "issueIndex": 19,
+          "turn": 46,
+          "severity": "low",
+          "type": "unsupported-jump",
+          "scope": "choices",
+          "summary": "选项提前暴露未建立的事件，并且与下一轮建立的时间不一致。"
+        },
+        {
+          "issueIndex": 20,
+          "turn": 48,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "mixed",
+          "summary": "关键 NPC 姓名和搜索目标突然作为已知任务进入正文和选项。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-007",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 49,
+        "end": 49
+      },
+      "issues": [
+        {
+          "issueIndex": 21,
+          "turn": 49,
+          "severity": "medium",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "玩家选择远观康纳后，正文把刚完成的入场段落重新当作新场景演出，造成进度回退感。"
+        }
+      ]
+    }
+  ]
+}

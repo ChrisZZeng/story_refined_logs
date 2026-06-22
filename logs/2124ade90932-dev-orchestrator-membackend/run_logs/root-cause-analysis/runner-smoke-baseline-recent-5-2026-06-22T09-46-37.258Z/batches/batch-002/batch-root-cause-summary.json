@@ -1,0 +1,361 @@
+{
+  "batchId": "batch-002",
+  "issueCount": 3,
+  "completedCount": 3,
+  "validityCounts": {
+    "valid": 3,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 5,
+      "turn": 13,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "模型把“找裁缝”的纸条线索滑写成“纸条上那个人在哪”，混淆了纸条指向的裁缝和玩家真正寻找的照片人物。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "clue-target-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "story state clue/object binding schema",
+          "Director-to-Narrator scoped clue handoff",
+          "Narrator preflight consistency check for resolved clues"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 clue target、source、resolvedAtTurn 建结构化状态，并在 Director/Narrator prompt 中以高优先级约束呈现。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-002/issues/issue-005-turn-13/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-002/issues/issue-005-turn-13/root-cause-report.md",
+      "result": {
+        "issueId": "issue-5-turn-13",
+        "turn": 13,
+        "issueValidity": "valid",
+        "problemSummary": "裁缝把只指向“找裁缝”的纸条说成“纸条上那个人在哪”，混淆了纸条目标和主角寻找敏特的主线目标。",
+        "validityAssessment": {
+          "verdictReason": "turn 7 的纸条只写“暗街——找‘裁缝’”，turn 12 裁缝已经确认“我就是”；turn 13 说“纸条上那个人在哪”与玩家可见事实冲突。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 7、turn 12、turn 13 的连续可见文本可以独立证明问题成立。",
+          "caveats": [
+            "主角确实在寻找敏特，但这不能把纸条改写成包含待定位人物的线索。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "帕兹从古董街得到纸条，纸条要求去暗街找“裁缝”；他已找到裁缝铺，turn 12 裁缝确认自己就是纸条所指对象。",
+          "relevantFacts": [
+            {
+              "claim": "纸条内容是“暗街——找‘裁缝’”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn 7",
+                "turn-13/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实在玩家可见正文中明确出现，但在 prompt 的结构化部分没有作为 clue target 单独呈现。"
+            },
+            {
+              "claim": "裁缝已确认自己就是纸条所指对象。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn 12",
+                "turn-13/06b-narrator-prompt.md"
+              ],
+              "notes": "这是直接解除纸条目标歧义的可见事实。"
+            },
+            {
+              "claim": "主角长期目标是寻找敏特。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-13/06b-narrator-prompt.md",
+                "turn-13/03-story-state.json"
+              ],
+              "notes": "该目标与纸条线索并列进入上下文，形成混淆压力。"
+            },
+            {
+              "claim": "Director 只要求裁缝提出交易条件。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-13/06-llm-calls.json",
+                "turn-13/04-output.json"
+              ],
+              "notes": "Director 没有指示“纸条上那个人”这个事实。"
+            }
+          ],
+          "competingPressures": [
+            "主线目标反复强调寻找敏特",
+            "局部纸条事实只以自然语言 recent turns 和压缩摘要出现",
+            "交易场景需要裁缝给出情报奖励"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-13/06-llm-calls.json kind=streamText",
+          "triggeringPressure": "Narrator prompt 同时前景化主角寻找敏特和裁缝提出情报交易，但没有结构化标注纸条 target 是裁缝且已 resolved。",
+          "missingGuard": "缺少可执行的 clue binding 约束，未明确禁止把“纸条线索”改写成“纸条上的人”。",
+          "mechanismStatement": "当主线寻找对象和局部纸条对象共存，而纸条没有 target/resolved 绑定时，Narrator 将“裁缝可提供关于寻找对象的情报”压缩成“纸条上那个人在哪”，把两个线索源错误合并。",
+          "directCause": "Narrator 对纸条归属做了 unsupported detail inference。",
+          "propagation": "错误 visible text 被提交到 turn 13，并进入之后的 recent turns；currentStoryline 只写入中性摘要，没有结构化纠正该错误。",
+          "nonCauses": [
+            "Director object 未生成错误短语",
+            "正确纸条事实并未完全遗失",
+            "隐藏设定不是判断该玩家可见错误的依据"
+          ]
+        },
+        "rootCause": {
+          "label": "clue-target-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统没有把纸条的 target 与 resolved 状态作为高优先级结构化事实交给 Narrator；在寻找敏特的主线压力和交易奖励压力下，模型把纸条线索和照片人物线索错误绑定。",
+          "fixSurface": [
+            "story state clue/object binding schema",
+            "Director-to-Narrator scoped clue handoff",
+            "Narrator preflight consistency check for resolved clues"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 7 纸条为“暗街——找‘裁缝’”；turn 12 裁缝说“我就是”；turn 13 出现“纸条上那个人在哪”。",
+          "internalTrace": "turn-13/06-llm-calls.json 的 Director object 只要求提出代价；Narrator streamText 首次写出错误句；turn-13/04-output.json 将其提交。"
+        },
+        "recommendedFixArea": "为 clue target、source、resolvedAtTurn 建结构化状态，并在 Director/Narrator prompt 中以高优先级约束呈现。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 6,
+      "turn": 15,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "关键任务条件再次把纸条误当成包含某个待定位人物的线索，延续并强化了线索归属混淆。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "recent-turn assembly contradiction flag",
+          "Director clue correction handoff",
+          "Narrator output consistency check against resolved clues"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 recent context 与 Director handoff 中标注 clue 冲突和 resolved 状态，避免上一轮错误以“最近事实”身份继续传播。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-002/issues/issue-006-turn-15/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-002/issues/issue-006-turn-15/root-cause-report.md",
+      "result": {
+        "issueId": "issue-6-turn-15",
+        "turn": 15,
+        "issueValidity": "valid",
+        "problemSummary": "turn 15 再次把纸条误说成指向“那个人在哪”的线索，强化了 turn 13 的线索归属混淆。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本已明确纸条只写“找‘裁缝’”，且裁缝已确认自己就是纸条目标；turn 15 重复“纸条上那个人在哪”与这些事实冲突。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 7、turn 12、turn 13、turn 15 展示了从正确纸条到错误重复的完整链条。",
+          "caveats": [
+            "裁缝可以掌握其他人物线索，但不能把纸条本身改写成包含待定位人物的线索。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "裁缝已经提出取物交易，玩家在 turn 15 追问取什么、为什么她自己不去；正确纸条归属和 turn 13 的错误句同时存在于 recent turns。",
+          "relevantFacts": [
+            {
+              "claim": "纸条只指向裁缝，且裁缝已出现。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-15/06b-narrator-prompt.md",
+                "visible-timeline.jsonl turn 12"
+              ],
+              "notes": "正确事实仍在 prompt 的最近经历里。"
+            },
+            {
+              "claim": "turn 13 已经写出错误的“纸条上那个人”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-15/06b-narrator-prompt.md",
+                "turn-13/04-output.json"
+              ],
+              "notes": "该错误作为玩家可见正文进入 turn 15 prompt，形成污染。"
+            },
+            {
+              "claim": "Director 没有要求重复纸条人物。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-15/06-llm-calls.json"
+              ],
+              "notes": "Director 安排的是追问取物细节和裁缝动机，不包含错误短语。"
+            }
+          ],
+          "competingPressures": [
+            "保持最近玩家可见正文一致的通用规则",
+            "turn 13 错误句作为 recent visible text 出现",
+            "turn 12 正确事实没有结构化提升为纠错约束",
+            "交易任务需要继续说明奖励条件"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "direct: turn-15/06-llm-calls.json kind=streamText; source: turn-13/06-llm-calls.json kind=streamText",
+          "triggeringPressure": "turn 15 prompt 中包含上一轮错误 visible text，且连续性规则鼓励维持最近正文。",
+          "missingGuard": "缺少对 recent visible text 中已冲突事实的标记和纠偏；没有结构化 clue target/resolved 约束压过错误句。",
+          "mechanismStatement": "当错误 visible text 被原样放入 recent context，而系统没有把更早正确 clue 事实提升为高优先级纠错依据时，Narrator 会把错误句当作连续性事实复用。",
+          "directCause": "Narrator 继承并重复 turn 13 的“纸条上那个人”表述。",
+          "propagation": "turn 15 将错误写入任务条件，使后续玩家选择围绕铁盒任务继续推进，错误前提更稳固。",
+          "nonCauses": [
+            "不是正确事实缺失，turn 12 仍在 prompt",
+            "不是 Choice 首发错误",
+            "不是隐藏设定导致的玩家可见冲突"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统没有区分 recent visible text 中的已冲突错误和可依赖事实；在最近正文优先的连续性压力下，turn 13 错误获得事实权重并在 turn 15 复用。",
+          "fixSurface": [
+            "recent-turn assembly contradiction flag",
+            "Director clue correction handoff",
+            "Narrator output consistency check against resolved clues"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 7 纸条只写裁缝；turn 12 裁缝确认；turn 13 和 turn 15 都出现“纸条上那个人”。",
+          "internalTrace": "turn-15/06b-narrator-prompt.md 同时包含 turn 12 正确事实和 turn 13 错误句；turn-15/06-llm-calls.json 的 Narrator 输出复用错误。"
+        },
+        "recommendedFixArea": "在 recent context 与 Director handoff 中标注 clue 冲突和 resolved 状态，避免上一轮错误以“最近事实”身份继续传播。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 7,
+      "turn": 16,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "前文已用“夜色”锚定暗街行动的时间，后文突然改成正午前的白天行动窗口，造成当前任务时间状态断裂。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "missing-current-scene-time-anchor",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system",
+          "recent-context"
+        ],
+        "fixSurface": [
+          "story/runtime state temporal anchor fields",
+          "state writeback for visible time cues",
+          "Director prompt currentTimeOfDay contract",
+          "Choice temporal consistency check"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为当前场景时间锚建立写回和 handoff，使 Director 在规划任务窗口前必须看到 currentTimeOfDay，并要求时间改变必须有玩家可见过渡。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-002/issues/issue-007-turn-16/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-002/issues/issue-007-turn-16/root-cause-report.md",
+      "result": {
+        "issueId": "issue-7-turn-16",
+        "turn": 16,
+        "issueValidity": "valid",
+        "problemSummary": "连续暗街行动已由 turn 8 锚定为夜色，turn 16 却改成正午前的白天行动窗口，造成时间状态断裂。",
+        "validityAssessment": {
+          "verdictReason": "turn 8 明确写“夜色里”，turn 9-15 没有可见时间跳转；turn 16 的“现在离正午还有一阵”和“趁白天行动”与连续时间线冲突。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 8、turn 9-15、turn 16 可以证明当前行动没有回到正午前的桥段。",
+          "caveats": [
+            "暗街室内昏暗不等于外部时间可以回到白天；玩家可见文本已给出夜色锚。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "帕兹在夜色中的暗街连续探索，进入裁缝铺并追问铁盒任务细节；没有睡眠、倒叙或显式时间跳转。",
+          "relevantFacts": [
+            {
+              "claim": "当前暗街行动被 turn 8 锚定为夜色。",
+              "availability": "absent",
+              "artifacts": [
+                "visible-timeline.jsonl turn 8",
+                "turn-16/03-story-state.json",
+                "turn-16/06a-director-prompt.md"
+              ],
+              "notes": "玩家可见事实清楚，但没有进入 turn 16 的高优先级结构化 state。"
+            },
+            {
+              "claim": "turn 9-15 是连续行动。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-16/06b-narrator-prompt.md",
+                "visible-timeline.jsonl turn 9-15"
+              ],
+              "notes": "最近经历显示玩家一直在暗街和裁缝铺推进，没有时间跳跃。"
+            },
+            {
+              "claim": "Director 主动注入白天/傍晚行动窗口。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-16/06-llm-calls.json",
+                "turn-16/04-output.json"
+              ],
+              "notes": "requiredContent 明确要求“白天少有人去”“傍晚后偶尔有黑帮”“庆典人流散去前”。"
+            },
+            {
+              "claim": "Narrator 和 Choice 按白天窗口输出。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-16/06-llm-calls.json",
+                "turn-16/04-output.json"
+              ],
+              "notes": "正文出现“现在离正午还有一阵”，选项出现“趁白天行动”。"
+            }
+          ],
+          "competingPressures": [
+            "复活日清晨和庆典语汇在历史摘要中长期存在",
+            "玩家询问安全信息推动 Director 生成行动时间窗口",
+            "当前 scene time 没有持久化字段",
+            "recent window 已不包含 turn 8 的夜色锚"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-16/06-llm-calls.json director generateObject",
+          "triggeringPressure": "Director 需要回答肉铺周围风险和行动窗口，在缺少 currentTimeOfDay 的情况下根据白天/傍晚/庆典人流逻辑规划。",
+          "missingGuard": "缺少 current scene temporal anchor；没有状态字段或 prompt 约束说明当前连续行动仍处于夜色。",
+          "mechanismStatement": "当时间锚只保存在较早 visible prose 且未写入 scene state 时，Director 会在任务规划压力下重新推断时间窗口，生成与已见夜色冲突的白天条件。",
+          "directCause": "Director 的 requiredContent 注入白天和正午前条件，Narrator 与 Choice 继承并展示。",
+          "propagation": "错误从 Director contract 传播到 visible text 和 choices，同时影响正文和下一步行动选项。",
+          "nonCauses": [
+            "不是 Narrator 单独错误",
+            "不是玩家输入要求时间跳转",
+            "不是可见剧情提供了回到白天的过渡"
+          ]
+        },
+        "rootCause": {
+          "label": "missing-current-scene-time-anchor",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system",
+            "recent-context"
+          ],
+          "description": "夜色作为具体场景时间细节没有被持久化为 currentTimeOfDay 或等价状态；当它滑出 recent window 后，Director 用泛化的庆典和潜入窗口逻辑重建时间，导致正午前条件进入正文。",
+          "fixSurface": [
+            "story/runtime state temporal anchor fields",
+            "state writeback for visible time cues",
+            "Director prompt currentTimeOfDay contract",
+            "Choice temporal consistency check"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 8 夜色锚；turn 9-15 连续行动；turn 16 白天/正午前/趁白天选项。",
+          "internalTrace": "turn-16/06-llm-calls.json 的 Director object 首次写入白天行动窗口；Narrator 和 Choice 继承该 contract。"
+        },
+        "recommendedFixArea": "为当前场景时间锚建立写回和 handoff，使 Director 在规划任务窗口前必须看到 currentTimeOfDay，并要求时间改变必须有玩家可见过渡。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

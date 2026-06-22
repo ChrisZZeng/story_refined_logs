@@ -1,0 +1,80 @@
+{
+  "issueId": "issue-1",
+  "issueIndex": 1,
+  "turn": 3,
+  "issueValidity": "valid",
+  "problemSummary": "turn 3 的可见选项“直接去暗街，往日总是如影随形”混入不可执行的抒情残片，降低选择可读性。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见处境支持前往暗街，但后半句不是清晰行动，也不表达玩家可主动选择的目标。",
+    "playerVisibleSupport": "turn 3 正文结束后，可见选项为“直接去暗街，往日总是如影随形”；前文只铺垫了前往暗街找卡琳娜或线索。",
+    "caveats": [
+      "选项绑定的剧情出口是正确的，问题集中在 display text。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家已知道暗街与卡琳娜、敏特线索有关，turn 3 结尾自然可选择前往暗街或警觉异常。",
+    "relevantFacts": [
+      {
+        "claim": "前往暗街是当前已铺垫的关键行动。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-03/04-output.json",
+          "turn-03/06c-choice-prompt.md"
+        ],
+        "notes": "正文明确说明卡琳娜住在暗街，Choice prompt 也把 `choice:前往暗街` 当作可用候选。"
+      },
+      {
+        "claim": "候选动作文本已经污染。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-03/02-script-state.json",
+          "turn-03/03-story-state.json"
+        ],
+        "notes": "`candidateActions[0].text` 为“直接去暗街，往日总是如影随形”。"
+      },
+      {
+        "claim": "Choice worker 原始输出可读。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-03/06-llm-calls.json"
+        ],
+        "notes": "Choice worker 输出“前往暗街，找卡琳娜打听消息”，并绑定同一 `actionId`。"
+      }
+    ],
+    "competingPressures": [
+      "key choice 已自然可用，系统需要保留 `choice:前往暗街`",
+      "候选动作 text 同时承担剧情出口标签和玩家可见文案",
+      "Choice prompt 要求选项短、具体、可点击，但该要求没有约束后处理覆盖"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-03/02-script-state.json and turn-03/03-story-state.json candidateActions[0].text",
+    "triggeringPressure": "候选动作 `choice:前往暗街` 是当前 key choice，绑定逻辑倾向使用候选动作原文作为最终可见选项。",
+    "missingGuard": "缺少候选动作 display text 质量校验，也缺少“保留 actionId 但采用 Choice worker 清洗文本”的后处理合同。",
+    "mechanismStatement": "污染的 candidate action text 在 key choice 绑定阶段被当作最终 display text，覆盖了 Choice worker 已生成的清晰行动文本，导致玩家看到抒情残片式选项。",
+    "directCause": "choice finalization 使用了 `candidateActions[0].text`。",
+    "propagation": "`turn-03/07-events.json` 的 `choiceGenerator` 结果和 `turn-03/04-output.json` 最终 choices 都采用污染文本；turn 4 玩家输入也继承该文本。",
+    "nonCauses": [
+      "Narrator 输出不是该选项污染源。",
+      "Choice worker raw output 本身不是污染源。",
+      "前往暗街这一剧情出口不是错误。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [],
+    "description": "候选动作绑定层把带抒情残片的 `candidateActions.text` 当作玩家可见选项文案，并覆盖了 Choice worker 的清晰改写；系统缺少 actionId 绑定与 display text 清洗分离的合同。",
+    "fixSurface": [
+      "choice finalization / action binding",
+      "candidateActions text validation",
+      "Choice worker output preservation for bound actions"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "`visible-timeline.jsonl` turn 3 和 `turn-03/04-output.json` 显示选项“直接去暗街，往日总是如影随形”。",
+    "internalTrace": "`turn-03/03-story-state.json` 中候选动作已污染；`turn-03/06-llm-calls.json` 中 Choice worker 输出了“前往暗街，找卡琳娜打听消息”；最终 `turn-03/07-events.json` / `turn-03/04-output.json` 采用候选动作原文。"
+  },
+  "recommendedFixArea": "修复 choice finalization，使 `actionId` 绑定不覆盖 Choice worker 的清晰 display text，并为候选动作文本增加可执行行动校验。",
+  "confidence": "high"
+}

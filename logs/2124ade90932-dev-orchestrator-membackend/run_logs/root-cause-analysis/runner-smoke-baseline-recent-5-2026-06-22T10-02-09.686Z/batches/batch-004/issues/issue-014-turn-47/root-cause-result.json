@@ -1,0 +1,86 @@
+{
+  "issueId": "issue-14-turn-47",
+  "issueIndex": 14,
+  "turn": 47,
+  "issueValidity": "valid",
+  "problemSummary": "同一清晨连续场景中，第 33 轮建立卡琳娜穿灰色毛衣，第 47 轮无换衣承接却回到白色棉衣。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见时间线没有换衣或时间跳跃；第 47 轮还承接第 46 轮靠在厨房台边的姿势，因此服装应延续第 33 轮清晨建立的灰色毛衣。",
+    "playerVisibleSupport": "turn 33 写卡琳娜穿宽大的近灰色毛衣；turn 46 只写她去厨房水槽、擦手、靠在厨房台边；turn 47 写白色棉衣袖口。",
+    "caveats": [
+      "如果系统显式写出换衣，可以解释服装变化；但当前可见文本没有该承接。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 47 轮前仍是同一清晨公寓场景，卡琳娜从沙发到厨房水槽再靠在厨房台边，没有离场换衣。",
+    "relevantFacts": [
+      {
+        "claim": "卡琳娜当前清晨服装是宽大的近灰色毛衣。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-47/06b-narrator-prompt.md",
+          "turn-47/03-story-state.json",
+          "turn-47/05-runtime-after.json"
+        ],
+        "notes": "该事实在 turn 33 可见文本中清楚出现，但未进入 turn 47 的 recent window 或状态。"
+      },
+      {
+        "claim": "角色卡默认外观包含白色棉衣。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-47/06b-narrator-prompt.md",
+          "turn-47/02-script-state.json"
+        ],
+        "notes": "在当前服装事实缺失时，默认外观成为最高显著服装来源。"
+      },
+      {
+        "claim": "第 46 到第 47 轮没有换衣承接。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-47/06b-narrator-prompt.md"
+        ],
+        "notes": "第 47 轮开头还写“靠在厨房台边的姿势没有变”。"
+      }
+    ],
+    "competingPressures": [
+      "角色卡默认白色棉衣位于 prompt 前部",
+      "第 33 轮灰色毛衣超出 recent window",
+      "storyline summary 未记录临时服装",
+      "本轮描写袖口和手腕时需要衣物细节"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-47/06b-narrator-prompt.md: context assembly lacks current clothing and foregrounds default character outfit",
+    "triggeringPressure": "Narrator 需要描写卡琳娜靠在厨房台边的手部和袖口细节，而 prompt 中最显著的服装信息是角色卡默认白色棉衣。",
+    "missingGuard": "缺少 currentAppearance/detail-memory 持久化，也缺少默认角色卡服装不得覆盖同场景可见服装的优先级规则。",
+    "mechanismStatement": "当第 33 轮建立的临时服装没有写入状态且滑出 recent window 后，Narrator 在需要袖口细节时回落到角色卡默认服装；缺少 current-appearance persistence 使默认白色棉衣覆盖了当前灰色毛衣。",
+    "directCause": "Narrator 使用角色卡默认外观写出“白色棉衣的袖口”。",
+    "propagation": "第 47 轮显性漂移后，第 48 轮继续写白色棉衣轮廓，错误进入后续上下文。",
+    "nonCauses": [
+      "不是玩家输入造成。",
+      "不是合理换衣，因为没有可见承接。",
+      "不是 Choice 输出问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-appearance-persistence",
+    "family": "detail-memory",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "玩家可见的当前服装没有持久化为高优先级 current appearance；当 recent window 滑过第 33 轮后，角色卡默认白色棉衣在袖口描写中重新夺权。",
+    "fixSurface": [
+      "visible detail writeback",
+      "character currentAppearance state",
+      "prompt priority between current visible appearance and default character card",
+      "appearance continuity lint"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 33 灰色毛衣；turn 46 无换衣且承接到厨房台边；turn 47 白色棉衣；turn 48 继续白色棉衣。",
+    "internalTrace": "turn-47/06b-narrator-prompt.md recent window lacks gray sweater while character card contains white cotton coat; turn-47/03-story-state.json and runtime-after do not persist current clothing."
+  },
+  "recommendedFixArea": "将同场景可见服装写入 currentAppearance/detail state，并在 prompt 中明确它优先于角色卡默认服装；增加外观连续性检查。",
+  "confidence": "high"
+}

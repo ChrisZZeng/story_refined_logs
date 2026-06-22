@@ -1,0 +1,84 @@
+{
+  "issueId": "issue-5-turn-10",
+  "issueIndex": 5,
+  "turn": 10,
+  "issueValidity": "valid",
+  "problemSummary": "同一张匿名信寄来的敏特照片在 turn 10 被改写为港口区边缘和废弃仓库背景，冲突于 turn 1 已呈现的路灯、石板路、椰子酒招牌背景。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见文本已经明确给出同一关键照片的两套互斥背景。turn 10 的玩家输入没有要求改写照片内容，因此这是事实冲突。",
+    "playerVisibleSupport": "turn 1 的匿名信照片背景是陌生街道、路灯、石板路、椰子酒招牌；turn 10 变为港口区边缘街景和废弃仓库；turn 11 又继续引用“港口区的照片”。",
+    "caveats": []
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "帕兹因匿名信中的敏特照片来到新西西里。玩家已知照片显示敏特在陌生街道背景中，背景元素是路灯、石板路和椰子酒招牌。turn 10 玩家只是说明来意，未新增照片背景。",
+    "relevantFacts": [
+      {
+        "claim": "匿名信照片的背景是陌生街道、路灯、石板路、椰子酒招牌。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-01/04-output.json",
+          "turn-10/03-story-state.json",
+          "turn-10/06b-narrator-prompt.md"
+        ],
+        "notes": "该事实在 turn 1 玩家可见文本中清楚存在，但 turn 10 story state 和 Narrator prompt 只保留了“照片拍摄地点是新西西里”的泛化摘要。"
+      },
+      {
+        "claim": "本轮需要让卡琳娜追问照片内容或来源。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-10/06a-director-prompt.md",
+          "turn-10/06-llm-calls.json"
+        ],
+        "notes": "该要求给 Narrator 施加了补写照片细节的局部压力，但没有附带照片既有细节。"
+      },
+      {
+        "claim": "港口区和秘密仓库是世界观中的强情节地点。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-10/03-story-state.json",
+          "turn-10/06b-narrator-prompt.md"
+        ],
+        "notes": "这些设定位于 prompt 的世界观内容中，容易被模型用来填补缺失的照片地点细节。"
+      }
+    ],
+    "competingPressures": [
+      "玩家输入要求谈照片来意",
+      "Director 要求追问照片内容或来源",
+      "世界观中港口区和仓库更像悬疑线索",
+      "原始照片具体背景没有进入本轮 prompt"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-10/06-llm-calls.json[1].text",
+    "triggeringPressure": "Director 将本轮组织成围绕照片内容的追问，但 prompt 只给出“敏特照片拍摄地点是新西西里”的粗摘要，并提供了港口区、秘密仓库等强线索地点。",
+    "missingGuard": "关键物证照片的已出现视觉背景没有被持久化为 detail fact，也没有作为 must-preserve 约束注入 Narrator prompt。",
+    "mechanismStatement": "当本轮要求追问照片内容而原始照片背景未被持久化时，Narrator 从世界观中的港口区/仓库素材补全照片细节，导致同一关键照片的玩家可见背景被改写。",
+    "directCause": "Narrator 在缺少原照片背景锚点的情况下生成了“港口区边缘的街景，废弃的仓库”。",
+    "propagation": "turn 10 的错误进入可见正文；turn 11 继续引用“那张港口区的照片”，把改写后的背景带入 recent visible context。",
+    "nonCauses": [
+      "Choice 没有提供港口区背景。",
+      "runtime-after 没有把港口区作为结构化事实写回后再驱动 turn 10。",
+      "隐藏真相不是 issue 成立的依据。"
+    ]
+  },
+  "rootCause": {
+    "label": "memory-persistence",
+    "family": "detail-memory",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "turn 1 中作为关键线索的照片背景没有被持久化为稳定 detail fact；到 turn 10，Director 要求追问照片内容，但 handoff 缺少原背景约束，Narrator 在世界观港口区/仓库压力下补写了新地点，造成玩家可见冲突。",
+    "fixSurface": [
+      "detail fact persistence for key clue objects",
+      "story state / statefold summarization",
+      "Director-to-Narrator prompt assembly",
+      "object-detail consistency check"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 1：匿名信照片背景为陌生街道、路灯、石板路、椰子酒招牌。turn 10：照片被描述为港口区边缘街景和废弃仓库。turn 11：卡琳娜继续称其为港口区的照片。",
+    "internalTrace": "turn-10/03-story-state.json 与 turn-10/06b-narrator-prompt.md 缺少原始照片背景，只保留“照片拍摄地点是新西西里”。turn-10/06-llm-calls.json[1].text 首次生成港口区/废弃仓库。turn-10/05-runtime-after.json 无照片背景写回。"
+  },
+  "recommendedFixArea": "将关键照片等线索物件的视觉细节持久化，并在后续涉及同一物件时注入 Narrator prompt 作为 must-preserve context；同时增加同一物件描述的 detail conflict 检查。",
+  "confidence": "high"
+}

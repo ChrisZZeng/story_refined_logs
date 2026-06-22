@@ -1,0 +1,82 @@
+{
+  "issueId": "issue-11-turn-29",
+  "issueIndex": 11,
+  "turn": 29,
+  "issueValidity": "valid",
+  "problemSummary": "第 29 轮正文已经把照片夹回书里、合上书并放回床头柜，但同轮选项仍把照片当作可直接观察或尚未夹回的对象。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见正文的最终状态与同轮选项的动作前提冲突，且选项没有补足“重新打开书取出照片”的前置动作。",
+    "playerVisibleSupport": "turn 29 正文结尾写明“你把照片夹回原页，合上书”和“那本书安安静静地躺回床头柜上”；同轮选项包含“仔细观察照片正面”和“把照片小心夹回书里”。",
+    "caveats": [
+      "该问题严重度低，因为玩家仍可理解为继续探索照片；但选项措辞本身省略了必要状态转换。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 29 轮末尾，玩家已经结束本次翻书检查，照片回到原页，书合上并回到床头柜。",
+    "relevantFacts": [
+      {
+        "claim": "照片已经夹回原页，书已经合上并回到床头柜。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-29/04-output.json",
+          "visible-timeline.jsonl"
+        ],
+        "notes": "该事实位于本轮可见正文结尾，是 Choice 生成时的最终状态。"
+      },
+      {
+        "claim": "Choice worker 收到了完整正文和“以本轮正文结尾为准”的规则。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-29/06c-choice-prompt.md"
+        ],
+        "notes": "规则清楚，但没有结构化 affordance 或生成后校验。"
+      },
+      {
+        "claim": "照片是本轮高显著的新发现。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-29/04-output.json",
+          "turn-29/07-events.json"
+        ],
+        "notes": "照片占据正文核心段落，容易拉动后续选项。"
+      }
+    ],
+    "competingPressures": [
+      "新发现照片带来的探索吸引力",
+      "主角观察取证的角色倾向",
+      "Choice prompt 只以自然语言正文作为状态来源"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-29/07-events.json: worker-done choiceGenerator",
+    "triggeringPressure": "本轮照片发现被强烈前景化，Director 的 requiredContent 和 Narrator 的正文都把照片作为最显眼线索。",
+    "missingGuard": "缺少结构化的当前可操作对象和已完成动作约束，也缺少选项生成后的 affordance consistency check。",
+    "mechanismStatement": "当新发现物非常显眼而其最终状态只写在正文末尾时，Choice generator 把“值得继续探索”误绑定为“仍可直接操作”，系统没有用结构化状态或后校验阻止该绑定进入可见选项。",
+    "directCause": "Choice generator 生成的选项没有继承 Narrator 结尾的物件状态。",
+    "propagation": "矛盾选项在第 29 轮可见；第 30 轮玩家选择后，Narrator 继续按照片在手状态写出托起照片。",
+    "nonCauses": [
+      "Director 未要求保持照片在手。",
+      "Narrator 第 29 轮正文已经明确收束照片状态。",
+      "这不是长期记忆遗失，而是同轮正文到选项的状态绑定问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "llm-self"
+    ],
+    "description": "Choice 阶段只有自然语言一致性要求，没有结构化继承 Narrator 末尾的当前交互状态；在照片作为高显著新线索的压力下，模型把已收起物件错误绑定为直接可操作选项。",
+    "fixSurface": [
+      "Choice generation prompt/context assembly",
+      "currentInteractionState or affordance extraction after Narrator",
+      "choice post-generation consistency validator"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 29 正文收束照片和书；turn 29 选项仍直接观察照片或重复夹回照片；turn 30 继续按照片可直接拿起传播。",
+    "internalTrace": "turn-29/06c-choice-prompt.md 已给出正文结尾和判断流程；turn-29/07-events.json 中 choiceGenerator 首次输出矛盾选项。"
+  },
+  "recommendedFixArea": "为 Choice worker 增加当前可操作对象、已完成动作和必要前置动作的结构化输入，并对生成选项做状态一致性校验。",
+  "confidence": "high"
+}

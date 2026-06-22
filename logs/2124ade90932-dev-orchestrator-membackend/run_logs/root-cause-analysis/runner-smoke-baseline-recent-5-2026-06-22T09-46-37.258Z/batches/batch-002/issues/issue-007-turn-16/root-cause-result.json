@@ -1,0 +1,95 @@
+{
+  "issueId": "issue-7-turn-16",
+  "turn": 16,
+  "issueValidity": "valid",
+  "problemSummary": "连续暗街行动已由 turn 8 锚定为夜色，turn 16 却改成正午前的白天行动窗口，造成时间状态断裂。",
+  "validityAssessment": {
+    "verdictReason": "turn 8 明确写“夜色里”，turn 9-15 没有可见时间跳转；turn 16 的“现在离正午还有一阵”和“趁白天行动”与连续时间线冲突。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 8、turn 9-15、turn 16 可以证明当前行动没有回到正午前的桥段。",
+    "caveats": [
+      "暗街室内昏暗不等于外部时间可以回到白天；玩家可见文本已给出夜色锚。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "帕兹在夜色中的暗街连续探索，进入裁缝铺并追问铁盒任务细节；没有睡眠、倒叙或显式时间跳转。",
+    "relevantFacts": [
+      {
+        "claim": "当前暗街行动被 turn 8 锚定为夜色。",
+        "availability": "absent",
+        "artifacts": [
+          "visible-timeline.jsonl turn 8",
+          "turn-16/03-story-state.json",
+          "turn-16/06a-director-prompt.md"
+        ],
+        "notes": "玩家可见事实清楚，但没有进入 turn 16 的高优先级结构化 state。"
+      },
+      {
+        "claim": "turn 9-15 是连续行动。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-16/06b-narrator-prompt.md",
+          "visible-timeline.jsonl turn 9-15"
+        ],
+        "notes": "最近经历显示玩家一直在暗街和裁缝铺推进，没有时间跳跃。"
+      },
+      {
+        "claim": "Director 主动注入白天/傍晚行动窗口。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-16/06-llm-calls.json",
+          "turn-16/04-output.json"
+        ],
+        "notes": "requiredContent 明确要求“白天少有人去”“傍晚后偶尔有黑帮”“庆典人流散去前”。"
+      },
+      {
+        "claim": "Narrator 和 Choice 按白天窗口输出。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-16/06-llm-calls.json",
+          "turn-16/04-output.json"
+        ],
+        "notes": "正文出现“现在离正午还有一阵”，选项出现“趁白天行动”。"
+      }
+    ],
+    "competingPressures": [
+      "复活日清晨和庆典语汇在历史摘要中长期存在",
+      "玩家询问安全信息推动 Director 生成行动时间窗口",
+      "当前 scene time 没有持久化字段",
+      "recent window 已不包含 turn 8 的夜色锚"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-16/06-llm-calls.json director generateObject",
+    "triggeringPressure": "Director 需要回答肉铺周围风险和行动窗口，在缺少 currentTimeOfDay 的情况下根据白天/傍晚/庆典人流逻辑规划。",
+    "missingGuard": "缺少 current scene temporal anchor；没有状态字段或 prompt 约束说明当前连续行动仍处于夜色。",
+    "mechanismStatement": "当时间锚只保存在较早 visible prose 且未写入 scene state 时，Director 会在任务规划压力下重新推断时间窗口，生成与已见夜色冲突的白天条件。",
+    "directCause": "Director 的 requiredContent 注入白天和正午前条件，Narrator 与 Choice 继承并展示。",
+    "propagation": "错误从 Director contract 传播到 visible text 和 choices，同时影响正文和下一步行动选项。",
+    "nonCauses": [
+      "不是 Narrator 单独错误",
+      "不是玩家输入要求时间跳转",
+      "不是可见剧情提供了回到白天的过渡"
+    ]
+  },
+  "rootCause": {
+    "label": "missing-current-scene-time-anchor",
+    "family": "detail-memory",
+    "secondaryFamilies": [
+      "agent-system",
+      "recent-context"
+    ],
+    "description": "夜色作为具体场景时间细节没有被持久化为 currentTimeOfDay 或等价状态；当它滑出 recent window 后，Director 用泛化的庆典和潜入窗口逻辑重建时间，导致正午前条件进入正文。",
+    "fixSurface": [
+      "story/runtime state temporal anchor fields",
+      "state writeback for visible time cues",
+      "Director prompt currentTimeOfDay contract",
+      "Choice temporal consistency check"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 8 夜色锚；turn 9-15 连续行动；turn 16 白天/正午前/趁白天选项。",
+    "internalTrace": "turn-16/06-llm-calls.json 的 Director object 首次写入白天行动窗口；Narrator 和 Choice 继承该 contract。"
+  },
+  "recommendedFixArea": "为当前场景时间锚建立写回和 handoff，使 Director 在规划任务窗口前必须看到 currentTimeOfDay，并要求时间改变必须有玩家可见过渡。",
+  "confidence": "high"
+}

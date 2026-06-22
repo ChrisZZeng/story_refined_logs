@@ -1,0 +1,92 @@
+{
+  "issueId": "issue-4",
+  "issueIndex": 4,
+  "turn": 9,
+  "issueValidity": "valid",
+  "problemSummary": "turn 9 同一句把卡尔锚在“沙发角落里”，又写它“从窗台上跳下来”，与上一轮位置承接冲突。",
+  "validityAssessment": {
+    "verdictReason": "turn 8 已经写卡尔从沙发走到窗台边/薄荷盆栽旁；turn 9 从窗台下来可承接，但“沙发角落里”是旧位置。",
+    "playerVisibleSupport": "turn 8 可见文本：“轻盈地跳下沙发，走到窗台边，在薄荷盆栽旁边蹲坐下来”；turn 9 可见文本：“沙发角落里，黑猫卡尔从窗台上跳下来”。",
+    "caveats": [
+      "该问题不影响剧情主线理解，但造成局部空间动作断裂。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "卡尔在 turn 8 结束时位于窗台边/薄荷盆栽旁；卡琳娜仍在沙发附近与主角对话。",
+    "relevantFacts": [
+      {
+        "claim": "卡尔上一轮最终位置在窗台边。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-08/04-output.json",
+          "visible-timeline.jsonl"
+        ],
+        "notes": "文本明确写卡尔从沙发跳下并走到窗台边。"
+      },
+      {
+        "claim": "Director 本轮动作 hint 使用正确当前位置。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-09/06-llm-calls.json"
+        ],
+        "notes": "`characterBeats` 写“从薄荷盆栽旁站起，走到茶几边缘蹲坐下”。"
+      },
+      {
+        "claim": "Narrator prompt 中旧位置和新位置并列存在。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "recent visible 包含“沙发角落”旧短语，也包含“走到窗台边”最终状态。"
+      },
+      {
+        "claim": "runtime-after 没有结构化保存卡尔当前位置。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-08/05-runtime-after.json",
+          "turn-09/05-runtime-after.json"
+        ],
+        "notes": "`charactersOnStage` 没有卡尔，也没有 entity location 字段。"
+      }
+    ],
+    "competingPressures": [
+      "recent prose 中旧位置短语“沙发角落”很醒目",
+      "Director actionHint 指向薄荷盆栽/窗台边",
+      "currentStoryline 仍含“黑猫卡尔在沙发上的存在感”",
+      "缺少结构化 current entity location"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-09/06-llm-calls.json[1].text",
+    "triggeringPressure": "Narrator prompt 同时提供旧位置短语、current storyline 的沙发存在感、以及 Director 的正确窗台动作 hint。",
+    "missingGuard": "缺少 entity-location anchor 和 state writeback；没有显式告诉 Narrator 卡尔当前在窗台/薄荷盆栽旁，也没有禁止同句混用两个位置锚点。",
+    "mechanismStatement": "上一轮移动后的最新位置没有结构化保存，Narrator 在长 recent prose 中抓取旧位置短语，同时执行当前动作 hint，导致同一句出现沙发和窗台两个空间锚。",
+    "directCause": "Narrator raw text 写出“沙发角落里，黑猫卡尔从窗台上跳下来”。",
+    "propagation": "冲突句进入 `turn-09/04-output.json`；后续 turn 10 又继续从窗台移动，说明系统没有可靠位置状态。",
+    "nonCauses": [
+      "Director 本轮动作 hint 不是主因。",
+      "不是长期记忆或 meta-memory 问题。",
+      "不是 Choice 输出问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "entity-location-anchor",
+    "family": "recent-context",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "最近一轮实体移动后没有形成结构化当前场景位置锚点，Narrator 在旧 prose 锚点和正确 actionHint 之间混合取用，导致卡尔的位置同时落在沙发和窗台。",
+    "fixSurface": [
+      "statefold entity location writeback",
+      "runtime-after current scene entity inventory",
+      "Narrator prompt current-location table",
+      "intra-sentence spatial consistency check"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "`visible-timeline.jsonl` turn 8 显示卡尔移到窗台边，turn 9 显示“沙发角落里，黑猫卡尔从窗台上跳下来”。",
+    "internalTrace": "`turn-09/06-llm-calls.json` 中 Director actionHint 正确但 Narrator raw text 冲突；`turn-08/05-runtime-after.json` 和 `turn-09/05-runtime-after.json` 未记录卡尔位置。"
+  },
+  "recommendedFixArea": "补上 scene entity location writeback，并在 Narrator prompt 中显式列出当前实体位置，避免从 recent prose 旧短语恢复过期位置。",
+  "confidence": "medium"
+}

@@ -1,0 +1,80 @@
+{
+  "issueId": "issue-7-turn-19",
+  "issueIndex": 7,
+  "turn": 19,
+  "issueValidity": "valid",
+  "problemSummary": "turn 19 玩家可见正文中出现“在提起她面前——在一个陌生提她面前”等残缺误词，造成局部阅读理解障碍。",
+  "validityAssessment": {
+    "verdictReason": "该句内部语法和指代明显不通，不能被解释为角色口误或正常叙事省略，因此 issue 成立。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 19 中出现“他显然是知道的，只是不想在提起她面前——在一个陌生提她面前——再经历一次那个过程。”",
+    "caveats": [
+      "该问题是局部文本质量回退，不改变主要剧情事实。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 18 已完成卡琳娜要求德索洛称‘阁下’、同意查女儿之事并提醒规矩；turn 19 正在继续交易压力和德索洛退场。",
+    "relevantFacts": [
+      {
+        "claim": "turn 19 的剧情目标、角色和场景清楚，足以生成通顺旁白。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-19/03-story-state.json",
+          "turn-19/06a-director-prompt.md"
+        ],
+        "notes": "Director 没有要求残缺表达；错误出现在 Narrator 局部长句中。"
+      },
+      {
+        "claim": "该问题不依赖隐藏剧情事实，只是玩家可见句子的中文质量问题。",
+        "availability": "not-needed",
+        "artifacts": [
+          "turn-19/04-output.json",
+          "turn-19/06-llm-calls.json"
+        ],
+        "notes": "可见文本自身已足以确认。"
+      },
+      {
+        "claim": "没有 runtime event 或 state writeback 改写该句。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-19/07-events.json",
+          "turn-19/05-runtime-after.json"
+        ],
+        "notes": "错误从 narrator 输出直接进入提交内容。"
+      }
+    ],
+    "competingPressures": [
+      "长 prompt 同时包含固定剧情、最近几轮正文、角色资料和 HTML 输出要求。",
+      "Narrator 在同一句里处理卡琳娜、主角、陌生人、规矩与羞辱动作等多重指代。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-19/06-llm-calls.json[1].text",
+    "triggeringPressure": "Narrator 在长篇交易场面中生成解释性旁白，需要同时维持多重人物指代和心理含义。",
+    "missingGuard": "提交 visibleText 前没有中文 malformed sentence 检查或局部修复步骤。",
+    "mechanismStatement": "在长 prompt 和多指代句式压力下，Narrator 把若干短语混成残缺句；缺少可见文本 QA 使该 malformed sentence 原样提交。",
+    "directCause": "Narrator 局部语言生成失误。",
+    "propagation": "错误句子从 06-llm-calls.json[1].text 进入 04-output.json，再进入 visible timeline；events/runtime-after 没有修复。",
+    "nonCauses": [
+      "不是 Choice 生成问题。",
+      "不是 story state 事实缺失。",
+      "不是评测误判。"
+    ]
+  },
+  "rootCause": {
+    "label": "model-local",
+    "family": "llm-self",
+    "secondaryFamilies": [],
+    "description": "上下文和剧情目标足够清楚，但模型在复杂长句中把‘在她面前’和‘在一个陌生人面前’类短语混成残句；系统缺少后置文本质量防线，导致局部 malformed output 直接玩家可见。",
+    "fixSurface": [
+      "Narrator 输出后的中文文本质量检查与轻量修复",
+      "visibleText 提交前的 malformed sentence detector",
+      "Narrator style guard：短句优先，避免多重指代套叠"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "visible-timeline.jsonl turn 19 的句子“只是不想在提起她面前——在一个陌生提她面前”。",
+    "internalTrace": "turn-19/06-llm-calls.json[1].text 已包含该错误；turn-19/04-output.json 原样提交。"
+  },
+  "recommendedFixArea": "Narrator 后处理 QA 与 malformed sentence 局部修复。",
+  "confidence": "medium"
+}

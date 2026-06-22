@@ -1,0 +1,476 @@
+{
+  "batchId": "batch-003",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 7,
+      "turn": 19,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "句子存在明显残缺和误词，影响玩家阅读理解，属于局部文本质量回退。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local",
+        "family": "llm-self",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "Narrator 输出后的中文文本质量检查与轻量修复",
+          "visibleText 提交前的 malformed sentence detector",
+          "Narrator style guard：短句优先，避免多重指代套叠"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "Narrator 后处理 QA 与 malformed sentence 局部修复。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-007-turn-19/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-007-turn-19/root-cause-report.md",
+      "result": {
+        "issueId": "issue-7-turn-19",
+        "issueIndex": 7,
+        "turn": 19,
+        "issueValidity": "valid",
+        "problemSummary": "turn 19 玩家可见正文中出现“在提起她面前——在一个陌生提她面前”等残缺误词，造成局部阅读理解障碍。",
+        "validityAssessment": {
+          "verdictReason": "该句内部语法和指代明显不通，不能被解释为角色口误或正常叙事省略，因此 issue 成立。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 19 中出现“他显然是知道的，只是不想在提起她面前——在一个陌生提她面前——再经历一次那个过程。”",
+          "caveats": [
+            "该问题是局部文本质量回退，不改变主要剧情事实。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 18 已完成卡琳娜要求德索洛称‘阁下’、同意查女儿之事并提醒规矩；turn 19 正在继续交易压力和德索洛退场。",
+          "relevantFacts": [
+            {
+              "claim": "turn 19 的剧情目标、角色和场景清楚，足以生成通顺旁白。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-19/03-story-state.json",
+                "turn-19/06a-director-prompt.md"
+              ],
+              "notes": "Director 没有要求残缺表达；错误出现在 Narrator 局部长句中。"
+            },
+            {
+              "claim": "该问题不依赖隐藏剧情事实，只是玩家可见句子的中文质量问题。",
+              "availability": "not-needed",
+              "artifacts": [
+                "turn-19/04-output.json",
+                "turn-19/06-llm-calls.json"
+              ],
+              "notes": "可见文本自身已足以确认。"
+            },
+            {
+              "claim": "没有 runtime event 或 state writeback 改写该句。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-19/07-events.json",
+                "turn-19/05-runtime-after.json"
+              ],
+              "notes": "错误从 narrator 输出直接进入提交内容。"
+            }
+          ],
+          "competingPressures": [
+            "长 prompt 同时包含固定剧情、最近几轮正文、角色资料和 HTML 输出要求。",
+            "Narrator 在同一句里处理卡琳娜、主角、陌生人、规矩与羞辱动作等多重指代。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-19/06-llm-calls.json[1].text",
+          "triggeringPressure": "Narrator 在长篇交易场面中生成解释性旁白，需要同时维持多重人物指代和心理含义。",
+          "missingGuard": "提交 visibleText 前没有中文 malformed sentence 检查或局部修复步骤。",
+          "mechanismStatement": "在长 prompt 和多指代句式压力下，Narrator 把若干短语混成残缺句；缺少可见文本 QA 使该 malformed sentence 原样提交。",
+          "directCause": "Narrator 局部语言生成失误。",
+          "propagation": "错误句子从 06-llm-calls.json[1].text 进入 04-output.json，再进入 visible timeline；events/runtime-after 没有修复。",
+          "nonCauses": [
+            "不是 Choice 生成问题。",
+            "不是 story state 事实缺失。",
+            "不是评测误判。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [],
+          "description": "上下文和剧情目标足够清楚，但模型在复杂长句中把‘在她面前’和‘在一个陌生人面前’类短语混成残句；系统缺少后置文本质量防线，导致局部 malformed output 直接玩家可见。",
+          "fixSurface": [
+            "Narrator 输出后的中文文本质量检查与轻量修复",
+            "visibleText 提交前的 malformed sentence detector",
+            "Narrator style guard：短句优先，避免多重指代套叠"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "visible-timeline.jsonl turn 19 的句子“只是不想在提起她面前——在一个陌生提她面前”。",
+          "internalTrace": "turn-19/06-llm-calls.json[1].text 已包含该错误；turn-19/04-output.json 原样提交。"
+        },
+        "recommendedFixArea": "Narrator 后处理 QA 与 malformed sentence 局部修复。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 8,
+      "turn": 19,
+      "severity": "medium",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "上一轮刚完成的称呼、同意调查和规矩提醒在第 19 轮被当作新内容再次演出，导致剧情进度倒退和重复。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "fixed-beat-consumption",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline / fixed beat lifecycle 的 consumed / remaining / incompatible 状态",
+          "Director context assembly 中对已完成固定素材降权或移除",
+          "Director requiredContent 与最近 visible text 的重复校验"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "fixed beat lifecycle、Director context assembly、requiredContent duplicate check。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-008-turn-19/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-008-turn-19/root-cause-report.md",
+      "result": {
+        "issueId": "issue-8-turn-19",
+        "issueIndex": 8,
+        "turn": 19,
+        "issueValidity": "valid",
+        "problemSummary": "turn 18 已完成称呼、同意调查和规矩提醒；turn 19 又把同一组内容当作新正文重演，造成剧情进度回退。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见时间线显示 turn 18 和 turn 19 连续出现同一组交易前置对白与动作，玩家输入只是保持沉默继续处理，不能解释为合理回放。",
+          "playerVisibleSupport": "turn 18 出现“……阁下。”、“很好。”、“你女儿的事，我可以查。”、“不过你应该知道我的规矩。”；turn 19 再次出现这些内容。",
+          "caveats": [
+            "turn 19 后半段确实继续推进到德索洛退场，但开头重复仍然造成短暂倒退。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 18 末尾德索洛已低声称呼‘阁下’，卡琳娜已确认并同意可以查女儿之事，同时提醒规矩；玩家在 turn 19 选择继续沉默让卡琳娜处理。",
+          "relevantFacts": [
+            {
+              "claim": "turn 18 已完成称呼、同意调查和规矩提醒。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-19/03-story-state.json",
+                "turn-19/06a-director-prompt.md"
+              ],
+              "notes": "recentTurns 中完整保留 turn 18 文本。"
+            },
+            {
+              "claim": "currentStoryline.summary 已记录称呼和交易条件已接受。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-19/03-story-state.json",
+                "turn-19/06a-director-prompt.md"
+              ],
+              "notes": "summary 写着“迫使他称自己为‘阁下’并接受交易条件”。"
+            },
+            {
+              "claim": "德索洛角色资料仍把完整交易过程作为固定素材提供。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-19/02-script-state.json",
+                "turn-19/06a-director-prompt.md"
+              ],
+              "notes": "“最终德索洛卑微地单膝跪地，拉起卡琳娜的纤细的左手……‘卡琳娜阁下。’交易达成。”"
+            },
+            {
+              "claim": "prompt 有不要重复规则，但没有结构化约束 consumed beat。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-19/06a-director-prompt.md",
+                "turn-19/06b-narrator-prompt.md"
+              ],
+              "notes": "规则是自然语言原则，弱于 later requiredContent。"
+            }
+          ],
+          "competingPressures": [
+            "recentTurns 明确显示上一轮已完成内容。",
+            "角色资料和固定剧本仍提供完整交易过程。",
+            "currentStoryline constraints 仍强调交易法则待展现。",
+            "Narrator 被要求不得丢失 Director 的 requiredContent。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-19/06-llm-calls.json[0].object",
+          "triggeringPressure": "德索洛角色资料和节点素材中的完整固定交易过程仍作为可执行内容进入 Director prompt。",
+          "missingGuard": "缺少 fixed beat consumed-state / remaining-beat 机制，无法把已出现的称呼、承诺和规矩提醒从本轮可执行素材中剔除。",
+          "mechanismStatement": "已消费的固定交易 beat 没有结构化标记为 consumed，Director 在 recent visible text 与固定素材冲突时把固定素材重新提升为 requiredContent，Narrator 随后按 requiredContent 重演上一轮交易步骤。",
+          "directCause": "Director 把上一轮已经完成的称呼、同意调查和规矩提醒重新安排为 turn 19 剧情骨架。",
+          "propagation": "Narrator 输出重复正文；04-output.json 提交；Choice 基于重复后的结尾生成选项；runtime-after 只能更新 on-stage，无法修复已显示正文。",
+          "nonCauses": [
+            "不是玩家输入要求回放。",
+            "不是 Choice 绑定错误。",
+            "不是长期 memory 缺失，因为信息就在最近上下文中。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-consumption",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "固定交易过程作为角色资料和节点素材持续进入 prompt，但系统没有把已完成的称呼、承诺和规矩提醒标成 consumed，也没有把剩余待演内容结构化交给 Director；Director 因此重新执行已消费 beat，Narrator 按 requiredContent 复演。",
+          "fixSurface": [
+            "storyline / fixed beat lifecycle 的 consumed / remaining / incompatible 状态",
+            "Director context assembly 中对已完成固定素材降权或移除",
+            "Director requiredContent 与最近 visible text 的重复校验"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 18 和 turn 19 重复出现“……阁下。”、“很好。”、“你女儿的事，我可以查。”、“不过你应该知道我的规矩。”",
+          "internalTrace": "turn-19/06-llm-calls.json[0].object 把重复内容及后续固定动作放入 beats/requiredContent；turn-19/02-script-state.json 仍提供完整交易过程。"
+        },
+        "recommendedFixArea": "fixed beat lifecycle、Director context assembly、requiredContent duplicate check。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 9,
+      "turn": 19,
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "德索洛从站立、双手垂在身侧突然变成单膝跪地并握住卡琳娜手指，中间没有玩家可见动作承接，明显改变了人物姿态和互动状态。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director output schema 增加 startFrame / lastVisibleState / transitionRequirements",
+          "Narrator prompt 强制从上一轮最后可见姿态开始",
+          "requiredContent 姿态/位置/接触变化的 bridge validator"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "current-scene anchor、transitionRequirements、姿态/接触 bridge validator。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-009-turn-19/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-009-turn-19/root-cause-report.md",
+      "result": {
+        "issueId": "issue-9-turn-19",
+        "issueIndex": 9,
+        "turn": 19,
+        "issueValidity": "valid",
+        "problemSummary": "turn 18 德索洛仍站立且双手垂在身侧；turn 19 开头直接变为单膝跪地并握住卡琳娜指尖，缺少玩家可见动作桥接。",
+        "validityAssessment": {
+          "verdictReason": "下跪和握手是显著姿态/接触状态变化，turn 19 没有描写动作发生过程，因此玩家可见连续性被破坏。",
+          "playerVisibleSupport": "turn 18 有“双手垂在身侧”；turn 19 开头有“单膝跪在地板上”“左手握着卡琳娜纤细的指尖”。",
+          "caveats": [
+            "如果 turn 19 明确写出德索洛如何跪下并伸手，这个固定动作本身可以成立；问题在于可见桥接缺失。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "德索洛站在门口，双手垂在身侧，已经称呼‘阁下’并听到卡琳娜同意查女儿之事与规矩提醒；玩家选择继续沉默。",
+          "relevantFacts": [
+            {
+              "claim": "上一轮末帧姿态是站立、双手垂侧。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-19/06a-director-prompt.md"
+              ],
+              "notes": "recentTurns 明确保留该姿态。"
+            },
+            {
+              "claim": "turn 19 开场已是单膝跪地并握住指尖。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-19/04-output.json",
+                "turn-19/06-llm-calls.json"
+              ],
+              "notes": "Narrator 第一段即为动作完成态。"
+            },
+            {
+              "claim": "Director 把下跪拉手设为本轮 requiredContent。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-19/06-llm-calls.json[0].object",
+                "turn-19/06b-narrator-prompt.md"
+              ],
+              "notes": "动作目标清楚，但没有桥接约束。"
+            },
+            {
+              "claim": "固定交易素材提供了下跪拉手动作。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-19/02-script-state.json",
+                "turn-19/06a-director-prompt.md"
+              ],
+              "notes": "动作来源是固定素材，不是最近可见事实。"
+            }
+          ],
+          "competingPressures": [
+            "fixed script 强力要求单膝跪地和拉手。",
+            "recentTurns 明确提供上一轮站立状态。",
+            "Narrator 被要求以 Director 安排为骨架。",
+            "prompt 缺少 explicit last-frame continuation contract。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-19/06-llm-calls.json[0].object",
+          "triggeringPressure": "固定交易过程中的“单膝跪地、拉起卡琳娜的手”被 Director 选为本轮 requiredContent。",
+          "missingGuard": "缺少 current-scene anchor / pose-transition contract，没有硬性传递上一轮站立末帧及必须展示动作过程的要求。",
+          "mechanismStatement": "固定动作 beat 被提升为 requiredContent，但 handoff 只传递目标动作而未传递上一帧姿态和桥接要求；Narrator 因此以动作完成态开场，形成 unsupported posture jump。",
+          "directCause": "Narrator 将下跪拉手动作压缩成开场静态结果。",
+          "propagation": "04-output.json 和 visible timeline 固化开场完成态，后文继续提到“手仍然握着她的指尖”。",
+          "nonCauses": [
+            "不是玩家输入要求该动作。",
+            "不是最近上下文缺失。",
+            "不是评测误判。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统把会改变姿态和身体接触的固定动作交给 Narrator，却没有把上一轮最后可见姿态作为硬锚点，也没有要求从该锚点显式桥接到目标动作；Narrator 直接从完成态开场。",
+          "fixSurface": [
+            "Director output schema 增加 startFrame / lastVisibleState / transitionRequirements",
+            "Narrator prompt 强制从上一轮最后可见姿态开始",
+            "requiredContent 姿态/位置/接触变化的 bridge validator"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 18 “双手垂在身侧”；turn 19 “单膝跪在地板上”“左手握着卡琳娜纤细的指尖”。",
+          "internalTrace": "turn-19/06-llm-calls.json[0].object requiredContent 要求下跪拉手；turn-19/06-llm-calls.json[1].text 第一段直接写完成态。"
+        },
+        "recommendedFixArea": "current-scene anchor、transitionRequirements、姿态/接触 bridge validator。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 10,
+      "turn": 21,
+      "severity": "medium",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "上一轮已经完成的跟进、站到窗台前、询问德索洛是否可怜的场景在第 21 轮被完整当作新正文重复，导致交互进度短暂回退。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "selected-choice-continuation",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "selected choice handoff 增加 selectedFromTurn / respondsToLastPrompt / lastVisibleFrame",
+          "Narrator prompt 最终指令强制从 player action / selected answer 开始",
+          "Narrator 输出前段与最近 visibleText 的 duplicate guard"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "selected-choice handoff、Narrator start-frame contract、recent-prefix duplicate check。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-010-turn-21/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-003/issues/issue-010-turn-21/root-cause-report.md",
+      "result": {
+        "issueId": "issue-10-turn-21",
+        "issueIndex": 10,
+        "turn": 21,
+        "issueValidity": "valid",
+        "problemSummary": "turn 20 已完成跟进、站到窗台前和询问德索洛是否可怜；turn 21 在玩家回答前完整复写该场景和提问。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见时间线显示 turn 20 已经提出问题，turn 21 应执行玩家选择的回答；重复走回公寓、窗台姿态和同一句提问构成进度回退。",
+          "playerVisibleSupport": "turn 20 和 turn 21 都出现“你跟在卡琳娜身后走回公寓里”“你一句话都没说”“你觉得他可怜吗？”",
+          "caveats": [
+            "turn 21 后半段确实执行了玩家回答并继续推进，所以这是局部重复而非整轮失效。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜已经在窗台前问出‘你觉得他可怜吗？’，玩家选择回答“可怜。但走投无路才想起你，这更可悲。”",
+          "relevantFacts": [
+            {
+              "claim": "turn 20 已完成窗台前提问。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-21/03-story-state.json",
+                "turn-21/06a-director-prompt.md"
+              ],
+              "notes": "recentTurns 中保留完整 turn 20。"
+            },
+            {
+              "claim": "turn 21 玩家输入是对上一轮问题的直接回答。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-21/03-story-state.json",
+                "turn-21/06a-director-prompt.md"
+              ],
+              "notes": "playerInput 即上一轮选项文本。"
+            },
+            {
+              "claim": "Director 正确理解了本轮任务。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-21/06-llm-calls.json[0].object",
+                "turn-21/04-output.json"
+              ],
+              "notes": "summary 写“玩家回答卡琳娜关于德索洛是否可怜的提问”，requiredContent 只要求回答和回应。"
+            },
+            {
+              "claim": "Narrator 缺少硬性的 last-frame start contract。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-21/06b-narrator-prompt.md"
+              ],
+              "notes": "最终指令强调落地 Director 安排，但没有结构化说明上一轮问题已显示、不得复写。"
+            }
+          ],
+          "competingPressures": [
+            "recentTurns 中 turn 20 的完整文本很近且易被复制。",
+            "Director 安排正确但没有显式 startFrame。",
+            "Narrator 被要求自然铺陈和慢节奏。",
+            "不要重复规则存在但不是最终硬约束。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-21/06-llm-calls.json[1].text",
+          "triggeringPressure": "Narrator prompt 中 recentTurns 包含 turn 20 完整场景和问题，模型将其复用为回答前铺垫。",
+          "missingGuard": "缺少 selected-choice continuation contract，没有机器可读地告诉 Narrator：该 playerInput 是上一轮最后问题的回答，本轮必须从回答开始。",
+          "mechanismStatement": "Director 正确理解选择项语义，但 handoff 未把 last-frame question already shown 与 selected answer start-now 结构化传给 Narrator；Narrator 因 recentTurn 文本和铺垫节奏牵引，先复写上一轮场景再执行回答。",
+          "directCause": "Narrator 在执行正确 Director 安排前复制了上一轮场景建立和问题对白。",
+          "propagation": "04-output.json 提交重复片段；Choice 基于重复后结尾继续生成选项；后续 turn 22 正常推进，无明显长期污染。",
+          "nonCauses": [
+            "不是 Director 根因。",
+            "不是 fixed beat consumption 主因。",
+            "不是长期 memory 问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "selected-choice-continuation",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统把上一轮选项文本作为 playerInput 传给 Narrator，但没有强制编码它是对 last visible question 的回答、正文起点应在问题之后；Narrator 在 recent context 牵引下复写上一轮提问场景。",
+          "fixSurface": [
+            "selected choice handoff 增加 selectedFromTurn / respondsToLastPrompt / lastVisibleFrame",
+            "Narrator prompt 最终指令强制从 player action / selected answer 开始",
+            "Narrator 输出前段与最近 visibleText 的 duplicate guard"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 20 与 turn 21 重复“你跟在卡琳娜身后走回公寓里”“你一句话都没说”“你觉得他可怜吗？”",
+          "internalTrace": "turn-21/06-llm-calls.json[0].object 正确要求玩家回答；turn-21/06-llm-calls.json[1].text 在回答前复写 turn 20。"
+        },
+        "recommendedFixArea": "selected-choice handoff、Narrator start-frame contract、recent-prefix duplicate check。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

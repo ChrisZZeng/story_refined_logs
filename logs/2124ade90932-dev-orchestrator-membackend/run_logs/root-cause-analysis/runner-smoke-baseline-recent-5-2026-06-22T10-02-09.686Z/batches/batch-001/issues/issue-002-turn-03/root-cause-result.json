@@ -1,0 +1,83 @@
+{
+  "issueId": "issue-2",
+  "issueIndex": 2,
+  "turn": 3,
+  "issueValidity": "valid",
+  "problemSummary": "同一小贩在 turn 2 和 turn 3 相邻轮次重复把暗街“有消息、找到对的路”当作新线索交代。",
+  "validityAssessment": {
+    "verdictReason": "turn 3 虽然新增了卡琳娜住在暗街的信息，但核心暗街指引句式与 turn 2 几乎重复，且说话者相同、间隔一轮。",
+    "playerVisibleSupport": "turn 2 小贩说“那边……什么消息都有。只要你能找到对的路”；turn 3 小贩又说“那边什么都有，只要你能找到对的路”。",
+    "caveats": [
+      "turn 3 不是完全无新信息；问题是重复交代降低连续性。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家已从小贩处记住暗街是寻找敏特线索的地方；turn 3 玩家追卡琳娜失败后回到小贩处，合理新信息应聚焦卡琳娜与暗街的关系。",
+    "relevantFacts": [
+      {
+        "claim": "暗街线索已由同一小贩给出。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-02/04-output.json",
+          "visible-timeline.jsonl"
+        ],
+        "notes": "turn 2 末尾明确写“暗街——那个被遗弃的内陆区域。你记住了这个名字”。"
+      },
+      {
+        "claim": "turn 3 worker prompt 能看到上一轮可见正文。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-03/03-story-state.json",
+          "turn-03/06b-narrator-prompt.md"
+        ],
+        "notes": "`recentTurns` 包含 turn 2 文本。"
+      },
+      {
+        "claim": "当前 storyline 仍强推小贩说明暗街/卡琳娜情报入口。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-03/03-story-state.json",
+          "turn-03/06-llm-calls.json"
+        ],
+        "notes": "Director required content 把“卡琳娜住在暗街”和“情报有价”作为本轮目标。"
+      }
+    ],
+    "competingPressures": [
+      "新激活节点 `1-01-第一章` 的固定信息交代",
+      "recent visible 中已经存在同一信息",
+      "玩家选择追卡琳娜，需要把失败追逐导回主线入口"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-03/03-story-state.json currentStoryline, propagated by turn-03/06-llm-calls.json[0].object",
+    "triggeringPressure": "新节点仍要求小贩说明卡琳娜住在暗街、情报有价和外来者风险，未区分已给出的暗街线索与新增卡琳娜信息。",
+    "missingGuard": "缺少 fixed beat consumed-state 检查，未把 turn 2 已输出的暗街指引从 turn 3 required content 中降权或改写。",
+    "mechanismStatement": "已消费的暗街指引在新 storyline 节点中再次作为必须交代内容出现，Director 将其前景化，Narrator 因而让同一小贩在相邻轮次重复同一线索。",
+    "directCause": "Director 的 required content 把重复信息交给 Narrator，Narrator 复用 turn 2 句式。",
+    "propagation": "重复台词进入 `turn-03/04-output.json`，并影响 turn 3 可见正文的分支合流感。",
+    "nonCauses": [
+      "不是 meta-memory 或 detail-memory；所需信息在 recent context 中。",
+      "不是玩家输入要求重复暗街线索。",
+      "不是单纯 Narrator 文采问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "fixed-beat-consumption",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "固定节点 `1-01-第一章` 没有根据上一轮可见输出标记暗街线索已被同一 NPC 消费，导致 Director/Narrator 再次前景化并表演同一指引。",
+    "fixSurface": [
+      "storyline lifecycle",
+      "fixed beat consumed-state tracking",
+      "Director duplicate-beat rewriting"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "`visible-timeline.jsonl` turn 2 与 turn 3 显示同一小贩重复“暗街有消息，只要找到对的路”。",
+    "internalTrace": "`turn-02/05-runtime-after.json` 显示进入 `1-01-第一章`；`turn-03/03-story-state.json` 仍要求小贩说明卡琳娜与暗街；`turn-03/06-llm-calls.json` Director/Narrator 将其输出。"
+  },
+  "recommendedFixArea": "在 storyline 节点和 Director 层增加 fixed beat 消费/去重逻辑，对相邻 turn 同一 NPC 已说过的线索只允许补充新信息。",
+  "confidence": "high"
+}

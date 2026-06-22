@@ -1,0 +1,90 @@
+{
+  "issueId": "issue-20-turn-48",
+  "turn": 48,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 48 正文首次把“康纳·凯拉宁”当成玩家应寻找的目标，选项又给出“注意康纳的位置”，但此前玩家只知道凯旋门今晚有晚宴和凯旋门的人会露面，不知道康纳是谁或为何要找他。",
+  "validityAssessment": {
+    "verdictReason": "turn 47 玩家可见内容只建立晚宴、凯旋门的人会露面、卡琳娜邀请玩家同行。没有角色介绍“康纳·凯拉宁”。turn 48 正文却说“你还没有看到康纳·凯拉宁的影子。但他应该在这里”，选项继续让玩家注意康纳位置。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 47 没有康纳；turn 48 正文和 choices 首次出现并预设玩家知道该名字与搜索目标。",
+    "caveats": [
+      "隐藏角色卡与 4-03 剧本中有康纳，但玩家可见层没有引介。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家接受卡琳娜去晚宴的邀请。此前可见信息是：德索洛的委托指向凯旋门；凯旋门今晚有开放宴席；卡琳娜认为凯旋门的人会在那里露面；玩家跟随卡琳娜前往。玩家没有获得“康纳·凯拉宁”这个名字。",
+    "relevantFacts": [
+      {
+        "claim": "康纳在 turn 48 前未被玩家可见介绍。",
+        "availability": "absent",
+        "artifacts": [
+          "visible-timeline.jsonl turn 47",
+          "turn-47/04-output.json"
+        ],
+        "notes": "turn 47 只有“凯旋门的人会露面”，没有具体 NPC 名。"
+      },
+      {
+        "claim": "4-03 剧本把康纳作为宴会厅节点的固定角色/目标。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-48/02-script-state.json:146-166"
+        ],
+        "notes": "脚本写有“康纳必须在环境建立后才出场”“康纳尚未主动接近”和候选“注意康纳的位置”。"
+      },
+      {
+        "claim": "Director 将隐藏脚本中的康纳转成当前 turn 的 requiredContent 和 constraints。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-48/06-llm-calls.json[0]",
+          "turn-48/04-output.json"
+        ],
+        "notes": "Director 输出 `康纳在远处尚未接近`、`康纳尚未主动接近，仅作为背景存在`、`不能提前让康纳主动互动，只能远观`。"
+      },
+      {
+        "claim": "Choice prompt 最终 visibleText 已经含康纳，但该含有本身来自同一轮未桥接泄露。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-48/06c-choice-prompt.md:399-427"
+        ],
+        "notes": "Choice 按本轮正文延续了错误；不能把同一轮 Narrator 的泄露当作充分玩家知识锚点。"
+      }
+    ],
+    "competingPressures": [
+      "4-03 剧本需要宴会环境建立并让康纳稍后出场。",
+      "角色卡多处写明卡琳娜与康纳有过去，增加康纳名的 salience。",
+      "玩家可见目标仍只是“凯旋门的人/德索洛委托”，缺少具体目标绑定。",
+      "Choice 候选中已有 `choice:spot_connor`，推动选项原样保留。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-48/06-llm-calls.json[0] Director output",
+    "triggeringPressure": "turn-48 的 4-03 脚本要求“康纳必须在环境建立后才出场”，core_flow 写“康纳尚未主动接近”，interaction_followup 直接列出“注意康纳的位置（远观，不互动）”。",
+    "missingGuard": "storyline/Director handoff 没有 named-NPC visible-introduction gate：当固定 beat 涉及未引介 NPC 时，应先桥接为“凯旋门的某个核心人物/卡琳娜提到的目标”，或安排 NPC/卡琳娜可见介绍名字，再允许正文和选项使用专名。",
+    "mechanismStatement": "固定宴会节点把隐藏 NPC 名和搜索候选前景化；由于缺少未引介专名的可见引入门控，Director 将康纳作为当前已知背景目标交给 Narrator 和 Choice，导致正文与选项同时把玩家未认识的康纳当作任务目标。",
+    "directCause": "Director requiredContent/constraints 要求康纳作为背景存在，Narrator 写出“康纳·凯拉宁”的名字，Choice 绑定 `choice:spot_connor`。",
+    "propagation": "Narrator 的正文让玩家“直觉”知道康纳应该在这里；Choice 进一步提供“注意康纳的位置（远观，不互动）”；turn 49 玩家选择后，康纳正式进入场景。",
+    "nonCauses": [
+      "不是玩家忘记名字；此前可见 timeline 没有该名字。",
+      "不是康纳出场本身不合理；问题是出场前没有可见命名和目标桥接。",
+      "不是单纯 Choice 泄露；Narrator 正文已经先把康纳写成已知目标。"
+    ]
+  },
+  "rootCause": {
+    "label": "storyline-visible-introduction-gating",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 4-03 固定宴会节点和候选动作直接前景化康纳；缺失防线是没有检查 named NPC 是否已在玩家可见层被介绍或目标绑定；失败运动是 Director 把隐藏专名作为当前 turn 背景事实输出，Narrator 与 Choice 随后把它固化成玩家搜索目标。",
+    "fixSurface": [
+      "storyline fixed-beat visible-introduction gate",
+      "Director requiredContent filtering",
+      "Choice action candidate visibility checks"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 47 只说凯旋门今晚有晚宴和凯旋门的人会露面；turn 48 首次出现“康纳·凯拉宁”并让玩家注意其位置。",
+    "internalTrace": "turn-48/02-script-state.json:146-166 将康纳写入约束、core_flow 和候选选项；turn-48/06-llm-calls.json[0] Director 输出康纳背景；turn-48/06-llm-calls.json[1] Narrator 写入康纳专名；turn-48/06-llm-calls.json[2] Choice 输出 `choice:spot_connor`。"
+  },
+  "recommendedFixArea": "为固定 beat 和候选 action 增加 `introducedToPlayer` / `visibleNameEstablished` gating；未引介 NPC 的专名不能进入 requiredContent、正文或 action text，必须先安排可见桥接。",
+  "confidence": "high"
+}

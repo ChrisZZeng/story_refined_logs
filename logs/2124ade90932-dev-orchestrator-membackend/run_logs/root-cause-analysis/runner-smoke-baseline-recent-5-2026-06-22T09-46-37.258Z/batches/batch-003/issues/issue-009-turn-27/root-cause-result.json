@@ -1,0 +1,92 @@
+{
+  "issueId": "issue-009-turn-27",
+  "turn": 27,
+  "issueValidity": "valid",
+  "problemSummary": "玩家可见时间已经推进到黄昏后/夜间，卡琳娜仍使用“午安，记者”的午间问候。",
+  "validityAssessment": {
+    "verdictReason": "可见时间线多次写明黄昏、紫灰、夜蓝和深蓝灯光语境；“午安”没有被标记为反讽或角色习惯，因此是轻微但真实的时间语感冲突。",
+    "playerVisibleSupport": "turn 19 已到黄昏，turn 20 天空沉入紫灰，turn 24 天色几乎完全沉入夜蓝，turn 27 卡琳娜仍说“午安，记者”。",
+    "caveats": [
+      "角色可能有特殊问候习惯，但当前可见文本没有提供这种解释。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家已经从傍晚等待推进到夜蓝暗街，并在昏黄灯光下退回主巷遭遇卡琳娜。当前场景时间应是黄昏后到夜间。",
+    "relevantFacts": [
+      {
+        "claim": "当前可见时间已经是黄昏后到夜间。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl:turn-19",
+          "visible-timeline.jsonl:turn-20",
+          "visible-timeline.jsonl:turn-24",
+          "visible-timeline.jsonl:turn-27"
+        ],
+        "notes": "玩家可见文本反复用光线变化建立时间推进。"
+      },
+      {
+        "claim": "固定演出硬写“午安，记者”。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-27/03-story-state.json",
+          "turn-27/06a-director-prompt.md:312-314"
+        ],
+        "notes": "该句处在启动模板流程中，没有适配当前时间的说明。"
+      },
+      {
+        "claim": "Director 把“午安，记者”原样放入 requiredContent。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-27/06b-narrator-prompt.md:516-524"
+        ],
+        "notes": "requiredContent 比 recent time facts 更靠近最终写作指令。"
+      },
+      {
+        "claim": "固定台词应按 current visible time-of-day 改写。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-27/06a-director-prompt.md",
+          "turn-27/06b-narrator-prompt.md"
+        ],
+        "notes": "没有 literal line rewrite 或 time anchor priority guard。"
+      }
+    ],
+    "competingPressures": [
+      "固定演出要求启动模板流程一次输出全部。",
+      "关键台词必须强制触发一次。",
+      "最近时间事实在长段历史里存在，但弱于 requiredContent 的硬台词压力。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-27/03-story-state.json:currentStoryline.content",
+    "triggeringPressure": "active fixed beat 中的 literal greeting “午安，记者”被要求强制触发。",
+    "missingGuard": "缺少固定台词与当前 visible time-of-day 冲突时的 rewrite/bridge 机制。",
+    "mechanismStatement": "当 active fixed beat 的 literal dialogue 与最近可见时间冲突时，系统仍把 literal dialogue 作为最高优先级 requiredContent 传递，且没有时间锚点适配防线，导致 Narrator 正确执行固定台词却生成玩家可见时间语感错误。",
+    "directCause": "Director 把“午安，记者”原样转入 requiredContent，Narrator 遵循该硬台词。",
+    "propagation": "错误问候进入 turn-27/04-output.json visibleText，后续没有修正。",
+    "nonCauses": [
+      "不是 long-term memory 缺失，时间推进在 recent turns 内。",
+      "不是 Choice worker 主因。",
+      "不是隐藏设定导致的误判。"
+    ]
+  },
+  "rootCause": {
+    "label": "fixed-beat-literal-replay",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "固定演出节点仍有效，但其中的 literal greeting 已与最新 visible time-of-day 不兼容。系统缺少 fixed beat 触发时的上下文适配层，导致 Director/Narrator 将硬台词“午安”原样重放，而没有改为符合当前夜间场景的问候。",
+    "fixSurface": [
+      "fixed beat requiredContent 的 literal line rewrite 检查",
+      "Director prompt 中 visible time-of-day anchor 的优先级规则",
+      "Narrator 对固定台词与当前时间冲突的改写许可"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 19 黄昏、turn 20 紫灰、turn 24 夜蓝、turn 27 深蓝/昏黄灯光共同确认夜间语境；turn 27 输出“午安，记者”。",
+    "internalTrace": "turn-27/06a-director-prompt.md:312-314 固定演出含“午安，记者”；turn-27/06b-narrator-prompt.md:516-524 将该句放入 requiredContent；turn-27/04-output.json 输出该句。"
+  },
+  "recommendedFixArea": "为 fixed beat requiredContent 增加 visible context 适配层，尤其是时间、地点、称谓、动作状态的 literal line rewrite。",
+  "confidence": "high"
+}

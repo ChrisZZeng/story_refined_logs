@@ -1,0 +1,94 @@
+{
+  "issueId": "issue-003-turn-09",
+  "turn": 9,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 9 台词把已建立为胶卷相机的道具说成同时有“胶卷和记忆卡”，正文没有标明这是谎话、口误或故意误导，形成轻微道具属性漂移。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。Turn 1 已建立帕兹身上是一台老旧胶卷相机，Turn 8 黑帮威胁也围绕“一卷胶卷”；Turn 9 台词直接说“胶卷和记忆卡都给你”，正文没有让读者知道这是示弱策略中的假话或口误。",
+    "playerVisibleSupport": "visible-timeline.jsonl 中 Turn 1 写“老旧的胶卷相机”，Turn 8 写“你的命就不值一卷胶卷的钱”，Turn 9 写“胶卷和记忆卡都给你”。",
+    "caveats": [
+      "因为该台词发生在假装示弱语境中，理论上可以被解释为帕兹故意胡扯；但可见正文没有给出这种标记，所以仍判为有效。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家知道帕兹有一台老旧胶卷相机，黑帮正威胁要相机。玩家选择平复呼吸、假装示弱以观察对方反应。",
+    "relevantFacts": [
+      {
+        "claim": "帕兹携带的是老旧胶卷相机。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-09/06a-director-prompt.md",
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "该事实在开场可见文本建立，也进入 Turn 9 recentTurns。"
+      },
+      {
+        "claim": "Turn 8 对峙中黑帮和旁白围绕相机与胶卷施压。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-08/04-output.json",
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "Turn 8 末段包含“你的命就不值一卷胶卷的钱”。"
+      },
+      {
+        "claim": "固定 interaction followup 要求主角说“胶卷和记忆卡都给你”。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-08/03-story-state.json",
+          "turn-09/03-story-state.json",
+          "turn-09/06a-director-prompt.md",
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "该台词在 currentStoryline.interactionFollowup 中出现，并在 Turn 9 Director 输出里升为 requiredContent。"
+      },
+      {
+        "claim": "prompt 没有要求在固定台词与已建立道具事实冲突时改写、标注谎言或回退为胶卷。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-09/06a-director-prompt.md",
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "写作一致性原则存在，但固定台词作为 requiredContent 更靠近生成任务且更可执行。"
+      }
+    ],
+    "competingPressures": [
+      "固定分支台词被要求必须写入正文。",
+      "写作一致性要求保持已出现事实一致，但没有提供如何处理固定台词冲突的优先级规则。",
+      "玩家选择“假装示弱”允许一定表演空间，却没有标记可编造物品属性。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-08/03-story-state.json currentStoryline.interactionFollowup",
+    "triggeringPressure": "currentStoryline.interactionFollowup 的固定台词包含“胶卷和记忆卡都给你”，Turn 9 Director 将这句原样放入 requiredContent，Narrator prompt 又要求 requiredContent 必须体现、不要丢失或改义。",
+    "missingGuard": "系统没有在固定 beat dialogue 进入 Director requiredContent 前校验其与已建立道具事实是否冲突，也没有在冲突时提供改写或标注策略。",
+    "mechanismStatement": "固定分支台词中的道具细节与已建立胶卷相机事实不兼容，但固定 beat 到 Director 的 handoff 缺少事实一致性校验和冲突改写规则，导致错误细节以 requiredContent 身份压过 recent visible fact。",
+    "directCause": "Turn 9 Director 输出 requiredContent 要求主角说“胶卷和记忆卡都给你”，Narrator 按该硬要求写入玩家可见正文。",
+    "propagation": "错误进入 Turn 9 visibleText；后续如果 summary 或 memory 写回该台词，可能继续污染相机属性。",
+    "nonCauses": [
+      "不是 Narrator 自发添加“记忆卡”；该词在固定 storyline followup 中已存在。",
+      "不是玩家输入导致；玩家只选择假装示弱。"
+    ]
+  },
+  "rootCause": {
+    "label": "fixed-beat-detail-incompatibility",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "detail-memory"
+    ],
+    "description": "固定 interaction followup 中的台词包含与已建立胶卷相机不兼容的“记忆卡”。系统在将固定台词提升为 Director requiredContent 时没有执行道具事实一致性校验，也没有提供冲突时改写为“胶卷”或标记为谎话的策略。固定台词因此成为更强、更近的生成压力，覆盖了 recent visible fact。",
+    "fixSurface": [
+      "fixed beat authoring/lint: validate object detail terms against established item facts",
+      "Director prompt: define priority and rewrite policy when fixed dialogue conflicts with visible facts",
+      "requiredContent builder: attach conflict warnings or softened paraphrase permissions"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 1 建立“老旧的胶卷相机”；Turn 8 写“一卷胶卷”；Turn 9 台词写“胶卷和记忆卡都给你”。",
+    "internalTrace": "turn-09/03-story-state.json 的 currentStoryline.interactionFollowup 含“胶卷和记忆卡都给你”；turn-09/06b-narrator-prompt.md 第 241-247 行显示该 followup；第 420-422 行显示 Director 将其升为 requiredContent；turn-09/07-events.json 显示 Narrator 写入最终正文。"
+  },
+  "recommendedFixArea": "为 fixed beat / interactionFollowup 增加道具事实 lint，并在 Director requiredContent 阶段允许对冲突固定台词做最小事实修正或显式标注为谎话。",
+  "confidence": "high"
+}

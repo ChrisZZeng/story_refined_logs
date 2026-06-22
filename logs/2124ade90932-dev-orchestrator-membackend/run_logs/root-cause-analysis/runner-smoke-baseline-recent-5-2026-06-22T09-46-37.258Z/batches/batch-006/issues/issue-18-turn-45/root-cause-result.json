@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-18-turn-45",
+  "turn": 45,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 45 的选项让玩家追问“你刚才说的‘被害者申诉人’”，但该术语此前没有在玩家可见正文中出现。",
+  "validityAssessment": {
+    "verdictReason": "Turn 41-45 的玩家可见内容讨论德索洛、敏特、骷髅会和卡尔来历；“被害者申诉人”在 turn 45 选项之前没有可见出现。选项还使用“刚才说的”，制造了错误的共同记忆。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 45 的正文只说“后来我才知道——它来找我不是偶然。”和卡尔“你没什么想问的？”，没有“被害者申诉人”。同一 turn 的选项却出现该术语。",
+    "caveats": [
+      "隐藏角色卡和 storyline 中确实存在该术语，但 validity gate 不能用隐藏信息证明玩家可见问题。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家刚把敏特话题放下，改问会说话的猫。卡琳娜讲了卡尔来到窗台、留下、后来才知道不是偶然；卡尔最后问玩家是否有问题。玩家只知道卡尔与卡琳娜有更深关系，但不知道“被害者申诉人”这个正式称谓。",
+    "relevantFacts": [
+      {
+        "claim": "“被害者申诉人”在选项前对玩家不可见。",
+        "availability": "absent",
+        "artifacts": [
+          "visible-timeline.jsonl turn 41-45",
+          "turn-45/04-output.json"
+        ],
+        "notes": "正文没有该词，也没有等价解释。"
+      },
+      {
+        "claim": "隐藏角色资料包含“卡尔赋予卡琳娜‘被害者申诉人’的使命”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-45/02-script-state.json",
+          "turn-45/06a-director-prompt.md:165-171"
+        ],
+        "notes": "这是内部设定，不是玩家可见事实。"
+      },
+      {
+        "claim": "Director 把该术语提升为本轮应提及内容。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-45/04-output.json",
+          "turn-45/06-llm-calls.json[0]"
+        ],
+        "notes": "Director 输出 `requiredContent` 和 `currentTurnConstraints` 要求提及名称，但 Narrator 实际正文没有提及。"
+      },
+      {
+        "claim": "Choice prompt 同时看到了最终正文和 Director 安排。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-45/06c-choice-prompt.md:466-501"
+        ],
+        "notes": "最终正文没有该术语，Director 摘要/约束却说使命名称应被提及。prompt 没有强制以 visibleText 验证选项预设。"
+      }
+    ],
+    "competingPressures": [
+      "当前 storyline 要点名卡琳娜的“申诉人”使命。",
+      "Director 以 requiredContent 形式前景化该术语。",
+      "Narrator 没有实际把术语写进可见正文。",
+      "Choice 阶段需要提供可点击追问，于是把计划中而非可见中的术语当作已说过。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-45/06-llm-calls.json[2] choiceGenerator output",
+    "triggeringPressure": "Director 在 turn-45 把“使命仅提及名称‘被害者申诉人’”写成当前约束；Choice prompt 又携带该导演安排和隐藏角色卡，形成“术语应该已经出现”的压力。",
+    "missingGuard": "Choice 生成没有执行可见文本 grounding：凡是选项中出现“刚才说的”“那个 X”或专有名词，必须在本轮 visibleText 或此前 visible timeline 中找到玩家可见锚点。",
+    "mechanismStatement": "Choice 阶段把 Director 的计划内容和隐藏设定误当成玩家已经看见的事实；由于没有按 final visibleText 校验选项预设，未出现的“被害者申诉人”被包装成“刚才说的”追问。",
+    "directCause": "Choice output 生成了“转向卡琳娜：‘你刚才说的‘被害者申诉人’——那是什么？’”。",
+    "propagation": "该选项进入 turn-45/04-output.json 和 visible-timeline.jsonl；玩家选择后，turn 46 正文又按这个误选项解释该术语，使错误被后续剧情吸收。",
+    "nonCauses": [
+      "不是玩家遗漏信息；可见 timeline 中确实没有该词。",
+      "不是长期 memory 遗忘；该词在内部资料中很显眼。",
+      "不是单纯 Narrator 未写完导致的全部问题；即使 Narrator 漏写，Choice 仍应以最终可见正文为准。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-visible-grounding-gap",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 Director 和隐藏 storyline 前景化“被害者申诉人”；缺失防线是 Choice 没有把选项中的专有名词和“刚才说的”回查到 final visibleText；失败运动是计划中应揭示但实际未揭示的术语被当作玩家已知信息进入选项。",
+    "fixSurface": [
+      "Choice prompt/context assembly",
+      "choice visible-grounding validator",
+      "Director-to-Choice handoff schema distinguishing plannedContent from observedVisibleContent"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 45 正文只建立“卡尔来找卡琳娜不是偶然”，未出现“被害者申诉人”；选项却说“你刚才说的‘被害者申诉人’”。",
+    "internalTrace": "turn-45/06-llm-calls.json[0] 的 Director output 要求“使命仅提及名称‘被害者申诉人’”；turn-45/06-llm-calls.json[1] 的 Narrator output 未写出该词；turn-45/06-llm-calls.json[2] 的 Choice output 将该词写入选项。"
+  },
+  "recommendedFixArea": "为 Choice 阶段加入 visibleText grounding：选项里的专有名词、代词回指和“刚才说的”必须能在玩家可见窗口中匹配；Director 的计划字段不能直接作为 observed fact 使用。",
+  "confidence": "high"
+}

@@ -1,0 +1,346 @@
+{
+  "batchId": "batch-005",
+  "issueCount": 3,
+  "completedCount": 3,
+  "validityCounts": {
+    "valid": 3,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 14,
+      "turn": 42,
+      "severity": "high",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "德索洛求助的核心动机在同一轮中从女儿遭受严重伤害变成伤害为假，且 pronoun 从“她”漂到“我”，破坏关键事件理解。",
+      "batchId": "batch-005",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "character-card/context assembly conflict detection",
+          "Director -> Narrator mustKeep/mustNotContradict handoff",
+          "post-generation contradiction validator"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 character-card/context assembly 与 Director -> Narrator handoff 的冲突仲裁和 must-not 约束。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-005/issues/issue-014-turn-42/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-005/issues/issue-014-turn-42/root-cause-report.md",
+      "result": {
+        "issueId": "issue-14-turn-42",
+        "turn": 42,
+        "issueValidity": "valid",
+        "problemSummary": "同一轮可见正文先确认德索洛女儿被欺骗并被割舌，随后又说“我女儿受伤是假的”，并出现“我再也不能唱歌了”的 pronoun drift。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本内部保留两套互斥事实，且没有桥接解释，因此 issue 有效。",
+          "playerVisibleSupport": "turn 41 铺垫“我女儿……他们把她——”；turn 42 先写“她的舌头被割了”，又写“我女儿受伤是假的”。",
+          "caveats": [
+            "如果作者本意是揭示“假伤骗局”，正文需要明确解释骗局结构；当前文本没有提供这种解释。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "帕兹在卡琳娜公寓内，卡琳娜站在门内控制门口，德索洛站在门外求助；玩家选择点明德索洛作为父亲的急迫与疏远家人的矛盾。",
+          "relevantFacts": [
+            {
+              "claim": "德索洛为女儿受害寻求公道。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn 41",
+                "turn-42/06a-director-prompt.md",
+                "turn-42/06b-narrator-prompt.md"
+              ],
+              "notes": "recent visible text 和角色资料都清楚支持该事实。"
+            },
+            {
+              "claim": "女儿被欺骗、抵抗、舌头被割。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-42/06-llm-calls.json[0].object.requiredContent",
+                "turn-42/06a-director-prompt.md"
+              ],
+              "notes": "Director requiredContent 明确要求写入割舌细节。"
+            },
+            {
+              "claim": "“他女儿受伤是假的”是角色卡末尾的冲突注记。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-42/06a-director-prompt.md",
+                "turn-42/06b-narrator-prompt.md"
+              ],
+              "notes": "该短句与同卡前文、recent visible text、Director output 冲突，却未被降权或禁止转写。"
+            }
+          ],
+          "competingPressures": [
+            "角色卡中的冲突性作者注记",
+            "当前 storyline 必须完成“尊严换公道”交易",
+            "玩家输入要求点明父亲矛盾",
+            "Director 对交易节点的快速推进压力"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-42/06b-narrator-prompt.md -> turn-42/06-llm-calls.json[1].text",
+          "triggeringPressure": "Narrator prompt 同时包含“女儿被割舌”和“他女儿受伤是假的”两个互斥断言，后者短句化、引号化并靠近角色卡总结区。",
+          "missingGuard": "prompt assembly 没有结构化冲突仲裁；Director handoff 没有显式写出“女儿确实受害，不能写成假伤”的 must-not constraint。",
+          "mechanismStatement": "未分层的角色资料把冲突短句与 recent visible text/Director requiredContent 同等交给 Narrator，缺少优先级和禁止项，导致模型在同一轮同时执行真实受害和假伤两套事实。",
+          "directCause": "Narrator 复用了角色卡末尾的“受伤是假的”短句，并把“她再也不能当歌手”漂成“我再也不能唱歌了”。",
+          "propagation": "错误写入 turn-42/04-output.json 的 visibleText 和 currentStoryline write，后续 turn 43 继续以德索洛女儿话题推进。",
+          "nonCauses": [
+            "不是 evaluator 误判，可见文本本身冲突。",
+            "不是长期 memory 缺失，所需事实在当前 prompt 中存在。",
+            "不是单纯 Director 错误，Director output 对受害事实是清楚的。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "角色资料中的剧情事实、作者评价和当前可见事实没有分层；冲突短句“他女儿受伤是假的”没有被 recent visible text 和 Director requiredContent 覆盖成禁止项，Narrator 因而同时执行互斥事实，并在代词上进一步漂移。",
+          "fixSurface": [
+            "character-card/context assembly conflict detection",
+            "Director -> Narrator mustKeep/mustNotContradict handoff",
+            "post-generation contradiction validator"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 41 “我女儿……他们把她——”；turn 42 “她的舌头被割了”与“我女儿受伤是假的”同轮并存。",
+          "internalTrace": "turn-42/06a-director-prompt.md 与 06b-narrator-prompt.md 同时包含割舌事实和“受伤是假的”；turn-42/06-llm-calls.json[0] 要求割舌细节，turn-42/06-llm-calls.json[1] 首次生成冲突文本。"
+        },
+        "recommendedFixArea": "优先修复 character-card/context assembly 与 Director -> Narrator handoff 的冲突仲裁和 must-not 约束。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 15,
+      "turn": 42,
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "说话人从卡琳娜漂移到第二人称玩家，导致玩家难以判断是谁在控诉德索洛。",
+      "batchId": "batch-005",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "speaker-pronoun-contract",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Narrator prompt actor-pronoun rules",
+          "structured dialogue schema validation",
+          "post-generation validator for non-player data-speaker second-person body/voice phrases"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "优先修复 Narrator prompt/output schema 的 actor-pronoun contract，并增加非玩家 speaker 第二人称身体/声音描写校验。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-005/issues/issue-015-turn-42/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-005/issues/issue-015-turn-42/root-cause-report.md",
+      "result": {
+        "issueId": "issue-15-turn-42",
+        "turn": 42,
+        "issueValidity": "valid",
+        "problemSummary": "卡琳娜控诉德索洛时，旁白式描写写成“你的声音甚至没有抬高”，使说话人/动作主体从卡琳娜漂向第二人称玩家。",
+        "validityAssessment": {
+          "verdictReason": "“她终于开了口”之后出现“你的声音”，在本系统中“你”默认指玩家，构成可见身份漂移。",
+          "playerVisibleSupport": "turn 42 可见文本中卡琳娜对白段包含“你的声音甚至没有抬高”。",
+          "caveats": [
+            "对白中的“你从来没有……”本身是卡琳娜对德索洛说话，不是错误；错误集中在“你的声音”这个旁白插入。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜应作为申诉人冷静控诉德索洛过去疏远她，德索洛在门口接受审判式回应。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜是本段控诉的说话人。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn 42",
+                "turn-42/06-llm-calls.json[0].object.characterBeats"
+              ],
+              "notes": "可见文本先写“她终于开了口”，Director 也安排卡琳娜语气平稳而带刺。"
+            },
+            {
+              "claim": "叙事正文中的“你”默认指帕兹/玩家。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-42/06b-narrator-prompt.md"
+              ],
+              "notes": "底层逻辑明确“你=帕兹=玩家=主角”。"
+            },
+            {
+              "claim": "非玩家对白段内部的旁白插入不得使用玩家第二人称。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-42/06b-narrator-prompt.md"
+              ],
+              "notes": "prompt 规定 data-speaker 格式，但没有 actor-pronoun guard。"
+            }
+          ],
+          "competingPressures": [
+            "全局第二人称旁白规则",
+            "卡琳娜对白中对德索洛使用第二人称称呼",
+            "需要在一句话内同时写控诉内容和语气动作"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-42/06-llm-calls.json[1].text",
+          "triggeringPressure": "Narrator prompt 同时要求全局“你=玩家”和 NPC 对德索洛使用“你”进行控诉。",
+          "missingGuard": "非玩家 data-speaker 段缺少禁止第二人称旁白式身体/声音描写的 actor-pronoun contract，也缺少生成后校验。",
+          "mechanismStatement": "在 NPC 对 NPC 的第二人称对白中，输出合同没有区分角色称呼和玩家旁白指代，模型把卡琳娜的声音描写写成了玩家第二人称。",
+          "directCause": "Narrator 在卡琳娜对白段中生成“你的声音甚至没有抬高”。",
+          "propagation": "错误进入 turn-42/04-output.json visibleText；后续未被修正，但上下文仍部分保留卡琳娜说话人的线索。",
+          "nonCauses": [
+            "不是玩家输入含糊导致。",
+            "不是 Choice worker 首发问题。",
+            "不是角色身份长期记忆缺失。"
+          ]
+        },
+        "rootCause": {
+          "label": "speaker-pronoun-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "Narrator 输出合同只规定 data-speaker 和全局“你=玩家”，没有规定非玩家对白段内旁白式声音/动作描写必须绑定 speaker；在卡琳娜对白也大量使用“你”的情况下，模型把 speaker 的发声动作漂成玩家第二人称。",
+          "fixSurface": [
+            "Narrator prompt actor-pronoun rules",
+            "structured dialogue schema validation",
+            "post-generation validator for non-player data-speaker second-person body/voice phrases"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 42 “她终于开了口”后出现“你的声音甚至没有抬高”。",
+          "internalTrace": "turn-42/06b-narrator-prompt.md 明确“你=帕兹=玩家=主角”并规定 data-speaker，但没有非玩家 speaker 的第二人称旁白 guard；turn-42/06-llm-calls.json[1].text 首次生成错误。"
+        },
+        "recommendedFixArea": "优先修复 Narrator prompt/output schema 的 actor-pronoun contract，并增加非玩家 speaker 第二人称身体/声音描写校验。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 16,
+      "turn": 42,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "mixed",
+      "summary": "玩家已在公寓内，当前轮却把玩家重新放到门外并要求再次进屋。",
+      "batchId": "batch-005",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "missing-current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "scene state/writeback for currentScene and playerPosition",
+          "Narrator prompt high-priority scene anchor injection",
+          "Choice option validation against scene anchor"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 scene state/writeback，并在 Narrator 与 Choice 阶段注入和校验 currentScene/playerPosition/doorState。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-005/issues/issue-016-turn-42/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-005/issues/issue-016-turn-42/root-cause-report.md",
+      "result": {
+        "issueId": "issue-16-turn-42",
+        "turn": 42,
+        "issueValidity": "valid",
+        "problemSummary": "玩家此前已经在卡琳娜公寓内，turn 42 末尾却让卡琳娜说“进来吧。外面冷”，并生成“走进公寓”的选项。",
+        "validityAssessment": {
+          "verdictReason": "可见时间线明确玩家已进入公寓，正文没有写玩家离开；重新要求进屋构成空间连续性断裂。",
+          "playerVisibleSupport": "turn 34 玩家跨过门槛进入公寓；turn 38 卡琳娜经过玩家身侧去开门；turn 42 末尾要求玩家“进来”，choices 要求“走进公寓”。",
+          "caveats": []
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "帕兹在卡琳娜公寓内靠近门口，从卡琳娜身侧或门缝观察德索洛；德索洛完成交易后离开走廊，门仍开着。",
+          "relevantFacts": [
+            {
+              "claim": "玩家已进入卡琳娜公寓。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn 34",
+                "turn-42/06b-narrator-prompt.md"
+              ],
+              "notes": "历史概览和可见正文都写明进入公寓内部。"
+            },
+            {
+              "claim": "最近几轮仍在公寓内门口一侧。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn 36",
+                "visible-timeline.jsonl turn 38",
+                "visible-timeline.jsonl turn 41",
+                "turn-42/03-story-state.json"
+              ],
+              "notes": "玩家翻看书架、卡琳娜经过玩家身侧、卡琳娜站在门内等信息都支持室内状态。"
+            },
+            {
+              "claim": "运行态没有结构化玩家位置/current scene anchor。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-42/05-runtime-after.json"
+              ],
+              "notes": "worldState 只含 phase、branch、charactersOnStage 等；entityStates 没有玩家位置。"
+            },
+            {
+              "claim": "门口局部描写让内外关系变得易混。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-42/06b-narrator-prompt.md",
+                "turn-42/06-llm-calls.json[1].text"
+              ],
+              "notes": "门外、门内、门缝、走廊、跨出半步等词汇高频出现。"
+            }
+          ],
+          "competingPressures": [
+            "门口场景的内外局部词汇",
+            "德索洛离开走廊后的收束动作",
+            "Choice worker 以本轮正文结尾为准生成选项",
+            "runtime 缺少结构化 playerPosition"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-42/06-llm-calls.json[1].text",
+          "triggeringPressure": "门口场景反复出现门外、门内、门缝、走廊和冷风等局部空间描写，结尾又写卡琳娜站在门口未关门。",
+          "missingGuard": "没有高显著度 currentScene/playerPosition/insideOutside anchor，也没有禁止重新进屋的 Narrator/Choice 约束。",
+          "mechanismStatement": "系统把玩家站位留在 recent prose 中而非结构化 scene anchor 中，门口局部语义覆盖真实位置，Narrator 把玩家误放到外面，Choice 又把该误读转成行动选项。",
+          "directCause": "Narrator 生成“进来吧。外面冷。”，假定玩家在公寓外。",
+          "propagation": "Choice worker 生成“走进公寓，顺手关上身后的门”；turn 43 继续保持门敞开和冷风灌入的空间不稳状态。",
+          "nonCauses": [
+            "不是长期 memory 缺失，进入公寓事实仍在 prompt 中。",
+            "不是单纯 Choice 绑定错误，Narrator 结尾已经发生偏离。",
+            "不是玩家输入导致，玩家没有移动到门外。"
+          ]
+        },
+        "rootCause": {
+          "label": "missing-current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "运行态没有维护玩家当前位置和门口内外关系的结构化锚点，Narrator 只能从长篇 recent prose 推断站位；门口局部词汇覆盖了玩家已在室内的事实，Choice 又以错误结尾为准生成重新进屋选项。",
+          "fixSurface": [
+            "scene state/writeback for currentScene and playerPosition",
+            "Narrator prompt high-priority scene anchor injection",
+            "Choice option validation against scene anchor"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 34 进入公寓；turn 38 卡琳娜经过玩家身侧；turn 42 “进来吧。外面冷”和“走进公寓”选项。",
+          "internalTrace": "turn-42/03-story-state.json recentTurns 保留室内过程；turn-42/05-runtime-after.json 缺少 location/playerPosition；turn-42/06-llm-calls.json[1] 首次生成错误邀请，turn-42/06-llm-calls.json[2] 固化为选项。"
+        },
+        "recommendedFixArea": "优先修复 scene state/writeback，并在 Narrator 与 Choice 阶段注入和校验 currentScene/playerPosition/doorState。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

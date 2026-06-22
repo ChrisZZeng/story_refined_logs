@@ -1,0 +1,88 @@
+{
+  "issueId": "issue-008-turn-27",
+  "turn": 27,
+  "issueValidity": "valid",
+  "problemSummary": "同一场围堵中，正文先写黑帮从主巷两端收拢，又写三人从玩家刚穿过的岔道口方向走来，造成玩家可见空间调度冲突。",
+  "validityAssessment": {
+    "verdictReason": "turn 27 可见正文内部同时给出两个不兼容的来向描述，玩家无需隐藏信息即可感到空间关系混乱。",
+    "playerVisibleSupport": "同轮文本先写“从主巷两端的黑暗中同时向中间收拢”，随后写“三个穿深色夹克的人影从你刚刚穿过的那条岔道口方向走来”。",
+    "caveats": [
+      "若把岔道口方向理解为两端之一，仍无法消解“三个穿深色夹克的人影”与“两端同时收拢”的整体冲突，因此 severity 低但 issue 成立。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家在 turn 26 位于岔道口内侧小空地附近，选择放弃跟踪并原路退回暗街主巷。最近可见文本建立了主巷、较窄岔道、古董街方向、肉铺方向和岔道口小空地，但这些空间事实主要埋在长段 recent turns 中。",
+    "relevantFacts": [
+      {
+        "claim": "玩家本轮要原路退回暗街主巷。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl:turn-27",
+          "turn-27/06a-director-prompt.md:452"
+        ],
+        "notes": "玩家输入明确，Director 也正确识别为退回主巷。"
+      },
+      {
+        "claim": "主巷、侧面岔道、肉铺方向、古董街方向的局部地图关系。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-27/06b-narrator-prompt.md:392-445"
+        ],
+        "notes": "信息在最近可见正文中存在，但没有被结构化为当前场景锚点。"
+      },
+      {
+        "claim": "黑帮需要在巷口堵截玩家。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "turn-27/06b-narrator-prompt.md:488-500"
+        ],
+        "notes": "Director 只给剧情功能，没有指定来向、站位和退路。"
+      },
+      {
+        "claim": "同一围堵事件内必须保持来向和退路一致。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-27/06b-narrator-prompt.md"
+        ],
+        "notes": "没有专门的 sceneBlocking 或方向一致性约束。"
+      }
+    ],
+    "competingPressures": [
+      "固定演出要求三名黑帮与卡琳娜介入一次性完成。",
+      "Director beat 强调堵截和压迫感。",
+      "最近空间事实存在但被长篇历史正文承载，离最终写作指令较远。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-27/06-llm-calls.json:narrator streamText",
+    "triggeringPressure": "固定演出和 Director beat 要求在玩家退回主巷后立即发生三人堵截，为卡琳娜介入搭舞台。",
+    "missingGuard": "handoff 没有把最近局部地图整理成明确的当前场景锚点，也没有要求同一事件内来向、退路和人物站位只选一种方案。",
+    "mechanismStatement": "在必须发生堵截的剧情压力下，系统把最近空间关系留在长段上下文里，而没有生成可执行的 sceneBlocking，导致 Narrator 用多个方向性短语即时拼接围堵场面，形成玩家可见的来向冲突。",
+    "directCause": "Narrator 同时生成“两端收拢”和“岔道口方向走来”两种互斥空间方案。",
+    "propagation": "冲突进入 turn-27/04-output.json 的 visibleText；后续 choices 没有修正空间状态。",
+    "nonCauses": [
+      "不是 memory-persistence 主因，所需空间信息仍在最近上下文中。",
+      "不是 Choice worker 主因，选项发生在冲突正文之后。",
+      "不是 evaluator 误判，冲突可直接从 turn 27 可见正文确认。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "当前场景空间事实虽然在 recent turns 中存在，但 handoff 没有把它们提升为可执行的当前场景锚点。Director 的“巷口遭遇三名黑帮成员堵截”只规定剧情功能，没有规定来向和站位；Narrator 因此在同一段里混用了“两端收拢”和“岔道口方向走来”两种调度。",
+    "fixSurface": [
+      "Director-to-Narrator handoff 的 sceneBlocking/actor-position 字段",
+      "围堵、追逐、进入场景的方向一致性检查",
+      "Narrator prompt 中对最近空间锚点的高优先级呈现"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 27 可见正文同时写“从主巷两端的黑暗中同时向中间收拢”和“三个穿深色夹克的人影从你刚刚穿过的那条岔道口方向走来”。",
+    "internalTrace": "turn-27/06b-narrator-prompt.md:392-445 保留局部地图但埋在长正文；turn-27/06b-narrator-prompt.md:488-500 的 Director handoff 只给“巷口遭遇三名黑帮成员堵截”；turn-27/04-output.json 首次出现互斥空间调度。"
+  },
+  "recommendedFixArea": "为 Director-to-Narrator handoff 增加当前场景 sceneBlocking，并对同一事件内方向短语做一致性校验。",
+  "confidence": "medium"
+}

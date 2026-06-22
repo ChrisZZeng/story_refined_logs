@@ -1,0 +1,109 @@
+{
+  "issueId": "issue-13-turn-41",
+  "issueIndex": 13,
+  "turn": 41,
+  "severity": "medium",
+  "type": "unsupported-jump",
+  "scope": "mixed",
+  "issueValidity": "valid",
+  "problemSummary": "turn 41 在玩家只看到门外男子初步露面并说“我需要你……帮我”“我女儿……”之后，正文和选项提前使用“德索洛”姓名，并把他与卡琳娜的疏远、家人关系和旧怨作为玩家可选择的已知判断。",
+  "validityAssessment": {
+    "verdictReason": "该问题成立。玩家在 turn 39-40 只看到门外有一个拿信封的人影，turn 41 才看到年逾五十、白西装、提到女儿的男子；没有任何玩家可见信息建立“德索洛”姓名、他与卡琳娜是旧识、曾疏远卡琳娜、家人关系或旧怨。turn 41 的正文末尾已经突然写“卡尔的视线钉在德索洛身上”，随后 choices 进一步要求玩家斥责或分析这些隐藏关系，明显超出可见上下文。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 39-40 只显示门外人影、信封、未露全脸；turn 41 visibleText 显示男子说“我需要你……帮我”和“我女儿……他们把她——”，但没有自报姓名或说明与卡琳娜的旧关系。turn 41 choices 包含“斥责德索洛当初疏远卡琳娜”“走投无路才想起家人”“疏远‘家人’的矛盾”。",
+    "caveats": [
+      "“德索洛”这个名字在 turn 41 正文末尾已经被旁白突然暴露，所以到 choices 显示时玩家视觉上已经见过该名字；但这本身也是未铺垫的可见泄露，不足以支持选项里的旧怨和关系判断。",
+      "主角有记者经验和心理洞察，可以根据表情推测“急迫”或“求助”，但不能凭空知道“当初疏远卡琳娜”或“家人”关系。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 41 生成前，玩家知道门外有一名拿信封的陌生人，卡琳娜似乎认识或预判他，但来者身份、姓名、与卡琳娜的历史关系都未被揭示。玩家选择等待对方先开口，因此合理的下一步是听他说出请求、询问身份、观察卡琳娜反应，或者保持沉默。",
+    "relevantFacts": [
+      {
+        "claim": "门外来者是年逾五十、白西装、为女儿求助的男子。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn 41",
+          "turn-41/04-output.json narrative",
+          "turn-41/06b-narrator-prompt.md Director output"
+        ],
+        "notes": "这些是 turn 41 正文实际揭示给玩家的有限信息。"
+      },
+      {
+        "claim": "来者姓名是“德索洛”。",
+        "availability": "absent before target output; present-ambiguous inside target output",
+        "artifacts": [
+          "visible-timeline.jsonl turns 39-41",
+          "turn-41/04-output.json narrative"
+        ],
+        "notes": "turn 41 之前没有可见姓名；turn 41 正文通过旁白“钉在德索洛身上”和 rawHtml speaker tag 暴露姓名，而非角色自我介绍或玩家识别。"
+      },
+      {
+        "claim": "德索洛曾疏远卡琳娜、不把她当家人，双方有旧怨。",
+        "availability": "absent player-visible; present-clear hidden storyline",
+        "artifacts": [
+          "visible-timeline.jsonl turns 39-41",
+          "turn-41/03-story-state.json currentStoryline.content",
+          "turn-41/03-story-state.json currentStoryline.interactionFollowup"
+        ],
+        "notes": "这些关系事实只存在于 story state 的 author-facing 剧情素材和后续承接，不在玩家可见文本中。"
+      },
+      {
+        "claim": "Choice prompt 有“不要提前泄露玩家尚未看到的信息”的约束。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-41/06c-choice-prompt.md system",
+          "turn-41/06c-choice-prompt.md 判断流程",
+          "turn-41/06c-choice-prompt.md 输出前再次确认"
+        ],
+        "notes": "约束存在，但被同一 prompt 顶部 foreground 的候选动作压过。"
+      },
+      {
+        "claim": "Choice prompt 顶部直接提供含隐藏关系的“主角可以”候选。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-41/06c-choice-prompt.md 当前情节边界参考",
+          "turn-41/03-story-state.json currentStoryline.interactionFollowup"
+        ],
+        "notes": "候选动作被放在“当前情节边界参考”靠前位置，语气像可用玩家选项，但未附可见性标注。"
+      }
+    ],
+    "competingPressures": [
+      "storyline interactionFollowup 想让主角介入谈话，并给出四个强剧情方向。",
+      "主角设定中“善于如实描绘事物、言语犀利、略懂心理学”鼓励洞察式选项。",
+      "Choice prompt 同时有“不要泄露”的通用规则和非常具体的隐藏候选动作。",
+      "Narrator/Choice 都能看到隐藏角色卡和 storyline，玩家只能看到门口求助片段。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-41/06c-choice-prompt.md。对姓名泄露而言，最早玩家可见偏离还出现在 turn-41/06b-narrator-prompt.md 之后的 Narrator output；对关系/旧怨选项而言，第一处错误包装是 06c-choice-prompt.md 将 hidden interactionFollowup 作为候选动作交给 choiceGenerator。",
+    "triggeringPressure": "turn-41/03-story-state.json currentStoryline.interactionFollowup 以“主角可以”列出四个作者视角分支，其中包含“斥责德索洛的无仁无义”“走投无路才会想起卡琳娜”“疏远卡琳娜这个‘家人’”。06c-choice-prompt.md 又把这段放在靠前的“当前情节边界参考”，比后面的可见性警告更具体、更可复制。",
+    "missingGuard": "缺少 candidate action 的 visible-knowledge gate：系统没有把 author-facing storyline followup 标为 hidden/internal，也没有在 choiceGenerator 前强制逐项验证选项文本中的姓名、关系、动机和旧怨是否已由玩家可见文本支持。Narrator 侧也缺少 stable characterId 到 visible alias 的渲染 guard，导致“德索洛”姓名进入正文。",
+    "mechanismStatement": "author-facing storyline followup 被直接拼入 player-facing choice prompt，且没有字段级可见性标注或自动改写层；choiceGenerator 在具体候选动作压力下复制了隐藏关系判断，Narrator 同时把内部角色 ID 当作可见姓名使用，最终把未揭示的姓名、关系和旧怨暴露给玩家。",
+    "directCause": "choiceGenerator 输出了四个选项，其中 1、2、4 都依赖未揭示关系；04-output.json choices 和 07-events worker-done choiceGenerator 完整记录该输出。",
+    "propagation": "turn-41/04-output.json 把错误 choices 写入玩家可见输出；visible-timeline.jsonl turn 41 收录这些 choices。turn 42 玩家选择了第 4 个选项，后续叙事被锁定到“德索洛作为父亲”“疏远家人”等隐藏关系线上，并提前展开卡琳娜数落德索洛的旧怨。",
+    "nonCauses": [
+      "不是 meta-memory 缺失；系统知道正确背景，问题是隐藏背景被过早暴露。",
+      "不是单纯 llm-self；prompt 中有非常具体的隐藏候选动作，模型复制这些动作是被系统压力诱导的。",
+      "不是玩家输入导致；玩家只是等待对方先开口，没有要求分析旧怨。",
+      "Director 对本轮正文有“不要进行卡琳娜的数落或回应”的约束，正文主体没有展开旧怨；错误主要发生在可见姓名渲染和 choices 生成阶段。"
+    ]
+  },
+  "rootCause": {
+    "label": "visible-knowledge-gating",
+    "family": "agent-system",
+    "secondaryFamilies": [],
+    "description": "系统把 story state 中的 author-facing hidden followup 和稳定角色 ID 直接暴露给 player-facing Narrator/Choice 表面，却没有强制按玩家可见知识过滤或改写。具体触发压力是 currentStoryline.interactionFollowup 中含隐藏关系的“主角可以”候选；缺失防线是候选动作和实体姓名的 visibility gate；失败运动是 choiceGenerator 将这些候选改写成可点击选项，Narrator 也把内部姓名写入正文。",
+    "fixSurface": [
+      "Choice prompt assembly: 将 currentStoryline.interactionFollowup 拆分为 internal candidate 与 playerVisibleCandidate，并在进入 prompt 前做 visibility validation。",
+      "Choice generator contract: 对每个 option 的人物姓名、关系、动机、旧怨字段做 visibleText support check；无支持时改写为“询问身份/追问来意/观察卡琳娜反应”等普通行动。",
+      "Storyline schema: 为 followup candidate 增加 revealPrerequisites 或 minVisibleFacts，避免作者视角分支被直接当作玩家选项。",
+      "Narrator rendering guard: 内部 characterId 在未介绍前只能渲染为可见别名，例如“门外的男人/白西装男人”，不能直接输出稳定姓名。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 39-40 visibleText 只显示门外人影、信封、遮在阴影里的脸；turn 41 visibleText 显示白西装男子说“我需要你……帮我”和“我女儿……他们把她——”，没有说明姓名和旧关系。turn 41 choices 却给出“斥责德索洛当初疏远卡琳娜”“走投无路才想起家人”“疏远‘家人’的矛盾”。",
+    "internalTrace": "turn-41/03-story-state.json currentStoryline.content 和 interactionFollowup 明确包含德索洛与卡琳娜旧识、疏远和家人关系；turn-41/06c-choice-prompt.md 顶部把这段作为“当前情节边界参考”提供，同时也包含“不要提前泄露”的通用规则；turn-41/07-events.json worker-done choiceGenerator 和 turn-41/04-output.json choices 记录最终选项；turn-41/05-runtime-after.json 进入 2-03 beat，说明该节点继续推进并可被后续 turn 42 选项锁定。"
+  },
+  "recommendedFixArea": "优先修复 Choice candidate visibility gating 和 story state followup schema；同时补 Narrator 的未揭示角色 ID 渲染保护。",
+  "confidence": "high"
+}

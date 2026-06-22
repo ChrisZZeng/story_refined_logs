@@ -1,0 +1,87 @@
+{
+  "issueId": "issue-13-turn-43",
+  "issueIndex": 13,
+  "turn": 43,
+  "issueValidity": "valid",
+  "problemSummary": "第 40-43 轮连续使用沉默、搪瓷杯、凉茶、指尖画圆和晨光包装回避式对话，第 43 轮形成明显机械重复。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见文本中同一组动作母题在连续敏感对话中重复出现，且第 43 轮与第 41/42 轮结构高度相似。",
+    "playerVisibleSupport": "turn 41、42、43 都反复出现卡琳娜没有立刻回答、手指停在杯壁、半截凉茶、喝茶、指尖画圆和晨光/窗台描写。",
+    "caveats": [
+      "卡琳娜回避问题时使用沉默和小动作本身合理；有效问题是连续多轮缺少变体和推进。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家连续追问敏特和真相，卡琳娜因信息控制不能直接回答，场景停留在清晨客厅的慢铺对话。",
+    "relevantFacts": [
+      {
+        "claim": "最近几轮已经重复使用杯子、凉茶、沉默和画圆动作。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-43/06a-director-prompt.md",
+          "turn-43/06b-narrator-prompt.md"
+        ],
+        "notes": "这些重复素材在第 43 轮 prompt 的最近几轮经历中清楚可见。"
+      },
+      {
+        "claim": "Director 继续安排沉默和细微动作。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-43/04-output.json",
+          "turn-43/07-events.json"
+        ],
+        "notes": "第 43 轮 plotPoint 明确要求“先沉默”和“慢铺，强调沉默和细微动作”。"
+      },
+      {
+        "claim": "通用不要重复规则存在但不可执行。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-43/06a-director-prompt.md",
+          "turn-43/06b-narrator-prompt.md"
+        ],
+        "notes": "没有列出需要冷却的近期动作母题。"
+      }
+    ],
+    "competingPressures": [
+      "卡琳娜不能透露敏特来新西西里的具体原因",
+      "审视/试探阶段鼓励回避和停顿",
+      "slow pacing 强化细微动作描写",
+      "最近上下文把重复动作作为可模仿样例继续提供"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-43/07-events.json: worker-done director",
+    "triggeringPressure": "信息控制和慢铺风格把本轮导向“不能回答但要继续维持张力”的安全模板。",
+    "missingGuard": "缺少近期动作母题去重/冷却契约，通用“不要重复”没有转成硬约束或结构化列表。",
+    "mechanismStatement": "当剧情不能给新信息而 prompt 又要求慢铺细微动作时，Director 反复选择沉默和杯子动作作为安全承接；缺少 anti-repetition contract 使 Narrator 继续复用最近文本中的凉茶、画圆和晨光模板。",
+    "directCause": "第 43 轮 Director 给出同构 beat，Narrator 沿用近邻动作母题扩写。",
+    "propagation": "第 43 轮正文显示机械重复；后续选项仍允许继续追问，存在延续同一循环的风险。",
+    "nonCauses": [
+      "不是固定剧本必须反复喝茶或画圆。",
+      "不是玩家输入无效。",
+      "不是单一措辞错误，而是跨轮动作母题复用。"
+    ]
+  },
+  "rootCause": {
+    "label": "anti-repetition-contract-gap",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context",
+      "llm-self"
+    ],
+    "description": "系统看到了最近几轮重复文本，但没有把它转成可执行的 avoid/cooldown motif 约束；在信息控制和慢铺压力下，Director/Narrator 继续使用最安全、最邻近的杯子和沉默模板。",
+    "fixSurface": [
+      "Director prompt contract",
+      "Narrator prompt contract",
+      "recent motif extraction and cooldown",
+      "quality regression lint for repeated action beats"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 41-43 连续重复沉默、搪瓷杯、凉茶、指尖画圆和晨光描写。",
+    "internalTrace": "turn-43/04-output.json 中 Director 指定慢铺和沉默细微动作；turn-43/06a/06b prompts 中重复素材 present-clear 但无结构化冷却约束。"
+  },
+  "recommendedFixArea": "增加 recent motif tracking，把近几轮动作和环境母题转为 avoid/cooldown constraints，并要求信息不能揭示时选择新的非信息推进方式。",
+  "confidence": "high"
+}

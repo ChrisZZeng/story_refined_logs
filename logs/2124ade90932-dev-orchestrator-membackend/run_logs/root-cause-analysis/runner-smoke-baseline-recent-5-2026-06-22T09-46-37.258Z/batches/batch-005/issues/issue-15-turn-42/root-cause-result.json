@@ -1,0 +1,80 @@
+{
+  "issueId": "issue-15-turn-42",
+  "turn": 42,
+  "issueValidity": "valid",
+  "problemSummary": "卡琳娜控诉德索洛时，旁白式描写写成“你的声音甚至没有抬高”，使说话人/动作主体从卡琳娜漂向第二人称玩家。",
+  "validityAssessment": {
+    "verdictReason": "“她终于开了口”之后出现“你的声音”，在本系统中“你”默认指玩家，构成可见身份漂移。",
+    "playerVisibleSupport": "turn 42 可见文本中卡琳娜对白段包含“你的声音甚至没有抬高”。",
+    "caveats": [
+      "对白中的“你从来没有……”本身是卡琳娜对德索洛说话，不是错误；错误集中在“你的声音”这个旁白插入。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "卡琳娜应作为申诉人冷静控诉德索洛过去疏远她，德索洛在门口接受审判式回应。",
+    "relevantFacts": [
+      {
+        "claim": "卡琳娜是本段控诉的说话人。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn 42",
+          "turn-42/06-llm-calls.json[0].object.characterBeats"
+        ],
+        "notes": "可见文本先写“她终于开了口”，Director 也安排卡琳娜语气平稳而带刺。"
+      },
+      {
+        "claim": "叙事正文中的“你”默认指帕兹/玩家。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-42/06b-narrator-prompt.md"
+        ],
+        "notes": "底层逻辑明确“你=帕兹=玩家=主角”。"
+      },
+      {
+        "claim": "非玩家对白段内部的旁白插入不得使用玩家第二人称。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-42/06b-narrator-prompt.md"
+        ],
+        "notes": "prompt 规定 data-speaker 格式，但没有 actor-pronoun guard。"
+      }
+    ],
+    "competingPressures": [
+      "全局第二人称旁白规则",
+      "卡琳娜对白中对德索洛使用第二人称称呼",
+      "需要在一句话内同时写控诉内容和语气动作"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-42/06-llm-calls.json[1].text",
+    "triggeringPressure": "Narrator prompt 同时要求全局“你=玩家”和 NPC 对德索洛使用“你”进行控诉。",
+    "missingGuard": "非玩家 data-speaker 段缺少禁止第二人称旁白式身体/声音描写的 actor-pronoun contract，也缺少生成后校验。",
+    "mechanismStatement": "在 NPC 对 NPC 的第二人称对白中，输出合同没有区分角色称呼和玩家旁白指代，模型把卡琳娜的声音描写写成了玩家第二人称。",
+    "directCause": "Narrator 在卡琳娜对白段中生成“你的声音甚至没有抬高”。",
+    "propagation": "错误进入 turn-42/04-output.json visibleText；后续未被修正，但上下文仍部分保留卡琳娜说话人的线索。",
+    "nonCauses": [
+      "不是玩家输入含糊导致。",
+      "不是 Choice worker 首发问题。",
+      "不是角色身份长期记忆缺失。"
+    ]
+  },
+  "rootCause": {
+    "label": "speaker-pronoun-contract",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "llm-self"
+    ],
+    "description": "Narrator 输出合同只规定 data-speaker 和全局“你=玩家”，没有规定非玩家对白段内旁白式声音/动作描写必须绑定 speaker；在卡琳娜对白也大量使用“你”的情况下，模型把 speaker 的发声动作漂成玩家第二人称。",
+    "fixSurface": [
+      "Narrator prompt actor-pronoun rules",
+      "structured dialogue schema validation",
+      "post-generation validator for non-player data-speaker second-person body/voice phrases"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 42 “她终于开了口”后出现“你的声音甚至没有抬高”。",
+    "internalTrace": "turn-42/06b-narrator-prompt.md 明确“你=帕兹=玩家=主角”并规定 data-speaker，但没有非玩家 speaker 的第二人称旁白 guard；turn-42/06-llm-calls.json[1].text 首次生成错误。"
+  },
+  "recommendedFixArea": "优先修复 Narrator prompt/output schema 的 actor-pronoun contract，并增加非玩家 speaker 第二人称身体/声音描写校验。",
+  "confidence": "medium"
+}

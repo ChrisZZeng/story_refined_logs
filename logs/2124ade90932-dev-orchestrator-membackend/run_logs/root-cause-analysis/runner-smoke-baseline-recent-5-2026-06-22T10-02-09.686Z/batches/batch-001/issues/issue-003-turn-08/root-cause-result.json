@@ -1,0 +1,90 @@
+{
+  "issueId": "issue-3",
+  "issueIndex": 3,
+  "turn": 8,
+  "issueValidity": "valid",
+  "problemSummary": "turn 8 把此前未在公寓中出现的黑猫卡尔写成玩家已知且一直在场的对象。",
+  "validityAssessment": {
+    "verdictReason": "turn 7 玩家完整观察公寓时没有看到黑猫；turn 8 直接用“那只黑猫——卡尔——一直”处理，缺少首次引入。",
+    "playerVisibleSupport": "turn 7 可见公寓细节包括沙发、毛毯、茶几、薄荷、帆布背包和卡琳娜动作，但没有黑猫；turn 8 突然写卡尔在沙发毛毯尾端。",
+    "caveats": [
+      "内部剧本确实存在卡尔，但该隐藏事实不能用来否定玩家可见问题。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家看到的是卡琳娜公寓客厅，卡琳娜坐在沙发上试探主角；玩家可见动物只有 turn 6 巷子里的灰猫。",
+    "relevantFacts": [
+      {
+        "claim": "室内黑猫卡尔此前未被玩家看到。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-07/04-output.json",
+          "visible-timeline.jsonl"
+        ],
+        "notes": "turn 7 是完整室内观察段，仍未提及黑猫。"
+      },
+      {
+        "claim": "内部 storyline 要求卡尔在公寓中有存在感。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-08/03-story-state.json"
+        ],
+        "notes": "`currentStoryline.content` 明确写“黑猫卡尔在沙发上的存在感”。"
+      },
+      {
+        "claim": "Director 将卡尔动作作为本轮 required content。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-08/06-llm-calls.json"
+        ],
+        "notes": "Director involvedCharacters 包含卡尔，并要求“卡尔做出一个可被主角注意到的动作”。"
+      },
+      {
+        "claim": "Narrator prompt 有泛化一致性原则，但没有未可见实体首次引入硬约束。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-08/06b-narrator-prompt.md"
+        ],
+        "notes": "规则强调相信最近可见正文，但未阻止隐藏实体直接被写成已知对象。"
+      }
+    ],
+    "competingPressures": [
+      "storyline 想在公寓场景引入卡尔",
+      "角色卡和秘密设定中卡尔很重要",
+      "玩家最近可见公寓场景没有卡尔",
+      "Narrator 被要求写卡尔动作但未被要求先桥接首次出现"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-08/06-llm-calls.json[0].object",
+    "triggeringPressure": "`turn-08/03-story-state.json` 中的 storyline 和角色状态把卡尔当作公寓已有实体，Director 将其前景化为本轮动作要求。",
+    "missingGuard": "缺少 current-scene entity anchor 检查；未要求“如果实体未出现在最近可见场景，必须先自然引入，不能写成一直在场”。",
+    "mechanismStatement": "内部 storyline 中未被玩家看到的实体被 Director 当作当前场景成员交给 Narrator，Narrator 直接使用已知化称呼和连续在场表述，造成 unsupported jump。",
+    "directCause": "Narrator 写出“那只黑猫——卡尔——一直蜷在毛毯尾端”。",
+    "propagation": "该文本进入 `turn-08/04-output.json`，后续 turn 9/10 继续把卡尔当作场景内实体。",
+    "nonCauses": [
+      "不是玩家可见时间线中已有卡尔但评测漏看。",
+      "不是纯粹模型凭空编造；卡尔来自内部 storyline/角色卡。",
+      "不是长期记忆问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "系统没有把内部 storyline 实体与玩家可见 current scene inventory 对齐；隐藏实体卡尔被当作已在场对象直接交给 Narrator，缺少首次引入/可见锚定防线。",
+    "fixSurface": [
+      "Director current-scene entity validation",
+      "Narrator first-mention constraints",
+      "scene entity inventory / visible entity tracker"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "`visible-timeline.jsonl` turn 7 无室内黑猫，turn 8 突然出现“那只黑猫——卡尔——一直蜷在毛毯尾端”。",
+    "internalTrace": "`turn-08/03-story-state.json` 中 storyline 含“黑猫卡尔在沙发上的存在感”；`turn-08/06-llm-calls.json` Director 要求卡尔动作；`turn-08/04-output.json` 提交 unsupported introduction。"
+  },
+  "recommendedFixArea": "为 storyline 到 Director/Narrator 的 handoff 增加 visible entity anchor 检查和首次引入模板，未可见实体不得被写成“那只”或“一直在场”。",
+  "confidence": "high"
+}

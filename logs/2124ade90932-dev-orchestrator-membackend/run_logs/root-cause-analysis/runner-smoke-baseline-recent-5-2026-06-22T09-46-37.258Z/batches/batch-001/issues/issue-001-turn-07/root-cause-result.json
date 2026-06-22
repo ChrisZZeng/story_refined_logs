@@ -1,0 +1,79 @@
+{
+  "issueId": "issue-001-turn-07",
+  "turn": 7,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 7 的玩家选项“直接去暗街，往日总是如影随形”把明确行动和缺少承接的诗性片段拼在一起，玩家可见按钮读起来像候选动作文本污染。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。Turn 7 正文只建立了纸条线索“暗街——找‘裁缝’”，玩家下一步可以选择去暗街；“往日总是如影随形”没有被建立为玩家动作、目标或可执行意图，出现在按钮后半句会破坏选项可读性。",
+    "playerVisibleSupport": "visible-timeline.jsonl 的 Turn 7 显示正文结束于发现纸条和周围无人看向你，选项却显示“直接去暗街，往日总是如影随形”。",
+    "caveats": [
+      "该问题属于低严重度的 UI 文案质量问题，不改变剧情事实。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家刚看到猫离开后露出一张纸条，纸条只给出“暗街——找‘裁缝’”这个行动线索。当前合理选项应是前往暗街、继续观察异常，或围绕纸条做普通行动。",
+    "relevantFacts": [
+      {
+        "claim": "纸条建立的可执行意图是去暗街找“裁缝”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-07/04-output.json",
+          "turn-07/06c-choice-prompt.md"
+        ],
+        "notes": "Choice prompt 的本轮可见正文区明确包含“暗街——找‘裁缝’”。"
+      },
+      {
+        "claim": "“往日总是如影随形”不是当前按钮应表达的玩家行动。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-07/03-story-state.json",
+          "turn-07/06c-choice-prompt.md"
+        ],
+        "notes": "该短语来自 candidateActions 的 text 字段，而不是本轮正文自然推出的行动。它与当前故事线“从往日阴影中逃离”的风格压力相近。"
+      },
+      {
+        "claim": "Choice worker 需要生成短、具体、可点击的行动选项。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-07/06c-choice-prompt.md"
+        ],
+        "notes": "系统提示和输出要求都要求选项像玩家主动选择的行动。"
+      }
+    ],
+    "competingPressures": [
+      "candidateActions 中 key choice 的 text 已经包含混合文案。",
+      "Choice prompt 要求当前可用的候选推进动作必须保留完整 actionId，但没有要求重写或净化候选动作 text。",
+      "当前故事线存在“从往日阴影中逃离 → 来到现实”的风格短语，增加了诗性片段被当成选项文案的机会。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-07/03-story-state.json candidateActions[0].text",
+    "triggeringPressure": "候选推进动作 text 直接写成“直接去暗街，往日总是如影随形”，把可点击动作和主题式短语合在一个字段里；turn-07/06c-choice-prompt.md 又在“剧本/状态机候选推进动作”中原样展示这段文本。",
+    "missingGuard": "Choice 输入契约没有区分 machine action label、player-facing button copy 和 thematic note，也没有要求对候选 text 做动作化净化；输出要求只强调 actionId 要原样复制。",
+    "mechanismStatement": "候选动作字段把剧情出口和主题短语混写，Choice handoff 又把该字段当成玩家可见按钮候选，缺少按钮文案净化和 action label 分层，导致诗性片段被复制到最终选项。",
+    "directCause": "Choice worker 在 turn-07/07-events.json 中原样输出 candidateActions[0].text 为第一个选项。",
+    "propagation": "turn-07/04-output.json 持久化该选项；turn-08/01-summary.json 又把它作为 selectedFromPreviousTurn 和 userInput 传入下一轮。",
+    "nonCauses": [
+      "Narrator 正文本身没有生成该异常按钮。",
+      "玩家输入不是直接来源；玩家只是在下一轮选择了这个系统生成的选项。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [],
+    "description": "状态机候选动作把 action trigger 的可执行语义和主题化文案放在同一个 player-facing text 字段里，Choice prompt 又没有提供“候选 text 仅供语义参考，按钮必须重写成短行动”的硬约束。这个 handoff 让模型倾向于复制候选文案，从而把缺少承接的诗性片段带进玩家可见选项。",
+    "fixSurface": [
+      "candidateActions schema: split actionId, actionLabel, playerFacingText, thematicHint",
+      "choice prompt: require actionable button rewrite and reject non-action clauses",
+      "choice generation validator: flag button text containing unexplained thematic fragments"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 7 正文只显示纸条“暗街——找‘裁缝’”，随后选项为“直接去暗街，往日总是如影随形”。",
+    "internalTrace": "turn-07/03-story-state.json 的 candidateActions[0].text 已含该异常文案；turn-07/06c-choice-prompt.md 第 287-289 行将其作为候选推进动作展示；turn-07/07-events.json 的 choiceGenerator 原样输出该选项。"
+  },
+  "recommendedFixArea": "优先修复 Choice 候选动作 handoff：候选动作的机器语义与玩家按钮文案分层，并在 Choice worker 输出前做动作化文案校验。",
+  "confidence": "high"
+}

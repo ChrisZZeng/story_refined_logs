@@ -1,0 +1,82 @@
+{
+  "issueId": "issue-12-turn-38",
+  "issueIndex": 12,
+  "turn": 38,
+  "issueValidity": "valid",
+  "problemSummary": "第 37 轮把晨光光斑定位在墙根到旧茶几桌腿边缘，第 38 轮又称其在窗台上且即将爬过桌腿，造成局部空间混乱。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见文本连续描写同一清晨光斑，但第 38 轮把窗台和桌腿边缘错误合并，空间关系不成立。",
+    "playerVisibleSupport": "turn 37 写“那枚菱形光斑已经从墙根滑到了旧茶几的桌腿边缘”；turn 38 写“窗台上那道即将爬过桌腿的光斑”。",
+    "caveats": [
+      "这是低严重度问题，因为读者仍能理解慢移光线的意象；但连续空间状态确实漂移。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "清晨客厅中，光斑作为地板/墙根附近的移动光线，上一轮已经滑到旧茶几桌腿边缘。",
+    "relevantFacts": [
+      {
+        "claim": "光斑上一轮位于墙根到旧茶几桌腿边缘。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-38/06b-narrator-prompt.md"
+        ],
+        "notes": "该事实在第 37 轮可见正文和第 38 轮 Narrator prompt 的最近几轮经历中都存在。"
+      },
+      {
+        "claim": "Director 没有要求改变光斑位置。",
+        "availability": "not-needed",
+        "artifacts": [
+          "turn-38/04-output.json",
+          "turn-38/07-events.json"
+        ],
+        "notes": "Director 只安排对话和模糊回应。"
+      },
+      {
+        "claim": "当前场景微空间没有结构化锚点。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-38/06b-narrator-prompt.md"
+        ],
+        "notes": "prompt 只有通用一致性要求和长 prose，没有 lightSpot/currentScene 之类短状态。"
+      }
+    ],
+    "competingPressures": [
+      "慢铺对话需要环境隐喻",
+      "窗台、灰尘、光斑、桌腿等词簇在最近上下文中相邻出现",
+      "微空间事实没有结构化优先级"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-38/07-events.json: worker-done narrator",
+    "triggeringPressure": "Narrator 需要继续用清晨光线和沉默氛围包装对话，且最近上下文反复出现窗台、灰尘、光斑和桌腿。",
+    "missingGuard": "缺少当前场景微空间锚点，通用“保持一致”规则不足以约束环境隐喻里的几何关系。",
+    "mechanismStatement": "当光斑位置只埋在最近几轮 prose 中，而本轮又继续生成环境意象时，Narrator 将相邻视觉词簇自由合成，缺少 current-scene spatial anchor 导致窗台和桌腿边缘被错误绑定。",
+    "directCause": "Narrator 把光斑位置从地板/墙根附近漂移到窗台。",
+    "propagation": "错误主要停留在第 38 轮正文，没有由 Choice 进一步放大。",
+    "nonCauses": [
+      "Director 未提供错误空间指令。",
+      "玩家输入没有涉及光斑位置。",
+      "不是长期记忆缺失；正确事实就在上一轮上下文。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor-gap",
+    "family": "recent-context",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "当前场景中会连续移动的微空间对象没有被抽为高优先级 scene anchor；在慢铺环境描写压力下，Narrator 把最近上下文里的窗台、灰尘、光斑和桌腿重组为错误空间关系。",
+    "fixSurface": [
+      "Narrator context assembly",
+      "current scene spatial anchor extraction",
+      "micro-spatial consistency lint"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 37 光斑在墙根到旧茶几桌腿边缘；turn 38 光斑被写成在窗台上且即将爬过桌腿。",
+    "internalTrace": "turn-38/06b-narrator-prompt.md 中正确事实 present-clear；turn-38/07-events.json 中 narrator 首次生成错误句。"
+  },
+  "recommendedFixArea": "为 Narrator 增加当前场景微空间锚点，尤其是连续环境对象的位置、移动方向和关联家具；必要时增加后置 lint。",
+  "confidence": "high"
+}

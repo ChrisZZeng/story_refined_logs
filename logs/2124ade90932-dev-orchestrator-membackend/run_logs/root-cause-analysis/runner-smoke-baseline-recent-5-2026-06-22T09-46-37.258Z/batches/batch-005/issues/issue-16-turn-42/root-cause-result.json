@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-16-turn-42",
+  "turn": 42,
+  "issueValidity": "valid",
+  "problemSummary": "玩家此前已经在卡琳娜公寓内，turn 42 末尾却让卡琳娜说“进来吧。外面冷”，并生成“走进公寓”的选项。",
+  "validityAssessment": {
+    "verdictReason": "可见时间线明确玩家已进入公寓，正文没有写玩家离开；重新要求进屋构成空间连续性断裂。",
+    "playerVisibleSupport": "turn 34 玩家跨过门槛进入公寓；turn 38 卡琳娜经过玩家身侧去开门；turn 42 末尾要求玩家“进来”，choices 要求“走进公寓”。",
+    "caveats": []
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "帕兹在卡琳娜公寓内靠近门口，从卡琳娜身侧或门缝观察德索洛；德索洛完成交易后离开走廊，门仍开着。",
+    "relevantFacts": [
+      {
+        "claim": "玩家已进入卡琳娜公寓。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn 34",
+          "turn-42/06b-narrator-prompt.md"
+        ],
+        "notes": "历史概览和可见正文都写明进入公寓内部。"
+      },
+      {
+        "claim": "最近几轮仍在公寓内门口一侧。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn 36",
+          "visible-timeline.jsonl turn 38",
+          "visible-timeline.jsonl turn 41",
+          "turn-42/03-story-state.json"
+        ],
+        "notes": "玩家翻看书架、卡琳娜经过玩家身侧、卡琳娜站在门内等信息都支持室内状态。"
+      },
+      {
+        "claim": "运行态没有结构化玩家位置/current scene anchor。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-42/05-runtime-after.json"
+        ],
+        "notes": "worldState 只含 phase、branch、charactersOnStage 等；entityStates 没有玩家位置。"
+      },
+      {
+        "claim": "门口局部描写让内外关系变得易混。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "turn-42/06b-narrator-prompt.md",
+          "turn-42/06-llm-calls.json[1].text"
+        ],
+        "notes": "门外、门内、门缝、走廊、跨出半步等词汇高频出现。"
+      }
+    ],
+    "competingPressures": [
+      "门口场景的内外局部词汇",
+      "德索洛离开走廊后的收束动作",
+      "Choice worker 以本轮正文结尾为准生成选项",
+      "runtime 缺少结构化 playerPosition"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-42/06-llm-calls.json[1].text",
+    "triggeringPressure": "门口场景反复出现门外、门内、门缝、走廊和冷风等局部空间描写，结尾又写卡琳娜站在门口未关门。",
+    "missingGuard": "没有高显著度 currentScene/playerPosition/insideOutside anchor，也没有禁止重新进屋的 Narrator/Choice 约束。",
+    "mechanismStatement": "系统把玩家站位留在 recent prose 中而非结构化 scene anchor 中，门口局部语义覆盖真实位置，Narrator 把玩家误放到外面，Choice 又把该误读转成行动选项。",
+    "directCause": "Narrator 生成“进来吧。外面冷。”，假定玩家在公寓外。",
+    "propagation": "Choice worker 生成“走进公寓，顺手关上身后的门”；turn 43 继续保持门敞开和冷风灌入的空间不稳状态。",
+    "nonCauses": [
+      "不是长期 memory 缺失，进入公寓事实仍在 prompt 中。",
+      "不是单纯 Choice 绑定错误，Narrator 结尾已经发生偏离。",
+      "不是玩家输入导致，玩家没有移动到门外。"
+    ]
+  },
+  "rootCause": {
+    "label": "missing-current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "运行态没有维护玩家当前位置和门口内外关系的结构化锚点，Narrator 只能从长篇 recent prose 推断站位；门口局部词汇覆盖了玩家已在室内的事实，Choice 又以错误结尾为准生成重新进屋选项。",
+    "fixSurface": [
+      "scene state/writeback for currentScene and playerPosition",
+      "Narrator prompt high-priority scene anchor injection",
+      "Choice option validation against scene anchor"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 34 进入公寓；turn 38 卡琳娜经过玩家身侧；turn 42 “进来吧。外面冷”和“走进公寓”选项。",
+    "internalTrace": "turn-42/03-story-state.json recentTurns 保留室内过程；turn-42/05-runtime-after.json 缺少 location/playerPosition；turn-42/06-llm-calls.json[1] 首次生成错误邀请，turn-42/06-llm-calls.json[2] 固化为选项。"
+  },
+  "recommendedFixArea": "优先修复 scene state/writeback，并在 Narrator 与 Choice 阶段注入和校验 currentScene/playerPosition/doorState。",
+  "confidence": "high"
+}

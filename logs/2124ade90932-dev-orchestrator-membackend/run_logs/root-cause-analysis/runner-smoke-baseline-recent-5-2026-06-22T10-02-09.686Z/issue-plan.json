@@ -1,0 +1,192 @@
+{
+  "generatedAt": "2026-06-22T15:08:33.003Z",
+  "runDir": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z",
+  "reviewDir": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z",
+  "analysisDir": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z",
+  "issuesFile": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/issues.json",
+  "timelinePath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/visible-timeline.jsonl",
+  "issueTracerSkill": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/skills/consistency_root_cause/skills/issue_tracer/SKILL.md",
+  "maxIssuesPerBatch": 4,
+  "issueCount": 16,
+  "batchCount": 5,
+  "batches": [
+    {
+      "batchId": "batch-001",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 3,
+        "end": 9
+      },
+      "issues": [
+        {
+          "issueIndex": 1,
+          "turn": 3,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "choices",
+          "summary": "选项后半句像误混入的抒情残片，不是清晰的玩家行动，降低选择可读性。"
+        },
+        {
+          "issueIndex": 2,
+          "turn": 3,
+          "severity": "low",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "同一名小贩在相邻轮次把刚给过的暗街指引重新当作新信息讲出，造成轻微重复演出和分支合流感。"
+        },
+        {
+          "issueIndex": 3,
+          "turn": 8,
+          "severity": "low",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "正文把一只未被介绍过的室内黑猫当作玩家已知且一直在场的对象处理，物件/角色出现缺少可见铺垫。"
+        },
+        {
+          "issueIndex": 4,
+          "turn": 9,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "同一句话把卡尔的位置同时锚定在沙发角落和窗台，动作承接不清。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-002",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 10,
+        "end": 11
+      },
+      "issues": [
+        {
+          "issueIndex": 5,
+          "turn": 10,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "同一张作为寻人关键线索的照片背景被改写，影响玩家对敏特线索位置的理解。"
+        },
+        {
+          "issueIndex": 6,
+          "turn": 11,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "紧邻轮次中卡尔刚从窗台移动到沙发另一端，下一轮又无承接地出现在窗台薄荷叶间，造成轻微位置连续性漂移。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-003",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 19,
+        "end": 21
+      },
+      "issues": [
+        {
+          "issueIndex": 7,
+          "turn": 19,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "句子存在明显残缺和误词，影响玩家阅读理解，属于局部文本质量回退。"
+        },
+        {
+          "issueIndex": 8,
+          "turn": 19,
+          "severity": "medium",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "上一轮刚完成的称呼、同意调查和规矩提醒在第 19 轮被当作新内容再次演出，导致剧情进度倒退和重复。"
+        },
+        {
+          "issueIndex": 9,
+          "turn": 19,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "德索洛从站立、双手垂在身侧突然变成单膝跪地并握住卡琳娜手指，中间没有玩家可见动作承接，明显改变了人物姿态和互动状态。"
+        },
+        {
+          "issueIndex": 10,
+          "turn": 21,
+          "severity": "medium",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "上一轮已经完成的跟进、站到窗台前、询问德索洛是否可怜的场景在第 21 轮被完整当作新正文重复，导致交互进度短暂回退。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-004",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 29,
+        "end": 47
+      },
+      "issues": [
+        {
+          "issueIndex": 11,
+          "turn": 29,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "mixed",
+          "summary": "正文已经把照片夹回书中并合上书、放回床头柜，但同一轮选项仍把照片当作可直接继续观察或尚未夹回的对象，造成轻微交互状态不一致。"
+        },
+        {
+          "issueIndex": 12,
+          "turn": 38,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "同一道晨光光斑刚被建立在地板/茶几桌腿附近，第38轮却称其在窗台上且即将爬过桌腿，造成局部空间描述混乱。"
+        },
+        {
+          "issueIndex": 13,
+          "turn": 43,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "连续对话被近乎相同的沉默、杯子和凉茶动作反复包装，形成机械重复的阅读体验。"
+        },
+        {
+          "issueIndex": 14,
+          "turn": 47,
+          "severity": "low",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "同一清晨场景里，卡琳娜从灰色毛衣无承接漂移回前一日的白色棉衣外观。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-005",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 49,
+        "end": 50
+      },
+      "issues": [
+        {
+          "issueIndex": 15,
+          "turn": 49,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "前一轮她已经面对玩家并靠在窗台上，本轮却无过渡回退成刚把手搭上窗台且背对玩家。"
+        },
+        {
+          "issueIndex": 16,
+          "turn": 50,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "选项把此前玩家可见环境中明确不存在的墙上照片当成可检查对象，制造了错误的交互 affordance。"
+        }
+      ]
+    }
+  ]
+}

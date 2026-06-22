@@ -1,0 +1,243 @@
+{
+  "batchId": "batch-005",
+  "issueCount": 2,
+  "completedCount": 2,
+  "validityCounts": {
+    "valid": 2,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 15,
+      "turn": 49,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "前一轮她已经面对玩家并靠在窗台上，本轮却无过渡回退成刚把手搭上窗台且背对玩家。",
+      "batchId": "batch-005",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director prompt/context assembly: 增加上一轮终态 currentSceneAnchor。",
+          "Director output validation: 检查 actionHint 是否从上一轮终态连续。",
+          "Narrator prompt: 明确禁止无过渡改写上一轮结尾姿态。"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Director/ Narrator 链路中加入结构化当前场景姿态锚点和姿态连续性校验。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-005/issues/issue-015-turn-49/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-005/issues/issue-015-turn-49/root-cause-report.md",
+      "result": {
+        "issueId": "issue-15-turn-49",
+        "turn": 49,
+        "issueValidity": "valid",
+        "problemSummary": "第 48 轮卡琳娜已经完全转身面对主角并靠在窗台上，第 49 轮无过渡回退成刚把手搭上窗台且背对主角。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本显示同一角色姿态从上一轮终态回退到上一轮早些时候的动作，没有桥接移动或转身说明，因此是实际连续性错误。",
+          "playerVisibleSupport": "第 48 轮写她“终于完全转过身来，靠在窗台上，双手交握在身前”，并“视线重新落在你脸上”；第 49 轮写“她的手刚搭上里间窗台”“她没有回头，只是侧过脸来”。",
+          "caveats": [
+            "卡琳娜可以合理回避追问或转身离开，但正文需要显式过渡；当前文本没有提供过渡。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角站在里间门口追问，卡琳娜已经面对主角、靠在窗台上、双手交握，并且没有转身离开。",
+          "relevantFacts": [
+            {
+              "claim": "上一轮终态是卡琳娜已经正面面对主角，并靠在窗台上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-49/03-story-state.json",
+                "turn-49/06a-director-prompt.md",
+                "turn-49/06b-narrator-prompt.md"
+              ],
+              "notes": "事实在最近一轮 prose 末段清楚出现，但没有被提升为结构化 current scene anchor。"
+            },
+            {
+              "claim": "玩家第 49 轮只是继续追问“交易尾巴”，没有要求卡琳娜重新背对或移位。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-49/06a-director-prompt.md"
+              ],
+              "notes": "玩家输入不提供姿态回退的触发条件。"
+            },
+            {
+              "claim": "Director 生成了“背对主角停顿，侧头回应”的 actionHint。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-49/06-llm-calls.json",
+                "turn-49/07-events.json"
+              ],
+              "notes": "该动作提示与上一轮终态冲突，是最早偏离点。"
+            }
+          ],
+          "competingPressures": [
+            "卡琳娜需要保持审视和试探，系统倾向用背对、侧脸、离开表现疏离。",
+            "第 48 轮前半段曾经出现背对窗台、侧脸回应，和末段终态同在一段长 prose 中。",
+            "当前 storyline 要求不揭示交易细节，强化了回避姿态。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-49/06-llm-calls.json[0].object.characterBeats[0].actionHint",
+          "triggeringPressure": "最近 prose 中早些时候的背对窗台姿态与卡琳娜回避交易细节的叙事压力相吻合，Director 把它重新选为本轮行动骨架。",
+          "missingGuard": "缺少结构化 current-scene-anchor，也缺少要求姿态变化必须从上一轮可见终态桥接的硬约束。",
+          "mechanismStatement": "上一轮终态只埋在长 recent prose 末端，Director 的 beats/actionHint 生成没有当前姿态锚点，于是在回避氛围压力下重选了较早的背对姿态；Narrator 按该 actionHint 落成正文，导致玩家可见的身体动作回退。",
+          "directCause": "Director 输出“卡琳娜停下脚步，侧身回应”和“背对主角停顿，侧头回应”。",
+          "propagation": "Narrator prompt 要求以 Director 安排为骨架，于是写出“她的手刚搭上里间窗台”“她没有回头，只是侧过脸来”；该正文进入 04-output.json 并被 committed。",
+          "nonCauses": [
+            "不是长程 memory 缺失，因为第 48 轮终态在最近上下文中存在。",
+            "不是 Choice 问题，因为错误发生在正文生成阶段。",
+            "不是固定剧本强制要求，因为 storyline 只要求回避交易细节。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统没有把上一轮 visibleText 末端的角色位置和朝向转成高优先级、可执行的 currentSceneAnchor；Director 在疏离和回避压力下从长 prose 中选取了较早姿态，Narrator 又按该动作提示执行，缺少任何姿态连续性校验。",
+          "fixSurface": [
+            "Director prompt/context assembly: 增加上一轮终态 currentSceneAnchor。",
+            "Director output validation: 检查 actionHint 是否从上一轮终态连续。",
+            "Narrator prompt: 明确禁止无过渡改写上一轮结尾姿态。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 48 轮末段卡琳娜已经完全转身面对主角并靠窗台；第 49 轮开头又写成刚搭上窗台、没有回头。",
+          "internalTrace": "turn-49 Director prompt 包含第 48 轮终态；turn-49 Director output 首次写出“背对主角停顿，侧头回应”；Narrator 接收该 JSON 后生成冲突正文。"
+        },
+        "recommendedFixArea": "在 Director/ Narrator 链路中加入结构化当前场景姿态锚点和姿态连续性校验。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 16,
+      "turn": 50,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "choices",
+      "summary": "选项把此前玩家可见环境中明确不存在的墙上照片当成可检查对象，制造了错误的交互 affordance。",
+      "batchId": "batch-005",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "memory-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Location state writeback: 保存关键存在物和显式不存在物。",
+          "Choice affordance generator: 从 visibleText/locationState/action candidates 生成可检查对象白名单。",
+          "Choice validation: 阻止具体 inspectable object 在未建立时进入选项。"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "地点细节持久化和 Choice 阶段可交互物件 grounding。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-005/issues/issue-016-turn-50/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-005/issues/issue-016-turn-50/root-cause-report.md",
+      "result": {
+        "issueId": "issue-16-turn-50",
+        "turn": 50,
+        "issueValidity": "valid",
+        "problemSummary": "第 50 轮 choice 把“墙上的照片”作为可检查对象，但第 7 轮玩家可见环境明确写过公寓没有照片墙和招贴画。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见环境曾明确否定照片墙，第 50 轮正文也没有重新建立墙上照片；choice 直接把它作为 affordance，因此是事实冲突。",
+          "playerVisibleSupport": "第 7 轮写“没有多余的装饰，没有照片墙，没有招贴画”；第 50 轮 choice 写“在客厅里慢慢走动，留意书架上的书和墙上的照片”。",
+          "caveats": [
+            "书架本身早先被建立过，不是本 issue 的问题；冲突点是“墙上的照片”。",
+            "如果后续剧情显式新增墙上照片可以成立，但当前没有任何可见过渡或建立。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角转身去厨房倒早餐，卡琳娜留在里间；当前可见环境包含厨房、茶几、搪瓷杯、抹布、茶壶、厨房窗台、里间门和窄窗，没有墙上照片。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜公寓没有照片墙、没有招贴画。",
+              "availability": "absent",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-07/04-output.json",
+                "turn-50/03-story-state.json",
+                "turn-50/06c-choice-prompt.md"
+              ],
+              "notes": "该事实在玩家可见 turn 7 中 present-clear，但在 turn 50 的 Choice 所需 artifact 中缺失；locationStates.卡琳娜的公寓.content 为空。"
+            },
+            {
+              "claim": "第 50 轮当前正文没有建立墙上照片。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-50/04-output.json",
+                "turn-50/06c-choice-prompt.md"
+              ],
+              "notes": "Choice prompt 的当前正文只写到厨房和里间门等对象。"
+            },
+            {
+              "claim": "Choice 必须以当前正文结尾判断合理行动，不展示未铺垫的对象。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-50/06c-choice-prompt.md"
+              ],
+              "notes": "该规则存在，但只是软约束，没有结构化 affordance 白名单。"
+            },
+            {
+              "claim": "Choice output 引入了“墙上的照片”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-50/06-llm-calls.json",
+                "turn-50/04-output.json",
+                "turn-50/07-events.json"
+              ],
+              "notes": "这是第一处把不存在对象变成玩家可选交互对象的 artifact。"
+            }
+          ],
+          "competingPressures": [
+            "第 50 轮进入日常等待状态，Choice 需要给出低风险探索选项。",
+            "主角角色资料和历史剧情中“照片”词高频出现，容易触发可观察照片对象。",
+            "普通公寓探索的模型先验倾向生成“书架、墙上照片”等室内细节。",
+            "缺少当前地点的持久化物件清单和负向物件约束。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-50/06-llm-calls.json[2].object.options[1].text",
+          "triggeringPressure": "Choice 需要生成普通探索选项，而公寓场景、记者主角和照片相关历史使“墙上的照片”成为模型容易补全的室内观察对象。",
+          "missingGuard": "第 7 轮“无照片墙/无招贴画”的负向场景事实没有持久化到 location state；Choice 阶段没有可检查物件白名单，也没有硬性禁止新增未建立具体对象。",
+          "mechanismStatement": "早期明确的负向房间细节没有被 memory-persistence 写入当前地点状态，Choice 在缺少 affordance 清单时用通用室内探索模板补全“墙上的照片”，把曾被玩家明确否定的对象变成选项。",
+          "directCause": "Choice generator 输出“在客厅里慢慢走动，留意书架上的书和墙上的照片”。",
+          "propagation": "错误 option 被写入 04-output.json.choices.options 和 visible timeline，成为玩家可点击的错误 affordance。",
+          "nonCauses": [
+            "不是 Narrator 正文问题，因为第 50 轮正文没有墙上照片。",
+            "不是玩家输入问题，因为玩家只选择去厨房倒早餐。",
+            "不是隐藏信息问题，因为玩家可见 turn 7 已经足以判定冲突。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "卡琳娜公寓“没有照片墙/没有招贴画”的本地负向事实没有持久化到 location state 或 scene inventory；Choice 阶段缺少结构化 affordance grounding，只靠通用当前正文规则，导致模型补出墙上照片这一未建立对象。",
+          "fixSurface": [
+            "Location state writeback: 保存关键存在物和显式不存在物。",
+            "Choice affordance generator: 从 visibleText/locationState/action candidates 生成可检查对象白名单。",
+            "Choice validation: 阻止具体 inspectable object 在未建立时进入选项。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 7 明确无照片墙，turn 50 choice 却出现墙上的照片；turn 50 正文没有重新建立该对象。",
+          "internalTrace": "turn-50 locationStates.卡琳娜的公寓.content 为空；turn-50 Choice prompt 只有当前正文和软规则；turn-50 Choice output 首次生成“墙上的照片”。"
+        },
+        "recommendedFixArea": "地点细节持久化和 Choice 阶段可交互物件 grounding。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

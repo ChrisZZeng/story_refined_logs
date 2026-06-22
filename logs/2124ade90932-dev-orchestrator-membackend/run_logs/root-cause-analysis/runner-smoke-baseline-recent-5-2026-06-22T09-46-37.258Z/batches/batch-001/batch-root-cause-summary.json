@@ -1,0 +1,470 @@
+{
+  "batchId": "batch-001",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 1,
+      "turn": 7,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "选项前半句是明确行动，后半句却混入缺少承接的诗性片段，使玩家可见选项读起来像残缺或拼接错误。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "candidateActions schema: split actionId, actionLabel, playerFacingText, thematicHint",
+          "choice prompt: require actionable button rewrite and reject non-action clauses",
+          "choice generation validator: flag button text containing unexplained thematic fragments"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 Choice 候选动作 handoff：候选动作的机器语义与玩家按钮文案分层，并在 Choice worker 输出前做动作化文案校验。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-001-turn-07/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-001-turn-07/root-cause-report.md",
+      "result": {
+        "issueId": "issue-001-turn-07",
+        "turn": 7,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 7 的玩家选项“直接去暗街，往日总是如影随形”把明确行动和缺少承接的诗性片段拼在一起，玩家可见按钮读起来像候选动作文本污染。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。Turn 7 正文只建立了纸条线索“暗街——找‘裁缝’”，玩家下一步可以选择去暗街；“往日总是如影随形”没有被建立为玩家动作、目标或可执行意图，出现在按钮后半句会破坏选项可读性。",
+          "playerVisibleSupport": "visible-timeline.jsonl 的 Turn 7 显示正文结束于发现纸条和周围无人看向你，选项却显示“直接去暗街，往日总是如影随形”。",
+          "caveats": [
+            "该问题属于低严重度的 UI 文案质量问题，不改变剧情事实。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家刚看到猫离开后露出一张纸条，纸条只给出“暗街——找‘裁缝’”这个行动线索。当前合理选项应是前往暗街、继续观察异常，或围绕纸条做普通行动。",
+          "relevantFacts": [
+            {
+              "claim": "纸条建立的可执行意图是去暗街找“裁缝”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-07/04-output.json",
+                "turn-07/06c-choice-prompt.md"
+              ],
+              "notes": "Choice prompt 的本轮可见正文区明确包含“暗街——找‘裁缝’”。"
+            },
+            {
+              "claim": "“往日总是如影随形”不是当前按钮应表达的玩家行动。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-07/03-story-state.json",
+                "turn-07/06c-choice-prompt.md"
+              ],
+              "notes": "该短语来自 candidateActions 的 text 字段，而不是本轮正文自然推出的行动。它与当前故事线“从往日阴影中逃离”的风格压力相近。"
+            },
+            {
+              "claim": "Choice worker 需要生成短、具体、可点击的行动选项。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-07/06c-choice-prompt.md"
+              ],
+              "notes": "系统提示和输出要求都要求选项像玩家主动选择的行动。"
+            }
+          ],
+          "competingPressures": [
+            "candidateActions 中 key choice 的 text 已经包含混合文案。",
+            "Choice prompt 要求当前可用的候选推进动作必须保留完整 actionId，但没有要求重写或净化候选动作 text。",
+            "当前故事线存在“从往日阴影中逃离 → 来到现实”的风格短语，增加了诗性片段被当成选项文案的机会。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-07/03-story-state.json candidateActions[0].text",
+          "triggeringPressure": "候选推进动作 text 直接写成“直接去暗街，往日总是如影随形”，把可点击动作和主题式短语合在一个字段里；turn-07/06c-choice-prompt.md 又在“剧本/状态机候选推进动作”中原样展示这段文本。",
+          "missingGuard": "Choice 输入契约没有区分 machine action label、player-facing button copy 和 thematic note，也没有要求对候选 text 做动作化净化；输出要求只强调 actionId 要原样复制。",
+          "mechanismStatement": "候选动作字段把剧情出口和主题短语混写，Choice handoff 又把该字段当成玩家可见按钮候选，缺少按钮文案净化和 action label 分层，导致诗性片段被复制到最终选项。",
+          "directCause": "Choice worker 在 turn-07/07-events.json 中原样输出 candidateActions[0].text 为第一个选项。",
+          "propagation": "turn-07/04-output.json 持久化该选项；turn-08/01-summary.json 又把它作为 selectedFromPreviousTurn 和 userInput 传入下一轮。",
+          "nonCauses": [
+            "Narrator 正文本身没有生成该异常按钮。",
+            "玩家输入不是直接来源；玩家只是在下一轮选择了这个系统生成的选项。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "状态机候选动作把 action trigger 的可执行语义和主题化文案放在同一个 player-facing text 字段里，Choice prompt 又没有提供“候选 text 仅供语义参考，按钮必须重写成短行动”的硬约束。这个 handoff 让模型倾向于复制候选文案，从而把缺少承接的诗性片段带进玩家可见选项。",
+          "fixSurface": [
+            "candidateActions schema: split actionId, actionLabel, playerFacingText, thematicHint",
+            "choice prompt: require actionable button rewrite and reject non-action clauses",
+            "choice generation validator: flag button text containing unexplained thematic fragments"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 7 正文只显示纸条“暗街——找‘裁缝’”，随后选项为“直接去暗街，往日总是如影随形”。",
+          "internalTrace": "turn-07/03-story-state.json 的 candidateActions[0].text 已含该异常文案；turn-07/06c-choice-prompt.md 第 287-289 行将其作为候选推进动作展示；turn-07/07-events.json 的 choiceGenerator 原样输出该选项。"
+        },
+        "recommendedFixArea": "优先修复 Choice 候选动作 handoff：候选动作的机器语义与玩家按钮文案分层，并在 Choice worker 输出前做动作化文案校验。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 2,
+      "turn": 8,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "叙事从白天庆典切到夜色中的暗街，但缺少玩家可见的时间过渡，造成轻微时间连续性断裂。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-time-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "story state/current scene model: include currentTimeOfDay or visible time anchor",
+          "Director prompt: when requesting light change, state whether it is spatial lighting or time passage",
+          "Narrator prompt/validator: flag new time-of-day claims without visible transition"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "为当前 scene/beat 增加显式 time-of-day anchor，并要求 Director 在光线变化是空间转场还是时间流逝时做区分；Narrator 输出新增“夜色、清晨、黄昏”等时间词时应校验是否有玩家可见过渡。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-002-turn-08/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-002-turn-08/root-cause-report.md",
+      "result": {
+        "issueId": "issue-002-turn-08",
+        "turn": 8,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 8 在从庆典、古董街步行到暗街入口的连续行动中突然写出“夜色里”，但玩家此前没有看到明确的长时间流逝或入夜过渡。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效但严重度低。Turn 1 明确是阳光刺眼的白天，Turn 4-7 只是连续步行、逛摊、观察猫和纸条；虽然场景逐渐昏暗，但这些描写更像区域光线和氛围变化。Turn 8 末尾直接说“夜色里”会让玩家感到时间被轻微跳过。",
+          "playerVisibleSupport": "Turn 1 显示“阳光刺得你本能的眯起眼”；Turn 4-7 没有明确长时间流逝；Turn 8 末尾写“夜色里，灯泡吱地响了一声”。",
+          "caveats": [
+            "Turn 4-8 多次写到昏黄、昏暗、灯泡和阴影，所以读者可以把“夜色”理解成暗街局部氛围；因此该问题只判低严重度。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家从复活日庆典区走到古董街，再因纸条线索前往暗街入口。可见行动是连续的短程移动，当前应表达为从明亮庆典区进入更阴暗的街巷，而不是默认已经入夜。",
+          "relevantFacts": [
+            {
+              "claim": "故事开场建立的是白天庆典。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl"
+              ],
+              "notes": "Turn 1 以“阳光刺得你本能的眯起眼”建立白天。"
+            },
+            {
+              "claim": "Turn 4-7 是连续步行和摊位观察，没有玩家可见长时间流逝。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-08/06a-director-prompt.md",
+                "turn-08/06b-narrator-prompt.md"
+              ],
+              "notes": "recentTurns 只显示从庆典区到古董街、看摊位、与猫互动，并没有停留数小时。"
+            },
+            {
+              "claim": "当前 beat 要求表现从庆典喧闹到暗街安静、从明亮到阴暗的空间反差。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-08/03-story-state.json",
+                "turn-08/06a-director-prompt.md",
+                "turn-08/06b-narrator-prompt.md"
+              ],
+              "notes": "当前故事线要求“轻松明快的庆典 → 阴暗的街道 → 无处不在的黑帮”的反差，并要求“光线变化”。"
+            },
+            {
+              "claim": "提示中缺少“仍是同一时段，只是局部变暗”的当前时间锚。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-08/06a-director-prompt.md",
+                "turn-08/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 和 Narrator prompt 都强调光线与氛围变化，但没有明确禁止把区域暗度写成入夜。"
+            }
+          ],
+          "competingPressures": [
+            "固定 beat 强调“光线变化”和“阴暗街道”。",
+            "世界观和地点名“暗街”本身携带夜色、阴影的风格压力。",
+            "写作规范里允许通过光线变化暗示时间，但本轮没有当前时间锚来约束这种暗示。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-08/04-output.json narrator output",
+          "triggeringPressure": "turn-08 Director requiredContent 要求“描写暗街与中央区交界处的光线变化，从庆典喧闹到暗街安静的过渡”，pacing 又要求突出光线、声音和气味变化；当前 story beat 的情感弧线是从明快庆典到阴暗街道。",
+          "missingGuard": "prompt 没有给 Narrator 一个当前时间事实或过渡约束，例如“仍是同一天较早时段，暗是街区光线和建筑遮蔽造成的，不要直接写成夜晚”。",
+          "mechanismStatement": "固定 beat 把空间氛围的变暗前景化，缺少当前时间锚来区分局部暗度和实际入夜，Narrator 将“阴暗街道”的空间反差升级成“夜色里”的时间事实。",
+          "directCause": "Narrator 在 Turn 8 末尾输出“夜色里，灯泡吱地响了一声”，把氛围暗度写成了实际夜色。",
+          "propagation": "该时间词进入 Turn 8 visibleText，并在评测窗口中与 Turn 1 的阳光和 Turn 4-7 的连续短程行动形成轻微断裂。",
+          "nonCauses": [
+            "并非长期记忆缺失；白天庆典和最近移动都在可见上下文内。",
+            "并非玩家选择要求入夜；玩家选项只是前往暗街。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-time-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "当前 beat 和 Director handoff 强调从庆典到暗街的光线、声音、气味反差，但没有把“空间变暗不等于时间入夜”的当前场景时间锚显式传给 Narrator。缺失的时间锚让模型把氛围性的暗写成实际“夜色”，造成低度时间连续性断裂。",
+          "fixSurface": [
+            "story state/current scene model: include currentTimeOfDay or visible time anchor",
+            "Director prompt: when requesting light change, state whether it is spatial lighting or time passage",
+            "Narrator prompt/validator: flag new time-of-day claims without visible transition"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 1 为阳光白天；Turn 4-7 是连续移动和摊位互动；Turn 8 直接出现“夜色里，灯泡吱地响了一声”。",
+          "internalTrace": "turn-08/06a-director-prompt.md 第 218-239 行和 turn-08/06b-narrator-prompt.md 第 217-238 行前景化“轻松明快的庆典 → 阴暗的街道”和“光线变化”；Director 输出 requiredContent 也要求从庆典喧闹到暗街安静的过渡，但没有当前时间锚。"
+        },
+        "recommendedFixArea": "为当前 scene/beat 增加显式 time-of-day anchor，并要求 Director 在光线变化是空间转场还是时间流逝时做区分；Narrator 输出新增“夜色、清晨、黄昏”等时间词时应校验是否有玩家可见过渡。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 3,
+      "turn": 9,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "即使这是示弱台词，正文没有把“记忆卡”标成谎话或口误，导致已建立的胶卷相机道具出现轻微属性漂移。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "fixed-beat-detail-incompatibility",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "detail-memory"
+        ],
+        "fixSurface": [
+          "fixed beat authoring/lint: validate object detail terms against established item facts",
+          "Director prompt: define priority and rewrite policy when fixed dialogue conflicts with visible facts",
+          "requiredContent builder: attach conflict warnings or softened paraphrase permissions"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 fixed beat / interactionFollowup 增加道具事实 lint，并在 Director requiredContent 阶段允许对冲突固定台词做最小事实修正或显式标注为谎话。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-003-turn-09/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-003-turn-09/root-cause-report.md",
+      "result": {
+        "issueId": "issue-003-turn-09",
+        "turn": 9,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 9 台词把已建立为胶卷相机的道具说成同时有“胶卷和记忆卡”，正文没有标明这是谎话、口误或故意误导，形成轻微道具属性漂移。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。Turn 1 已建立帕兹身上是一台老旧胶卷相机，Turn 8 黑帮威胁也围绕“一卷胶卷”；Turn 9 台词直接说“胶卷和记忆卡都给你”，正文没有让读者知道这是示弱策略中的假话或口误。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中 Turn 1 写“老旧的胶卷相机”，Turn 8 写“你的命就不值一卷胶卷的钱”，Turn 9 写“胶卷和记忆卡都给你”。",
+          "caveats": [
+            "因为该台词发生在假装示弱语境中，理论上可以被解释为帕兹故意胡扯；但可见正文没有给出这种标记，所以仍判为有效。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家知道帕兹有一台老旧胶卷相机，黑帮正威胁要相机。玩家选择平复呼吸、假装示弱以观察对方反应。",
+          "relevantFacts": [
+            {
+              "claim": "帕兹携带的是老旧胶卷相机。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实在开场可见文本建立，也进入 Turn 9 recentTurns。"
+            },
+            {
+              "claim": "Turn 8 对峙中黑帮和旁白围绕相机与胶卷施压。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-08/04-output.json",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "Turn 8 末段包含“你的命就不值一卷胶卷的钱”。"
+            },
+            {
+              "claim": "固定 interaction followup 要求主角说“胶卷和记忆卡都给你”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-08/03-story-state.json",
+                "turn-09/03-story-state.json",
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "该台词在 currentStoryline.interactionFollowup 中出现，并在 Turn 9 Director 输出里升为 requiredContent。"
+            },
+            {
+              "claim": "prompt 没有要求在固定台词与已建立道具事实冲突时改写、标注谎言或回退为胶卷。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "写作一致性原则存在，但固定台词作为 requiredContent 更靠近生成任务且更可执行。"
+            }
+          ],
+          "competingPressures": [
+            "固定分支台词被要求必须写入正文。",
+            "写作一致性要求保持已出现事实一致，但没有提供如何处理固定台词冲突的优先级规则。",
+            "玩家选择“假装示弱”允许一定表演空间，却没有标记可编造物品属性。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-08/03-story-state.json currentStoryline.interactionFollowup",
+          "triggeringPressure": "currentStoryline.interactionFollowup 的固定台词包含“胶卷和记忆卡都给你”，Turn 9 Director 将这句原样放入 requiredContent，Narrator prompt 又要求 requiredContent 必须体现、不要丢失或改义。",
+          "missingGuard": "系统没有在固定 beat dialogue 进入 Director requiredContent 前校验其与已建立道具事实是否冲突，也没有在冲突时提供改写或标注策略。",
+          "mechanismStatement": "固定分支台词中的道具细节与已建立胶卷相机事实不兼容，但固定 beat 到 Director 的 handoff 缺少事实一致性校验和冲突改写规则，导致错误细节以 requiredContent 身份压过 recent visible fact。",
+          "directCause": "Turn 9 Director 输出 requiredContent 要求主角说“胶卷和记忆卡都给你”，Narrator 按该硬要求写入玩家可见正文。",
+          "propagation": "错误进入 Turn 9 visibleText；后续如果 summary 或 memory 写回该台词，可能继续污染相机属性。",
+          "nonCauses": [
+            "不是 Narrator 自发添加“记忆卡”；该词在固定 storyline followup 中已存在。",
+            "不是玩家输入导致；玩家只选择假装示弱。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-detail-incompatibility",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "detail-memory"
+          ],
+          "description": "固定 interaction followup 中的台词包含与已建立胶卷相机不兼容的“记忆卡”。系统在将固定台词提升为 Director requiredContent 时没有执行道具事实一致性校验，也没有提供冲突时改写为“胶卷”或标记为谎话的策略。固定台词因此成为更强、更近的生成压力，覆盖了 recent visible fact。",
+          "fixSurface": [
+            "fixed beat authoring/lint: validate object detail terms against established item facts",
+            "Director prompt: define priority and rewrite policy when fixed dialogue conflicts with visible facts",
+            "requiredContent builder: attach conflict warnings or softened paraphrase permissions"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 1 建立“老旧的胶卷相机”；Turn 8 写“一卷胶卷”；Turn 9 台词写“胶卷和记忆卡都给你”。",
+          "internalTrace": "turn-09/03-story-state.json 的 currentStoryline.interactionFollowup 含“胶卷和记忆卡都给你”；turn-09/06b-narrator-prompt.md 第 241-247 行显示该 followup；第 420-422 行显示 Director 将其升为 requiredContent；turn-09/07-events.json 显示 Narrator 写入最终正文。"
+        },
+        "recommendedFixArea": "为 fixed beat / interactionFollowup 增加道具事实 lint，并在 Director requiredContent 阶段允许对冲突固定台词做最小事实修正或显式标注为谎话。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 4,
+      "turn": 9,
+      "severity": "low",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "上一轮已完成的恢复动作在下一轮被几乎原句重演，像把即时场景回退了一小步。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "continuation-boundary",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Narrator handoff: include continuation cursor / last completed beat",
+          "Director output: specify startAfter or alreadyDone facts for immediate scene continuations",
+          "repetition validator: compare first generated sentence against previous visible tail"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Narrator handoff 中加入 continuation cursor 或 `alreadyDone` 列表，并对生成首句和上一轮尾句做近重复校验；Director 对即时连续场景应显式说明从哪个已完成动作之后开始。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-004-turn-09/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-001/issues/issue-004-turn-09/root-cause-report.md",
+      "result": {
+        "issueId": "issue-004-turn-09",
+        "turn": 9,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 8 已写帕兹咬口腔内侧让闪回破裂并重新看清三人；Turn 9 开头几乎原句重演这个动作，使同一即时场景像回退了一小步。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。Turn 8 末尾已经完成“咬口腔内侧的软肉，疼痛像一根针，把那个画面扎破了，并重新看清眼前三个人”；Turn 9 开头再次写“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。重复不是新选择的自然后果，而是上一轮尾句被当成本轮开场桥段重演。",
+          "playerVisibleSupport": "Turn 8 和 Turn 9 在同一黑帮对峙中连续出现几乎相同的咬口腔内侧动作和“疼痛像一根针，把那个画面扎破了”意象。",
+          "caveats": [
+            "玩家输入“平复呼吸”确实可以承接 Turn 8 的应激状态，因此需要写恢复过程；问题只在于重复了已完成的具体恢复动作。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "Turn 8 末尾，帕兹已经用疼痛打断闪回，重新看清三名黑帮，对方等他摘下相机。Turn 9 应从这之后继续，让他进一步平复呼吸并假装示弱。",
+          "relevantFacts": [
+            {
+              "claim": "咬口腔内侧、打断闪回、重新看清三人已经在 Turn 8 完成。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-08/04-output.json",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "Turn 9 prompt 的最近几轮玩家经历完整包含 Turn 8 末尾。"
+            },
+            {
+              "claim": "Turn 9 的玩家意图是平复呼吸、假装示弱、观察反应。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "玩家输入和 Director summary 都要求继续到示弱观察。"
+            },
+            {
+              "claim": "Director 没有要求重复咬口腔内侧动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-09/06b-narrator-prompt.md",
+                "turn-09/07-events.json"
+              ],
+              "notes": "Director requiredContent 只有示弱台词和黑帮错愕；重复动作是 Narrator 的续写选择。"
+            },
+            {
+              "claim": "Narrator handoff 缺少“从上一轮最后一句之后开始，不要复述已完成动作”的硬边界。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "prompt 给出完整 recent turn 和一般一致性规则，但没有独立的 continuation cursor 或 consumed last-beat marker。"
+            }
+          ],
+          "competingPressures": [
+            "玩家输入“平复呼吸”需要表现身体恢复，容易回拉到 Turn 8 的应激打断动作。",
+            "recentTurns 中 Turn 8 末尾高度显著，Narrator 可能把它当成可复述的开场桥。",
+            "Director 的本轮 requiredContent 更关注台词和黑帮反应，没有指定开场应从已完成动作之后切入。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-09/04-output.json narrator output",
+          "triggeringPressure": "Turn 9 Narrator prompt 包含 Turn 8 末尾完整文本，玩家输入又是“平复呼吸”，两者共同把生成拉向重复上一轮的应激恢复动作。",
+          "missingGuard": "系统没有给 Narrator 一个明确 continuation cursor，标记“咬口腔内侧/打断闪回/重新看清三人”已经 consumed；也没有把“不要重复最近尾句”转化为本轮可执行约束。",
+          "mechanismStatement": "recent visible tail 被完整放入 Narrator 上下文，但 handoff 缺少已消费动作边界，模型用上一轮尾句作为本轮恢复动作的桥，导致同一即时动作几乎原句重演。",
+          "directCause": "Narrator 在 Turn 9 第一帧重复写出“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。",
+          "propagation": "重复动作进入 Turn 9 visibleText；同一回合随后继续示弱台词和黑帮反应，因此问题没有阻塞剧情，但造成局部回退感。",
+          "nonCauses": [
+            "不是 fixed beat 台词直接要求重复；Director requiredContent 没有该动作。",
+            "不是缺少最近上下文；Turn 8 末尾清楚地存在于 Turn 9 prompt。"
+          ]
+        },
+        "rootCause": {
+          "label": "continuation-boundary",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Narrator 接收了完整 recent turn tail 和“平复呼吸”的玩家意图，但没有收到已消费动作边界或续写游标。缺失的 handoff contract 使模型把上一轮尾句当作本轮开场桥重演，而不是从“已经重新看清三人，对方等他摘相机”之后继续。",
+          "fixSurface": [
+            "Narrator handoff: include continuation cursor / last completed beat",
+            "Director output: specify startAfter or alreadyDone facts for immediate scene continuations",
+            "repetition validator: compare first generated sentence against previous visible tail"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 8 写“你用力咬了一下口腔内侧的软肉，疼痛像一根针，把那个画面扎破了。你重新看清了眼前的三个人。”Turn 9 开头重复“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。",
+          "internalTrace": "turn-09/06b-narrator-prompt.md 第 335-365 行包含 Turn 8 尾段；第 404-423 行的 Director 输出没有要求重复该动作，只要求示弱台词和黑帮错愕；turn-09/07-events.json 显示重复由 Narrator 首帧生成。"
+        },
+        "recommendedFixArea": "在 Narrator handoff 中加入 continuation cursor 或 `alreadyDone` 列表，并对生成首句和上一轮尾句做近重复校验；Director 对即时连续场景应显式说明从哪个已完成动作之后开始。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "issueId": "issue-16-turn-50",
+  "turn": 50,
+  "issueValidity": "valid",
+  "problemSummary": "第 50 轮 choice 把“墙上的照片”作为可检查对象，但第 7 轮玩家可见环境明确写过公寓没有照片墙和招贴画。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见环境曾明确否定照片墙，第 50 轮正文也没有重新建立墙上照片；choice 直接把它作为 affordance，因此是事实冲突。",
+    "playerVisibleSupport": "第 7 轮写“没有多余的装饰，没有照片墙，没有招贴画”；第 50 轮 choice 写“在客厅里慢慢走动，留意书架上的书和墙上的照片”。",
+    "caveats": [
+      "书架本身早先被建立过，不是本 issue 的问题；冲突点是“墙上的照片”。",
+      "如果后续剧情显式新增墙上照片可以成立，但当前没有任何可见过渡或建立。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "主角转身去厨房倒早餐，卡琳娜留在里间；当前可见环境包含厨房、茶几、搪瓷杯、抹布、茶壶、厨房窗台、里间门和窄窗，没有墙上照片。",
+    "relevantFacts": [
+      {
+        "claim": "卡琳娜公寓没有照片墙、没有招贴画。",
+        "availability": "absent",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-07/04-output.json",
+          "turn-50/03-story-state.json",
+          "turn-50/06c-choice-prompt.md"
+        ],
+        "notes": "该事实在玩家可见 turn 7 中 present-clear，但在 turn 50 的 Choice 所需 artifact 中缺失；locationStates.卡琳娜的公寓.content 为空。"
+      },
+      {
+        "claim": "第 50 轮当前正文没有建立墙上照片。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-50/04-output.json",
+          "turn-50/06c-choice-prompt.md"
+        ],
+        "notes": "Choice prompt 的当前正文只写到厨房和里间门等对象。"
+      },
+      {
+        "claim": "Choice 必须以当前正文结尾判断合理行动，不展示未铺垫的对象。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-50/06c-choice-prompt.md"
+        ],
+        "notes": "该规则存在，但只是软约束，没有结构化 affordance 白名单。"
+      },
+      {
+        "claim": "Choice output 引入了“墙上的照片”。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-50/06-llm-calls.json",
+          "turn-50/04-output.json",
+          "turn-50/07-events.json"
+        ],
+        "notes": "这是第一处把不存在对象变成玩家可选交互对象的 artifact。"
+      }
+    ],
+    "competingPressures": [
+      "第 50 轮进入日常等待状态，Choice 需要给出低风险探索选项。",
+      "主角角色资料和历史剧情中“照片”词高频出现，容易触发可观察照片对象。",
+      "普通公寓探索的模型先验倾向生成“书架、墙上照片”等室内细节。",
+      "缺少当前地点的持久化物件清单和负向物件约束。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-50/06-llm-calls.json[2].object.options[1].text",
+    "triggeringPressure": "Choice 需要生成普通探索选项，而公寓场景、记者主角和照片相关历史使“墙上的照片”成为模型容易补全的室内观察对象。",
+    "missingGuard": "第 7 轮“无照片墙/无招贴画”的负向场景事实没有持久化到 location state；Choice 阶段没有可检查物件白名单，也没有硬性禁止新增未建立具体对象。",
+    "mechanismStatement": "早期明确的负向房间细节没有被 memory-persistence 写入当前地点状态，Choice 在缺少 affordance 清单时用通用室内探索模板补全“墙上的照片”，把曾被玩家明确否定的对象变成选项。",
+    "directCause": "Choice generator 输出“在客厅里慢慢走动，留意书架上的书和墙上的照片”。",
+    "propagation": "错误 option 被写入 04-output.json.choices.options 和 visible timeline，成为玩家可点击的错误 affordance。",
+    "nonCauses": [
+      "不是 Narrator 正文问题，因为第 50 轮正文没有墙上照片。",
+      "不是玩家输入问题，因为玩家只选择去厨房倒早餐。",
+      "不是隐藏信息问题，因为玩家可见 turn 7 已经足以判定冲突。"
+    ]
+  },
+  "rootCause": {
+    "label": "memory-persistence",
+    "family": "detail-memory",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "卡琳娜公寓“没有照片墙/没有招贴画”的本地负向事实没有持久化到 location state 或 scene inventory；Choice 阶段缺少结构化 affordance grounding，只靠通用当前正文规则，导致模型补出墙上照片这一未建立对象。",
+    "fixSurface": [
+      "Location state writeback: 保存关键存在物和显式不存在物。",
+      "Choice affordance generator: 从 visibleText/locationState/action candidates 生成可检查对象白名单。",
+      "Choice validation: 阻止具体 inspectable object 在未建立时进入选项。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 7 明确无照片墙，turn 50 choice 却出现墙上的照片；turn 50 正文没有重新建立该对象。",
+    "internalTrace": "turn-50 locationStates.卡琳娜的公寓.content 为空；turn-50 Choice prompt 只有当前正文和软规则；turn-50 Choice output 首次生成“墙上的照片”。"
+  },
+  "recommendedFixArea": "地点细节持久化和 Choice 阶段可交互物件 grounding。",
+  "confidence": "high"
+}

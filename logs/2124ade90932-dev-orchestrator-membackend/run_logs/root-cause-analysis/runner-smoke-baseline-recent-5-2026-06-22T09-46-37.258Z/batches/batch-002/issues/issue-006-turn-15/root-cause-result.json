@@ -1,0 +1,82 @@
+{
+  "issueId": "issue-6-turn-15",
+  "turn": 15,
+  "issueValidity": "valid",
+  "problemSummary": "turn 15 再次把纸条误说成指向“那个人在哪”的线索，强化了 turn 13 的线索归属混淆。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见文本已明确纸条只写“找‘裁缝’”，且裁缝已确认自己就是纸条目标；turn 15 重复“纸条上那个人在哪”与这些事实冲突。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 7、turn 12、turn 13、turn 15 展示了从正确纸条到错误重复的完整链条。",
+    "caveats": [
+      "裁缝可以掌握其他人物线索，但不能把纸条本身改写成包含待定位人物的线索。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "裁缝已经提出取物交易，玩家在 turn 15 追问取什么、为什么她自己不去；正确纸条归属和 turn 13 的错误句同时存在于 recent turns。",
+    "relevantFacts": [
+      {
+        "claim": "纸条只指向裁缝，且裁缝已出现。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-15/06b-narrator-prompt.md",
+          "visible-timeline.jsonl turn 12"
+        ],
+        "notes": "正确事实仍在 prompt 的最近经历里。"
+      },
+      {
+        "claim": "turn 13 已经写出错误的“纸条上那个人”。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-15/06b-narrator-prompt.md",
+          "turn-13/04-output.json"
+        ],
+        "notes": "该错误作为玩家可见正文进入 turn 15 prompt，形成污染。"
+      },
+      {
+        "claim": "Director 没有要求重复纸条人物。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-15/06-llm-calls.json"
+        ],
+        "notes": "Director 安排的是追问取物细节和裁缝动机，不包含错误短语。"
+      }
+    ],
+    "competingPressures": [
+      "保持最近玩家可见正文一致的通用规则",
+      "turn 13 错误句作为 recent visible text 出现",
+      "turn 12 正确事实没有结构化提升为纠错约束",
+      "交易任务需要继续说明奖励条件"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "direct: turn-15/06-llm-calls.json kind=streamText; source: turn-13/06-llm-calls.json kind=streamText",
+    "triggeringPressure": "turn 15 prompt 中包含上一轮错误 visible text，且连续性规则鼓励维持最近正文。",
+    "missingGuard": "缺少对 recent visible text 中已冲突事实的标记和纠偏；没有结构化 clue target/resolved 约束压过错误句。",
+    "mechanismStatement": "当错误 visible text 被原样放入 recent context，而系统没有把更早正确 clue 事实提升为高优先级纠错依据时，Narrator 会把错误句当作连续性事实复用。",
+    "directCause": "Narrator 继承并重复 turn 13 的“纸条上那个人”表述。",
+    "propagation": "turn 15 将错误写入任务条件，使后续玩家选择围绕铁盒任务继续推进，错误前提更稳固。",
+    "nonCauses": [
+      "不是正确事实缺失，turn 12 仍在 prompt",
+      "不是 Choice 首发错误",
+      "不是隐藏设定导致的玩家可见冲突"
+    ]
+  },
+  "rootCause": {
+    "label": "context-priority",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "系统没有区分 recent visible text 中的已冲突错误和可依赖事实；在最近正文优先的连续性压力下，turn 13 错误获得事实权重并在 turn 15 复用。",
+    "fixSurface": [
+      "recent-turn assembly contradiction flag",
+      "Director clue correction handoff",
+      "Narrator output consistency check against resolved clues"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 7 纸条只写裁缝；turn 12 裁缝确认；turn 13 和 turn 15 都出现“纸条上那个人”。",
+    "internalTrace": "turn-15/06b-narrator-prompt.md 同时包含 turn 12 正确事实和 turn 13 错误句；turn-15/06-llm-calls.json 的 Narrator 输出复用错误。"
+  },
+  "recommendedFixArea": "在 recent context 与 Director handoff 中标注 clue 冲突和 resolved 状态，避免上一轮错误以“最近事实”身份继续传播。",
+  "confidence": "high"
+}

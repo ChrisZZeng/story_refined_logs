@@ -1,0 +1,474 @@
+{
+  "batchId": "batch-003",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 8,
+      "turn": 27,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "同一场围堵的空间调度前后不一致，玩家难以判断黑帮到底从两端包抄还是从单一岔道方向出现。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director-to-Narrator handoff 的 sceneBlocking/actor-position 字段",
+          "围堵、追逐、进入场景的方向一致性检查",
+          "Narrator prompt 中对最近空间锚点的高优先级呈现"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "为 Director-to-Narrator handoff 增加当前场景 sceneBlocking，并对同一事件内方向短语做一致性校验。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-008-turn-27/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-008-turn-27/root-cause-report.md",
+      "result": {
+        "issueId": "issue-008-turn-27",
+        "turn": 27,
+        "issueValidity": "valid",
+        "problemSummary": "同一场围堵中，正文先写黑帮从主巷两端收拢，又写三人从玩家刚穿过的岔道口方向走来，造成玩家可见空间调度冲突。",
+        "validityAssessment": {
+          "verdictReason": "turn 27 可见正文内部同时给出两个不兼容的来向描述，玩家无需隐藏信息即可感到空间关系混乱。",
+          "playerVisibleSupport": "同轮文本先写“从主巷两端的黑暗中同时向中间收拢”，随后写“三个穿深色夹克的人影从你刚刚穿过的那条岔道口方向走来”。",
+          "caveats": [
+            "若把岔道口方向理解为两端之一，仍无法消解“三个穿深色夹克的人影”与“两端同时收拢”的整体冲突，因此 severity 低但 issue 成立。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家在 turn 26 位于岔道口内侧小空地附近，选择放弃跟踪并原路退回暗街主巷。最近可见文本建立了主巷、较窄岔道、古董街方向、肉铺方向和岔道口小空地，但这些空间事实主要埋在长段 recent turns 中。",
+          "relevantFacts": [
+            {
+              "claim": "玩家本轮要原路退回暗街主巷。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-27",
+                "turn-27/06a-director-prompt.md:452"
+              ],
+              "notes": "玩家输入明确，Director 也正确识别为退回主巷。"
+            },
+            {
+              "claim": "主巷、侧面岔道、肉铺方向、古董街方向的局部地图关系。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-27/06b-narrator-prompt.md:392-445"
+              ],
+              "notes": "信息在最近可见正文中存在，但没有被结构化为当前场景锚点。"
+            },
+            {
+              "claim": "黑帮需要在巷口堵截玩家。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-27/06b-narrator-prompt.md:488-500"
+              ],
+              "notes": "Director 只给剧情功能，没有指定来向、站位和退路。"
+            },
+            {
+              "claim": "同一围堵事件内必须保持来向和退路一致。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-27/06b-narrator-prompt.md"
+              ],
+              "notes": "没有专门的 sceneBlocking 或方向一致性约束。"
+            }
+          ],
+          "competingPressures": [
+            "固定演出要求三名黑帮与卡琳娜介入一次性完成。",
+            "Director beat 强调堵截和压迫感。",
+            "最近空间事实存在但被长篇历史正文承载，离最终写作指令较远。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-27/06-llm-calls.json:narrator streamText",
+          "triggeringPressure": "固定演出和 Director beat 要求在玩家退回主巷后立即发生三人堵截，为卡琳娜介入搭舞台。",
+          "missingGuard": "handoff 没有把最近局部地图整理成明确的当前场景锚点，也没有要求同一事件内来向、退路和人物站位只选一种方案。",
+          "mechanismStatement": "在必须发生堵截的剧情压力下，系统把最近空间关系留在长段上下文里，而没有生成可执行的 sceneBlocking，导致 Narrator 用多个方向性短语即时拼接围堵场面，形成玩家可见的来向冲突。",
+          "directCause": "Narrator 同时生成“两端收拢”和“岔道口方向走来”两种互斥空间方案。",
+          "propagation": "冲突进入 turn-27/04-output.json 的 visibleText；后续 choices 没有修正空间状态。",
+          "nonCauses": [
+            "不是 memory-persistence 主因，所需空间信息仍在最近上下文中。",
+            "不是 Choice worker 主因，选项发生在冲突正文之后。",
+            "不是 evaluator 误判，冲突可直接从 turn 27 可见正文确认。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "当前场景空间事实虽然在 recent turns 中存在，但 handoff 没有把它们提升为可执行的当前场景锚点。Director 的“巷口遭遇三名黑帮成员堵截”只规定剧情功能，没有规定来向和站位；Narrator 因此在同一段里混用了“两端收拢”和“岔道口方向走来”两种调度。",
+          "fixSurface": [
+            "Director-to-Narrator handoff 的 sceneBlocking/actor-position 字段",
+            "围堵、追逐、进入场景的方向一致性检查",
+            "Narrator prompt 中对最近空间锚点的高优先级呈现"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 27 可见正文同时写“从主巷两端的黑暗中同时向中间收拢”和“三个穿深色夹克的人影从你刚刚穿过的那条岔道口方向走来”。",
+          "internalTrace": "turn-27/06b-narrator-prompt.md:392-445 保留局部地图但埋在长正文；turn-27/06b-narrator-prompt.md:488-500 的 Director handoff 只给“巷口遭遇三名黑帮成员堵截”；turn-27/04-output.json 首次出现互斥空间调度。"
+        },
+        "recommendedFixArea": "为 Director-to-Narrator handoff 增加当前场景 sceneBlocking，并对同一事件内方向短语做一致性校验。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 9,
+      "turn": 27,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "时间已经是黄昏后到夜间，角色仍使用午间问候，造成轻微但可见的时间语感冲突。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "fixed-beat-literal-replay",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "fixed beat requiredContent 的 literal line rewrite 检查",
+          "Director prompt 中 visible time-of-day anchor 的优先级规则",
+          "Narrator 对固定台词与当前时间冲突的改写许可"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 fixed beat requiredContent 增加 visible context 适配层，尤其是时间、地点、称谓、动作状态的 literal line rewrite。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-009-turn-27/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-009-turn-27/root-cause-report.md",
+      "result": {
+        "issueId": "issue-009-turn-27",
+        "turn": 27,
+        "issueValidity": "valid",
+        "problemSummary": "玩家可见时间已经推进到黄昏后/夜间，卡琳娜仍使用“午安，记者”的午间问候。",
+        "validityAssessment": {
+          "verdictReason": "可见时间线多次写明黄昏、紫灰、夜蓝和深蓝灯光语境；“午安”没有被标记为反讽或角色习惯，因此是轻微但真实的时间语感冲突。",
+          "playerVisibleSupport": "turn 19 已到黄昏，turn 20 天空沉入紫灰，turn 24 天色几乎完全沉入夜蓝，turn 27 卡琳娜仍说“午安，记者”。",
+          "caveats": [
+            "角色可能有特殊问候习惯，但当前可见文本没有提供这种解释。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家已经从傍晚等待推进到夜蓝暗街，并在昏黄灯光下退回主巷遭遇卡琳娜。当前场景时间应是黄昏后到夜间。",
+          "relevantFacts": [
+            {
+              "claim": "当前可见时间已经是黄昏后到夜间。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-19",
+                "visible-timeline.jsonl:turn-20",
+                "visible-timeline.jsonl:turn-24",
+                "visible-timeline.jsonl:turn-27"
+              ],
+              "notes": "玩家可见文本反复用光线变化建立时间推进。"
+            },
+            {
+              "claim": "固定演出硬写“午安，记者”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-27/03-story-state.json",
+                "turn-27/06a-director-prompt.md:312-314"
+              ],
+              "notes": "该句处在启动模板流程中，没有适配当前时间的说明。"
+            },
+            {
+              "claim": "Director 把“午安，记者”原样放入 requiredContent。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-27/06b-narrator-prompt.md:516-524"
+              ],
+              "notes": "requiredContent 比 recent time facts 更靠近最终写作指令。"
+            },
+            {
+              "claim": "固定台词应按 current visible time-of-day 改写。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-27/06a-director-prompt.md",
+                "turn-27/06b-narrator-prompt.md"
+              ],
+              "notes": "没有 literal line rewrite 或 time anchor priority guard。"
+            }
+          ],
+          "competingPressures": [
+            "固定演出要求启动模板流程一次输出全部。",
+            "关键台词必须强制触发一次。",
+            "最近时间事实在长段历史里存在，但弱于 requiredContent 的硬台词压力。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-27/03-story-state.json:currentStoryline.content",
+          "triggeringPressure": "active fixed beat 中的 literal greeting “午安，记者”被要求强制触发。",
+          "missingGuard": "缺少固定台词与当前 visible time-of-day 冲突时的 rewrite/bridge 机制。",
+          "mechanismStatement": "当 active fixed beat 的 literal dialogue 与最近可见时间冲突时，系统仍把 literal dialogue 作为最高优先级 requiredContent 传递，且没有时间锚点适配防线，导致 Narrator 正确执行固定台词却生成玩家可见时间语感错误。",
+          "directCause": "Director 把“午安，记者”原样转入 requiredContent，Narrator 遵循该硬台词。",
+          "propagation": "错误问候进入 turn-27/04-output.json visibleText，后续没有修正。",
+          "nonCauses": [
+            "不是 long-term memory 缺失，时间推进在 recent turns 内。",
+            "不是 Choice worker 主因。",
+            "不是隐藏设定导致的误判。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-literal-replay",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "固定演出节点仍有效，但其中的 literal greeting 已与最新 visible time-of-day 不兼容。系统缺少 fixed beat 触发时的上下文适配层，导致 Director/Narrator 将硬台词“午安”原样重放，而没有改为符合当前夜间场景的问候。",
+          "fixSurface": [
+            "fixed beat requiredContent 的 literal line rewrite 检查",
+            "Director prompt 中 visible time-of-day anchor 的优先级规则",
+            "Narrator 对固定台词与当前时间冲突的改写许可"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 19 黄昏、turn 20 紫灰、turn 24 夜蓝、turn 27 深蓝/昏黄灯光共同确认夜间语境；turn 27 输出“午安，记者”。",
+          "internalTrace": "turn-27/06a-director-prompt.md:312-314 固定演出含“午安，记者”；turn-27/06b-narrator-prompt.md:516-524 将该句放入 requiredContent；turn-27/04-output.json 输出该句。"
+        },
+        "recommendedFixArea": "为 fixed beat requiredContent 增加 visible context 适配层，尤其是时间、地点、称谓、动作状态的 literal line rewrite。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 10,
+      "turn": 28,
+      "severity": "medium",
+      "type": "user-input-ignored",
+      "scope": "mixed",
+      "summary": "模型在回答玩家追问后自动替玩家决定跟随卡琳娜，并让后续选项默认进入同行状态，削弱了玩家刚刚选择的停步追问意图。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "selected choice coreAction/forbiddenAssumptions 提取",
+          "Director prompt 的玩家行动边界 contract",
+          "Narrator prompt 对询问/观察/等待型输入的 unresolved ending 规则",
+          "Choice generator 对未决邀请状态的选项保留"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "修复 choice-action-binding：为询问、观察、犹豫、等待型选项生成 must-preserve action boundary，并要求本轮停在玩家确认点。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-010-turn-28/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-010-turn-28/root-cause-report.md",
+      "result": {
+        "issueId": "issue-010-turn-28",
+        "turn": 28,
+        "issueValidity": "valid",
+        "problemSummary": "玩家选择停步追问目的地，系统回答后自动替玩家决定跟随卡琳娜，并让后续选项进入同行状态。",
+        "validityAssessment": {
+          "verdictReason": "turn 27 将接受邀请和停步追问拆成不同选项；玩家选择停步追问后，turn 28 自动写成跟随并锁定同行状态，替换了玩家核心行动边界。",
+          "playerVisibleSupport": "turn 28 先写“你站在原地，没有跟上”，但回答后写“你抬起了脚。你跟她走了上去”；后续 choices 也全部默认已经同行。",
+          "caveats": [
+            "卡琳娜可以继续催促或施压，但玩家是否跟上应留给下一次选择。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜在 turn 27 邀请主角去有说话的地方，并站在那里让玩家决定。玩家没有选择接受邀请，而是选择站在原地追问目的地。",
+          "relevantFacts": [
+            {
+              "claim": "turn 27 的 choice 将“跟上卡琳娜，接受她的邀请”和“站在原地追问她准备带我去哪”分开。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-27"
+              ],
+              "notes": "玩家选择的是后者，不是接受邀请。"
+            },
+            {
+              "claim": "turn 28 玩家输入是站在原地追问目的地。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-28/06a-director-prompt.md:495-496"
+              ],
+              "notes": "输入明确包含停步和追问。"
+            },
+            {
+              "claim": "storyline 强调主角需要卡琳娜这样的本地向导。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-28/03-story-state.json",
+                "turn-28/06a-director-prompt.md:326-328"
+              ],
+              "notes": "该目标对同行方向施加压力。"
+            },
+            {
+              "claim": "Director 要求卡琳娜再次示意主角跟上。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-28/06b-narrator-prompt.md:530-552"
+              ],
+              "notes": "该 handoff 没有同时声明玩家尚未接受邀请。"
+            },
+            {
+              "claim": "Narrator 不应替玩家追加新决定。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-28/06b-narrator-prompt.md:574-579"
+              ],
+              "notes": "约束存在，但被 Director handoff 的剧情压力压过。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择只要求先问目的地。",
+            "storyline 要保留“需要本地向导”的暗示。",
+            "Director requiredContent 前景化 NPC 催促，但缺少未接受状态的硬边界。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-28/04-output.json:plotPoint",
+          "triggeringPressure": "story-level 本地向导目标与 Director requiredContent 中“卡琳娜再次示意主角跟上”把本轮推向接受邀请。",
+          "missingGuard": "selected choice 的 core action 没有被绑定为 must-preserve contract；缺少“追问后仍处于未决状态”的动作边界。",
+          "mechanismStatement": "当玩家选择的是非接受型追问时，Director handoff 没有把“未接受邀请”作为硬约束，而把 storyline 的同行目标和 NPC 催促前景化，导致 Narrator 将 NPC 示意误推进为玩家行动，Choice 再把同行状态固化。",
+          "directCause": "Director 同时写“主角停留在原地追问”和“卡琳娜告知目的地并催促出发”，但没有要求在回答后停在玩家确认点。",
+          "propagation": "Narrator 写出“你跟她走了上去”； Choice generator 基于正文结尾生成同行选项；turn 29 继续以同行状态开场。",
+          "nonCauses": [
+            "Choice generator 不是第一原因，它只是传播已经写入正文的同行状态。",
+            "这不是合理互动改写，因为可见选项明确区分了追问与接受。",
+            "不是 hidden state 或记忆问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "玩家所选 choice 的核心动作是“停在原地追问”，系统没有把它绑定为本轮必须保持的行动边界。Director 的 handoff 同时承认停步追问，又把 NPC 催促和 storyline 的本地向导压力推到前景，缺少“回答后仍等待玩家确认”的 guard，导致 Narrator 和 Choice 将玩家锁入同行状态。",
+          "fixSurface": [
+            "selected choice coreAction/forbiddenAssumptions 提取",
+            "Director prompt 的玩家行动边界 contract",
+            "Narrator prompt 对询问/观察/等待型输入的 unresolved ending 规则",
+            "Choice generator 对未决邀请状态的选项保留"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 27 choices 区分跟上与追问；turn 28 玩家选择追问后正文写“等着你自己决定是否跟上来”，随后替玩家写“你跟她走了上去”；turn 29 继续以同行状态开场。",
+          "internalTrace": "turn-28/06a-director-prompt.md:495-496 有玩家输入；turn-28/06b-narrator-prompt.md:530-552 的 Director handoff 要求催促跟上；turn-28/06b-narrator-prompt.md:574-579 有不要替玩家追加决定的约束；turn-28/06c-choice-prompt.md:409-429 以已同行正文结尾生成 choices。"
+        },
+        "recommendedFixArea": "修复 choice-action-binding：为询问、观察、犹豫、等待型选项生成 must-preserve action boundary，并要求本轮停在玩家确认点。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 11,
+      "turn": 36,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "同一声音事件在当前可见正文中被同时写成“不是敲门”和“敲门”，造成局部事件性质不一致。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local",
+        "family": "llm-self",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "Narrator 输出后的局部语义一致性 lint",
+          "同一事件窗口内“不是 X”与后续 X 命名冲突检测",
+          "Narrator prompt 对异常声音修辞的限定"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "增加 Narrator 输出后的局部语义一致性 lint，并在 prompt 中要求异常声音必须说明异常点而不能先否定事件类型再按该类型推进。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-011-turn-36/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-003/issues/issue-011-turn-36/root-cause-report.md",
+      "result": {
+        "issueId": "issue-011-turn-36",
+        "turn": 36,
+        "issueValidity": "valid",
+        "problemSummary": "同一声音事件在 turn 36 当前正文中先被写成“不是敲门”，随后又被描述和命名为敲门声。",
+        "validityAssessment": {
+          "verdictReason": "同段可见正文先否定“敲门”，再写“指节叩在旧木料上的声音”并称“敲门声又响了一次”，构成局部事实冲突。",
+          "playerVisibleSupport": "turn 36 visibleText 中“不是敲门”与“敲门声又响了一次”直接冲突。",
+          "caveats": [
+            "若本意是“不是普通敲门”，正文没有提供这个限定，因此玩家看到的是事件性质冲突。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家在卡琳娜公寓内查看书架，选择抽出暗红色线的薄册子。当前 storyline 要求以急促敲门声打断当前动作并过渡到下一节点。",
+          "relevantFacts": [
+            {
+              "claim": "storyline 要求节点结束时输出急促敲门声。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-36/03-story-state.json",
+                "turn-36/06a-director-prompt.md:333-358"
+              ],
+              "notes": "约束明确要求敲门声。"
+            },
+            {
+              "claim": "Director 要求敲门声响起并打断当前动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-36/06b-narrator-prompt.md:531-562"
+              ],
+              "notes": "handoff 清楚，没有要求改成其他声音。"
+            },
+            {
+              "claim": "Narrator 不应改变 Director 剧情方向。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-36/06b-narrator-prompt.md:570-579"
+              ],
+              "notes": "正文写作 contract 清楚。"
+            },
+            {
+              "claim": "Narrator 输出将同一声音事件同时否定和命名为敲门。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-36/04-output.json"
+              ],
+              "notes": "首个错误出现在 Narrator visibleText。"
+            }
+          ],
+          "competingPressures": [
+            "需要用敲门声制造节点过渡。",
+            "Narrator 追求悬疑和声音质感，使用了“不是敲门”的修辞翻转。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-36/06-llm-calls.json:narrator streamText",
+          "triggeringPressure": "悬疑转场需要一个急促、可打断动作的声音事件。",
+          "missingGuard": "缺少对同一局部事件的 semantic self-consistency 检查，尤其是“不是 X”之后又按 X 命名或处理的模式。",
+          "mechanismStatement": "在清楚要求“敲门声”的情况下，Narrator 为增强悬疑使用了“不是敲门”的局部修辞，但没有维护同一声音事件的语义一致性，导致后文按敲门处理时直接暴露矛盾。",
+          "directCause": "Narrator 先写“不是敲门”，随后描述指节叩门并称“敲门声又响”。",
+          "propagation": "矛盾进入 turn-36/04-output.json visibleText；choices 继续围绕回应敲门展开。",
+          "nonCauses": [
+            "不是 Director 或 storyline 指令冲突，它们都要求敲门声。",
+            "不是 memory 或 recent-context 问题，冲突发生在同一段生成内部。",
+            "不是 evaluator 误判。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [],
+          "description": "所有关键上下文和 contract 都清楚要求“敲门声”。错误来自 Narrator 局部生成：为了营造声音异常感，它先否定“敲门”，又立即按敲门描述和命名。没有证据表明 pipeline、state 或 prompt handoff 推动了这个矛盾。",
+          "fixSurface": [
+            "Narrator 输出后的局部语义一致性 lint",
+            "同一事件窗口内“不是 X”与后续 X 命名冲突检测",
+            "Narrator prompt 对异常声音修辞的限定"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 36 visibleText 同时包含“不是敲门。三声……指节叩在旧木料上的声音”和“敲门声又响了一次”。",
+          "internalTrace": "turn-36/03-story-state.json 与 turn-36/06b-narrator-prompt.md:531-562 均要求敲门声；turn-36/04-output.json 是首个自相矛盾 artifact。"
+        },
+        "recommendedFixArea": "增加 Narrator 输出后的局部语义一致性 lint，并在 prompt 中要求异常声音必须说明异常点而不能先否定事件类型再按该类型推进。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

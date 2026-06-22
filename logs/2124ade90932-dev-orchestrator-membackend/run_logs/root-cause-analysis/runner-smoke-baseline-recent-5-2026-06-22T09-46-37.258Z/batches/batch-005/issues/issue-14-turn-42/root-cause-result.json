@@ -1,0 +1,84 @@
+{
+  "issueId": "issue-14-turn-42",
+  "turn": 42,
+  "issueValidity": "valid",
+  "problemSummary": "同一轮可见正文先确认德索洛女儿被欺骗并被割舌，随后又说“我女儿受伤是假的”，并出现“我再也不能唱歌了”的 pronoun drift。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见文本内部保留两套互斥事实，且没有桥接解释，因此 issue 有效。",
+    "playerVisibleSupport": "turn 41 铺垫“我女儿……他们把她——”；turn 42 先写“她的舌头被割了”，又写“我女儿受伤是假的”。",
+    "caveats": [
+      "如果作者本意是揭示“假伤骗局”，正文需要明确解释骗局结构；当前文本没有提供这种解释。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "帕兹在卡琳娜公寓内，卡琳娜站在门内控制门口，德索洛站在门外求助；玩家选择点明德索洛作为父亲的急迫与疏远家人的矛盾。",
+    "relevantFacts": [
+      {
+        "claim": "德索洛为女儿受害寻求公道。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn 41",
+          "turn-42/06a-director-prompt.md",
+          "turn-42/06b-narrator-prompt.md"
+        ],
+        "notes": "recent visible text 和角色资料都清楚支持该事实。"
+      },
+      {
+        "claim": "女儿被欺骗、抵抗、舌头被割。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-42/06-llm-calls.json[0].object.requiredContent",
+          "turn-42/06a-director-prompt.md"
+        ],
+        "notes": "Director requiredContent 明确要求写入割舌细节。"
+      },
+      {
+        "claim": "“他女儿受伤是假的”是角色卡末尾的冲突注记。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-42/06a-director-prompt.md",
+          "turn-42/06b-narrator-prompt.md"
+        ],
+        "notes": "该短句与同卡前文、recent visible text、Director output 冲突，却未被降权或禁止转写。"
+      }
+    ],
+    "competingPressures": [
+      "角色卡中的冲突性作者注记",
+      "当前 storyline 必须完成“尊严换公道”交易",
+      "玩家输入要求点明父亲矛盾",
+      "Director 对交易节点的快速推进压力"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-42/06b-narrator-prompt.md -> turn-42/06-llm-calls.json[1].text",
+    "triggeringPressure": "Narrator prompt 同时包含“女儿被割舌”和“他女儿受伤是假的”两个互斥断言，后者短句化、引号化并靠近角色卡总结区。",
+    "missingGuard": "prompt assembly 没有结构化冲突仲裁；Director handoff 没有显式写出“女儿确实受害，不能写成假伤”的 must-not constraint。",
+    "mechanismStatement": "未分层的角色资料把冲突短句与 recent visible text/Director requiredContent 同等交给 Narrator，缺少优先级和禁止项，导致模型在同一轮同时执行真实受害和假伤两套事实。",
+    "directCause": "Narrator 复用了角色卡末尾的“受伤是假的”短句，并把“她再也不能当歌手”漂成“我再也不能唱歌了”。",
+    "propagation": "错误写入 turn-42/04-output.json 的 visibleText 和 currentStoryline write，后续 turn 43 继续以德索洛女儿话题推进。",
+    "nonCauses": [
+      "不是 evaluator 误判，可见文本本身冲突。",
+      "不是长期 memory 缺失，所需事实在当前 prompt 中存在。",
+      "不是单纯 Director 错误，Director output 对受害事实是清楚的。"
+    ]
+  },
+  "rootCause": {
+    "label": "context-priority",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "llm-self"
+    ],
+    "description": "角色资料中的剧情事实、作者评价和当前可见事实没有分层；冲突短句“他女儿受伤是假的”没有被 recent visible text 和 Director requiredContent 覆盖成禁止项，Narrator 因而同时执行互斥事实，并在代词上进一步漂移。",
+    "fixSurface": [
+      "character-card/context assembly conflict detection",
+      "Director -> Narrator mustKeep/mustNotContradict handoff",
+      "post-generation contradiction validator"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 41 “我女儿……他们把她——”；turn 42 “她的舌头被割了”与“我女儿受伤是假的”同轮并存。",
+    "internalTrace": "turn-42/06a-director-prompt.md 与 06b-narrator-prompt.md 同时包含割舌事实和“受伤是假的”；turn-42/06-llm-calls.json[0] 要求割舌细节，turn-42/06-llm-calls.json[1] 首次生成冲突文本。"
+  },
+  "recommendedFixArea": "优先修复 character-card/context assembly 与 Director -> Narrator handoff 的冲突仲裁和 must-not 约束。",
+  "confidence": "high"
+}

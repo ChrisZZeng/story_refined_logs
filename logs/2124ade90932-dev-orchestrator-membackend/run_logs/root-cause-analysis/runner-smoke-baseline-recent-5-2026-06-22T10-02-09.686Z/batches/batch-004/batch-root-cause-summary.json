@@ -1,0 +1,457 @@
+{
+  "batchId": "batch-004",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 11,
+      "turn": 29,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "mixed",
+      "summary": "正文已经把照片夹回书中并合上书、放回床头柜，但同一轮选项仍把照片当作可直接继续观察或尚未夹回的对象，造成轻微交互状态不一致。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Choice generation prompt/context assembly",
+          "currentInteractionState or affordance extraction after Narrator",
+          "choice post-generation consistency validator"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 Choice worker 增加当前可操作对象、已完成动作和必要前置动作的结构化输入，并对生成选项做状态一致性校验。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-011-turn-29/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-011-turn-29/root-cause-report.md",
+      "result": {
+        "issueId": "issue-11-turn-29",
+        "issueIndex": 11,
+        "turn": 29,
+        "issueValidity": "valid",
+        "problemSummary": "第 29 轮正文已经把照片夹回书里、合上书并放回床头柜，但同轮选项仍把照片当作可直接观察或尚未夹回的对象。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见正文的最终状态与同轮选项的动作前提冲突，且选项没有补足“重新打开书取出照片”的前置动作。",
+          "playerVisibleSupport": "turn 29 正文结尾写明“你把照片夹回原页，合上书”和“那本书安安静静地躺回床头柜上”；同轮选项包含“仔细观察照片正面”和“把照片小心夹回书里”。",
+          "caveats": [
+            "该问题严重度低，因为玩家仍可理解为继续探索照片；但选项措辞本身省略了必要状态转换。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 29 轮末尾，玩家已经结束本次翻书检查，照片回到原页，书合上并回到床头柜。",
+          "relevantFacts": [
+            {
+              "claim": "照片已经夹回原页，书已经合上并回到床头柜。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-29/04-output.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "该事实位于本轮可见正文结尾，是 Choice 生成时的最终状态。"
+            },
+            {
+              "claim": "Choice worker 收到了完整正文和“以本轮正文结尾为准”的规则。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-29/06c-choice-prompt.md"
+              ],
+              "notes": "规则清楚，但没有结构化 affordance 或生成后校验。"
+            },
+            {
+              "claim": "照片是本轮高显著的新发现。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-29/04-output.json",
+                "turn-29/07-events.json"
+              ],
+              "notes": "照片占据正文核心段落，容易拉动后续选项。"
+            }
+          ],
+          "competingPressures": [
+            "新发现照片带来的探索吸引力",
+            "主角观察取证的角色倾向",
+            "Choice prompt 只以自然语言正文作为状态来源"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-29/07-events.json: worker-done choiceGenerator",
+          "triggeringPressure": "本轮照片发现被强烈前景化，Director 的 requiredContent 和 Narrator 的正文都把照片作为最显眼线索。",
+          "missingGuard": "缺少结构化的当前可操作对象和已完成动作约束，也缺少选项生成后的 affordance consistency check。",
+          "mechanismStatement": "当新发现物非常显眼而其最终状态只写在正文末尾时，Choice generator 把“值得继续探索”误绑定为“仍可直接操作”，系统没有用结构化状态或后校验阻止该绑定进入可见选项。",
+          "directCause": "Choice generator 生成的选项没有继承 Narrator 结尾的物件状态。",
+          "propagation": "矛盾选项在第 29 轮可见；第 30 轮玩家选择后，Narrator 继续按照片在手状态写出托起照片。",
+          "nonCauses": [
+            "Director 未要求保持照片在手。",
+            "Narrator 第 29 轮正文已经明确收束照片状态。",
+            "这不是长期记忆遗失，而是同轮正文到选项的状态绑定问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "Choice 阶段只有自然语言一致性要求，没有结构化继承 Narrator 末尾的当前交互状态；在照片作为高显著新线索的压力下，模型把已收起物件错误绑定为直接可操作选项。",
+          "fixSurface": [
+            "Choice generation prompt/context assembly",
+            "currentInteractionState or affordance extraction after Narrator",
+            "choice post-generation consistency validator"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 29 正文收束照片和书；turn 29 选项仍直接观察照片或重复夹回照片；turn 30 继续按照片可直接拿起传播。",
+          "internalTrace": "turn-29/06c-choice-prompt.md 已给出正文结尾和判断流程；turn-29/07-events.json 中 choiceGenerator 首次输出矛盾选项。"
+        },
+        "recommendedFixArea": "为 Choice worker 增加当前可操作对象、已完成动作和必要前置动作的结构化输入，并对生成选项做状态一致性校验。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 12,
+      "turn": 38,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "同一道晨光光斑刚被建立在地板/茶几桌腿附近，第38轮却称其在窗台上且即将爬过桌腿，造成局部空间描述混乱。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor-gap",
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Narrator context assembly",
+          "current scene spatial anchor extraction",
+          "micro-spatial consistency lint"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 Narrator 增加当前场景微空间锚点，尤其是连续环境对象的位置、移动方向和关联家具；必要时增加后置 lint。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-012-turn-38/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-012-turn-38/root-cause-report.md",
+      "result": {
+        "issueId": "issue-12-turn-38",
+        "issueIndex": 12,
+        "turn": 38,
+        "issueValidity": "valid",
+        "problemSummary": "第 37 轮把晨光光斑定位在墙根到旧茶几桌腿边缘，第 38 轮又称其在窗台上且即将爬过桌腿，造成局部空间混乱。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本连续描写同一清晨光斑，但第 38 轮把窗台和桌腿边缘错误合并，空间关系不成立。",
+          "playerVisibleSupport": "turn 37 写“那枚菱形光斑已经从墙根滑到了旧茶几的桌腿边缘”；turn 38 写“窗台上那道即将爬过桌腿的光斑”。",
+          "caveats": [
+            "这是低严重度问题，因为读者仍能理解慢移光线的意象；但连续空间状态确实漂移。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "清晨客厅中，光斑作为地板/墙根附近的移动光线，上一轮已经滑到旧茶几桌腿边缘。",
+          "relevantFacts": [
+            {
+              "claim": "光斑上一轮位于墙根到旧茶几桌腿边缘。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-38/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实在第 37 轮可见正文和第 38 轮 Narrator prompt 的最近几轮经历中都存在。"
+            },
+            {
+              "claim": "Director 没有要求改变光斑位置。",
+              "availability": "not-needed",
+              "artifacts": [
+                "turn-38/04-output.json",
+                "turn-38/07-events.json"
+              ],
+              "notes": "Director 只安排对话和模糊回应。"
+            },
+            {
+              "claim": "当前场景微空间没有结构化锚点。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-38/06b-narrator-prompt.md"
+              ],
+              "notes": "prompt 只有通用一致性要求和长 prose，没有 lightSpot/currentScene 之类短状态。"
+            }
+          ],
+          "competingPressures": [
+            "慢铺对话需要环境隐喻",
+            "窗台、灰尘、光斑、桌腿等词簇在最近上下文中相邻出现",
+            "微空间事实没有结构化优先级"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-38/07-events.json: worker-done narrator",
+          "triggeringPressure": "Narrator 需要继续用清晨光线和沉默氛围包装对话，且最近上下文反复出现窗台、灰尘、光斑和桌腿。",
+          "missingGuard": "缺少当前场景微空间锚点，通用“保持一致”规则不足以约束环境隐喻里的几何关系。",
+          "mechanismStatement": "当光斑位置只埋在最近几轮 prose 中，而本轮又继续生成环境意象时，Narrator 将相邻视觉词簇自由合成，缺少 current-scene spatial anchor 导致窗台和桌腿边缘被错误绑定。",
+          "directCause": "Narrator 把光斑位置从地板/墙根附近漂移到窗台。",
+          "propagation": "错误主要停留在第 38 轮正文，没有由 Choice 进一步放大。",
+          "nonCauses": [
+            "Director 未提供错误空间指令。",
+            "玩家输入没有涉及光斑位置。",
+            "不是长期记忆缺失；正确事实就在上一轮上下文。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor-gap",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "当前场景中会连续移动的微空间对象没有被抽为高优先级 scene anchor；在慢铺环境描写压力下，Narrator 把最近上下文里的窗台、灰尘、光斑和桌腿重组为错误空间关系。",
+          "fixSurface": [
+            "Narrator context assembly",
+            "current scene spatial anchor extraction",
+            "micro-spatial consistency lint"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 37 光斑在墙根到旧茶几桌腿边缘；turn 38 光斑被写成在窗台上且即将爬过桌腿。",
+          "internalTrace": "turn-38/06b-narrator-prompt.md 中正确事实 present-clear；turn-38/07-events.json 中 narrator 首次生成错误句。"
+        },
+        "recommendedFixArea": "为 Narrator 增加当前场景微空间锚点，尤其是连续环境对象的位置、移动方向和关联家具；必要时增加后置 lint。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 13,
+      "turn": 43,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "连续对话被近乎相同的沉默、杯子和凉茶动作反复包装，形成机械重复的阅读体验。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "anti-repetition-contract-gap",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context",
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Director prompt contract",
+          "Narrator prompt contract",
+          "recent motif extraction and cooldown",
+          "quality regression lint for repeated action beats"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "增加 recent motif tracking，把近几轮动作和环境母题转为 avoid/cooldown constraints，并要求信息不能揭示时选择新的非信息推进方式。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-013-turn-43/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-013-turn-43/root-cause-report.md",
+      "result": {
+        "issueId": "issue-13-turn-43",
+        "issueIndex": 13,
+        "turn": 43,
+        "issueValidity": "valid",
+        "problemSummary": "第 40-43 轮连续使用沉默、搪瓷杯、凉茶、指尖画圆和晨光包装回避式对话，第 43 轮形成明显机械重复。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本中同一组动作母题在连续敏感对话中重复出现，且第 43 轮与第 41/42 轮结构高度相似。",
+          "playerVisibleSupport": "turn 41、42、43 都反复出现卡琳娜没有立刻回答、手指停在杯壁、半截凉茶、喝茶、指尖画圆和晨光/窗台描写。",
+          "caveats": [
+            "卡琳娜回避问题时使用沉默和小动作本身合理；有效问题是连续多轮缺少变体和推进。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家连续追问敏特和真相，卡琳娜因信息控制不能直接回答，场景停留在清晨客厅的慢铺对话。",
+          "relevantFacts": [
+            {
+              "claim": "最近几轮已经重复使用杯子、凉茶、沉默和画圆动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-43/06a-director-prompt.md",
+                "turn-43/06b-narrator-prompt.md"
+              ],
+              "notes": "这些重复素材在第 43 轮 prompt 的最近几轮经历中清楚可见。"
+            },
+            {
+              "claim": "Director 继续安排沉默和细微动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-43/04-output.json",
+                "turn-43/07-events.json"
+              ],
+              "notes": "第 43 轮 plotPoint 明确要求“先沉默”和“慢铺，强调沉默和细微动作”。"
+            },
+            {
+              "claim": "通用不要重复规则存在但不可执行。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-43/06a-director-prompt.md",
+                "turn-43/06b-narrator-prompt.md"
+              ],
+              "notes": "没有列出需要冷却的近期动作母题。"
+            }
+          ],
+          "competingPressures": [
+            "卡琳娜不能透露敏特来新西西里的具体原因",
+            "审视/试探阶段鼓励回避和停顿",
+            "slow pacing 强化细微动作描写",
+            "最近上下文把重复动作作为可模仿样例继续提供"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-43/07-events.json: worker-done director",
+          "triggeringPressure": "信息控制和慢铺风格把本轮导向“不能回答但要继续维持张力”的安全模板。",
+          "missingGuard": "缺少近期动作母题去重/冷却契约，通用“不要重复”没有转成硬约束或结构化列表。",
+          "mechanismStatement": "当剧情不能给新信息而 prompt 又要求慢铺细微动作时，Director 反复选择沉默和杯子动作作为安全承接；缺少 anti-repetition contract 使 Narrator 继续复用最近文本中的凉茶、画圆和晨光模板。",
+          "directCause": "第 43 轮 Director 给出同构 beat，Narrator 沿用近邻动作母题扩写。",
+          "propagation": "第 43 轮正文显示机械重复；后续选项仍允许继续追问，存在延续同一循环的风险。",
+          "nonCauses": [
+            "不是固定剧本必须反复喝茶或画圆。",
+            "不是玩家输入无效。",
+            "不是单一措辞错误，而是跨轮动作母题复用。"
+          ]
+        },
+        "rootCause": {
+          "label": "anti-repetition-contract-gap",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context",
+            "llm-self"
+          ],
+          "description": "系统看到了最近几轮重复文本，但没有把它转成可执行的 avoid/cooldown motif 约束；在信息控制和慢铺压力下，Director/Narrator 继续使用最安全、最邻近的杯子和沉默模板。",
+          "fixSurface": [
+            "Director prompt contract",
+            "Narrator prompt contract",
+            "recent motif extraction and cooldown",
+            "quality regression lint for repeated action beats"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 41-43 连续重复沉默、搪瓷杯、凉茶、指尖画圆和晨光描写。",
+          "internalTrace": "turn-43/04-output.json 中 Director 指定慢铺和沉默细微动作；turn-43/06a/06b prompts 中重复素材 present-clear 但无结构化冷却约束。"
+        },
+        "recommendedFixArea": "增加 recent motif tracking，把近几轮动作和环境母题转为 avoid/cooldown constraints，并要求信息不能揭示时选择新的非信息推进方式。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 14,
+      "turn": 47,
+      "severity": "low",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "同一清晨场景里，卡琳娜从灰色毛衣无承接漂移回前一日的白色棉衣外观。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-appearance-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "visible detail writeback",
+          "character currentAppearance state",
+          "prompt priority between current visible appearance and default character card",
+          "appearance continuity lint"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "将同场景可见服装写入 currentAppearance/detail state，并在 prompt 中明确它优先于角色卡默认服装；增加外观连续性检查。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-014-turn-47/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-004/issues/issue-014-turn-47/root-cause-report.md",
+      "result": {
+        "issueId": "issue-14-turn-47",
+        "issueIndex": 14,
+        "turn": 47,
+        "issueValidity": "valid",
+        "problemSummary": "同一清晨连续场景中，第 33 轮建立卡琳娜穿灰色毛衣，第 47 轮无换衣承接却回到白色棉衣。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见时间线没有换衣或时间跳跃；第 47 轮还承接第 46 轮靠在厨房台边的姿势，因此服装应延续第 33 轮清晨建立的灰色毛衣。",
+          "playerVisibleSupport": "turn 33 写卡琳娜穿宽大的近灰色毛衣；turn 46 只写她去厨房水槽、擦手、靠在厨房台边；turn 47 写白色棉衣袖口。",
+          "caveats": [
+            "如果系统显式写出换衣，可以解释服装变化；但当前可见文本没有该承接。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 47 轮前仍是同一清晨公寓场景，卡琳娜从沙发到厨房水槽再靠在厨房台边，没有离场换衣。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜当前清晨服装是宽大的近灰色毛衣。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-47/06b-narrator-prompt.md",
+                "turn-47/03-story-state.json",
+                "turn-47/05-runtime-after.json"
+              ],
+              "notes": "该事实在 turn 33 可见文本中清楚出现，但未进入 turn 47 的 recent window 或状态。"
+            },
+            {
+              "claim": "角色卡默认外观包含白色棉衣。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-47/06b-narrator-prompt.md",
+                "turn-47/02-script-state.json"
+              ],
+              "notes": "在当前服装事实缺失时，默认外观成为最高显著服装来源。"
+            },
+            {
+              "claim": "第 46 到第 47 轮没有换衣承接。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-47/06b-narrator-prompt.md"
+              ],
+              "notes": "第 47 轮开头还写“靠在厨房台边的姿势没有变”。"
+            }
+          ],
+          "competingPressures": [
+            "角色卡默认白色棉衣位于 prompt 前部",
+            "第 33 轮灰色毛衣超出 recent window",
+            "storyline summary 未记录临时服装",
+            "本轮描写袖口和手腕时需要衣物细节"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-47/06b-narrator-prompt.md: context assembly lacks current clothing and foregrounds default character outfit",
+          "triggeringPressure": "Narrator 需要描写卡琳娜靠在厨房台边的手部和袖口细节，而 prompt 中最显著的服装信息是角色卡默认白色棉衣。",
+          "missingGuard": "缺少 currentAppearance/detail-memory 持久化，也缺少默认角色卡服装不得覆盖同场景可见服装的优先级规则。",
+          "mechanismStatement": "当第 33 轮建立的临时服装没有写入状态且滑出 recent window 后，Narrator 在需要袖口细节时回落到角色卡默认服装；缺少 current-appearance persistence 使默认白色棉衣覆盖了当前灰色毛衣。",
+          "directCause": "Narrator 使用角色卡默认外观写出“白色棉衣的袖口”。",
+          "propagation": "第 47 轮显性漂移后，第 48 轮继续写白色棉衣轮廓，错误进入后续上下文。",
+          "nonCauses": [
+            "不是玩家输入造成。",
+            "不是合理换衣，因为没有可见承接。",
+            "不是 Choice 输出问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-appearance-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "玩家可见的当前服装没有持久化为高优先级 current appearance；当 recent window 滑过第 33 轮后，角色卡默认白色棉衣在袖口描写中重新夺权。",
+          "fixSurface": [
+            "visible detail writeback",
+            "character currentAppearance state",
+            "prompt priority between current visible appearance and default character card",
+            "appearance continuity lint"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 33 灰色毛衣；turn 46 无换衣且承接到厨房台边；turn 47 白色棉衣；turn 48 继续白色棉衣。",
+          "internalTrace": "turn-47/06b-narrator-prompt.md recent window lacks gray sweater while character card contains white cotton coat; turn-47/03-story-state.json and runtime-after do not persist current clothing."
+        },
+        "recommendedFixArea": "将同场景可见服装写入 currentAppearance/detail state，并在 prompt 中明确它优先于角色卡默认服装；增加外观连续性检查。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

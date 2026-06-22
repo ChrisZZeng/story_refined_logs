@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-004-turn-09",
+  "turn": 9,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 8 已写帕兹咬口腔内侧让闪回破裂并重新看清三人；Turn 9 开头几乎原句重演这个动作，使同一即时场景像回退了一小步。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。Turn 8 末尾已经完成“咬口腔内侧的软肉，疼痛像一根针，把那个画面扎破了，并重新看清眼前三个人”；Turn 9 开头再次写“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。重复不是新选择的自然后果，而是上一轮尾句被当成本轮开场桥段重演。",
+    "playerVisibleSupport": "Turn 8 和 Turn 9 在同一黑帮对峙中连续出现几乎相同的咬口腔内侧动作和“疼痛像一根针，把那个画面扎破了”意象。",
+    "caveats": [
+      "玩家输入“平复呼吸”确实可以承接 Turn 8 的应激状态，因此需要写恢复过程；问题只在于重复了已完成的具体恢复动作。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "Turn 8 末尾，帕兹已经用疼痛打断闪回，重新看清三名黑帮，对方等他摘下相机。Turn 9 应从这之后继续，让他进一步平复呼吸并假装示弱。",
+    "relevantFacts": [
+      {
+        "claim": "咬口腔内侧、打断闪回、重新看清三人已经在 Turn 8 完成。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-08/04-output.json",
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "Turn 9 prompt 的最近几轮玩家经历完整包含 Turn 8 末尾。"
+      },
+      {
+        "claim": "Turn 9 的玩家意图是平复呼吸、假装示弱、观察反应。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-09/06a-director-prompt.md",
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "玩家输入和 Director summary 都要求继续到示弱观察。"
+      },
+      {
+        "claim": "Director 没有要求重复咬口腔内侧动作。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-09/06b-narrator-prompt.md",
+          "turn-09/07-events.json"
+        ],
+        "notes": "Director requiredContent 只有示弱台词和黑帮错愕；重复动作是 Narrator 的续写选择。"
+      },
+      {
+        "claim": "Narrator handoff 缺少“从上一轮最后一句之后开始，不要复述已完成动作”的硬边界。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-09/06b-narrator-prompt.md"
+        ],
+        "notes": "prompt 给出完整 recent turn 和一般一致性规则，但没有独立的 continuation cursor 或 consumed last-beat marker。"
+      }
+    ],
+    "competingPressures": [
+      "玩家输入“平复呼吸”需要表现身体恢复，容易回拉到 Turn 8 的应激打断动作。",
+      "recentTurns 中 Turn 8 末尾高度显著，Narrator 可能把它当成可复述的开场桥。",
+      "Director 的本轮 requiredContent 更关注台词和黑帮反应，没有指定开场应从已完成动作之后切入。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-09/04-output.json narrator output",
+    "triggeringPressure": "Turn 9 Narrator prompt 包含 Turn 8 末尾完整文本，玩家输入又是“平复呼吸”，两者共同把生成拉向重复上一轮的应激恢复动作。",
+    "missingGuard": "系统没有给 Narrator 一个明确 continuation cursor，标记“咬口腔内侧/打断闪回/重新看清三人”已经 consumed；也没有把“不要重复最近尾句”转化为本轮可执行约束。",
+    "mechanismStatement": "recent visible tail 被完整放入 Narrator 上下文，但 handoff 缺少已消费动作边界，模型用上一轮尾句作为本轮恢复动作的桥，导致同一即时动作几乎原句重演。",
+    "directCause": "Narrator 在 Turn 9 第一帧重复写出“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。",
+    "propagation": "重复动作进入 Turn 9 visibleText；同一回合随后继续示弱台词和黑帮反应，因此问题没有阻塞剧情，但造成局部回退感。",
+    "nonCauses": [
+      "不是 fixed beat 台词直接要求重复；Director requiredContent 没有该动作。",
+      "不是缺少最近上下文；Turn 8 末尾清楚地存在于 Turn 9 prompt。"
+    ]
+  },
+  "rootCause": {
+    "label": "continuation-boundary",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "Narrator 接收了完整 recent turn tail 和“平复呼吸”的玩家意图，但没有收到已消费动作边界或续写游标。缺失的 handoff contract 使模型把上一轮尾句当作本轮开场桥重演，而不是从“已经重新看清三人，对方等他摘相机”之后继续。",
+    "fixSurface": [
+      "Narrator handoff: include continuation cursor / last completed beat",
+      "Director output: specify startAfter or alreadyDone facts for immediate scene continuations",
+      "repetition validator: compare first generated sentence against previous visible tail"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 8 写“你用力咬了一下口腔内侧的软肉，疼痛像一根针，把那个画面扎破了。你重新看清了眼前的三个人。”Turn 9 开头重复“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。",
+    "internalTrace": "turn-09/06b-narrator-prompt.md 第 335-365 行包含 Turn 8 尾段；第 404-423 行的 Director 输出没有要求重复该动作，只要求示弱台词和黑帮错愕；turn-09/07-events.json 显示重复由 Narrator 首帧生成。"
+  },
+  "recommendedFixArea": "在 Narrator handoff 中加入 continuation cursor 或 `alreadyDone` 列表，并对生成首句和上一轮尾句做近重复校验；Director 对即时连续场景应显式说明从哪个已完成动作之后开始。",
+  "confidence": "high"
+}

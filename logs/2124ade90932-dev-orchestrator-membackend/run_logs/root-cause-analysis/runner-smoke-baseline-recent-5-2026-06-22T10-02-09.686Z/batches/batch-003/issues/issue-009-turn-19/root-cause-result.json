@@ -1,0 +1,93 @@
+{
+  "issueId": "issue-9-turn-19",
+  "issueIndex": 9,
+  "turn": 19,
+  "issueValidity": "valid",
+  "problemSummary": "turn 18 德索洛仍站立且双手垂在身侧；turn 19 开头直接变为单膝跪地并握住卡琳娜指尖，缺少玩家可见动作桥接。",
+  "validityAssessment": {
+    "verdictReason": "下跪和握手是显著姿态/接触状态变化，turn 19 没有描写动作发生过程，因此玩家可见连续性被破坏。",
+    "playerVisibleSupport": "turn 18 有“双手垂在身侧”；turn 19 开头有“单膝跪在地板上”“左手握着卡琳娜纤细的指尖”。",
+    "caveats": [
+      "如果 turn 19 明确写出德索洛如何跪下并伸手，这个固定动作本身可以成立；问题在于可见桥接缺失。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "德索洛站在门口，双手垂在身侧，已经称呼‘阁下’并听到卡琳娜同意查女儿之事与规矩提醒；玩家选择继续沉默。",
+    "relevantFacts": [
+      {
+        "claim": "上一轮末帧姿态是站立、双手垂侧。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-19/06a-director-prompt.md"
+        ],
+        "notes": "recentTurns 明确保留该姿态。"
+      },
+      {
+        "claim": "turn 19 开场已是单膝跪地并握住指尖。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-19/04-output.json",
+          "turn-19/06-llm-calls.json"
+        ],
+        "notes": "Narrator 第一段即为动作完成态。"
+      },
+      {
+        "claim": "Director 把下跪拉手设为本轮 requiredContent。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-19/06-llm-calls.json[0].object",
+          "turn-19/06b-narrator-prompt.md"
+        ],
+        "notes": "动作目标清楚，但没有桥接约束。"
+      },
+      {
+        "claim": "固定交易素材提供了下跪拉手动作。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-19/02-script-state.json",
+          "turn-19/06a-director-prompt.md"
+        ],
+        "notes": "动作来源是固定素材，不是最近可见事实。"
+      }
+    ],
+    "competingPressures": [
+      "fixed script 强力要求单膝跪地和拉手。",
+      "recentTurns 明确提供上一轮站立状态。",
+      "Narrator 被要求以 Director 安排为骨架。",
+      "prompt 缺少 explicit last-frame continuation contract。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-19/06-llm-calls.json[0].object",
+    "triggeringPressure": "固定交易过程中的“单膝跪地、拉起卡琳娜的手”被 Director 选为本轮 requiredContent。",
+    "missingGuard": "缺少 current-scene anchor / pose-transition contract，没有硬性传递上一轮站立末帧及必须展示动作过程的要求。",
+    "mechanismStatement": "固定动作 beat 被提升为 requiredContent，但 handoff 只传递目标动作而未传递上一帧姿态和桥接要求；Narrator 因此以动作完成态开场，形成 unsupported posture jump。",
+    "directCause": "Narrator 将下跪拉手动作压缩成开场静态结果。",
+    "propagation": "04-output.json 和 visible timeline 固化开场完成态，后文继续提到“手仍然握着她的指尖”。",
+    "nonCauses": [
+      "不是玩家输入要求该动作。",
+      "不是最近上下文缺失。",
+      "不是评测误判。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "系统把会改变姿态和身体接触的固定动作交给 Narrator，却没有把上一轮最后可见姿态作为硬锚点，也没有要求从该锚点显式桥接到目标动作；Narrator 直接从完成态开场。",
+    "fixSurface": [
+      "Director output schema 增加 startFrame / lastVisibleState / transitionRequirements",
+      "Narrator prompt 强制从上一轮最后可见姿态开始",
+      "requiredContent 姿态/位置/接触变化的 bridge validator"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 18 “双手垂在身侧”；turn 19 “单膝跪在地板上”“左手握着卡琳娜纤细的指尖”。",
+    "internalTrace": "turn-19/06-llm-calls.json[0].object requiredContent 要求下跪拉手；turn-19/06-llm-calls.json[1].text 第一段直接写完成态。"
+  },
+  "recommendedFixArea": "current-scene anchor、transitionRequirements、姿态/接触 bridge validator。",
+  "confidence": "high"
+}

@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-19-turn-46",
+  "turn": 46,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 46 的选项提前暴露“明天晚宴”，但此前玩家可见内容没有建立晚宴；下一轮正文才说明“凯旋门今晚有晚宴”，时间也与“明天”不一致。",
+  "validityAssessment": {
+    "verdictReason": "在 turn 46 选项前，玩家可见剧情仍停留在卡琳娜解释‘被害者申诉人’和暗街公道逻辑，没有任何晚宴信息。turn 46 选项直接问“明天晚宴的事情”，随后 turn 47 才首次建立“凯旋门今晚有晚宴”。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 46 的正文没有晚宴；turn 46 choices 出现“明天晚宴的事情，你准备好了吗”；turn 47 正文说“凯旋门今晚有晚宴”。",
+    "caveats": [
+      "隐藏 storyline 已经进入准备节点并包含晚宴交互，但玩家当时尚未获得可见桥接。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家刚追问上一轮错误选项中的“被害者申诉人”；卡琳娜用暗街公道、尊严和亏欠解释自己的处理方式。晚宴尚未被任何角色或旁白可见提及。",
+    "relevantFacts": [
+      {
+        "claim": "晚宴在 turn 46 选项前未对玩家建立。",
+        "availability": "absent",
+        "artifacts": [
+          "visible-timeline.jsonl turn 43-46",
+          "turn-46/04-output.json"
+        ],
+        "notes": "正文只解释身份和交易逻辑。"
+      },
+      {
+        "claim": "当前 story state 已切到 `推进节点 04-01：准备`，并提供晚宴相关 followup。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-46/03-story-state.json",
+          "turn-46/02-script-state.json:147-157"
+        ],
+        "notes": "这是内部下一节点状态，不等于玩家已知。"
+      },
+      {
+        "claim": "Choice prompt 明确把“询问晚宴的细节”列为当前情节边界参考。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-46/06c-choice-prompt.md:30-38"
+        ],
+        "notes": "候选 followup 离 prompt 开头很近，且比最终 visibleText 更像可执行清单。"
+      },
+      {
+        "claim": "晚宴真实时间在后续可见文本中被建立为今晚。",
+        "availability": "contradicted",
+        "artifacts": [
+          "visible-timeline.jsonl turn 47",
+          "turn-47/04-output.json"
+        ],
+        "notes": "turn 47 卡琳娜说“凯旋门今晚有晚宴”，与 turn 46 选项的“明天”不一致。"
+      }
+    ],
+    "competingPressures": [
+      "storyline 已进入 04-01 准备节点，内部 followup 要询问晚宴细节。",
+      "当前玩家可见对话还在解释被害者申诉人，没有晚宴桥接。",
+      "Choice prompt 要参考候选动作，但只以自然语言约束“未铺垫不要展示”。",
+      "模型在生成选项时自行填入了未锚定的时间词“明天”。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-46/06c-choice-prompt.md",
+    "triggeringPressure": "turn-46 的 currentStoryline 已是 04-01 准备节点，`interactionFollowup` 把“询问晚宴的细节（地点、时间、目的）”作为核心交互；Choice prompt 将该 followup 放在“当前情节边界参考”中。",
+    "missingGuard": "storyline lifecycle 没有要求未来节点 followup 必须等待可见 entry beat；Choice 也没有把“晚宴”和时间词回查到玩家可见文本或当前 turn 正文。",
+    "mechanismStatement": "准备节点的 `interactionFollowup` 在可见桥接之前被注入 Choice 候选区；缺少 storyline entry/visible-anchor gate，导致未来事件“晚宴”提前进入选项，模型又在无时间锚点下填成“明天”。",
+    "directCause": "Choice output 生成了“明天晚宴的事情，你准备好了吗”。",
+    "propagation": "该选项进入 turn-46/04-output.json 和 visible timeline。玩家没有选择它，而 turn 47 正文后续才把晚宴建立为“今晚”，暴露时间不一致。",
+    "nonCauses": [
+      "不是玩家已经知道但评测漏读；可见正文此前没有晚宴。",
+      "不是长期 memory 缺失；晚宴信息在内部状态中存在。",
+      "不是 Narrator 在 turn 46 正文提前泄露；问题发生在 choices。"
+    ]
+  },
+  "rootCause": {
+    "label": "storyline-lifecycle",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 storyline 已提前激活 04-01 准备节点并暴露晚宴 followup；缺失防线是没有 entry beat / visible-anchor gate 来确认晚宴已由正文建立；失败运动是 Choice 将未来节点交互直接转成当前选项，并在缺少时间事实时生成错误的“明天”。",
+    "fixSurface": [
+      "storyline node activation / entry gating",
+      "Choice candidate filtering",
+      "visible anchor validation for future-node followups"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 46 正文没有晚宴，选项出现“明天晚宴”；turn 47 才说“凯旋门今晚有晚宴”。",
+    "internalTrace": "turn-46/03-story-state.json 当前 storyline 为 `4-01-第一章`；turn-46/06c-choice-prompt.md:30-38 将“询问晚宴的细节”列入当前边界；turn-46/06-llm-calls.json[2] 输出问题选项。"
+  },
+  "recommendedFixArea": "为 storyline followup 加可见 entry gate：只有对应名词、地点、时间或邀请在 final visibleText 中建立后，相关候选选项才可显示；时间词必须来自 visible/current state 锚点。",
+  "confidence": "high"
+}

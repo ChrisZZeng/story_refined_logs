@@ -1,0 +1,85 @@
+{
+  "issueId": "issue-011-turn-36",
+  "turn": 36,
+  "issueValidity": "valid",
+  "problemSummary": "同一声音事件在 turn 36 当前正文中先被写成“不是敲门”，随后又被描述和命名为敲门声。",
+  "validityAssessment": {
+    "verdictReason": "同段可见正文先否定“敲门”，再写“指节叩在旧木料上的声音”并称“敲门声又响了一次”，构成局部事实冲突。",
+    "playerVisibleSupport": "turn 36 visibleText 中“不是敲门”与“敲门声又响了一次”直接冲突。",
+    "caveats": [
+      "若本意是“不是普通敲门”，正文没有提供这个限定，因此玩家看到的是事件性质冲突。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家在卡琳娜公寓内查看书架，选择抽出暗红色线的薄册子。当前 storyline 要求以急促敲门声打断当前动作并过渡到下一节点。",
+    "relevantFacts": [
+      {
+        "claim": "storyline 要求节点结束时输出急促敲门声。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-36/03-story-state.json",
+          "turn-36/06a-director-prompt.md:333-358"
+        ],
+        "notes": "约束明确要求敲门声。"
+      },
+      {
+        "claim": "Director 要求敲门声响起并打断当前动作。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-36/06b-narrator-prompt.md:531-562"
+        ],
+        "notes": "handoff 清楚，没有要求改成其他声音。"
+      },
+      {
+        "claim": "Narrator 不应改变 Director 剧情方向。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-36/06b-narrator-prompt.md:570-579"
+        ],
+        "notes": "正文写作 contract 清楚。"
+      },
+      {
+        "claim": "Narrator 输出将同一声音事件同时否定和命名为敲门。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-36/04-output.json"
+        ],
+        "notes": "首个错误出现在 Narrator visibleText。"
+      }
+    ],
+    "competingPressures": [
+      "需要用敲门声制造节点过渡。",
+      "Narrator 追求悬疑和声音质感，使用了“不是敲门”的修辞翻转。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-36/06-llm-calls.json:narrator streamText",
+    "triggeringPressure": "悬疑转场需要一个急促、可打断动作的声音事件。",
+    "missingGuard": "缺少对同一局部事件的 semantic self-consistency 检查，尤其是“不是 X”之后又按 X 命名或处理的模式。",
+    "mechanismStatement": "在清楚要求“敲门声”的情况下，Narrator 为增强悬疑使用了“不是敲门”的局部修辞，但没有维护同一声音事件的语义一致性，导致后文按敲门处理时直接暴露矛盾。",
+    "directCause": "Narrator 先写“不是敲门”，随后描述指节叩门并称“敲门声又响”。",
+    "propagation": "矛盾进入 turn-36/04-output.json visibleText；choices 继续围绕回应敲门展开。",
+    "nonCauses": [
+      "不是 Director 或 storyline 指令冲突，它们都要求敲门声。",
+      "不是 memory 或 recent-context 问题，冲突发生在同一段生成内部。",
+      "不是 evaluator 误判。"
+    ]
+  },
+  "rootCause": {
+    "label": "model-local",
+    "family": "llm-self",
+    "secondaryFamilies": [],
+    "description": "所有关键上下文和 contract 都清楚要求“敲门声”。错误来自 Narrator 局部生成：为了营造声音异常感，它先否定“敲门”，又立即按敲门描述和命名。没有证据表明 pipeline、state 或 prompt handoff 推动了这个矛盾。",
+    "fixSurface": [
+      "Narrator 输出后的局部语义一致性 lint",
+      "同一事件窗口内“不是 X”与后续 X 命名冲突检测",
+      "Narrator prompt 对异常声音修辞的限定"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 36 visibleText 同时包含“不是敲门。三声……指节叩在旧木料上的声音”和“敲门声又响了一次”。",
+    "internalTrace": "turn-36/03-story-state.json 与 turn-36/06b-narrator-prompt.md:531-562 均要求敲门声；turn-36/04-output.json 是首个自相矛盾 artifact。"
+  },
+  "recommendedFixArea": "增加 Narrator 输出后的局部语义一致性 lint，并在 prompt 中要求异常声音必须说明异常点而不能先否定事件类型再按该类型推进。",
+  "confidence": "high"
+}

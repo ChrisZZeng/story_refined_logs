@@ -1,0 +1,107 @@
+{
+  "issueId": "issue-21-turn-49",
+  "issueIndex": 21,
+  "turn": 49,
+  "issueValidity": "valid",
+  "problemSummary": "玩家在 turn 48 已经完成进入宴会厅和环境建立；turn 49 选择远观康纳后，正文又以“你踏入宴会厅的那一刻”开场，重复吊灯、人群、食物香气、卡琳娜半步位置和同一句门口提醒，造成进度回退感。",
+  "validityAssessment": {
+    "verdictReason": "可见正文明确显示 turn 48 已经进入宴会厅并完成门口环境建立，turn 49 却再次重演该入场段落，因此该 repeated-scene issue 成立。",
+    "playerVisibleSupport": "turn 48 写到主角跟随卡琳娜进入宴会厅、站在门槛、观察吊灯人群食物音乐、听到“别站在门口太久”，并跟上她进入厅内；turn 49 玩家选择“注意康纳的位置（远观，不互动）”后又从“你踏入宴会厅的那一刻”开始，并重复同一句提醒。",
+    "caveats": [
+      "turn 49 后半段确实推进了罗英与康纳登场，因此问题不是整轮停滞，而是前半段把已完成入场当作新场景重演。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 49 之前，玩家已经看到主角随卡琳娜和卡尔进入宴会厅，门在身后合拢；宴会厅的灯光、人群、食物、音乐和窗外天光已经被建立，康纳尚未被看到但被提示应该在这里。玩家随后选择远观康纳，不互动。",
+    "relevantFacts": [
+      {
+        "claim": "turn 48 已完成宴会厅入场与环境建立。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-48/04-output.json",
+          "turn-49/03-story-state.json"
+        ],
+        "notes": "最近一轮全文进入 Director prompt，包含门槛、吊灯、人群、食物、音乐、同一句提醒和门合拢。"
+      },
+      {
+        "claim": "turn 49 玩家核心动作是远观康纳，不主动互动。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-49/02-script-state.json",
+          "turn-49/03-story-state.json",
+          "turn-49/06a-director-prompt.md"
+        ],
+        "notes": "Director 正确识别 playerIntent 为 observe，并保留“主角不主动与康纳互动”。"
+      },
+      {
+        "claim": "4-03-第一章 入场 beat 已完成。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-48/05-runtime-after.json",
+          "turn-49/02-script-state.json"
+        ],
+        "notes": "runtime 的 completedBeatIds 已包含 4-03-第一章，当前 active beat 已切到 5-01-第一章。"
+      },
+      {
+        "claim": "5-01-第一章 仍要求“先描写宴会厅环境，建立氛围”。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-49/02-script-state.json",
+          "turn-49/03-story-state.json",
+          "turn-49/06a-director-prompt.md"
+        ],
+        "notes": "该要求与上一轮已完成的环境建立重叠，却没有说明要基于已在厅内的状态轻量承接。"
+      },
+      {
+        "claim": "prompt 中有不要重复的通用规则。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-49/06a-director-prompt.md",
+          "turn-49/06b-narrator-prompt.md"
+        ],
+        "notes": "这些规则弱于当前 storyline 的核心事件，以及 Narrator 对 requiredContent 的强执行合同。"
+      }
+    ],
+    "competingPressures": [
+      "5-01-第一章 的 storyline 标题和内容强调“宴会厅环境与人群”“建立宴会厅氛围”。",
+      "5-01-第一章 要求“康纳必须在环境建立后才出场”，使环境描写成为康纳登场的前置。",
+      "turn 49 的玩家选择要求远观康纳，触发康纳登场，但没有要求重新入场。",
+      "Narrator 合同把 Director 的 requiredContent 定义为本轮必须体现的固定演出，不允许丢失或改义。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-49/07-events.json Director worker-done output, also archived as turn-49/04-output.json plotPoint",
+    "triggeringPressure": "turn-49 的 currentStoryline 5-01-第一章 显著要求“先描写宴会厅环境，建立氛围”，并约束“康纳必须在环境建立后才出场”。该固定前置与 turn 48 已完成的入场环境建立重叠。",
+    "missingGuard": "系统没有把 4-03 已消费的入场/环境建立子 beat 转成强 scene anchor 或 consumed-state，也没有在 Director handoff 中明确禁止重写进入宴会厅、门口停留和同一句提醒；通用“不要重复”规则存在但不可执行、低显著。",
+    "mechanismStatement": "5-01-第一章 把“宴会厅环境建立”作为康纳登场前置固定 beat，而系统没有对跨 storyline 的场景建立子 beat 做 consumed-state 过滤；Director 在最近可见正文已清楚写过入场的情况下，仍把该前置提升为本轮 requiredContent，Narrator 又被要求完整执行这些 requiredContent，导致已消费的入场段落被重演成新场景。",
+    "directCause": "Director 将 storyline 中的“先描写宴会厅环境”转成 beats[0] 和 requiredContent[0]，并把“康纳出场前必须先建立宴会厅环境”列为 currentTurnConstraints。",
+    "propagation": "Narrator 按 turn-49/06b-narrator-prompt.md 的合同执行 requiredContent，从“你踏入宴会厅的那一刻”开始复写环境和门口提醒；最终内容写入 turn-49/04-output.json 的 turnContent。Choice worker 后续承接康纳已出现，错误主要固化在本轮正文。",
+    "nonCauses": [
+      "不是 choice-action-binding 主因：玩家的 observe 意图被识别，且正文后半段保持远观康纳。",
+      "不是 memory-persistence 主因：上一轮完整可见正文在 recentTurns 中清楚存在。",
+      "不是 model-local 主因：Director/Narrator 面对强 storyline 前置和 requiredContent 执行合同，系统压力足以解释重复。"
+    ]
+  },
+  "rootCause": {
+    "label": "fixed-beat-consumption",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "固定剧情/当前 storyline 中的“宴会厅环境建立”子 beat 在 4-03-第一章 已经被玩家可见正文消费后，没有被生命周期状态或 scene anchor 标记为 consumed，也没有在切到 5-01-第一章 时被改写成“承接已入场状态”。于是 5-01 的“先描写宴会厅环境，建立氛围”和“康纳必须在环境建立后才出场”继续以未消费前置的形态进入 Director prompt。Director 把它转成 requiredContent，Narrator 又必须照单执行，最终重复了上一轮入场段落。",
+    "fixSurface": [
+      "storyline beat lifecycle / consumed-state tracking",
+      "Director prompt/context assembly",
+      "scene anchor or current-scene progress state",
+      "requiredContent de-duplication and downgrade rules"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "visible-timeline.jsonl turn 48 已完成进入宴会厅、环境建立和“别站在门口太久”提醒；visible-timeline.jsonl turn 49 玩家选择远观康纳后，又以“你踏入宴会厅的那一刻”开场并重复相同环境与提醒。",
+    "internalTrace": "turn-48/05-runtime-after.json 显示 4-03-第一章 completed 且 5-01-第一章 active；turn-49/02-script-state.json 和 turn-49/03-story-state.json 显示 5-01 仍包含“先描写宴会厅环境，建立氛围”；turn-49/07-events.json Director 输出将环境描写列为 beats 和 requiredContent；turn-49/06b-narrator-prompt.md 要求 requiredContent 必须体现；turn-49/04-output.json 固化重复正文。"
+  },
+  "recommendedFixArea": "优先在 storyline beat lifecycle 和 Director prompt/context assembly 中增加 scene-establishment 的 consumed-state 过滤与强 scene anchor：当上一轮已写过入场和环境建立时，将后续 beat 的相同要求改写为承接/变奏/只补未写信息，而不是进入 requiredContent。",
+  "confidence": "high"
+}

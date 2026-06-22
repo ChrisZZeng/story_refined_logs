@@ -1,0 +1,81 @@
+{
+  "issueId": "issue-17-turn-45",
+  "turn": 45,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 45 的正文在卡琳娜回忆卡尔来历时，台词帧缺少闭合引号，下一段叙述“她伸出手……”被视觉上挂在未闭合对白之后，造成对白和叙述边界断裂。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见正文中出现“有一天夜里，它蹲在我的窗台上——浑身湿透，瘦得肋骨一根根数得清。\\n她伸出手……”，前一句以引号开启并作为卡琳娜台词呈现，但没有在转入叙述前闭合。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 45 与 turn-45/04-output.json 的 visibleText 都保留该半开引号；问题不依赖隐藏设定。",
+    "caveats": [
+      "这是局部格式与可读性退化，不改变主要剧情事实，因此 severity=low 合理。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家刚选择暂时不追问敏特，转而换话题；正文自然转到卡琳娜与卡尔的相遇回忆。叙事需要在卡琳娜对白、主角动作和旁白描写之间稳定切换。",
+    "relevantFacts": [
+      {
+        "claim": "本轮需要卡琳娜讲述与卡尔在福利院后的相遇。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-45/04-output.json",
+          "turn-45/06-llm-calls.json[0]"
+        ],
+        "notes": "Director 的 requiredContent 明确要求卡琳娜提及相遇；这个内容压力本身合理。"
+      },
+      {
+        "claim": "Narrator 必须输出 v3-html，角色对白必须放在 data-speaker 帧中。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-45/06b-narrator-prompt.md:628-655"
+        ],
+        "notes": "协议清楚，但主要是 prompt 约束；没有看到后置校验阻止半开引号进入 visibleText。"
+      },
+      {
+        "claim": "玩家可见文本需要区分对白与叙述边界。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-45/04-output.json"
+        ],
+        "notes": "前后多处对白都使用引号或 data-speaker，问题段的缺失闭合引号显得突兀。"
+      }
+    ],
+    "competingPressures": [
+      "长段回忆型对白与叙述动作交替出现。",
+      "Narrator 以流式自由文本输出 HTML，而非结构化段落数组。",
+      "文本同时使用 ASCII 双引号和中文引号，增加局部格式滑脱风险。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-45/06-llm-calls.json[1] Narrator streamText output",
+    "triggeringPressure": "Narrator 要把 Director 的“讲述卡琳娜与卡尔相遇”扩写成长回忆，连续生成多段 data-speaker 对白和叙述帧；在“有一天夜里……”这一长对白帧中开了引号但没有闭合。",
+    "missingGuard": "v3-html 协议只以 prompt 形式要求对白格式，没有对每个 data-speaker 帧的引号平衡、对白/叙述切换或 visibleText 渲染结果做确定性校验与修复。",
+    "mechanismStatement": "在长对白与叙述交替的生成压力下，Narrator 局部漏掉闭合引号；由于 v3-html 只做提示式约束而缺少后置格式校验，半开对白帧被原样归一化为玩家可见正文。",
+    "directCause": "Narrator 的本地生成漏掉了“浑身湿透……”台词末尾的闭合引号。",
+    "propagation": "该 rawHtml 写入 turnContent，04-output.json 的 visibleText 继承该格式，最终进入 visible-timeline.jsonl。",
+    "nonCauses": [
+      "不是 Director 剧情判断错误；Director 对相遇回忆的安排与玩家输入相符。",
+      "不是记忆或 storyline 内容缺失；问题发生在文本格式层。",
+      "不是 Choice 阶段导致；选项生成在格式问题之后。"
+    ]
+  },
+  "rootCause": {
+    "label": "format-protocol-validation-gap",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "llm-self"
+    ],
+    "description": "触发压力是 Narrator 在自由文本 v3-html 中写长对白并穿插叙述动作；缺失防线是协议没有被结构化输出或后置 validator 强制执行；失败运动是局部引号滑脱从 LLM output 直接传播到 normalized visibleText。",
+    "fixSurface": [
+      "Narrator output validator",
+      "v3-html parser/normalizer",
+      "turnContent post-generation repair or retry policy"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 45 visibleText 中，“有一天夜里，它蹲在我的窗台上——浑身湿透，瘦得肋骨一根根数得清。”后未闭合引号，下一行直接出现“她伸出手……”。",
+    "internalTrace": "turn-45/06-llm-calls.json[1] 已包含同样的半开 data-speaker 帧；turn-45/06b-narrator-prompt.md:645-655 明确要求正文帧和角色对白协议，但没有拦截该输出。"
+  },
+  "recommendedFixArea": "为 Narrator 的 v3-html 输出增加确定性结构校验：检查 data-speaker 帧内引号平衡、段落边界和根级文本；失败时重试或自动修复。",
+  "confidence": "high"
+}

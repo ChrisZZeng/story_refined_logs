@@ -1,0 +1,94 @@
+{
+  "issueId": "issue-8-turn-19",
+  "issueIndex": 8,
+  "turn": 19,
+  "issueValidity": "valid",
+  "problemSummary": "turn 18 已完成称呼、同意调查和规矩提醒；turn 19 又把同一组内容当作新正文重演，造成剧情进度回退。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见时间线显示 turn 18 和 turn 19 连续出现同一组交易前置对白与动作，玩家输入只是保持沉默继续处理，不能解释为合理回放。",
+    "playerVisibleSupport": "turn 18 出现“……阁下。”、“很好。”、“你女儿的事，我可以查。”、“不过你应该知道我的规矩。”；turn 19 再次出现这些内容。",
+    "caveats": [
+      "turn 19 后半段确实继续推进到德索洛退场，但开头重复仍然造成短暂倒退。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 18 末尾德索洛已低声称呼‘阁下’，卡琳娜已确认并同意可以查女儿之事，同时提醒规矩；玩家在 turn 19 选择继续沉默让卡琳娜处理。",
+    "relevantFacts": [
+      {
+        "claim": "turn 18 已完成称呼、同意调查和规矩提醒。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-19/03-story-state.json",
+          "turn-19/06a-director-prompt.md"
+        ],
+        "notes": "recentTurns 中完整保留 turn 18 文本。"
+      },
+      {
+        "claim": "currentStoryline.summary 已记录称呼和交易条件已接受。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-19/03-story-state.json",
+          "turn-19/06a-director-prompt.md"
+        ],
+        "notes": "summary 写着“迫使他称自己为‘阁下’并接受交易条件”。"
+      },
+      {
+        "claim": "德索洛角色资料仍把完整交易过程作为固定素材提供。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-19/02-script-state.json",
+          "turn-19/06a-director-prompt.md"
+        ],
+        "notes": "“最终德索洛卑微地单膝跪地，拉起卡琳娜的纤细的左手……‘卡琳娜阁下。’交易达成。”"
+      },
+      {
+        "claim": "prompt 有不要重复规则，但没有结构化约束 consumed beat。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-19/06a-director-prompt.md",
+          "turn-19/06b-narrator-prompt.md"
+        ],
+        "notes": "规则是自然语言原则，弱于 later requiredContent。"
+      }
+    ],
+    "competingPressures": [
+      "recentTurns 明确显示上一轮已完成内容。",
+      "角色资料和固定剧本仍提供完整交易过程。",
+      "currentStoryline constraints 仍强调交易法则待展现。",
+      "Narrator 被要求不得丢失 Director 的 requiredContent。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-19/06-llm-calls.json[0].object",
+    "triggeringPressure": "德索洛角色资料和节点素材中的完整固定交易过程仍作为可执行内容进入 Director prompt。",
+    "missingGuard": "缺少 fixed beat consumed-state / remaining-beat 机制，无法把已出现的称呼、承诺和规矩提醒从本轮可执行素材中剔除。",
+    "mechanismStatement": "已消费的固定交易 beat 没有结构化标记为 consumed，Director 在 recent visible text 与固定素材冲突时把固定素材重新提升为 requiredContent，Narrator 随后按 requiredContent 重演上一轮交易步骤。",
+    "directCause": "Director 把上一轮已经完成的称呼、同意调查和规矩提醒重新安排为 turn 19 剧情骨架。",
+    "propagation": "Narrator 输出重复正文；04-output.json 提交；Choice 基于重复后的结尾生成选项；runtime-after 只能更新 on-stage，无法修复已显示正文。",
+    "nonCauses": [
+      "不是玩家输入要求回放。",
+      "不是 Choice 绑定错误。",
+      "不是长期 memory 缺失，因为信息就在最近上下文中。"
+    ]
+  },
+  "rootCause": {
+    "label": "fixed-beat-consumption",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "固定交易过程作为角色资料和节点素材持续进入 prompt，但系统没有把已完成的称呼、承诺和规矩提醒标成 consumed，也没有把剩余待演内容结构化交给 Director；Director 因此重新执行已消费 beat，Narrator 按 requiredContent 复演。",
+    "fixSurface": [
+      "storyline / fixed beat lifecycle 的 consumed / remaining / incompatible 状态",
+      "Director context assembly 中对已完成固定素材降权或移除",
+      "Director requiredContent 与最近 visible text 的重复校验"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 18 和 turn 19 重复出现“……阁下。”、“很好。”、“你女儿的事，我可以查。”、“不过你应该知道我的规矩。”",
+    "internalTrace": "turn-19/06-llm-calls.json[0].object 把重复内容及后续固定动作放入 beats/requiredContent；turn-19/02-script-state.json 仍提供完整交易过程。"
+  },
+  "recommendedFixArea": "fixed beat lifecycle、Director context assembly、requiredContent duplicate check。",
+  "confidence": "high"
+}

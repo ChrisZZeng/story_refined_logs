@@ -1,0 +1,348 @@
+# Root Cause Trace Packet
+
+Run: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z`
+Review: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z`
+Issue file: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/consistency-review/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/issues.json`
+Target turn: 49
+
+## Selected Issue
+
+Issue index: 21
+Turn: 49
+Scope: visibleText
+Type: repeated-scene
+Severity: medium
+
+Current evidence: Turn 49 以“你踏入宴会厅的那一刻”重新描写宴会厅暖意、穹顶吊灯、人群和卡琳娜半步位置，并再次出现“别站在门口太久。你一停，别人就会注意你。”
+
+Conflicting evidence: Turn 48 已经完整演出玩家跟随卡琳娜进入宴会厅、站在门槛、观察吊灯人群、听到同一句提醒，并跟上她进入厅内。
+
+Reason: 玩家选择远观康纳后，正文把刚完成的入场段落重新当作新场景演出，造成进度回退感。
+
+## Timeline Window
+
+### Turn 47
+
+Player input: 德索洛的委托具体需要你做什么
+
+Visible text tail:
+
+“直接说德索洛的委托的话——”
+她往沙发靠背上靠了靠，双手交握在膝盖上。炉火在她瞳孔里跳动了一下。
+“他要我去‘拜访’凯旋门那边的人。具体来说——他女儿的事，需要一个让他觉得‘公道’的结果。不是钱能解决的那种。”她顿了顿，“所以他来找我，而不是去找另一个戴着金表的律师。”
+她的语气在“公道”那个词上没有任何特别的重音，像是这个词在她的字典里是一个标准单位，不需要额外标注。
+“凯旋门里的人不会因为一封律师函就睡不着觉。但他们知道我的名字之后——会。”
+她说最后那句话时声音没有抬高，但炉火的光在她侧脸上切出一道明暗分界线，让那句话的份量在平静中显得更重。
+卡尔坐在地板上，尾巴盘在前爪边。它的耳朵朝你的方向转了转，但眼睛半闭着——像是在听，但没有打算插嘴。
+你看着卡琳娜。她的话停在那个恰到好处的位置上，像是特意留出了一个让下一个问题可以落地的间隙。
+“你今晚就要去处理？”
+“凯旋门今晚有晚宴。”
+她抬起手，拢了拢垂到肩前的马尾辫——动作不大，更像是在给手找一个自然的去处。
+“是个开放宴席。名义上是复活日庆典的延续——实际上，凯旋门的人会在那里露面。这种场合，他们不会动我。他们丢不起这个脸。”
+她说到这里时停了一下。目光从炉火移开，落回你身上——带着一种新的、更轻的质询。
+“你要一起来吗？”
+那个邀请来得不紧不慢，像是她在开口之前已经考虑过这个选项，只是恰好在这个时间点把它摆到桌面上。
+室内的空气没有因为这个邀请而变紧张。炉火仍然在燃烧，木材在火焰深处爆出一声细碎的响动。
+卡尔在这时睁开了眼睛。琥珀色的竖瞳在火光中亮起来——它没有看向卡琳娜，而是直直地看着你。
+“你一个人留在暗街，今晚会更危险。”它的声音不大，带着那种年长女性般的质感，平稳得像一块被河水磨圆了的石头。“谁都可能来找你的麻烦。德索洛的事传开之后——你在明处了。”
+它说完，尾巴尖轻轻拍了一下地板，没有再多说一个字。
+卡琳娜靠在沙发上，没有接卡尔的话，也没有催促你回答。她的手仍然交握在膝盖上，目光平视着你——像是那个邀请本身已经包含了所有需要的信息，剩下的只是你自己的决定。
+
+Choices:
+- 接受邀请，跟她一起去晚宴
+- 拒绝邀请，留在暗街
+- 问她晚宴上可能会遇到什么人
+- 问卡尔为什么说今晚会更危险
+
+### Turn 48
+
+Player input: 接受邀请，跟她一起去晚宴
+
+Visible text tail:
+
+你跟着卡琳娜穿过暗街边缘的暮色，走进凯旋门的灯火里。
+宴会厅的大门在她面前无声敞开——暖色调的光线裹着食物的香气和数不清的低声交谈涌出来，像一个被精心调校过的巨大乐器正在低声共振。
+你站在门槛上停了一瞬。
+穹顶高得几乎让人忘记这是一栋建筑——巨大的水晶吊灯从中央垂落，每一条棱面都折射出碎钻般的光点，在墙壁的深色木镶板和暗红色幔帐上投下摇曳的光斑。壁灯沿着两侧墙壁间隔排列，灯罩是磨砂玻璃，光线柔和均匀，像一层被稀释过的琥珀。
+人群穿着至少在颜色和质地上下功夫的正装——深灰、藏青、酒红，偶尔有一抹亮色在移动中划过。他们的声音在厅内聚成一股低沉的嗡嗡声，没有突兀的高音，像是每个人都懂得在这个场合控制自己的音量。
+食物的气味从长桌方向飘来——烤肉、黄油、某种带甜味的酱汁，还有刚出炉的面包那层焦脆的外壳特有的香气。远处靠墙的乐队正在演奏一首你不识得曲名的曲子，弦乐和管乐交织在一起，节奏舒缓，像是为谈话留出了充分的空隙。
+你侧过头，确认卡琳娜的位置。她就在你身侧半步远的地方——金色马尾在灯光下折出柔和的光泽，白色棉衣和吊带裙在这群人中间显得突兀，但她的姿态里没有任何不自觉的局促。她甚至没有刻意挺直背，只是站在那里，目光平缓地扫过厅内的人群，像一个习惯了自己与周围环境之间那层微妙距离的人。
+卡尔蹲在她的肩头——黑猫的皮毛在暖色灯光下泛着一层暗蓝色调。它的尾巴绕在卡琳娜的后颈上，耳朵微微转动，琥珀色的眼睛半眯着，像是在用自己的方式读取这个房间里的一切。
+卡琳娜没有回头看你，但她的声音低低地传过来：
+"别站在门口太久。你一停，别人就会注意你。"
+她说完便举步向厅内走去，步伐不快不慢，像是这片灯光和音乐是她早已熟悉的潮汐节奏。你跟上她的脚步，在踏进那一刻感受到身后的大门无声合拢——把暗街的冷风和暮色关在了外面。
+窗外的最后一缕天光正从高大的落地窗边缘褪去，像一条被抽走的金线。宴会厅里的灯火于是显得更亮了一些。
+你还没有看到康纳·凯拉宁的影子。但他应该在这里——某种直觉告诉你，他的名字在这个场合里，像空气一样无处不在。
+
+Choices:
+- 观察宴会厅和人群
+- 靠近卡琳娜，确认她的状态
+- 寻找食物/饮品
+- 注意康纳的位置（远观，不互动）
+
+### Turn 49
+
+Player input: 注意康纳的位置（远观，不互动）
+
+Visible text tail:
+
+动，琥珀色的眼睛半眯着。它没有开口。那种沉默本身就像一种重量，压在这一片欢愉的空气里。
+你刚走几步，一个声音从侧方传来——清脆，带着一点故意拖长的尾音：
+“哎呀，这不是暗街的小公主嘛。难得来这种亮堂地方。”
+你转过头。一个少女站在两步外——穿着奇怪的黑色融合风格服装，衣摆上挂着不少中式的银饰，走动时发出细碎的碰撞声。她的气质内敛，像是一个内向的孩子，但那双眼睛看人时停留得比正常人稍长，带着一种温和的审视。她手里捧着一杯橙汁，看上去就像随便从哪里窜出来的。
+卡琳娜的嘴角动了一下——不是笑，更像是一种熟悉的无奈。
+“你非要穿成这样来吓人？”
+“我本来就是小贩嘛。穿什么不重要。”
+她说着，目光转向你，上下打量了一圈——不急不慢，像在估价，但又不带冒犯。
+“这位是……你带来的新人？”
+卡琳娜没有立刻回答。她先看了你一眼——那一眼很短，像是在确认你已经准备好接受她接下来要说的名字。
+“她是黄昏会的代首领。罗英。”
+罗英——那个自称小贩的少女——听到这句话后弯了弯嘴角。她没有否认，只是轻轻摇了摇头，像是对这个称谓既不是全盘接受也不是全盘拒绝。
+“我只是个小贩。你说得那么正式，我怕把客人吓跑了。”
+她说着，举起手中的橙汁杯，朝你示意了一下——动作随意，像是碰杯。
+“欢迎来新西西里玩。如果有一天想在暗街之外找个安全的地方喝茶，可以来繁华街东边的园子坐坐。”
+她说完，目光却又越过你的肩膀——移向了宴会厅入口的方向。
+她的笑容没有消失，但那个笑容的质感变了——变得更浅，像是被人从内部收走了一层。
+“啊，说曹操，曹操到了。”她低声说，目光仍然落在大门方向。“我得先走一步。你们慢慢玩。”
+她转身，步伐轻快，像一条鱼滑入人群。银饰在她身后发出细碎的碰撞声，很快被人声淹没。
+你顺着她刚才看的方向望去——
+宴会厅的主入口处，光线微微晃动了一下。一个人正从门外走进来。
+他穿着一件剪裁利落的深灰色大衣，没有系扣，领口随意敞开，露出一截深色衬衫的领尖。他的步伐不快不慢，像是这个场合里的所有声音和光线都在配合他的节奏——他没有看任何人，但人群里已经有几道视线朝他聚拢，然后礼貌地移开。
+康纳·凯拉宁。
+你没有见过他本人，但这个名字在这个房间里像空气一样无处不在。他的目光扫过大厅——平静，不带表情，像在确认自己领地内的每一处光源是否都在应有的位置上。
+他的目光没有在你身上停留，也没有在卡琳娜身上停留。他径直走向大厅深处那一侧的长桌，像是本来就是要去那里，刚才的扫视只是一个附带动作。
+卡琳娜仍然站在原地。她没有转头追着康纳看，但你能感觉到她肩上半度不到的紧绷——不是紧张，更像是一个人知道风正在朝哪个方向吹，正等着它到跟前。
+卡尔在她的肩头微微动了动耳朵，仍然没有睁眼。
+宴会厅的音乐没有停。人群的嗡嗡声也没有停。但你知道——那个你看不到名字的人已经在这个房间里了，而从这一刻起，空气只是假装还和刚才一样。
+
+Choices:
+- 压低声音问卡琳娜：那个人就是康纳？
+- 观察康纳在长桌方向的动向，留意他和谁交谈
+- 在宴会厅里走走，熟悉环境，顺便找找罗英朝哪个方向去了
+- 和卡琳娜闲聊几句，问问她来这种场合通常怎么开场
+
+### Turn 50
+
+Player input: 在宴会厅里走走，熟悉环境，顺便找找罗英朝哪个方向去了
+
+Visible text tail:
+
+你开始迈步。
+暖色调的光裹着食物的香气从每一个方向涌来，人群在你身侧流动如一条缓慢的河。你没有刻意跟随谁的路线——只是让自己顺着人群的间隙穿行，像一个需要适应这片灯光的人。
+脚步声被地毯吞没。穹顶的水晶吊灯在你头顶缓慢旋转，折射出的光点偶尔落在一个人的衣领上、一杯酒液里、一只正在调整袖扣的手上。壁灯的光线柔和均匀，像一层被稀释过的琥珀。
+你的目光扫过人群——寻找那件黑色衣袍和银饰的闪光。
+罗英已经不见了。
+不是从某个方向离开——更像是她滑入了人群里的某一处缝隙，而缝隙在她身后合拢了。只有她刚才站过的地方还残留着一丝橙汁的气息，正在被烤肉和黄油的味道盖过去。
+“她走了。”
+卡琳娜的声音从你身侧传来，不高，刚好在人群嗡嗡声的缝隙里落定。她没有看你——她的目光平视前方，像是在为你们两个找一个不会撞上人的方向。
+“她不想被康纳看到跟我走得太近。不是怕——是麻烦少一点算一点。”
+她说完便继续往前走了一步，没有等你回答——但她放慢了半步的节奏，像在示意你可以跟上，也可以继续自己走。
+你继续向前。
+长桌从你的左侧延伸出去，铺着熨烫平整的白色桌布，上面摆满银器、高脚杯和用鲜花装饰的托盘——烤肉的表面还冒着细小的热气，面包外壳的裂纹在灯光下泛着金棕色的光泽。侍者穿着黑色马甲在桌边穿行，托着酒瓶或即将撤下的空盘，他们的步伐被训练得无声无息。
+你的目光越过一张张面孔——有人在低声交谈，有人在微笑，有人正把酒杯举到唇边掩住一个没说完的句子。他们的目光偶尔会朝同一个方向飘去，然后礼貌地收回来。
+你顺着那个方向，看到了康纳。
+他站在大厅深处靠近一侧立柱的地方——正在与三位衣着正式的宾客交谈。深灰色大衣已经脱下来搭在臂弯上，露出了里面深色衬衫的领子和利落的袖口剪裁。他说话时手势不多，但每一下都精准地落在某个词的末尾，像在给句子盖戳。他的姿态里没有紧张——但你能感觉到他站的位置让他的视野能够覆盖大半个厅堂，而他身后的立柱恰好遮蔽了他身后的方向。
+他没有朝你的方向看。
+但你注意到——在他与宾客交谈的间隙里，他的目光偶尔会扫过厅堂中央，像在确认每个入口和出口的状态，而非关注某个具体的人。
+“那张长桌尽头往右——是厨房入口。左边的走廊通向露台。今晚不会有人用那条路。”
+她的声音仍然很轻，像是她只是在随口描述这个房间的格局。但她的肩线在灯光下保持着那个半度不到的紧绷——没有加重，也没有放松。
+卡尔蹲在她的肩头。尾巴仍然绕在她的后颈上，耳朵微微转向康纳的方向，没有睁眼。
+你继续走着。宴会厅的音乐没有停。灯光仍然明亮。罗英的足迹已经被这片灯火覆盖干净了——但你知道她在这个房间里的某个角落，像一颗嵌在沙子里的小石子，等着谁刚好踩到它。
+康纳还在与人交谈。他没有看向你。
+
+Choices:
+- 继续观察康纳，留意他与谁交谈
+- 低声问卡琳娜：“你认识罗英多久了？”
+- 朝厨房入口方向走去，看看有什么
+
+## Required Analysis Checks
+
+1. Validity gate: decide whether the evaluated issue is valid, questionable, or invalid using only player-visible evidence.
+2. Context assessment: reconstruct the actual state before the issue and mark each relevant fact/intention/constraint as absent, present-clear, present-buried, present-ambiguous, contradicted, stale, over-constraining, or not-needed.
+3. Competing pressures: note fixed script, storyline, selected choice, player input, pacing, style, secret boundaries, current scene affordances, or world rules that could explain the output.
+4. Causal chain: identify the first artifact that diverged, then trace propagation. If the evaluator is the first bad artifact, report an invalid/questionable issue instead of forcing a root cause.
+5. Failure mechanism: name the concrete optimizable mechanism, such as storyline-lifecycle, fixed-beat-consumption, context-priority, handoff-contract, choice-action-binding, state-writeback, memory-persistence, or model-local.
+6. Root cause: classify only valid issues. Use worker names as divergence points, not root-cause classes, and do not let the coarse class hide the mechanism.
+
+## Turn 48 Artifacts
+
+Turn dir: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48`
+
+Key files:
+- summary: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/01-summary.json`
+- scriptState: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/02-script-state.json`
+- storyState: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/03-story-state.json`
+- output: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/04-output.json`
+- runtimeAfter: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/05-runtime-after.json`
+- llmCalls: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/06-llm-calls.json`
+- directorPrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/06a-director-prompt.md`
+- narratorPrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/06b-narrator-prompt.md`
+- choicePrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/06c-choice-prompt.md`
+- events: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-48/07-events.json`
+
+Current storyline:
+
+{
+  "id": "4-03-第一章",
+  "name": "推进节点 04-03：进入宴会厅",
+  "summary": "",
+  "constraints": [
+    "请引擎使用backgrounds【宴会厅/宴会厅】，characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-好奇 卡琳娜/卡琳娜-困惑 卡琳娜/卡琳娜-非常好奇 卡琳娜/卡琳娜-不悦 卡琳娜/卡琳娜-不满】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）\n\n康纳必须在环境建立后才出场。"
+  ],
+  "notes": [],
+  "contentPreview": "【核心剧情内容】\n正式进入宴会厅。\n\n【本节点可呈现的设定（少量）】\n- 宴会厅规模、灯光、人群\n- 食物的香气、音乐声\n- 窗外最后一缕天光\n- 康纳尚未主动接近\n\n时间在 17:00-17:30 之间（傍晚，天色转暗，宴会厅灯火通明）\n宴会厅的规模、灯光（chandelier/壁灯）、人群（衣着、声音）、食物的香气、音乐声、窗外最后一缕天光\n卡琳娜在场（可能是焦点或安静的一角），卡尔在她身边或包里，康纳尚未主动接近\n刚进入宴会厅，可能还在门口附近，或在卡琳娜身边",
+  "interactionFollowupPreview": "选项：\n- 观察宴会厅和人群\n- 靠近卡琳娜，确认她的状态\n- 寻找食物/饮品\n- 注意康纳的位置（远观，不互动）\n- 与宴会中的其他宾客短暂交流"
+}
+
+Director output summary:
+
+{
+  "playerIntent": "行动",
+  "summary": "主角接受卡琳娜的邀请，跟随她和卡尔前往凯旋门的复活日晚宴，进入灯火通明的宴会厅。",
+  "beats": [
+    "卡琳娜带路前往凯旋门",
+    "进入宴会厅",
+    "环境描写：灯光、人群、食物、音乐、窗外天光",
+    "卡琳娜在场，卡尔在身边",
+    "康纳在远处尚未接近"
+  ],
+  "currentTurnConstraints": [
+    "不能提前让康纳主动互动，只能远观",
+    "不能重复德索洛或敏特的旧话题"
+  ],
+  "currentStorylineConstraints": [
+    "保持卡琳娜作为暗街申诉人的气质",
+    "为阶段五铺垫危机感"
+  ],
+  "revealedFacts": [],
+  "requiredContent": [
+    "描写宴会厅的规模、璀璨的吊灯与壁灯、衣着华贵的人群、食物的香气、悠扬的音乐、窗外最后一缕天光",
+    "卡琳娜在场，卡尔在她肩头或身边",
+    "康纳尚未主动接近，仅作为背景存在"
+  ],
+  "sectionSignalSuggestion": "continue"
+}
+
+Event count: 629
+LLM call count: 3
+## Turn 49 Artifacts
+
+Turn dir: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49`
+
+Key files:
+- summary: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/01-summary.json`
+- scriptState: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/02-script-state.json`
+- storyState: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/03-story-state.json`
+- output: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/04-output.json`
+- runtimeAfter: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/05-runtime-after.json`
+- llmCalls: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/06-llm-calls.json`
+- directorPrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/06a-director-prompt.md`
+- narratorPrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/06b-narrator-prompt.md`
+- choicePrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/06c-choice-prompt.md`
+- events: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-49/07-events.json`
+
+Current storyline:
+
+{
+  "id": "5-01-第一章",
+  "name": "推进节点 05-01：宴会厅环境与人群",
+  "summary": "",
+  "constraints": [
+    "请引擎使用backgrounds【宴会厅】，characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-不悦】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）characters【“小贩”/默认】\n康纳必须在环境建立后才出场。"
+  ],
+  "notes": [],
+  "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定】\n- 宴会厅的权力场氛围\n- 康纳在场但尚未接近\n- 人群的衣着、声音\n- 卡琳娜略微的不安和紧张\n- “小贩”也在宴会厅中，她主动上前和主角和卡琳娜打招呼。\n- 卡琳娜会无奈于“小贩”的恶趣味，并告知主角她的真是身份——黄昏会的代首领，罗英。\n- 罗英会坚称自己只是个小贩，但并不会否认卡琳娜的指认。\n- 在注意到康纳进入宴会厅后，罗英会找借口提前离开。\n【核心事件】\n- 先描写宴会厅环境，建立氛围\n- 康纳出场",
+  "interactionFollowupPreview": ""
+}
+
+Director output summary:
+
+{
+  "playerIntent": "observe",
+  "summary": "主角在宴会厅中感受氛围，小贩主动打招呼，卡琳娜揭示其真实身份为罗英；康纳入场后，主角保持远距离观察。",
+  "beats": [
+    "描写宴会厅环境与人群",
+    "小贩上前打招呼",
+    "卡琳娜介绍小贩真实身份为罗英",
+    "康纳登场",
+    "主角远观康纳，罗英借故离开"
+  ],
+  "currentTurnConstraints": [
+    "主角不主动与康纳互动",
+    "康纳出场前必须先建立宴会厅环境"
+  ],
+  "currentStorylineConstraints": [
+    "卡琳娜的不安和卡尔的沉默需通过细节呈现",
+    "不提前揭示康纳与卡琳娜的深层关系"
+  ],
+  "revealedFacts": [],
+  "requiredContent": [
+    "描写宴会厅的灯光、声音、人群衣着和食物香气",
+    "小贩主动上前打招呼",
+    "卡琳娜说出小贩的真实身份是黄昏会代首领罗英",
+    "罗英自称只是个小贩，不否认",
+    "康纳入场，描写其气场",
+    "主角远观康纳，不主动接近"
+  ],
+  "sectionSignalSuggestion": "continue"
+}
+
+Event count: 1387
+LLM call count: 3
+## Turn 50 Artifacts
+
+Turn dir: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50`
+
+Key files:
+- summary: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/01-summary.json`
+- scriptState: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/02-script-state.json`
+- storyState: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/03-story-state.json`
+- output: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/04-output.json`
+- runtimeAfter: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/05-runtime-after.json`
+- llmCalls: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/06-llm-calls.json`
+- directorPrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/06a-director-prompt.md`
+- narratorPrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/06b-narrator-prompt.md`
+- choicePrompt: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/06c-choice-prompt.md`
+- events: `/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/turn-50/07-events.json`
+
+Current storyline:
+
+{
+  "id": "5-02-第一章",
+  "name": "推进节点 05-02：康纳出场",
+  "summary": "",
+  "constraints": [
+    "请引擎使用backgrounds【宴会厅】，characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-不悦】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形），characters【康纳-普通】\n康纳不会评价卡琳娜的穿着。"
+  ],
+  "notes": [],
+  "contentPreview": "【核心剧情内容】\n康纳正式出场，走向卡琳娜。\n【本节点可呈现的设定】\n- 康纳的名字\n- 康纳的外表：金色长发，脸上有伤疤，风衣，苏格兰裙\n- 康纳走向卡琳娜，热情中带挑衅\n- 两人过去的暗示（福利院，仅暗示）\n【核心事件】\n康纳走向卡琳娜，热情中带挑衅。",
+  "interactionFollowupPreview": "【支线回响规则】当主角此前已触发康纳线·一（与康纳在办公室单独会面），或逃亡线（拒绝康纳并被绑至港口后被卡琳娜救出），康纳在晚宴上再次见到主角时会说以下台词：\n康纳：\"我会记住的，敬你的生还。\""
+}
+
+Director output summary:
+
+{
+  "playerIntent": "探索和观察",
+  "summary": "主角在宴会厅中漫步熟悉环境，发现罗英已融入人群消失，注意到康纳在与宾客交谈，卡琳娜伴随在侧保持警觉。",
+  "beats": [
+    "主角开始在宴会厅中走动，观察周围环境细节",
+    "寻找罗英的踪迹，但她在人群中消失",
+    "注意到康纳的位置和正在进行的互动",
+    "卡琳娜跟随在旁，低声提示宴会厅的布局和人物"
+  ],
+  "currentTurnConstraints": [
+    "必须使用 background: 宴会厅",
+    "卡琳娜情绪保持在普通/不满之间，可随环境切换",
+    "不允许康纳提前与主角或卡琳娜直接对话"
+  ],
+  "currentStorylineConstraints": [
+    "康纳尚未注意到卡琳娜和主角，为下一轮互动预留空间",
+    "不揭示罗英的具体去向或后面剧情"
+  ],
+  "revealedFacts": [],
+  "requiredContent": [],
+  "sectionSignalSuggestion": "continue"
+}
+
+Event count: 834
+LLM call count: 3

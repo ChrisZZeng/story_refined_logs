@@ -1,0 +1,470 @@
+{
+  "batchId": "batch-006",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 17,
+      "turn": 45,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "对白和叙述边界断裂，造成局部可读性和格式质量问题。",
+      "batchId": "batch-006",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "format-protocol-validation-gap",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Narrator output validator",
+          "v3-html parser/normalizer",
+          "turnContent post-generation repair or retry policy"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 Narrator 的 v3-html 输出增加确定性结构校验：检查 data-speaker 帧内引号平衡、段落边界和根级文本；失败时重试或自动修复。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-017-turn-45/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-017-turn-45/root-cause-report.md",
+      "result": {
+        "issueId": "issue-17-turn-45",
+        "turn": 45,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 45 的正文在卡琳娜回忆卡尔来历时，台词帧缺少闭合引号，下一段叙述“她伸出手……”被视觉上挂在未闭合对白之后，造成对白和叙述边界断裂。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见正文中出现“有一天夜里，它蹲在我的窗台上——浑身湿透，瘦得肋骨一根根数得清。\\n她伸出手……”，前一句以引号开启并作为卡琳娜台词呈现，但没有在转入叙述前闭合。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 45 与 turn-45/04-output.json 的 visibleText 都保留该半开引号；问题不依赖隐藏设定。",
+          "caveats": [
+            "这是局部格式与可读性退化，不改变主要剧情事实，因此 severity=low 合理。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家刚选择暂时不追问敏特，转而换话题；正文自然转到卡琳娜与卡尔的相遇回忆。叙事需要在卡琳娜对白、主角动作和旁白描写之间稳定切换。",
+          "relevantFacts": [
+            {
+              "claim": "本轮需要卡琳娜讲述与卡尔在福利院后的相遇。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-45/04-output.json",
+                "turn-45/06-llm-calls.json[0]"
+              ],
+              "notes": "Director 的 requiredContent 明确要求卡琳娜提及相遇；这个内容压力本身合理。"
+            },
+            {
+              "claim": "Narrator 必须输出 v3-html，角色对白必须放在 data-speaker 帧中。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-45/06b-narrator-prompt.md:628-655"
+              ],
+              "notes": "协议清楚，但主要是 prompt 约束；没有看到后置校验阻止半开引号进入 visibleText。"
+            },
+            {
+              "claim": "玩家可见文本需要区分对白与叙述边界。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-45/04-output.json"
+              ],
+              "notes": "前后多处对白都使用引号或 data-speaker，问题段的缺失闭合引号显得突兀。"
+            }
+          ],
+          "competingPressures": [
+            "长段回忆型对白与叙述动作交替出现。",
+            "Narrator 以流式自由文本输出 HTML，而非结构化段落数组。",
+            "文本同时使用 ASCII 双引号和中文引号，增加局部格式滑脱风险。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-45/06-llm-calls.json[1] Narrator streamText output",
+          "triggeringPressure": "Narrator 要把 Director 的“讲述卡琳娜与卡尔相遇”扩写成长回忆，连续生成多段 data-speaker 对白和叙述帧；在“有一天夜里……”这一长对白帧中开了引号但没有闭合。",
+          "missingGuard": "v3-html 协议只以 prompt 形式要求对白格式，没有对每个 data-speaker 帧的引号平衡、对白/叙述切换或 visibleText 渲染结果做确定性校验与修复。",
+          "mechanismStatement": "在长对白与叙述交替的生成压力下，Narrator 局部漏掉闭合引号；由于 v3-html 只做提示式约束而缺少后置格式校验，半开对白帧被原样归一化为玩家可见正文。",
+          "directCause": "Narrator 的本地生成漏掉了“浑身湿透……”台词末尾的闭合引号。",
+          "propagation": "该 rawHtml 写入 turnContent，04-output.json 的 visibleText 继承该格式，最终进入 visible-timeline.jsonl。",
+          "nonCauses": [
+            "不是 Director 剧情判断错误；Director 对相遇回忆的安排与玩家输入相符。",
+            "不是记忆或 storyline 内容缺失；问题发生在文本格式层。",
+            "不是 Choice 阶段导致；选项生成在格式问题之后。"
+          ]
+        },
+        "rootCause": {
+          "label": "format-protocol-validation-gap",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "触发压力是 Narrator 在自由文本 v3-html 中写长对白并穿插叙述动作；缺失防线是协议没有被结构化输出或后置 validator 强制执行；失败运动是局部引号滑脱从 LLM output 直接传播到 normalized visibleText。",
+          "fixSurface": [
+            "Narrator output validator",
+            "v3-html parser/normalizer",
+            "turnContent post-generation repair or retry policy"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 45 visibleText 中，“有一天夜里，它蹲在我的窗台上——浑身湿透，瘦得肋骨一根根数得清。”后未闭合引号，下一行直接出现“她伸出手……”。",
+          "internalTrace": "turn-45/06-llm-calls.json[1] 已包含同样的半开 data-speaker 帧；turn-45/06b-narrator-prompt.md:645-655 明确要求正文帧和角色对白协议，但没有拦截该输出。"
+        },
+        "recommendedFixArea": "为 Narrator 的 v3-html 输出增加确定性结构校验：检查 data-speaker 帧内引号平衡、段落边界和根级文本；失败时重试或自动修复。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 18,
+      "turn": 45,
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "choices",
+      "summary": "选项让玩家追问一个从未玩家可见出现过的术语，并声称“刚才说的”。",
+      "batchId": "batch-006",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-visible-grounding-gap",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice prompt/context assembly",
+          "choice visible-grounding validator",
+          "Director-to-Choice handoff schema distinguishing plannedContent from observedVisibleContent"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 Choice 阶段加入 visibleText grounding：选项里的专有名词、代词回指和“刚才说的”必须能在玩家可见窗口中匹配；Director 的计划字段不能直接作为 observed fact 使用。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-018-turn-45/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-018-turn-45/root-cause-report.md",
+      "result": {
+        "issueId": "issue-18-turn-45",
+        "turn": 45,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 45 的选项让玩家追问“你刚才说的‘被害者申诉人’”，但该术语此前没有在玩家可见正文中出现。",
+        "validityAssessment": {
+          "verdictReason": "Turn 41-45 的玩家可见内容讨论德索洛、敏特、骷髅会和卡尔来历；“被害者申诉人”在 turn 45 选项之前没有可见出现。选项还使用“刚才说的”，制造了错误的共同记忆。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 45 的正文只说“后来我才知道——它来找我不是偶然。”和卡尔“你没什么想问的？”，没有“被害者申诉人”。同一 turn 的选项却出现该术语。",
+          "caveats": [
+            "隐藏角色卡和 storyline 中确实存在该术语，但 validity gate 不能用隐藏信息证明玩家可见问题。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家刚把敏特话题放下，改问会说话的猫。卡琳娜讲了卡尔来到窗台、留下、后来才知道不是偶然；卡尔最后问玩家是否有问题。玩家只知道卡尔与卡琳娜有更深关系，但不知道“被害者申诉人”这个正式称谓。",
+          "relevantFacts": [
+            {
+              "claim": "“被害者申诉人”在选项前对玩家不可见。",
+              "availability": "absent",
+              "artifacts": [
+                "visible-timeline.jsonl turn 41-45",
+                "turn-45/04-output.json"
+              ],
+              "notes": "正文没有该词，也没有等价解释。"
+            },
+            {
+              "claim": "隐藏角色资料包含“卡尔赋予卡琳娜‘被害者申诉人’的使命”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-45/02-script-state.json",
+                "turn-45/06a-director-prompt.md:165-171"
+              ],
+              "notes": "这是内部设定，不是玩家可见事实。"
+            },
+            {
+              "claim": "Director 把该术语提升为本轮应提及内容。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-45/04-output.json",
+                "turn-45/06-llm-calls.json[0]"
+              ],
+              "notes": "Director 输出 `requiredContent` 和 `currentTurnConstraints` 要求提及名称，但 Narrator 实际正文没有提及。"
+            },
+            {
+              "claim": "Choice prompt 同时看到了最终正文和 Director 安排。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-45/06c-choice-prompt.md:466-501"
+              ],
+              "notes": "最终正文没有该术语，Director 摘要/约束却说使命名称应被提及。prompt 没有强制以 visibleText 验证选项预设。"
+            }
+          ],
+          "competingPressures": [
+            "当前 storyline 要点名卡琳娜的“申诉人”使命。",
+            "Director 以 requiredContent 形式前景化该术语。",
+            "Narrator 没有实际把术语写进可见正文。",
+            "Choice 阶段需要提供可点击追问，于是把计划中而非可见中的术语当作已说过。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-45/06-llm-calls.json[2] choiceGenerator output",
+          "triggeringPressure": "Director 在 turn-45 把“使命仅提及名称‘被害者申诉人’”写成当前约束；Choice prompt 又携带该导演安排和隐藏角色卡，形成“术语应该已经出现”的压力。",
+          "missingGuard": "Choice 生成没有执行可见文本 grounding：凡是选项中出现“刚才说的”“那个 X”或专有名词，必须在本轮 visibleText 或此前 visible timeline 中找到玩家可见锚点。",
+          "mechanismStatement": "Choice 阶段把 Director 的计划内容和隐藏设定误当成玩家已经看见的事实；由于没有按 final visibleText 校验选项预设，未出现的“被害者申诉人”被包装成“刚才说的”追问。",
+          "directCause": "Choice output 生成了“转向卡琳娜：‘你刚才说的‘被害者申诉人’——那是什么？’”。",
+          "propagation": "该选项进入 turn-45/04-output.json 和 visible-timeline.jsonl；玩家选择后，turn 46 正文又按这个误选项解释该术语，使错误被后续剧情吸收。",
+          "nonCauses": [
+            "不是玩家遗漏信息；可见 timeline 中确实没有该词。",
+            "不是长期 memory 遗忘；该词在内部资料中很显眼。",
+            "不是单纯 Narrator 未写完导致的全部问题；即使 Narrator 漏写，Choice 仍应以最终可见正文为准。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-visible-grounding-gap",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 Director 和隐藏 storyline 前景化“被害者申诉人”；缺失防线是 Choice 没有把选项中的专有名词和“刚才说的”回查到 final visibleText；失败运动是计划中应揭示但实际未揭示的术语被当作玩家已知信息进入选项。",
+          "fixSurface": [
+            "Choice prompt/context assembly",
+            "choice visible-grounding validator",
+            "Director-to-Choice handoff schema distinguishing plannedContent from observedVisibleContent"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 45 正文只建立“卡尔来找卡琳娜不是偶然”，未出现“被害者申诉人”；选项却说“你刚才说的‘被害者申诉人’”。",
+          "internalTrace": "turn-45/06-llm-calls.json[0] 的 Director output 要求“使命仅提及名称‘被害者申诉人’”；turn-45/06-llm-calls.json[1] 的 Narrator output 未写出该词；turn-45/06-llm-calls.json[2] 的 Choice output 将该词写入选项。"
+        },
+        "recommendedFixArea": "为 Choice 阶段加入 visibleText grounding：选项里的专有名词、代词回指和“刚才说的”必须能在玩家可见窗口中匹配；Director 的计划字段不能直接作为 observed fact 使用。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 19,
+      "turn": 46,
+      "severity": "low",
+      "type": "unsupported-jump",
+      "scope": "choices",
+      "summary": "选项提前暴露未建立的事件，并且与下一轮建立的时间不一致。",
+      "batchId": "batch-006",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "storyline-lifecycle",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline node activation / entry gating",
+          "Choice candidate filtering",
+          "visible anchor validation for future-node followups"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 storyline followup 加可见 entry gate：只有对应名词、地点、时间或邀请在 final visibleText 中建立后，相关候选选项才可显示；时间词必须来自 visible/current state 锚点。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-019-turn-46/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-019-turn-46/root-cause-report.md",
+      "result": {
+        "issueId": "issue-19-turn-46",
+        "turn": 46,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 46 的选项提前暴露“明天晚宴”，但此前玩家可见内容没有建立晚宴；下一轮正文才说明“凯旋门今晚有晚宴”，时间也与“明天”不一致。",
+        "validityAssessment": {
+          "verdictReason": "在 turn 46 选项前，玩家可见剧情仍停留在卡琳娜解释‘被害者申诉人’和暗街公道逻辑，没有任何晚宴信息。turn 46 选项直接问“明天晚宴的事情”，随后 turn 47 才首次建立“凯旋门今晚有晚宴”。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 46 的正文没有晚宴；turn 46 choices 出现“明天晚宴的事情，你准备好了吗”；turn 47 正文说“凯旋门今晚有晚宴”。",
+          "caveats": [
+            "隐藏 storyline 已经进入准备节点并包含晚宴交互，但玩家当时尚未获得可见桥接。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家刚追问上一轮错误选项中的“被害者申诉人”；卡琳娜用暗街公道、尊严和亏欠解释自己的处理方式。晚宴尚未被任何角色或旁白可见提及。",
+          "relevantFacts": [
+            {
+              "claim": "晚宴在 turn 46 选项前未对玩家建立。",
+              "availability": "absent",
+              "artifacts": [
+                "visible-timeline.jsonl turn 43-46",
+                "turn-46/04-output.json"
+              ],
+              "notes": "正文只解释身份和交易逻辑。"
+            },
+            {
+              "claim": "当前 story state 已切到 `推进节点 04-01：准备`，并提供晚宴相关 followup。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-46/03-story-state.json",
+                "turn-46/02-script-state.json:147-157"
+              ],
+              "notes": "这是内部下一节点状态，不等于玩家已知。"
+            },
+            {
+              "claim": "Choice prompt 明确把“询问晚宴的细节”列为当前情节边界参考。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-46/06c-choice-prompt.md:30-38"
+              ],
+              "notes": "候选 followup 离 prompt 开头很近，且比最终 visibleText 更像可执行清单。"
+            },
+            {
+              "claim": "晚宴真实时间在后续可见文本中被建立为今晚。",
+              "availability": "contradicted",
+              "artifacts": [
+                "visible-timeline.jsonl turn 47",
+                "turn-47/04-output.json"
+              ],
+              "notes": "turn 47 卡琳娜说“凯旋门今晚有晚宴”，与 turn 46 选项的“明天”不一致。"
+            }
+          ],
+          "competingPressures": [
+            "storyline 已进入 04-01 准备节点，内部 followup 要询问晚宴细节。",
+            "当前玩家可见对话还在解释被害者申诉人，没有晚宴桥接。",
+            "Choice prompt 要参考候选动作，但只以自然语言约束“未铺垫不要展示”。",
+            "模型在生成选项时自行填入了未锚定的时间词“明天”。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-46/06c-choice-prompt.md",
+          "triggeringPressure": "turn-46 的 currentStoryline 已是 04-01 准备节点，`interactionFollowup` 把“询问晚宴的细节（地点、时间、目的）”作为核心交互；Choice prompt 将该 followup 放在“当前情节边界参考”中。",
+          "missingGuard": "storyline lifecycle 没有要求未来节点 followup 必须等待可见 entry beat；Choice 也没有把“晚宴”和时间词回查到玩家可见文本或当前 turn 正文。",
+          "mechanismStatement": "准备节点的 `interactionFollowup` 在可见桥接之前被注入 Choice 候选区；缺少 storyline entry/visible-anchor gate，导致未来事件“晚宴”提前进入选项，模型又在无时间锚点下填成“明天”。",
+          "directCause": "Choice output 生成了“明天晚宴的事情，你准备好了吗”。",
+          "propagation": "该选项进入 turn-46/04-output.json 和 visible timeline。玩家没有选择它，而 turn 47 正文后续才把晚宴建立为“今晚”，暴露时间不一致。",
+          "nonCauses": [
+            "不是玩家已经知道但评测漏读；可见正文此前没有晚宴。",
+            "不是长期 memory 缺失；晚宴信息在内部状态中存在。",
+            "不是 Narrator 在 turn 46 正文提前泄露；问题发生在 choices。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 storyline 已提前激活 04-01 准备节点并暴露晚宴 followup；缺失防线是没有 entry beat / visible-anchor gate 来确认晚宴已由正文建立；失败运动是 Choice 将未来节点交互直接转成当前选项，并在缺少时间事实时生成错误的“明天”。",
+          "fixSurface": [
+            "storyline node activation / entry gating",
+            "Choice candidate filtering",
+            "visible anchor validation for future-node followups"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 46 正文没有晚宴，选项出现“明天晚宴”；turn 47 才说“凯旋门今晚有晚宴”。",
+          "internalTrace": "turn-46/03-story-state.json 当前 storyline 为 `4-01-第一章`；turn-46/06c-choice-prompt.md:30-38 将“询问晚宴的细节”列入当前边界；turn-46/06-llm-calls.json[2] 输出问题选项。"
+        },
+        "recommendedFixArea": "为 storyline followup 加可见 entry gate：只有对应名词、地点、时间或邀请在 final visibleText 中建立后，相关候选选项才可显示；时间词必须来自 visible/current state 锚点。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 20,
+      "turn": 48,
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "mixed",
+      "summary": "关键 NPC 姓名和搜索目标突然作为已知任务进入正文和选项。",
+      "batchId": "batch-006",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "storyline-visible-introduction-gating",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline fixed-beat visible-introduction gate",
+          "Director requiredContent filtering",
+          "Choice action candidate visibility checks"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为固定 beat 和候选 action 增加 `introducedToPlayer` / `visibleNameEstablished` gating；未引介 NPC 的专名不能进入 requiredContent、正文或 action text，必须先安排可见桥接。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-020-turn-48/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z/batches/batch-006/issues/issue-020-turn-48/root-cause-report.md",
+      "result": {
+        "issueId": "issue-20-turn-48",
+        "turn": 48,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 48 正文首次把“康纳·凯拉宁”当成玩家应寻找的目标，选项又给出“注意康纳的位置”，但此前玩家只知道凯旋门今晚有晚宴和凯旋门的人会露面，不知道康纳是谁或为何要找他。",
+        "validityAssessment": {
+          "verdictReason": "turn 47 玩家可见内容只建立晚宴、凯旋门的人会露面、卡琳娜邀请玩家同行。没有角色介绍“康纳·凯拉宁”。turn 48 正文却说“你还没有看到康纳·凯拉宁的影子。但他应该在这里”，选项继续让玩家注意康纳位置。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 47 没有康纳；turn 48 正文和 choices 首次出现并预设玩家知道该名字与搜索目标。",
+          "caveats": [
+            "隐藏角色卡与 4-03 剧本中有康纳，但玩家可见层没有引介。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家接受卡琳娜去晚宴的邀请。此前可见信息是：德索洛的委托指向凯旋门；凯旋门今晚有开放宴席；卡琳娜认为凯旋门的人会在那里露面；玩家跟随卡琳娜前往。玩家没有获得“康纳·凯拉宁”这个名字。",
+          "relevantFacts": [
+            {
+              "claim": "康纳在 turn 48 前未被玩家可见介绍。",
+              "availability": "absent",
+              "artifacts": [
+                "visible-timeline.jsonl turn 47",
+                "turn-47/04-output.json"
+              ],
+              "notes": "turn 47 只有“凯旋门的人会露面”，没有具体 NPC 名。"
+            },
+            {
+              "claim": "4-03 剧本把康纳作为宴会厅节点的固定角色/目标。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-48/02-script-state.json:146-166"
+              ],
+              "notes": "脚本写有“康纳必须在环境建立后才出场”“康纳尚未主动接近”和候选“注意康纳的位置”。"
+            },
+            {
+              "claim": "Director 将隐藏脚本中的康纳转成当前 turn 的 requiredContent 和 constraints。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-48/06-llm-calls.json[0]",
+                "turn-48/04-output.json"
+              ],
+              "notes": "Director 输出 `康纳在远处尚未接近`、`康纳尚未主动接近，仅作为背景存在`、`不能提前让康纳主动互动，只能远观`。"
+            },
+            {
+              "claim": "Choice prompt 最终 visibleText 已经含康纳，但该含有本身来自同一轮未桥接泄露。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-48/06c-choice-prompt.md:399-427"
+              ],
+              "notes": "Choice 按本轮正文延续了错误；不能把同一轮 Narrator 的泄露当作充分玩家知识锚点。"
+            }
+          ],
+          "competingPressures": [
+            "4-03 剧本需要宴会环境建立并让康纳稍后出场。",
+            "角色卡多处写明卡琳娜与康纳有过去，增加康纳名的 salience。",
+            "玩家可见目标仍只是“凯旋门的人/德索洛委托”，缺少具体目标绑定。",
+            "Choice 候选中已有 `choice:spot_connor`，推动选项原样保留。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-48/06-llm-calls.json[0] Director output",
+          "triggeringPressure": "turn-48 的 4-03 脚本要求“康纳必须在环境建立后才出场”，core_flow 写“康纳尚未主动接近”，interaction_followup 直接列出“注意康纳的位置（远观，不互动）”。",
+          "missingGuard": "storyline/Director handoff 没有 named-NPC visible-introduction gate：当固定 beat 涉及未引介 NPC 时，应先桥接为“凯旋门的某个核心人物/卡琳娜提到的目标”，或安排 NPC/卡琳娜可见介绍名字，再允许正文和选项使用专名。",
+          "mechanismStatement": "固定宴会节点把隐藏 NPC 名和搜索候选前景化；由于缺少未引介专名的可见引入门控，Director 将康纳作为当前已知背景目标交给 Narrator 和 Choice，导致正文与选项同时把玩家未认识的康纳当作任务目标。",
+          "directCause": "Director requiredContent/constraints 要求康纳作为背景存在，Narrator 写出“康纳·凯拉宁”的名字，Choice 绑定 `choice:spot_connor`。",
+          "propagation": "Narrator 的正文让玩家“直觉”知道康纳应该在这里；Choice 进一步提供“注意康纳的位置（远观，不互动）”；turn 49 玩家选择后，康纳正式进入场景。",
+          "nonCauses": [
+            "不是玩家忘记名字；此前可见 timeline 没有该名字。",
+            "不是康纳出场本身不合理；问题是出场前没有可见命名和目标桥接。",
+            "不是单纯 Choice 泄露；Narrator 正文已经先把康纳写成已知目标。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-visible-introduction-gating",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 4-03 固定宴会节点和候选动作直接前景化康纳；缺失防线是没有检查 named NPC 是否已在玩家可见层被介绍或目标绑定；失败运动是 Director 把隐藏专名作为当前 turn 背景事实输出，Narrator 与 Choice 随后把它固化成玩家搜索目标。",
+          "fixSurface": [
+            "storyline fixed-beat visible-introduction gate",
+            "Director requiredContent filtering",
+            "Choice action candidate visibility checks"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 47 只说凯旋门今晚有晚宴和凯旋门的人会露面；turn 48 首次出现“康纳·凯拉宁”并让玩家注意其位置。",
+          "internalTrace": "turn-48/02-script-state.json:146-166 将康纳写入约束、core_flow 和候选选项；turn-48/06-llm-calls.json[0] Director 输出康纳背景；turn-48/06-llm-calls.json[1] Narrator 写入康纳专名；turn-48/06-llm-calls.json[2] Choice 输出 `choice:spot_connor`。"
+        },
+        "recommendedFixArea": "为固定 beat 和候选 action 增加 `introducedToPlayer` / `visibleNameEstablished` gating；未引介 NPC 的专名不能进入 requiredContent、正文或 action text，必须先安排可见桥接。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

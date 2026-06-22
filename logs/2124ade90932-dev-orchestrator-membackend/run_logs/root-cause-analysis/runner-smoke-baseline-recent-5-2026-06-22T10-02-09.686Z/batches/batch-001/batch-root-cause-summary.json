@@ -1,0 +1,461 @@
+{
+  "batchId": "batch-001",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 1,
+      "turn": 3,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "选项后半句像误混入的抒情残片，不是清晰的玩家行动，降低选择可读性。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "choice finalization / action binding",
+          "candidateActions text validation",
+          "Choice worker output preservation for bound actions"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "修复 choice finalization，使 `actionId` 绑定不覆盖 Choice worker 的清晰 display text，并为候选动作文本增加可执行行动校验。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-001-turn-03/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-001-turn-03/root-cause-report.md",
+      "result": {
+        "issueId": "issue-1",
+        "issueIndex": 1,
+        "turn": 3,
+        "issueValidity": "valid",
+        "problemSummary": "turn 3 的可见选项“直接去暗街，往日总是如影随形”混入不可执行的抒情残片，降低选择可读性。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见处境支持前往暗街，但后半句不是清晰行动，也不表达玩家可主动选择的目标。",
+          "playerVisibleSupport": "turn 3 正文结束后，可见选项为“直接去暗街，往日总是如影随形”；前文只铺垫了前往暗街找卡琳娜或线索。",
+          "caveats": [
+            "选项绑定的剧情出口是正确的，问题集中在 display text。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家已知道暗街与卡琳娜、敏特线索有关，turn 3 结尾自然可选择前往暗街或警觉异常。",
+          "relevantFacts": [
+            {
+              "claim": "前往暗街是当前已铺垫的关键行动。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-03/04-output.json",
+                "turn-03/06c-choice-prompt.md"
+              ],
+              "notes": "正文明确说明卡琳娜住在暗街，Choice prompt 也把 `choice:前往暗街` 当作可用候选。"
+            },
+            {
+              "claim": "候选动作文本已经污染。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-03/02-script-state.json",
+                "turn-03/03-story-state.json"
+              ],
+              "notes": "`candidateActions[0].text` 为“直接去暗街，往日总是如影随形”。"
+            },
+            {
+              "claim": "Choice worker 原始输出可读。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-03/06-llm-calls.json"
+              ],
+              "notes": "Choice worker 输出“前往暗街，找卡琳娜打听消息”，并绑定同一 `actionId`。"
+            }
+          ],
+          "competingPressures": [
+            "key choice 已自然可用，系统需要保留 `choice:前往暗街`",
+            "候选动作 text 同时承担剧情出口标签和玩家可见文案",
+            "Choice prompt 要求选项短、具体、可点击，但该要求没有约束后处理覆盖"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-03/02-script-state.json and turn-03/03-story-state.json candidateActions[0].text",
+          "triggeringPressure": "候选动作 `choice:前往暗街` 是当前 key choice，绑定逻辑倾向使用候选动作原文作为最终可见选项。",
+          "missingGuard": "缺少候选动作 display text 质量校验，也缺少“保留 actionId 但采用 Choice worker 清洗文本”的后处理合同。",
+          "mechanismStatement": "污染的 candidate action text 在 key choice 绑定阶段被当作最终 display text，覆盖了 Choice worker 已生成的清晰行动文本，导致玩家看到抒情残片式选项。",
+          "directCause": "choice finalization 使用了 `candidateActions[0].text`。",
+          "propagation": "`turn-03/07-events.json` 的 `choiceGenerator` 结果和 `turn-03/04-output.json` 最终 choices 都采用污染文本；turn 4 玩家输入也继承该文本。",
+          "nonCauses": [
+            "Narrator 输出不是该选项污染源。",
+            "Choice worker raw output 本身不是污染源。",
+            "前往暗街这一剧情出口不是错误。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "候选动作绑定层把带抒情残片的 `candidateActions.text` 当作玩家可见选项文案，并覆盖了 Choice worker 的清晰改写；系统缺少 actionId 绑定与 display text 清洗分离的合同。",
+          "fixSurface": [
+            "choice finalization / action binding",
+            "candidateActions text validation",
+            "Choice worker output preservation for bound actions"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "`visible-timeline.jsonl` turn 3 和 `turn-03/04-output.json` 显示选项“直接去暗街，往日总是如影随形”。",
+          "internalTrace": "`turn-03/03-story-state.json` 中候选动作已污染；`turn-03/06-llm-calls.json` 中 Choice worker 输出了“前往暗街，找卡琳娜打听消息”；最终 `turn-03/07-events.json` / `turn-03/04-output.json` 采用候选动作原文。"
+        },
+        "recommendedFixArea": "修复 choice finalization，使 `actionId` 绑定不覆盖 Choice worker 的清晰 display text，并为候选动作文本增加可执行行动校验。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 2,
+      "turn": 3,
+      "severity": "low",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "同一名小贩在相邻轮次把刚给过的暗街指引重新当作新信息讲出，造成轻微重复演出和分支合流感。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "fixed-beat-consumption",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline lifecycle",
+          "fixed beat consumed-state tracking",
+          "Director duplicate-beat rewriting"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 storyline 节点和 Director 层增加 fixed beat 消费/去重逻辑，对相邻 turn 同一 NPC 已说过的线索只允许补充新信息。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-002-turn-03/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-002-turn-03/root-cause-report.md",
+      "result": {
+        "issueId": "issue-2",
+        "issueIndex": 2,
+        "turn": 3,
+        "issueValidity": "valid",
+        "problemSummary": "同一小贩在 turn 2 和 turn 3 相邻轮次重复把暗街“有消息、找到对的路”当作新线索交代。",
+        "validityAssessment": {
+          "verdictReason": "turn 3 虽然新增了卡琳娜住在暗街的信息，但核心暗街指引句式与 turn 2 几乎重复，且说话者相同、间隔一轮。",
+          "playerVisibleSupport": "turn 2 小贩说“那边……什么消息都有。只要你能找到对的路”；turn 3 小贩又说“那边什么都有，只要你能找到对的路”。",
+          "caveats": [
+            "turn 3 不是完全无新信息；问题是重复交代降低连续性。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家已从小贩处记住暗街是寻找敏特线索的地方；turn 3 玩家追卡琳娜失败后回到小贩处，合理新信息应聚焦卡琳娜与暗街的关系。",
+          "relevantFacts": [
+            {
+              "claim": "暗街线索已由同一小贩给出。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-02/04-output.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "turn 2 末尾明确写“暗街——那个被遗弃的内陆区域。你记住了这个名字”。"
+            },
+            {
+              "claim": "turn 3 worker prompt 能看到上一轮可见正文。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-03/03-story-state.json",
+                "turn-03/06b-narrator-prompt.md"
+              ],
+              "notes": "`recentTurns` 包含 turn 2 文本。"
+            },
+            {
+              "claim": "当前 storyline 仍强推小贩说明暗街/卡琳娜情报入口。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-03/03-story-state.json",
+                "turn-03/06-llm-calls.json"
+              ],
+              "notes": "Director required content 把“卡琳娜住在暗街”和“情报有价”作为本轮目标。"
+            }
+          ],
+          "competingPressures": [
+            "新激活节点 `1-01-第一章` 的固定信息交代",
+            "recent visible 中已经存在同一信息",
+            "玩家选择追卡琳娜，需要把失败追逐导回主线入口"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-03/03-story-state.json currentStoryline, propagated by turn-03/06-llm-calls.json[0].object",
+          "triggeringPressure": "新节点仍要求小贩说明卡琳娜住在暗街、情报有价和外来者风险，未区分已给出的暗街线索与新增卡琳娜信息。",
+          "missingGuard": "缺少 fixed beat consumed-state 检查，未把 turn 2 已输出的暗街指引从 turn 3 required content 中降权或改写。",
+          "mechanismStatement": "已消费的暗街指引在新 storyline 节点中再次作为必须交代内容出现，Director 将其前景化，Narrator 因而让同一小贩在相邻轮次重复同一线索。",
+          "directCause": "Director 的 required content 把重复信息交给 Narrator，Narrator 复用 turn 2 句式。",
+          "propagation": "重复台词进入 `turn-03/04-output.json`，并影响 turn 3 可见正文的分支合流感。",
+          "nonCauses": [
+            "不是 meta-memory 或 detail-memory；所需信息在 recent context 中。",
+            "不是玩家输入要求重复暗街线索。",
+            "不是单纯 Narrator 文采问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-consumption",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "固定节点 `1-01-第一章` 没有根据上一轮可见输出标记暗街线索已被同一 NPC 消费，导致 Director/Narrator 再次前景化并表演同一指引。",
+          "fixSurface": [
+            "storyline lifecycle",
+            "fixed beat consumed-state tracking",
+            "Director duplicate-beat rewriting"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "`visible-timeline.jsonl` turn 2 与 turn 3 显示同一小贩重复“暗街有消息，只要找到对的路”。",
+          "internalTrace": "`turn-02/05-runtime-after.json` 显示进入 `1-01-第一章`；`turn-03/03-story-state.json` 仍要求小贩说明卡琳娜与暗街；`turn-03/06-llm-calls.json` Director/Narrator 将其输出。"
+        },
+        "recommendedFixArea": "在 storyline 节点和 Director 层增加 fixed beat 消费/去重逻辑，对相邻 turn 同一 NPC 已说过的线索只允许补充新信息。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 3,
+      "turn": 8,
+      "severity": "low",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "正文把一只未被介绍过的室内黑猫当作玩家已知且一直在场的对象处理，物件/角色出现缺少可见铺垫。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director current-scene entity validation",
+          "Narrator first-mention constraints",
+          "scene entity inventory / visible entity tracker"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 storyline 到 Director/Narrator 的 handoff 增加 visible entity anchor 检查和首次引入模板，未可见实体不得被写成“那只”或“一直在场”。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-003-turn-08/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-003-turn-08/root-cause-report.md",
+      "result": {
+        "issueId": "issue-3",
+        "issueIndex": 3,
+        "turn": 8,
+        "issueValidity": "valid",
+        "problemSummary": "turn 8 把此前未在公寓中出现的黑猫卡尔写成玩家已知且一直在场的对象。",
+        "validityAssessment": {
+          "verdictReason": "turn 7 玩家完整观察公寓时没有看到黑猫；turn 8 直接用“那只黑猫——卡尔——一直”处理，缺少首次引入。",
+          "playerVisibleSupport": "turn 7 可见公寓细节包括沙发、毛毯、茶几、薄荷、帆布背包和卡琳娜动作，但没有黑猫；turn 8 突然写卡尔在沙发毛毯尾端。",
+          "caveats": [
+            "内部剧本确实存在卡尔，但该隐藏事实不能用来否定玩家可见问题。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家看到的是卡琳娜公寓客厅，卡琳娜坐在沙发上试探主角；玩家可见动物只有 turn 6 巷子里的灰猫。",
+          "relevantFacts": [
+            {
+              "claim": "室内黑猫卡尔此前未被玩家看到。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-07/04-output.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "turn 7 是完整室内观察段，仍未提及黑猫。"
+            },
+            {
+              "claim": "内部 storyline 要求卡尔在公寓中有存在感。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-08/03-story-state.json"
+              ],
+              "notes": "`currentStoryline.content` 明确写“黑猫卡尔在沙发上的存在感”。"
+            },
+            {
+              "claim": "Director 将卡尔动作作为本轮 required content。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-08/06-llm-calls.json"
+              ],
+              "notes": "Director involvedCharacters 包含卡尔，并要求“卡尔做出一个可被主角注意到的动作”。"
+            },
+            {
+              "claim": "Narrator prompt 有泛化一致性原则，但没有未可见实体首次引入硬约束。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-08/06b-narrator-prompt.md"
+              ],
+              "notes": "规则强调相信最近可见正文，但未阻止隐藏实体直接被写成已知对象。"
+            }
+          ],
+          "competingPressures": [
+            "storyline 想在公寓场景引入卡尔",
+            "角色卡和秘密设定中卡尔很重要",
+            "玩家最近可见公寓场景没有卡尔",
+            "Narrator 被要求写卡尔动作但未被要求先桥接首次出现"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-08/06-llm-calls.json[0].object",
+          "triggeringPressure": "`turn-08/03-story-state.json` 中的 storyline 和角色状态把卡尔当作公寓已有实体，Director 将其前景化为本轮动作要求。",
+          "missingGuard": "缺少 current-scene entity anchor 检查；未要求“如果实体未出现在最近可见场景，必须先自然引入，不能写成一直在场”。",
+          "mechanismStatement": "内部 storyline 中未被玩家看到的实体被 Director 当作当前场景成员交给 Narrator，Narrator 直接使用已知化称呼和连续在场表述，造成 unsupported jump。",
+          "directCause": "Narrator 写出“那只黑猫——卡尔——一直蜷在毛毯尾端”。",
+          "propagation": "该文本进入 `turn-08/04-output.json`，后续 turn 9/10 继续把卡尔当作场景内实体。",
+          "nonCauses": [
+            "不是玩家可见时间线中已有卡尔但评测漏看。",
+            "不是纯粹模型凭空编造；卡尔来自内部 storyline/角色卡。",
+            "不是长期记忆问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统没有把内部 storyline 实体与玩家可见 current scene inventory 对齐；隐藏实体卡尔被当作已在场对象直接交给 Narrator，缺少首次引入/可见锚定防线。",
+          "fixSurface": [
+            "Director current-scene entity validation",
+            "Narrator first-mention constraints",
+            "scene entity inventory / visible entity tracker"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "`visible-timeline.jsonl` turn 7 无室内黑猫，turn 8 突然出现“那只黑猫——卡尔——一直蜷在毛毯尾端”。",
+          "internalTrace": "`turn-08/03-story-state.json` 中 storyline 含“黑猫卡尔在沙发上的存在感”；`turn-08/06-llm-calls.json` Director 要求卡尔动作；`turn-08/04-output.json` 提交 unsupported introduction。"
+        },
+        "recommendedFixArea": "为 storyline 到 Director/Narrator 的 handoff 增加 visible entity anchor 检查和首次引入模板，未可见实体不得被写成“那只”或“一直在场”。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 4,
+      "turn": 9,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "同一句话把卡尔的位置同时锚定在沙发角落和窗台，动作承接不清。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "entity-location-anchor",
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "statefold entity location writeback",
+          "runtime-after current scene entity inventory",
+          "Narrator prompt current-location table",
+          "intra-sentence spatial consistency check"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "补上 scene entity location writeback，并在 Narrator prompt 中显式列出当前实体位置，避免从 recent prose 旧短语恢复过期位置。",
+      "resultPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-004-turn-09/root-cause-result.json",
+      "reportPath": "/Users/ethan/Documents/workspace/Novel/code/story_refined_logs/logs/2124ade90932-dev-orchestrator-membackend/run_logs/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-22T10-02-09.686Z/batches/batch-001/issues/issue-004-turn-09/root-cause-report.md",
+      "result": {
+        "issueId": "issue-4",
+        "issueIndex": 4,
+        "turn": 9,
+        "issueValidity": "valid",
+        "problemSummary": "turn 9 同一句把卡尔锚在“沙发角落里”，又写它“从窗台上跳下来”，与上一轮位置承接冲突。",
+        "validityAssessment": {
+          "verdictReason": "turn 8 已经写卡尔从沙发走到窗台边/薄荷盆栽旁；turn 9 从窗台下来可承接，但“沙发角落里”是旧位置。",
+          "playerVisibleSupport": "turn 8 可见文本：“轻盈地跳下沙发，走到窗台边，在薄荷盆栽旁边蹲坐下来”；turn 9 可见文本：“沙发角落里，黑猫卡尔从窗台上跳下来”。",
+          "caveats": [
+            "该问题不影响剧情主线理解，但造成局部空间动作断裂。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡尔在 turn 8 结束时位于窗台边/薄荷盆栽旁；卡琳娜仍在沙发附近与主角对话。",
+          "relevantFacts": [
+            {
+              "claim": "卡尔上一轮最终位置在窗台边。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-08/04-output.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "文本明确写卡尔从沙发跳下并走到窗台边。"
+            },
+            {
+              "claim": "Director 本轮动作 hint 使用正确当前位置。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-09/06-llm-calls.json"
+              ],
+              "notes": "`characterBeats` 写“从薄荷盆栽旁站起，走到茶几边缘蹲坐下”。"
+            },
+            {
+              "claim": "Narrator prompt 中旧位置和新位置并列存在。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "recent visible 包含“沙发角落”旧短语，也包含“走到窗台边”最终状态。"
+            },
+            {
+              "claim": "runtime-after 没有结构化保存卡尔当前位置。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-08/05-runtime-after.json",
+                "turn-09/05-runtime-after.json"
+              ],
+              "notes": "`charactersOnStage` 没有卡尔，也没有 entity location 字段。"
+            }
+          ],
+          "competingPressures": [
+            "recent prose 中旧位置短语“沙发角落”很醒目",
+            "Director actionHint 指向薄荷盆栽/窗台边",
+            "currentStoryline 仍含“黑猫卡尔在沙发上的存在感”",
+            "缺少结构化 current entity location"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-09/06-llm-calls.json[1].text",
+          "triggeringPressure": "Narrator prompt 同时提供旧位置短语、current storyline 的沙发存在感、以及 Director 的正确窗台动作 hint。",
+          "missingGuard": "缺少 entity-location anchor 和 state writeback；没有显式告诉 Narrator 卡尔当前在窗台/薄荷盆栽旁，也没有禁止同句混用两个位置锚点。",
+          "mechanismStatement": "上一轮移动后的最新位置没有结构化保存，Narrator 在长 recent prose 中抓取旧位置短语，同时执行当前动作 hint，导致同一句出现沙发和窗台两个空间锚。",
+          "directCause": "Narrator raw text 写出“沙发角落里，黑猫卡尔从窗台上跳下来”。",
+          "propagation": "冲突句进入 `turn-09/04-output.json`；后续 turn 10 又继续从窗台移动，说明系统没有可靠位置状态。",
+          "nonCauses": [
+            "Director 本轮动作 hint 不是主因。",
+            "不是长期记忆或 meta-memory 问题。",
+            "不是 Choice 输出问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "entity-location-anchor",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "最近一轮实体移动后没有形成结构化当前场景位置锚点，Narrator 在旧 prose 锚点和正确 actionHint 之间混合取用，导致卡尔的位置同时落在沙发和窗台。",
+          "fixSurface": [
+            "statefold entity location writeback",
+            "runtime-after current scene entity inventory",
+            "Narrator prompt current-location table",
+            "intra-sentence spatial consistency check"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "`visible-timeline.jsonl` turn 8 显示卡尔移到窗台边，turn 9 显示“沙发角落里，黑猫卡尔从窗台上跳下来”。",
+          "internalTrace": "`turn-09/06-llm-calls.json` 中 Director actionHint 正确但 Narrator raw text 冲突；`turn-08/05-runtime-after.json` 和 `turn-09/05-runtime-after.json` 未记录卡尔位置。"
+        },
+        "recommendedFixArea": "补上 scene entity location writeback，并在 Narrator prompt 中显式列出当前实体位置，避免从 recent prose 旧短语恢复过期位置。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}
