@@ -1,0 +1,1632 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z 根因分析中文总览</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f8;
+      --paper: #ffffff;
+      --ink: #172126;
+      --muted: #657077;
+      --line: #d9dee2;
+      --soft: #eef3f4;
+      --accent: #146c6c;
+      --accent-2: #7b4b1f;
+      --danger: #b42318;
+      --warn: #a15c07;
+      --low: #536878;
+      --shadow: 0 10px 30px rgba(25, 38, 44, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .page { max-width: 1180px; margin: 0 auto; padding: 28px 24px 56px; }
+    .top { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; margin-bottom: 24px; }
+    .title-panel, .side-panel, .family-section, .label-section, .issue { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+    .title-panel { padding: 26px 28px; }
+    h1 { margin: 0 0 10px; font-size: 28px; line-height: 1.25; letter-spacing: 0; }
+    .subtitle { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+    .stat { background: var(--soft); border: 1px solid #dfe7e8; border-radius: 8px; padding: 12px; min-height: 74px; }
+    .stat strong { display: block; font-size: 24px; line-height: 1.1; }
+    .stat span { color: var(--muted); font-size: 13px; }
+    .side-panel { padding: 18px; position: sticky; top: 18px; }
+    .side-panel h2 { margin: 0 0 12px; font-size: 16px; }
+    .nav-list { display: grid; gap: 8px; }
+    .nav-list a { display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; border-radius: 6px; background: #f8faf9; border: 1px solid #e3e9e8; color: var(--ink); }
+    .overview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 20px 0 28px; }
+    .table-panel { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+    .table-panel h2 { margin: 0; padding: 14px 16px; font-size: 16px; border-bottom: 1px solid var(--line); background: #fbfcfc; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 9px 12px; border-bottom: 1px solid #edf0f2; vertical-align: top; text-align: left; }
+    th { font-weight: 600; }
+    tr:last-child th, tr:last-child td { border-bottom: 0; }
+    .code, .code-inline { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted); font-size: 12px; }
+    .code { display: block; margin-top: 2px; font-weight: 400; }
+    .priority { margin: 0; padding: 0 0 2px; list-style: none; display: grid; gap: 10px; }
+    .priority li { display: grid; grid-template-columns: 30px minmax(0,1fr); gap: 10px; padding: 10px; border: 1px solid #e4e9ea; border-radius: 8px; background: #fbfcfc; }
+    .rank { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; font-weight: 700; }
+    .family-section { padding: 22px; margin: 24px 0; }
+    .family-section > h2 { margin: 0 0 18px; font-size: 23px; letter-spacing: 0; display: flex; gap: 10px; align-items: baseline; }
+    .family-section > h2 span { color: var(--muted); font-size: 14px; font-weight: 500; }
+    .label-section { padding: 18px; margin: 16px 0; box-shadow: none; }
+    .label-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 14px; }
+    .label-head h3 { margin: 0 0 6px; font-size: 19px; }
+    .label-head p { margin: 0; color: var(--muted); }
+    .label-meta { text-align: right; color: var(--muted); display: grid; gap: 3px; align-content: start; }
+    .issue { margin: 14px 0; padding: 16px; box-shadow: none; border-left-width: 5px; }
+    .severity-high { border-left-color: var(--danger); }
+    .severity-medium { border-left-color: var(--warn); }
+    .severity-low { border-left-color: var(--low); }
+    .issue-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+    .issue h4 { margin: 0 0 9px; font-size: 17px; line-height: 1.45; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { display: inline-flex; align-items: center; min-height: 26px; padding: 3px 8px; border-radius: 999px; background: #f2f5f5; color: #38464c; border: 1px solid #dfe6e6; font-size: 12px; }
+    .chip.sev { background: #fff7ed; border-color: #fed7aa; }
+    .report-link { white-space: nowrap; border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; background: #fbfcfc; }
+    .issue-grid, .details-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; margin-top: 14px; }
+    .issue-grid section, .details-grid section { min-width: 0; }
+    h5 { margin: 0 0 6px; font-size: 14px; color: #26363d; }
+    p { margin: 0 0 9px; }
+    .muted { color: var(--muted); }
+    .quote-like { border-left: 3px solid #b8c7ca; padding-left: 10px; color: #415057; background: #f7fafa; }
+    dl { margin: 0; display: grid; gap: 7px; }
+    dt { font-weight: 700; color: #334149; }
+    dd { margin: 0 0 5px; color: #3f4d54; }
+    ul { margin: 0; padding-left: 20px; }
+    li + li { margin-top: 5px; }
+    details { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+    summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .footer { color: var(--muted); margin-top: 28px; font-size: 13px; }
+    @media (max-width: 920px) {
+      .top, .overview, .issue-grid, .details-grid { grid-template-columns: 1fr; }
+      .side-panel { position: static; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .issue-head, .label-head { grid-template-columns: 1fr; }
+      .label-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="top">
+      <div class="title-panel">
+        <h1>根因分析中文总览</h1>
+        <p class="subtitle">runner-smoke-baseline-recent-5-2026-06-22T09-46-37.258Z</p>
+        <div class="stats">
+          <div class="stat"><strong>21</strong><span>全部 issue</span></div>
+          <div class="stat"><strong>21</strong><span>已完成分析</span></div>
+          <div class="stat"><strong>21</strong><span>有效问题</span></div>
+          <div class="stat"><strong>0</strong><span>缺失结果</span></div>
+        </div>
+      </div>
+      <aside class="side-panel">
+        <h2>按大类跳转</h2>
+        <nav class="nav-list"><a href="#family-agent-system">智能体信息流 / 管道约束<span>19</span></a><a href="#family-detail-memory">细节记忆 / 状态写回<span>1</span></a><a href="#family-llm-self">模型局部生成质量<span>1</span></a></nav>
+      </aside>
+    </section>
+
+    <section class="overview">
+      <div class="table-panel">
+        <h2>严重度分布</h2>
+        <table><tr><th>低<span class="code">low</span></th><td>10</td></tr><tr><th>中<span class="code">medium</span></th><td>10</td></tr><tr><th>高<span class="code">high</span></th><td>1</td></tr></table>
+      </div>
+      <div class="table-panel">
+        <h2>问题类型分布</h2>
+        <table><tr><th>事实冲突<span class="code">fact-conflict</span></th><td>6</td></tr><tr><th>时空连续性断裂<span class="code">space-time-break</span></th><td>5</td></tr><tr><th>缺少铺垫的跳跃<span class="code">unsupported-jump</span></th><td>4</td></tr><tr><th>文本质量退化<span class="code">quality-regression</span></th><td>2</td></tr><tr><th>重复演出<span class="code">repeated-scene</span></th><td>2</td></tr><tr><th>身份/说话人漂移<span class="code">identity-drift</span></th><td>1</td></tr><tr><th>玩家输入被弱化<span class="code">user-input-ignored</span></th><td>1</td></tr></table>
+      </div>
+      <div class="table-panel">
+        <h2>根因大类分布</h2>
+        <table><tr><th>智能体信息流 / 管道约束<span class="code">agent-system</span></th><td>19</td></tr><tr><th>细节记忆 / 状态写回<span class="code">detail-memory</span></th><td>1</td></tr><tr><th>模型局部生成质量<span class="code">llm-self</span></th><td>1</td></tr></table>
+      </div>
+    </section>
+
+    <section class="table-panel" style="padding: 16px;">
+      <h2 style="padding:0 0 12px;border:0;background:transparent;">优先修复方向</h2>
+      <ol class="priority"><li><span class="rank">1</span><div><strong>上下文冲突优先级失效</strong><span class="code-inline">context-priority</span><br><span class="muted">智能体信息流 / 管道约束，2 条 issue，score 8.00</span></div></li><li><span class="rank">2</span><div><strong>选项动作绑定与按钮文案</strong><span class="code-inline">choice-action-binding</span><br><span class="muted">智能体信息流 / 管道约束，2 条 issue，score 4.00</span></div></li><li><span class="rank">3</span><div><strong>固定剧情已消费但仍被重复使用</strong><span class="code-inline">fixed-beat-consumption</span><br><span class="muted">智能体信息流 / 管道约束，2 条 issue，score 4.00</span></div></li><li><span class="rank">4</span><div><strong>线索目标绑定错误</strong><span class="code-inline">clue-target-binding</span><br><span class="muted">智能体信息流 / 管道约束，1 条 issue，score 3.00</span></div></li><li><span class="rank">5</span><div><strong>当前时间状态没有稳定写回</strong><span class="code-inline">missing-current-scene-time-anchor</span><br><span class="muted">细节记忆 / 状态写回，1 条 issue，score 3.00</span></div></li><li><span class="rank">6</span><div><strong>玩家可见知识门控缺失</strong><span class="code-inline">visible-knowledge-gating</span><br><span class="muted">智能体信息流 / 管道约束，1 条 issue，score 3.00</span></div></li><li><span class="rank">7</span><div><strong>当前空间/位置锚点没有传给后续阶段</strong><span class="code-inline">missing-current-scene-anchor</span><br><span class="muted">智能体信息流 / 管道约束，1 条 issue，score 3.00</span></div></li><li><span class="rank">8</span><div><strong>选项缺少玩家可见依据校验</strong><span class="code-inline">choice-visible-grounding-gap</span><br><span class="muted">智能体信息流 / 管道约束，1 条 issue，score 3.00</span></div></li></ol>
+    </section>
+
+
+      <section class="family-section" id="family-agent-system">
+        <h2>智能体信息流 / 管道约束 <span>19 条</span></h2>
+
+          <section class="label-section" id="label-choice-action-binding">
+            <header class="label-head">
+              <div>
+                <h3>选项动作绑定与按钮文案</h3>
+                <p>状态机候选动作把 action trigger 的可执行语义和主题化文案放在同一个 player-facing text 字段里，Choice prompt 又没有提供“候选 text 仅供语义参考，按钮必须重写成短行动”的硬约束。这个 handoff 让模型倾向于复制候选文案，从而把缺少承接的诗性片段带进玩家可见选项。</p>
+              </div>
+              <div class="label-meta"><span>2 条</span><span class="code-inline">choice-action-binding</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-1">
+      <header class="issue-head">
+        <div>
+          <h4>#1 / 第 7 轮：Turn 7 的玩家选项“直接去暗街，往日总是如影随形”把明确行动和缺少承接的诗性片段拼在一起，玩家可见按钮读起来像候选动作文本污染。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：文本质量退化</span>
+            <span class="chip">范围：choices</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-001/issues/issue-001-turn-07/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>该 issue 有效。Turn 7 正文只建立了纸条线索“暗街——找‘裁缝’”，玩家下一步可以选择去暗街；“往日总是如影随形”没有被建立为玩家动作、目标或可执行意图，出现在按钮后半句会破坏选项可读性。</p>
+          <p class="quote-like">visible-timeline.jsonl 的 Turn 7 显示正文结束于发现纸条和周围无人看向你，选项却显示“直接去暗街，往日总是如影随形”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>状态机候选动作把 action trigger 的可执行语义和主题化文案放在同一个 player-facing text 字段里，Choice prompt 又没有提供“候选 text 仅供语义参考，按钮必须重写成短行动”的硬约束。这个 handoff 让模型倾向于复制候选文案，从而把缺少承接的诗性片段带进玩家可见选项。</p>
+          <p class="muted">机制标识：<span class="code-inline">choice-action-binding</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-07/03-story-state.json candidateActions[0].text</dd>
+            <dt>触发压力</dt><dd>候选推进动作 text 直接写成“直接去暗街，往日总是如影随形”，把可点击动作和主题式短语合在一个字段里；turn-07/06c-choice-prompt.md 又在“剧本/状态机候选推进动作”中原样展示这段文本。</dd>
+            <dt>缺失防线</dt><dd>Choice 输入契约没有区分 machine action label、player-facing button copy 和 thematic note，也没有要求对候选 text 做动作化净化；输出要求只强调 actionId 要原样复制。</dd>
+            <dt>直接原因</dt><dd>Choice worker 在 turn-07/07-events.json 中原样输出 candidateActions[0].text 为第一个选项。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>优先修复 Choice 候选动作 handoff：候选动作的机器语义与玩家按钮文案分层，并在 Choice worker 输出前做动作化文案校验。</p>
+          <ul><li>candidateActions schema: split actionId, actionLabel, playerFacingText, thematicHint</li><li>choice prompt: require actionable button rewrite and reject non-action clauses</li><li>choice generation validator: flag button text containing unexplained thematic fragments</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家刚看到猫离开后露出一张纸条，纸条只给出“暗街——找‘裁缝’”这个行动线索。当前合理选项应是前往暗街、继续观察异常，或围绕纸条做普通行动。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>纸条建立的可执行意图是去暗街找“裁缝”。</strong><span class="muted"> present-clear</span><br><span>Choice prompt 的本轮可见正文区明确包含“暗街——找‘裁缝’”。</span></li><li><strong>“往日总是如影随形”不是当前按钮应表达的玩家行动。</strong><span class="muted"> present-buried</span><br><span>该短语来自 candidateActions 的 text 字段，而不是本轮正文自然推出的行动。它与当前故事线“从往日阴影中逃离”的风格压力相近。</span></li><li><strong>Choice worker 需要生成短、具体、可点击的行动选项。</strong><span class="muted"> present-clear</span><br><span>系统提示和输出要求都要求选项像玩家主动选择的行动。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>turn-07/04-output.json 持久化该选项；turn-08/01-summary.json 又把它作为 selectedFromPreviousTurn 和 userInput 传入下一轮。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>Narrator 正文本身没有生成该异常按钮。</li><li>玩家输入不是直接来源；玩家只是在下一轮选择了这个系统生成的选项。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+
+    <article class="issue severity-medium" id="issue-10">
+      <header class="issue-head">
+        <div>
+          <h4>#10 / 第 28 轮：玩家选择停步追问目的地，系统回答后自动替玩家决定跟随卡琳娜，并让后续选项进入同行状态。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：玩家输入被弱化</span>
+            <span class="chip">范围：mixed</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-003/issues/issue-010-turn-28/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>turn 27 将接受邀请和停步追问拆成不同选项；玩家选择停步追问后，turn 28 自动写成跟随并锁定同行状态，替换了玩家核心行动边界。</p>
+          <p class="quote-like">turn 28 先写“你站在原地，没有跟上”，但回答后写“你抬起了脚。你跟她走了上去”；后续 choices 也全部默认已经同行。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>玩家所选 choice 的核心动作是“停在原地追问”，系统没有把它绑定为本轮必须保持的行动边界。Director 的 handoff 同时承认停步追问，又把 NPC 催促和 storyline 的本地向导压力推到前景，缺少“回答后仍等待玩家确认”的 guard，导致 Narrator 和 Choice 将玩家锁入同行状态。</p>
+          <p class="muted">机制标识：<span class="code-inline">choice-action-binding</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-28/04-output.json:plotPoint</dd>
+            <dt>触发压力</dt><dd>story-level 本地向导目标与 Director requiredContent 中“卡琳娜再次示意主角跟上”把本轮推向接受邀请。</dd>
+            <dt>缺失防线</dt><dd>selected choice 的 core action 没有被绑定为 must-preserve contract；缺少“追问后仍处于未决状态”的动作边界。</dd>
+            <dt>直接原因</dt><dd>Director 同时写“主角停留在原地追问”和“卡琳娜告知目的地并催促出发”，但没有要求在回答后停在玩家确认点。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>修复 choice-action-binding：为询问、观察、犹豫、等待型选项生成 must-preserve action boundary，并要求本轮停在玩家确认点。</p>
+          <ul><li>selected choice coreAction/forbiddenAssumptions 提取</li><li>Director prompt 的玩家行动边界 contract</li><li>Narrator prompt 对询问/观察/等待型输入的 unresolved ending 规则</li><li>Choice generator 对未决邀请状态的选项保留</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>卡琳娜在 turn 27 邀请主角去有说话的地方，并站在那里让玩家决定。玩家没有选择接受邀请，而是选择站在原地追问目的地。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>turn 27 的 choice 将“跟上卡琳娜，接受她的邀请”和“站在原地追问她准备带我去哪”分开。</strong><span class="muted"> present-clear</span><br><span>玩家选择的是后者，不是接受邀请。</span></li><li><strong>turn 28 玩家输入是站在原地追问目的地。</strong><span class="muted"> present-clear</span><br><span>输入明确包含停步和追问。</span></li><li><strong>storyline 强调主角需要卡琳娜这样的本地向导。</strong><span class="muted"> over-constraining</span><br><span>该目标对同行方向施加压力。</span></li><li><strong>Director 要求卡琳娜再次示意主角跟上。</strong><span class="muted"> over-constraining</span><br><span>该 handoff 没有同时声明玩家尚未接受邀请。</span></li><li><strong>Narrator 不应替玩家追加新决定。</strong><span class="muted"> present-clear</span><br><span>约束存在，但被 Director handoff 的剧情压力压过。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>Narrator 写出“你跟她走了上去”； Choice generator 基于正文结尾生成同行选项；turn 29 继续以同行状态开场。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>Choice generator 不是第一原因，它只是传播已经写入正文的同行状态。</li><li>这不是合理互动改写，因为可见选项明确区分了追问与接受。</li><li>不是 hidden state 或记忆问题。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-context-priority">
+            <header class="label-head">
+              <div>
+                <h3>上下文冲突优先级失效</h3>
+                <p>系统没有区分 recent visible text 中的已冲突错误和可依赖事实；在最近正文优先的连续性压力下，turn 13 错误获得事实权重并在 turn 15 复用。</p>
+              </div>
+              <div class="label-meta"><span>2 条</span><span class="code-inline">context-priority</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-6">
+      <header class="issue-head">
+        <div>
+          <h4>#6 / 第 15 轮：turn 15 再次把纸条误说成指向“那个人在哪”的线索，强化了 turn 13 的线索归属混淆。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：事实冲突</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-002/issues/issue-006-turn-15/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>玩家可见文本已明确纸条只写“找‘裁缝’”，且裁缝已确认自己就是纸条目标；turn 15 重复“纸条上那个人在哪”与这些事实冲突。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 7、turn 12、turn 13、turn 15 展示了从正确纸条到错误重复的完整链条。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>系统没有区分 recent visible text 中的已冲突错误和可依赖事实；在最近正文优先的连续性压力下，turn 13 错误获得事实权重并在 turn 15 复用。</p>
+          <p class="muted">机制标识：<span class="code-inline">context-priority</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>direct: turn-15/06-llm-calls.json kind=streamText; source: turn-13/06-llm-calls.json kind=streamText</dd>
+            <dt>触发压力</dt><dd>turn 15 prompt 中包含上一轮错误 visible text，且连续性规则鼓励维持最近正文。</dd>
+            <dt>缺失防线</dt><dd>缺少对 recent visible text 中已冲突事实的标记和纠偏；没有结构化 clue target/resolved 约束压过错误句。</dd>
+            <dt>直接原因</dt><dd>Narrator 继承并重复 turn 13 的“纸条上那个人”表述。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>在 recent context 与 Director handoff 中标注 clue 冲突和 resolved 状态，避免上一轮错误以“最近事实”身份继续传播。</p>
+          <ul><li>recent-turn assembly contradiction flag</li><li>Director clue correction handoff</li><li>Narrator output consistency check against resolved clues</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>裁缝已经提出取物交易，玩家在 turn 15 追问取什么、为什么她自己不去；正确纸条归属和 turn 13 的错误句同时存在于 recent turns。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>纸条只指向裁缝，且裁缝已出现。</strong><span class="muted"> present-clear</span><br><span>正确事实仍在 prompt 的最近经历里。</span></li><li><strong>turn 13 已经写出错误的“纸条上那个人”。</strong><span class="muted"> contradicted</span><br><span>该错误作为玩家可见正文进入 turn 15 prompt，形成污染。</span></li><li><strong>Director 没有要求重复纸条人物。</strong><span class="muted"> present-clear</span><br><span>Director 安排的是追问取物细节和裁缝动机，不包含错误短语。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>turn 15 将错误写入任务条件，使后续玩家选择围绕铁盒任务继续推进，错误前提更稳固。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是正确事实缺失，turn 12 仍在 prompt</li><li>不是 Choice 首发错误</li><li>不是隐藏设定导致的玩家可见冲突</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+
+    <article class="issue severity-high" id="issue-14">
+      <header class="issue-head">
+        <div>
+          <h4>#14 / 第 42 轮：同一轮可见正文先确认德索洛女儿被欺骗并被割舌，随后又说“我女儿受伤是假的”，并出现“我再也不能唱歌了”的 pronoun drift。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：高</span>
+            <span class="chip">类型：事实冲突</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-005/issues/issue-014-turn-42/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>玩家可见文本内部保留两套互斥事实，且没有桥接解释，因此 issue 有效。</p>
+          <p class="quote-like">turn 41 铺垫“我女儿……他们把她——”；turn 42 先写“她的舌头被割了”，又写“我女儿受伤是假的”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>角色资料中的剧情事实、作者评价和当前可见事实没有分层；冲突短句“他女儿受伤是假的”没有被 recent visible text 和 Director requiredContent 覆盖成禁止项，Narrator 因而同时执行互斥事实，并在代词上进一步漂移。</p>
+          <p class="muted">机制标识：<span class="code-inline">context-priority</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-42/06b-narrator-prompt.md -&gt; turn-42/06-llm-calls.json[1].text</dd>
+            <dt>触发压力</dt><dd>Narrator prompt 同时包含“女儿被割舌”和“他女儿受伤是假的”两个互斥断言，后者短句化、引号化并靠近角色卡总结区。</dd>
+            <dt>缺失防线</dt><dd>prompt assembly 没有结构化冲突仲裁；Director handoff 没有显式写出“女儿确实受害，不能写成假伤”的 must-not constraint。</dd>
+            <dt>直接原因</dt><dd>Narrator 复用了角色卡末尾的“受伤是假的”短句，并把“她再也不能当歌手”漂成“我再也不能唱歌了”。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>优先修复 character-card/context assembly 与 Director -&gt; Narrator handoff 的冲突仲裁和 must-not 约束。</p>
+          <ul><li>character-card/context assembly conflict detection</li><li>Director -&gt; Narrator mustKeep/mustNotContradict handoff</li><li>post-generation contradiction validator</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>帕兹在卡琳娜公寓内，卡琳娜站在门内控制门口，德索洛站在门外求助；玩家选择点明德索洛作为父亲的急迫与疏远家人的矛盾。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>德索洛为女儿受害寻求公道。</strong><span class="muted"> present-clear</span><br><span>recent visible text 和角色资料都清楚支持该事实。</span></li><li><strong>女儿被欺骗、抵抗、舌头被割。</strong><span class="muted"> present-clear</span><br><span>Director requiredContent 明确要求写入割舌细节。</span></li><li><strong>“他女儿受伤是假的”是角色卡末尾的冲突注记。</strong><span class="muted"> contradicted</span><br><span>该短句与同卡前文、recent visible text、Director output 冲突，却未被降权或禁止转写。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>错误写入 turn-42/04-output.json 的 visibleText 和 currentStoryline write，后续 turn 43 继续以德索洛女儿话题推进。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 evaluator 误判，可见文本本身冲突。</li><li>不是长期 memory 缺失，所需事实在当前 prompt 中存在。</li><li>不是单纯 Director 错误，Director output 对受害事实是清楚的。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-fixed-beat-consumption">
+            <header class="label-head">
+              <div>
+                <h3>固定剧情已消费但仍被重复使用</h3>
+                <p>敲门作为 storyline 固定过渡 beat 在上一轮已经玩家可见地触发，但 lifecycle/writeback 没有把该 beat 标记为 consumed，也没有把“门外仍在等待回应”改写成新的兼容状态。Director prompt 因而继续把“必须输出敲门声”作为强压力，同时没有计数承接 guard，最终把 recent context 中已有的三声和两声之上又生成一个“第三声敲门”。</p>
+              </div>
+              <div class="label-meta"><span>2 条</span><span class="code-inline">fixed-beat-consumption</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-12">
+      <header class="issue-head">
+        <div>
+          <h4>#12 / 第 37 轮：turn 37 把新的三连敲写成“第三声敲门”和“那三声叩击”，没有承接 turn 36 已经出现的三声敲门和随后两声敲门，玩家容易误读当前到底是第三声、第三次，还是另一组敲门。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：事实冲突</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-004/issues/issue-012-turn-37/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>该问题成立。仅从玩家可见文本看，turn 36 已经出现一组三声“咚咚咚”，随后又出现“更短”的两声；turn 37 又出现“咚咚咚”，并立刻称为“第三声敲门”，随后又说“那三声叩击”。这些表述混用了单次叩击、三连叩击和敲门轮次，低严重度但确实会造成计数理解歧义。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 36 显示“不是敲门。三声……‘咚咚咚。’”以及“敲门声又响了一次。这次更短——两声”；turn 37 显示“‘咚咚咚。’第三声敲门……房间里的空气已经被那三声叩击彻底改变了”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>敲门作为 storyline 固定过渡 beat 在上一轮已经玩家可见地触发，但 lifecycle/writeback 没有把该 beat 标记为 consumed，也没有把“门外仍在等待回应”改写成新的兼容状态。Director prompt 因而继续把“必须输出敲门声”作为强压力，同时没有计数承接 guard，最终把 recent context 中已有的三声和两声之上又生成一个“第三声敲门”。</p>
+          <p class="muted">机制标识：<span class="code-inline">fixed-beat-consumption</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-37/06-llm-calls.json director call，镜像见 turn-37/07-events.json worker-done director 和 turn-37/06b-narrator-prompt.md 的 Director 安排摘要</dd>
+            <dt>触发压力</dt><dd>currentStoryline.constraints 中“本节点结束时必须输出敲门声”在敲门已经出现后仍保持激活；Director 同时看到玩家要“看一眼再回应敲门”，于是把未消费的固定 beat 推成“敲门声第三次响起”。</dd>
+            <dt>缺失防线</dt><dd>缺少 fixed beat consumed/incompatible guard，也缺少面向连续声响的计数承接规则。系统没有要求 Director 在重用敲门 beat 前检查上一轮是否已经输出过，或者把新敲门表述成“又一次敲门/门外再次催促”而不是含糊的“第三声”。</dd>
+            <dt>直接原因</dt><dd>Director output 的 requiredContent 明确写入“敲门声第三次响起，节奏更急促”；Narrator 随后几乎按这个语义生成“‘咚咚咚。’第三声敲门”。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>优先修复 storyline fixed beat lifecycle 和 Director handoff 中的 recent visible sequence 校准；其次补充 runtime scene state 对连续声响的细粒度写回。</p>
+          <ul><li>currentStoryline beat lifecycle: 为固定过渡 beat 增加 consumed/resolved/incompatible 状态。</li><li>Director prompt assembly: 当 fixed beat 已在 recent visible text 中出现时，将约束降级为承接要求，而不是再次 requiredContent。</li><li>state writeback: 保存关键连续动作的细粒度 scene state，例如 knockSequence/lastKnockPattern/pendingDoorResponse。</li><li>Narrator handoff contract: 对序数声响要求必须说明计数基准，不能在基准不清时使用“第几声/第几次”。</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>turn 37 生成前，玩家已经看到主角手里拿着暗红线薄册子，还没翻开；门外先有一组三声敲击，又有一次更短的两声。玩家选择“翻开册子迅速看一眼内容再回应敲门”，因此系统需要在维持“门外等待回应”的紧张感时，清楚承接已有敲门序列。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>门外已经出现过三声敲门和随后两声敲门。</strong><span class="muted"> present-clear</span><br><span>该事实在 recentTurns 和 prompt 的最近玩家经历中完整可见，距离目标输出只有上一轮。</span></li><li><strong>当前玩家核心动作是快速看一眼册子，然后回应敲门。</strong><span class="muted"> present-clear</span><br><span>这允许再制造一次门外压力，但要求承接已经发生的敲击。</span></li><li><strong>currentStoryline 仍保留“本节点结束时必须输出敲门声”的固定 beat。</strong><span class="muted"> over-constraining</span><br><span>这个约束在上一轮敲门已经出现后仍作为当前节点的硬要求进入 Director/Narrator prompt。</span></li><li><strong>Director 需要区分“第几轮敲门”和“第几声叩击”。</strong><span class="muted"> absent</span><br><span>Director output 直接写成“敲门声第三次响起”，没有说明这个“第三次”如何从上一轮三声加两声中计算。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>错误先进入 turn-37/04-output.json narrative 和 writes.turnContent.visibleText，又进入 writes.currentStoryline.update.turnSummary“敲门声第三次响起”，并在 turn-37/07-events.json 中作为 narrator 与 turnContent 写回事件固化。turn-37/05-runtime-after.json 只保留“敲门声打断了交谈”锚点，没有保存足以修正计数的细粒度状态。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>choiceGenerator 不是主因；turn 37 的选项没有延续计数错误。</li><li>不是 long-term memory failure；所需事实就在上一轮 recent context。</li><li>不是单纯 Narrator 局部失误；Narrator 收到的 Director requiredContent 已经带有“第三次”指令。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+
+    <article class="issue severity-medium" id="issue-21">
+      <header class="issue-head">
+        <div>
+          <h4>#21 / 第 49 轮：玩家在 turn 48 已经完成进入宴会厅和环境建立；turn 49 选择远观康纳后，正文又以“你踏入宴会厅的那一刻”开场，重复吊灯、人群、食物香气、卡琳娜半步位置和同一句门口提醒，造成进度回退感。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：重复演出</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-007/issues/issue-021-turn-49/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>可见正文明确显示 turn 48 已经进入宴会厅并完成门口环境建立，turn 49 却再次重演该入场段落，因此该 repeated-scene issue 成立。</p>
+          <p class="quote-like">turn 48 写到主角跟随卡琳娜进入宴会厅、站在门槛、观察吊灯人群食物音乐、听到“别站在门口太久”，并跟上她进入厅内；turn 49 玩家选择“注意康纳的位置（远观，不互动）”后又从“你踏入宴会厅的那一刻”开始，并重复同一句提醒。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>固定剧情/当前 storyline 中的“宴会厅环境建立”子 beat 在 4-03-第一章 已经被玩家可见正文消费后，没有被生命周期状态或 scene anchor 标记为 consumed，也没有在切到 5-01-第一章 时被改写成“承接已入场状态”。于是 5-01 的“先描写宴会厅环境，建立氛围”和“康纳必须在环境建立后才出场”继续以未消费前置的形态进入 Director prompt。Director 把它转成 requiredContent，Narrator 又必须照单执行，最终重复了上一轮入场段落。</p>
+          <p class="muted">机制标识：<span class="code-inline">fixed-beat-consumption</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-49/07-events.json Director worker-done output, also archived as turn-49/04-output.json plotPoint</dd>
+            <dt>触发压力</dt><dd>turn-49 的 currentStoryline 5-01-第一章 显著要求“先描写宴会厅环境，建立氛围”，并约束“康纳必须在环境建立后才出场”。该固定前置与 turn 48 已完成的入场环境建立重叠。</dd>
+            <dt>缺失防线</dt><dd>系统没有把 4-03 已消费的入场/环境建立子 beat 转成强 scene anchor 或 consumed-state，也没有在 Director handoff 中明确禁止重写进入宴会厅、门口停留和同一句提醒；通用“不要重复”规则存在但不可执行、低显著。</dd>
+            <dt>直接原因</dt><dd>Director 将 storyline 中的“先描写宴会厅环境”转成 beats[0] 和 requiredContent[0]，并把“康纳出场前必须先建立宴会厅环境”列为 currentTurnConstraints。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>优先在 storyline beat lifecycle 和 Director prompt/context assembly 中增加 scene-establishment 的 consumed-state 过滤与强 scene anchor：当上一轮已写过入场和环境建立时，将后续 beat 的相同要求改写为承接/变奏/只补未写信息，而不是进入 requiredContent。</p>
+          <ul><li>storyline beat lifecycle / consumed-state tracking</li><li>Director prompt/context assembly</li><li>scene anchor or current-scene progress state</li><li>requiredContent de-duplication and downgrade rules</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>turn 49 之前，玩家已经看到主角随卡琳娜和卡尔进入宴会厅，门在身后合拢；宴会厅的灯光、人群、食物、音乐和窗外天光已经被建立，康纳尚未被看到但被提示应该在这里。玩家随后选择远观康纳，不互动。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>turn 48 已完成宴会厅入场与环境建立。</strong><span class="muted"> present-clear</span><br><span>最近一轮全文进入 Director prompt，包含门槛、吊灯、人群、食物、音乐、同一句提醒和门合拢。</span></li><li><strong>turn 49 玩家核心动作是远观康纳，不主动互动。</strong><span class="muted"> present-clear</span><br><span>Director 正确识别 playerIntent 为 observe，并保留“主角不主动与康纳互动”。</span></li><li><strong>4-03-第一章 入场 beat 已完成。</strong><span class="muted"> present-clear</span><br><span>runtime 的 completedBeatIds 已包含 4-03-第一章，当前 active beat 已切到 5-01-第一章。</span></li><li><strong>5-01-第一章 仍要求“先描写宴会厅环境，建立氛围”。</strong><span class="muted"> over-constraining</span><br><span>该要求与上一轮已完成的环境建立重叠，却没有说明要基于已在厅内的状态轻量承接。</span></li><li><strong>prompt 中有不要重复的通用规则。</strong><span class="muted"> present-buried</span><br><span>这些规则弱于当前 storyline 的核心事件，以及 Narrator 对 requiredContent 的强执行合同。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>Narrator 按 turn-49/06b-narrator-prompt.md 的合同执行 requiredContent，从“你踏入宴会厅的那一刻”开始复写环境和门口提醒；最终内容写入 turn-49/04-output.json 的 turnContent。Choice worker 后续承接康纳已出现，错误主要固化在本轮正文。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 choice-action-binding 主因：玩家的 observe 意图被识别，且正文后半段保持远观康纳。</li><li>不是 memory-persistence 主因：上一轮完整可见正文在 recentTurns 中清楚存在。</li><li>不是 model-local 主因：Director/Narrator 面对强 storyline 前置和 requiredContent 执行合同，系统压力足以解释重复。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-choice-visible-grounding-gap">
+            <header class="label-head">
+              <div>
+                <h3>选项缺少玩家可见依据校验</h3>
+                <p>触发压力是 Director 和隐藏 storyline 前景化“被害者申诉人”；缺失防线是 Choice 没有把选项中的专有名词和“刚才说的”回查到 final visibleText；失败运动是计划中应揭示但实际未揭示的术语被当作玩家已知信息进入选项。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">choice-visible-grounding-gap</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-18">
+      <header class="issue-head">
+        <div>
+          <h4>#18 / 第 45 轮：Turn 45 的选项让玩家追问“你刚才说的‘被害者申诉人’”，但该术语此前没有在玩家可见正文中出现。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：缺少铺垫的跳跃</span>
+            <span class="chip">范围：choices</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-006/issues/issue-018-turn-45/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>Turn 41-45 的玩家可见内容讨论德索洛、敏特、骷髅会和卡尔来历；“被害者申诉人”在 turn 45 选项之前没有可见出现。选项还使用“刚才说的”，制造了错误的共同记忆。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 45 的正文只说“后来我才知道——它来找我不是偶然。”和卡尔“你没什么想问的？”，没有“被害者申诉人”。同一 turn 的选项却出现该术语。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>触发压力是 Director 和隐藏 storyline 前景化“被害者申诉人”；缺失防线是 Choice 没有把选项中的专有名词和“刚才说的”回查到 final visibleText；失败运动是计划中应揭示但实际未揭示的术语被当作玩家已知信息进入选项。</p>
+          <p class="muted">机制标识：<span class="code-inline">choice-visible-grounding-gap</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-45/06-llm-calls.json[2] choiceGenerator output</dd>
+            <dt>触发压力</dt><dd>Director 在 turn-45 把“使命仅提及名称‘被害者申诉人’”写成当前约束；Choice prompt 又携带该导演安排和隐藏角色卡，形成“术语应该已经出现”的压力。</dd>
+            <dt>缺失防线</dt><dd>Choice 生成没有执行可见文本 grounding：凡是选项中出现“刚才说的”“那个 X”或专有名词，必须在本轮 visibleText 或此前 visible timeline 中找到玩家可见锚点。</dd>
+            <dt>直接原因</dt><dd>Choice output 生成了“转向卡琳娜：‘你刚才说的‘被害者申诉人’——那是什么？’”。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为 Choice 阶段加入 visibleText grounding：选项里的专有名词、代词回指和“刚才说的”必须能在玩家可见窗口中匹配；Director 的计划字段不能直接作为 observed fact 使用。</p>
+          <ul><li>Choice prompt/context assembly</li><li>choice visible-grounding validator</li><li>Director-to-Choice handoff schema distinguishing plannedContent from observedVisibleContent</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家刚把敏特话题放下，改问会说话的猫。卡琳娜讲了卡尔来到窗台、留下、后来才知道不是偶然；卡尔最后问玩家是否有问题。玩家只知道卡尔与卡琳娜有更深关系，但不知道“被害者申诉人”这个正式称谓。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>“被害者申诉人”在选项前对玩家不可见。</strong><span class="muted"> absent</span><br><span>正文没有该词，也没有等价解释。</span></li><li><strong>隐藏角色资料包含“卡尔赋予卡琳娜‘被害者申诉人’的使命”。</strong><span class="muted"> present-clear</span><br><span>这是内部设定，不是玩家可见事实。</span></li><li><strong>Director 把该术语提升为本轮应提及内容。</strong><span class="muted"> over-constraining</span><br><span>Director 输出 `requiredContent` 和 `currentTurnConstraints` 要求提及名称，但 Narrator 实际正文没有提及。</span></li><li><strong>Choice prompt 同时看到了最终正文和 Director 安排。</strong><span class="muted"> contradicted</span><br><span>最终正文没有该术语，Director 摘要/约束却说使命名称应被提及。prompt 没有强制以 visibleText 验证选项预设。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>该选项进入 turn-45/04-output.json 和 visible-timeline.jsonl；玩家选择后，turn 46 正文又按这个误选项解释该术语，使错误被后续剧情吸收。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是玩家遗漏信息；可见 timeline 中确实没有该词。</li><li>不是长期 memory 遗忘；该词在内部资料中很显眼。</li><li>不是单纯 Narrator 未写完导致的全部问题；即使 Narrator 漏写，Choice 仍应以最终可见正文为准。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-clue-target-binding">
+            <header class="label-head">
+              <div>
+                <h3>线索目标绑定错误</h3>
+                <p>系统没有把纸条的 target 与 resolved 状态作为高优先级结构化事实交给 Narrator；在寻找敏特的主线压力和交易奖励压力下，模型把纸条线索和照片人物线索错误绑定。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">clue-target-binding</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-5">
+      <header class="issue-head">
+        <div>
+          <h4>#5 / 第 13 轮：裁缝把只指向“找裁缝”的纸条说成“纸条上那个人在哪”，混淆了纸条目标和主角寻找敏特的主线目标。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：事实冲突</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-002/issues/issue-005-turn-13/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>turn 7 的纸条只写“暗街——找‘裁缝’”，turn 12 裁缝已经确认“我就是”；turn 13 说“纸条上那个人在哪”与玩家可见事实冲突。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 7、turn 12、turn 13 的连续可见文本可以独立证明问题成立。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>系统没有把纸条的 target 与 resolved 状态作为高优先级结构化事实交给 Narrator；在寻找敏特的主线压力和交易奖励压力下，模型把纸条线索和照片人物线索错误绑定。</p>
+          <p class="muted">机制标识：<span class="code-inline">clue-target-binding</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-13/06-llm-calls.json kind=streamText</dd>
+            <dt>触发压力</dt><dd>Narrator prompt 同时前景化主角寻找敏特和裁缝提出情报交易，但没有结构化标注纸条 target 是裁缝且已 resolved。</dd>
+            <dt>缺失防线</dt><dd>缺少可执行的 clue binding 约束，未明确禁止把“纸条线索”改写成“纸条上的人”。</dd>
+            <dt>直接原因</dt><dd>Narrator 对纸条归属做了 unsupported detail inference。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为 clue target、source、resolvedAtTurn 建结构化状态，并在 Director/Narrator prompt 中以高优先级约束呈现。</p>
+          <ul><li>story state clue/object binding schema</li><li>Director-to-Narrator scoped clue handoff</li><li>Narrator preflight consistency check for resolved clues</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>帕兹从古董街得到纸条，纸条要求去暗街找“裁缝”；他已找到裁缝铺，turn 12 裁缝确认自己就是纸条所指对象。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>纸条内容是“暗街——找‘裁缝’”。</strong><span class="muted"> present-clear</span><br><span>该事实在玩家可见正文中明确出现，但在 prompt 的结构化部分没有作为 clue target 单独呈现。</span></li><li><strong>裁缝已确认自己就是纸条所指对象。</strong><span class="muted"> present-clear</span><br><span>这是直接解除纸条目标歧义的可见事实。</span></li><li><strong>主角长期目标是寻找敏特。</strong><span class="muted"> present-clear</span><br><span>该目标与纸条线索并列进入上下文，形成混淆压力。</span></li><li><strong>Director 只要求裁缝提出交易条件。</strong><span class="muted"> present-clear</span><br><span>Director 没有指示“纸条上那个人”这个事实。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>错误 visible text 被提交到 turn 13，并进入之后的 recent turns；currentStoryline 只写入中性摘要，没有结构化纠正该错误。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>Director object 未生成错误短语</li><li>正确纸条事实并未完全遗失</li><li>隐藏设定不是判断该玩家可见错误的依据</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-continuation-boundary">
+            <header class="label-head">
+              <div>
+                <h3>连续场景起点不清</h3>
+                <p>Narrator 接收了完整 recent turn tail 和“平复呼吸”的玩家意图，但没有收到已消费动作边界或续写游标。缺失的 handoff contract 使模型把上一轮尾句当作本轮开场桥重演，而不是从“已经重新看清三人，对方等他摘相机”之后继续。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">continuation-boundary</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-4">
+      <header class="issue-head">
+        <div>
+          <h4>#4 / 第 9 轮：Turn 8 已写帕兹咬口腔内侧让闪回破裂并重新看清三人；Turn 9 开头几乎原句重演这个动作，使同一即时场景像回退了一小步。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：重复演出</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-001/issues/issue-004-turn-09/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>该 issue 有效。Turn 8 末尾已经完成“咬口腔内侧的软肉，疼痛像一根针，把那个画面扎破了，并重新看清眼前三个人”；Turn 9 开头再次写“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。重复不是新选择的自然后果，而是上一轮尾句被当成本轮开场桥段重演。</p>
+          <p class="quote-like">Turn 8 和 Turn 9 在同一黑帮对峙中连续出现几乎相同的咬口腔内侧动作和“疼痛像一根针，把那个画面扎破了”意象。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>Narrator 接收了完整 recent turn tail 和“平复呼吸”的玩家意图，但没有收到已消费动作边界或续写游标。缺失的 handoff contract 使模型把上一轮尾句当作本轮开场桥重演，而不是从“已经重新看清三人，对方等他摘相机”之后继续。</p>
+          <p class="muted">机制标识：<span class="code-inline">continuation-boundary</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-09/04-output.json narrator output</dd>
+            <dt>触发压力</dt><dd>Turn 9 Narrator prompt 包含 Turn 8 末尾完整文本，玩家输入又是“平复呼吸”，两者共同把生成拉向重复上一轮的应激恢复动作。</dd>
+            <dt>缺失防线</dt><dd>系统没有给 Narrator 一个明确 continuation cursor，标记“咬口腔内侧/打断闪回/重新看清三人”已经 consumed；也没有把“不要重复最近尾句”转化为本轮可执行约束。</dd>
+            <dt>直接原因</dt><dd>Narrator 在 Turn 9 第一帧重复写出“你用力咬了一下口腔内侧的软肉——疼痛像一根针，把那个画面扎破了”。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>在 Narrator handoff 中加入 continuation cursor 或 `alreadyDone` 列表，并对生成首句和上一轮尾句做近重复校验；Director 对即时连续场景应显式说明从哪个已完成动作之后开始。</p>
+          <ul><li>Narrator handoff: include continuation cursor / last completed beat</li><li>Director output: specify startAfter or alreadyDone facts for immediate scene continuations</li><li>repetition validator: compare first generated sentence against previous visible tail</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>Turn 8 末尾，帕兹已经用疼痛打断闪回，重新看清三名黑帮，对方等他摘下相机。Turn 9 应从这之后继续，让他进一步平复呼吸并假装示弱。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>咬口腔内侧、打断闪回、重新看清三人已经在 Turn 8 完成。</strong><span class="muted"> present-clear</span><br><span>Turn 9 prompt 的最近几轮玩家经历完整包含 Turn 8 末尾。</span></li><li><strong>Turn 9 的玩家意图是平复呼吸、假装示弱、观察反应。</strong><span class="muted"> present-clear</span><br><span>玩家输入和 Director summary 都要求继续到示弱观察。</span></li><li><strong>Director 没有要求重复咬口腔内侧动作。</strong><span class="muted"> present-clear</span><br><span>Director requiredContent 只有示弱台词和黑帮错愕；重复动作是 Narrator 的续写选择。</span></li><li><strong>Narrator handoff 缺少“从上一轮最后一句之后开始，不要复述已完成动作”的硬边界。</strong><span class="muted"> absent</span><br><span>prompt 给出完整 recent turn 和一般一致性规则，但没有独立的 continuation cursor 或 consumed last-beat marker。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>重复动作进入 Turn 9 visibleText；同一回合随后继续示弱台词和黑帮反应，因此问题没有阻塞剧情，但造成局部回退感。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 fixed beat 台词直接要求重复；Director requiredContent 没有该动作。</li><li>不是缺少最近上下文；Turn 8 末尾清楚地存在于 Turn 9 prompt。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-current-scene-anchor">
+            <header class="label-head">
+              <div>
+                <h3>当前场景锚点缺失</h3>
+                <p>当前场景空间事实虽然在 recent turns 中存在，但 handoff 没有把它们提升为可执行的当前场景锚点。Director 的“巷口遭遇三名黑帮成员堵截”只规定剧情功能，没有规定来向和站位；Narrator 因此在同一段里混用了“两端收拢”和“岔道口方向走来”两种调度。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">current-scene-anchor</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-8">
+      <header class="issue-head">
+        <div>
+          <h4>#8 / 第 27 轮：同一场围堵中，正文先写黑帮从主巷两端收拢，又写三人从玩家刚穿过的岔道口方向走来，造成玩家可见空间调度冲突。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：时空连续性断裂</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：medium</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-003/issues/issue-008-turn-27/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>turn 27 可见正文内部同时给出两个不兼容的来向描述，玩家无需隐藏信息即可感到空间关系混乱。</p>
+          <p class="quote-like">同轮文本先写“从主巷两端的黑暗中同时向中间收拢”，随后写“三个穿深色夹克的人影从你刚刚穿过的那条岔道口方向走来”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>当前场景空间事实虽然在 recent turns 中存在，但 handoff 没有把它们提升为可执行的当前场景锚点。Director 的“巷口遭遇三名黑帮成员堵截”只规定剧情功能，没有规定来向和站位；Narrator 因此在同一段里混用了“两端收拢”和“岔道口方向走来”两种调度。</p>
+          <p class="muted">机制标识：<span class="code-inline">current-scene-anchor</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-27/06-llm-calls.json:narrator streamText</dd>
+            <dt>触发压力</dt><dd>固定演出和 Director beat 要求在玩家退回主巷后立即发生三人堵截，为卡琳娜介入搭舞台。</dd>
+            <dt>缺失防线</dt><dd>handoff 没有把最近局部地图整理成明确的当前场景锚点，也没有要求同一事件内来向、退路和人物站位只选一种方案。</dd>
+            <dt>直接原因</dt><dd>Narrator 同时生成“两端收拢”和“岔道口方向走来”两种互斥空间方案。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为 Director-to-Narrator handoff 增加当前场景 sceneBlocking，并对同一事件内方向短语做一致性校验。</p>
+          <ul><li>Director-to-Narrator handoff 的 sceneBlocking/actor-position 字段</li><li>围堵、追逐、进入场景的方向一致性检查</li><li>Narrator prompt 中对最近空间锚点的高优先级呈现</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家在 turn 26 位于岔道口内侧小空地附近，选择放弃跟踪并原路退回暗街主巷。最近可见文本建立了主巷、较窄岔道、古董街方向、肉铺方向和岔道口小空地，但这些空间事实主要埋在长段 recent turns 中。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>玩家本轮要原路退回暗街主巷。</strong><span class="muted"> present-clear</span><br><span>玩家输入明确，Director 也正确识别为退回主巷。</span></li><li><strong>主巷、侧面岔道、肉铺方向、古董街方向的局部地图关系。</strong><span class="muted"> present-buried</span><br><span>信息在最近可见正文中存在，但没有被结构化为当前场景锚点。</span></li><li><strong>黑帮需要在巷口堵截玩家。</strong><span class="muted"> present-ambiguous</span><br><span>Director 只给剧情功能，没有指定来向、站位和退路。</span></li><li><strong>同一围堵事件内必须保持来向和退路一致。</strong><span class="muted"> absent</span><br><span>没有专门的 sceneBlocking 或方向一致性约束。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>冲突进入 turn-27/04-output.json 的 visibleText；后续 choices 没有修正空间状态。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 memory-persistence 主因，所需空间信息仍在最近上下文中。</li><li>不是 Choice worker 主因，选项发生在冲突正文之后。</li><li>不是 evaluator 误判，冲突可直接从 turn 27 可见正文确认。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-current-scene-time-anchor">
+            <header class="label-head">
+              <div>
+                <h3>当前场景时间锚点缺失</h3>
+                <p>当前 beat 和 Director handoff 强调从庆典到暗街的光线、声音、气味反差，但没有把“空间变暗不等于时间入夜”的当前场景时间锚显式传给 Narrator。缺失的时间锚让模型把氛围性的暗写成实际“夜色”，造成低度时间连续性断裂。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">current-scene-time-anchor</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-2">
+      <header class="issue-head">
+        <div>
+          <h4>#2 / 第 8 轮：Turn 8 在从庆典、古董街步行到暗街入口的连续行动中突然写出“夜色里”，但玩家此前没有看到明确的长时间流逝或入夜过渡。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：时空连续性断裂</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：medium</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-001/issues/issue-002-turn-08/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>该 issue 有效但严重度低。Turn 1 明确是阳光刺眼的白天，Turn 4-7 只是连续步行、逛摊、观察猫和纸条；虽然场景逐渐昏暗，但这些描写更像区域光线和氛围变化。Turn 8 末尾直接说“夜色里”会让玩家感到时间被轻微跳过。</p>
+          <p class="quote-like">Turn 1 显示“阳光刺得你本能的眯起眼”；Turn 4-7 没有明确长时间流逝；Turn 8 末尾写“夜色里，灯泡吱地响了一声”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>当前 beat 和 Director handoff 强调从庆典到暗街的光线、声音、气味反差，但没有把“空间变暗不等于时间入夜”的当前场景时间锚显式传给 Narrator。缺失的时间锚让模型把氛围性的暗写成实际“夜色”，造成低度时间连续性断裂。</p>
+          <p class="muted">机制标识：<span class="code-inline">current-scene-time-anchor</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-08/04-output.json narrator output</dd>
+            <dt>触发压力</dt><dd>turn-08 Director requiredContent 要求“描写暗街与中央区交界处的光线变化，从庆典喧闹到暗街安静的过渡”，pacing 又要求突出光线、声音和气味变化；当前 story beat 的情感弧线是从明快庆典到阴暗街道。</dd>
+            <dt>缺失防线</dt><dd>prompt 没有给 Narrator 一个当前时间事实或过渡约束，例如“仍是同一天较早时段，暗是街区光线和建筑遮蔽造成的，不要直接写成夜晚”。</dd>
+            <dt>直接原因</dt><dd>Narrator 在 Turn 8 末尾输出“夜色里，灯泡吱地响了一声”，把氛围暗度写成了实际夜色。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为当前 scene/beat 增加显式 time-of-day anchor，并要求 Director 在光线变化是空间转场还是时间流逝时做区分；Narrator 输出新增“夜色、清晨、黄昏”等时间词时应校验是否有玩家可见过渡。</p>
+          <ul><li>story state/current scene model: include currentTimeOfDay or visible time anchor</li><li>Director prompt: when requesting light change, state whether it is spatial lighting or time passage</li><li>Narrator prompt/validator: flag new time-of-day claims without visible transition</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家从复活日庆典区走到古董街，再因纸条线索前往暗街入口。可见行动是连续的短程移动，当前应表达为从明亮庆典区进入更阴暗的街巷，而不是默认已经入夜。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>故事开场建立的是白天庆典。</strong><span class="muted"> present-clear</span><br><span>Turn 1 以“阳光刺得你本能的眯起眼”建立白天。</span></li><li><strong>Turn 4-7 是连续步行和摊位观察，没有玩家可见长时间流逝。</strong><span class="muted"> present-clear</span><br><span>recentTurns 只显示从庆典区到古董街、看摊位、与猫互动，并没有停留数小时。</span></li><li><strong>当前 beat 要求表现从庆典喧闹到暗街安静、从明亮到阴暗的空间反差。</strong><span class="muted"> present-clear</span><br><span>当前故事线要求“轻松明快的庆典 → 阴暗的街道 → 无处不在的黑帮”的反差，并要求“光线变化”。</span></li><li><strong>提示中缺少“仍是同一时段，只是局部变暗”的当前时间锚。</strong><span class="muted"> absent</span><br><span>Director 和 Narrator prompt 都强调光线与氛围变化，但没有明确禁止把区域暗度写成入夜。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>该时间词进入 Turn 8 visibleText，并在评测窗口中与 Turn 1 的阳光和 Turn 4-7 的连续短程行动形成轻微断裂。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>并非长期记忆缺失；白天庆典和最近移动都在可见上下文内。</li><li>并非玩家选择要求入夜；玩家选项只是前往暗街。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-fixed-beat-detail-incompatibility">
+            <header class="label-head">
+              <div>
+                <h3>固定剧情和既有细节冲突</h3>
+                <p>固定 interaction followup 中的台词包含与已建立胶卷相机不兼容的“记忆卡”。系统在将固定台词提升为 Director requiredContent 时没有执行道具事实一致性校验，也没有提供冲突时改写为“胶卷”或标记为谎话的策略。固定台词因此成为更强、更近的生成压力，覆盖了 recent visible fact。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">fixed-beat-detail-incompatibility</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-3">
+      <header class="issue-head">
+        <div>
+          <h4>#3 / 第 9 轮：Turn 9 台词把已建立为胶卷相机的道具说成同时有“胶卷和记忆卡”，正文没有标明这是谎话、口误或故意误导，形成轻微道具属性漂移。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：事实冲突</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-001/issues/issue-003-turn-09/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>该 issue 有效。Turn 1 已建立帕兹身上是一台老旧胶卷相机，Turn 8 黑帮威胁也围绕“一卷胶卷”；Turn 9 台词直接说“胶卷和记忆卡都给你”，正文没有让读者知道这是示弱策略中的假话或口误。</p>
+          <p class="quote-like">visible-timeline.jsonl 中 Turn 1 写“老旧的胶卷相机”，Turn 8 写“你的命就不值一卷胶卷的钱”，Turn 9 写“胶卷和记忆卡都给你”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>固定 interaction followup 中的台词包含与已建立胶卷相机不兼容的“记忆卡”。系统在将固定台词提升为 Director requiredContent 时没有执行道具事实一致性校验，也没有提供冲突时改写为“胶卷”或标记为谎话的策略。固定台词因此成为更强、更近的生成压力，覆盖了 recent visible fact。</p>
+          <p class="muted">机制标识：<span class="code-inline">fixed-beat-detail-incompatibility</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-08/03-story-state.json currentStoryline.interactionFollowup</dd>
+            <dt>触发压力</dt><dd>currentStoryline.interactionFollowup 的固定台词包含“胶卷和记忆卡都给你”，Turn 9 Director 将这句原样放入 requiredContent，Narrator prompt 又要求 requiredContent 必须体现、不要丢失或改义。</dd>
+            <dt>缺失防线</dt><dd>系统没有在固定 beat dialogue 进入 Director requiredContent 前校验其与已建立道具事实是否冲突，也没有在冲突时提供改写或标注策略。</dd>
+            <dt>直接原因</dt><dd>Turn 9 Director 输出 requiredContent 要求主角说“胶卷和记忆卡都给你”，Narrator 按该硬要求写入玩家可见正文。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为 fixed beat / interactionFollowup 增加道具事实 lint，并在 Director requiredContent 阶段允许对冲突固定台词做最小事实修正或显式标注为谎话。</p>
+          <ul><li>fixed beat authoring/lint: validate object detail terms against established item facts</li><li>Director prompt: define priority and rewrite policy when fixed dialogue conflicts with visible facts</li><li>requiredContent builder: attach conflict warnings or softened paraphrase permissions</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家知道帕兹有一台老旧胶卷相机，黑帮正威胁要相机。玩家选择平复呼吸、假装示弱以观察对方反应。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>帕兹携带的是老旧胶卷相机。</strong><span class="muted"> present-clear</span><br><span>该事实在开场可见文本建立，也进入 Turn 9 recentTurns。</span></li><li><strong>Turn 8 对峙中黑帮和旁白围绕相机与胶卷施压。</strong><span class="muted"> present-clear</span><br><span>Turn 8 末段包含“你的命就不值一卷胶卷的钱”。</span></li><li><strong>固定 interaction followup 要求主角说“胶卷和记忆卡都给你”。</strong><span class="muted"> over-constraining</span><br><span>该台词在 currentStoryline.interactionFollowup 中出现，并在 Turn 9 Director 输出里升为 requiredContent。</span></li><li><strong>prompt 没有要求在固定台词与已建立道具事实冲突时改写、标注谎言或回退为胶卷。</strong><span class="muted"> absent</span><br><span>写作一致性原则存在，但固定台词作为 requiredContent 更靠近生成任务且更可执行。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>错误进入 Turn 9 visibleText；后续如果 summary 或 memory 写回该台词，可能继续污染相机属性。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 Narrator 自发添加“记忆卡”；该词在固定 storyline followup 中已存在。</li><li>不是玩家输入导致；玩家只选择假装示弱。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-fixed-beat-literal-replay">
+            <header class="label-head">
+              <div>
+                <h3>固定台词未按当前语境改写</h3>
+                <p>固定演出节点仍有效，但其中的 literal greeting 已与最新 visible time-of-day 不兼容。系统缺少 fixed beat 触发时的上下文适配层，导致 Director/Narrator 将硬台词“午安”原样重放，而没有改为符合当前夜间场景的问候。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">fixed-beat-literal-replay</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-9">
+      <header class="issue-head">
+        <div>
+          <h4>#9 / 第 27 轮：玩家可见时间已经推进到黄昏后/夜间，卡琳娜仍使用“午安，记者”的午间问候。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：时空连续性断裂</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-003/issues/issue-009-turn-27/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>可见时间线多次写明黄昏、紫灰、夜蓝和深蓝灯光语境；“午安”没有被标记为反讽或角色习惯，因此是轻微但真实的时间语感冲突。</p>
+          <p class="quote-like">turn 19 已到黄昏，turn 20 天空沉入紫灰，turn 24 天色几乎完全沉入夜蓝，turn 27 卡琳娜仍说“午安，记者”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>固定演出节点仍有效，但其中的 literal greeting 已与最新 visible time-of-day 不兼容。系统缺少 fixed beat 触发时的上下文适配层，导致 Director/Narrator 将硬台词“午安”原样重放，而没有改为符合当前夜间场景的问候。</p>
+          <p class="muted">机制标识：<span class="code-inline">fixed-beat-literal-replay</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-27/03-story-state.json:currentStoryline.content</dd>
+            <dt>触发压力</dt><dd>active fixed beat 中的 literal greeting “午安，记者”被要求强制触发。</dd>
+            <dt>缺失防线</dt><dd>缺少固定台词与当前 visible time-of-day 冲突时的 rewrite/bridge 机制。</dd>
+            <dt>直接原因</dt><dd>Director 把“午安，记者”原样转入 requiredContent，Narrator 遵循该硬台词。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为 fixed beat requiredContent 增加 visible context 适配层，尤其是时间、地点、称谓、动作状态的 literal line rewrite。</p>
+          <ul><li>fixed beat requiredContent 的 literal line rewrite 检查</li><li>Director prompt 中 visible time-of-day anchor 的优先级规则</li><li>Narrator 对固定台词与当前时间冲突的改写许可</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家已经从傍晚等待推进到夜蓝暗街，并在昏黄灯光下退回主巷遭遇卡琳娜。当前场景时间应是黄昏后到夜间。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>当前可见时间已经是黄昏后到夜间。</strong><span class="muted"> present-clear</span><br><span>玩家可见文本反复用光线变化建立时间推进。</span></li><li><strong>固定演出硬写“午安，记者”。</strong><span class="muted"> over-constraining</span><br><span>该句处在启动模板流程中，没有适配当前时间的说明。</span></li><li><strong>Director 把“午安，记者”原样放入 requiredContent。</strong><span class="muted"> over-constraining</span><br><span>requiredContent 比 recent time facts 更靠近最终写作指令。</span></li><li><strong>固定台词应按 current visible time-of-day 改写。</strong><span class="muted"> absent</span><br><span>没有 literal line rewrite 或 time anchor priority guard。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>错误问候进入 turn-27/04-output.json visibleText，后续没有修正。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 long-term memory 缺失，时间推进在 recent turns 内。</li><li>不是 Choice worker 主因。</li><li>不是隐藏设定导致的误判。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-format-protocol-validation-gap">
+            <header class="label-head">
+              <div>
+                <h3>输出格式协议校验缺口</h3>
+                <p>触发压力是 Narrator 在自由文本 v3-html 中写长对白并穿插叙述动作；缺失防线是协议没有被结构化输出或后置 validator 强制执行；失败运动是局部引号滑脱从 LLM output 直接传播到 normalized visibleText。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">format-protocol-validation-gap</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-17">
+      <header class="issue-head">
+        <div>
+          <h4>#17 / 第 45 轮：Turn 45 的正文在卡琳娜回忆卡尔来历时，台词帧缺少闭合引号，下一段叙述“她伸出手……”被视觉上挂在未闭合对白之后，造成对白和叙述边界断裂。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：文本质量退化</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-006/issues/issue-017-turn-45/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>玩家可见正文中出现“有一天夜里，它蹲在我的窗台上——浑身湿透，瘦得肋骨一根根数得清。\n她伸出手……”，前一句以引号开启并作为卡琳娜台词呈现，但没有在转入叙述前闭合。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 45 与 turn-45/04-output.json 的 visibleText 都保留该半开引号；问题不依赖隐藏设定。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>触发压力是 Narrator 在自由文本 v3-html 中写长对白并穿插叙述动作；缺失防线是协议没有被结构化输出或后置 validator 强制执行；失败运动是局部引号滑脱从 LLM output 直接传播到 normalized visibleText。</p>
+          <p class="muted">机制标识：<span class="code-inline">format-protocol-validation-gap</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-45/06-llm-calls.json[1] Narrator streamText output</dd>
+            <dt>触发压力</dt><dd>Narrator 要把 Director 的“讲述卡琳娜与卡尔相遇”扩写成长回忆，连续生成多段 data-speaker 对白和叙述帧；在“有一天夜里……”这一长对白帧中开了引号但没有闭合。</dd>
+            <dt>缺失防线</dt><dd>v3-html 协议只以 prompt 形式要求对白格式，没有对每个 data-speaker 帧的引号平衡、对白/叙述切换或 visibleText 渲染结果做确定性校验与修复。</dd>
+            <dt>直接原因</dt><dd>Narrator 的本地生成漏掉了“浑身湿透……”台词末尾的闭合引号。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为 Narrator 的 v3-html 输出增加确定性结构校验：检查 data-speaker 帧内引号平衡、段落边界和根级文本；失败时重试或自动修复。</p>
+          <ul><li>Narrator output validator</li><li>v3-html parser/normalizer</li><li>turnContent post-generation repair or retry policy</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家刚选择暂时不追问敏特，转而换话题；正文自然转到卡琳娜与卡尔的相遇回忆。叙事需要在卡琳娜对白、主角动作和旁白描写之间稳定切换。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>本轮需要卡琳娜讲述与卡尔在福利院后的相遇。</strong><span class="muted"> present-clear</span><br><span>Director 的 requiredContent 明确要求卡琳娜提及相遇；这个内容压力本身合理。</span></li><li><strong>Narrator 必须输出 v3-html，角色对白必须放在 data-speaker 帧中。</strong><span class="muted"> present-clear</span><br><span>协议清楚，但主要是 prompt 约束；没有看到后置校验阻止半开引号进入 visibleText。</span></li><li><strong>玩家可见文本需要区分对白与叙述边界。</strong><span class="muted"> present-clear</span><br><span>前后多处对白都使用引号或 data-speaker，问题段的缺失闭合引号显得突兀。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>该 rawHtml 写入 turnContent，04-output.json 的 visibleText 继承该格式，最终进入 visible-timeline.jsonl。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 Director 剧情判断错误；Director 对相遇回忆的安排与玩家输入相符。</li><li>不是记忆或 storyline 内容缺失；问题发生在文本格式层。</li><li>不是 Choice 阶段导致；选项生成在格式问题之后。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-missing-current-scene-anchor">
+            <header class="label-head">
+              <div>
+                <h3>当前空间/位置锚点没有传给后续阶段</h3>
+                <p>运行态没有维护玩家当前位置和门口内外关系的结构化锚点，Narrator 只能从长篇 recent prose 推断站位；门口局部词汇覆盖了玩家已在室内的事实，Choice 又以错误结尾为准生成重新进屋选项。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">missing-current-scene-anchor</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-16">
+      <header class="issue-head">
+        <div>
+          <h4>#16 / 第 42 轮：玩家此前已经在卡琳娜公寓内，turn 42 末尾却让卡琳娜说“进来吧。外面冷”，并生成“走进公寓”的选项。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：时空连续性断裂</span>
+            <span class="chip">范围：mixed</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-005/issues/issue-016-turn-42/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>可见时间线明确玩家已进入公寓，正文没有写玩家离开；重新要求进屋构成空间连续性断裂。</p>
+          <p class="quote-like">turn 34 玩家跨过门槛进入公寓；turn 38 卡琳娜经过玩家身侧去开门；turn 42 末尾要求玩家“进来”，choices 要求“走进公寓”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>运行态没有维护玩家当前位置和门口内外关系的结构化锚点，Narrator 只能从长篇 recent prose 推断站位；门口局部词汇覆盖了玩家已在室内的事实，Choice 又以错误结尾为准生成重新进屋选项。</p>
+          <p class="muted">机制标识：<span class="code-inline">missing-current-scene-anchor</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-42/06-llm-calls.json[1].text</dd>
+            <dt>触发压力</dt><dd>门口场景反复出现门外、门内、门缝、走廊和冷风等局部空间描写，结尾又写卡琳娜站在门口未关门。</dd>
+            <dt>缺失防线</dt><dd>没有高显著度 currentScene/playerPosition/insideOutside anchor，也没有禁止重新进屋的 Narrator/Choice 约束。</dd>
+            <dt>直接原因</dt><dd>Narrator 生成“进来吧。外面冷。”，假定玩家在公寓外。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>优先修复 scene state/writeback，并在 Narrator 与 Choice 阶段注入和校验 currentScene/playerPosition/doorState。</p>
+          <ul><li>scene state/writeback for currentScene and playerPosition</li><li>Narrator prompt high-priority scene anchor injection</li><li>Choice option validation against scene anchor</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>帕兹在卡琳娜公寓内靠近门口，从卡琳娜身侧或门缝观察德索洛；德索洛完成交易后离开走廊，门仍开着。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>玩家已进入卡琳娜公寓。</strong><span class="muted"> present-clear</span><br><span>历史概览和可见正文都写明进入公寓内部。</span></li><li><strong>最近几轮仍在公寓内门口一侧。</strong><span class="muted"> present-clear</span><br><span>玩家翻看书架、卡琳娜经过玩家身侧、卡琳娜站在门内等信息都支持室内状态。</span></li><li><strong>运行态没有结构化玩家位置/current scene anchor。</strong><span class="muted"> absent</span><br><span>worldState 只含 phase、branch、charactersOnStage 等；entityStates 没有玩家位置。</span></li><li><strong>门口局部描写让内外关系变得易混。</strong><span class="muted"> present-ambiguous</span><br><span>门外、门内、门缝、走廊、跨出半步等词汇高频出现。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>Choice worker 生成“走进公寓，顺手关上身后的门”；turn 43 继续保持门敞开和冷风灌入的空间不稳状态。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是长期 memory 缺失，进入公寓事实仍在 prompt 中。</li><li>不是单纯 Choice 绑定错误，Narrator 结尾已经发生偏离。</li><li>不是玩家输入导致，玩家没有移动到门外。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-speaker-pronoun-contract">
+            <header class="label-head">
+              <div>
+                <h3>说话人与代词契约失效</h3>
+                <p>Narrator 输出合同只规定 data-speaker 和全局“你=玩家”，没有规定非玩家对白段内旁白式声音/动作描写必须绑定 speaker；在卡琳娜对白也大量使用“你”的情况下，模型把 speaker 的发声动作漂成玩家第二人称。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">speaker-pronoun-contract</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-15">
+      <header class="issue-head">
+        <div>
+          <h4>#15 / 第 42 轮：卡琳娜控诉德索洛时，旁白式描写写成“你的声音甚至没有抬高”，使说话人/动作主体从卡琳娜漂向第二人称玩家。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：身份/说话人漂移</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：medium</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-005/issues/issue-015-turn-42/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>“她终于开了口”之后出现“你的声音”，在本系统中“你”默认指玩家，构成可见身份漂移。</p>
+          <p class="quote-like">turn 42 可见文本中卡琳娜对白段包含“你的声音甚至没有抬高”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>Narrator 输出合同只规定 data-speaker 和全局“你=玩家”，没有规定非玩家对白段内旁白式声音/动作描写必须绑定 speaker；在卡琳娜对白也大量使用“你”的情况下，模型把 speaker 的发声动作漂成玩家第二人称。</p>
+          <p class="muted">机制标识：<span class="code-inline">speaker-pronoun-contract</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-42/06-llm-calls.json[1].text</dd>
+            <dt>触发压力</dt><dd>Narrator prompt 同时要求全局“你=玩家”和 NPC 对德索洛使用“你”进行控诉。</dd>
+            <dt>缺失防线</dt><dd>非玩家 data-speaker 段缺少禁止第二人称旁白式身体/声音描写的 actor-pronoun contract，也缺少生成后校验。</dd>
+            <dt>直接原因</dt><dd>Narrator 在卡琳娜对白段中生成“你的声音甚至没有抬高”。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>优先修复 Narrator prompt/output schema 的 actor-pronoun contract，并增加非玩家 speaker 第二人称身体/声音描写校验。</p>
+          <ul><li>Narrator prompt actor-pronoun rules</li><li>structured dialogue schema validation</li><li>post-generation validator for non-player data-speaker second-person body/voice phrases</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>卡琳娜应作为申诉人冷静控诉德索洛过去疏远她，德索洛在门口接受审判式回应。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>卡琳娜是本段控诉的说话人。</strong><span class="muted"> present-clear</span><br><span>可见文本先写“她终于开了口”，Director 也安排卡琳娜语气平稳而带刺。</span></li><li><strong>叙事正文中的“你”默认指帕兹/玩家。</strong><span class="muted"> present-clear</span><br><span>底层逻辑明确“你=帕兹=玩家=主角”。</span></li><li><strong>非玩家对白段内部的旁白插入不得使用玩家第二人称。</strong><span class="muted"> absent</span><br><span>prompt 规定 data-speaker 格式，但没有 actor-pronoun guard。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>错误进入 turn-42/04-output.json visibleText；后续未被修正，但上下文仍部分保留卡琳娜说话人的线索。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是玩家输入含糊导致。</li><li>不是 Choice worker 首发问题。</li><li>不是角色身份长期记忆缺失。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-storyline-lifecycle">
+            <header class="label-head">
+              <div>
+                <h3>故事线节点生命周期门控不足</h3>
+                <p>触发压力是 storyline 已提前激活 04-01 准备节点并暴露晚宴 followup；缺失防线是没有 entry beat / visible-anchor gate 来确认晚宴已由正文建立；失败运动是 Choice 将未来节点交互直接转成当前选项，并在缺少时间事实时生成错误的“明天”。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">storyline-lifecycle</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-19">
+      <header class="issue-head">
+        <div>
+          <h4>#19 / 第 46 轮：Turn 46 的选项提前暴露“明天晚宴”，但此前玩家可见内容没有建立晚宴；下一轮正文才说明“凯旋门今晚有晚宴”，时间也与“明天”不一致。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：缺少铺垫的跳跃</span>
+            <span class="chip">范围：choices</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-006/issues/issue-019-turn-46/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>在 turn 46 选项前，玩家可见剧情仍停留在卡琳娜解释‘被害者申诉人’和暗街公道逻辑，没有任何晚宴信息。turn 46 选项直接问“明天晚宴的事情”，随后 turn 47 才首次建立“凯旋门今晚有晚宴”。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 46 的正文没有晚宴；turn 46 choices 出现“明天晚宴的事情，你准备好了吗”；turn 47 正文说“凯旋门今晚有晚宴”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>触发压力是 storyline 已提前激活 04-01 准备节点并暴露晚宴 followup；缺失防线是没有 entry beat / visible-anchor gate 来确认晚宴已由正文建立；失败运动是 Choice 将未来节点交互直接转成当前选项，并在缺少时间事实时生成错误的“明天”。</p>
+          <p class="muted">机制标识：<span class="code-inline">storyline-lifecycle</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-46/06c-choice-prompt.md</dd>
+            <dt>触发压力</dt><dd>turn-46 的 currentStoryline 已是 04-01 准备节点，`interactionFollowup` 把“询问晚宴的细节（地点、时间、目的）”作为核心交互；Choice prompt 将该 followup 放在“当前情节边界参考”中。</dd>
+            <dt>缺失防线</dt><dd>storyline lifecycle 没有要求未来节点 followup 必须等待可见 entry beat；Choice 也没有把“晚宴”和时间词回查到玩家可见文本或当前 turn 正文。</dd>
+            <dt>直接原因</dt><dd>Choice output 生成了“明天晚宴的事情，你准备好了吗”。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为 storyline followup 加可见 entry gate：只有对应名词、地点、时间或邀请在 final visibleText 中建立后，相关候选选项才可显示；时间词必须来自 visible/current state 锚点。</p>
+          <ul><li>storyline node activation / entry gating</li><li>Choice candidate filtering</li><li>visible anchor validation for future-node followups</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家刚追问上一轮错误选项中的“被害者申诉人”；卡琳娜用暗街公道、尊严和亏欠解释自己的处理方式。晚宴尚未被任何角色或旁白可见提及。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>晚宴在 turn 46 选项前未对玩家建立。</strong><span class="muted"> absent</span><br><span>正文只解释身份和交易逻辑。</span></li><li><strong>当前 story state 已切到 `推进节点 04-01：准备`，并提供晚宴相关 followup。</strong><span class="muted"> present-clear</span><br><span>这是内部下一节点状态，不等于玩家已知。</span></li><li><strong>Choice prompt 明确把“询问晚宴的细节”列为当前情节边界参考。</strong><span class="muted"> over-constraining</span><br><span>候选 followup 离 prompt 开头很近，且比最终 visibleText 更像可执行清单。</span></li><li><strong>晚宴真实时间在后续可见文本中被建立为今晚。</strong><span class="muted"> contradicted</span><br><span>turn 47 卡琳娜说“凯旋门今晚有晚宴”，与 turn 46 选项的“明天”不一致。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>该选项进入 turn-46/04-output.json 和 visible timeline。玩家没有选择它，而 turn 47 正文后续才把晚宴建立为“今晚”，暴露时间不一致。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是玩家已经知道但评测漏读；可见正文此前没有晚宴。</li><li>不是长期 memory 缺失；晚宴信息在内部状态中存在。</li><li>不是 Narrator 在 turn 46 正文提前泄露；问题发生在 choices。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-storyline-visible-introduction-gating">
+            <header class="label-head">
+              <div>
+                <h3>故事线专名/目标可见引介门控不足</h3>
+                <p>触发压力是 4-03 固定宴会节点和候选动作直接前景化康纳；缺失防线是没有检查 named NPC 是否已在玩家可见层被介绍或目标绑定；失败运动是 Director 把隐藏专名作为当前 turn 背景事实输出，Narrator 与 Choice 随后把它固化成玩家搜索目标。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">storyline-visible-introduction-gating</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-20">
+      <header class="issue-head">
+        <div>
+          <h4>#20 / 第 48 轮：Turn 48 正文首次把“康纳·凯拉宁”当成玩家应寻找的目标，选项又给出“注意康纳的位置”，但此前玩家只知道凯旋门今晚有晚宴和凯旋门的人会露面，不知道康纳是谁或为何要找他。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：缺少铺垫的跳跃</span>
+            <span class="chip">范围：mixed</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-006/issues/issue-020-turn-48/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>turn 47 玩家可见内容只建立晚宴、凯旋门的人会露面、卡琳娜邀请玩家同行。没有角色介绍“康纳·凯拉宁”。turn 48 正文却说“你还没有看到康纳·凯拉宁的影子。但他应该在这里”，选项继续让玩家注意康纳位置。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 47 没有康纳；turn 48 正文和 choices 首次出现并预设玩家知道该名字与搜索目标。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>触发压力是 4-03 固定宴会节点和候选动作直接前景化康纳；缺失防线是没有检查 named NPC 是否已在玩家可见层被介绍或目标绑定；失败运动是 Director 把隐藏专名作为当前 turn 背景事实输出，Narrator 与 Choice 随后把它固化成玩家搜索目标。</p>
+          <p class="muted">机制标识：<span class="code-inline">storyline-visible-introduction-gating</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-48/06-llm-calls.json[0] Director output</dd>
+            <dt>触发压力</dt><dd>turn-48 的 4-03 脚本要求“康纳必须在环境建立后才出场”，core_flow 写“康纳尚未主动接近”，interaction_followup 直接列出“注意康纳的位置（远观，不互动）”。</dd>
+            <dt>缺失防线</dt><dd>storyline/Director handoff 没有 named-NPC visible-introduction gate：当固定 beat 涉及未引介 NPC 时，应先桥接为“凯旋门的某个核心人物/卡琳娜提到的目标”，或安排 NPC/卡琳娜可见介绍名字，再允许正文和选项使用专名。</dd>
+            <dt>直接原因</dt><dd>Director requiredContent/constraints 要求康纳作为背景存在，Narrator 写出“康纳·凯拉宁”的名字，Choice 绑定 `choice:spot_connor`。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为固定 beat 和候选 action 增加 `introducedToPlayer` / `visibleNameEstablished` gating；未引介 NPC 的专名不能进入 requiredContent、正文或 action text，必须先安排可见桥接。</p>
+          <ul><li>storyline fixed-beat visible-introduction gate</li><li>Director requiredContent filtering</li><li>Choice action candidate visibility checks</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家接受卡琳娜去晚宴的邀请。此前可见信息是：德索洛的委托指向凯旋门；凯旋门今晚有开放宴席；卡琳娜认为凯旋门的人会在那里露面；玩家跟随卡琳娜前往。玩家没有获得“康纳·凯拉宁”这个名字。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>康纳在 turn 48 前未被玩家可见介绍。</strong><span class="muted"> absent</span><br><span>turn 47 只有“凯旋门的人会露面”，没有具体 NPC 名。</span></li><li><strong>4-03 剧本把康纳作为宴会厅节点的固定角色/目标。</strong><span class="muted"> present-clear</span><br><span>脚本写有“康纳必须在环境建立后才出场”“康纳尚未主动接近”和候选“注意康纳的位置”。</span></li><li><strong>Director 将隐藏脚本中的康纳转成当前 turn 的 requiredContent 和 constraints。</strong><span class="muted"> over-constraining</span><br><span>Director 输出 `康纳在远处尚未接近`、`康纳尚未主动接近，仅作为背景存在`、`不能提前让康纳主动互动，只能远观`。</span></li><li><strong>Choice prompt 最终 visibleText 已经含康纳，但该含有本身来自同一轮未桥接泄露。</strong><span class="muted"> contradicted</span><br><span>Choice 按本轮正文延续了错误；不能把同一轮 Narrator 的泄露当作充分玩家知识锚点。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>Narrator 的正文让玩家“直觉”知道康纳应该在这里；Choice 进一步提供“注意康纳的位置（远观，不互动）”；turn 49 玩家选择后，康纳正式进入场景。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是玩家忘记名字；此前可见 timeline 没有该名字。</li><li>不是康纳出场本身不合理；问题是出场前没有可见命名和目标桥接。</li><li>不是单纯 Choice 泄露；Narrator 正文已经先把康纳写成已知目标。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+
+          <section class="label-section" id="label-visible-knowledge-gating">
+            <header class="label-head">
+              <div>
+                <h3>玩家可见知识门控缺失</h3>
+                <p>系统把 story state 中的 author-facing hidden followup 和稳定角色 ID 直接暴露给 player-facing Narrator/Choice 表面，却没有强制按玩家可见知识过滤或改写。具体触发压力是 currentStoryline.interactionFollowup 中含隐藏关系的“主角可以”候选；缺失防线是候选动作和实体姓名的 visibility gate；失败运动是 choiceGenerator 将这些候选改写成可点击选项，Narrator 也把内部姓名写入正文。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">visible-knowledge-gating</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-13">
+      <header class="issue-head">
+        <div>
+          <h4>#13 / 第 41 轮：turn 41 在玩家只看到门外男子初步露面并说“我需要你……帮我”“我女儿……”之后，正文和选项提前使用“德索洛”姓名，并把他与卡琳娜的疏远、家人关系和旧怨作为玩家可选择的已知判断。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：缺少铺垫的跳跃</span>
+            <span class="chip">范围：mixed</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-004/issues/issue-013-turn-41/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>该问题成立。玩家在 turn 39-40 只看到门外有一个拿信封的人影，turn 41 才看到年逾五十、白西装、提到女儿的男子；没有任何玩家可见信息建立“德索洛”姓名、他与卡琳娜是旧识、曾疏远卡琳娜、家人关系或旧怨。turn 41 的正文末尾已经突然写“卡尔的视线钉在德索洛身上”，随后 choices 进一步要求玩家斥责或分析这些隐藏关系，明显超出可见上下文。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 39-40 只显示门外人影、信封、未露全脸；turn 41 visibleText 显示男子说“我需要你……帮我”和“我女儿……他们把她——”，但没有自报姓名或说明与卡琳娜的旧关系。turn 41 choices 包含“斥责德索洛当初疏远卡琳娜”“走投无路才想起家人”“疏远‘家人’的矛盾”。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>系统把 story state 中的 author-facing hidden followup 和稳定角色 ID 直接暴露给 player-facing Narrator/Choice 表面，却没有强制按玩家可见知识过滤或改写。具体触发压力是 currentStoryline.interactionFollowup 中含隐藏关系的“主角可以”候选；缺失防线是候选动作和实体姓名的 visibility gate；失败运动是 choiceGenerator 将这些候选改写成可点击选项，Narrator 也把内部姓名写入正文。</p>
+          <p class="muted">机制标识：<span class="code-inline">visible-knowledge-gating</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-41/06c-choice-prompt.md。对姓名泄露而言，最早玩家可见偏离还出现在 turn-41/06b-narrator-prompt.md 之后的 Narrator output；对关系/旧怨选项而言，第一处错误包装是 06c-choice-prompt.md 将 hidden interactionFollowup 作为候选动作交给 choiceGenerator。</dd>
+            <dt>触发压力</dt><dd>turn-41/03-story-state.json currentStoryline.interactionFollowup 以“主角可以”列出四个作者视角分支，其中包含“斥责德索洛的无仁无义”“走投无路才会想起卡琳娜”“疏远卡琳娜这个‘家人’”。06c-choice-prompt.md 又把这段放在靠前的“当前情节边界参考”，比后面的可见性警告更具体、更可复制。</dd>
+            <dt>缺失防线</dt><dd>缺少 candidate action 的 visible-knowledge gate：系统没有把 author-facing storyline followup 标为 hidden/internal，也没有在 choiceGenerator 前强制逐项验证选项文本中的姓名、关系、动机和旧怨是否已由玩家可见文本支持。Narrator 侧也缺少 stable characterId 到 visible alias 的渲染 guard，导致“德索洛”姓名进入正文。</dd>
+            <dt>直接原因</dt><dd>choiceGenerator 输出了四个选项，其中 1、2、4 都依赖未揭示关系；04-output.json choices 和 07-events worker-done choiceGenerator 完整记录该输出。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>优先修复 Choice candidate visibility gating 和 story state followup schema；同时补 Narrator 的未揭示角色 ID 渲染保护。</p>
+          <ul><li>Choice prompt assembly: 将 currentStoryline.interactionFollowup 拆分为 internal candidate 与 playerVisibleCandidate，并在进入 prompt 前做 visibility validation。</li><li>Choice generator contract: 对每个 option 的人物姓名、关系、动机、旧怨字段做 visibleText support check；无支持时改写为“询问身份/追问来意/观察卡琳娜反应”等普通行动。</li><li>Storyline schema: 为 followup candidate 增加 revealPrerequisites 或 minVisibleFacts，避免作者视角分支被直接当作玩家选项。</li><li>Narrator rendering guard: 内部 characterId 在未介绍前只能渲染为可见别名，例如“门外的男人/白西装男人”，不能直接输出稳定姓名。</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>turn 41 生成前，玩家知道门外有一名拿信封的陌生人，卡琳娜似乎认识或预判他，但来者身份、姓名、与卡琳娜的历史关系都未被揭示。玩家选择等待对方先开口，因此合理的下一步是听他说出请求、询问身份、观察卡琳娜反应，或者保持沉默。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>门外来者是年逾五十、白西装、为女儿求助的男子。</strong><span class="muted"> present-clear</span><br><span>这些是 turn 41 正文实际揭示给玩家的有限信息。</span></li><li><strong>来者姓名是“德索洛”。</strong><span class="muted"> absent before target output; present-ambiguous inside target output</span><br><span>turn 41 之前没有可见姓名；turn 41 正文通过旁白“钉在德索洛身上”和 rawHtml speaker tag 暴露姓名，而非角色自我介绍或玩家识别。</span></li><li><strong>德索洛曾疏远卡琳娜、不把她当家人，双方有旧怨。</strong><span class="muted"> absent player-visible; present-clear hidden storyline</span><br><span>这些关系事实只存在于 story state 的 author-facing 剧情素材和后续承接，不在玩家可见文本中。</span></li><li><strong>Choice prompt 有“不要提前泄露玩家尚未看到的信息”的约束。</strong><span class="muted"> present-clear</span><br><span>约束存在，但被同一 prompt 顶部 foreground 的候选动作压过。</span></li><li><strong>Choice prompt 顶部直接提供含隐藏关系的“主角可以”候选。</strong><span class="muted"> over-constraining</span><br><span>候选动作被放在“当前情节边界参考”靠前位置，语气像可用玩家选项，但未附可见性标注。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>turn-41/04-output.json 把错误 choices 写入玩家可见输出；visible-timeline.jsonl turn 41 收录这些 choices。turn 42 玩家选择了第 4 个选项，后续叙事被锁定到“德索洛作为父亲”“疏远家人”等隐藏关系线上，并提前展开卡琳娜数落德索洛的旧怨。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 meta-memory 缺失；系统知道正确背景，问题是隐藏背景被过早暴露。</li><li>不是单纯 llm-self；prompt 中有非常具体的隐藏候选动作，模型复制这些动作是被系统压力诱导的。</li><li>不是玩家输入导致；玩家只是等待对方先开口，没有要求分析旧怨。</li><li>Director 对本轮正文有“不要进行卡琳娜的数落或回应”的约束，正文主体没有展开旧怨；错误主要发生在可见姓名渲染和 choices 生成阶段。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+      </section>
+
+      <section class="family-section" id="family-detail-memory">
+        <h2>细节记忆 / 状态写回 <span>1 条</span></h2>
+
+          <section class="label-section" id="label-missing-current-scene-time-anchor">
+            <header class="label-head">
+              <div>
+                <h3>当前时间状态没有稳定写回</h3>
+                <p>夜色作为具体场景时间细节没有被持久化为 currentTimeOfDay 或等价状态；当它滑出 recent window 后，Director 用泛化的庆典和潜入窗口逻辑重建时间，导致正午前条件进入正文。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">missing-current-scene-time-anchor</span></div>
+            </header>
+
+    <article class="issue severity-medium" id="issue-7">
+      <header class="issue-head">
+        <div>
+          <h4>#7 / 第 16 轮：连续暗街行动已由 turn 8 锚定为夜色，turn 16 却改成正午前的白天行动窗口，造成时间状态断裂。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：中</span>
+            <span class="chip">类型：时空连续性断裂</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-002/issues/issue-007-turn-16/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>turn 8 明确写“夜色里”，turn 9-15 没有可见时间跳转；turn 16 的“现在离正午还有一阵”和“趁白天行动”与连续时间线冲突。</p>
+          <p class="quote-like">visible-timeline.jsonl turn 8、turn 9-15、turn 16 可以证明当前行动没有回到正午前的桥段。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>夜色作为具体场景时间细节没有被持久化为 currentTimeOfDay 或等价状态；当它滑出 recent window 后，Director 用泛化的庆典和潜入窗口逻辑重建时间，导致正午前条件进入正文。</p>
+          <p class="muted">机制标识：<span class="code-inline">missing-current-scene-time-anchor</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-16/06-llm-calls.json director generateObject</dd>
+            <dt>触发压力</dt><dd>Director 需要回答肉铺周围风险和行动窗口，在缺少 currentTimeOfDay 的情况下根据白天/傍晚/庆典人流逻辑规划。</dd>
+            <dt>缺失防线</dt><dd>缺少 current scene temporal anchor；没有状态字段或 prompt 约束说明当前连续行动仍处于夜色。</dd>
+            <dt>直接原因</dt><dd>Director 的 requiredContent 注入白天和正午前条件，Narrator 与 Choice 继承并展示。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>为当前场景时间锚建立写回和 handoff，使 Director 在规划任务窗口前必须看到 currentTimeOfDay，并要求时间改变必须有玩家可见过渡。</p>
+          <ul><li>story/runtime state temporal anchor fields</li><li>state writeback for visible time cues</li><li>Director prompt currentTimeOfDay contract</li><li>Choice temporal consistency check</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>帕兹在夜色中的暗街连续探索，进入裁缝铺并追问铁盒任务细节；没有睡眠、倒叙或显式时间跳转。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>当前暗街行动被 turn 8 锚定为夜色。</strong><span class="muted"> absent</span><br><span>玩家可见事实清楚，但没有进入 turn 16 的高优先级结构化 state。</span></li><li><strong>turn 9-15 是连续行动。</strong><span class="muted"> present-clear</span><br><span>最近经历显示玩家一直在暗街和裁缝铺推进，没有时间跳跃。</span></li><li><strong>Director 主动注入白天/傍晚行动窗口。</strong><span class="muted"> over-constraining</span><br><span>requiredContent 明确要求“白天少有人去”“傍晚后偶尔有黑帮”“庆典人流散去前”。</span></li><li><strong>Narrator 和 Choice 按白天窗口输出。</strong><span class="muted"> present-clear</span><br><span>正文出现“现在离正午还有一阵”，选项出现“趁白天行动”。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>错误从 Director contract 传播到 visible text 和 choices，同时影响正文和下一步行动选项。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 Narrator 单独错误</li><li>不是玩家输入要求时间跳转</li><li>不是可见剧情提供了回到白天的过渡</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+      </section>
+
+      <section class="family-section" id="family-llm-self">
+        <h2>模型局部生成质量 <span>1 条</span></h2>
+
+          <section class="label-section" id="label-model-local">
+            <header class="label-head">
+              <div>
+                <h3>模型局部生成失误</h3>
+                <p>所有关键上下文和 contract 都清楚要求“敲门声”。错误来自 Narrator 局部生成：为了营造声音异常感，它先否定“敲门”，又立即按敲门描述和命名。没有证据表明 pipeline、state 或 prompt handoff 推动了这个矛盾。</p>
+              </div>
+              <div class="label-meta"><span>1 条</span><span class="code-inline">model-local</span></div>
+            </header>
+
+    <article class="issue severity-low" id="issue-11">
+      <header class="issue-head">
+        <div>
+          <h4>#11 / 第 36 轮：同一声音事件在 turn 36 当前正文中先被写成“不是敲门”，随后又被描述和命名为敲门声。</h4>
+          <div class="chips">
+            <span class="chip sev">严重度：低</span>
+            <span class="chip">类型：事实冲突</span>
+            <span class="chip">范围：visibleText</span>
+            <span class="chip">置信度：high</span>
+          </div>
+        </div>
+        <a class="report-link" href="batches/batch-003/issues/issue-011-turn-36/root-cause-report.md">原始报告</a>
+      </header>
+      <div class="issue-grid">
+        <section>
+          <h5>问题为什么成立</h5>
+          <p>同段可见正文先否定“敲门”，再写“指节叩在旧木料上的声音”并称“敲门声又响了一次”，构成局部事实冲突。</p>
+          <p class="quote-like">turn 36 visibleText 中“不是敲门”与“敲门声又响了一次”直接冲突。</p>
+        </section>
+        <section>
+          <h5>根因解释</h5>
+          <p>所有关键上下文和 contract 都清楚要求“敲门声”。错误来自 Narrator 局部生成：为了营造声音异常感，它先否定“敲门”，又立即按敲门描述和命名。没有证据表明 pipeline、state 或 prompt handoff 推动了这个矛盾。</p>
+          <p class="muted">机制标识：<span class="code-inline">model-local</span></p>
+        </section>
+        <section>
+          <h5>追因链条</h5>
+          <dl>
+            <dt>首次偏离</dt><dd>turn-36/06-llm-calls.json:narrator streamText</dd>
+            <dt>触发压力</dt><dd>悬疑转场需要一个急促、可打断动作的声音事件。</dd>
+            <dt>缺失防线</dt><dd>缺少对同一局部事件的 semantic self-consistency 检查，尤其是“不是 X”之后又按 X 命名或处理的模式。</dd>
+            <dt>直接原因</dt><dd>Narrator 先写“不是敲门”，随后描述指节叩门并称“敲门声又响”。</dd>
+          </dl>
+        </section>
+        <section>
+          <h5>建议修复方向</h5>
+          <p>增加 Narrator 输出后的局部语义一致性 lint，并在 prompt 中要求异常声音必须说明异常点而不能先否定事件类型再按该类型推进。</p>
+          <ul><li>Narrator 输出后的局部语义一致性 lint</li><li>同一事件窗口内“不是 X”与后续 X 命名冲突检测</li><li>Narrator prompt 对异常声音修辞的限定</li></ul>
+        </section>
+      </div>
+      <details>
+        <summary>展开更多证据和非原因说明</summary>
+        <div class="details-grid">
+          <section>
+            <h5>事发前状态</h5>
+            <p>玩家在卡琳娜公寓内查看书架，选择抽出暗红色线的薄册子。当前 storyline 要求以急促敲门声打断当前动作并过渡到下一节点。</p>
+          </section>
+          <section>
+            <h5>关键事实</h5>
+            <ul><li><strong>storyline 要求节点结束时输出急促敲门声。</strong><span class="muted"> present-clear</span><br><span>约束明确要求敲门声。</span></li><li><strong>Director 要求敲门声响起并打断当前动作。</strong><span class="muted"> present-clear</span><br><span>handoff 清楚，没有要求改成其他声音。</span></li><li><strong>Narrator 不应改变 Director 剧情方向。</strong><span class="muted"> present-clear</span><br><span>正文写作 contract 清楚。</span></li><li><strong>Narrator 输出将同一声音事件同时否定和命名为敲门。</strong><span class="muted"> contradicted</span><br><span>首个错误出现在 Narrator visibleText。</span></li></ul>
+          </section>
+          <section>
+            <h5>传播方式</h5>
+            <p>矛盾进入 turn-36/04-output.json visibleText；choices 继续围绕回应敲门展开。</p>
+          </section>
+          <section>
+            <h5>排除的原因</h5>
+            <ul><li>不是 Director 或 storyline 指令冲突，它们都要求敲门声。</li><li>不是 memory 或 recent-context 问题，冲突发生在同一段生成内部。</li><li>不是 evaluator 误判。</li></ul>
+          </section>
+        </div>
+      </details>
+    </article>
+          </section>
+      </section>
+
+    <p class="footer">生成时间：2026-06-23T04:01:10.100Z。本页只整理已有 root-cause 结构化结果，不重新判定 issue。</p>
+  </main>
+</body>
+</html>
