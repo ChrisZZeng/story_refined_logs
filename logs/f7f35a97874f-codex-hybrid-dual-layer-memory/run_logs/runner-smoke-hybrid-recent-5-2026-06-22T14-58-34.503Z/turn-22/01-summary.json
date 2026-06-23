@@ -1,0 +1,613 @@
+{
+  "turn": 22,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "顺着焦纸味走向右边巷道深处，寻找敏特留下的痕迹",
+  "selectedFromPreviousTurn": {
+    "text": "顺着焦纸味走向右边巷道深处，寻找敏特留下的痕迹",
+    "actionId": "choice:现在"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "用相机拍下灰烬、鞋印和周围环境"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "顺着鞋印往暗街更深处追",
+        "actionId": "choice:理想"
+      },
+      {
+        "text": "仔细查看布片和残纸上的线索"
+      },
+      {
+        "text": "用相机拍下灰烬、鞋印和周围环境"
+      }
+    ]
+  },
+  "visibleChars": 2578,
+  "durationMs": 66272.24,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 16,
+    "locationEvents": 12,
+    "entityEvents": 2
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:16:02.895Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:16:02.900Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-6602d6b9",
+      "taskId": "d4e8cd12-37ad-43f2-a565-411301bf319e",
+      "durationMs": 336.05629099998623,
+      "at": "2026-06-22T15:16:03.223Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-e67c9515",
+      "taskId": "871138b6-4beb-4c62-a16e-562d0ccbeeb3",
+      "durationMs": 338.65520800009836,
+      "at": "2026-06-22T15:16:03.225Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-5cb48c87",
+      "taskId": "33a45024-e8d5-46e3-b598-4ccd879e932d",
+      "durationMs": 379.6711249999935,
+      "at": "2026-06-22T15:16:03.266Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-b1254f65",
+      "taskId": "2f4c914d-da60-4a55-9046-2eb5ca543775",
+      "durationMs": 380.0275420000544,
+      "at": "2026-06-22T15:16:03.266Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-b26a4a1d",
+      "taskId": "38fa24cb-afd4-4f57-b18e-872001b52ed2",
+      "durationMs": 381.71229199983645,
+      "at": "2026-06-22T15:16:03.268Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-e589e8b3",
+      "taskId": "7095b1c1-b02b-4900-a388-a066190dc575",
+      "durationMs": 317.69945800001733,
+      "at": "2026-06-22T15:16:03.540Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-d06d9004",
+      "taskId": "5da0682d-d122-4b51-a520-756fbd221c08",
+      "durationMs": 318.22212500008754,
+      "at": "2026-06-22T15:16:03.543Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-8c739ac4",
+      "taskId": "2c31c1ec-bfda-4261-acf8-f65e2e4ea7ee",
+      "durationMs": 298.890667000087,
+      "at": "2026-06-22T15:16:03.565Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-cec15661",
+      "taskId": "596920d2-21ac-4305-9f3e-79749b7f5556",
+      "durationMs": 357.888666999992,
+      "at": "2026-06-22T15:16:03.626Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-92d3484c",
+      "taskId": "ef00980d-c511-42c6-8481-61a821169496",
+      "durationMs": 392.2608340000734,
+      "at": "2026-06-22T15:16:03.658Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-82a7bbf2",
+      "taskId": "56b686c7-3bd0-44a1-b7a6-38598c90b981",
+      "durationMs": 277.79216599999927,
+      "at": "2026-06-22T15:16:03.821Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-17c66652",
+      "taskId": "2a0c33a5-0f53-429a-a74c-c48bfbcc6559",
+      "durationMs": 290.13383299997076,
+      "at": "2026-06-22T15:16:03.830Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-396a67dc",
+      "taskId": "dd725b14-8ee9-428f-994b-d33958487e23",
+      "durationMs": 272.7433330002241,
+      "at": "2026-06-22T15:16:03.931Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-f1cb5bb0",
+      "taskId": "88ea4cfc-451a-4cea-8251-5ea04f9d023e",
+      "durationMs": 373.4796670000069,
+      "at": "2026-06-22T15:16:03.939Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-deb0780f",
+      "taskId": "3e82a009-c59b-4c9b-8766-949a5574a8e5",
+      "durationMs": 316.76525000017136,
+      "at": "2026-06-22T15:16:03.943Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-94889bc4",
+      "taskId": "9000ff04-ddf5-408f-9086-a04f87b0b95d",
+      "durationMs": 268.0945419999771,
+      "at": "2026-06-22T15:16:04.089Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-c1862ab4",
+      "taskId": "1b8161af-0951-408f-a555-0c96625e8e8e",
+      "durationMs": 273.6362080001272,
+      "at": "2026-06-22T15:16:04.104Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-1c46079e",
+      "taskId": "d29dbf9a-69fa-4a9f-aae1-aa5b789dec9e",
+      "durationMs": 254.6248749999795,
+      "at": "2026-06-22T15:16:04.186Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-0ebe4fa0",
+      "taskId": "c7098128-fd5c-4fb6-9327-859a7bd28843",
+      "durationMs": 267.5110829998739,
+      "at": "2026-06-22T15:16:04.206Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "顺着焦纸味走向右边巷道深处，寻找敏特留下的痕迹",
+      "requestId": "req-2c5e9502",
+      "taskId": "8397f15f-30fc-4adb-b961-a67636b50729",
+      "durationMs": 310.0438749999739,
+      "at": "2026-06-22T15:16:04.253Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-1c8d4e0c",
+      "taskId": "17730931-38d5-44a5-af22-8a91618eb236",
+      "durationMs": 357.1375410000328,
+      "at": "2026-06-22T15:16:04.611Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-15bd4a30",
+      "taskId": "16778e48-7f2b-4e55-b2b5-40662622021c",
+      "durationMs": 371.87154199997894,
+      "at": "2026-06-22T15:16:04.625Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-316a1d42",
+      "taskId": "d1e6eb10-dc3e-4a47-8c2c-cb61758fbe0d",
+      "durationMs": 372.14508299995214,
+      "at": "2026-06-22T15:16:04.626Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-834299dd",
+      "taskId": "61c1aa83-356e-410b-96bf-53e0b92625b5",
+      "durationMs": 373.2469999999739,
+      "at": "2026-06-22T15:16:04.627Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-9eccb318",
+      "taskId": "512a8369-afc0-4575-bdd7-4084d6bdc90d",
+      "durationMs": 373.45041599986143,
+      "at": "2026-06-22T15:16:04.627Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-68603ec2",
+      "taskId": "186d7696-816b-464f-a15f-c24c0b739499",
+      "durationMs": 247.49633300001733,
+      "at": "2026-06-22T15:16:04.858Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-5732dde7",
+      "taskId": "43e3942d-ba73-44df-b1fc-17b8d5c49218",
+      "durationMs": 306.5620000001509,
+      "at": "2026-06-22T15:16:04.932Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-97bbe18a",
+      "taskId": "588b1783-d66f-4dc2-bd9d-bad7a8b8a42d",
+      "durationMs": 305.6334999999963,
+      "at": "2026-06-22T15:16:04.932Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-0dd74cd9",
+      "taskId": "7add4011-84e6-4c22-bddc-a6293204a032",
+      "durationMs": 336.52037499984726,
+      "at": "2026-06-22T15:16:04.962Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-ca66a220",
+      "taskId": "ef1ac729-6589-4c65-a97a-cf40674c21ae",
+      "durationMs": 335.5260419999249,
+      "at": "2026-06-22T15:16:04.963Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-05267f5b",
+      "taskId": "8581dc49-7176-41c1-84d0-5d6e6c50d693",
+      "durationMs": 222.2695000001695,
+      "at": "2026-06-22T15:16:05.081Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-f1da2f79",
+      "taskId": "ea3ec008-faba-4c3a-94dd-014c468ca9d4",
+      "durationMs": 291.46120799984783,
+      "at": "2026-06-22T15:16:05.224Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-f33dbc88",
+      "taskId": "394c2d19-babb-48ef-891d-4d254595324a",
+      "durationMs": 292.17612499999814,
+      "at": "2026-06-22T15:16:05.224Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-77b09594",
+      "taskId": "0c9a2472-0111-4692-8c66-967facbb70ee",
+      "durationMs": 264.3024999999907,
+      "at": "2026-06-22T15:16:05.227Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-2d370d38",
+      "taskId": "82d15fdc-f83f-4a12-a7e5-b108d4db70df",
+      "durationMs": 333.32708299998194,
+      "at": "2026-06-22T15:16:05.296Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-e910305d",
+      "taskId": "b27b5508-c1f7-409f-bf26-499d36c32714",
+      "durationMs": 273.0233340000268,
+      "at": "2026-06-22T15:16:05.353Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-9852215c",
+      "taskId": "1aa2918c-1f8e-4f49-894e-673040ccbdc0",
+      "durationMs": 273.6626249998808,
+      "at": "2026-06-22T15:16:05.498Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-7c26437f",
+      "taskId": "419fbef0-15d4-4827-93f5-9fdd88430c80",
+      "durationMs": 348.4473749999888,
+      "at": "2026-06-22T15:16:05.572Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "顺着焦纸味走向右边巷道深处，寻找敏特留下的痕迹",
+      "requestId": "req-4fd9e30f",
+      "taskId": "dd88d338-3c37-4c14-8b97-74deb4d4a82e",
+      "durationMs": 283.7081659999676,
+      "at": "2026-06-22T15:16:05.579Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-925731e2",
+      "taskId": "1b82d37f-7711-4295-abf9-43960938c386",
+      "durationMs": 352.5358750000596,
+      "at": "2026-06-22T15:16:05.579Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "暗街的调停人，气质冷淡克制，具备极强的环境警觉性与精准的人际边界感。外貌特征为蓝色眼睛与金色马尾，常着白色棉衣内搭吊带裙与黑色连裤袜。处事风格疏离礼貌，善用细微肢体动作与信息留白进行博弈，深谙暗街生存逻辑，对过往交集（如主角）记忆清晰。",
+                  "current_snapshot": "驻足于暗街光影交界处，面对主角关于敏特旧债的追问，以冷淡平稳的语调明确划清交流底线，指出敏特所欠‘非金钱与道歉可偿’，仅暗示涉及更深层的亏欠或未知事物。言毕恢复标准疏离姿态，径直步入暗处离去，未作任何停留或解释，将悬念与焦灼氛围留给独自留在原地的主角。",
+                  "relationship_network": [
+                    "记者先生（当前交互对象/线索追寻者）",
+                    "敏特（关键人物/存在无法偿还的旧债）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "卡琳娜",
+                "core_profile": "暗街的调停人，气质冷淡克制，具备极强的环境警觉性与精准的人际边界感。外貌特征为蓝色眼睛与金色马尾，常着白色棉衣内搭吊带裙与黑色连裤袜。处事风格疏离礼貌，善用细微肢体动作与信息留白进行博弈，深谙暗街生存逻辑，对过往交集（如主角）记忆清晰。",
+                "current_snapshot": "驻足于暗街光影交界处，面对主角关于敏特旧债的追问，以冷淡平稳的语调明确划清交流底线，指出敏特所欠‘非金钱与道歉可偿’，仅暗示涉及更深层的亏欠或未知事物。言毕恢复标准疏离姿态，径直步入暗处离去，未作任何停留或解释，将悬念与焦灼氛围留给独自留在原地的主角。",
+                "relationship_network": [
+                  "记者先生（当前交互对象/线索追寻者）",
+                  "敏特（关键人物/存在无法偿还的旧债）"
+                ]
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "暗街追问债务本质与卡琳娜终止对话",
+                  "time": "",
+                  "location": "暗街",
+                  "involved_characters": [
+                    "记者",
+                    "卡琳娜"
+                  ],
+                  "summary": "记者在暗街叫住正欲离开的卡琳娜，执意追问敏特所欠的“还不了的东西”究竟是什么。卡琳娜停下脚步，明确告知该债务非金钱或道歉可清偿，并留下“她给了你一些东西，然后拿走了另一些东西，留给她自己的只有亏欠”的神秘回应。随后卡琳娜以调停人姿态礼貌切断交流，径直走入黑暗离开，拒绝进一步解释。",
+                  "consequence": "卡琳娜彻底封闭了针对敏特债务问题的口头问答渠道，当前段落的交涉正式结束；记者未获具体答案但捕捉到“给予与拿走”的核心矛盾，心理防线受冲击，被迫停止追击并准备独自深入暗街搜寻后续线索。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "暗街追问债务本质与卡琳娜终止对话",
+                "time": "",
+                "location": "暗街",
+                "involved_characters": [
+                  "记者",
+                  "卡琳娜"
+                ],
+                "summary": "记者在暗街叫住正欲离开的卡琳娜，执意追问敏特所欠的“还不了的东西”究竟是什么。卡琳娜停下脚步，明确告知该债务非金钱或道歉可清偿，并留下“她给了你一些东西，然后拿走了另一些东西，留给她自己的只有亏欠”的神秘回应。随后卡琳娜以调停人姿态礼貌切断交流，径直走入黑暗离开，拒绝进一步解释。",
+                "consequence": "卡琳娜彻底封闭了针对敏特债务问题的口头问答渠道，当前段落的交涉正式结束；记者未获具体答案但捕捉到“给予与拿走”的核心矛盾，心理防线受冲击，被迫停止追击并准备独自深入暗街搜寻后续线索。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街",
+                  "description": "一条幽深隐秘的街区，以收拢的青砖墙、斑驳的壁灯光晕、规律滴落在金属上的冷冽水声，以及空气中弥漫的焦纸味与腐殖质甜腻气息为最显著特征。右侧延伸出巷道，尽头透出忽明忽暗的橙色火光。地面铺有砂砾，整体光影交错，氛围压抑诡谲。",
+                  "appearances": [
+                    "在本次片段中，作为主角与卡琳娜心理博弈与追问的核心舞台，壁灯光晕、滴水声与焦纸味反复渲染其封闭幽闭的物理特性，卡琳娜于此留下关键线索后隐入黑暗。",
+                    "在历史记忆中，该地点曾被主角用于蹲下检查青砖墙上的鞋印与碎布，也是双方多次进行冷淡对峙与信息交锋的固定场景。"
+                  ],
+                  "current_affiliation": "调停人常驻并施加实际控制与影响的灰色地带，无明确官方管辖，是处理未结债务与隐藏痕迹的隐蔽场所。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街",
+                "description": "一条幽深隐秘的街区，以收拢的青砖墙、斑驳的壁灯光晕、规律滴落在金属上的冷冽水声，以及空气中弥漫的焦纸味与腐殖质甜腻气息为最显著特征。右侧延伸出巷道，尽头透出忽明忽暗的橙色火光。地面铺有砂砾，整体光影交错，氛围压抑诡谲。",
+                "appearances": [
+                  "在本次片段中，作为主角与卡琳娜心理博弈与追问的核心舞台，壁灯光晕、滴水声与焦纸味反复渲染其封闭幽闭的物理特性，卡琳娜于此留下关键线索后隐入黑暗。",
+                  "在历史记忆中，该地点曾被主角用于蹲下检查青砖墙上的鞋印与碎布，也是双方多次进行冷淡对峙与信息交锋的固定场景。"
+                ],
+                "current_affiliation": "调停人常驻并施加实际控制与影响的灰色地带，无明确官方管辖，是处理未结债务与隐藏痕迹的隐蔽场所。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "9e5d1342-53f1-4add-80ee-95f5b75de133",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-17",
+            "topic_turn_end": "turn-21",
+            "topic_turn_count": 5,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "target_id": "1f52dcc1-210f-552b-857e-69e850e780ac",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "暗街追问债务本质与卡琳娜终止对话: 记者在暗街叫住正欲离开的卡琳娜，执意追问敏特所欠的还不了的东西究竟是什么",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街",
+                "target_id": "2a1e950c-e3b2-51d8-a965-15389b1109a3",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:16:23.547Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-aa4f99a7",
+      "taskId": "91401af4-0c0e-44fc-bacc-301a0f99df36",
+      "durationMs": 15339.598624999868,
+      "at": "2026-06-22T15:17:09.156Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

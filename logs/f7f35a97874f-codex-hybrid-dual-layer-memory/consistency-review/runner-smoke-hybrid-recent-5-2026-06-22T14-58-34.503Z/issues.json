@@ -1,0 +1,265 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 2,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 2 visibleText: \"你将敏特的照片收回怀里\". Turn 2 choices then include: \"收起照片，转身离开摊位，走进庆典的人群\".",
+    "conflictingEvidence": "Within the same turn, the visibleText has already established that Paz put Mint's photo back into his coat before asking about Karina.",
+    "conflictingTurns": [
+      2
+    ],
+    "source": "model-output",
+    "reason": "The choice presents putting away the photo as an available future action even though the current visible text has already completed that object-state change."
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 3,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 3 playerInput: \"收起照片，转身离开摊位，走进庆典的人群\". Turn 3 visibleText: \"你将敏特的照片收回怀里。\"",
+    "conflictingEvidence": "Turn 2 visibleText already said: \"你将敏特的照片收回怀里\"; after that, Paz remained speaking with the vendor and did not take the photo back out.",
+    "conflictingTurns": [
+      2
+    ],
+    "source": "mixed",
+    "reason": "The selected input repeats an already completed photo-storage action, and the model output replays it instead of reconciling the object state."
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第16轮选项：\"反问：“你又是谁？庆典上的小贩不该出现在这种地方。”\"",
+    "conflictingEvidence": "第16轮正文刚确认暗处人物是\"金色长发，马尾辫……白色棉衣，旧的吊带裙，黑色连裤袜和深棕色的皮鞋\"，并说明\"你在庆典上见过这身打扮……她拿走了你的记者证\"。第1轮中拿走记者证的是金发蓝瞳少女卡琳娜；小贩则是另一个\"站在简陋摊位后的年轻女子\"。",
+    "conflictingTurns": [
+      1,
+      2,
+      16
+    ],
+    "source": "model-output",
+    "reason": "选项把卡琳娜误称为庆典上的小贩，混淆了两个此前已经清楚区分的玩家可见角色。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 17,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第17轮选项：\"收起记者做派，直说：“你看起来不像是普通的小贩。”\"",
+    "conflictingEvidence": "第17轮正文对话对象是卡琳娜：\"卡琳娜的下颚微微抬了一下\"，且第16轮已确认她是庆典上拿走记者证的金发少女。第1轮和第2轮显示小贩是摊位后的年轻女子，负责向帕兹介绍复活日和卡琳娜。",
+    "conflictingTurns": [
+      1,
+      2,
+      16,
+      17
+    ],
+    "source": "model-output",
+    "reason": "选项继续沿用小贩相关措辞，导致玩家可见的当前对话对象身份发生漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 18,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第18轮选项：\"指出她看起来不像是普通的小贩\"",
+    "conflictingEvidence": "第18轮正文延续的是和卡琳娜在暗街的对峙：\"卡琳娜没有立刻回答\"。此前第16轮已用服装、记者证和称呼确认她是庆典上出现的金发少女卡琳娜，而不是第1-9轮摊位后的年轻小贩。",
+    "conflictingTurns": [
+      1,
+      2,
+      16,
+      18
+    ],
+    "source": "model-output",
+    "reason": "选项第三次把卡琳娜当作普通小贩来表述，破坏了当前互动对象的身份连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "“她站在光和暗的交界线外面——只差一步就彻底没人黑暗，但她没有走那一步。”",
+    "conflictingEvidence": "上下文描写卡琳娜的白色背影“被黑暗吞掉”，此处应表达即将没入黑暗；“没人黑暗”是不通顺的错字。",
+    "conflictingTurns": [
+      21
+    ],
+    "source": "model-output",
+    "reason": "正文出现明显错字，局部破坏阅读流畅性，但不改变剧情理解。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "“你把她的手翻来覆去嚼了三遍——‘她给了你一些东西，然后拿走了另一些东西。留给她自己的，只有亏欠’……”",
+    "conflictingEvidence": "当前轮前文中被玩家反复思考的是卡琳娜说的话，而不是她的手。",
+    "conflictingTurns": [
+      21
+    ],
+    "source": "model-output",
+    "reason": "正文把“她的话”误写成“她的手”，造成局部语义错误。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 26,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "玩家输入：“打开相机包的夹层，尝试用屏幕的微光检视周围环境”。正文只确认夹层里的布片和残纸仍在，并以“屏幕亮了”结束；随后的选项才出现“举起屏幕微光照向铁钟下方的湿石板，寻找鞋印是否继续向前”。",
+    "conflictingEvidence": "Turn 25 已建立玩家在黑暗中需要定位滴水声源和周围空间；玩家本轮明确要求使用屏幕微光检视环境。",
+    "conflictingTurns": [
+      25,
+      26
+    ],
+    "source": "model-output",
+    "reason": "模型没有完成玩家本轮要求的环境检视，而是把关键动作延后成下一轮选项，导致玩家意图承接不足。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 39,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 39 repeats the earlier listening beat: \"火堆在你左前方\", \"第三个声音是风...从你身后那个窄通道里吹出来\", and ends with the player still taking \"进入这个开阔空间之前\" one more second. Its choices also offer \"贴着墙，缓缓绕过火堆，向更深处移动\" as if that action has not happened.",
+    "conflictingEvidence": "Turn 38 already resolved the selected action \"贴着墙根绕开火堆，往黑暗中更深处走\": the player moved along the wall, the heat faded, \"火堆在你身后偏左的位置越来越远\", and the space continued opening ahead.",
+    "conflictingTurns": [
+      37,
+      38
+    ],
+    "source": "model-output",
+    "reason": "The generated turn replays turn 37 and rolls back the player's position and available action state after turn 38 had already advanced past the fire."
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 40,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 40 says the camera is aimed \"左前方，火堆的方向\" and the flash reveals \"火堆在你左前方七八米处\".",
+    "conflictingEvidence": "Turn 38, after the player chose to circle the fire and go deeper, established that \"火堆在你身后偏左的位置越来越远\" and that darkness was expanding ahead.",
+    "conflictingTurns": [
+      38,
+      39
+    ],
+    "source": "model-output",
+    "reason": "The flash-confirmation scene keeps the location rollback from turn 39 by putting the fire back in front-left, contradicting the last non-repeated spatial progress where the fire had been passed and left behind."
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "Player input: \"用相机对着石窍内部拍一张，看闪光能照出什么\". The visibleText ends with: \"然后你按下快门。\" Choices then defer the result: \"等眼睛重新适应黑暗后，仔细查看闪光灯拍到的照片\".",
+    "conflictingEvidence": "The current player input asked not only to take the photo but to see what the flash revealed. A prior similar visible interaction in turn 40, \"打开相机，用闪光灯快速拍一张，再看照片确认空间\", immediately narrated the flash and what it exposed: the fire, ash, and drag marks.",
+    "conflictingTurns": [
+      40
+    ],
+    "source": "model-output",
+    "reason": "The response executes only the shutter press and withholds the requested visible result, breaking the expected action resolution for this interaction."
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "choices",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "The first choice is serialized as {\"text\":\"伸手去够那片铜红色的织物\",\"actionId\":\"choice:理想\"}.",
+    "conflictingEvidence": "Other player-visible choices in the reviewed window are plain choice texts without internal action identifiers, such as turn 50's other choices: \"仔细研究石台边缘的刻痕\", \"把相机伸进窄口深处再拍一张\", and \"退出来，重新在入口外评估情况\".",
+    "conflictingTurns": [
+      50
+    ],
+    "source": "model-output",
+    "reason": "An internal-looking `actionId` value leaks into the player-visible choice object, creating a protocol/format quality issue in the choices surface."
+  }
+]

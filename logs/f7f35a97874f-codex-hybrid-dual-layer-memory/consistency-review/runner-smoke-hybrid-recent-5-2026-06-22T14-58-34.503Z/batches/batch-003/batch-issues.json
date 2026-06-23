@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "“她站在光和暗的交界线外面——只差一步就彻底没人黑暗，但她没有走那一步。”",
+    "conflictingEvidence": "上下文描写卡琳娜的白色背影“被黑暗吞掉”，此处应表达即将没入黑暗；“没人黑暗”是不通顺的错字。",
+    "conflictingTurns": [21],
+    "source": "model-output",
+    "reason": "正文出现明显错字，局部破坏阅读流畅性，但不改变剧情理解。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "“你把她的手翻来覆去嚼了三遍——‘她给了你一些东西，然后拿走了另一些东西。留给她自己的，只有亏欠’……”",
+    "conflictingEvidence": "当前轮前文中被玩家反复思考的是卡琳娜说的话，而不是她的手。",
+    "conflictingTurns": [21],
+    "source": "model-output",
+    "reason": "正文把“她的话”误写成“她的手”，造成局部语义错误。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 26,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "玩家输入：“打开相机包的夹层，尝试用屏幕的微光检视周围环境”。正文只确认夹层里的布片和残纸仍在，并以“屏幕亮了”结束；随后的选项才出现“举起屏幕微光照向铁钟下方的湿石板，寻找鞋印是否继续向前”。",
+    "conflictingEvidence": "Turn 25 已建立玩家在黑暗中需要定位滴水声源和周围空间；玩家本轮明确要求使用屏幕微光检视环境。",
+    "conflictingTurns": [25, 26],
+    "source": "model-output",
+    "reason": "模型没有完成玩家本轮要求的环境检视，而是把关键动作延后成下一轮选项，导致玩家意图承接不足。"
+  }
+]

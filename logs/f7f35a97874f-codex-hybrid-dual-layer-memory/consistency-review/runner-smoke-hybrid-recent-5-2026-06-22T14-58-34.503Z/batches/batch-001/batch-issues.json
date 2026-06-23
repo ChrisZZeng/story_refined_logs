@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 2,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 2 visibleText: \"你将敏特的照片收回怀里\". Turn 2 choices then include: \"收起照片，转身离开摊位，走进庆典的人群\".",
+    "conflictingEvidence": "Within the same turn, the visibleText has already established that Paz put Mint's photo back into his coat before asking about Karina.",
+    "conflictingTurns": [2],
+    "source": "model-output",
+    "reason": "The choice presents putting away the photo as an available future action even though the current visible text has already completed that object-state change."
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 3 playerInput: \"收起照片，转身离开摊位，走进庆典的人群\". Turn 3 visibleText: \"你将敏特的照片收回怀里。\"",
+    "conflictingEvidence": "Turn 2 visibleText already said: \"你将敏特的照片收回怀里\"; after that, Paz remained speaking with the vendor and did not take the photo back out.",
+    "conflictingTurns": [2],
+    "source": "mixed",
+    "reason": "The selected input repeats an already completed photo-storage action, and the model output replays it instead of reconciling the object state."
+  }
+]

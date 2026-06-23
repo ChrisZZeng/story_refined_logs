@@ -1,0 +1,112 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 11,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 11 visibleText: \"你的手掌贴上铁门。冰凉的铁皮透过手套——不，你没戴手套。掌心直接触到锈蚀的金属表面...\"",
+    "conflictingEvidence": "The same sentence first narrates sensation through gloves, then immediately negates it with \"不，你没戴手套\". Earlier visible equipment focused on the press card, photos, and Seagull 4B camera, with no established gloves.",
+    "conflictingTurns": [
+      11
+    ],
+    "source": "model-output",
+    "reason": "The narration exposes an internal correction about whether Paz has gloves, creating a local visible contradiction and breaking prose continuity."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 22,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "第22轮玩家输入是再次轻声叫她名字并确认身份，但正文重新写了一整套初次认出反应：你再次说“……敏特。”，她再次完成防御转身，金属物件再次落在桌面并滚到灯座阴影里，随后又断续说出“……帕——”。",
+    "conflictingEvidence": "第21轮已经发生同一组玩家可见事件：玩家轻声叫出“……敏特。”，她转入防御姿态，松开金属物件使其落在桌面滚动，并断续说出“帕——”。",
+    "conflictingTurns": [
+      21
+    ],
+    "source": "model-output",
+    "reason": "玩家可以再次叫名字，但第22轮没有承接为第二次呼唤后的新反应，而是几乎重演第21轮已经完成的初次认人场景。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 40,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "medium",
+    "currentEvidence": "第40轮在玩家选择 继续等待，把时间留给她 后，整轮主要重复 没有开口、没有催她、沉默铺开、指腹画弧线、嘴唇分开又抿回、白雾、你还在这里 等动作，并且开头写 没有把手从裤缝上抬起来，后文又写 你把手从裤缝上抬起来。",
+    "conflictingEvidence": "第38轮已经长篇呈现继续按手沉默，第39轮已经呈现退开半步后用沉默和姿态表示不会离开；第40轮没有形成新的对白、信息或明确状态变化，只复用同类动作模板。",
+    "conflictingTurns": [
+      38,
+      39,
+      40
+    ],
+    "source": "model-output",
+    "reason": "等待本身可以成立，但本轮几乎没有新增叙事信息，并复述前两轮已完成的沉默安抚动作，还出现同轮手部动作自相矛盾，导致明显的互动停滞和文本质量退化。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 49 写道：“她的手指摊开了……她的掌心有一排月牙形的指甲印”，但同一轮随后仍写“你的手还覆在她手背上”。",
+    "conflictingEvidence": "Turn 47-48 建立的是玩家“掌心贴上她绷紧的手背”、之后“掌心重新贴住她微微张开的手背”；Turn 49 开头也延续为“掌心还覆在她松开一半的拳头上”。此前没有玩家翻开或转动她手掌的可见动作。",
+    "conflictingTurns": [
+      47,
+      48,
+      49
+    ],
+    "source": "model-output",
+    "reason": "敏特的手若仍是手背朝上并被玩家掌心覆住，掌心内的指甲印不应突然被翻到灯光下可见，手部朝向缺少必要承接。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 50 写道：“她被你覆着的那只手已经完全松开了……五根手指摊在木面上，掌心朝下，指甲掐出来的那些月牙形红印在冷白灯光里泛着一层暗沉的、正在褪成淡紫的颜色。”",
+    "conflictingEvidence": "同一轮明确写“掌心朝下”，且玩家的手仍“覆在她手背上”；Turn 49 也保持“你的手还覆在她手背上”。",
+    "conflictingTurns": [
+      49,
+      50
+    ],
+    "source": "model-output",
+    "reason": "在掌心朝下、手背被覆住的姿态下，掌心里的月牙形指甲印不可能作为玩家可见细节被灯光照出。"
+  }
+]

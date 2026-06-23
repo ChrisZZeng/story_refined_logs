@@ -1,0 +1,691 @@
+{
+  "turn": 6,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "回到小贩的摊位，询问她为何说特殊日子里打听的人显眼",
+  "selectedFromPreviousTurn": {
+    "text": "回到小贩的摊位，询问她为何说特殊日子里打听的人显眼"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "问小贩：“你看起来不像是普通的小贩。”"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "听小贩的话，不再追问，去弄点吃的，融入庆典",
+        "actionId": "choice:现在"
+      },
+      {
+        "text": "问小贩：“你看起来不像是普通的小贩。”"
+      },
+      {
+        "text": "追问：“那些管事的人，到底是谁？”"
+      }
+    ]
+  },
+  "visibleChars": 1076,
+  "durationMs": 53057.22,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 17,
+    "locationEvents": 7,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:02:42.186Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:02:42.189Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-91308fcb",
+      "taskId": "6f6686a4-e7db-4102-8769-94b0ee971737",
+      "durationMs": 233.48137500000303,
+      "at": "2026-06-22T15:02:42.413Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-8148d2ed",
+      "taskId": "e4250256-5e3d-4a6f-804a-adac8283ef84",
+      "durationMs": 391.17004199998337,
+      "at": "2026-06-22T15:02:42.571Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-09778461",
+      "taskId": "99191bd8-1b6e-40e4-ac07-b99391b7500c",
+      "durationMs": 398.18020900001284,
+      "at": "2026-06-22T15:02:42.577Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-cc780561",
+      "taskId": "e2423858-47fd-4fb6-99b9-a18bb3e1db32",
+      "durationMs": 398.804999999993,
+      "at": "2026-06-22T15:02:42.578Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-69a0b568",
+      "taskId": "17f3f04e-979f-4093-9d38-fd319d253097",
+      "durationMs": 399.62187500001164,
+      "at": "2026-06-22T15:02:42.579Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-cc8c5763",
+      "taskId": "f0571c4e-cb2f-492e-a127-fd416fa3bc5f",
+      "durationMs": 299.37866600000416,
+      "at": "2026-06-22T15:02:42.712Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-ce858633",
+      "taskId": "66ea5854-d885-496a-83db-07debed49694",
+      "durationMs": 260.86579099998926,
+      "at": "2026-06-22T15:02:42.831Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-e36bd495",
+      "taskId": "7475e863-e58f-47cf-bee9-af3691cae73f",
+      "durationMs": 346.46979200001806,
+      "at": "2026-06-22T15:02:42.924Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-29a3cc45",
+      "taskId": "9e237e46-9a83-4547-b845-c549b9946a77",
+      "durationMs": 346.4794170000241,
+      "at": "2026-06-22T15:02:42.924Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-26a6435c",
+      "taskId": "497ba0bb-7b5d-42fb-81ce-bd2e2e17c550",
+      "durationMs": 347.8546250000072,
+      "at": "2026-06-22T15:02:42.927Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-efc808ce",
+      "taskId": "0bd2420d-a0d9-4d42-a359-b4f99154788e",
+      "durationMs": 326.3874590000196,
+      "at": "2026-06-22T15:02:43.039Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-ca80aa4e",
+      "taskId": "fd05b2e6-c4b3-4290-a47d-823486534411",
+      "durationMs": 268.18645800001104,
+      "at": "2026-06-22T15:02:43.100Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-453eaf20",
+      "taskId": "3064642a-f496-48b9-b77f-8dbd61417b17",
+      "durationMs": 279.9850419999857,
+      "at": "2026-06-22T15:02:43.207Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-4f621098",
+      "taskId": "762c9788-2b2e-436b-a1bb-653be2b97ac1",
+      "durationMs": 308.6744999999937,
+      "at": "2026-06-22T15:02:43.233Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-bc318923",
+      "taskId": "1410bc16-628d-4a33-8c21-2f1b624ec8af",
+      "durationMs": 313.5602080000099,
+      "at": "2026-06-22T15:02:43.238Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-190624a5",
+      "taskId": "0202c072-c340-41d6-b1db-fdc4e8ae3b61",
+      "durationMs": 294.9609169999894,
+      "at": "2026-06-22T15:02:43.334Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-5b45fa64",
+      "taskId": "de6a9fbc-f206-49c9-9902-cd5b3f82c035",
+      "durationMs": 250.70695900000283,
+      "at": "2026-06-22T15:02:43.350Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-6f37b9e4",
+      "taskId": "0c611bbd-aef7-4c1d-8a4e-368c0dcd37ef",
+      "durationMs": 243.0173750000249,
+      "at": "2026-06-22T15:02:43.476Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-f5878049",
+      "taskId": "5865782c-cb33-4013-9b2d-077cd7e212c7",
+      "durationMs": 279.01391600002535,
+      "at": "2026-06-22T15:02:43.486Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "回到小贩的摊位，询问她为何说特殊日子里打听的人显眼",
+      "requestId": "req-574a8a1d",
+      "taskId": "aee9fdac-aeff-4d70-99b9-d216fe089366",
+      "durationMs": 249.8615830000199,
+      "at": "2026-06-22T15:02:43.488Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-54e2de13",
+      "taskId": "d4e71560-2b8f-4ae1-aa64-a61e469f2a44",
+      "durationMs": 252.2120419999992,
+      "at": "2026-06-22T15:02:43.741Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-9e3bd1a6",
+      "taskId": "3523e732-290e-4390-9729-60717a7f9a76",
+      "durationMs": 318.9403750000056,
+      "at": "2026-06-22T15:02:43.808Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-aa9eb8cc",
+      "taskId": "0cadaffc-a835-4e19-995e-3d1b0c1ff581",
+      "durationMs": 319.2882910000044,
+      "at": "2026-06-22T15:02:43.808Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-84f5c499",
+      "taskId": "cbdeddb3-ce62-4edc-b242-03b545a82f7d",
+      "durationMs": 345.73729200000525,
+      "at": "2026-06-22T15:02:43.835Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-e7857584",
+      "taskId": "de4dedd3-b93e-4bc7-84b8-a904905b4838",
+      "durationMs": 435.57808300000033,
+      "at": "2026-06-22T15:02:43.924Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-781b26fb",
+      "taskId": "f2a69301-080a-43d0-b207-2f09f5490821",
+      "durationMs": 292.44195799998124,
+      "at": "2026-06-22T15:02:44.100Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-5d686f28",
+      "taskId": "65273bd9-c2ff-4ac8-a2dc-8085fea1a9ed",
+      "durationMs": 295.54475000000093,
+      "at": "2026-06-22T15:02:44.104Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-21112e3a",
+      "taskId": "48809d96-e551-4045-8985-582996cb945e",
+      "durationMs": 314.92466600000625,
+      "at": "2026-06-22T15:02:44.149Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-d838c744",
+      "taskId": "b094596c-666f-406c-9d30-2dee41d96c34",
+      "durationMs": 298.9008749999921,
+      "at": "2026-06-22T15:02:44.223Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-5574192a",
+      "taskId": "7659814a-78db-466b-a27b-011c240db45d",
+      "durationMs": 482.5454169999866,
+      "at": "2026-06-22T15:02:44.223Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-7b49e1b5",
+      "taskId": "fe59e204-1a8e-4b44-9993-53a9c7c7cc87",
+      "durationMs": 277.55133300001035,
+      "at": "2026-06-22T15:02:44.381Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-1c5b4fe7",
+      "taskId": "79329cb7-82db-46a3-92ec-e8665481caa5",
+      "durationMs": 256.6661670000176,
+      "at": "2026-06-22T15:02:44.406Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-7120fa9e",
+      "taskId": "3a17620a-21ab-4a61-a9cb-7ef6d27385ca",
+      "durationMs": 361.61350000000675,
+      "at": "2026-06-22T15:02:44.462Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-bc430f97",
+      "taskId": "cebada28-358a-4375-8a47-3e2795f017a0",
+      "durationMs": 305.4789579999924,
+      "at": "2026-06-22T15:02:44.529Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-5e6e9301",
+      "taskId": "e7e6716d-ceab-4573-a0ae-e854cbeb6f46",
+      "durationMs": 306.02658400000655,
+      "at": "2026-06-22T15:02:44.529Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-96d3fe8b",
+      "taskId": "d0376163-4cf3-43ac-bb2e-7c04e6efd896",
+      "durationMs": 242.90058399998816,
+      "at": "2026-06-22T15:02:44.649Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-faf5d2b0",
+      "taskId": "ee04bd2f-8108-4e52-9d45-de3dc6146df2",
+      "durationMs": 268.00708299997495,
+      "at": "2026-06-22T15:02:44.649Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-143d04b2",
+      "taskId": "a644c1f5-9cee-41fd-a8f2-425518dcaa66",
+      "durationMs": 253.41916700001457,
+      "at": "2026-06-22T15:02:44.715Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-4caeaf12",
+      "taskId": "ad1dcd1b-f21b-44f5-898f-022749baaa57",
+      "durationMs": 261.07270900000003,
+      "at": "2026-06-22T15:02:44.790Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "回到小贩的摊位，询问她为何说特殊日子里打听的人显眼",
+      "requestId": "req-0e8161e5",
+      "taskId": "494039d8-ea17-485a-99f8-6672686cc2d3",
+      "durationMs": 289.7338340000133,
+      "at": "2026-06-22T15:02:44.819Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "帕兹",
+                  "core_profile": "表面身份为过路记者与调查者，随身携带相机与合照；具备明显的军事训练痕迹与战场创伤应激反应（如对突发巨响的本能防御姿态与肌肉记忆），行事谨慎，习惯通过观察与环境互动来维持心理防线。",
+                  "current_snapshot": "正深入庆典街区观察民众的“复活日”氛围，因爆竹声触发警觉但已学会自我控制节奏；紧贴身藏敏特的照片作为搜寻线索与精神锚点，在人群中短暂锁定疑似红发身影却未能相认，随后选择继续向前探索。",
+                  "relationship_network": [
+                    "敏特（昔日战友/现贴身珍藏其照片并全力搜寻的目标）"
+                  ]
+                },
+                {
+                  "name": "敏特",
+                  "core_profile": "红发少女（文中观测到发根有新生黑发，推测为染色）；帕兹昔日的战地同伴；性格倔强且充满憧憬，过往在战火冲突中曾据信牺牲，实则存活。",
+                  "current_snapshot": "现身于庆典人群缝隙间，约十六七岁，手持棉花糖与同伴同行；短暂与搜寻她的帕兹视线交汇并流露困惑神情，随后被同伴挽臂拉离现场，双方尚未完成正式重逢或身份确认。",
+                  "relationship_network": [
+                    "帕兹（昔日战友/现任贴身珍藏其照片并全力搜寻的调查者）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "帕兹",
+                "core_profile": "表面身份为过路记者与调查者，随身携带相机与合照；具备明显的军事训练痕迹与战场创伤应激反应（如对突发巨响的本能防御姿态与肌肉记忆），行事谨慎，习惯通过观察与环境互动来维持心理防线。",
+                "current_snapshot": "正深入庆典街区观察民众的“复活日”氛围，因爆竹声触发警觉但已学会自我控制节奏；紧贴身藏敏特的照片作为搜寻线索与精神锚点，在人群中短暂锁定疑似红发身影却未能相认，随后选择继续向前探索。",
+                "relationship_network": [
+                  "敏特（昔日战友/现贴身珍藏其照片并全力搜寻的目标）"
+                ]
+              },
+              {
+                "name": "敏特",
+                "core_profile": "红发少女（文中观测到发根有新生黑发，推测为染色）；帕兹昔日的战地同伴；性格倔强且充满憧憬，过往在战火冲突中曾据信牺牲，实则存活。",
+                "current_snapshot": "现身于庆典人群缝隙间，约十六七岁，手持棉花糖与同伴同行；短暂与搜寻她的帕兹视线交汇并流露困惑神情，随后被同伴挽臂拉离现场，双方尚未完成正式重逢或身份确认。",
+                "relationship_network": [
+                  "帕兹（昔日战友/现任贴身珍藏其照片并全力搜寻的调查者）"
+                ]
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "深入庆典人群展开战术搜寻",
+                  "time": "十一月一日（复活日）",
+                  "location": "新西西里庆典街道",
+                  "involved_characters": [
+                    "帕兹"
+                  ],
+                  "summary": "帕兹离开摊位步入庆典人潮，沿途驻足观察一对父女在烤肉摊前挑选肉串的日常互动。期间，醉汉的意外碰撞与远处的爆竹声接连触发其战斗肌肉记忆与创伤应激反应，但他通过仔细辨认声音来源、检查随身装备（确认仅有相机无枪械）迅速进行心理脱敏。随后他在人群中捕捉到一抹红发并本能追去，却发现只是染发的陌生女孩。确认虚惊一场后，帕兹彻底放松紧绷的神经，决定收敛锋芒，继续向灯光更亮的街区深处走去。",
+                  "consequence": "帕兹成功将战场应激反应转化为可控的战术观察力，明确了自身缺乏实战武器且必须依赖环境与伪装的限制条件；通过主动压制恐慌与排除错误目标，他进一步践行了“降低存在感”的策略，为后续在不熟悉且高风险的庆典环境中隐蔽行动与寻找敏特奠定了平稳的心理与行动基础。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "深入庆典人群展开战术搜寻",
+                "time": "十一月一日（复活日）",
+                "location": "新西西里庆典街道",
+                "involved_characters": [
+                  "帕兹"
+                ],
+                "summary": "帕兹离开摊位步入庆典人潮，沿途驻足观察一对父女在烤肉摊前挑选肉串的日常互动。期间，醉汉的意外碰撞与远处的爆竹声接连触发其战斗肌肉记忆与创伤应激反应，但他通过仔细辨认声音来源、检查随身装备（确认仅有相机无枪械）迅速进行心理脱敏。随后他在人群中捕捉到一抹红发并本能追去，却发现只是染发的陌生女孩。确认虚惊一场后，帕兹彻底放松紧绷的神经，决定收敛锋芒，继续向灯光更亮的街区深处走去。",
+                "consequence": "帕兹成功将战场应激反应转化为可控的战术观察力，明确了自身缺乏实战武器且必须依赖环境与伪装的限制条件；通过主动压制恐慌与排除错误目标，他进一步践行了“降低存在感”的策略，为后续在不熟悉且高风险的庆典环境中隐蔽行动与寻找敏特奠定了平稳的心理与行动基础。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "庆典街区（街道）",
+                  "description": "复活日庆典期间的核心街道与公共活动区域。街道铺有石板，两侧悬挂庆典彩旗，入夜后摊位支架与路灯柱缠绕着成串小灯泡。空气中交织着孜然焦香、油炸甜味、劣质酒精与淡火药味。表面呈现民众难得的节庆松弛感，实则暗流涌动；密集的感官刺激（如爆竹声、肢体碰撞）易引发高度警觉，是普通市民短暂释放压力与外来者暗中观察的交错地带。",
+                  "appearances": [
+                    "旧记忆中作为主角战术侦察区域，包含倾斜路牌、巷口杂物、摊位招牌与墙面海报。",
+                    "本片段中主角沿街道前行，跟随父女至烤肉摊前观察市井互动。",
+                    "街对面坐落拉手风琴的老人，面前塑料杯内硬币随风晃动。",
+                    "醉汉碰撞、爆竹声起触发主角生理性防御反射，随后逐渐平复。",
+                    "主角在人群中捕捉到染红发少女的身影后，继续步入灯光更亮的街区深处，场景由傍晚过渡至入夜。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "庆典街区（街道）",
+                "description": "复活日庆典期间的核心街道与公共活动区域。街道铺有石板，两侧悬挂庆典彩旗，入夜后摊位支架与路灯柱缠绕着成串小灯泡。空气中交织着孜然焦香、油炸甜味、劣质酒精与淡火药味。表面呈现民众难得的节庆松弛感，实则暗流涌动；密集的感官刺激（如爆竹声、肢体碰撞）易引发高度警觉，是普通市民短暂释放压力与外来者暗中观察的交错地带。",
+                "appearances": [
+                  "旧记忆中作为主角战术侦察区域，包含倾斜路牌、巷口杂物、摊位招牌与墙面海报。",
+                  "本片段中主角沿街道前行，跟随父女至烤肉摊前观察市井互动。",
+                  "街对面坐落拉手风琴的老人，面前塑料杯内硬币随风晃动。",
+                  "醉汉碰撞、爆竹声起触发主角生理性防御反射，随后逐渐平复。",
+                  "主角在人群中捕捉到染红发少女的身影后，继续步入灯光更亮的街区深处，场景由傍晚过渡至入夜。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "帕兹"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "帕兹",
+                "candidate_names": [
+                  "帕兹"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "帕兹的人物档案",
+                "facts": [
+                  {
+                    "content": "帕兹。当前快照：正深入庆典街区观察民众的“复活日”氛围，因爆竹声触发警觉但已学会自我控制节奏；紧贴身藏敏特的照片作为搜寻线索与精神锚点，在人群中短暂锁定疑似红发身影却未能相认，随后选择继续向前探索。。 关系网：敏特（昔日战友/现贴身珍藏其照片并全力搜寻的目标）。",
+                    "summary": null,
+                    "entity_names": [
+                      "帕兹"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "表面身份为过路记者与调查者，随身携带相机与合照；具备明显的军事训练痕迹与战场创伤应激反应（如对突发巨响的本能防御姿态与肌肉记忆），行事谨慎，习惯通过观察与环境互动来维持心理防线。",
+                  "character_current_snapshot": "正深入庆典街区观察民众的“复活日”氛围，因爆竹声触发警觉但已学会自我控制节奏；紧贴身藏敏特的照片作为搜寻线索与精神锚点，在人群中短暂锁定疑似红发身影却未能相认，随后选择继续向前探索。",
+                  "character_relationship_network": [
+                    "敏特（昔日战友/现贴身珍藏其照片并全力搜寻的目标）"
+                  ],
+                  "turn_id": "turn-05",
+                  "chapter_id": "runner-smoke-random-recent5-run3",
+                  "scene_id": "ad78-v8-random-recent5-run3"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "0060ab6d-c665-4b7c-8147-92df2aa336d0",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-01",
+            "topic_turn_end": "turn-05",
+            "topic_turn_count": 5,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "敏特",
+                "target_id": "3eb37e55-6c01-58fd-b90b-31012ade2dd9",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "深入庆典人群展开战术搜寻: 帕兹离开摊位步入庆典人潮，沿途驻足观察一对父女在烤肉摊前挑选肉串的日常互动",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "庆典街区（街道）",
+                "target_id": "2c512025-7b40-55c8-9045-1bb61952c734",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:02:57.053Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-7b310c51",
+      "taskId": "5b72e3a5-0cce-4677-a3ea-bb729bf25c94",
+      "durationMs": 20889.216957999975,
+      "at": "2026-06-22T15:03:35.235Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

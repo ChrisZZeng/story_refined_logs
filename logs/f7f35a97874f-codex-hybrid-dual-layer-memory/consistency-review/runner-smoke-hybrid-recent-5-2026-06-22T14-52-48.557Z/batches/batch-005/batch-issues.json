@@ -1,0 +1,47 @@
+[
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 49 写道：“她的手指摊开了……她的掌心有一排月牙形的指甲印”，但同一轮随后仍写“你的手还覆在她手背上”。",
+    "conflictingEvidence": "Turn 47-48 建立的是玩家“掌心贴上她绷紧的手背”、之后“掌心重新贴住她微微张开的手背”；Turn 49 开头也延续为“掌心还覆在她松开一半的拳头上”。此前没有玩家翻开或转动她手掌的可见动作。",
+    "conflictingTurns": [
+      47,
+      48,
+      49
+    ],
+    "source": "model-output",
+    "reason": "敏特的手若仍是手背朝上并被玩家掌心覆住，掌心内的指甲印不应突然被翻到灯光下可见，手部朝向缺少必要承接。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 50 写道：“她被你覆着的那只手已经完全松开了……五根手指摊在木面上，掌心朝下，指甲掐出来的那些月牙形红印在冷白灯光里泛着一层暗沉的、正在褪成淡紫的颜色。”",
+    "conflictingEvidence": "同一轮明确写“掌心朝下”，且玩家的手仍“覆在她手背上”；Turn 49 也保持“你的手还覆在她手背上”。",
+    "conflictingTurns": [
+      49,
+      50
+    ],
+    "source": "model-output",
+    "reason": "在掌心朝下、手背被覆住的姿态下，掌心里的月牙形指甲印不可能作为玩家可见细节被灯光照出。"
+  }
+]

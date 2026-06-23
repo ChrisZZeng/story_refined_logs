@@ -1,0 +1,603 @@
+{
+  "turn": 41,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "顺着墙根继续往深处摸，追踪那些拖痕",
+  "selectedFromPreviousTurn": {
+    "text": "顺着墙根继续往深处摸，追踪那些拖痕",
+    "actionId": "choice:理想"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "继续沿着拖痕往前摸"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "继续沿着拖痕往前摸"
+      },
+      {
+        "text": "在灰面上横向摸，找更多拖痕的交错点"
+      },
+      {
+        "text": "试着闻空气里除了焦纸和灰烬还有没有别的味道"
+      },
+      {
+        "text": "停下来再听一次，确认那个木头的呻吟是否还会响起"
+      }
+    ]
+  },
+  "visibleChars": 613,
+  "durationMs": 36799.13,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 19,
+    "locationEvents": 16,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:39:25.435Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:39:25.443Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-c147020c",
+      "taskId": "bac7ad73-2157-4986-aa53-6cbac5a1e6af",
+      "durationMs": 274.4957500002347,
+      "at": "2026-06-22T15:39:25.691Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-957a6c30",
+      "taskId": "53a635e9-4514-4909-a30b-e03a1b624b66",
+      "durationMs": 379.0873750001192,
+      "at": "2026-06-22T15:39:25.796Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-2be0b264",
+      "taskId": "e8ab154a-e247-499d-b6b2-5b3dce954d54",
+      "durationMs": 379.54762500012293,
+      "at": "2026-06-22T15:39:25.796Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-fed19a51",
+      "taskId": "a4813493-0c92-4e93-a6c2-c65eb0af83ea",
+      "durationMs": 380.52987500000745,
+      "at": "2026-06-22T15:39:25.797Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-62a4b6b5",
+      "taskId": "386160af-581c-4e68-93de-8a11a7418a61",
+      "durationMs": 385.6473750001751,
+      "at": "2026-06-22T15:39:25.803Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-58f106ca",
+      "taskId": "2f9a4014-076e-4f4b-90df-0f51782caafe",
+      "durationMs": 282.9122919999063,
+      "at": "2026-06-22T15:39:25.974Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-52cf6b4f",
+      "taskId": "3fce15d4-4704-4876-bfee-1f62e107a5d5",
+      "durationMs": 292.13274999987334,
+      "at": "2026-06-22T15:39:26.090Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-e693005a",
+      "taskId": "490147c0-e2fa-4a8a-9995-0ab984f0c1e7",
+      "durationMs": 297.3607080001384,
+      "at": "2026-06-22T15:39:26.100Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-1d8c24bb",
+      "taskId": "7a512c93-d5e6-4bb0-b3c8-3b92a8d48cce",
+      "durationMs": 304.01874999981374,
+      "at": "2026-06-22T15:39:26.100Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-1d6b9d66",
+      "taskId": "fbfa387e-b189-40f9-b2cb-77b184f830cb",
+      "durationMs": 408.36233300017193,
+      "at": "2026-06-22T15:39:26.204Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-ddc991ef",
+      "taskId": "37687f93-dd03-4027-96bc-d40dfc221109",
+      "durationMs": 240.51470900001004,
+      "at": "2026-06-22T15:39:26.215Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-ac1dd6fb",
+      "taskId": "38d85789-e612-42d2-8fa6-725207706ece",
+      "durationMs": 284.380958000198,
+      "at": "2026-06-22T15:39:26.374Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-1e0e8353",
+      "taskId": "b1ea5881-d40b-4f7e-9c79-8b195b1d7800",
+      "durationMs": 297.6320829996839,
+      "at": "2026-06-22T15:39:26.398Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-2c2679ae",
+      "taskId": "e673fa84-994f-4305-b11b-8c3fa64cbee8",
+      "durationMs": 305.10345799988136,
+      "at": "2026-06-22T15:39:26.406Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-94166ca2",
+      "taskId": "0c95c735-4ced-40c0-a905-5bdbe5775b74",
+      "durationMs": 287.4601249997504,
+      "at": "2026-06-22T15:39:26.492Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-cb292dcc",
+      "taskId": "31676f2a-360d-4822-b32c-2f45349084c5",
+      "durationMs": 282.6128329997882,
+      "at": "2026-06-22T15:39:26.497Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-f8405b63",
+      "taskId": "155ae939-825a-4894-aec0-c46a2a70582d",
+      "durationMs": 229.32204200001433,
+      "at": "2026-06-22T15:39:26.603Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-c38675dc",
+      "taskId": "486940c5-7f80-417c-85c1-6d635d9b27c9",
+      "durationMs": 272.45462500024587,
+      "at": "2026-06-22T15:39:26.670Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-9ef6f388",
+      "taskId": "6de95547-7242-43f5-a1cb-140ae3c3c38b",
+      "durationMs": 306.9634589999914,
+      "at": "2026-06-22T15:39:26.712Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "顺着墙根继续往深处摸，追踪那些拖痕",
+      "requestId": "req-f274a955",
+      "taskId": "194adf1e-f0ca-4bfb-84d1-13de7c678317",
+      "durationMs": 260.882750000339,
+      "at": "2026-06-22T15:39:26.753Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-8065a41d",
+      "taskId": "6b2fb181-a6b2-4667-8345-d405602a623a",
+      "durationMs": 341.48999999975786,
+      "at": "2026-06-22T15:39:27.095Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-19b5aad5",
+      "taskId": "c5bb800f-1ba9-49a3-af6d-ca9d66f4d621",
+      "durationMs": 341.86720799980685,
+      "at": "2026-06-22T15:39:27.095Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-40f16a34",
+      "taskId": "bc0b2316-c8b0-440b-9c10-f917e3ee767f",
+      "durationMs": 349.36475000018254,
+      "at": "2026-06-22T15:39:27.103Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-82da5bab",
+      "taskId": "642f0f05-7ad9-4711-9acc-72089805f9de",
+      "durationMs": 350.7119999998249,
+      "at": "2026-06-22T15:39:27.104Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-9cf1e1e0",
+      "taskId": "7cb590a7-0676-4e81-9700-8e791185a38c",
+      "durationMs": 361.7608340000734,
+      "at": "2026-06-22T15:39:27.115Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-9b0080c2",
+      "taskId": "f1f41f70-0c3d-454f-889e-182901507ee9",
+      "durationMs": 243.37800000002608,
+      "at": "2026-06-22T15:39:27.339Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-982a08b9",
+      "taskId": "9efc0e82-2f12-4f42-9180-8c78d02aca44",
+      "durationMs": 302.8306660000235,
+      "at": "2026-06-22T15:39:27.398Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-24003bb8",
+      "taskId": "0bda0d90-a138-4d54-8987-35517dc238c3",
+      "durationMs": 314.6425839997828,
+      "at": "2026-06-22T15:39:27.419Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-b13649dc",
+      "taskId": "2b6bdcd3-66e3-4815-9708-0525a8776295",
+      "durationMs": 328.3192500001751,
+      "at": "2026-06-22T15:39:27.431Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-570ff3f2",
+      "taskId": "a01cc0e5-f99e-4df2-a2ac-e1f6ef34ec27",
+      "durationMs": 342.77987500000745,
+      "at": "2026-06-22T15:39:27.458Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-480773ca",
+      "taskId": "d8c7a62e-07d7-4748-be3c-e905d15a5b16",
+      "durationMs": 242.54754200018942,
+      "at": "2026-06-22T15:39:27.581Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-d6c93be7",
+      "taskId": "7e914ab3-2436-45c7-9da3-f15a260664a9",
+      "durationMs": 272.63908399967477,
+      "at": "2026-06-22T15:39:27.671Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-80f03e16",
+      "taskId": "d8e1fc37-5260-448c-b179-cd65102cd11d",
+      "durationMs": 314.66404200019315,
+      "at": "2026-06-22T15:39:27.734Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-7e6f046e",
+      "taskId": "74347271-7fdd-43c1-a63b-976927fba2fe",
+      "durationMs": 309.7431660001166,
+      "at": "2026-06-22T15:39:27.741Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-b7891885",
+      "taskId": "8d498c29-9c05-4d49-ae23-f11e1b9290c6",
+      "durationMs": 372.72020799992606,
+      "at": "2026-06-22T15:39:27.831Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-1683e676",
+      "taskId": "6519b58e-8d71-4f39-a0f8-055af67a7ea0",
+      "durationMs": 257.7724159997888,
+      "at": "2026-06-22T15:39:27.839Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-47bff08e",
+      "taskId": "d88b5839-3039-4ee6-aad7-124721904131",
+      "durationMs": 361.55991700012237,
+      "at": "2026-06-22T15:39:28.103Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-6286da57",
+      "taskId": "db04ac3f-321b-4441-9332-e28ee557a967",
+      "durationMs": 432.3804170000367,
+      "at": "2026-06-22T15:39:28.103Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-fef40960",
+      "taskId": "dfc4f3c6-1554-4a5a-a18f-9318c9b2de1a",
+      "durationMs": 371.54812499973923,
+      "at": "2026-06-22T15:39:28.105Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "顺着墙根继续往深处摸，追踪那些拖痕",
+      "requestId": "req-cb9101db",
+      "taskId": "7e87c95e-ce31-4ebf-8c82-71eaef5ded3c",
+      "durationMs": 274.48929199995473,
+      "at": "2026-06-22T15:39:28.105Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "主角",
+                  "core_profile": "携带相机的隐秘行动者，具备在战场环境中习得的战术隐蔽与精密呼吸控制经验。性格极度冷静克制，拥有卓越的身体控制力与环境解析能力，习惯在黑暗中放弃视觉依赖，转而通过听觉、触觉、温度梯度与气流微变构建空间认知，兼具敏锐的现场追踪意识与高度警惕的生存本能。",
+                  "current_snapshot": "接续前期探索，目前暂驻于黑暗开阔空间的砖墙转角处。使用相机闪光灯进行瞬间照明，确认左前方有闷烧的火堆与地面的交错拖痕。强光致盲后，迅速切换至听觉与触觉主导模式：通过指腹规律敲击快门边缘平复呼吸，背靠粗粝砖墙建立感官锚点，严密监听环境声响变化（如远处木头异响已停止）。当前处于恢复视觉后的深度潜伏状态，正依据刚才捕捉到的拖痕轨迹推断空间纵深情况，保持高度警惕。",
+                  "relationship_network": []
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "主角",
+                "core_profile": "携带相机的隐秘行动者，具备在战场环境中习得的战术隐蔽与精密呼吸控制经验。性格极度冷静克制，拥有卓越的身体控制力与环境解析能力，习惯在黑暗中放弃视觉依赖，转而通过听觉、触觉、温度梯度与气流微变构建空间认知，兼具敏锐的现场追踪意识与高度警惕的生存本能。",
+                "current_snapshot": "接续前期探索，目前暂驻于黑暗开阔空间的砖墙转角处。使用相机闪光灯进行瞬间照明，确认左前方有闷烧的火堆与地面的交错拖痕。强光致盲后，迅速切换至听觉与触觉主导模式：通过指腹规律敲击快门边缘平复呼吸，背靠粗粝砖墙建立感官锚点，严密监听环境声响变化（如远处木头异响已停止）。当前处于恢复视觉后的深度潜伏状态，正依据刚才捕捉到的拖痕轨迹推断空间纵深情况，保持高度警惕。",
+                "relationship_network": []
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "使用闪光灯探查开阔空间",
+                  "time": "",
+                  "location": "开阔空间（火堆周边及后方区域）",
+                  "involved_characters": [],
+                  "summary": "你在开阔空间的绝对黑暗中启动相机闪光灯进行快速照明探查。快门触发瞬间的强光短暂揭示了左前方闷烧的火堆、散落的残纸碎布、布满薄灰与多道交错拖痕的石板地，以及低矮砖砌穹顶的烟熏痕迹。强光过后视觉系统暂时致盲，你依靠敲击快门边缘的节奏调整呼吸，并将背部贴紧粗粝砖墙获取触觉锚点以对抗眩晕。闪光灯引发的瞬间热气流扰动使火堆灰烬飘落，远处木质异响未再出现。待视网膜光斑消退、听觉环境复稳后，你重点确认了地面拖痕的细节，并将相机收回胸前维持隐蔽姿态。",
+                  "consequence": "突破了纯黑暗环境下的视觉盲区，直接获取了开阔空间内部的立体结构信息与地面遗留轨迹（多条交错拖痕明确指向火堆后方深处），确立了潜在的探索方向；闪光灯造成的短暂致盲与声响扰动虽带来一定暴露风险，但通过触觉与听觉的交替补偿迅速恢复了环境掌控感，为后续结合视觉线索向火堆后方推进提供了可靠的方位参照与安全边界判断。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "使用闪光灯探查开阔空间",
+                "time": "",
+                "location": "开阔空间（火堆周边及后方区域）",
+                "involved_characters": [],
+                "summary": "你在开阔空间的绝对黑暗中启动相机闪光灯进行快速照明探查。快门触发瞬间的强光短暂揭示了左前方闷烧的火堆、散落的残纸碎布、布满薄灰与多道交错拖痕的石板地，以及低矮砖砌穹顶的烟熏痕迹。强光过后视觉系统暂时致盲，你依靠敲击快门边缘的节奏调整呼吸，并将背部贴紧粗粝砖墙获取触觉锚点以对抗眩晕。闪光灯引发的瞬间热气流扰动使火堆灰烬飘落，远处木质异响未再出现。待视网膜光斑消退、听觉环境复稳后，你重点确认了地面拖痕的细节，并将相机收回胸前维持隐蔽姿态。",
+                "consequence": "突破了纯黑暗环境下的视觉盲区，直接获取了开阔空间内部的立体结构信息与地面遗留轨迹（多条交错拖痕明确指向火堆后方深处），确立了潜在的探索方向；闪光灯造成的短暂致盲与声响扰动虽带来一定暴露风险，但通过触觉与听觉的交替补偿迅速恢复了环境掌控感，为后续结合视觉线索向火堆后方推进提供了可靠的方位参照与安全边界判断。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "前方开阔空间",
+                  "description": "地下深处的空旷区域，地面铺设石板，天花板为低矮的旧砖砌穹顶，留有从火堆正上方向四周扩散的烟熏黑色年轮状痕迹。空间偏左前侧约七八米处设有一大堆暗燃的纸灰与碎木片火堆，周围散落烧焦纸张与不明碎布；石板地面上布满数道交错的拖痕，向火堆后方深处延伸。墙根处堆积着旧木箱与生锈铁桶。整体环境黑暗干燥、质地粗粝，声学反射微弱，弥漫着焦纸碱涩味与地底凉意。",
+                  "appearances": [
+                    "本次通过相机闪光灯瞬间爆闪被完整视觉化揭示，确认了空间开阔度、砖砌穹顶结构、火堆具体位置（左前方七八米）、地面交错拖痕以及墙根杂物（旧木箱、铁桶）的分布格局。",
+                    "闪光过后主角重新陷入黑暗，转而通过触觉（背靠粗粝干燥的砖墙）、听觉（纸灰窸窣飘落、余烬密集噼啪、声音被远处墙面微弱反弹）持续锚定并解析该空间的物理边界与声学地图。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "前方开阔空间",
+                "description": "地下深处的空旷区域，地面铺设石板，天花板为低矮的旧砖砌穹顶，留有从火堆正上方向四周扩散的烟熏黑色年轮状痕迹。空间偏左前侧约七八米处设有一大堆暗燃的纸灰与碎木片火堆，周围散落烧焦纸张与不明碎布；石板地面上布满数道交错的拖痕，向火堆后方深处延伸。墙根处堆积着旧木箱与生锈铁桶。整体环境黑暗干燥、质地粗粝，声学反射微弱，弥漫着焦纸碱涩味与地底凉意。",
+                "appearances": [
+                  "本次通过相机闪光灯瞬间爆闪被完整视觉化揭示，确认了空间开阔度、砖砌穹顶结构、火堆具体位置（左前方七八米）、地面交错拖痕以及墙根杂物（旧木箱、铁桶）的分布格局。",
+                  "闪光过后主角重新陷入黑暗，转而通过触觉（背靠粗粝干燥的砖墙）、听觉（纸灰窸窣飘落、余烬密集噼啪、声音被远处墙面微弱反弹）持续锚定并解析该空间的物理边界与声学地图。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "a61a76c1-9d46-401c-a757-e065cf21b73b",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-33",
+            "topic_turn_end": "turn-40",
+            "topic_turn_count": 8,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "主角",
+                "target_id": "d65069f9-e75c-5c5d-91ec-a1a151ccf94d",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "使用闪光灯探查开阔空间: 你在开阔空间的绝对黑暗中启动相机闪光灯进行快速照明探查",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "前方开阔空间",
+                "target_id": "294d66ee-bced-5d85-8db9-286324557902",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:39:43.398Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-b762f7be",
+      "taskId": "5c9902f0-35c1-4e74-9065-a73a07586884",
+      "durationMs": 15934.924209000077,
+      "at": "2026-06-22T15:40:02.211Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

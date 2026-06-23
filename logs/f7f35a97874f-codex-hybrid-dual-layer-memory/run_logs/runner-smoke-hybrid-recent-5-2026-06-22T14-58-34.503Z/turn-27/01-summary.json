@@ -1,0 +1,737 @@
+{
+  "turn": 27,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "先关上屏幕，让眼睛重新适应黑暗，仅靠触觉和听觉往前探",
+  "selectedFromPreviousTurn": {
+    "text": "先关上屏幕，让眼睛重新适应黑暗，仅靠触觉和听觉往前探"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "紧贴铁钟，仔细倾听滴水节奏的变化"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "伸手触摸铁钟下方的空间，试着摸清容器内有什么",
+        "actionId": "choice:理想"
+      },
+      {
+        "text": "紧贴铁钟，仔细倾听滴水节奏的变化"
+      },
+      {
+        "text": "摸索钟壁上的锈蚀纹理，寻找可能存在的刻痕或标记"
+      },
+      {
+        "text": "绕过铁钟，继续向暗街更深处推进"
+      }
+    ]
+  },
+  "visibleChars": 3509,
+  "durationMs": 120201.18,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 18,
+    "locationEvents": 13,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:21:49.242Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:21:49.247Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-5b0fdedf",
+      "taskId": "f3b826ee-4ae6-4636-8fde-b3cdfb521dfa",
+      "durationMs": 268.88025000016205,
+      "at": "2026-06-22T15:21:49.496Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-0e44ef84",
+      "taskId": "f2104a29-69b0-4705-8b6b-b8707960f87c",
+      "durationMs": 369.77224999992177,
+      "at": "2026-06-22T15:21:49.597Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-c0a7933f",
+      "taskId": "3ef367e8-2532-4250-98d3-8f3e3dcc65cb",
+      "durationMs": 372.328790999949,
+      "at": "2026-06-22T15:21:49.600Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-e13511ac",
+      "taskId": "a64813a3-8f12-4d03-b52b-33582dbd336a",
+      "durationMs": 372.5475419999566,
+      "at": "2026-06-22T15:21:49.600Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-01e26d8e",
+      "taskId": "ed7a6e4e-228d-47c0-b584-4b21e435aaf8",
+      "durationMs": 381.9075839999132,
+      "at": "2026-06-22T15:21:49.609Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-7ddf440c",
+      "taskId": "e4ba5f0f-d2fe-4374-b955-6226a3688ca5",
+      "durationMs": 295.7023750001099,
+      "at": "2026-06-22T15:21:49.792Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-150021a8",
+      "taskId": "868be8d2-7f59-48fb-ac0c-cdb951a1a6e0",
+      "durationMs": 214.9674169998616,
+      "at": "2026-06-22T15:21:49.812Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-9aa9b401",
+      "taskId": "1abff742-d451-439b-9ffa-e69b9bcb82de",
+      "durationMs": 298.09108300018124,
+      "at": "2026-06-22T15:21:49.908Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-487d847e",
+      "taskId": "0a7a540d-7c4a-4e94-ba11-6343be34efad",
+      "durationMs": 309.20354200014845,
+      "at": "2026-06-22T15:21:49.909Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-bdbc7780",
+      "taskId": "3baae0de-5ea2-4f64-8ce7-0e7e1053d5b2",
+      "durationMs": 325.7047080001794,
+      "at": "2026-06-22T15:21:49.926Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-3df1f367",
+      "taskId": "423c5c63-34b7-4c0c-90e0-8b19afc28fe2",
+      "durationMs": 229.51312500005588,
+      "at": "2026-06-22T15:21:50.022Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-189eaa86",
+      "taskId": "3ec61f73-0a37-431d-a62d-9e7e8b4c0768",
+      "durationMs": 257.8162079998292,
+      "at": "2026-06-22T15:21:50.070Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-a7f54bc0",
+      "taskId": "24d08451-4a6c-40a3-9283-d327e2d46d39",
+      "durationMs": 269.32945799990557,
+      "at": "2026-06-22T15:21:50.177Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-43011984",
+      "taskId": "f0a25629-99b6-4cb5-be7e-4b15699cd637",
+      "durationMs": 311.5916659999639,
+      "at": "2026-06-22T15:21:50.237Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-877f1d5f",
+      "taskId": "e9b90eb4-0f13-4aef-80f7-385a831d46c5",
+      "durationMs": 339.39629199984483,
+      "at": "2026-06-22T15:21:50.248Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-d02fb5a7",
+      "taskId": "83f5beea-cddf-4db0-9ca6-4cc08d64d278",
+      "durationMs": 239.87416699994355,
+      "at": "2026-06-22T15:21:50.261Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-30add353",
+      "taskId": "78981669-1242-43af-aa4e-18d4858de842",
+      "durationMs": 246.988333000103,
+      "at": "2026-06-22T15:21:50.317Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-d29d587d",
+      "taskId": "e66a7b79-d6b9-4a97-b940-4c95d8263fd8",
+      "durationMs": 248.07183300005272,
+      "at": "2026-06-22T15:21:50.425Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-e21d607d",
+      "taskId": "cb87de6c-ffb8-488a-b178-b808f8d84fcc",
+      "durationMs": 299.464999999851,
+      "at": "2026-06-22T15:21:50.537Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "先关上屏幕，让眼睛重新适应黑暗，仅靠触觉和听觉往前探",
+      "requestId": "req-115fc58f",
+      "taskId": "8ee69e1f-0565-4557-b3c3-cc42cc3debcd",
+      "durationMs": 298.3072919999249,
+      "at": "2026-06-22T15:21:50.547Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-8cb536f9",
+      "taskId": "1d16a4be-f304-4ec4-9df1-bdc2fd5363fe",
+      "durationMs": 213.85062499996275,
+      "at": "2026-06-22T15:21:50.764Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-3454817a",
+      "taskId": "b66b5e98-c286-47ee-bd1c-6497d72c37a2",
+      "durationMs": 301.9403750000056,
+      "at": "2026-06-22T15:21:50.852Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-67a72d1a",
+      "taskId": "32e67763-e4a8-4724-901c-a727062bb1e5",
+      "durationMs": 371.125,
+      "at": "2026-06-22T15:21:50.922Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-95dcb832",
+      "taskId": "5e5ce1a8-c168-4ea3-b3fc-05b4a1fe4a0d",
+      "durationMs": 372.9598750001751,
+      "at": "2026-06-22T15:21:50.923Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-ce5f1f71",
+      "taskId": "c4292ba0-3816-4ba8-8c20-0dde619bbaae",
+      "durationMs": 373.2225830000825,
+      "at": "2026-06-22T15:21:50.924Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-4cd5b691",
+      "taskId": "8c252534-0229-4008-98cc-968599a8e54f",
+      "durationMs": 262.4990000000689,
+      "at": "2026-06-22T15:21:51.027Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-9919ca29",
+      "taskId": "ea24d295-38a1-46a6-b647-624d8dfa284e",
+      "durationMs": 256.5668340001721,
+      "at": "2026-06-22T15:21:51.109Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-eebd3e54",
+      "taskId": "1db3c16e-f27e-48bd-a0ac-0e77e0cd8147",
+      "durationMs": 233.68866700003855,
+      "at": "2026-06-22T15:21:51.155Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-5491b676",
+      "taskId": "a1e7e3f8-4782-425e-9d58-e64063b1220b",
+      "durationMs": 292.5422920000274,
+      "at": "2026-06-22T15:21:51.216Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-48ec55f9",
+      "taskId": "7c50ae73-9fb1-47a9-bceb-70b06658c342",
+      "durationMs": 249.47112500015646,
+      "at": "2026-06-22T15:21:51.276Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-8e32e999",
+      "taskId": "023e312f-0042-40f3-98bc-82bd1a639f3d",
+      "durationMs": 352.99170800019056,
+      "at": "2026-06-22T15:21:51.277Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-0f3c0c3b",
+      "taskId": "8fa8e5e7-7c98-4884-ac07-5c89619e7eb3",
+      "durationMs": 248.78529200004414,
+      "at": "2026-06-22T15:21:51.358Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-d0f46adc",
+      "taskId": "92f1366f-ceb2-43a0-a1f8-8a2c94cbfd08",
+      "durationMs": 262.38166700000875,
+      "at": "2026-06-22T15:21:51.418Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-f12d3cf1",
+      "taskId": "26caad39-a6fe-4223-b5b9-05969fc7d154",
+      "durationMs": 262.4204579999205,
+      "at": "2026-06-22T15:21:51.479Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-ee98c414",
+      "taskId": "1ab50c95-5c45-40c4-a6a8-f4f6e520922a",
+      "durationMs": 259.5604169999715,
+      "at": "2026-06-22T15:21:51.536Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-629f98de",
+      "taskId": "af7d2d35-2374-4a06-ad15-e70b35b50df5",
+      "durationMs": 326.0405000001192,
+      "at": "2026-06-22T15:21:51.603Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-e09bda54",
+      "taskId": "31c4b459-268d-44f1-b32b-374db6a963f4",
+      "durationMs": 249.66754200006835,
+      "at": "2026-06-22T15:21:51.607Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-1fc0f5af",
+      "taskId": "7400cc1d-3084-420e-bdcd-52b88c6cc0b8",
+      "durationMs": 238.03583299997263,
+      "at": "2026-06-22T15:21:51.656Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-5f4bbdd7",
+      "taskId": "2155debe-26be-4e1d-9ca9-7ee639e55019",
+      "durationMs": 236.4918750000652,
+      "at": "2026-06-22T15:21:51.715Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "先关上屏幕，让眼睛重新适应黑暗，仅靠触觉和听觉往前探",
+      "requestId": "req-c8dfcde3",
+      "taskId": "02da9b9c-7433-4079-8f19-bf613783f50f",
+      "durationMs": 253.02712500002235,
+      "at": "2026-06-22T15:21:51.789Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "主角",
+                  "core_profile": "具备战区与战场生存训练背景的行动者；习惯携带相机观察记录，拥有极高的感官敏锐度与身体控制力，擅长在绝对静止中调节呼吸、利用触觉与听觉拼凑空间信息；行事冷静、专注，依赖物理反馈与环境建立认知；随身保存着烧焦的深红布片与带有残缺笔画“帕”字的残纸。",
+                  "current_snapshot": "处于潮湿压抑的黑暗环境中，刚通过指尖触感确认相机包夹层内的烧焦布片与残纸完好；在滴水声与凝重的氛围中维持战术性警觉，随后果断按下相机电源键，屏幕微光亮起准备检视四周。",
+                  "relationship_network": []
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "主角",
+                "core_profile": "具备战区与战场生存训练背景的行动者；习惯携带相机观察记录，拥有极高的感官敏锐度与身体控制力，擅长在绝对静止中调节呼吸、利用触觉与听觉拼凑空间信息；行事冷静、专注，依赖物理反馈与环境建立认知；随身保存着烧焦的深红布片与带有残缺笔画“帕”字的残纸。",
+                "current_snapshot": "处于潮湿压抑的黑暗环境中，刚通过指尖触感确认相机包夹层内的烧焦布片与残纸完好；在滴水声与凝重的氛围中维持战术性警觉，随后果断按下相机电源键，屏幕微光亮起准备检视四周。",
+                "relationship_network": []
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "确认夹层物品并开启相机屏幕",
+                  "time": "",
+                  "location": "",
+                  "involved_characters": [],
+                  "summary": "你在黑暗中摸索打开相机包夹层，通过触觉确认了边缘焦硬的深红布片与残存半个“帕”字的烧焦纸片仍在原位，随后按下机身顶部电源键，成功点亮屏幕。",
+                  "consequence": "验证了关键物品（布片与残纸）在经历火灾或冲击后仍保持完整未失；屏幕亮起打破了绝对的黑暗环境，为下一步利用微光检视周围空间提供了基础条件。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "确认夹层物品并开启相机屏幕",
+                "time": "",
+                "location": "",
+                "involved_characters": [],
+                "summary": "你在黑暗中摸索打开相机包夹层，通过触觉确认了边缘焦硬的深红布片与残存半个“帕”字的烧焦纸片仍在原位，随后按下机身顶部电源键，成功点亮屏幕。",
+                "consequence": "验证了关键物品（布片与残纸）在经历火灾或冲击后仍保持完整未失；屏幕亮起打破了绝对的黑暗环境，为下一步利用微光检视周围空间提供了基础条件。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街（下沉低矮段）",
+                  "description": "位于暗街地势更低、空间极为封闭压抑的巷道段落。地面与墙壁常年受地下水汽浸润，空气沉闷潮湿。最显著的物理特征是高处悬置的大型厚重金属结构持续滴落水珠，发出沉闷的“咚”声。此处光线极暗，常作为角色利用相机包夹层触觉搜寻线索（如焦硬布片与残纸）及借助设备屏幕微光进行环境检视的据点。",
+                  "appearances": [
+                    "角色循滴水声进入此段下沉巷道，通过听觉定位声源高度与金属材质，并以贴靠湿冷砖墙感知空间边界与吸音环境。",
+                    "角色在极度黑暗中闭合相机包，通过指尖触觉在夹层内确认深红布片与残纸碎片的存在与状态，随后按下电源键开启相机屏幕微光准备检视周围环境。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街（下沉低矮段）",
+                "description": "位于暗街地势更低、空间极为封闭压抑的巷道段落。地面与墙壁常年受地下水汽浸润，空气沉闷潮湿。最显著的物理特征是高处悬置的大型厚重金属结构持续滴落水珠，发出沉闷的“咚”声。此处光线极暗，常作为角色利用相机包夹层触觉搜寻线索（如焦硬布片与残纸）及借助设备屏幕微光进行环境检视的据点。",
+                "appearances": [
+                  "角色循滴水声进入此段下沉巷道，通过听觉定位声源高度与金属材质，并以贴靠湿冷砖墙感知空间边界与吸音环境。",
+                  "角色在极度黑暗中闭合相机包，通过指尖触觉在夹层内确认深红布片与残纸碎片的存在与状态，随后按下电源键开启相机屏幕微光准备检视周围环境。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "7e1cfb0d-dc9a-4dd0-a8f7-a72e7ab79493",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-25",
+            "topic_turn_end": "turn-26",
+            "topic_turn_count": 2,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "主角",
+                "target_id": "5f9a2a54-7fe1-528c-bed6-d41f1eb43885",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "确认夹层物品并开启相机屏幕: 你在黑暗中摸索打开相机包夹层，通过触觉确认了边缘焦硬的深红布片与残存半个帕字",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街（下沉低矮段）",
+                "target_id": "984197b4-e2dd-5853-81cb-aacc754c3b07",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:22:04.693Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "主角",
+                  "core_profile": "具备战区与战场生存训练背景的行动者；习惯携带相机观察记录，拥有极高的感官敏锐度与身体控制力，擅长在绝对静止中调节呼吸、利用触觉与听觉拼凑空间信息；行事冷静、专注，依赖物理反馈与环境建立认知；随身保存着烧焦的深红布片与带有残缺笔画“帕”字的残纸。",
+                  "current_snapshot": "关闭屏幕适应黑暗后，凭借战区习得的战术移动技巧与极致感官，在潮湿塌陷的暗街中循着滴水声摸索前行；穿过空间收窄的通道与拐角，最终定位并确认了一口悬挂于上方的倒扣铁钟，正于其旁静立等待下一滴水的坠落。",
+                  "relationship_network": []
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "主角",
+                "core_profile": "具备战区与战场生存训练背景的行动者；习惯携带相机观察记录，拥有极高的感官敏锐度与身体控制力，擅长在绝对静止中调节呼吸、利用触觉与听觉拼凑空间信息；行事冷静、专注，依赖物理反馈与环境建立认知；随身保存着烧焦的深红布片与带有残缺笔画“帕”字的残纸。",
+                "current_snapshot": "关闭屏幕适应黑暗后，凭借战区习得的战术移动技巧与极致感官，在潮湿塌陷的暗街中循着滴水声摸索前行；穿过空间收窄的通道与拐角，最终定位并确认了一口悬挂于上方的倒扣铁钟，正于其旁静立等待下一滴水的坠落。",
+                "relationship_network": []
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "暗街倾听滴水声",
+                  "time": "",
+                  "location": "暗街",
+                  "involved_characters": [],
+                  "summary": "关闭屏幕适应绝对黑暗后，依靠触听技巧沿湿滑长满青苔的砖墙向前探路。通过指尖感知墙面收拢与脚底石板倾斜，判断出地面呈不规则下坡状。遵循规律滴水声绕过墙角、压低重心继续深入，最终在黑暗中用手摸索到一口悬挂的倒扣大铁钟，确认其为水滴坠落发声的源头。",
+                  "consequence": "将静态的环境监听转化为动态的空间探索，精确掌握了通道收窄、地面下沉及声源位置（头顶铁钟）等关键空间特征；彻底切断视觉依赖，确立了以触觉与听觉为主导的潜行节律，为在封闭潮湿的暗街中安全行进提供了明确的物理参照。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "暗街倾听滴水声",
+                "time": "",
+                "location": "暗街",
+                "involved_characters": [],
+                "summary": "关闭屏幕适应绝对黑暗后，依靠触听技巧沿湿滑长满青苔的砖墙向前探路。通过指尖感知墙面收拢与脚底石板倾斜，判断出地面呈不规则下坡状。遵循规律滴水声绕过墙角、压低重心继续深入，最终在黑暗中用手摸索到一口悬挂的倒扣大铁钟，确认其为水滴坠落发声的源头。",
+                "consequence": "将静态的环境监听转化为动态的空间探索，精确掌握了通道收窄、地面下沉及声源位置（头顶铁钟）等关键空间特征；彻底切断视觉依赖，确立了以触觉与听觉为主导的潜行节律，为在封闭潮湿的暗街中安全行进提供了明确的物理参照。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街（下沉低矮段）",
+                  "description": "位于暗街地势更低、空间极为封闭压抑的巷道段落。地面由多块坡度不一的湿滑石板拼接而成，常呈阶梯状下沉；两侧为常年渗水且厚覆青苔的砖墙，空气潮湿阴冷如地下岩洞。最显著的物理特征是上方悬置的一口大型倒扣铁钟，承接石缝滴落的水珠并发出沉闷规律的“咚”声，此处墙体向内收拢形成狭窄通道。",
+                  "appearances": [
+                    "角色关闭相机屏幕适应黑暗后，沿湿冷砖墙以指尖滑行探路，感知墙面青苔厚度变化与砖缝渗水。",
+                    "通过脚掌触觉判断石板地面呈不规则倾斜与阶梯状塌陷，采取滑动步法逐步降低重心穿过收窄的通道。",
+                    "循规律滴水声精准定位至悬挂的大型倒扣铁钟旁，通过指尖触摸确认其弧形外壁、氧化锈迹及内部空腔。",
+                    "在铁钟下方静立校准呼吸与滴水节奏，感受水滴撞击钟壁的残余嗡鸣及从拐角渗出的冷空气。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街（下沉低矮段）",
+                "description": "位于暗街地势更低、空间极为封闭压抑的巷道段落。地面由多块坡度不一的湿滑石板拼接而成，常呈阶梯状下沉；两侧为常年渗水且厚覆青苔的砖墙，空气潮湿阴冷如地下岩洞。最显著的物理特征是上方悬置的一口大型倒扣铁钟，承接石缝滴落的水珠并发出沉闷规律的“咚”声，此处墙体向内收拢形成狭窄通道。",
+                "appearances": [
+                  "角色关闭相机屏幕适应黑暗后，沿湿冷砖墙以指尖滑行探路，感知墙面青苔厚度变化与砖缝渗水。",
+                  "通过脚掌触觉判断石板地面呈不规则倾斜与阶梯状塌陷，采取滑动步法逐步降低重心穿过收窄的通道。",
+                  "循规律滴水声精准定位至悬挂的大型倒扣铁钟旁，通过指尖触摸确认其弧形外壁、氧化锈迹及内部空腔。",
+                  "在铁钟下方静立校准呼吸与滴水节奏，感受水滴撞击钟壁的残余嗡鸣及从拐角渗出的冷空气。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "7e1cfb0d-dc9a-4dd0-a8f7-a72e7ab79493",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-25",
+            "topic_turn_end": "turn-27",
+            "topic_turn_count": 3,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "主角",
+                "target_id": "5f9a2a54-7fe1-528c-bed6-d41f1eb43885",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "暗街倾听滴水声: 关闭屏幕适应绝对黑暗后，依靠触听技巧沿湿滑长满青苔的砖墙向前探路",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街（下沉低矮段）",
+                "target_id": "984197b4-e2dd-5853-81cb-aacc754c3b07",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:23:34.339Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-eeeec66e",
+      "taskId": "6de5baf9-d067-4fc7-a00a-386314cf71d6",
+      "durationMs": 53066.987667000154,
+      "at": "2026-06-22T15:23:49.424Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

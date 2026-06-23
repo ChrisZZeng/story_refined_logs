@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 39,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 39 repeats the earlier listening beat: \"火堆在你左前方\", \"第三个声音是风...从你身后那个窄通道里吹出来\", and ends with the player still taking \"进入这个开阔空间之前\" one more second. Its choices also offer \"贴着墙，缓缓绕过火堆，向更深处移动\" as if that action has not happened.",
+    "conflictingEvidence": "Turn 38 already resolved the selected action \"贴着墙根绕开火堆，往黑暗中更深处走\": the player moved along the wall, the heat faded, \"火堆在你身后偏左的位置越来越远\", and the space continued opening ahead.",
+    "conflictingTurns": [37, 38],
+    "source": "model-output",
+    "reason": "The generated turn replays turn 37 and rolls back the player's position and available action state after turn 38 had already advanced past the fire."
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 40,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 40 says the camera is aimed \"左前方，火堆的方向\" and the flash reveals \"火堆在你左前方七八米处\".",
+    "conflictingEvidence": "Turn 38, after the player chose to circle the fire and go deeper, established that \"火堆在你身后偏左的位置越来越远\" and that darkness was expanding ahead.",
+    "conflictingTurns": [38, 39],
+    "source": "model-output",
+    "reason": "The flash-confirmation scene keeps the location rollback from turn 39 by putting the fire back in front-left, contradicting the last non-repeated spatial progress where the fire had been passed and left behind."
+  }
+]

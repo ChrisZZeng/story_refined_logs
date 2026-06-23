@@ -1,0 +1,662 @@
+{
+  "turn": 35,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "沿着墙根继续往前摸，看看泥面上还有没有更多脚印",
+  "selectedFromPreviousTurn": {
+    "text": "沿着墙根继续往前摸，看看泥面上还有没有更多脚印"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "继续沿着脚印往前摸，顺着拐角移动"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "继续沿着脚印往前摸，顺着拐角移动"
+      },
+      {
+        "text": "停下来仔细听拐角那边的动静"
+      },
+      {
+        "text": "把相机包移到身前，准备随时拍摄"
+      }
+    ]
+  },
+  "visibleChars": 675,
+  "durationMs": 36603.4,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 16,
+    "locationEvents": 15,
+    "entityEvents": 1
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:33:54.329Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:33:54.333Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-14ae33a4",
+      "taskId": "d1a2bce7-9608-47f4-87ad-e737fc9af10a",
+      "durationMs": 281.1240420001559,
+      "at": "2026-06-22T15:33:54.573Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-575ad83d",
+      "taskId": "6c97de0c-c246-4b6b-b5f6-8ebb6439cf5d",
+      "durationMs": 291.482332999818,
+      "at": "2026-06-22T15:33:54.583Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-4fcdf2f9",
+      "taskId": "c56abecd-eb90-4ac6-ac51-993ee0bf9f3c",
+      "durationMs": 309.50237500015646,
+      "at": "2026-06-22T15:33:54.601Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-04bccbd9",
+      "taskId": "b94031d9-e0f3-4f45-8c1f-998e0fb4eaf8",
+      "durationMs": 363.0619580000639,
+      "at": "2026-06-22T15:33:54.655Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-6268e2ca",
+      "taskId": "bc650984-1c3f-4af7-ad9a-48a755932857",
+      "durationMs": 393.5012079998851,
+      "at": "2026-06-22T15:33:54.685Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-859e8680",
+      "taskId": "370288d4-a680-4dab-b706-b965f82a1d86",
+      "durationMs": 348.04062500037253,
+      "at": "2026-06-22T15:33:54.921Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-913c7d52",
+      "taskId": "28a0bb85-1efa-435b-8f46-003d16b41b90",
+      "durationMs": 362.0923330001533,
+      "at": "2026-06-22T15:33:54.945Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-ffbc3b20",
+      "taskId": "4017835e-c02f-40e1-82e9-8a65e0923269",
+      "durationMs": 291.5618750001304,
+      "at": "2026-06-22T15:33:54.946Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-8f8edcd3",
+      "taskId": "7efcf7d3-df44-45cd-be46-2cc5572ff29c",
+      "durationMs": 355.30799999972805,
+      "at": "2026-06-22T15:33:54.957Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-9fcba0ce",
+      "taskId": "02c50629-57de-4e60-8a9b-43e9914b27b8",
+      "durationMs": 398.08216700004414,
+      "at": "2026-06-22T15:33:55.084Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-211c017f",
+      "taskId": "4a9e1e10-8e69-430f-b791-a7c92c6fff94",
+      "durationMs": 265.83520899992436,
+      "at": "2026-06-22T15:33:55.187Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-3652e233",
+      "taskId": "4af12413-d88d-485a-81f8-e82f7e7eca0f",
+      "durationMs": 311.14591699978337,
+      "at": "2026-06-22T15:33:55.257Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-e10906c1",
+      "taskId": "b829f5e6-5d9a-496d-af6a-34fad2e5bddb",
+      "durationMs": 334.09279099991545,
+      "at": "2026-06-22T15:33:55.291Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-e4e43cf0",
+      "taskId": "ec038953-ce89-4e6f-8e33-318780a9c6a0",
+      "durationMs": 392.0359589997679,
+      "at": "2026-06-22T15:33:55.339Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-467cf13b",
+      "taskId": "927020ad-b2e1-4a60-a1b4-9292e51264b5",
+      "durationMs": 275.0815829997882,
+      "at": "2026-06-22T15:33:55.359Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-f5bda54f",
+      "taskId": "039fbdf3-d3ea-443c-a2bb-d4d314ee6872",
+      "durationMs": 252.19370900001377,
+      "at": "2026-06-22T15:33:55.439Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-18a6da31",
+      "taskId": "ed957539-e261-4c47-b440-f30544c0c484",
+      "durationMs": 248.99708299990743,
+      "at": "2026-06-22T15:33:55.506Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-4b3b3fc8",
+      "taskId": "cfb2f57a-5983-4293-9714-7b4427c25ea1",
+      "durationMs": 249.1414999999106,
+      "at": "2026-06-22T15:33:55.540Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-b91f2f9e",
+      "taskId": "e98327fc-f666-43e0-b717-10306f13fba2",
+      "durationMs": 240.1667080000043,
+      "at": "2026-06-22T15:33:55.579Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "沿着墙根继续往前摸，看看泥面上还有没有更多脚印",
+      "requestId": "req-3e857306",
+      "taskId": "57e08a4a-db22-4d02-87d7-7d7efcc389df",
+      "durationMs": 284.71650000009686,
+      "at": "2026-06-22T15:33:55.643Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-b4c2dd52",
+      "taskId": "e7dfe950-6df8-49b9-87b8-be8d04ec6847",
+      "durationMs": 285.8285830002278,
+      "at": "2026-06-22T15:33:55.931Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-46564e96",
+      "taskId": "353c40d7-23b4-4323-9440-b2fa5646d996",
+      "durationMs": 373.007750000339,
+      "at": "2026-06-22T15:33:56.019Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-884b9475",
+      "taskId": "1e7f9dc4-b61d-45c4-836c-45d24e5cb0fb",
+      "durationMs": 374.4469579998404,
+      "at": "2026-06-22T15:33:56.020Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-b16cdea6",
+      "taskId": "3c7c5c83-7e88-4331-a70a-3738cd4fd054",
+      "durationMs": 374.4690829999745,
+      "at": "2026-06-22T15:33:56.020Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-53ff49c2",
+      "taskId": "efa31fb6-1438-414d-91aa-9948d7360dd3",
+      "durationMs": 376.06695799995214,
+      "at": "2026-06-22T15:33:56.022Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-95d6dd07",
+      "taskId": "599a9538-11ae-46ab-8583-5729f5212624",
+      "durationMs": 278.36270800000057,
+      "at": "2026-06-22T15:33:56.210Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-8f451348",
+      "taskId": "cd8826b6-37fa-4402-8757-54d0ea22825a",
+      "durationMs": 248.95387500012293,
+      "at": "2026-06-22T15:33:56.268Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-b46e3df3",
+      "taskId": "83169105-9c5b-4efb-b7a5-543947cf351a",
+      "durationMs": 269.48891599988565,
+      "at": "2026-06-22T15:33:56.289Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-e69a685e",
+      "taskId": "2b1be272-1d28-4422-8a88-e626df92f3b0",
+      "durationMs": 312.8286249996163,
+      "at": "2026-06-22T15:33:56.333Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-e21a0507",
+      "taskId": "0571b917-bdb1-4089-99bb-a7c574331a45",
+      "durationMs": 344.28349999990314,
+      "at": "2026-06-22T15:33:56.366Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-b325c622",
+      "taskId": "917d5dcf-a970-4d76-938a-e85e910dcb63",
+      "durationMs": 255.1267910003662,
+      "at": "2026-06-22T15:33:56.465Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-7168a283",
+      "taskId": "e3a38a3c-8881-4581-a27e-2306d4f2f023",
+      "durationMs": 269.96116699976847,
+      "at": "2026-06-22T15:33:56.538Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-5bfafa15",
+      "taskId": "33f5ca19-f4fc-4e64-b6f4-f0cc03bb274b",
+      "durationMs": 330.07625000039116,
+      "at": "2026-06-22T15:33:56.620Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-2e6611ad",
+      "taskId": "b1adb3ed-d6d6-4ac7-a415-cf31c5784c02",
+      "durationMs": 292.783208000008,
+      "at": "2026-06-22T15:33:56.626Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-f7d87fe4",
+      "taskId": "b0975ea3-e9c6-4145-a722-c0698c109675",
+      "durationMs": 259.9558749999851,
+      "at": "2026-06-22T15:33:56.626Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-44520ecc",
+      "taskId": "429b0611-2259-48d3-8377-c196248236da",
+      "durationMs": 256.28695800015703,
+      "at": "2026-06-22T15:33:56.721Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-8796dd8f",
+      "taskId": "67a8dee5-b1f8-4314-b3d6-c71e15fcbdaf",
+      "durationMs": 258.3568339999765,
+      "at": "2026-06-22T15:33:56.796Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-28586e8c",
+      "taskId": "fae18599-186f-4164-b1b4-e831eca3f1b9",
+      "durationMs": 230.73770800000057,
+      "at": "2026-06-22T15:33:56.850Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-1a39def0",
+      "taskId": "12c88d99-8fba-4ec7-b84a-40d79d6a3e07",
+      "durationMs": 266.8047919999808,
+      "at": "2026-06-22T15:33:56.892Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "沿着墙根继续往前摸，看看泥面上还有没有更多脚印",
+      "requestId": "req-179cf376",
+      "taskId": "d883e658-6bfa-4342-a91c-d1e41524781c",
+      "durationMs": 308.051041000057,
+      "at": "2026-06-22T15:33:56.934Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "主角（调查者）",
+                  "core_profile": "现场痕迹勘察者。具备高度敏锐的触觉感知力与严谨的观察习惯，行事沉稳细致，习惯通过物理接触与多维细节比对来还原现场信息与逻辑链条。",
+                  "current_snapshot": "身处潮湿狭窄的石板通道中，正徒手贴地追踪遗留足迹。已确认一组比自身脚小的连续鞋印，并比对出烧纸碎屑与先前地点的一致性。当前搜索推进至石板与泥面交界带，指尖刚触碰到一根未知细线，正处于线索延伸与局势判断的节点。",
+                  "relationship_network": [
+                    "鞋印主人（体型较主角更小，行动轨迹与主角存在空间交集）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "主角（调查者）",
+                "core_profile": "现场痕迹勘察者。具备高度敏锐的触觉感知力与严谨的观察习惯，行事沉稳细致，习惯通过物理接触与多维细节比对来还原现场信息与逻辑链条。",
+                "current_snapshot": "身处潮湿狭窄的石板通道中，正徒手贴地追踪遗留足迹。已确认一组比自身脚小的连续鞋印，并比对出烧纸碎屑与先前地点的一致性。当前搜索推进至石板与泥面交界带，指尖刚触碰到一根未知细线，正处于线索延伸与局势判断的节点。",
+                "relationship_network": [
+                  "鞋印主人（体型较主角更小，行动轨迹与主角存在空间交集）"
+                ]
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "c84c3ae5-5099-5498-b68e-30c0ab837b75",
+                  "time": "",
+                  "location": "极窄通道内石板路与墙根泥垢处",
+                  "involved_characters": [],
+                  "summary": "在狭窄通道内蹲下贴地探查，于墙根泥垢处循迹摸到一枚边缘模糊的浅长形凹陷（鞋印），确认其尺寸小于自身且与前次发现一致；鞋印延伸至石板交界处中断后，指尖扫过石板表面发现干燥卷曲的烧纸灰烬碎屑，最后触碰到一根横亘的细线。",
+                  "consequence": "明确了通道地面残留的另一人足迹特征，将灰烬线索与前期发现的残纸进行交叉印证，并首次在地面探测到细线物体，丰富了该路段的环境细节与潜在路径标记信息。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "c84c3ae5-5099-5498-b68e-30c0ab837b75",
+                "time": "",
+                "location": "极窄通道内石板路与墙根泥垢处",
+                "involved_characters": [],
+                "summary": "在狭窄通道内蹲下贴地探查，于墙根泥垢处循迹摸到一枚边缘模糊的浅长形凹陷（鞋印），确认其尺寸小于自身且与前次发现一致；鞋印延伸至石板交界处中断后，指尖扫过石板表面发现干燥卷曲的烧纸灰烬碎屑，最后触碰到一根横亘的细线。",
+                "consequence": "明确了通道地面残留的另一人足迹特征，将灰烬线索与前期发现的残纸进行交叉印证，并首次在地面探测到细线物体，丰富了该路段的环境细节与潜在路径标记信息。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "被旧木箱半堵的狭窄通道",
+                  "description": "一条由青灰砖墙与石板地面构成的极窄暗道，空间逼仄，需俯身或贴地探查。墙体常年潮湿阴冷，砖缝及墙面附着稀疏青苔，墙根处因渗水积有半干泥垢。地面石板湿凉、石质偏软，表层覆盖潮气泡烂的细碎石粉。环境密闭，空气流通受限，弥漫着陈年灰烬的碱涩味与烧焦纸味。通道内曾留下非主角本人的较小鞋印，并散落烧过的纸片碎屑。",
+                  "appearances": [
+                    "旧记忆记录：主角从岔路口左侧旧木箱缝隙挤入，沿墙滑动探索，感知通道缓坡向下及末端空间开阔的趋势",
+                    "本片段探查：主角蹲身贴地，指尖感知石板深层潮气、石粉颗粒感及墙根湿泥的轻微弹性",
+                    "本片段线索：指腹确认泥面存在前掌与脚趾间距较短的非本人鞋印，并在石板面捻出边缘卷曲的烧纸脆片",
+                    "本片段推进：指尖沿石板与泥面交界向前探触，最终触碰至一根线状物"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "被旧木箱半堵的狭窄通道",
+                "description": "一条由青灰砖墙与石板地面构成的极窄暗道，空间逼仄，需俯身或贴地探查。墙体常年潮湿阴冷，砖缝及墙面附着稀疏青苔，墙根处因渗水积有半干泥垢。地面石板湿凉、石质偏软，表层覆盖潮气泡烂的细碎石粉。环境密闭，空气流通受限，弥漫着陈年灰烬的碱涩味与烧焦纸味。通道内曾留下非主角本人的较小鞋印，并散落烧过的纸片碎屑。",
+                "appearances": [
+                  "旧记忆记录：主角从岔路口左侧旧木箱缝隙挤入，沿墙滑动探索，感知通道缓坡向下及末端空间开阔的趋势",
+                  "本片段探查：主角蹲身贴地，指尖感知石板深层潮气、石粉颗粒感及墙根湿泥的轻微弹性",
+                  "本片段线索：指腹确认泥面存在前掌与脚趾间距较短的非本人鞋印，并在石板面捻出边缘卷曲的烧纸脆片",
+                  "本片段推进：指尖沿石板与泥面交界向前探触，最终触碰至一根线状物"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "主角（调查者）"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "主角（调查者）",
+                "candidate_names": [
+                  "主角（调查者）"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "主角（调查者）的人物档案",
+                "facts": [
+                  {
+                    "content": "主角（调查者）。当前快照：身处潮湿狭窄的石板通道中，正徒手贴地追踪遗留足迹。已确认一组比自身脚小的连续鞋印，并比对出烧纸碎屑与先前地点的一致性。当前搜索推进至石板与泥面交界带，指尖刚触碰到一根未知细线，正处于线索延伸与局势判断的节点。。 关系网：鞋印主人（体型较主角更小，行动轨迹与主角存在空间交集）。",
+                    "summary": null,
+                    "entity_names": [
+                      "主角（调查者）"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "现场痕迹勘察者。具备高度敏锐的触觉感知力与严谨的观察习惯，行事沉稳细致，习惯通过物理接触与多维细节比对来还原现场信息与逻辑链条。",
+                  "character_current_snapshot": "身处潮湿狭窄的石板通道中，正徒手贴地追踪遗留足迹。已确认一组比自身脚小的连续鞋印，并比对出烧纸碎屑与先前地点的一致性。当前搜索推进至石板与泥面交界带，指尖刚触碰到一根未知细线，正处于线索延伸与局势判断的节点。",
+                  "character_relationship_network": [
+                    "鞋印主人（体型较主角更小，行动轨迹与主角存在空间交集）"
+                  ],
+                  "turn_id": "turn-34",
+                  "chapter_id": "runner-smoke-random-recent5-run3",
+                  "scene_id": "ad78-v8-random-recent5-run3"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "a61a76c1-9d46-401c-a757-e065cf21b73b",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-33",
+            "topic_turn_end": "turn-34",
+            "topic_turn_count": 2,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 1,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "event",
+                "key": "c84c3ae5-5099-5498-b68e-30c0ab837b75: 在狭窄通道内蹲下贴地探查，于墙根泥垢处循迹摸到一枚边缘模糊的浅长形凹陷（鞋印），",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "被旧木箱半堵的狭窄通道",
+                "target_id": "f3b94a56-9fd9-54a4-b621-c5e204826ab9",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:34:08.552Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-6f345d6b",
+      "taskId": "db3a0db3-5114-4dc1-8a31-5a976de8b84a",
+      "durationMs": 15013.603416000027,
+      "at": "2026-06-22T15:34:30.892Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

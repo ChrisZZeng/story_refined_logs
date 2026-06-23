@@ -1,0 +1,42 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 16,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第16轮选项：\"反问：“你又是谁？庆典上的小贩不该出现在这种地方。”\"",
+    "conflictingEvidence": "第16轮正文刚确认暗处人物是\"金色长发，马尾辫……白色棉衣，旧的吊带裙，黑色连裤袜和深棕色的皮鞋\"，并说明\"你在庆典上见过这身打扮……她拿走了你的记者证\"。第1轮中拿走记者证的是金发蓝瞳少女卡琳娜；小贩则是另一个\"站在简陋摊位后的年轻女子\"。",
+    "conflictingTurns": [1, 2, 16],
+    "source": "model-output",
+    "reason": "选项把卡琳娜误称为庆典上的小贩，混淆了两个此前已经清楚区分的玩家可见角色。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 17,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第17轮选项：\"收起记者做派，直说：“你看起来不像是普通的小贩。”\"",
+    "conflictingEvidence": "第17轮正文对话对象是卡琳娜：\"卡琳娜的下颚微微抬了一下\"，且第16轮已确认她是庆典上拿走记者证的金发少女。第1轮和第2轮显示小贩是摊位后的年轻女子，负责向帕兹介绍复活日和卡琳娜。",
+    "conflictingTurns": [1, 2, 16, 17],
+    "source": "model-output",
+    "reason": "选项继续沿用小贩相关措辞，导致玩家可见的当前对话对象身份发生漂移。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 18,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第18轮选项：\"指出她看起来不像是普通的小贩\"",
+    "conflictingEvidence": "第18轮正文延续的是和卡琳娜在暗街的对峙：\"卡琳娜没有立刻回答\"。此前第16轮已用服装、记者证和称呼确认她是庆典上出现的金发少女卡琳娜，而不是第1-9轮摊位后的年轻小贩。",
+    "conflictingTurns": [1, 2, 16, 18],
+    "source": "model-output",
+    "reason": "选项第三次把卡琳娜当作普通小贩来表述，破坏了当前互动对象的身份连续性。"
+  }
+]
+

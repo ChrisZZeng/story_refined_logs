@@ -1,0 +1,472 @@
+{
+  "turn": 28,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "紧贴铁钟，仔细倾听滴水节奏的变化",
+  "selectedFromPreviousTurn": {
+    "text": "紧贴铁钟，仔细倾听滴水节奏的变化"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "用指尖沿着钟壁上的水蚀槽往下摸，追踪水滴的去向"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "绕到铁钟另一侧，伸手探入钟口下方的黑暗"
+      },
+      {
+        "text": "用指尖沿着钟壁上的水蚀槽往下摸，追踪水滴的去向"
+      },
+      {
+        "text": "重新打开相机屏幕，借微光查看铁钟全貌和周围环境"
+      },
+      {
+        "text": "放弃铁钟，继续沿巷道往更深处走"
+      }
+    ]
+  },
+  "visibleChars": 3790,
+  "durationMs": 99801.09,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 14,
+    "locationEvents": 15,
+    "entityEvents": 2
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:23:49.458Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:23:49.463Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-030e8a80",
+      "taskId": "0a5e77df-38b0-418d-9b93-205411dc963e",
+      "durationMs": 264.49083300004713,
+      "at": "2026-06-22T15:23:49.709Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-7789e8de",
+      "taskId": "e083965a-055e-48b3-8f6c-6bfd491d4e11",
+      "durationMs": 337.40012499992736,
+      "at": "2026-06-22T15:23:49.782Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-789fb793",
+      "taskId": "1fb46b61-c11b-4d8e-8382-608274ef6d73",
+      "durationMs": 341.81441599992104,
+      "at": "2026-06-22T15:23:49.787Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-da1d9090",
+      "taskId": "b9b8dd17-6eee-48f6-9ada-663d98aad195",
+      "durationMs": 356.26004199986346,
+      "at": "2026-06-22T15:23:49.801Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-616660fa",
+      "taskId": "1b638e09-c4cb-4082-b42d-928e50e4eeaf",
+      "durationMs": 451.2539579998702,
+      "at": "2026-06-22T15:23:49.896Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-7b9c3fce",
+      "taskId": "73ca6bd4-4c9b-4f9c-8991-a80c4fe47ab4",
+      "durationMs": 247.72904200013727,
+      "at": "2026-06-22T15:23:49.957Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-8cbb2d8e",
+      "taskId": "7c404faa-6072-4026-a8c5-e57c1a07c746",
+      "durationMs": 266.3699580000248,
+      "at": "2026-06-22T15:23:50.049Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-5c303c48",
+      "taskId": "93a8878f-4ba3-4cd0-9b52-241d7bbd092a",
+      "durationMs": 313.1411249998491,
+      "at": "2026-06-22T15:23:50.114Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-e4b43fcb",
+      "taskId": "6ef3299f-7435-4a50-a968-e644e7b2911c",
+      "durationMs": 327.91800000006333,
+      "at": "2026-06-22T15:23:50.115Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-609b5dbc",
+      "taskId": "a0db8b14-1d30-4d07-8ff0-2b085d5033b7",
+      "durationMs": 253.46374999987893,
+      "at": "2026-06-22T15:23:50.211Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-9e4c28d6",
+      "taskId": "74b8526b-ebb9-4c4a-b680-61c64461faa1",
+      "durationMs": 315.375457999995,
+      "at": "2026-06-22T15:23:50.211Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-d7026a5d",
+      "taskId": "17a749c9-c3ee-42b1-a9fc-ec5da7ac69e1",
+      "durationMs": 282.4495000001043,
+      "at": "2026-06-22T15:23:50.331Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-ecda4434",
+      "taskId": "5d801d3f-1fdb-4ff1-b10e-662b8f7a8ec5",
+      "durationMs": 280.9662500000559,
+      "at": "2026-06-22T15:23:50.396Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-d95489e3",
+      "taskId": "4ae3f8a8-b520-4c91-9b86-c82cb6118eb7",
+      "durationMs": 304.02920800005086,
+      "at": "2026-06-22T15:23:50.418Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-760ecbcd",
+      "taskId": "b3bcc9b4-fc9d-4745-9be3-377e52e0bbcd",
+      "durationMs": 282.6594589999877,
+      "at": "2026-06-22T15:23:50.493Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-674d5e37",
+      "taskId": "3011fcc4-766e-489f-941c-b64c19a2a11f",
+      "durationMs": 282.21337499981746,
+      "at": "2026-06-22T15:23:50.494Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-a50aabcf",
+      "taskId": "81547496-b694-4b30-aae7-b4023f170021",
+      "durationMs": 261.4118749999907,
+      "at": "2026-06-22T15:23:50.593Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-d2d78476",
+      "taskId": "deed8302-fc2a-4218-affd-c6e552c6162d",
+      "durationMs": 264.25854200008325,
+      "at": "2026-06-22T15:23:50.660Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-d28d3de0",
+      "taskId": "673dd80c-fb96-435b-aaa2-5a479e150d1b",
+      "durationMs": 276.82479199999943,
+      "at": "2026-06-22T15:23:50.695Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "紧贴铁钟，仔细倾听滴水节奏的变化",
+      "requestId": "req-c6234bb7",
+      "taskId": "131fdc21-d875-47a4-b81b-df7dd8ced83e",
+      "durationMs": 279.17916599987075,
+      "at": "2026-06-22T15:23:50.772Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-8795f609",
+      "taskId": "3af1cef9-de6c-42f6-928f-50e5145358b6",
+      "durationMs": 366.0399160000961,
+      "at": "2026-06-22T15:23:51.141Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-9e62f2a7",
+      "taskId": "0c8b4d8a-a298-464e-b24e-e99f8ce4c24a",
+      "durationMs": 366.2914589999709,
+      "at": "2026-06-22T15:23:51.142Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-aa64acff",
+      "taskId": "40dbe3ba-85f4-45ce-9592-a4f370d520bf",
+      "durationMs": 366.51116700004786,
+      "at": "2026-06-22T15:23:51.142Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-f169686f",
+      "taskId": "9fd9aff2-5b0a-441f-8fe9-37edab9a945c",
+      "durationMs": 366.63416699995287,
+      "at": "2026-06-22T15:23:51.142Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-67b4845b",
+      "taskId": "6fe8e20b-a44d-4f7e-8cc4-3ccfceeac511",
+      "durationMs": 369.4354590000585,
+      "at": "2026-06-22T15:23:51.145Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-8fbc75e8",
+      "taskId": "306fe186-5956-40a8-958c-5c4188699dbd",
+      "durationMs": 267.90541699994355,
+      "at": "2026-06-22T15:23:51.409Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-1c855609",
+      "taskId": "089ab61a-96ec-4367-a54a-0c79a586b148",
+      "durationMs": 320.2135000000708,
+      "at": "2026-06-22T15:23:51.462Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-1d571054",
+      "taskId": "08f8e41a-b16d-4245-aa29-45afe0f13c63",
+      "durationMs": 336.71154100005515,
+      "at": "2026-06-22T15:23:51.481Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-f25874d4",
+      "taskId": "982e37df-bb4b-42a4-a755-35da54567289",
+      "durationMs": 417.45891700009815,
+      "at": "2026-06-22T15:23:51.559Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-6da15019",
+      "taskId": "efe06ce6-b221-413c-a967-57a51d5ee9b7",
+      "durationMs": 417.6279579999391,
+      "at": "2026-06-22T15:23:51.559Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-d945e654",
+      "taskId": "44cca35f-0fba-4acf-8972-727c79e4ef4d",
+      "durationMs": 259.7235409999266,
+      "at": "2026-06-22T15:23:51.669Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-db3b3bc0",
+      "taskId": "8d1e84cd-14c4-4deb-b810-7d6c48032d0a",
+      "durationMs": 273.2232499998063,
+      "at": "2026-06-22T15:23:51.755Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-6b639300",
+      "taskId": "7eaa0438-52f4-4084-ae53-777a6d13f5db",
+      "durationMs": 296.81420799996704,
+      "at": "2026-06-22T15:23:51.759Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-24bd4d7f",
+      "taskId": "3ffc67a3-27a1-4908-b6fb-fb4d9b90b445",
+      "durationMs": 279.3939590000082,
+      "at": "2026-06-22T15:23:51.839Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-c69dde3c",
+      "taskId": "76eac34b-4546-42ee-a9e9-9c53665d5173",
+      "durationMs": 282.0245419999119,
+      "at": "2026-06-22T15:23:51.842Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-a39ee644",
+      "taskId": "6a8371b6-a4d6-4595-93c1-1387103b5bd3",
+      "durationMs": 259.8695839999709,
+      "at": "2026-06-22T15:23:51.929Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-320b6440",
+      "taskId": "5b865248-7bde-40c3-abd8-ed5000b7b3cf",
+      "durationMs": 271.93270800006576,
+      "at": "2026-06-22T15:23:52.027Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-3c7bfc79",
+      "taskId": "6e1fcb54-6d3d-4e08-a189-60d4022ddcea",
+      "durationMs": 268.124749999959,
+      "at": "2026-06-22T15:23:52.027Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-bd764d7a",
+      "taskId": "0f13b453-790a-45a0-8154-9398db9715a3",
+      "durationMs": 245.7274169998709,
+      "at": "2026-06-22T15:23:52.084Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "紧贴铁钟，仔细倾听滴水节奏的变化",
+      "requestId": "req-8d78f38a",
+      "taskId": "f62764e3-bcbe-4e25-873e-ee2068245d10",
+      "durationMs": 286.53516700002365,
+      "at": "2026-06-22T15:23:52.128Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-09bc4e96",
+      "taskId": "6280d33e-aec4-4a81-9e5a-9bc825c4d951",
+      "durationMs": 28766.070375000127,
+      "at": "2026-06-22T15:25:29.242Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

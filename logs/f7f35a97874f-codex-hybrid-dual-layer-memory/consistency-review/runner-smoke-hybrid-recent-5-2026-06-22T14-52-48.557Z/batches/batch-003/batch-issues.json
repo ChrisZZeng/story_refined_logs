@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 22,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "第22轮玩家输入是再次轻声叫她名字并确认身份，但正文重新写了一整套初次认出反应：你再次说“……敏特。”，她再次完成防御转身，金属物件再次落在桌面并滚到灯座阴影里，随后又断续说出“……帕——”。",
+    "conflictingEvidence": "第21轮已经发生同一组玩家可见事件：玩家轻声叫出“……敏特。”，她转入防御姿态，松开金属物件使其落在桌面滚动，并断续说出“帕——”。",
+    "conflictingTurns": [21],
+    "source": "model-output",
+    "reason": "玩家可以再次叫名字，但第22轮没有承接为第二次呼唤后的新反应，而是几乎重演第21轮已经完成的初次认人场景。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 28,
+    "scope": "mixed",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "第28轮敏特在回答“追查的线”是骷髅会后，又问“除了照片和时间地点，还写了什么”；同轮选项继续提供“告诉她匿名信没有其他内容，反问她为什么骷髅会值得她追查”。",
+    "conflictingEvidence": "第27轮玩家已经回答：“只有时间和地点。十一月一日。新西西里。”“没有署名。没有解释。只有她的照片——只有你的照片，和这两行字。”敏特随后还重复确认“时间。地点。”并表示自己也不知道是谁寄的。",
+    "conflictingTurns": [27],
+    "source": "model-output",
+    "reason": "第28轮把第27轮已经完成的信息交换当作尚未发生，正文和选项共同迫使玩家重复刚刚给出的答案。"
+  }
+]

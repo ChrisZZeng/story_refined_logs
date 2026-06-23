@@ -1,0 +1,59 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 33,
+    "scope": "mixed",
+    "type": "quality-regression",
+    "severity": "medium",
+    "currentEvidence": "第33轮 visibleText 结尾写道：然后她开口了。 但本轮没有给出敏特实际说出的内容，choices 又提供 等她开口，维持沉默。",
+    "conflictingEvidence": "第34轮开头重新写 沉默在灰浆墙和纸箱堆之间铺开，随后才写 然后敏特开口了，并给出 中东之后--我没死 等对白。",
+    "conflictingTurns": [33, 34],
+    "source": "model-output",
+    "reason": "同一可见 turn 先宣告角色已经开口，却没有展示话语，并在选项和下一轮把开口动作重新当作尚未发生处理，造成交互状态和文本完成度断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第37轮 visibleText 写道：你的手掌落在她摊开的手背上。上一轮被玩家选择的选项也是 什么也不说，伸手按在她摊开的手背上。",
+    "conflictingEvidence": "第36轮 visibleText 明确描述敏特旁边那只手是 那只还摊着的、手心朝上的手。第35轮末尾也已经把原本摊开的手写成蜷起后落在木箱边缘。",
+    "conflictingTurns": [35, 36],
+    "source": "model-output",
+    "reason": "前文把敏特的手写成手心朝上或已经蜷起移位，后续选项和正文却让玩家从上方按住摊开的手背，手部姿态与接触方式在玩家可见空间中不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 40,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "medium",
+    "currentEvidence": "第40轮在玩家选择 继续等待，把时间留给她 后，整轮主要重复 没有开口、没有催她、沉默铺开、指腹画弧线、嘴唇分开又抿回、白雾、你还在这里 等动作，并且开头写 没有把手从裤缝上抬起来，后文又写 你把手从裤缝上抬起来。",
+    "conflictingEvidence": "第38轮已经长篇呈现继续按手沉默，第39轮已经呈现退开半步后用沉默和姿态表示不会离开；第40轮没有形成新的对白、信息或明确状态变化，只复用同类动作模板。",
+    "conflictingTurns": [38, 39, 40],
+    "source": "model-output",
+    "reason": "等待本身可以成立，但本轮几乎没有新增叙事信息，并复述前两轮已完成的沉默安抚动作，还出现同轮手部动作自相矛盾，导致明显的互动停滞和文本质量退化。"
+  }
+]

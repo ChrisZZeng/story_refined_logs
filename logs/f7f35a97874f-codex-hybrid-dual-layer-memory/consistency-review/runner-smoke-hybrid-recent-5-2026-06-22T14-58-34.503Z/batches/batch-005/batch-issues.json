@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 49,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "Player input: \"用相机对着石窍内部拍一张，看闪光能照出什么\". The visibleText ends with: \"然后你按下快门。\" Choices then defer the result: \"等眼睛重新适应黑暗后，仔细查看闪光灯拍到的照片\".",
+    "conflictingEvidence": "The current player input asked not only to take the photo but to see what the flash revealed. A prior similar visible interaction in turn 40, \"打开相机，用闪光灯快速拍一张，再看照片确认空间\", immediately narrated the flash and what it exposed: the fire, ash, and drag marks.",
+    "conflictingTurns": [40],
+    "source": "model-output",
+    "reason": "The response executes only the shutter press and withholds the requested visible result, breaking the expected action resolution for this interaction."
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 50,
+    "scope": "choices",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "The first choice is serialized as {\"text\":\"伸手去够那片铜红色的织物\",\"actionId\":\"choice:理想\"}.",
+    "conflictingEvidence": "Other player-visible choices in the reviewed window are plain choice texts without internal action identifiers, such as turn 50's other choices: \"仔细研究石台边缘的刻痕\", \"把相机伸进窄口深处再拍一张\", and \"退出来，重新在入口外评估情况\".",
+    "conflictingTurns": [50],
+    "source": "model-output",
+    "reason": "An internal-looking `actionId` value leaks into the player-visible choice object, creating a protocol/format quality issue in the choices surface."
+  }
+]

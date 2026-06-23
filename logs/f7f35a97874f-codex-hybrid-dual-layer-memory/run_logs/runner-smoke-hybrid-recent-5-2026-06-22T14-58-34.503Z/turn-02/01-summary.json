@@ -1,0 +1,737 @@
+{
+  "turn": 2,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "询问小贩关于卡琳娜的事",
+  "selectedFromPreviousTurn": {
+    "text": "询问小贩关于卡琳娜的事",
+    "actionId": "choice:未来"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "收起照片，转身离开摊位，走进庆典的人群"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "继续追问小贩，关于卡琳娜的更多细节",
+        "actionId": "choice:未来"
+      },
+      {
+        "text": "再次拿出敏特的照片，追问小贩是否见过她",
+        "actionId": "choice:理想"
+      },
+      {
+        "text": "换一个问题，问小贩她自己的身份和经历",
+        "actionId": "choice:现在"
+      },
+      {
+        "text": "收起照片，转身离开摊位，走进庆典的人群"
+      }
+    ]
+  },
+  "visibleChars": 633,
+  "durationMs": 42009,
+  "memory": {
+    "recentTurns": 1,
+    "recentEvents": 0,
+    "characterEvents": 3,
+    "locationEvents": 1,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T14:59:36.759Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-780c6bfa",
+      "taskId": "2d564051-c3b1-47b6-9458-887940f9b3c1",
+      "durationMs": 324.4835410000014,
+      "at": "2026-06-22T14:59:37.078Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-60bedb5a",
+      "taskId": "3916869d-1ca7-48f1-884e-755eea2b0c48",
+      "durationMs": 404.40000000000146,
+      "at": "2026-06-22T14:59:37.158Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-2cc848b2",
+      "taskId": "88c8e486-9232-4f79-8704-68a73f428935",
+      "durationMs": 407.4128750000018,
+      "at": "2026-06-22T14:59:37.161Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-259032a8",
+      "taskId": "866fe004-617a-4d8e-9a5c-edb5f78311c7",
+      "durationMs": 407.6004580000008,
+      "at": "2026-06-22T14:59:37.161Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-39473a78",
+      "taskId": "6aff8a16-d734-4d33-a2e9-efa724ad284c",
+      "durationMs": 414.6838340000031,
+      "at": "2026-06-22T14:59:37.168Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-8f81cdaa",
+      "taskId": "9a08e35b-9252-4905-954a-8739101a1004",
+      "durationMs": 290.60216700000456,
+      "at": "2026-06-22T14:59:37.369Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-d4ea78e2",
+      "taskId": "a1a59f37-894f-4dee-ba06-a261fe4a7fb8",
+      "durationMs": 263.1021249999976,
+      "at": "2026-06-22T14:59:37.421Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-4db1a4c0",
+      "taskId": "7c1bc6b5-1173-4d82-9f60-806ba8e8dddc",
+      "durationMs": 328.19837499999994,
+      "at": "2026-06-22T14:59:37.489Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-5ce327a6",
+      "taskId": "4bb2c72a-177e-4bdb-9265-d8c8cf55d408",
+      "durationMs": 329.7201669999995,
+      "at": "2026-06-22T14:59:37.491Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-9eb6fa54",
+      "taskId": "cfca85b1-721f-48c6-8b7a-79b1890165e3",
+      "durationMs": 254.95270799999707,
+      "at": "2026-06-22T14:59:37.624Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-2ca63cc3",
+      "taskId": "670381ef-8a0e-4754-a541-64adff85b1ac",
+      "durationMs": 455.83883400000195,
+      "at": "2026-06-22T14:59:37.624Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-63ecbe03",
+      "taskId": "c0f09dc5-e5fb-4d22-a668-e71a18dcf98c",
+      "durationMs": 273.4415000000008,
+      "at": "2026-06-22T14:59:37.694Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-d78a9917",
+      "taskId": "5ebddd74-48b5-4920-b9df-dce8649d6f51",
+      "durationMs": 274.33329100000265,
+      "at": "2026-06-22T14:59:37.763Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-8dd792b7",
+      "taskId": "8a742a62-ed15-4431-a06f-cdfc86ef4810",
+      "durationMs": 272.9279999999999,
+      "at": "2026-06-22T14:59:37.764Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-5b48e4dc",
+      "taskId": "ee00731c-8b47-4f10-8dc7-f5dd030c3b82",
+      "durationMs": 264.10945899999933,
+      "at": "2026-06-22T14:59:37.888Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-5e164e75",
+      "taskId": "f1a8f651-5a87-4f26-a3cb-72381db7e3f7",
+      "durationMs": 279.4464169999992,
+      "at": "2026-06-22T14:59:37.903Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-342af3a9",
+      "taskId": "3514902f-2591-47e7-b3fd-b3e081ad40ae",
+      "durationMs": 265.0900830000028,
+      "at": "2026-06-22T14:59:37.959Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-3a93606e",
+      "taskId": "e2c78caf-2058-4be5-8647-fb04acf8ed58",
+      "durationMs": 359.7042499999952,
+      "at": "2026-06-22T14:59:38.123Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-a3880adb",
+      "taskId": "2379b89c-e3c8-4a29-9ad5-130f774868ea",
+      "durationMs": 360.4743330000056,
+      "at": "2026-06-22T14:59:38.124Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "询问小贩关于卡琳娜的事",
+      "requestId": "req-6e4a5627",
+      "taskId": "2ebe45b8-7111-4d5e-a3bf-07f3d419cc88",
+      "durationMs": 268.11475000000064,
+      "at": "2026-06-22T14:59:38.156Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-a0179f31",
+      "taskId": "80cd49c7-b048-4627-aa9a-8c8447b21813",
+      "durationMs": 335.31141699999716,
+      "at": "2026-06-22T14:59:38.494Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-9bd942e2",
+      "taskId": "56652181-c45d-47ef-aa84-e21875b1cc6a",
+      "durationMs": 335.6933330000029,
+      "at": "2026-06-22T14:59:38.494Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-0e2a9629",
+      "taskId": "e29f000f-7c79-4a85-8671-5e1b65d42e9f",
+      "durationMs": 337.538959000005,
+      "at": "2026-06-22T14:59:38.496Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-adc306d1",
+      "taskId": "fda53749-1081-4b81-ba96-9d4f540413e5",
+      "durationMs": 342.6324160000004,
+      "at": "2026-06-22T14:59:38.501Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-6c87a133",
+      "taskId": "643d112d-620d-477b-9305-b3f6fae3364f",
+      "durationMs": 348.299125000005,
+      "at": "2026-06-22T14:59:38.507Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-6ac836fe",
+      "taskId": "2bf51bfd-ba7b-43dd-ad26-edf556dccc78",
+      "durationMs": 269.8040419999961,
+      "at": "2026-06-22T14:59:38.764Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-1c6d58cc",
+      "taskId": "fde71608-f0fa-4fe4-9639-ae3a2e07bb28",
+      "durationMs": 359.7849999999962,
+      "at": "2026-06-22T14:59:38.854Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-76db60f2",
+      "taskId": "1183788b-cfb8-4828-adca-a071e60867ab",
+      "durationMs": 359.81516700000066,
+      "at": "2026-06-22T14:59:38.856Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-1b04ec11",
+      "taskId": "0bee8456-b0fd-49a3-ade4-5d3c8e838195",
+      "durationMs": 349.2786669999987,
+      "at": "2026-06-22T14:59:38.856Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-c43a7453",
+      "taskId": "3b95754a-b92f-4e4a-a5e1-ef6b7b335e35",
+      "durationMs": 355.0745420000021,
+      "at": "2026-06-22T14:59:38.856Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-b9310642",
+      "taskId": "ea896b39-1e6e-4479-96bc-02a45930cbc4",
+      "durationMs": 272.059957999998,
+      "at": "2026-06-22T14:59:39.036Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-92f3c054",
+      "taskId": "2b55a5f2-bc4a-4446-8b18-253524b6edb7",
+      "durationMs": 249.59399999999732,
+      "at": "2026-06-22T14:59:39.104Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-e7f469dc",
+      "taskId": "9547b14f-7cb2-4170-86c8-e20154ce2a5e",
+      "durationMs": 304.8701250000013,
+      "at": "2026-06-22T14:59:39.161Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-fcbc715e",
+      "taskId": "b5dd500b-2a87-4663-aec2-054c3c430053",
+      "durationMs": 310.6199579999957,
+      "at": "2026-06-22T14:59:39.167Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-74b37786",
+      "taskId": "14230b06-b18e-428b-b551-d93e6755a3e4",
+      "durationMs": 326.60275000000547,
+      "at": "2026-06-22T14:59:39.183Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-98bbc6ef",
+      "taskId": "be2ccbd7-35fe-4938-a5ce-294819a31c0f",
+      "durationMs": 251.12245899999834,
+      "at": "2026-06-22T14:59:39.287Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-08f36fee",
+      "taskId": "aa4579ac-732a-475c-a8e1-3230e57143d8",
+      "durationMs": 253.72145799999998,
+      "at": "2026-06-22T14:59:39.357Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-924dc0f0",
+      "taskId": "1b66547b-6d4c-401f-9383-92e3c88bc06d",
+      "durationMs": 239.50820799999929,
+      "at": "2026-06-22T14:59:39.400Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "询问小贩关于卡琳娜的事",
+      "requestId": "req-be73471a",
+      "taskId": "f9ba259f-7f17-4a6f-8003-33af3c947b6a",
+      "durationMs": 275.42454200000066,
+      "at": "2026-06-22T14:59:39.458Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-68c75bec",
+      "taskId": "90aa2f23-a3fa-4e55-b677-065072e12588",
+      "durationMs": 291.3548330000049,
+      "at": "2026-06-22T14:59:39.458Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "帕兹",
+                  "core_profile": "战地记者；长期随身携带老旧胶片相机与多张记录过往的合照；性格疲惫内敛，背负沉重创伤与未解之谜。",
+                  "current_snapshot": "现身处新西西里“复活日”庆典现场，因梦见同伴敏特之死而精神恍惚；正依据匿名寄来的照片追查本应死去的敏特的下落，对当地黑帮掌权的复杂局势尚处摸索阶段。",
+                  "relationship_network": [
+                    "敏特（昔日战友/当前追寻目标）",
+                    "卡琳娜（新西西里地方管理者/初次交锋对象）"
+                  ]
+                },
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "外表约十二三岁的金发蓝瞳少女；常穿白色棉衣与吊带裙，梳金色马尾；气质疏离威严，行事果断，具有超越年龄的管理者气场，被当地人尊称“阁下”。",
+                  "current_snapshot": "于庆典期间巡查时制止了在公共场所休息的帕兹，收回其记者证并给出警告后径直离去，展现出不容置疑的权威与领地掌控力。",
+                  "relationship_network": [
+                    "帕兹（被警告的过路记者）",
+                    "随行人员（对其管教方式表示无奈的下属）"
+                  ]
+                },
+                {
+                  "name": "敏特",
+                  "core_profile": "红发少女；帕兹昔日的战地同伴；性格倔强且充满憧憬，笑容张扬；在过往战火冲突中据信已经牺牲。",
+                  "current_snapshot": "实际存活并现身于新西西里，近期通过匿名信封寄出的照片证实其生还状态，已成为推动帕兹跨地域追查的核心线索。",
+                  "relationship_network": [
+                    "帕兹（昔日战友/现任调查者）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "帕兹",
+                "core_profile": "战地记者；长期随身携带老旧胶片相机与多张记录过往的合照；性格疲惫内敛，背负沉重创伤与未解之谜。",
+                "current_snapshot": "现身处新西西里“复活日”庆典现场，因梦见同伴敏特之死而精神恍惚；正依据匿名寄来的照片追查本应死去的敏特的下落，对当地黑帮掌权的复杂局势尚处摸索阶段。",
+                "relationship_network": [
+                  "敏特（昔日战友/当前追寻目标）",
+                  "卡琳娜（新西西里地方管理者/初次交锋对象）"
+                ]
+              },
+              {
+                "name": "卡琳娜",
+                "core_profile": "外表约十二三岁的金发蓝瞳少女；常穿白色棉衣与吊带裙，梳金色马尾；气质疏离威严，行事果断，具有超越年龄的管理者气场，被当地人尊称“阁下”。",
+                "current_snapshot": "于庆典期间巡查时制止了在公共场所休息的帕兹，收回其记者证并给出警告后径直离去，展现出不容置疑的权威与领地掌控力。",
+                "relationship_network": [
+                  "帕兹（被警告的过路记者）",
+                  "随行人员（对其管教方式表示无奈的下属）"
+                ]
+              },
+              {
+                "name": "敏特",
+                "core_profile": "红发少女；帕兹昔日的战地同伴；性格倔强且充满憧憬，笑容张扬；在过往战火冲突中据信已经牺牲。",
+                "current_snapshot": "实际存活并现身于新西西里，近期通过匿名信封寄出的照片证实其生还状态，已成为推动帕兹跨地域追查的核心线索。",
+                "relationship_network": [
+                  "帕兹（昔日战友/现任调查者）"
+                ]
+              }
+            ],
+            "parsed_count": 3,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "梦境苏醒与卡琳娜对峙",
+                  "time": "十一月一日（复活日）",
+                  "location": "新西西里庆典现场",
+                  "involved_characters": [
+                    "帕兹",
+                    "卡琳娜"
+                  ],
+                  "summary": "帕兹从同伴敏特在怀中死去的逼真梦境中惊醒，发现自己身处新西西里的庆典喧闹中。金发蓝瞳的少女卡琳娜发现他在违规区域睡觉，拿走他的记者证并警告他后径直离开。",
+                  "consequence": "帕兹从创伤性幻觉中回归现实，确认了当前所处的时空环境；卡琳娜的强硬态度与当地人群对她的敬畏暗示了此处非普通之地，促使帕兹重新审视自身处境与任务。"
+                },
+                {
+                  "event_id": "确认寻人动机与摊位打听",
+                  "time": "十一月一日（复活日）",
+                  "location": "新西西里摊位旁",
+                  "involved_characters": [
+                    "帕兹"
+                  ],
+                  "summary": "帕兹站稳后检查随身物品，翻出旧日战友合照与匿名寄来的敏特在新西西里的清晰近照，彻底明确自己前来是为了调查敏特“死而复生”的真相。他将照片递给路边摊位的女小贩询问下落，小贩虽否认见过该女孩，但告知了新西西里原名米德加尔特、十年前经历血腥势力洗牌现由黑帮掌权的历史。",
+                  "consequence": "帕兹正式确立了本次调查的核心目标与直接证据来源；女小贩透露的黑帮掌权背景与复活日的特殊含义，为后续寻找敏特划定了高风险区域，并预示记者证件在当地可能失效，增加了行动的不确定性。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "梦境苏醒与卡琳娜对峙",
+                "time": "十一月一日（复活日）",
+                "location": "新西西里庆典现场",
+                "involved_characters": [
+                  "帕兹",
+                  "卡琳娜"
+                ],
+                "summary": "帕兹从同伴敏特在怀中死去的逼真梦境中惊醒，发现自己身处新西西里的庆典喧闹中。金发蓝瞳的少女卡琳娜发现他在违规区域睡觉，拿走他的记者证并警告他后径直离开。",
+                "consequence": "帕兹从创伤性幻觉中回归现实，确认了当前所处的时空环境；卡琳娜的强硬态度与当地人群对她的敬畏暗示了此处非普通之地，促使帕兹重新审视自身处境与任务。"
+              },
+              {
+                "event_id": "确认寻人动机与摊位打听",
+                "time": "十一月一日（复活日）",
+                "location": "新西西里摊位旁",
+                "involved_characters": [
+                  "帕兹"
+                ],
+                "summary": "帕兹站稳后检查随身物品，翻出旧日战友合照与匿名寄来的敏特在新西西里的清晰近照，彻底明确自己前来是为了调查敏特“死而复生”的真相。他将照片递给路边摊位的女小贩询问下落，小贩虽否认见过该女孩，但告知了新西西里原名米德加尔特、十年前经历血腥势力洗牌现由黑帮掌权的历史。",
+                "consequence": "帕兹正式确立了本次调查的核心目标与直接证据来源；女小贩透露的黑帮掌权背景与复活日的特殊含义，为后续寻找敏特划定了高风险区域，并预示记者证件在当地可能失效，增加了行动的不确定性。"
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "新西西里（原米德加尔特）",
+                  "description": "一座每年十一月一日举办“复活日”庆典的城市。十年前经历血腥的势力洗牌，如今表面是喧闹的节庆场所，实则处于黑帮的实际控制之下。",
+                  "appearances": [
+                    "主角苏醒及活动的具体区域，周围充斥着欢呼人群、彩旗与简陋的小吃摊位，空气中弥漫着油炸食品与酒精的气味。",
+                    "通过主角手中照片的背景路牌文字被首次暗示，并在随后与摊位小贩的交谈中被明确点出地名、节日意义及当前的权力格局。"
+                  ],
+                  "current_affiliation": "黑帮"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "新西西里（原米德加尔特）",
+                "description": "一座每年十一月一日举办“复活日”庆典的城市。十年前经历血腥的势力洗牌，如今表面是喧闹的节庆场所，实则处于黑帮的实际控制之下。",
+                "appearances": [
+                  "主角苏醒及活动的具体区域，周围充斥着欢呼人群、彩旗与简陋的小吃摊位，空气中弥漫着油炸食品与酒精的气味。",
+                  "通过主角手中照片的背景路牌文字被首次暗示，并在随后与摊位小贩的交谈中被明确点出地名、节日意义及当前的权力格局。"
+                ],
+                "current_affiliation": "黑帮"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "帕兹"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "帕兹",
+                "candidate_names": [
+                  "帕兹"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "帕兹的人物档案",
+                "facts": [
+                  {
+                    "content": "帕兹。当前快照：现身处新西西里“复活日”庆典现场，因梦见同伴敏特之死而精神恍惚；正依据匿名寄来的照片追查本应死去的敏特的下落，对当地黑帮掌权的复杂局势尚处摸索阶段。。 关系网：敏特（昔日战友/当前追寻目标）；卡琳娜（新西西里地方管理者/初次交锋对象）。",
+                    "summary": null,
+                    "entity_names": [
+                      "帕兹"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "战地记者；长期随身携带老旧胶片相机与多张记录过往的合照；性格疲惫内敛，背负沉重创伤与未解之谜。",
+                  "character_current_snapshot": "现身处新西西里“复活日”庆典现场，因梦见同伴敏特之死而精神恍惚；正依据匿名寄来的照片追查本应死去的敏特的下落，对当地黑帮掌权的复杂局势尚处摸索阶段。",
+                  "character_relationship_network": [
+                    "敏特（昔日战友/当前追寻目标）",
+                    "卡琳娜（新西西里地方管理者/初次交锋对象）"
+                  ],
+                  "turn_id": "turn-01",
+                  "chapter_id": "runner-smoke-random-recent5-run3",
+                  "scene_id": "ad78-v8-random-recent5-run3"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "0060ab6d-c665-4b7c-8147-92df2aa336d0",
+            "topic_reason": "new_project_topic",
+            "topic_changed": true,
+            "topic_turn_start": "turn-01",
+            "topic_turn_end": "turn-01",
+            "topic_turn_count": 1,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 0,
+            "forced_update_to_add": 0,
+            "kept_add": 5,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "character",
+                "key": "敏特",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "event",
+                "key": "梦境苏醒与卡琳娜对峙: 帕兹从同伴敏特在怀中死去的逼真梦境中惊醒，发现自己身处新西西里的庆典喧闹中",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "event",
+                "key": "确认寻人动机与摊位打听: 帕兹站稳后检查随身物品，翻出旧日战友合照与匿名寄来的敏特在新西西里的清晰近照，彻",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "新西西里（原米德加尔特）",
+                "operation": "ADD"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T14:59:50.808Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-53b6b060",
+      "taskId": "a20e70e9-2a43-4316-a0a3-44b84e649fde",
+      "durationMs": 19351.898833,
+      "at": "2026-06-22T15:00:18.761Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

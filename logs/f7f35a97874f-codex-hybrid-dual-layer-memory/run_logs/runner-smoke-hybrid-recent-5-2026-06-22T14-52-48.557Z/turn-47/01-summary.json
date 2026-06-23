@@ -1,0 +1,636 @@
+{
+  "turn": 47,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "翻转手掌，轻轻握住她颤抖的拳头",
+  "selectedFromPreviousTurn": {
+    "text": "翻转手掌，轻轻握住她颤抖的拳头"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "保持安静，让手心继续贴着她的手指"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "保持安静，让手心继续贴着她的手指"
+      },
+      {
+        "text": "轻声问她那些声音现在还在吗"
+      },
+      {
+        "text": "用拇指轻抚她手背，告诉她你在这里"
+      },
+      {
+        "text": "慢慢翻过她的手，让她的掌心贴着你的掌心"
+      }
+    ]
+  },
+  "visibleChars": 576,
+  "durationMs": 46782.31,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 20,
+    "locationEvents": 11,
+    "entityEvents": 2
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:28:35.137Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:28:35.143Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-91efea70",
+      "taskId": "fbde2ea2-f3cb-436f-9393-e2741f5cc16a",
+      "durationMs": 232.46566599979997,
+      "at": "2026-06-22T15:28:35.354Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-60fcd8c7",
+      "taskId": "70f61a47-7c1e-4b8d-8f8b-63934113c861",
+      "durationMs": 333.3067080001347,
+      "at": "2026-06-22T15:28:35.455Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-b78e0136",
+      "taskId": "30e56d99-3db5-45db-93e0-b4174a3f6026",
+      "durationMs": 338.64316699979827,
+      "at": "2026-06-22T15:28:35.460Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-f292ea66",
+      "taskId": "68ecd8d5-7f39-444f-9f9e-44d6253607dd",
+      "durationMs": 345.02337499987334,
+      "at": "2026-06-22T15:28:35.466Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-c1384cfe",
+      "taskId": "b4b9b2fe-7f24-4a4e-909d-7b94c69a9b83",
+      "durationMs": 346.0070420000702,
+      "at": "2026-06-22T15:28:35.467Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-c5f57cab",
+      "taskId": "72de2a50-779e-4fb6-8665-81250e19ceb7",
+      "durationMs": 266.3555410001427,
+      "at": "2026-06-22T15:28:35.620Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-8f847b97",
+      "taskId": "99b34c55-8c7a-48ae-bd5d-bedc0e3f76bb",
+      "durationMs": 481.9138329997659,
+      "at": "2026-06-22T15:28:35.948Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-8a7a9954",
+      "taskId": "82c03c32-16b8-4f30-9c17-9f73097e7ffb",
+      "durationMs": 489.67866600025445,
+      "at": "2026-06-22T15:28:35.950Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-0c0afcc7",
+      "taskId": "b6ff4dbe-fe28-43f5-8c75-56b958821db7",
+      "durationMs": 331.4405000000261,
+      "at": "2026-06-22T15:28:35.951Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-df74c784",
+      "taskId": "4939ab19-d348-4603-b9dc-b14ce6c31137",
+      "durationMs": 497.1066250000149,
+      "at": "2026-06-22T15:28:35.952Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-6946798e",
+      "taskId": "ca4a506b-c2aa-4e89-8621-6ecb252a05d7",
+      "durationMs": 485.0747500001453,
+      "at": "2026-06-22T15:28:35.952Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-afe4bbfd",
+      "taskId": "47839844-509e-4a36-9c6a-fa762b607e50",
+      "durationMs": 289.7595830000937,
+      "at": "2026-06-22T15:28:36.238Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-83b72d45",
+      "taskId": "d358891e-33cf-4040-833b-084f2b59f1f2",
+      "durationMs": 378.9482920002192,
+      "at": "2026-06-22T15:28:36.331Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-240e0a27",
+      "taskId": "fbe8e61c-9303-46f2-a85e-cdd2423e8940",
+      "durationMs": 382.1993339997716,
+      "at": "2026-06-22T15:28:36.332Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-0ef665bb",
+      "taskId": "a4aa5399-45fd-42fc-99d9-4a092285365b",
+      "durationMs": 387.33066700026393,
+      "at": "2026-06-22T15:28:36.339Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-45c49954",
+      "taskId": "da8d87ae-f8d8-41b8-bbdd-0b962b95499c",
+      "durationMs": 388.01175000006333,
+      "at": "2026-06-22T15:28:36.339Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-6ccb153b",
+      "taskId": "ffd9d78e-c1f2-4350-a9f8-29f293176754",
+      "durationMs": 302.9660000000149,
+      "at": "2026-06-22T15:28:36.541Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-b605dc51",
+      "taskId": "1000487b-43c8-4fe5-9f04-a9c3d080e89e",
+      "durationMs": 281.0307500003837,
+      "at": "2026-06-22T15:28:36.613Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-961f8533",
+      "taskId": "ffcf52e1-3c20-4f2b-8cff-3f383e942e4f",
+      "durationMs": 287.8621249999851,
+      "at": "2026-06-22T15:28:36.619Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "翻转手掌，轻轻握住她颤抖的拳头",
+      "requestId": "req-67ec763b",
+      "taskId": "99d4a4f1-1bab-4dda-970a-82b591c6cc79",
+      "durationMs": 766.6930410000496,
+      "at": "2026-06-22T15:28:37.106Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-d02e9583",
+      "taskId": "5a2f3e7f-93d2-4e99-b69b-a997f3ae3d01",
+      "durationMs": 350.4280420001596,
+      "at": "2026-06-22T15:28:37.460Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-cd1c1571",
+      "taskId": "d6d348c8-cd2d-4587-a390-e4390fe0dd1d",
+      "durationMs": 350.7506249998696,
+      "at": "2026-06-22T15:28:37.460Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-269b31d3",
+      "taskId": "6eb65311-33c5-4a34-9698-5037d80fcc4d",
+      "durationMs": 367.64520899998024,
+      "at": "2026-06-22T15:28:37.477Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-5f413d82",
+      "taskId": "24d6a510-fd00-4eae-a168-0c3fff01f71d",
+      "durationMs": 380.8612500000745,
+      "at": "2026-06-22T15:28:37.490Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-c768d361",
+      "taskId": "7d49b4a8-3533-4621-82a5-2a3da9bc51e2",
+      "durationMs": 381.8232920002192,
+      "at": "2026-06-22T15:28:37.491Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-82bab783",
+      "taskId": "7553ad29-27e5-4b90-ab2e-7edb773f6de9",
+      "durationMs": 403.51933400006965,
+      "at": "2026-06-22T15:28:37.864Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-7fa0e8bc",
+      "taskId": "70ec8bb4-4475-44c7-9f30-47f29a72da83",
+      "durationMs": 403.570916000288,
+      "at": "2026-06-22T15:28:37.864Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-4f165f29",
+      "taskId": "4d0200c8-8f4a-405e-ac83-0a65afca349d",
+      "durationMs": 387.041208000388,
+      "at": "2026-06-22T15:28:37.864Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-bdd5d589",
+      "taskId": "d4527417-f75e-41ad-90bb-1aa5de96a49f",
+      "durationMs": 373.7246250002645,
+      "at": "2026-06-22T15:28:37.864Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-e825e17e",
+      "taskId": "b1a8d564-8602-4b18-b17c-03ef3a58fd6a",
+      "durationMs": 372.9610419999808,
+      "at": "2026-06-22T15:28:37.864Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-9ffb36da",
+      "taskId": "6c05a2a7-e4f4-430e-944e-c52745176097",
+      "durationMs": 308.87424999987707,
+      "at": "2026-06-22T15:28:38.172Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-3f7ba35b",
+      "taskId": "c518a3c5-9f55-4258-bf5d-f011c761fe3c",
+      "durationMs": 422.4319160003215,
+      "at": "2026-06-22T15:28:38.286Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-c5800d2b",
+      "taskId": "38f47051-899a-4a06-9e3b-657f572c1baf",
+      "durationMs": 422.50774999987334,
+      "at": "2026-06-22T15:28:38.286Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-7005b21a",
+      "taskId": "e7dd9c17-f354-43ee-ab88-c5ddd25db65d",
+      "durationMs": 422.4711660002358,
+      "at": "2026-06-22T15:28:38.287Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-d234336e",
+      "taskId": "a37cbcd6-22e1-49bb-a000-89f819d4eb9e",
+      "durationMs": 422.40770799992606,
+      "at": "2026-06-22T15:28:38.287Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-30b51f0d",
+      "taskId": "f6a70176-f5e1-4160-a0bd-d7de7a7219fb",
+      "durationMs": 256.23541700001806,
+      "at": "2026-06-22T15:28:38.429Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-920202c0",
+      "taskId": "53229ca0-6e36-465d-b526-814b0abf66f9",
+      "durationMs": 343.9066669996828,
+      "at": "2026-06-22T15:28:38.630Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-0ec6dacf",
+      "taskId": "aa6b123c-b9de-4f01-a534-fa75eafdfc3d",
+      "durationMs": 353.70070900022984,
+      "at": "2026-06-22T15:28:38.640Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-5eb0a145",
+      "taskId": "5011b330-59c1-442b-b1f6-62b26a5fc75c",
+      "durationMs": 353.6445419997908,
+      "at": "2026-06-22T15:28:38.640Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "翻转手掌，轻轻握住她颤抖的拳头",
+      "requestId": "req-3c7d914d",
+      "taskId": "b7e4fbf9-86f2-4bb9-ac47-b9e8e26273e6",
+      "durationMs": 354.7650830000639,
+      "at": "2026-06-22T15:28:38.641Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "敏特",
+                  "core_profile": "背负沉重幸存者内疚与创伤记忆的女性，极度内敛敏感。高压情绪下常表现为失语、呼吸紊乱与躯体微颤，习惯以细微肢体动作替代直接表达，潜意识中深藏强烈的自我否定与心理防御机制。",
+                  "current_snapshot": "滞留于潮湿地下室对坐于木箱桌旁，正经历剧烈的创伤闪回与情绪崩溃。面对“为什么是你”的质问，生理高度紧张（指节掐入掌心泛白、下颌肌肉紧绷），艰难吐出关于同伴惨死的碎片化回忆。手指虽冰凉蜷曲，但已悄然抵近对方摊开的掌心边界，处于渴望倾诉又极力压抑的痛苦状态。",
+                  "relationship_network": [
+                    "与你隔桌相对，在深度心理牵绊中试图向你剖白沉重的自我负罪感与创伤真相"
+                  ]
+                },
+                {
+                  "name": "主角",
+                  "core_profile": "沉稳克制、具备极强情绪承载力与陪伴耐心的叙述视角主体。善于通过稳定的肢体语言与物理距离传递安全感，能在高压情境下为对方提供低压迫感的心理容器，习惯以纯粹的“在场”提供支撑。",
+                  "current_snapshot": "静坐于地下室粗糙木箱旁，将掌心朝天平放。不压制自身从骨头深处传来的细微震颤，而是任由其作为无声的连接媒介。全程保持绝对静止与专注等待，刻意营造零逼迫的倾听空间，以稳定的体温与持续的在场姿态承接对方的情绪重压。",
+                  "relationship_network": [
+                    "与敏特隔桌相对，以开放且克制的肢体语言提供无声的情感支撑，成为对方宣泄创伤记忆时的稳定锚点"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "敏特",
+                "core_profile": "背负沉重幸存者内疚与创伤记忆的女性，极度内敛敏感。高压情绪下常表现为失语、呼吸紊乱与躯体微颤，习惯以细微肢体动作替代直接表达，潜意识中深藏强烈的自我否定与心理防御机制。",
+                "current_snapshot": "滞留于潮湿地下室对坐于木箱桌旁，正经历剧烈的创伤闪回与情绪崩溃。面对“为什么是你”的质问，生理高度紧张（指节掐入掌心泛白、下颌肌肉紧绷），艰难吐出关于同伴惨死的碎片化回忆。手指虽冰凉蜷曲，但已悄然抵近对方摊开的掌心边界，处于渴望倾诉又极力压抑的痛苦状态。",
+                "relationship_network": [
+                  "与你隔桌相对，在深度心理牵绊中试图向你剖白沉重的自我负罪感与创伤真相"
+                ]
+              },
+              {
+                "name": "主角",
+                "core_profile": "沉稳克制、具备极强情绪承载力与陪伴耐心的叙述视角主体。善于通过稳定的肢体语言与物理距离传递安全感，能在高压情境下为对方提供低压迫感的心理容器，习惯以纯粹的“在场”提供支撑。",
+                "current_snapshot": "静坐于地下室粗糙木箱旁，将掌心朝天平放。不压制自身从骨头深处传来的细微震颤，而是任由其作为无声的连接媒介。全程保持绝对静止与专注等待，刻意营造零逼迫的倾听空间，以稳定的体温与持续的在场姿态承接对方的情绪重压。",
+                "relationship_network": [
+                  "与敏特隔桌相对，以开放且克制的肢体语言提供无声的情感支撑，成为对方宣泄创伤记忆时的稳定锚点"
+                ]
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "cfa9e757-9ba7-58d6-90c7-d3346fb53a3d",
+                  "time": "",
+                  "location": "地下室（工作灯照射区，木箱与灰浆墙环绕）",
+                  "involved_characters": [
+                    "你",
+                    "敏特"
+                  ],
+                  "summary": "你在静默中保持掌心朝上摊开等待，敏特在极度生理紧绷与心理挣扎下，断续吐露“所有人都死了”、“看到他们倒下”及“听到他们喊名字”，因情绪过载咽回关键话语。她的指节压向你掌缘边界，在体温交融间进一步透露创伤细节：“闭上眼就能看到他们的脸和声音”，并抛出核心疑问“他们都在问——为什么是你”。你全程未打断，仅以沉默与开放的姿态承接。",
+                  "consequence": "敏特的心理防线进一步松动，创伤记忆从抽象的内疚转向具体的视听闪回与幸存者自责；你的非侵入性陪伴成功构筑了情绪安全区，使她得以在高压下逐步具象化压抑的记忆碎片，为后续深入探究具体过往与认知干预铺平道路。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "cfa9e757-9ba7-58d6-90c7-d3346fb53a3d",
+                "time": "",
+                "location": "地下室（工作灯照射区，木箱与灰浆墙环绕）",
+                "involved_characters": [
+                  "你",
+                  "敏特"
+                ],
+                "summary": "你在静默中保持掌心朝上摊开等待，敏特在极度生理紧绷与心理挣扎下，断续吐露“所有人都死了”、“看到他们倒下”及“听到他们喊名字”，因情绪过载咽回关键话语。她的指节压向你掌缘边界，在体温交融间进一步透露创伤细节：“闭上眼就能看到他们的脸和声音”，并抛出核心疑问“他们都在问——为什么是你”。你全程未打断，仅以沉默与开放的姿态承接。",
+                "consequence": "敏特的心理防线进一步松动，创伤记忆从抽象的内疚转向具体的视听闪回与幸存者自责；你的非侵入性陪伴成功构筑了情绪安全区，使她得以在高压下逐步具象化压抑的记忆碎片，为后续深入探究具体过往与认知干预铺平道路。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "堆放杂物的房间",
+                  "description": "位于地下室的封闭储物空间。灰浆墙体持续渗水，墙角堆积纸箱投下浓重阴影；空间中央设有粗糙的木质桌面/木箱表面，由冷白灯光与工作灯明黄色光区交织照明。伴随规律的滴水声与极细的灯丝嗡鸣，空气潮湿且混杂旧纸板、铁锈、碘伏与人体的气味。整体氛围压抑静止，木质表面作为核心物理界面，通过承载手部震颤与体温互动，直观外化了空间内的心理张力与对峙状态。",
+                  "appearances": [
+                    "作为核心场景贯穿本片段，环境细节（潮气、滴水声、纸箱阴影、冷暖光区）持续烘托对话的压抑与心理压迫感。",
+                    "粗糙的木质表面成为关键交互载体，角色手指在其上按压、传递震颤与体温，构成无声对峙的物理边界。",
+                    "地下室特性（灰浆墙、纸箱堆、滴水声）被反复强调，配合局部光区与气味，强化了空间的封闭性、临时藏身处属性及悬而未决的叙事张力。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "堆放杂物的房间",
+                "description": "位于地下室的封闭储物空间。灰浆墙体持续渗水，墙角堆积纸箱投下浓重阴影；空间中央设有粗糙的木质桌面/木箱表面，由冷白灯光与工作灯明黄色光区交织照明。伴随规律的滴水声与极细的灯丝嗡鸣，空气潮湿且混杂旧纸板、铁锈、碘伏与人体的气味。整体氛围压抑静止，木质表面作为核心物理界面，通过承载手部震颤与体温互动，直观外化了空间内的心理张力与对峙状态。",
+                "appearances": [
+                  "作为核心场景贯穿本片段，环境细节（潮气、滴水声、纸箱阴影、冷暖光区）持续烘托对话的压抑与心理压迫感。",
+                  "粗糙的木质表面成为关键交互载体，角色手指在其上按压、传递震颤与体温，构成无声对峙的物理边界。",
+                  "地下室特性（灰浆墙、纸箱堆、滴水声）被反复强调，配合局部光区与气味，强化了空间的封闭性、临时藏身处属性及悬而未决的叙事张力。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "751abc8c-4f63-4b7d-9319-90e1639a7579",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-41",
+            "topic_turn_end": "turn-46",
+            "topic_turn_count": 6,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 3,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "敏特",
+                "target_id": "b37c9436-d4de-54b5-a799-822dbe21c126",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "character",
+                "key": "主角",
+                "target_id": "ea39840e-2c1d-5f87-92dd-718b9a9745d7",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "cfa9e757-9ba7-58d6-90c7-d3346fb53a3d: 你在静默中保持掌心朝上摊开等待，敏特在极度生理紧绷与心理挣扎下，断续吐露所有人",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "堆放杂物的房间",
+                "target_id": "14480581-3f2b-5ffd-b7fa-2c979a9fa0a7",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:28:46.290Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-866cabf6",
+      "taskId": "4018961d-aa9d-4a6b-b22a-41402b1865f1",
+      "durationMs": 15888.762957999948,
+      "at": "2026-06-22T15:29:21.896Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

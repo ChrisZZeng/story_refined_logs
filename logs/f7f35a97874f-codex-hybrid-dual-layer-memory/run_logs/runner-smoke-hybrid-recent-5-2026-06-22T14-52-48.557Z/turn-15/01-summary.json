@@ -1,0 +1,606 @@
+{
+  "turn": 15,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "检查其他木箱的运输标记，寻找可辨认的编号",
+  "selectedFromPreviousTurn": {
+    "text": "检查其他木箱的运输标记，寻找可辨认的编号"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "循着气流的方向，往地下室深处走"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "循着气流的方向，往地下室深处走"
+      },
+      {
+        "text": "蹲下仔细检查地面上的擦痕，看它们通向哪里"
+      },
+      {
+        "text": "检查手里的塑料碎片，看能否辨认出更多细节"
+      },
+      {
+        "text": "回到铁门边，确认外面巷子是否安全"
+      }
+    ]
+  },
+  "visibleChars": 2060,
+  "durationMs": 60147.4,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 15,
+    "locationEvents": 9,
+    "entityEvents": 2
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-22T15:02:21.804Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-22T15:02:21.809Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-7dc0cc50",
+      "taskId": "9a45b680-3222-46c9-831d-2f6026874169",
+      "durationMs": 475.48012500000186,
+      "at": "2026-06-22T15:02:22.271Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-8cdf1fd9",
+      "taskId": "9e23cb15-e8cb-497b-9dad-a9c577fb8279",
+      "durationMs": 480.6057499999879,
+      "at": "2026-06-22T15:02:22.276Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-80f37a66",
+      "taskId": "0e3c7967-041a-4dc0-83b2-2488e43ff6cb",
+      "durationMs": 480.9202499999665,
+      "at": "2026-06-22T15:02:22.276Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-97ff2bbc",
+      "taskId": "47634451-1c91-4c3c-b53b-bb21a31710ba",
+      "durationMs": 481.8885419999715,
+      "at": "2026-06-22T15:02:22.277Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-cf262bbd",
+      "taskId": "1ff6c895-92ec-4b9d-acfa-0135a2ed9dcc",
+      "durationMs": 490.31720900000073,
+      "at": "2026-06-22T15:02:22.285Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-c5f27366",
+      "taskId": "93af5064-a722-4ae9-9967-9ba89a12f424",
+      "durationMs": 278.7312920000404,
+      "at": "2026-06-22T15:02:22.549Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-a691a612",
+      "taskId": "b22bb8d3-4abc-4a61-a3ae-bd5f4ed6984c",
+      "durationMs": 608.6288340000901,
+      "at": "2026-06-22T15:02:22.884Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-e3f5884c",
+      "taskId": "65f659e8-1a3f-475a-96c4-e037c0de9ef1",
+      "durationMs": 599.2866669999203,
+      "at": "2026-06-22T15:02:22.885Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-427280aa",
+      "taskId": "df33a7a4-e885-43a3-83b9-adb82ea93108",
+      "durationMs": 608.7598339999095,
+      "at": "2026-06-22T15:02:22.885Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-b1996e18",
+      "taskId": "ee05b608-4cd9-4e87-b018-1d08df14b073",
+      "durationMs": 614.4828330000164,
+      "at": "2026-06-22T15:02:22.891Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-2eb9c75c",
+      "taskId": "4b82f658-2e92-4fa8-a26a-ff2c05129b64",
+      "durationMs": 556.9492910000263,
+      "at": "2026-06-22T15:02:23.106Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-0d1bc494",
+      "taskId": "1111cfa8-74fa-46a4-bf6f-7ee937edf3fb",
+      "durationMs": 326.78824999998324,
+      "at": "2026-06-22T15:02:23.211Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-d0417d08",
+      "taskId": "a05d3551-f274-434f-b62c-898cfc971f67",
+      "durationMs": 437.77624999999534,
+      "at": "2026-06-22T15:02:23.329Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-17d984a4",
+      "taskId": "7ae16878-00e3-452c-94b7-3b907391ef04",
+      "durationMs": 444.7783749999944,
+      "at": "2026-06-22T15:02:23.329Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-9c284a09",
+      "taskId": "24ae6104-bf1a-4a2a-99a2-68fa98804f95",
+      "durationMs": 445.6591250000056,
+      "at": "2026-06-22T15:02:23.330Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-89b04593",
+      "taskId": "fd33ecc9-b928-41a0-8be4-dc1123a637fa",
+      "durationMs": 301.563625000068,
+      "at": "2026-06-22T15:02:23.513Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-039238e1",
+      "taskId": "7e3cf616-341b-4486-b5ba-00f0d0743440",
+      "durationMs": 413.1989169999724,
+      "at": "2026-06-22T15:02:23.519Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "检查其他木箱的运输标记，寻找可辨认的编号",
+      "requestId": "req-9e544df4",
+      "taskId": "3ece69cc-6493-4839-8257-3f37358efce0",
+      "durationMs": 381.4248330000555,
+      "at": "2026-06-22T15:02:23.711Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-8b301f37",
+      "taskId": "374799cc-f81c-4727-b305-075cf56a5879",
+      "durationMs": 382.2282089999644,
+      "at": "2026-06-22T15:02:23.711Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-7b3d1248",
+      "taskId": "cc2b5f0b-d6d4-4ea5-a084-2b2de18ac09c",
+      "durationMs": 436.3378329999978,
+      "at": "2026-06-22T15:02:23.765Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-162a28a4",
+      "taskId": "4a33182f-a754-4e4f-b3b1-b17cbe0301f8",
+      "durationMs": 403.780999999959,
+      "at": "2026-06-22T15:02:24.173Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-c103f08a",
+      "taskId": "39c43f96-b11c-402f-9c93-90fbcc67c3d7",
+      "durationMs": 404.0509160000365,
+      "at": "2026-06-22T15:02:24.173Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-1c364909",
+      "taskId": "790fd43c-b472-4112-ae20-9bef710b07d1",
+      "durationMs": 404.20074999995995,
+      "at": "2026-06-22T15:02:24.173Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-df20b6f0",
+      "taskId": "72b59ff5-f9b6-4009-b569-c2c8f0b86e83",
+      "durationMs": 404.31683299993165,
+      "at": "2026-06-22T15:02:24.173Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-9775a555",
+      "taskId": "ff933e8a-7bae-4189-a6ba-daab0bbb912b",
+      "durationMs": 404.49216700007673,
+      "at": "2026-06-22T15:02:24.173Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-1851bc42",
+      "taskId": "98b1455a-9887-42c3-8daf-204b7c093bb7",
+      "durationMs": 391.5469999999041,
+      "at": "2026-06-22T15:02:24.564Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-83157695",
+      "taskId": "178364c7-d592-4f5d-9085-4b6d0dfed9c8",
+      "durationMs": 391.1349169999594,
+      "at": "2026-06-22T15:02:24.564Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-8cde6a47",
+      "taskId": "9c558a76-4f88-48c6-a5dc-2a6f6a3d8788",
+      "durationMs": 391.7087080000201,
+      "at": "2026-06-22T15:02:24.564Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-49ead1e2",
+      "taskId": "9e8a6349-f982-472e-8f55-11efdd3fe39a",
+      "durationMs": 391.7083749999292,
+      "at": "2026-06-22T15:02:24.565Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-50393a15",
+      "taskId": "e0b3b6ad-8870-49fc-997b-97969fae9816",
+      "durationMs": 391.687042000005,
+      "at": "2026-06-22T15:02:24.565Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-68a747e3",
+      "taskId": "a6fb60f2-8165-4d85-b996-44a931068e62",
+      "durationMs": 272.1175420000218,
+      "at": "2026-06-22T15:02:24.836Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-ce1950a2",
+      "taskId": "3dfb45c0-80a3-4a85-b21e-77b29f1e8883",
+      "durationMs": 355.23808300006203,
+      "at": "2026-06-22T15:02:24.920Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-7027ad64",
+      "taskId": "b0471a3a-2168-4e6a-9b4c-d95b9029e37d",
+      "durationMs": 368.8975420000497,
+      "at": "2026-06-22T15:02:24.933Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-e4dac1ef",
+      "taskId": "f75cf645-64c5-41bc-bc6c-a362836a6192",
+      "durationMs": 371.9149169999873,
+      "at": "2026-06-22T15:02:24.937Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-aa72de4e",
+      "taskId": "1ff7815f-5539-4e9b-893f-537ee6561240",
+      "durationMs": 372.21141600003466,
+      "at": "2026-06-22T15:02:24.937Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-e0ddf505",
+      "taskId": "2279d7a9-a543-454e-9b9f-d880a23c456a",
+      "durationMs": 260.828375000041,
+      "at": "2026-06-22T15:02:25.097Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-961a8493",
+      "taskId": "e5ac9b4f-9ce4-4447-9b5c-16a0b109c10b",
+      "durationMs": 221.79229200002737,
+      "at": "2026-06-22T15:02:25.141Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-026410cf",
+      "taskId": "1fe4b7e3-a964-411c-9a57-1a7282fbdaf9",
+      "durationMs": 248.65579200000502,
+      "at": "2026-06-22T15:02:25.185Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-89e424c0",
+      "taskId": "246b3e4a-6119-4f28-bb8a-647e4550f226",
+      "durationMs": 266.4149590000743,
+      "at": "2026-06-22T15:02:25.200Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "检查其他木箱的运输标记，寻找可辨认的编号",
+      "requestId": "req-f30b17e7",
+      "taskId": "e3285778-d354-475b-a619-fd15a1de02b0",
+      "durationMs": 326.7012500000419,
+      "at": "2026-06-22T15:02:25.264Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "主角",
+                  "core_profile": "具备高度敏锐的观察力与缜密的逻辑推理能力，行事谨慎且习惯通过环境细节与物理痕迹还原现场动态。随身携带并熟练运用相机进行记录与分析，面对未知局势时保持战术警觉性，行动偏向隐蔽侦查与线索推演，擅长从褪色标记、刮痕或撬印等残存信息中推断他人意图。",
+                  "current_snapshot": "正蹲身于昏暗潮湿的环境中近距离排查一块遭刻意暴力刮除标识的金属标牌与木箱。通过观察箱体侧面被潮气浸蚀的模糊运输标记、批号残影及新鲜撬痕，推断此前有明确目标的搜查活动，并确认闯入者知晓如何销毁证据以掩盖内容；目前保持低姿态隐蔽，指尖搭着相机机身，持续综合比对现场物证，评估局势走向。",
+                  "relationship_network": []
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "主角",
+                "core_profile": "具备高度敏锐的观察力与缜密的逻辑推理能力，行事谨慎且习惯通过环境细节与物理痕迹还原现场动态。随身携带并熟练运用相机进行记录与分析，面对未知局势时保持战术警觉性，行动偏向隐蔽侦查与线索推演，擅长从褪色标记、刮痕或撬印等残存信息中推断他人意图。",
+                "current_snapshot": "正蹲身于昏暗潮湿的环境中近距离排查一块遭刻意暴力刮除标识的金属标牌与木箱。通过观察箱体侧面被潮气浸蚀的模糊运输标记、批号残影及新鲜撬痕，推断此前有明确目标的搜查活动，并确认闯入者知晓如何销毁证据以掩盖内容；目前保持低姿态隐蔽，指尖搭着相机机身，持续综合比对现场物证，评估局势走向。",
+                "relationship_network": []
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "暗室木箱标记细查",
+                  "time": "",
+                  "location": "窄巷铁门后的地下暗室（旧木箱旁）",
+                  "involved_characters": [
+                    "用户"
+                  ],
+                  "summary": "用户在暗室中将勘查重心转移至旧木箱侧面的运输标记进行仔细辨认。受潮气侵蚀影响，标记边框晕开、字迹褪为残影，仅能勉强辨识出部分字母竖线与弧形数字片段；上方批号印记同样模糊不清，末尾两位隐约呈圆形闭合曲线与垂直短竖。用户注意到标识牌已被撬除且表面刻字被彻底刮净，由此推断闯入者并非随机翻找，而是精准锁定该木箱并刻意销毁了内容指认信息。用户克制住未直接触碰朽烂木板以防墨迹剥落，仅在相机机身上轻敲两下作心理备忘，确认调查线索虽变薄但并未断裂。",
+                  "consequence": "证实现场破坏行为具有高度针对性，彻底排除随机搜查可能；将后续调查方向明确指向木箱本身的物流溯源与箱内物品核实；提取的残缺编号残影成为未来比对追踪的重要物理依据；强化了用户继续深入探查的信心与行动节奏。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "暗室木箱标记细查",
+                "time": "",
+                "location": "窄巷铁门后的地下暗室（旧木箱旁）",
+                "involved_characters": [
+                  "用户"
+                ],
+                "summary": "用户在暗室中将勘查重心转移至旧木箱侧面的运输标记进行仔细辨认。受潮气侵蚀影响，标记边框晕开、字迹褪为残影，仅能勉强辨识出部分字母竖线与弧形数字片段；上方批号印记同样模糊不清，末尾两位隐约呈圆形闭合曲线与垂直短竖。用户注意到标识牌已被撬除且表面刻字被彻底刮净，由此推断闯入者并非随机翻找，而是精准锁定该木箱并刻意销毁了内容指认信息。用户克制住未直接触碰朽烂木板以防墨迹剥落，仅在相机机身上轻敲两下作心理备忘，确认调查线索虽变薄但并未断裂。",
+                "consequence": "证实现场破坏行为具有高度针对性，彻底排除随机搜查可能；将后续调查方向明确指向木箱本身的物流溯源与箱内物品核实；提取的残缺编号残影成为未来比对追踪的重要物理依据；强化了用户继续深入探查的信心与行动节奏。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "地下室",
+                  "description": "昏暗的地下封闭空间，仅靠门缝漏入的苍白窄光照明。内部堆叠着朽烂的旧木箱，箱体侧面留有受潮晕染的长方形运输标记及上方整齐的编号批号印记。此处曾放置一块长方形金属标识牌，其正面刻字遭利器刻意铲刮抹除。环境阴冷凝雾，整体呈现出被针对性搜寻与破坏后遗弃的特征。",
+                  "appearances": [
+                    "角色蹲伏于此，利用门缝光线斜切木箱侧面，近距离勘察受潮褪色的运输标记边框、模糊字迹残影及上方整齐的批号印记；因木板朽烂避免直接触碰。",
+                    "结合被撬下且字迹被彻底刮除的金属标识牌，推断闯入者在此进行过精准的定向搜查与证据销毁，确认追踪线索虽变薄但未中断。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "地下室",
+                "description": "昏暗的地下封闭空间，仅靠门缝漏入的苍白窄光照明。内部堆叠着朽烂的旧木箱，箱体侧面留有受潮晕染的长方形运输标记及上方整齐的编号批号印记。此处曾放置一块长方形金属标识牌，其正面刻字遭利器刻意铲刮抹除。环境阴冷凝雾，整体呈现出被针对性搜寻与破坏后遗弃的特征。",
+                "appearances": [
+                  "角色蹲伏于此，利用门缝光线斜切木箱侧面，近距离勘察受潮褪色的运输标记边框、模糊字迹残影及上方整齐的批号印记；因木板朽烂避免直接触碰。",
+                  "结合被撬下且字迹被彻底刮除的金属标识牌，推断闯入者在此进行过精准的定向搜查与证据销毁，确认追踪线索虽变薄但未中断。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "3ce8dc65-91cc-4431-8533-1d154fdbbe28",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-09",
+            "topic_turn_end": "turn-14",
+            "topic_turn_count": 6,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "主角",
+                "target_id": "ce065715-353c-57ea-9cae-c386967954f9",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "暗室木箱标记细查: 用户在暗室中将勘查重心转移至旧木箱侧面的运输标记进行仔细辨认",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "地下室",
+                "target_id": "c07888e9-848d-5aaf-a1fb-ebce86cab029",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-22T15:02:36.456Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-4d96829d",
+      "taskId": "68a70919-e912-4b77-beb3-abbdb549e0ab",
+      "durationMs": 19478.137916000094,
+      "at": "2026-06-22T15:03:21.940Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 11,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 11 visibleText: \"你的手掌贴上铁门。冰凉的铁皮透过手套——不，你没戴手套。掌心直接触到锈蚀的金属表面...\"",
+    "conflictingEvidence": "The same sentence first narrates sensation through gloves, then immediately negates it with \"不，你没戴手套\". Earlier visible equipment focused on the press card, photos, and Seagull 4B camera, with no established gloves.",
+    "conflictingTurns": [11],
+    "source": "model-output",
+    "reason": "The narration exposes an internal correction about whether Paz has gloves, creating a local visible contradiction and breaking prose continuity."
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 11,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "Turn 11 choice: \"先打开相机，用闪光灯照亮周围\".",
+    "conflictingEvidence": "Turn 1 establishes the camera as \"挂在胸前的旧胶卷相机...海鸥4B\". Turns 8 and 10 show Paz using the camera through the lens/viewfinder without taking a shot or revealing any flash attachment.",
+    "conflictingTurns": [1, 8, 10],
+    "source": "model-output",
+    "reason": "The choice grants the old film camera an unestablished flash-lighting function in a dark room, which is not supported by the visible equipment description."
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 16,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "Turn 16 choice: \"停下来，用相机闪光灯拍一张，确认前方空间结构\".",
+    "conflictingEvidence": "Turn 1 establishes only an old Seagull 4B film camera; turns 8, 10, and 11 continue to present it as a manually handled camera/viewfinder object, while no flash accessory or flash capability is made visible.",
+    "conflictingTurns": [1, 8, 10, 11],
+    "source": "model-output",
+    "reason": "This repeats the unsupported camera-flash capability as an available action, creating a recurring equipment-continuity problem in the choices."
+  }
+]
