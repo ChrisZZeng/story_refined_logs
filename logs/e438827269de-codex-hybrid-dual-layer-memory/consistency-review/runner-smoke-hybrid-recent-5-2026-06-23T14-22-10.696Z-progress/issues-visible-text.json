@@ -1,0 +1,274 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 6,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第6轮写道：\"你看着这张脸——几个小时前在庆典上踢你脑袋的那张脸——\"。",
+    "conflictingEvidence": "第1轮卡琳娜刚在庆典上踢醒帕兹；第2-3轮帕兹仍在摊位前追问小贩，第4轮直接按小贩指向走去暗街，途中没有数小时流逝的玩家可见承接。",
+    "conflictingTurns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "source": "model-output",
+    "reason": "正文把刚刚发生并连续承接的庆典相遇改写成几个小时前，造成时间连续性轻微断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第9轮写卡琳娜\"伸手握住身后那扇木门的铜质把手，往下压\"，随后又写\"钥匙转动时发出沉闷的咔嗒声\"。",
+    "conflictingEvidence": "同一段只展示她按下门把并让锁舌弹开，没有展示取钥匙、插钥匙或转钥匙；第7-8轮对这扇门的可见铺垫也只有铁门、木门和铜质把手。",
+    "conflictingTurns": [
+      7,
+      8,
+      9
+    ],
+    "source": "model-output",
+    "reason": "开门动作在同一段中从按门把跳到钥匙转动，缺少必要动作承接，形成局部物件/动作连续性错误。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第10轮卡琳娜先说\"这已经是第二笔了\"，并确认已经告诉帕兹敏特在找什么；同一轮稍后又说\"在谈第二笔之前，我倒是想问一件事\"。",
+    "conflictingEvidence": "第9轮帕兹已用\"我欠你一次\"换取敏特是否在新西西里的情报；第10轮开头又接受\"另算\"来追问敏特在找什么，所以当前交易已经进入第二笔。",
+    "conflictingTurns": [
+      9,
+      10
+    ],
+    "source": "model-output",
+    "reason": "同一场交易谈判中，正文一边确认第二笔已经发生，一边又说尚未谈第二笔，使亏欠/交易计数不稳定。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 18,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第18轮主角斥责德索洛：“庆典上你在摆摊。她也在。你连看都没看她一眼。这些年你没请她吃过一顿饭，没叫过她一声‘阁下’。”",
+    "conflictingEvidence": "第1-3轮只展示玩家与流动摊贩女孩谈卡琳娜和暗街，没有展示德索洛在庆典上摆摊，也没有展示玩家知道德索洛与卡琳娜这些多年关系细节。",
+    "conflictingTurns": [
+      1,
+      2,
+      3,
+      16,
+      17
+    ],
+    "source": "model-output",
+    "reason": "正文让主角说出此前未对玩家展示的德索洛背景和庆典行为，继续把未建立的关系当作已知事实。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第20轮写道：“德索洛右膝先落地……然后是左膝。他单膝跪地的时候，重心偏了一下”。",
+    "conflictingEvidence": "同一段先后写明右膝和左膝都落地，随后却称为“单膝跪地”。",
+    "conflictingTurns": [
+      20
+    ],
+    "source": "model-output",
+    "reason": "同一动作描写内部姿态不一致，轻微影响读者对人物动作的理解。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 23,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第23轮卡琳娜说：“你今天早上才踏进暗街。”",
+    "conflictingEvidence": "第6轮玩家首次在暗街被卡琳娜拦下时，她开场说“午安，记者”；第3-4轮通往暗街的场景也写到庆典彩灯、黑暗和“夜风”。",
+    "conflictingTurns": [
+      3,
+      4,
+      6
+    ],
+    "source": "model-output",
+    "reason": "当前轮把进入暗街的时间说成“今天早上”，与此前玩家可见的午后/夜间场景线索不稳定，造成轻微时间连续性漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第27轮卡尔说：“你穿过半个地球，不是因为委托。不是因为报酬。不是因为你想拍几张照片。”",
+    "conflictingEvidence": "第1轮主角来到新西西里的可见触发点是敏特的新照片；第9-10轮可见调查目标仍是敏特和骷髅会。此前没有建立过委托、报酬或拍照交差任务。",
+    "conflictingTurns": [
+      1,
+      9,
+      10
+    ],
+    "source": "model-output",
+    "reason": "即使句子是否定形式，正文仍把未建立的委托/报酬/拍照任务当作玩家已经理解的既有前提。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "high",
+    "currentEvidence": "第32轮称敏特在照片中“在笑”，并写“你记得拍下这张照片的时候——她转过身来，对你说‘别拍了’”，随后又说“隔着玻璃拍下这张照片”。",
+    "conflictingEvidence": "第1轮把这张照片介绍为匿名信封里的新照片：“一个本应死去的人的身影，清晰地印在新西西里的某条街道上。红发、侧脸、身形”；第31轮也称“委托人的信封里，除了黑猫的照片，还有敏特的照片”。",
+    "conflictingTurns": [
+      1,
+      31
+    ],
+    "source": "model-output",
+    "reason": "此前玩家可见信息把照片作为匿名委托寄来的侧脸线索，第32轮改成帕兹亲自拍摄并能回忆现场，改写了核心线索来源和照片内容。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第32轮写道：\"你见过这张照片一千次了——在战场帐篷里，在跨越半个地球的飞机上，在暗街公寓每一个睁着眼睛等天亮的夜里。\"",
+    "conflictingEvidence": "第23轮卡琳娜明确说：\"你今天早上才踏进暗街。\"",
+    "conflictingTurns": [
+      23
+    ],
+    "source": "model-output",
+    "reason": "玩家刚在当天早上进入暗街，却被写成已经在暗街公寓度过多个失眠夜，时间连续性不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 38,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "玩家输入只是“弄哑它的人，是不想让自己听见”。第38轮正文却写：“你已经承认了”“现在你知道了”“承认弄哑铃铛的人是你自己”。",
+    "conflictingEvidence": "第37轮卡尔问的是“你觉得弄哑它的人，是为了不让谁听见？”，选项只要求回答动机对象；第33-35轮只证明照片背面有铃铛印记且铃铛在包里，没有确认弄哑铃铛的人是谁。",
+    "conflictingTurns": [
+      33,
+      35,
+      37
+    ],
+    "source": "model-output",
+    "reason": "正文把一个关于动机的回答强行推进为身份结论，导致玩家可见推理链缺少必要证据。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 48,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 48 visibleText 继续承接玩家输入中的“但在宴会上，所有人的呼吸都掐着拍子”，并让卡尔总结“两个人都在某个灯太亮的地方绷过同一根弦”。",
+    "conflictingEvidence": "截至 turn 45，玩家可见经历没有宴会场景；该前提只是在 turn 46-47 被无铺垫引入并反复扩写。",
+    "conflictingTurns": [
+      45,
+      46,
+      47
+    ],
+    "source": "mixed",
+    "reason": "未展示的宴会继续被正文当成真实共同经历，延续了前两轮的因果跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 49 visibleText 先写卡琳娜像是“另一个人也去过那个地方，也听过那个声音”，随后又写她“在试着把一个她自己也去过的地方放进同一个句子”，并让卡琳娜说：“我也记得那种寂静。”",
+    "conflictingEvidence": "turn 11 中卡琳娜听到玩家来自中东和战场后表现为新奇求知：“那里是什么样的？书上说有一整片一整片的沙漠……是真的吗？”并问“你真的见过战争？真的拍了照片？”turn 32 也把她描述为“一个没见过多少战争的少女”。",
+    "conflictingTurns": [
+      11,
+      32
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜此前被建立为缺乏真实战争经验、主要从书本和听闻理解战场的人，这里却突然被叙述为也去过同类战场并记得同种寂静，人物经历缺少过渡。"
+  }
+]

@@ -1,0 +1,532 @@
+{
+  "turn": 32,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "拿起那张敏特的照片，试图理清思绪",
+  "selectedFromPreviousTurn": {
+    "text": "拿起那张敏特的照片，试图理清思绪"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "把照片翻过来，看背面有没有什么"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_icVhDMEoZo0T",
+      "label": "玩家已回应",
+      "description": "玩家接受卡琳娜的邀请"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "把照片翻过来，看背面有没有什么"
+      },
+      {
+        "text": "抬头问卡琳娜，她是不是知道什么"
+      },
+      {
+        "text": "把照片递给卡尔，让她看看"
+      },
+      {
+        "text": "深吸一口气，把照片收回包里"
+      }
+    ]
+  },
+  "visibleChars": 1287,
+  "durationMs": 56429.38,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 24,
+    "locationEvents": 11,
+    "entityEvents": 1
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T14:45:48.048Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T14:45:48.052Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 夜晚的街道 的事迹？",
+      "requestId": "req-cc44cc5d",
+      "taskId": "179c9b2c-31b3-40e2-a31b-bd0f7519fc75",
+      "durationMs": 295.85579199995846,
+      "at": "2026-06-23T14:45:48.320Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 夜晚的街道 的事迹？",
+      "requestId": "req-2659181e",
+      "taskId": "9d0927c9-2139-4cf4-83f5-878d138ea960",
+      "durationMs": 307.2876249998808,
+      "at": "2026-06-23T14:45:48.331Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 公园 的事迹？",
+      "requestId": "req-095b5d38",
+      "taskId": "bb4c583c-60ce-4fa3-babc-86dd25fa50ab",
+      "durationMs": 339.9604170001112,
+      "at": "2026-06-23T14:45:48.364Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 公园 的事迹？",
+      "requestId": "req-46b5b66e",
+      "taskId": "1e673b63-5ffd-4afd-9c96-0cac2390c0e5",
+      "durationMs": 341.9288330001291,
+      "at": "2026-06-23T14:45:48.366Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 夜晚的街道 的事迹？",
+      "requestId": "req-e14fb8f7",
+      "taskId": "6271a8b9-21bd-4c5a-a483-d58437be7000",
+      "durationMs": 418.91883399989456,
+      "at": "2026-06-23T14:45:48.443Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 公园 的事迹？",
+      "requestId": "req-6889d970",
+      "taskId": "293904db-5dba-4a44-9231-35f2ef087e56",
+      "durationMs": 227.16366699989885,
+      "at": "2026-06-23T14:45:48.547Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-71888afc",
+      "taskId": "88eb3777-4d50-435a-8d17-13cc3fa91281",
+      "durationMs": 265.20375000010245,
+      "at": "2026-06-23T14:45:48.597Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-f5c63615",
+      "taskId": "8dca16bb-8cb5-4990-af29-23db6c5b98b0",
+      "durationMs": 298.55754200019874,
+      "at": "2026-06-23T14:45:48.663Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-32913177",
+      "taskId": "33b5b316-09d6-4988-b41e-633711639ca4",
+      "durationMs": 224.65324999997392,
+      "at": "2026-06-23T14:45:48.668Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-79cf0adb",
+      "taskId": "dfc2691d-2bf7-4505-b19a-9b6a5745294e",
+      "durationMs": 306.1013329999987,
+      "at": "2026-06-23T14:45:48.672Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-308d2e5d",
+      "taskId": "e70ece85-fbfa-45f0-99ad-9b68182041ad",
+      "durationMs": 226.18579200003296,
+      "at": "2026-06-23T14:45:48.773Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-9ee8de1d",
+      "taskId": "dc690ffc-a6b5-4631-88a8-aca78863699b",
+      "durationMs": 208.78258400014602,
+      "at": "2026-06-23T14:45:48.872Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-d393b671",
+      "taskId": "b2686b41-f660-4a17-b9d7-97322d541b51",
+      "durationMs": 281.50154099985957,
+      "at": "2026-06-23T14:45:48.878Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-26dec7fe",
+      "taskId": "106c7a1b-6947-4377-bbe1-b8418efba588",
+      "durationMs": 282.1459999999497,
+      "at": "2026-06-23T14:45:48.950Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-a2c629c8",
+      "taskId": "46f5e50a-e918-490e-a249-958adca3a82b",
+      "durationMs": 286.89591699978337,
+      "at": "2026-06-23T14:45:48.959Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-7bfc3500",
+      "taskId": "b2d65225-2f76-4208-9e86-9cee1db06237",
+      "durationMs": 247.70645800000057,
+      "at": "2026-06-23T14:45:49.021Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-22ddff2b",
+      "taskId": "81d904bb-405a-47ac-8a82-b9e6b4a2e99d",
+      "durationMs": 222.140625,
+      "at": "2026-06-23T14:45:49.094Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "夜晚的街道 与哪些自然景象、物件相关？",
+      "requestId": "req-08bfb1fa",
+      "taskId": "87aa83c9-ef8a-45e0-acec-0bee66869b9a",
+      "durationMs": 195.23804199998267,
+      "at": "2026-06-23T14:45:49.145Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-13f6d513",
+      "taskId": "80642838-643a-4769-aded-7974e99da093",
+      "durationMs": 273.17412499990314,
+      "at": "2026-06-23T14:45:49.151Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "公园 与哪些自然景象、物件相关？",
+      "requestId": "req-cdac0c92",
+      "taskId": "00fae57f-6ebb-4040-89c1-b2fa7686e459",
+      "durationMs": 246.65083399997093,
+      "at": "2026-06-23T14:45:49.206Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-89e69dff",
+      "taskId": "df7bbf48-e594-41c3-92b7-b4e9131cbea1",
+      "durationMs": 201.25895899999887,
+      "at": "2026-06-23T14:45:49.222Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-869de25e",
+      "taskId": "7ec2f2c0-c646-40c9-b91f-3220f7e30baf",
+      "durationMs": 237.78987500001676,
+      "at": "2026-06-23T14:45:49.331Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-86cd3cfe",
+      "taskId": "6cebdfbf-51e2-4f26-b2ea-372fa44f58ca",
+      "durationMs": 226.24220800003968,
+      "at": "2026-06-23T14:45:49.371Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "拿起那张敏特的照片，试图理清思绪",
+      "requestId": "req-4388a9a1",
+      "taskId": "96e76391-0dca-4f83-ae32-66cc990a3c07",
+      "durationMs": 238.6822079999838,
+      "at": "2026-06-23T14:45:49.390Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 公园 的事迹？",
+      "requestId": "req-1cd2bf46",
+      "taskId": "38f6d770-709c-4867-8d21-d7a9cbc016ef",
+      "durationMs": 250.3307920000516,
+      "at": "2026-06-23T14:45:49.642Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 夜晚的街道 的事迹？",
+      "requestId": "req-3b3236e9",
+      "taskId": "9120fc96-8511-453d-b3ba-e757a0db2a4f",
+      "durationMs": 255.30462499987334,
+      "at": "2026-06-23T14:45:49.647Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 夜晚的街道 的事迹？",
+      "requestId": "req-b0752a9e",
+      "taskId": "d65c833f-9669-4a2c-8a7b-ee1b5860ed9b",
+      "durationMs": 327.79483399982564,
+      "at": "2026-06-23T14:45:49.719Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 夜晚的街道 的事迹？",
+      "requestId": "req-8bde57bc",
+      "taskId": "d36276d5-3fbe-4973-8abc-53eecba1217e",
+      "durationMs": 328.0728750000708,
+      "at": "2026-06-23T14:45:49.720Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 公园 的事迹？",
+      "requestId": "req-4c875efe",
+      "taskId": "8386bc5b-c4f5-4017-aa69-1ffa0207d424",
+      "durationMs": 328.14045899990015,
+      "at": "2026-06-23T14:45:49.720Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 公园 的事迹？",
+      "requestId": "req-24efe1d2",
+      "taskId": "c6aa4025-e44d-4c25-b794-58b8cccbea97",
+      "durationMs": 224.3965839999728,
+      "at": "2026-06-23T14:45:49.866Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-07286c5f",
+      "taskId": "71c29b46-d033-40a4-b967-b410573a2730",
+      "durationMs": 286.04254100006074,
+      "at": "2026-06-23T14:45:49.933Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-87f5d2a0",
+      "taskId": "b8329a09-1cf6-481e-bb49-8e10e87cce67",
+      "durationMs": 268.43095900001936,
+      "at": "2026-06-23T14:45:49.988Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-dbb4de5f",
+      "taskId": "e80bafb6-5d53-435e-95ae-cc2d804b3188",
+      "durationMs": 268.2684589999262,
+      "at": "2026-06-23T14:45:49.988Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-7e508aca",
+      "taskId": "f15aa2e7-c41b-4df6-bd95-9ddc9c1f101d",
+      "durationMs": 274.40070899995044,
+      "at": "2026-06-23T14:45:49.994Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-039564eb",
+      "taskId": "b60ee9be-403a-4398-b579-b96ea0b27ea7",
+      "durationMs": 219.722500000149,
+      "at": "2026-06-23T14:45:50.086Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-1d690d04",
+      "taskId": "d0d796bf-3dbb-4536-9408-1d38c18d5193",
+      "durationMs": 269.57850000006147,
+      "at": "2026-06-23T14:45:50.203Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-ae71fbf0",
+      "taskId": "79a2b80d-b9fe-4b6c-9162-25ec6ca7251a",
+      "durationMs": 270.22608399996534,
+      "at": "2026-06-23T14:45:50.258Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-2c4b704d",
+      "taskId": "d0d88b09-917b-4872-b0a5-0a9d5ae645ec",
+      "durationMs": 278.5209170000162,
+      "at": "2026-06-23T14:45:50.267Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-85174359",
+      "taskId": "cac6bbe4-27f5-41c2-9214-3e60fd0e245e",
+      "durationMs": 273.7743329999503,
+      "at": "2026-06-23T14:45:50.268Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-8ed7d4db",
+      "taskId": "7b9fbec8-fff3-46c6-bfcd-4fec22303b75",
+      "durationMs": 252.4157080000732,
+      "at": "2026-06-23T14:45:50.339Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-b26a45b5",
+      "taskId": "6e8e69c9-1278-42cd-a255-07b5d6b128e6",
+      "durationMs": 224.68562500015832,
+      "at": "2026-06-23T14:45:50.483Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-c70fc294",
+      "taskId": "eec84cd6-d2eb-43ec-9046-25ec1d70b310",
+      "durationMs": 286.2822500001639,
+      "at": "2026-06-23T14:45:50.489Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "夜晚的街道 与哪些自然景象、物件相关？",
+      "requestId": "req-032f4121",
+      "taskId": "57fc57c5-ede5-439d-b51a-8feb3e8d6edb",
+      "durationMs": 295.77229200000875,
+      "at": "2026-06-23T14:45:50.562Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "公园 与哪些自然景象、物件相关？",
+      "requestId": "req-6e8fbdd9",
+      "taskId": "d1ebc920-f0f8-4ffc-a303-314e745456bc",
+      "durationMs": 294.7153330000583,
+      "at": "2026-06-23T14:45:50.562Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-6402ae95",
+      "taskId": "b10b3015-7ac1-47c7-8357-ee9325fd3174",
+      "durationMs": 223.93887499999255,
+      "at": "2026-06-23T14:45:50.562Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-770e7dcb",
+      "taskId": "76ab71b4-870f-4bfc-a466-5a9ae9493ef5",
+      "durationMs": 241.2098750001751,
+      "at": "2026-06-23T14:45:50.730Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-7a9c0005",
+      "taskId": "d1c10dc5-19cf-4c98-ac73-34a17f37d0af",
+      "durationMs": 274.41891699982807,
+      "at": "2026-06-23T14:45:50.757Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "拿起那张敏特的照片，试图理清思绪",
+      "requestId": "req-0f88bf23",
+      "taskId": "b7cfad03-ad69-4e97-ab01-0c59742b216d",
+      "durationMs": 223.28770900005475,
+      "at": "2026-06-23T14:45:50.786Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-5e32e9c0",
+      "taskId": "8d0ad117-b219-4a23-a751-0a09be73dd32",
+      "durationMs": 21248.255166999996,
+      "at": "2026-06-23T14:46:43.327Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

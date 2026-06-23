@@ -1,0 +1,616 @@
+{
+  "turn": 13,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "告诉她爬上过沙丘，但最高处看到的不是风景，是硝烟和废墟。",
+  "selectedFromPreviousTurn": {
+    "text": "告诉她爬上过沙丘，但最高处看到的不是风景，是硝烟和废墟。"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 2
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 2
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 2
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 3
+  },
+  "selectedForNext": {
+    "text": "如实回答，告诉她你见过"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "如实回答，告诉她你见过"
+      },
+      {
+        "text": "避开这个话题，转而问她为什么对战争感兴趣"
+      },
+      {
+        "text": "简单点头，然后沉默，等卡琳娜自己开口"
+      },
+      {
+        "text": "把话题拉回正轨，继续追问骷髅会的情报"
+      }
+    ]
+  },
+  "visibleChars": 891,
+  "durationMs": 51262.42,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 21,
+    "locationEvents": 10,
+    "entityEvents": 1
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T14:31:23.051Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T14:31:23.057Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-ecf0d34e",
+      "taskId": "2792e989-f340-4e17-9650-2130c035f854",
+      "durationMs": 447.62154199997894,
+      "at": "2026-06-23T14:31:23.488Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-9cb754a0",
+      "taskId": "8c08b96c-f558-4ff8-bb09-fec41fd340a7",
+      "durationMs": 448.1997079999419,
+      "at": "2026-06-23T14:31:23.489Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-b595e5a6",
+      "taskId": "92b813cd-19b3-433d-afcf-2c127f4a15fb",
+      "durationMs": 448.50137499999255,
+      "at": "2026-06-23T14:31:23.489Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-45be42c2",
+      "taskId": "eeba68fc-4ed4-4162-8a3f-d4a5dd042a52",
+      "durationMs": 448.62516600009985,
+      "at": "2026-06-23T14:31:23.489Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-2e1a96e2",
+      "taskId": "6b603d2b-d124-4841-b7ca-fc0919e09aa3",
+      "durationMs": 458.33124999993015,
+      "at": "2026-06-23T14:31:23.499Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-32656cc6",
+      "taskId": "e3887ea2-6a30-43dc-9795-f282c38c27bd",
+      "durationMs": 215.91524999996182,
+      "at": "2026-06-23T14:31:23.705Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-f7f8d5ad",
+      "taskId": "1640fd90-6cc3-4ee6-b921-0dd7ec89db4a",
+      "durationMs": 266.7201659999555,
+      "at": "2026-06-23T14:31:23.766Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-3505ccda",
+      "taskId": "6fb72afe-71f5-4498-b848-95c4e1ccef9e",
+      "durationMs": 338.9159579999978,
+      "at": "2026-06-23T14:31:23.828Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-70b8b3dd",
+      "taskId": "7fa4f90b-9ed0-4d6e-93d3-24455b79f261",
+      "durationMs": 346.9249589999672,
+      "at": "2026-06-23T14:31:23.835Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-1a39b982",
+      "taskId": "e2fd662d-a9f8-4cc8-b5a8-2a19ed629cf6",
+      "durationMs": 346.1432499999646,
+      "at": "2026-06-23T14:31:23.835Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-9bad8f81",
+      "taskId": "5e7aacbf-5489-4e70-92f9-fc6d2eb28db3",
+      "durationMs": 237.93745799991302,
+      "at": "2026-06-23T14:31:23.943Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-a0740773",
+      "taskId": "bcbdd84b-f5f1-45e5-9877-ade134ae0f70",
+      "durationMs": 190.6510830000043,
+      "at": "2026-06-23T14:31:24.018Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-a7b61521",
+      "taskId": "1d6aeb07-2ea9-4c43-9256-a233070557dc",
+      "durationMs": 298.8081249999814,
+      "at": "2026-06-23T14:31:24.065Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-18c56868",
+      "taskId": "3854b2c2-af65-43a4-b57f-851b7d207072",
+      "durationMs": 278.9312500000233,
+      "at": "2026-06-23T14:31:24.114Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-c3c16528",
+      "taskId": "fecc155e-15e9-4f90-804c-dd9ed263cd67",
+      "durationMs": 285.77362500003073,
+      "at": "2026-06-23T14:31:24.121Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-233a144a",
+      "taskId": "203a63bc-7a57-4753-bfb4-2c62789ff080",
+      "durationMs": 238.6517500000773,
+      "at": "2026-06-23T14:31:24.182Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-574e9914",
+      "taskId": "95e0cd99-2190-402b-bccf-d9d4387488e9",
+      "durationMs": 233.43370799999684,
+      "at": "2026-06-23T14:31:24.252Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-ee4e681a",
+      "taskId": "74c59674-a72d-43b8-99b7-b3eb318e1676",
+      "durationMs": 235.3185409998987,
+      "at": "2026-06-23T14:31:24.300Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-3d7ec365",
+      "taskId": "d673d4c3-2bc9-4098-9671-7e9e9d377218",
+      "durationMs": 212.06870800000615,
+      "at": "2026-06-23T14:31:24.326Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "告诉她爬上过沙丘，但最高处看到的不是风景，是硝烟和废墟。",
+      "requestId": "req-a65101bf",
+      "taskId": "e10c9abd-c679-4fa8-96f7-52679f3d2310",
+      "durationMs": 274.1524999999674,
+      "at": "2026-06-23T14:31:24.395Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-59e82006",
+      "taskId": "c17fff7c-d955-4a5c-ae86-3ba04c6087f4",
+      "durationMs": 193.50654199998826,
+      "at": "2026-06-23T14:31:24.590Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-786ed704",
+      "taskId": "dcae656e-b59b-4d1d-95d8-3ec03edf6051",
+      "durationMs": 285.21791600005236,
+      "at": "2026-06-23T14:31:24.682Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-4e689c97",
+      "taskId": "40df571b-696a-4218-9930-a317a9d2eee9",
+      "durationMs": 343.0038329999661,
+      "at": "2026-06-23T14:31:24.740Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-f24ef4cf",
+      "taskId": "2bd373e3-72c9-49e8-8979-2763714aac51",
+      "durationMs": 343.23212499998044,
+      "at": "2026-06-23T14:31:24.740Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-b88be48e",
+      "taskId": "47a29bff-37d8-46de-ac82-e84a507c5344",
+      "durationMs": 347.4606250000652,
+      "at": "2026-06-23T14:31:24.744Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-810c9a6e",
+      "taskId": "ee3ca5b8-ebf1-40be-a5b2-34f81ddb3961",
+      "durationMs": 244.29195900005288,
+      "at": "2026-06-23T14:31:24.835Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-9b99052b",
+      "taskId": "aef7aa0b-cc84-47ea-98e1-c95fe13c734c",
+      "durationMs": 277.76029200002085,
+      "at": "2026-06-23T14:31:24.960Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-e2b90b83",
+      "taskId": "45d2ef03-4169-4ef0-b539-4a13b2a40617",
+      "durationMs": 263.706208000076,
+      "at": "2026-06-23T14:31:25.004Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-c9e9f66a",
+      "taskId": "838ade2b-cfe1-4fc9-a4d7-730bdde76ece",
+      "durationMs": 307.69633299997076,
+      "at": "2026-06-23T14:31:25.048Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-735fdc57",
+      "taskId": "3770cd53-d962-49e6-848f-529db8bcd9f9",
+      "durationMs": 303.4592499999562,
+      "at": "2026-06-23T14:31:25.048Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-65637125",
+      "taskId": "b124e27e-f17d-49b0-b475-7b235daae7c3",
+      "durationMs": 304.5977079999866,
+      "at": "2026-06-23T14:31:25.139Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-38464787",
+      "taskId": "84ecde14-b6d5-4751-89d7-ab3acaebb08a",
+      "durationMs": 223.12966700003017,
+      "at": "2026-06-23T14:31:25.183Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-d325101c",
+      "taskId": "b4c95886-c100-463a-bf5b-45a107464953",
+      "durationMs": 244.73012500000186,
+      "at": "2026-06-23T14:31:25.249Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-6e182f42",
+      "taskId": "e09a0e68-df3d-44e1-b6c4-f0c81c8cc1e9",
+      "durationMs": 304.68204099999275,
+      "at": "2026-06-23T14:31:25.352Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-9cee2900",
+      "taskId": "d89664c6-c5fd-4bdb-9b90-b4df1c1f2734",
+      "durationMs": 306.1952919999603,
+      "at": "2026-06-23T14:31:25.354Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-2495905c",
+      "taskId": "3e75f112-82e6-47a7-9d1e-bea998c892a3",
+      "durationMs": 223.3368339999579,
+      "at": "2026-06-23T14:31:25.362Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-1a83d6a1",
+      "taskId": "6f0a695b-e78e-45f4-a6f5-65c421fcb6ba",
+      "durationMs": 253.67104100005236,
+      "at": "2026-06-23T14:31:25.437Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-413109ba",
+      "taskId": "22b0aae7-4ce6-4348-b410-0fbd4264523c",
+      "durationMs": 275.5172920000041,
+      "at": "2026-06-23T14:31:25.628Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-b9214329",
+      "taskId": "ff1f339c-3a9c-4dd6-8e88-ee33c5ceeddb",
+      "durationMs": 381.47595900006127,
+      "at": "2026-06-23T14:31:25.630Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "告诉她爬上过沙丘，但最高处看到的不是风景，是硝烟和废墟。",
+      "requestId": "req-1ea40311",
+      "taskId": "5f0fea2c-b1d0-4651-a7d1-7f734c214c73",
+      "durationMs": 330.6924579999177,
+      "at": "2026-06-23T14:31:25.685Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "定居于“暗街”的女性，外貌为蓝眼睛、金色马尾与白色棉衣。性格沉稳务实，具备较强的局势洞察力与情报资源，行事风格偏向等价交换。虽习惯以理智与距离感待人，但内核对未知外界保有天然的好奇心。",
+                  "current_snapshot": "正与“你”面对面交流。听到关于沙漠的生动描述后，下意识卸下平日维持的威严门面，身体明显前倾，重心前移，金色马尾发梢扫过袖口也未察觉。语调上扬，连声追问沙丘高度与高处视野，展现出毫无修饰的新奇感与对“外部世界”的真切向往，正专注等待你的进一步回答。",
+                  "relationship_network": [
+                    "你（当前对话对象）"
+                  ]
+                },
+                {
+                  "name": "卡尔",
+                  "core_profile": "卡琳娜身边的黑猫，拥有琥珀色瞳孔。习性敏锐安静，具备类似人类的观察力与记录倾向。",
+                  "current_snapshot": "静卧沙发旁倾听对话。对谈话内容产生生理性关注（耳朵微动、瞳孔扩成椭圆、尾巴尖轻摆），视线在“你”与卡琳娜之间来回移动，呈现出默默审视与记录的状态。",
+                  "relationship_network": [
+                    "卡琳娜（主人/伴随关系）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "卡琳娜",
+                "core_profile": "定居于“暗街”的女性，外貌为蓝眼睛、金色马尾与白色棉衣。性格沉稳务实，具备较强的局势洞察力与情报资源，行事风格偏向等价交换。虽习惯以理智与距离感待人，但内核对未知外界保有天然的好奇心。",
+                "current_snapshot": "正与“你”面对面交流。听到关于沙漠的生动描述后，下意识卸下平日维持的威严门面，身体明显前倾，重心前移，金色马尾发梢扫过袖口也未察觉。语调上扬，连声追问沙丘高度与高处视野，展现出毫无修饰的新奇感与对“外部世界”的真切向往，正专注等待你的进一步回答。",
+                "relationship_network": [
+                  "你（当前对话对象）"
+                ]
+              },
+              {
+                "name": "卡尔",
+                "core_profile": "卡琳娜身边的黑猫，拥有琥珀色瞳孔。习性敏锐安静，具备类似人类的观察力与记录倾向。",
+                "current_snapshot": "静卧沙发旁倾听对话。对谈话内容产生生理性关注（耳朵微动、瞳孔扩成椭圆、尾巴尖轻摆），视线在“你”与卡琳娜之间来回移动，呈现出默默审视与记录的状态。",
+                "relationship_network": [
+                  "卡琳娜（主人/伴随关系）"
+                ]
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "用户详述沙漠战地经历与卡琳娜的情感共鸣",
+                  "time": "",
+                  "location": "暗街某公寓",
+                  "involved_characters": [
+                    "用户",
+                    "卡琳娜"
+                  ],
+                  "summary": "用户顺着此前的话题，向卡琳娜生动详述了中东沙漠与沙丘的真实样貌、触感与声响等感官细节，并侧面印证了自己曾担任战地记者的过往；卡琳娜原本疏离防备的姿态彻底软化，眼神中流露出对未知世界和真实战争的纯粹好奇，身体前倾并主动追问攀登沙丘的体验与视野。",
+                  "consequence": "双方互动氛围从冷硬的情报交易彻底转向温暖且具人情味的私人交流，卡琳娜对用户的外来者身份与真实背景产生了更深层次的共情与个人兴趣，显著拉近了心理距离，为后续建立稳固的信任关系奠定关键基础。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "用户详述沙漠战地经历与卡琳娜的情感共鸣",
+                "time": "",
+                "location": "暗街某公寓",
+                "involved_characters": [
+                  "用户",
+                  "卡琳娜"
+                ],
+                "summary": "用户顺着此前的话题，向卡琳娜生动详述了中东沙漠与沙丘的真实样貌、触感与声响等感官细节，并侧面印证了自己曾担任战地记者的过往；卡琳娜原本疏离防备的姿态彻底软化，眼神中流露出对未知世界和真实战争的纯粹好奇，身体前倾并主动追问攀登沙丘的体验与视野。",
+                "consequence": "双方互动氛围从冷硬的情报交易彻底转向温暖且具人情味的私人交流，卡琳娜对用户的外来者身份与真实背景产生了更深层次的共情与个人兴趣，显著拉近了心理距离，为后续建立稳固的信任关系奠定关键基础。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街的公寓",
+                  "description": "以暖黄色灯光与吊灯为主要光源的私密居住空间，内部陈设包含深色布艺沙发与木质矮桌，常伴有黑猫活动，空气带有旧物与生活气息，整体环境隐蔽且带有强烈的个人印记。沙丘的高度被用作衡量此建筑体量的参照。",
+                  "appearances": [
+                    "作为核心交互场景，主角在此坦露战地与记者经历；卡琳娜身体前倾、重心前移，在暖光氛围下彻底卸下防备，展现对外部世界的好奇。",
+                    "沙发是黑猫卡尔的活动区域，它在对话中抬耳、眨眼并移动视线，静静旁观记录两人的交流。",
+                    "延续旧记忆设定，此处始终作为卡琳娜的私人住所与情报据点，维持隐秘氛围。"
+                  ],
+                  "current_affiliation": "卡琳娜的私人住所与临时据点。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街的公寓",
+                "description": "以暖黄色灯光与吊灯为主要光源的私密居住空间，内部陈设包含深色布艺沙发与木质矮桌，常伴有黑猫活动，空气带有旧物与生活气息，整体环境隐蔽且带有强烈的个人印记。沙丘的高度被用作衡量此建筑体量的参照。",
+                "appearances": [
+                  "作为核心交互场景，主角在此坦露战地与记者经历；卡琳娜身体前倾、重心前移，在暖光氛围下彻底卸下防备，展现对外部世界的好奇。",
+                  "沙发是黑猫卡尔的活动区域，它在对话中抬耳、眨眼并移动视线，静静旁观记录两人的交流。",
+                  "延续旧记忆设定，此处始终作为卡琳娜的私人住所与情报据点，维持隐秘氛围。"
+                ],
+                "current_affiliation": "卡琳娜的私人住所与临时据点。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "4314e9be-af74-49c6-ac42-21f87e85f3a0",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-09",
+            "topic_turn_end": "turn-12",
+            "topic_turn_count": 4,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 2,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "target_id": "f6dfad0e-0672-58ed-8535-b69e9fbff6e8",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "character",
+                "key": "卡尔",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "event",
+                "key": "用户详述沙漠战地经历与卡琳娜的情感共鸣: 用户顺着此前的话题，向卡琳娜生动详述了中东沙漠与沙丘的真实样貌、触感与声响等感官",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街的公寓",
+                "target_id": "ddb71004-64f9-51a0-892d-18d14afaa9e6",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-23T14:31:34.806Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-eef6f32e",
+      "taskId": "97058760-dcb8-4011-a421-8aeca2805385",
+      "durationMs": 21064.14862500003,
+      "at": "2026-06-23T14:32:12.862Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

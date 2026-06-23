@@ -1,0 +1,110 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第32轮写道：\"你见过这张照片一千次了——在战场帐篷里，在跨越半个地球的飞机上，在暗街公寓每一个睁着眼睛等天亮的夜里。\"",
+    "conflictingEvidence": "第23轮卡琳娜明确说：\"你今天早上才踏进暗街。\"",
+    "conflictingTurns": [
+      23
+    ],
+    "source": "model-output",
+    "reason": "玩家刚在当天早上进入暗街，却被写成已经在暗街公寓度过多个失眠夜，时间连续性不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "high",
+    "currentEvidence": "第32轮称敏特在照片中“在笑”，并写“你记得拍下这张照片的时候——她转过身来，对你说‘别拍了’”，随后又说“隔着玻璃拍下这张照片”。",
+    "conflictingEvidence": "第1轮把这张照片介绍为匿名信封里的新照片：“一个本应死去的人的身影，清晰地印在新西西里的某条街道上。红发、侧脸、身形”；第31轮也称“委托人的信封里，除了黑猫的照片，还有敏特的照片”。",
+    "conflictingTurns": [
+      1,
+      31
+    ],
+    "source": "model-output",
+    "reason": "此前玩家可见信息把照片作为匿名委托寄来的侧脸线索，第32轮改成帕兹亲自拍摄并能回忆现场，改写了核心线索来源和照片内容。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 38,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "玩家输入只是“弄哑它的人，是不想让自己听见”。第38轮正文却写：“你已经承认了”“现在你知道了”“承认弄哑铃铛的人是你自己”。",
+    "conflictingEvidence": "第37轮卡尔问的是“你觉得弄哑它的人，是为了不让谁听见？”，选项只要求回答动机对象；第33-35轮只证明照片背面有铃铛印记且铃铛在包里，没有确认弄哑铃铛的人是谁。",
+    "conflictingTurns": [
+      33,
+      35,
+      37
+    ],
+    "source": "model-output",
+    "reason": "正文把一个关于动机的回答强行推进为身份结论，导致玩家可见推理链缺少必要证据。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 39,
+    "scope": "mixed",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "第39轮正文重新让卡尔说“一个物件出现在一个人身上，只会有两种可能：要么是别人放进去的，要么是自己放进去的”，选项也同时提供“是别人放进去的”和“是我自己放的”。",
+    "conflictingEvidence": "第38轮刚写明“你就是承认了。承认弄哑铃铛的人是你自己”，并进一步写出那个人“把铃铛塞进相机包的夹层里。然后假装没有放过”。",
+    "conflictingTurns": [
+      38
+    ],
+    "source": "model-output",
+    "reason": "上一轮已经把铃铛由自己处理并放入包中写成已确认事实，本轮又把同一事实退回未决选项，破坏推理连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 40,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "high",
+    "currentEvidence": "第40轮玩家输入“是别人放进去的——但我不知道是谁”，正文随即确认“你知道它是别人放进去的”“你没有驳她。你说的是实话”。",
+    "conflictingEvidence": "第38轮正文已经确认“承认弄哑铃铛的人是你自己”，并写出那个人把铃铛放到照片背面、压住铃心、再塞进相机包夹层。",
+    "conflictingTurns": [
+      38
+    ],
+    "source": "mixed",
+    "reason": "玩家输入选择了与上一轮已确认事实相反的说法，模型输出又将其认证为事实，直接反转了铃铛线索的归属。"
+  }
+]

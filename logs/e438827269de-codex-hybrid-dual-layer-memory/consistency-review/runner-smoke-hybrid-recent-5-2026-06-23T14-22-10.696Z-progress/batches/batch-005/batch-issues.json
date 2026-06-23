@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 41,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "high",
+    "currentEvidence": "turn 41 visibleText 写道：“拍下这张照片那天……你在战区的最后一周。敏特站在废弃的铁皮屋前……你躲在半堵塌墙后面，端起相机，隔着玻璃拍下那张笑脸。”同轮 choices 继续让玩家围绕“那天还有谁可能碰过我的相机包”回忆。",
+    "conflictingEvidence": "turn 1 已区分两张照片：旧合照被收回后，玩家抽出“另一张”，并说明“这张不同。这张很新。匿名信封里装着的就是它。一个本应死去的人的身影，清晰地印在新西西里的某条街道上。”这张新照片是匿名信封中的线索，不是玩家在战区最后一周亲自拍下的旧照片。",
+    "conflictingTurns": [1],
+    "source": "model-output",
+    "reason": "关键线索照片的来源从匿名信封中的新照片被改写成玩家亲自拍摄的战区旧照片，直接破坏了敏特线索和来岛动机的连续性。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 46,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 46 visibleText 中卡琳娜问：“你对那个宴会……怎么看？” choices 又提供“宴会上的人各有各的算盘，但没人真正放松”“你请我去宴会，是想让我看什么？”等选项。",
+    "conflictingEvidence": "此前玩家可见经历只呈现复活日庆典街面、暗街、公寓内谈话、德索洛来访、卡尔揭示敏特照片与铃铛，以及 turn 45 从公寓出门去公园；没有玩家可见的宴会，也没有卡琳娜邀请玩家去宴会。",
+    "conflictingTurns": [1, 7, 45],
+    "source": "model-output",
+    "reason": "模型把未展示、未建立的“宴会”当作刚共同经历过的重要事件，导致场景因果跳到玩家没有见过的经历上。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 47,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 47 playerInput 是“宴会上的人各有各的算盘——但没人真正放松”，visibleText 随后让卡琳娜回应“你说得对”“每个人都绷着一根弦”“我也没放松”，并说“我不习惯那种场合。所有的灯都亮着，所有人都站得那么近。” choices 也继续出现“比在宴会上自在”。",
+    "conflictingEvidence": "此前玩家可见内容没有发生过宴会；turn 45 刚从公寓直接去公园，turn 46 才首次无铺垫引入“那个宴会”。",
+    "conflictingTurns": [1, 45, 46],
+    "source": "mixed",
+    "reason": "玩家输入承接了上一轮选项中的未支撑前提，模型又把这个未展示宴会扩展成双方共同评价的既定经历。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 48,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 48 visibleText 继续承接玩家输入中的“但在宴会上，所有人的呼吸都掐着拍子”，并让卡尔总结“两个人都在某个灯太亮的地方绷过同一根弦”。",
+    "conflictingEvidence": "截至 turn 45，玩家可见经历没有宴会场景；该前提只是在 turn 46-47 被无铺垫引入并反复扩写。",
+    "conflictingTurns": [45, 46, 47],
+    "source": "mixed",
+    "reason": "未展示的宴会继续被正文当成真实共同经历，延续了前两轮的因果跳跃。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 49 visibleText 先写卡琳娜像是“另一个人也去过那个地方，也听过那个声音”，随后又写她“在试着把一个她自己也去过的地方放进同一个句子”，并让卡琳娜说：“我也记得那种寂静。”",
+    "conflictingEvidence": "turn 11 中卡琳娜听到玩家来自中东和战场后表现为新奇求知：“那里是什么样的？书上说有一整片一整片的沙漠……是真的吗？”并问“你真的见过战争？真的拍了照片？”turn 32 也把她描述为“一个没见过多少战争的少女”。",
+    "conflictingTurns": [11, 32],
+    "source": "model-output",
+    "reason": "卡琳娜此前被建立为缺乏真实战争经验、主要从书本和听闻理解战场的人，这里却突然被叙述为也去过同类战场并记得同种寂静，人物经历缺少过渡。"
+  }
+]

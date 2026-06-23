@@ -1,0 +1,80 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 23,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第23轮卡琳娜说：“你今天早上才踏进暗街。”",
+    "conflictingEvidence": "第6轮玩家首次在暗街被卡琳娜拦下时，她开场说“午安，记者”；第3-4轮通往暗街的场景也写到庆典彩灯、黑暗和“夜风”。",
+    "conflictingTurns": [3, 4, 6],
+    "source": "model-output",
+    "reason": "当前轮把进入暗街的时间说成“今天早上”，与此前玩家可见的午后/夜间场景线索不稳定，造成轻微时间连续性漂移。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 24,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "high",
+    "currentEvidence": "第24轮卡尔说：“你接的委托，目的就是找我。”“拍几张猫的照片就回去交差，很简单的工作吧？” 同轮选项还包括“质问卡尔：谁下的委托？你为什么要找我？”和“承认委托”。",
+    "conflictingEvidence": "第1轮玩家可见动机是匿名信封里出现“一个本应死去的人”的新照片，主角因此来新西西里寻找敏特；第9轮卡琳娜确认“敏特在这里”，第10轮说明敏特在找骷髅会。此前没有玩家可见内容展示主角接过拍猫照片的委托或以找卡尔为目的来到这里。",
+    "conflictingTurns": [1, 9, 10],
+    "source": "model-output",
+    "reason": "正文和选项突然把核心行动目标改写为寻找卡尔并拍猫照片交差，缺少玩家可见铺垫，且冲击此前围绕敏特展开的主线动机。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 25,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "high",
+    "currentEvidence": "第25轮玩家输入承接“谁下的委托？你为什么要找我？”，正文又让卡尔说：“拍几张照片就能拿到的报酬，多到可疑——你没有拒绝。不是因为你需要钱。”",
+    "conflictingEvidence": "第1轮展示主角因敏特的新照片来到新西西里，第9-10轮继续围绕敏特在暗街出现及骷髅会情报交易展开；此前没有玩家可见内容说明存在委托、报酬或拍猫照片任务。",
+    "conflictingTurns": [1, 9, 10, 24],
+    "source": "mixed",
+    "reason": "当前玩家输入承接了上一轮错误选项，模型输出又新增“高额报酬”细节，进一步固定了未展示的委托设定。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第27轮卡尔说：“你穿过半个地球，不是因为委托。不是因为报酬。不是因为你想拍几张照片。”",
+    "conflictingEvidence": "第1轮主角来到新西西里的可见触发点是敏特的新照片；第9-10轮可见调查目标仍是敏特和骷髅会。此前没有建立过委托、报酬或拍照交差任务。",
+    "conflictingTurns": [1, 9, 10],
+    "source": "model-output",
+    "reason": "即使句子是否定形式，正文仍把未建立的委托/报酬/拍照任务当作玩家已经理解的既有前提。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 28,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "high",
+    "currentEvidence": "第28轮卡尔说：“有人花了一笔多到可疑的钱，请一个战地记者从半个地球外飞到这座岛上，拍一只猫的照片。” 同轮选项还写“转向卡琳娜，问她是否从一开始就知道这个委托”。",
+    "conflictingEvidence": "第1轮展示的是匿名信封里的敏特照片引导主角来到新西西里；第9-10轮围绕敏特在暗街出现、她寻找骷髅会情报推进。玩家可见内容没有说明任何人花钱委托主角来拍猫。",
+    "conflictingTurns": [1, 9, 10],
+    "source": "model-output",
+    "reason": "当前轮再次把未展示的高额委托和拍猫任务作为事实陈述，并通过选项要求玩家继续承认这个前提。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 30,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第30轮卡尔说：“连委托人都不知道的事，我为什么会知道——”；同轮选项包括“追问卡尔：委托人和敏特到底有什么关系”。",
+    "conflictingEvidence": "第1轮主线由匿名信封中的敏特近照触发，第9-10轮可见目标是确认敏特在岛上并调查她寻找骷髅会的线索；此前没有玩家可见内容建立“委托人”这个行动来源。",
+    "conflictingTurns": [1, 9, 10],
+    "source": "model-output",
+    "reason": "正文和选项继续沿用未支撑的委托人设定，使玩家必须在错误前提上继续推进对话。"
+  }
+]

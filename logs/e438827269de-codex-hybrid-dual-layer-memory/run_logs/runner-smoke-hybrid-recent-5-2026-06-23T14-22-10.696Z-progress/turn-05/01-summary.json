@@ -1,0 +1,614 @@
+{
+  "turn": 5,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "配合，交出相机",
+  "selectedFromPreviousTurn": {
+    "text": "配合，交出相机",
+    "actionId": "anchor:a_azZx0jYROVs6"
+  },
+  "submittedAction": {
+    "actionId": "anchor:a_azZx0jYROVs6",
+    "committed": true,
+    "satisfiedAnchors": [
+      "主角对与黑帮的冲突做出选择或行动"
+    ]
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-03-第一章",
+    "beatUid": "n_BNYJHO4hJEuE",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-03-第一章",
+    "beatUid": "n_BNYJHO4hJEuE",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-03-第一章",
+    "beatUid": "n_BNYJHO4hJEuE",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "拒绝交出背包，挡开伸过来的手"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "拒绝交出背包，挡开伸过来的手"
+      },
+      {
+        "text": "把背包递出去，先稳住局面"
+      },
+      {
+        "text": "突然指向黑帮身后，制造空隙溜进去"
+      },
+      {
+        "text": "交背包时故意掉在地上，争取时间"
+      }
+    ]
+  },
+  "visibleChars": 381,
+  "durationMs": 35881.29,
+  "memory": {
+    "recentTurns": 4,
+    "recentEvents": 0,
+    "characterEvents": 8,
+    "locationEvents": 4,
+    "entityEvents": 3
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T14:25:11.015Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T14:25:11.017Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-85ecb8af",
+      "taskId": "0ce385e8-09f1-47ab-a6af-66aea603a59f",
+      "durationMs": 245.15270900001633,
+      "at": "2026-06-23T14:25:11.256Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-a7a4e1e2",
+      "taskId": "41ebe166-97dc-4bf8-ad31-80c5e2856539",
+      "durationMs": 300.85625000001164,
+      "at": "2026-06-23T14:25:11.311Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-33ee578f",
+      "taskId": "1e23b3a6-7891-4dcd-aad4-8caa84cead51",
+      "durationMs": 312.25787500001024,
+      "at": "2026-06-23T14:25:11.323Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-fb74223c",
+      "taskId": "8d77cc94-16c7-41ce-823b-26b4d5519406",
+      "durationMs": 351.0894580000022,
+      "at": "2026-06-23T14:25:11.361Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 暗街-深处 的事迹？",
+      "requestId": "req-62f01f00",
+      "taskId": "db4841cb-fe89-4e68-912d-0f5150f754fe",
+      "durationMs": 357.0054169999785,
+      "at": "2026-06-23T14:25:11.367Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-4cb996d9",
+      "taskId": "36086a09-9943-48f1-8a7d-991d7ce93d5c",
+      "durationMs": 210.1531669999822,
+      "at": "2026-06-23T14:25:11.466Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-2507a80e",
+      "taskId": "2a7bae14-46e2-4f5f-9495-3c5b24bd7e7c",
+      "durationMs": 275.0959579999908,
+      "at": "2026-06-23T14:25:11.586Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-a4631a82",
+      "taskId": "f0e34d96-7fb0-4884-b6ae-6fff466ce218",
+      "durationMs": 266.6095839999907,
+      "at": "2026-06-23T14:25:11.589Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-febbeeb9",
+      "taskId": "7242726b-f3c5-4602-ae1b-fae678a00485",
+      "durationMs": 299.6135409999988,
+      "at": "2026-06-23T14:25:11.661Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-b0d2a76e",
+      "taskId": "f873c867-395b-4195-ad74-49efb20a3995",
+      "durationMs": 302.70879199999035,
+      "at": "2026-06-23T14:25:11.670Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-42ac979a",
+      "taskId": "9c5c87c0-d596-42a2-9101-8da41213f6f6",
+      "durationMs": 259.8508750000037,
+      "at": "2026-06-23T14:25:11.725Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-d2836d43",
+      "taskId": "7a430ac0-d09a-4944-a483-b59018a9a156",
+      "durationMs": 218.16520899999887,
+      "at": "2026-06-23T14:25:11.804Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-7fbf782d",
+      "taskId": "760c4915-c341-4261-b337-24e080d6b3b5",
+      "durationMs": 253.38762500000303,
+      "at": "2026-06-23T14:25:11.842Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "配合，交出相机",
+      "requestId": "req-33a0d48a",
+      "taskId": "1c1503f6-fc25-48f3-8923-f4f5adfd77ed",
+      "durationMs": 239.41391699999804,
+      "at": "2026-06-23T14:25:11.900Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 暗街-深处 的事迹？",
+      "requestId": "req-14df182c",
+      "taskId": "7b7d9518-bd9f-44bd-8eec-4f13707a6270",
+      "durationMs": 390.37441699998453,
+      "at": "2026-06-23T14:25:12.292Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-ebce14e0",
+      "taskId": "cc3e4e1c-4d38-411b-a214-88255df7ef28",
+      "durationMs": 452.72387499999604,
+      "at": "2026-06-23T14:25:12.354Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-8eacf4bb",
+      "taskId": "fa117bcb-820a-450d-bd8b-e85a09ca295f",
+      "durationMs": 452.9496249999793,
+      "at": "2026-06-23T14:25:12.355Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-87717f69",
+      "taskId": "c953ae97-48e7-4bf5-a030-19c97fe4142d",
+      "durationMs": 453.21074999999837,
+      "at": "2026-06-23T14:25:12.355Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-395c4a96",
+      "taskId": "701a06ab-bfd7-4f6f-8b52-08173d3587fb",
+      "durationMs": 469.3546670000069,
+      "at": "2026-06-23T14:25:12.371Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-4a2979fe",
+      "taskId": "09126ad0-7f94-487b-928b-d30a9d9067c6",
+      "durationMs": 255.17304200000945,
+      "at": "2026-06-23T14:25:12.547Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-8741a3d4",
+      "taskId": "51752e48-ba2c-4a9f-9820-bc37237a3839",
+      "durationMs": 244.58037500001956,
+      "at": "2026-06-23T14:25:12.599Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-1004996b",
+      "taskId": "c415949c-f226-427d-8a64-57e352dbfa57",
+      "durationMs": 293.93691699998453,
+      "at": "2026-06-23T14:25:12.649Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-0b0f0c76",
+      "taskId": "13a5749c-fd80-4eed-a683-8d4aa0b37cac",
+      "durationMs": 288.7697909999988,
+      "at": "2026-06-23T14:25:12.660Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-b208c03a",
+      "taskId": "6cae8ce9-fb44-4f21-a175-596e2b1ecbac",
+      "durationMs": 305.20220800000243,
+      "at": "2026-06-23T14:25:12.660Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-9cf0c663",
+      "taskId": "0882e641-95c9-4f1d-9c6c-d0998d55eaa2",
+      "durationMs": 248.43370799999684,
+      "at": "2026-06-23T14:25:12.796Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-c6f45f18",
+      "taskId": "5090a622-4bb0-48ef-b532-9d0ec7e5e47d",
+      "durationMs": 226.71287499999744,
+      "at": "2026-06-23T14:25:12.826Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-d34cc34d",
+      "taskId": "71b9badc-ebae-4795-b3a8-956b01ed1f0a",
+      "durationMs": 209.1214579999796,
+      "at": "2026-06-23T14:25:12.858Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "配合，交出相机",
+      "requestId": "req-8d9e7f7f",
+      "taskId": "0552fb7a-765e-4d82-bda2-183441b7b291",
+      "durationMs": 232.73858399997698,
+      "at": "2026-06-23T14:25:12.892Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "你（主角/记者）",
+                  "core_profile": "手持老旧胶卷相机的外来调查者，职业身份确认为记者。经历过战地冲突，对逼近的威胁具有强烈的生理性创伤应激反应，但意识层面力求平稳以维持寻人行动。",
+                  "current_snapshot": "独自潜入暗街寻人，在巷口遭当地帮派成员拦截。对方因忌惮其相机身份而索要财物，主角正面临心理防线与战争记忆闪回的剧烈冲击，处于僵持对峙状态。",
+                  "relationship_network": [
+                    "暗街看守头目（敌对盘查/勒索相机）",
+                    "两名手下（一瘦高一矮壮，协同围堵施压）"
+                  ]
+                },
+                {
+                  "name": "暗街看守头目",
+                  "core_profile": "身材不高但肩背宽厚，常穿黑色皮夹克与深色衬衫的地面势力代表。行事从容且带有强烈的领地排他性，对外来者尤其是携带摄影设备的记者抱有高度戒备与排斥，习惯通过言语压制与肢体逼近确立控制。",
+                  "current_snapshot": "率两名手下封锁巷口，经短暂耳语商议后改变策略，从直接驱逐转为胁迫勒索，要求主角留下相机方可通行，正带领手下缓慢逼近以施加心理压力。",
+                  "relationship_network": [
+                    "两名手下（左右护卫/听从调遣）",
+                    "相机持有者（盘查勒索目标/潜在冲突对象）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "你（主角/记者）",
+                "core_profile": "手持老旧胶卷相机的外来调查者，职业身份确认为记者。经历过战地冲突，对逼近的威胁具有强烈的生理性创伤应激反应，但意识层面力求平稳以维持寻人行动。",
+                "current_snapshot": "独自潜入暗街寻人，在巷口遭当地帮派成员拦截。对方因忌惮其相机身份而索要财物，主角正面临心理防线与战争记忆闪回的剧烈冲击，处于僵持对峙状态。",
+                "relationship_network": [
+                  "暗街看守头目（敌对盘查/勒索相机）",
+                  "两名手下（一瘦高一矮壮，协同围堵施压）"
+                ]
+              },
+              {
+                "name": "暗街看守头目",
+                "core_profile": "身材不高但肩背宽厚，常穿黑色皮夹克与深色衬衫的地面势力代表。行事从容且带有强烈的领地排他性，对外来者尤其是携带摄影设备的记者抱有高度戒备与排斥，习惯通过言语压制与肢体逼近确立控制。",
+                "current_snapshot": "率两名手下封锁巷口，经短暂耳语商议后改变策略，从直接驱逐转为胁迫勒索，要求主角留下相机方可通行，正带领手下缓慢逼近以施加心理压力。",
+                "relationship_network": [
+                  "两名手下（左右护卫/听从调遣）",
+                  "相机持有者（盘查勒索目标/潜在冲突对象）"
+                ]
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "暗街巷口遭遇黑帮拦截",
+                  "time": "",
+                  "location": "暗街巷口",
+                  "involved_characters": [
+                    "帕兹",
+                    "黑帮头目",
+                    "瘦高男子",
+                    "矮壮男子"
+                  ],
+                  "summary": "帕兹抵达暗街入口时，被三名黑帮成员堵截。为首者注意到其胸口的旧胶卷相机，识破其记者身份后严厉驱赶。帕兹表明找人事宜试图交涉，对方短暂商议后改变策略，要求帕兹留下相机即可放行。在对方步步逼近的压力下，帕兹的肢体动作触发了深层的战地创伤记忆，导致其呼吸骤变并本能地死死扣住相机边缘。",
+                  "consequence": "确认了暗街受黑帮势力绝对管控且对外来者高度戒备；黑帮对相机的强行索要将主角置于被迫交易或冲突的境地；严重的创伤应激反应揭示了主角过往战场经历对其当前心理状态的深刻影响，双方对峙态势正式形成。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "暗街巷口遭遇黑帮拦截",
+                "time": "",
+                "location": "暗街巷口",
+                "involved_characters": [
+                  "帕兹",
+                  "黑帮头目",
+                  "瘦高男子",
+                  "矮壮男子"
+                ],
+                "summary": "帕兹抵达暗街入口时，被三名黑帮成员堵截。为首者注意到其胸口的旧胶卷相机，识破其记者身份后严厉驱赶。帕兹表明找人事宜试图交涉，对方短暂商议后改变策略，要求帕兹留下相机即可放行。在对方步步逼近的压力下，帕兹的肢体动作触发了深层的战地创伤记忆，导致其呼吸骤变并本能地死死扣住相机边缘。",
+                "consequence": "确认了暗街受黑帮势力绝对管控且对外来者高度戒备；黑帮对相机的强行索要将主角置于被迫交易或冲突的境地；严重的创伤应激反应揭示了主角过往战场经历对其当前心理状态的深刻影响，双方对峙态势正式形成。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街",
+                  "description": "位于庆典外围的特殊街区，环境昏暗寂静，远离彩灯与人群。街道狭窄低矮，无路灯与招牌，仅靠零星窗户透出昏黄光线。空气潮湿阴冷，弥漫霉味，墙面布满剥落灰泥与不明深色痕迹。区内秩序由特定势力绝对掌控，外来者在此常遭严厉盘查与驱逐。",
+                  "appearances": [
+                    "摊贩曾通过手指方向展示其地理方位与环境特征（灯火稀疏、低矮建筑轮廓、被黑暗吞没），并口头提及该地由卡琳娜阁下管辖。",
+                    "主角主动前往此地，从喧闹庆典区步入黑暗窄巷；遭遇三名黑帮打扮的男子在巷口堵截并强行索要相机；环境描写突出其压抑、危险与不容外人踏入的氛围。"
+                  ],
+                  "current_affiliation": "名义上由卡琳娜阁下管辖，当前实际由地盘黑帮严密控制与盘查。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街",
+                "description": "位于庆典外围的特殊街区，环境昏暗寂静，远离彩灯与人群。街道狭窄低矮，无路灯与招牌，仅靠零星窗户透出昏黄光线。空气潮湿阴冷，弥漫霉味，墙面布满剥落灰泥与不明深色痕迹。区内秩序由特定势力绝对掌控，外来者在此常遭严厉盘查与驱逐。",
+                "appearances": [
+                  "摊贩曾通过手指方向展示其地理方位与环境特征（灯火稀疏、低矮建筑轮廓、被黑暗吞没），并口头提及该地由卡琳娜阁下管辖。",
+                  "主角主动前往此地，从喧闹庆典区步入黑暗窄巷；遭遇三名黑帮打扮的男子在巷口堵截并强行索要相机；环境描写突出其压抑、危险与不容外人踏入的氛围。"
+                ],
+                "current_affiliation": "名义上由卡琳娜阁下管辖，当前实际由地盘黑帮严密控制与盘查。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "你（主角/记者）",
+              "暗街看守头目"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "你（主角/记者）",
+                "candidate_names": [
+                  "你（主角/记者）"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "你（主角/记者）的人物档案",
+                "facts": [
+                  {
+                    "content": "你（主角/记者）。当前快照：独自潜入暗街寻人，在巷口遭当地帮派成员拦截。对方因忌惮其相机身份而索要财物，主角正面临心理防线与战争记忆闪回的剧烈冲击，处于僵持对峙状态。。 关系网：暗街看守头目（敌对盘查/勒索相机）；两名手下（一瘦高一矮壮，协同围堵施压）。",
+                    "summary": null,
+                    "entity_names": [
+                      "你（主角/记者）"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "手持老旧胶卷相机的外来调查者，职业身份确认为记者。经历过战地冲突，对逼近的威胁具有强烈的生理性创伤应激反应，但意识层面力求平稳以维持寻人行动。",
+                  "character_current_snapshot": "独自潜入暗街寻人，在巷口遭当地帮派成员拦截。对方因忌惮其相机身份而索要财物，主角正面临心理防线与战争记忆闪回的剧烈冲击，处于僵持对峙状态。",
+                  "character_relationship_network": [
+                    "暗街看守头目（敌对盘查/勒索相机）",
+                    "两名手下（一瘦高一矮壮，协同围堵施压）"
+                  ],
+                  "turn_id": "turn-04",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              },
+              {
+                "character_name": "暗街看守头目",
+                "candidate_names": [
+                  "暗街看守头目"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "暗街看守头目的人物档案",
+                "facts": [
+                  {
+                    "content": "暗街看守头目。当前快照：率两名手下封锁巷口，经短暂耳语商议后改变策略，从直接驱逐转为胁迫勒索，要求主角留下相机方可通行，正带领手下缓慢逼近以施加心理压力。。 关系网：两名手下（左右护卫/听从调遣）；相机持有者（盘查勒索目标/潜在冲突对象）。",
+                    "summary": null,
+                    "entity_names": [
+                      "暗街看守头目"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "身材不高但肩背宽厚，常穿黑色皮夹克与深色衬衫的地面势力代表。行事从容且带有强烈的领地排他性，对外来者尤其是携带摄影设备的记者抱有高度戒备与排斥，习惯通过言语压制与肢体逼近确立控制。",
+                  "character_current_snapshot": "率两名手下封锁巷口，经短暂耳语商议后改变策略，从直接驱逐转为胁迫勒索，要求主角留下相机方可通行，正带领手下缓慢逼近以施加心理压力。",
+                  "character_relationship_network": [
+                    "两名手下（左右护卫/听从调遣）",
+                    "相机持有者（盘查勒索目标/潜在冲突对象）"
+                  ],
+                  "turn_id": "turn-04",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "bc78480b-9b45-4eab-b2b2-ce72c7571c19",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-01",
+            "topic_turn_end": "turn-04",
+            "topic_turn_count": 4,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 1,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "event",
+                "key": "暗街巷口遭遇黑帮拦截: 帕兹抵达暗街入口时，被三名黑帮成员堵截",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街",
+                "target_id": "e01998e5-1e70-5f90-997b-f70760bfe5e8",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-23T14:25:24.491Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-3e52b35b",
+      "taskId": "618432db-b623-47d9-8773-b42c46bd1001",
+      "durationMs": 11629.14495799999,
+      "at": "2026-06-23T14:25:45.675Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

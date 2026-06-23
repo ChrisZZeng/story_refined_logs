@@ -1,0 +1,47 @@
+{
+  "scriptPath": "/Users/wanghaha/code/oreturn-owlet-hybrid-dual-layer-memory-remote-backup-20260623-214734/tmp/ad78fb59-v8.semantic-split-preview.json",
+  "turnCount": 50,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "startedAt": "2026-06-23T14:22:10.696Z",
+  "stateFoldEnabled": true,
+  "memory": {
+    "mode": "hybrid",
+    "recentTurnLimit": 5,
+    "turnDelayMs": 0
+  },
+  "outRoot": "/Users/wanghaha/code/oreturn-owlet-hybrid-dual-layer-memory-remote-backup-20260623-214734/tmp/hybrid-progress-50-rerun-20260623-v2",
+  "memorax": {
+    "baseUrl": "http://47.112.192.211:8800",
+    "hasApiKey": true,
+    "appId": null,
+    "userId": "v8-smoke-1782224530696",
+    "agentId": "v8-script",
+    "topK": 6,
+    "ownerResolution": "query",
+    "playerAliases": [
+      "主角",
+      "玩家"
+    ],
+    "outputMode": "mix",
+    "writeMode": "memorax:blocking+bucket:background",
+    "seedMarker": "v8-memorax-seed-1782224530696",
+    "seedFact": ""
+  },
+  "model": {
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.deepseek.com/v1",
+    "model": "deepseek-v4-pro",
+    "hasApiKey": true,
+    "thinkingEnabled": "false"
+  },
+  "pilotModel": {
+    "source": "LLM_* fallback",
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.deepseek.com/v1",
+    "model": "deepseek-v4-pro",
+    "hasApiKey": true,
+    "apiKeyEnvVar": "LLM_API_KEY",
+    "thinkingEnabled": "false"
+  }
+}
