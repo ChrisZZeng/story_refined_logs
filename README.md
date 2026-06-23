@@ -54,3 +54,24 @@ current_dir/story_refined_logs/logs/<current_branch>-<current_version>/root-caus
 如果某个 run 缺少对应的 consistency-review/<run-id>，请先报告并跳过，不要臆造评测结果。
 所有 batch 完成后聚合 root cause 结果，报告每个 run 的 validity 分布、rootCause.label/family 分布、修复优先级和报告路径。
 ```
+
+- consistency review 可视化 HTML，基于已有评测结果生成每个 run 的气泡对照报告：
+
+```bash
+node story_refined_logs/scripts/render-consistency-review-html.mjs \
+  story_refined_logs/logs/<current_branch>-<current_version>
+```
+
+默认会扫描 `run_logs/` 下的所有 run，并把 HTML 写到：
+
+```text
+story_refined_logs/logs/<current_branch>-<current_version>/consistency-review/<run-id>/fullturn-bubble-review.html
+```
+
+如只生成某个 run，可以指定：
+
+```bash
+node story_refined_logs/scripts/render-consistency-review-html.mjs \
+  story_refined_logs/logs/<current_branch>-<current_version> \
+  --run-id <run-id>
+```
