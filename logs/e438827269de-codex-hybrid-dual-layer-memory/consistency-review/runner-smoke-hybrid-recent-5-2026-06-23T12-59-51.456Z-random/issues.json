@@ -1,0 +1,393 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 3,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 3 offers the choice \"直接去暗街，往日总是如影随形\".",
+    "conflictingEvidence": "The surrounding turn 3 context is a concrete routing decision about going to Dark Street, and the other visible choice is the similarly concrete \"你注意到了不寻常的目光——你被盯上了？\". The appended clause \"往日总是如影随形\" has no established referent or actionable meaning in the scene.",
+    "conflictingTurns": [
+      3
+    ],
+    "source": "model-output",
+    "reason": "The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity."
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 6,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 6 reopens with the same beat already shown at the end of turn 5: \"巷子里安静了两秒。你没有抬头……‘战友的遗产？’……你等着他的反应。\" before continuing the fight.",
+    "conflictingEvidence": "Turn 5 had already fully presented that exact pause, line, and internal setup as its closing scene, ending on the same \"你等着他的反应。\"",
+    "conflictingTurns": [
+      5
+    ],
+    "source": "model-output",
+    "reason": "The next turn repeats a substantial chunk of already-shown scene text instead of cleanly advancing from the previous state."
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "Turn 9 has Karina refer to the Central District vendor as \"那个老头啊\".",
+    "conflictingEvidence": "Turns 1-3 consistently present that stallkeeper as female-coded: the narration uses \"她\" repeatedly, including \"她把胳膊肘撑在摊子上\" and \"她低下头去整理摊子上的零碎物件\".",
+    "conflictingTurns": [
+      1,
+      2,
+      3
+    ],
+    "source": "model-output",
+    "reason": "The same previously female-coded vendor is suddenly recast as an old man without any visible explanation."
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "卡琳娜说：\"一张死人照片。一封匿名信。一趟自己走进火药的船。\"",
+    "conflictingEvidence": "上一轮同一推断使用的是可理解的危险隐喻：\"让你自己走进火药桶。\" 当前的 \"火药的船\" 语义不通顺，像是把 \"一趟船\" 和 \"火药桶\" 错拼在一起。",
+    "conflictingTurns": [
+      11
+    ],
+    "source": "model-output",
+    "reason": "该句在关键情报分析对白中出现明显错拼式隐喻，短暂破坏正文可读性和语义稳定性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "选项文本包含孤立右引号：\"低声问卡琳娜：你现在有武器吗？”\"、\"指向窗户，压低声音问她：后路通哪里？”\"。",
+    "conflictingEvidence": "同批次其他选项通常使用完整引号或不使用引号，例如 turn 17 的 \"低声问卡琳娜，刚才外面有几个人\"。",
+    "conflictingTurns": [
+      17
+    ],
+    "source": "model-output",
+    "reason": "两个选项都留下未配对的右引号，属于玩家可见选项格式瑕疵。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 20 写道：\"然后门外响起了第三次敲门声。不是之前那种短促、用力的指节砸击。而是——手掌拍在门板上的声音，带着喘息，断断续续。\"",
+    "conflictingEvidence": "turn 19 已经触发同一次当前危机：\"门外传来一阵急促的敲门声。不是礼貌的叩门。是指节砸在木门上的声音——短促，用力，带着一种不容等待的紧迫感。\"",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "玩家刚要应对第三次敲门，下一轮却把这次敲门的声源和质感从短促用力的指节敲击改写成喘息的手掌拍门，导致同一即时事件的感知证据前后不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "卡琳娜说：“如果你不想来——也没关系。门没有锁。”",
+    "conflictingEvidence": "第 18 轮玩家检查门锁，确认“铁质锁舌卡入门框”“它确实是卡紧的”；第 20 轮德索洛离开后，“卡琳娜关上门。锁舌卡进门框的声音清脆而笃定。”",
+    "conflictingTurns": [
+      18,
+      20
+    ],
+    "source": "model-output",
+    "reason": "门此前刚被明确锁上，之后没有可见开锁动作，却被说成没有锁，造成局部物件状态冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜说：“我的邀请仍然有效。”随后才首次说明“今晚凯旋门那边有个晚宴。你如果愿意来——就跟我一起出门。”",
+    "conflictingEvidence": "窗口内此前没有玩家可见的晚宴邀请；可见的既有邀请是第 9 轮“跟上卡琳娜，接受她的邀请去公寓”，且该邀请已在第 11 轮进入公寓后完成。",
+    "conflictingTurns": [
+      9,
+      11,
+      23
+    ],
+    "source": "model-output",
+    "reason": "晚宴路线被说成一个仍然有效的既有邀请，但此前玩家只看到过去公寓的邀请，没有看到晚宴邀请被提出。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "第 27 轮开头再次写“不是。”“我知道她的时候——她已经是短发了。比这张照片上还要短。”“她说长头发容易被人抓住。在暗处不方便。”并且这些对白没有使用引号。",
+    "conflictingEvidence": "第 26 轮卡琳娜已经回答过：“不是。”“我知道她的时候——她已经是短发了。剪得很短。比照片上还要短。”“她说长头发容易被人抓住。在暗处不方便。”第 27 轮玩家输入只是“确认她见过敏特”。",
+    "conflictingTurns": [
+      26
+    ],
+    "source": "model-output",
+    "reason": "新一轮没有直接承接玩家的确认动作，而是近乎逐句重复上一轮已完成的回答，并出现对白标点退化，形成明显重复演出。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 34,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 34 中玩家问“我们要去哪？”，卡琳娜回答“公园。不远。走几分钟就到。”随后路线被推进到公园方向。",
+    "conflictingEvidence": "Turn 24 中卡琳娜明确提出“今晚凯旋门那边有个晚宴。你如果愿意来——就跟我一起出门”，并解释“晚宴上，康纳不会动手”；Turn 29 又催促“走吧。天黑了，这里更不好走。”",
+    "conflictingTurns": [
+      24,
+      29
+    ],
+    "source": "model-output",
+    "reason": "出门目的此前被建立为去凯旋门晚宴，但当前轮在没有过渡或解释的情况下改成去公园，削弱了玩家对路线和行动目标的理解。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 37 的选项包括“她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的”“她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么”等。",
+    "conflictingEvidence": "窗口内相邻轮次的选项通常是清晰的行动或发问，例如 Turn 36 的“表达自己对这场宴会的疑虑”“反问她对宴会有什么看法”“直接评价：‘一场正式的试探’”。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "这些选项从可执行的玩家动作漂移成较长的元叙事式意图说明，降低了互动选项的清晰度和格式稳定性。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 39,
+    "scope": "visibleText",
+    "type": "language-drift",
+    "severity": "low",
+    "currentEvidence": "Turn 39 写作“它慢悠悠地站起来，在石凳上伸了个懒腰——两隻前爪向前探出去”。",
+    "conflictingEvidence": "同一窗口和同一段叙事主体一直使用简体中文，例如多次写作“那只黑猫”，而不是繁体“隻”。",
+    "conflictingTurns": [
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38
+    ],
+    "source": "model-output",
+    "reason": "单个繁体字混入简体中文正文，属于轻微但玩家可见的语言/字形稳定性问题。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "Turn 43 开头写道：“那只黑猫的鼻尖还悬在你的手指上方——她没有退开，也没有凑近，只是那样停着”。同一轮后文又写“那只黑猫在这时候收回了头。她后退半步，在桌沿重新蹲坐下来”。",
+    "conflictingEvidence": "Turn 42 已经写明黑猫“收回了头。她后退半步，重新蹲坐下来”。",
+    "conflictingTurns": [
+      42
+    ],
+    "source": "model-output",
+    "reason": "上一轮刚完成的黑猫退回动作在本轮开头被回滚为尚未发生，并在本轮内重复演出，造成即时动作连续性断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 46,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 46 开头写道：“那只黑猫蹲坐在椅子腿旁，耳朵微微偏向你的方向”。",
+    "conflictingEvidence": "Turn 45 中黑猫已经“从椅子腿旁站起来，踱了两步，走到书堆前”，随后“蹲坐下来”，并停留在诗集附近。",
+    "conflictingTurns": [
+      45
+    ],
+    "source": "model-output",
+    "reason": "黑猫上一轮已从椅子腿旁移动到书堆前，本轮没有移动承接就把它写回椅子旁，造成位置连续性错误。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 47,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 47 的选项包含：“说她也想去看看那片海”。",
+    "conflictingEvidence": "Turn 47 的其他选项均是玩家接下来要执行的动作或提问，例如“问问她撕掉那一页的人是谁”“低头看看黑猫，问她叫什么名字”；此前语境是在让玩家决定自己如何回应卡琳娜关于那片海的感受。",
+    "conflictingTurns": [
+      47
+    ],
+    "source": "model-output",
+    "reason": "选项中的“她也想”把表达主体写得含混甚至错误，和后续实际展开的“我也想”不一致，影响玩家对所选行动的理解。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 47,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "Turn 47 玩家对白写道：“那本地图册——你说你读得最多。”",
+    "conflictingEvidence": "Turn 45 只说地图册是卡琳娜来这里第一年捡到的、缺了十几页；同轮概括为“那些书……每一本都读过不止一遍”，没有说地图册读得最多。",
+    "conflictingTurns": [
+      45
+    ],
+    "source": "model-output",
+    "reason": "正文替玩家断言卡琳娜曾说地图册读得最多，但此前玩家可见内容没有这个信息，导致对话依据被凭空添加。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 48,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 48 写道：“椅子腿旁，那只黑猫在这时候轻轻动了一下。她没有站起来——下巴还搁在前爪上”。",
+    "conflictingEvidence": "Turn 47 中黑猫已经“慢悠悠地站起身”，随后“踱到那堆书前”，并“在暗红色布面诗集旁蹲坐下来”。",
+    "conflictingTurns": [
+      47
+    ],
+    "source": "model-output",
+    "reason": "黑猫上一轮已移动到书堆和诗集旁，本轮又无承接地回到椅子腿旁并呈现为趴卧状态，破坏了动作和位置连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "Turn 49 在卡琳娜解释“但只有叫她卡尔的时候，她会眨一下眼睛”之后写道：“你说完这句话的时候，低头看了一眼那只黑猫。”",
+    "conflictingEvidence": "该句之前连续说话者是卡琳娜，玩家本轮只问了“她叫什么名字？”。",
+    "conflictingTurns": [
+      49
+    ],
+    "source": "model-output",
+    "reason": "正文把卡琳娜刚说完的话错误归因给玩家，造成说话主体短暂漂移。"
+  }
+]

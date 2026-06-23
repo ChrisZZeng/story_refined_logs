@@ -1,0 +1,524 @@
+{
+  "batchId": "batch-003",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 9,
+      "turn": 27,
+      "severity": "medium",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "新一轮没有直接承接玩家的确认动作，而是近乎逐句重复上一轮已完成的回答，并出现对白标点退化，形成明显重复演出。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice option schema/prompt: 为推论型选项增加 actionKind/speechAct/targetFact，避免只输出“确认 X”",
+          "Director prompt/intent resolver: 将 selected choice 转成 must-satisfy contract，并附带 consumedEvidence 禁止复述",
+          "Narrator/output validator: 检查 data-speaker 台词引号和跨 turn 重复片段"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "优先修复 Choice→Director 的 selected choice handoff：让选项携带明确 speechAct、targetFact 和已消费证据，并在 Director 组装时加入本轮 anti-repeat 检查；同时加 v3-html 对白引号校验。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-009-turn-27/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-009-turn-27/root-cause-report.md",
+      "result": {
+        "issueId": "issue-9-turn-27",
+        "issueIndex": 9,
+        "turn": 27,
+        "severity": "medium",
+        "type": "repeated-scene",
+        "scope": "visibleText",
+        "issueValidity": "valid",
+        "problemSummary": "第 27 轮在玩家选择“确认她见过敏特”后，正文先重复第 26 轮已经完整给出的短发回答，再追加“我见过她 / 就在新西西里”，并且卡琳娜对白失去引号，形成玩家可见的重复演出和格式退化。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见时间线中，第 26 轮已经回答“不是”“我知道她的时候——她已经是短发了”“她说长头发容易被人抓住”；第 27 轮又近乎逐句复述这些句子。玩家本轮动作只是确认推论，不需要重演上一轮答案。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中 turn 26 的短发解释与 turn 27 开头三段高度重合；turn 27 的对白可见为无引号文本，例如“不是。”、“我知道她的时候——她已经是短发了”。",
+          "caveats": [
+            "“确认她见过敏特”不是完整台词，存在少量解释空间；但即使理解为追问确认，也只需要直接确认，不需要重复上一轮已经完成的回答。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，卡琳娜正拿着敏特照片。第 26 轮她已经说明自己知道敏特时敏特是短发，并给出长发容易被抓住的原因；这已经让玩家能推断“她见过敏特”。第 27 轮玩家选择确认这个推断。",
+          "relevantFacts": [
+            {
+              "claim": "短发解释在上一轮已经呈现，属于已消费的玩家可见内容。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/03-story-state.json"
+              ],
+              "notes": "Director prompt 的最近几轮玩家经历逐字包含 turn 26 的“不是”“短发”“长头发容易被人抓住”。"
+            },
+            {
+              "claim": "本轮玩家动作是确认见过敏特，而不是要求重述发型答案。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-26/06c-choice-prompt.md"
+              ],
+              "notes": "choice text 只有“确认她见过敏特”，没有明确 speechAct 或要说出口的台词，给 Director 留下了“让 NPC 再确认”的解释空间。"
+            },
+            {
+              "claim": "Director/Narrator 有通用的不要重复要求。",
+              "availability": "present-buried",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06b-narrator-prompt.md"
+              ],
+              "notes": "system prompt 明确“不要重复、重演”，但它是通用原则，未绑定到本轮已经消费的短发证据。"
+            },
+            {
+              "claim": "当前故事线已经提前推进到宴会/康纳节点，与照片对话现场冲突。",
+              "availability": "contradicted",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/05-runtime-after.json"
+              ],
+              "notes": "turn 27 prompt 的 currentStoryline 是 5-02 康纳出场，但 recentTurns 仍在公寓照片对话；这是背景压力，不是本条重复的唯一直接原因。"
+            },
+            {
+              "claim": "对白帧协议要求 data-speaker 台词带引号。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06b-narrator-prompt.md"
+              ],
+              "notes": "Narrator prompt 末尾要求 `<p data-speaker=...>\"台词\"</p>`，但输出中卡琳娜台词没有引号。"
+            }
+          ],
+          "competingPressures": [
+            "低特异性的 choice text",
+            "上一轮短发解释是确认推论的最近证据",
+            "Director 慢铺/凝重语气",
+            "通用 anti-repeat 原则缺少本轮已消费事实标记",
+            "v3-html 引号要求只靠 prompt 约束"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06-llm-calls.json call[0] / story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/04-output.json",
+          "triggeringPressure": "turn 26 的 Choice 输出“确认她见过敏特”是一个推论式意图，而不是明确玩家动作或台词；Director 看到上一轮短发证据后，把“确认”安排为“卡琳娜确认她见过敏特，并回忆起敏特短发的原因”。",
+          "missingGuard": "缺少 choice-action-binding 级别的 speechAct/consumedEvidence 约束：没有告诉 Director 该选项只应推进到“直接承认见过”，并禁止复述上一轮已经消费的短发原因；Narrator 也缺少输出后格式校验来强制对白引号。",
+          "mechanismStatement": "当推论式短选项没有绑定为明确可执行动作时，Director 会用最近的推论证据来填充“确认”动作；由于已消费证据没有成为硬约束，Narrator 按这个 handoff 重演了上一轮答案，并在生成中丢失了对白引号。",
+          "directCause": "Director handoff 把本轮 beats 写成“卡琳娜承认见过敏特 / 说明敏特短发的原因”，直接要求 Narrator 再说明短发原因。",
+          "propagation": "Narrator 在 turn-27/06-llm-calls.json call[1] 中把 Director beats 落成正文；07-events.json 的 narrator worker-done 和 04-output.json 均保留重复文本，最终写入 visible-timeline。",
+          "nonCauses": [
+            "不是玩家要求逐字复述；玩家只选择确认推论。",
+            "不是长程记忆缺失；上一轮文本在 recentTurns 和 prompt 中 present-clear。",
+            "不是 currentStoryline 中康纳节点的直接内容复用；本轮实际重复的是上一轮照片对话内容。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "低特异性的推论式选项没有绑定明确 speechAct、目标回复和已消费证据；Director 在最近上下文压力下用上一轮短发解释来完成“确认”，而系统没有 hard guard 阻止重复或要求只输出新的承认信息。",
+          "fixSurface": [
+            "Choice option schema/prompt: 为推论型选项增加 actionKind/speechAct/targetFact，避免只输出“确认 X”",
+            "Director prompt/intent resolver: 将 selected choice 转成 must-satisfy contract，并附带 consumedEvidence 禁止复述",
+            "Narrator/output validator: 检查 data-speaker 台词引号和跨 turn 重复片段"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 26 已出现“不是 / 我知道她的时候已经是短发 / 她说长头发容易被人抓住”；turn 27 又以同一信息开场，并且卡琳娜对白没有引号。",
+          "internalTrace": "turn-26/06c-choice-prompt.md 产生“确认她见过敏特”；turn-27/06a-director-prompt.md recentTurns 清楚包含上一轮回答；turn-27/06-llm-calls.json call[0] 的 beats 包含“说明敏特短发的原因”；call[1] 输出重复正文；turn-27/07-events.json worker-done 与 04-output.json 固化该文本。"
+        },
+        "recommendedFixArea": "优先修复 Choice→Director 的 selected choice handoff：让选项携带明确 speechAct、targetFact 和已消费证据，并在 Director 组装时加入本轮 anti-repeat 检查；同时加 v3-html 对白引号校验。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 10,
+      "turn": 34,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "出门目的此前被建立为去凯旋门晚宴，但当前轮在没有过渡或解释的情况下改成去公园，削弱了玩家对路线和行动目标的理解。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "storyline-lifecycle",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Quest/storyline lifecycle: 以 visible milestone 或 explicit actionId 作为 beat completion guard，避免每轮自动消费关键 beat",
+          "Director context assembly: 对 currentStoryline.content 与 recent visible route-goal 做冲突检测并要求 bridge/delay",
+          "State model: 持久化 routeGoal/currentDestination 与 destinationChangeReason"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 storyline lifecycle 的 beat completion/activation guard：关键地点节点必须等 visible milestone 或显式玩家选择满足后才能消费；当 active beat 的 literal target 与 recent routeGoal 冲突时，Director 必须桥接或延迟节点。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-010-turn-34/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-010-turn-34/root-cause-report.md",
+      "result": {
+        "issueId": "issue-10-turn-34",
+        "issueIndex": 10,
+        "turn": 34,
+        "severity": "medium",
+        "type": "space-time-break",
+        "scope": "visibleText",
+        "issueValidity": "valid",
+        "problemSummary": "第 34 轮玩家问“我们要去哪？”时，卡琳娜回答“公园。不远。走几分钟就到。”；此前玩家可见目标一直是跟卡琳娜出门去凯旋门晚宴，当前轮没有解释这是绕路、暂避或计划变更。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见时间线中，turn 24 明确建立“今晚凯旋门那边有个晚宴，愿意来就跟我一起出门”，turn 29/31/33 都是在跟随卡琳娜出门/下楼。turn 34 突然把目的地说成公园且“不多解释”，缺少玩家可见过渡。",
+          "playerVisibleSupport": "turn 24 的邀请和安全理由、turn 29 的“走吧”、turn 31-33 的出门下楼，与 turn 34 的“公园。不远。走几分钟就到。”形成目标断裂。",
+          "caveats": [
+            "如果后续解释为去晚宴前的短暂停留，公园可以被补救为中途站；但 turn 34 当下没有给出这种桥接，因此玩家可见问题成立。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家已经离开公寓楼道，跟着卡琳娜和黑猫往外走。玩家知道的出门目的来自 turn 24 的凯旋门晚宴邀请：晚宴上康纳不会动手，留在公寓更危险。",
+          "relevantFacts": [
+            {
+              "claim": "玩家可见的出门目标是凯旋门晚宴。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/03-story-state.json"
+              ],
+              "notes": "turn 24 和 turn 31 的 recentTurns 都保留了邀请与出门行为；turn 34 currentStoryline.summary 也写有“准备离开公寓前往凯旋门晚宴”。"
+            },
+            {
+              "claim": "当前 active beat 强推公园。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/06a-director-prompt.md"
+              ],
+              "notes": "currentStoryline 6-02 content 明写“卡琳娜带着主角来到了附近的公园”，constraints 要调用公园背景/CG，并围绕宴会看法展开讨论。"
+            },
+            {
+              "claim": "公园与晚宴之间没有桥接语义。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/04-output.json"
+              ],
+              "notes": "Director requiredContent 只要求“卡琳娜回答目的地时语气自然”和“到达公园”，没有要求解释公园是中转或临时改道。"
+            },
+            {
+              "claim": "runtime quest beat 已经提前越过宴会/康纳节点。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-29/05-runtime-after.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 显示 turn 29 已进入 6-02；turn 34 currentBeatId 仍为 6-02，turnInBeat=7，completedBeatIds 包含 5-03 和 6-01，尽管玩家可见剧情从未进入/离开宴会厅。"
+            },
+            {
+              "claim": "没有 pre-LLM event 解释路线变化。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/07-events.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/03-story-state.json"
+              ],
+              "notes": "target turn 的 preLlmEvents 在 recentTurns 中为空；07-events 只记录 worker output 和 commit，没有路线变更事件。"
+            }
+          ],
+          "competingPressures": [
+            "recent visible target: 凯旋门晚宴",
+            "active beat 6-02: 附近公园情感铺垫",
+            "constraints: 保持晚宴邀约开放",
+            "玩家直接问目的地",
+            "缺少 route-goal state 或 bridge requirement"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-29/05-runtime-after.json -> story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-34/03-story-state.json",
+          "triggeringPressure": "quest runtime 在照片对话/出门准备尚未真正完成宴会相关节点时，已经把 currentBeatId 推进到 6-02；该 beat 的 content 和 constraints 强制公园、长椅、宴会看法讨论。",
+          "missingGuard": "storyline lifecycle 没有用玩家可见里程碑校验 beat 是否真的完成，也没有在 active beat 与 recent visible route-goal 冲突时要求桥接、延迟或改写 literal trigger。",
+          "mechanismStatement": "线性 beat 自动推进把“归途反思/公园讨论”节点提前激活；由于缺少可见完成条件和路线目标优先级检查，Director 在玩家询问目的地时优先执行 active beat 的公园要求，而不是承接已建立的凯旋门晚宴目标或解释改道。",
+          "directCause": "turn-34 Director 输出明确安排“卡琳娜带着主角沿昏暗街道前行，回答关于目的地的问题，并走向附近的公园”，beats/requiredContent 又要求到达公园。",
+          "propagation": "Narrator 按 Director 输出写出“公园。不远。走几分钟就到。”；Choice 继续围绕来新西西里时长/公园路线生成选项；后续 turn 36-39 将公园场景固化。",
+          "nonCauses": [
+            "不是玩家在 turn 34 主动要求去公园；玩家只是问目的地。",
+            "不是长程记忆缺失；晚宴目标在 recentTurns 和 currentStoryline.summary 中都存在。",
+            "不是单纯 Narrator 即兴改写；Director 和 currentStoryline 已经把公园作为本轮目标。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "storyline node activation/consumption 缺少玩家可见里程碑门控：多个宴会相关 beat 在照片支线中被标记完成，导致 6-02 公园节点提前成为 active beat；系统没有检查 active beat 与最近可见路线目标“去凯旋门晚宴”冲突，也没有要求过渡解释。",
+          "fixSurface": [
+            "Quest/storyline lifecycle: 以 visible milestone 或 explicit actionId 作为 beat completion guard，避免每轮自动消费关键 beat",
+            "Director context assembly: 对 currentStoryline.content 与 recent visible route-goal 做冲突检测并要求 bridge/delay",
+            "State model: 持久化 routeGoal/currentDestination 与 destinationChangeReason"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 24 建立晚宴邀约和安全理由；turn 31-33 是离开公寓、跟上卡琳娜；turn 34 问目的地却直接得到“公园。不远”。",
+          "internalTrace": "turn-24 到 turn-29 runtime-after 显示 beat 从 4-03、5-01、5-02、5-03、6-01 连续推进到 6-02；turn-34/03-story-state.json 的 currentStoryline 6-02 content 强推公园；turn-34/06-llm-calls.json call[0] beats/requiredContent 采用公园目标；07-events 和 04-output 固化该正文。"
+        },
+        "recommendedFixArea": "优先修复 storyline lifecycle 的 beat completion/activation guard：关键地点节点必须等 visible milestone 或显式玩家选择满足后才能消费；当 active beat 的 literal target 与 recent routeGoal 冲突时，Director 必须桥接或延迟节点。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 11,
+      "turn": 37,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "这些选项从可执行的玩家动作漂移成较长的元叙事式意图说明，降低了互动选项的清晰度和格式稳定性。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Choice schema: 增加 actionKind/speechAct/maxLength，并要求 text 为命令式或第一人称行动",
+          "Choice prompt: 加硬性 negative examples，禁止“也许”“轮到我”“她问我……”式选项",
+          "Choice post-validator/rewrite: 超长或无动作动词的选项自动改写为短动作"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 Choice generator 的 schema 和 post-validation，把选项从自由文本变成带 actionKind/speechAct 的短动作；对超长、元叙事、无动作动词选项执行自动重写或重采样。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-011-turn-37/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-011-turn-37/root-cause-report.md",
+      "result": {
+        "issueId": "issue-11-turn-37",
+        "issueIndex": 11,
+        "turn": 37,
+        "severity": "low",
+        "type": "quality-regression",
+        "scope": "choices",
+        "issueValidity": "valid",
+        "problemSummary": "第 37 轮选项从短、具体的可执行动作漂移成较长的元叙事/意图说明，例如“她问我有什么值得去的理由——也许我想先知道……”，降低了可点击选项的清晰度。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见选项 1-3 明显不是稳定的动作格式，而是复述 NPC 问题和玩家可能心理动机；这与前后轮常见的“问她…… / 回答她……”格式不一致。",
+          "playerVisibleSupport": "turn 37 choices 中前两项以“她问我有什么值得去的理由——也许我……”开头，第三项是“她向我坦白了感受——轮到我说出……”，都偏元叙事意图而非直接行动。",
+          "caveats": [
+            "选项仍大致表达了后续可说的话题，所以是低严重度格式/清晰度问题，而不是剧情不可继续。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜刚在公园里回答了自己对晚宴的看法，并把问题抛回给玩家：“你觉得那场晚宴有什么值得我去的理由？”此时合理选项应是直接回答、反问、坦白或沉默等可执行话语动作。",
+          "relevantFacts": [
+            {
+              "claim": "可见正文结尾提供的是一个直接问题，需要玩家选择下一步说法/行动。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06c-choice-prompt.md"
+              ],
+              "notes": "Choice prompt 的“本轮玩家已经看到的正文”以卡琳娜的问题收束。"
+            },
+            {
+              "claim": "Choice prompt 要求选项短、具体、可点击，并不要长段心理独白。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06c-choice-prompt.md"
+              ],
+              "notes": "prompt 开头和输出要求均强调“主动选择的行动”“短、具体、可点击”“不要替玩家做长段心理独白”。"
+            },
+            {
+              "claim": "Choice output 缺少格式/长度/actionability 硬约束。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/04-output.json"
+              ],
+              "notes": "schema 只要求 options[].text，可选 actionId；没有 actionVerb、speechAct、maxLength 或 meta-narrative 禁止字段。"
+            },
+            {
+              "claim": "Director 对本轮的情感铺垫和抽象问题给了反思式语言压力。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06c-choice-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06-llm-calls.json"
+              ],
+              "notes": "本轮摘要和约束强调晚宴复杂性、安心感、开放状态；可见问题本身是抽象的“理由”。"
+            }
+          ],
+          "competingPressures": [
+            "抽象话题：晚宴价值与角色理由",
+            "温馨/安心情绪弧线",
+            "Choice prompt 的软性短选项要求",
+            "schema 只校验 text 存在",
+            "缺少后处理改写为玩家动作"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06-llm-calls.json call[2] / story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/04-output.json",
+          "triggeringPressure": "可见正文末尾是一个需要阐述理由的抽象问题，Choice generator 在没有候选动作硬模板时沿用叙事语气，把选项写成“她问我……也许我……”的内心意图句。",
+          "missingGuard": "Choice schema/prompt 没有 enforceable actionability contract：没有最大长度、禁止“也许/轮到我/她问我”这类元叙事开头，也没有要求每项映射到 speak/ask/act 的 actionKind。",
+          "mechanismStatement": "当玩家面临抽象对话题，而 Choice 输出只受 text 字段校验时，生成器会把可点击动作扩写成叙事化意图说明；缺少选项形状验证让这些长句直接进入玩家可见 choices。",
+          "directCause": "Choice LLM call 直接返回四个长文本选项，前三个尤其偏元叙事；04-output.json 与 07-events.json 原样记录并提交。",
+          "propagation": "后续 turn 38 玩家选择第三项后，系统能够继续剧情，但该选择文本也作为 playerInput 进入下一轮，加重了选项/输入风格漂移。",
+          "nonCauses": [
+            "不是玩家自定义输入造成；这些文本由 choiceGenerator 生成。",
+            "不是缺少上下文；可见正文和问题在 prompt 中 present-clear。",
+            "不是 storyline 根因；公园/晚宴上下文影响话题，但不要求选项采用元叙事长句。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "Choice 输出缺少强制的动作绑定和形状校验：抽象对话压力下，模型把“下一步可执行话语动作”扩写成玩家内心意图说明，而系统只校验 text 字段，未阻止长句、元叙事和非动作格式。",
+          "fixSurface": [
+            "Choice schema: 增加 actionKind/speechAct/maxLength，并要求 text 为命令式或第一人称行动",
+            "Choice prompt: 加硬性 negative examples，禁止“也许”“轮到我”“她问我……”式选项",
+            "Choice post-validator/rewrite: 超长或无动作动词的选项自动改写为短动作"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 37 的 choices: “她问我有什么值得去的理由——也许我想先知道……”“她向我坦白了感受——轮到我说出……”，明显比相邻轮选项更长且更像叙事说明。",
+          "internalTrace": "turn-37/06c-choice-prompt.md 明确要求“短、具体、可点击”和“不要替玩家做长段心理独白”；turn-37/06-llm-calls.json call[2] 返回长选项；turn-37/07-events.json worker-done 与 04-output.json 原样提交。"
+        },
+        "recommendedFixArea": "优先修复 Choice generator 的 schema 和 post-validation，把选项从自由文本变成带 actionKind/speechAct 的短动作；对超长、元叙事、无动作动词选项执行自动重写或重采样。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 12,
+      "turn": 39,
+      "severity": "low",
+      "type": "language-drift",
+      "scope": "visibleText",
+      "summary": "单个繁体字混入简体中文正文，属于轻微但玩家可见的语言/字形稳定性问题。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "orthography-normalization-gap",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Narrator prompt: 明确要求 zh-Hans/简体中文输出",
+          "Output normalizer: 对 visibleText 做繁简检测或 OpenCC zh-Hans normalization",
+          "Quality validator: 对混入繁体字的正文触发重采样或自动修正"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "优先在 Narrator 输出后增加 zh-Hans normalization/validator；对玩家可见正文进行混排字符扫描，低成本自动修正“隻”等繁体字。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-012-turn-39/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-003/issues/issue-012-turn-39/root-cause-report.md",
+      "result": {
+        "issueId": "issue-12-turn-39",
+        "issueIndex": 12,
+        "turn": 39,
+        "severity": "low",
+        "type": "language-drift",
+        "scope": "visibleText",
+        "issueValidity": "valid",
+        "problemSummary": "第 39 轮正文中出现“它慢悠悠地站起来，在石凳上伸了个懒腰——两隻前爪向前探出去”，单个繁体字“隻”混入简体中文叙事。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见正文整体使用简体中文，同一段和相邻文本多次使用“那只黑猫”“两只猫耳朵”，只有“两隻前爪”混入繁体字形，属于轻微但真实可见的 language-drift。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 39 可见“两隻前爪”；同一 turn 后文又写“两只猫耳朵中间”，相邻 turn 也持续使用“那只黑猫”。",
+          "caveats": [
+            "这是单字字形问题，不改变剧情事实或行动理解，因此 severity low 合理。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家在公园与卡琳娜谈论晚宴角色定位。黑猫卡尔蜷在石凳另一头，随后起身、伸懒腰、跳下石凳到卡琳娜脚边。",
+          "relevantFacts": [
+            {
+              "claim": "目标文本环境是简体中文。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/06b-narrator-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/03-story-state.json"
+              ],
+              "notes": "prompt、recentTurns 和同轮输出普遍使用“只”等简体字形。"
+            },
+            {
+              "claim": "Director 没有要求或引入繁体字形。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/04-output.json"
+              ],
+              "notes": "Director call[0] 只安排卡尔跳下石凳、打破沉思，没有“两隻”或任何繁体要求。"
+            },
+            {
+              "claim": "Narrator prompt 缺少显式 zh-Hans/简体输出约束与字形校验。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/06b-narrator-prompt.md"
+              ],
+              "notes": "v3-html 协议和写正文要求约束结构、信息边界和台词格式，但没有明示“使用简体中文”或输出后 normalization。"
+            },
+            {
+              "claim": "输出归一化未修正繁体字。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/04-output.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/07-events.json"
+              ],
+              "notes": "narrator worker-done、04-output.rawHtml/visibleText 均保留“两隻前爪”。"
+            }
+          ],
+          "competingPressures": [
+            "长篇自由生成中的局部字形采样",
+            "大量动物量词“只”的重复",
+            "缺少 zh-Hans hard contract",
+            "无 output-normalization pass"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/06-llm-calls.json call[1] / story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-39/06b-narrator-prompt.md",
+          "triggeringPressure": "Narrator 在长段描写黑猫动作时自由生成“两个前爪”的量词，局部采样成繁体“隻”。周围上下文虽是简体，但没有显式字形约束。",
+          "missingGuard": "缺少 orthography normalization：Narrator prompt 没有 zh-Hans 要求，输出管线也没有繁简检测/转换或拒绝混排校验。",
+          "mechanismStatement": "自由文本 Narrator 在没有字形标准化 contract 的情况下产生单字繁体漂移；由于 output normalizer 只保留文本结构而不做简繁校验，错误直接进入玩家可见正文。",
+          "directCause": "Narrator streamText 输出了“两隻前爪”，并由 07-events worker-done 与 04-output.json 原样提交。",
+          "propagation": "该字形错误没有进入长期事实层，但出现在 normalizedContent/visibleText 和 visible-timeline 中，成为玩家可见质量退化。",
+          "nonCauses": [
+            "不是剧情状态或记忆事实错误；问题只在字形层。",
+            "不是 Director 要求；Director output 没有繁体字。",
+            "不是玩家输入带入；玩家输入为简体。"
+          ]
+        },
+        "rootCause": {
+          "label": "orthography-normalization-gap",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "Narrator 局部生成了繁体字形，但系统没有明确 zh-Hans 输出契约，也没有后处理/validator 将繁体字转换或标记为失败，导致单字 language-drift 透传。",
+          "fixSurface": [
+            "Narrator prompt: 明确要求 zh-Hans/简体中文输出",
+            "Output normalizer: 对 visibleText 做繁简检测或 OpenCC zh-Hans normalization",
+            "Quality validator: 对混入繁体字的正文触发重采样或自动修正"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 39 只有“两隻前爪”混入繁体；同轮后文为“两只猫耳朵”，相邻文本为“那只黑猫”。",
+          "internalTrace": "turn-39/06-llm-calls.json call[0] 无繁体要求；call[1] 首次出现“两隻前爪”；turn-39/07-events.json worker-done 和 04-output.json 保留该字形；runtime-after 无相关事实写入。"
+        },
+        "recommendedFixArea": "优先在 Narrator 输出后增加 zh-Hans normalization/validator；对玩家可见正文进行混排字符扫描，低成本自动修正“隻”等繁体字。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

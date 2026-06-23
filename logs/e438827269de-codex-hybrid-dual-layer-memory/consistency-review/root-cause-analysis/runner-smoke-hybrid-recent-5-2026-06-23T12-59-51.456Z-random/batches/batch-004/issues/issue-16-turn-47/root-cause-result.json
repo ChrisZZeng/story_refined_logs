@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-16-turn-47",
+  "turn": 47,
+  "issueValidity": "valid",
+  "problemSummary": "turn-47 正文替玩家说“那本地图册——你说你读得最多”，但此前玩家可见内容只说地图册是第一年捡到、缺页但够用，以及每本书都读过不止一遍，没有“地图册读得最多”这一事实。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见证据明确支持 issue：turn-45 没有说地图册是最常读的一本，turn-47 却把该事实作为卡琳娜曾说过的话放进玩家对白，属于 unsupported jump。",
+    "playerVisibleSupport": "turn-45: 地图册“第一年捡到”“缺了十几页，但剩下的部分够我用”；诗集有写海的诗；“每一本都读过不止一遍”。turn-47: 玩家对白“那本地图册——你说你读得最多。”",
+    "caveats": [
+      "“够我用”可暗示地图册被使用过，但不能推出“读得最多”，更不能推出“你说过读得最多”。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn-46 后，主角仍在椅子上/黑猫附近，玩家选择“问卡琳娜她最常读的是哪本书”。玩家知道的书籍事实是：旧地图册缺封面、第一年捡到、缺页但够用；暗红诗集第三十七页被撕掉、有写海的诗；机械手册存在；卡琳娜说这些书每本都读过不止一遍。",
+    "relevantFacts": [
+      {
+        "claim": "没有玩家可见证据表明卡琳娜曾说“地图册读得最多”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06a-director-prompt.md",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06b-narrator-prompt.md"
+        ],
+        "notes": "prompts 的 recent turns 包含 turn-45 原文：地图册“够我用”，以及“每一本都读过不止一遍”。"
+      },
+      {
+        "claim": "story/memory summary 指向诗集对卡琳娜有特殊意义，而不是地图册最常读。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/03-story-state.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06a-director-prompt.md"
+        ],
+        "notes": "turn-47 prompt 的记忆摘要写“诗集中关于另一片海的诗句对她有特殊意义”。"
+      },
+      {
+        "claim": "Director 只要求“主角询问最常读的书，卡琳娜回答”，没有要求玩家先断言地图册。",
+        "availability": "not-needed",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json"
+        ],
+        "notes": "Director requiredContent 为“卡琳娜回答最常读的是哪本书”；错误事实首现于 Narrator 文本。"
+      },
+      {
+        "claim": "Narrator 输出把“最常读”问题改写成带错误前提的玩家对白。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/04-output.json"
+        ],
+        "notes": "这一步把无依据推断写成“你说过”的事实。"
+      }
+    ],
+    "competingPressures": [
+      "玩家选择本身要求比较“最常读”，模型需要自然构造提问话术。",
+      "地图册有“够我用”的使用痕迹，诗集有情感意义；模型可能试图先提出一个候选再让卡琳娜纠正为诗集。",
+      "通用“不要无依据写事实”规则存在，但缺少对玩家对白中 presupposition/quotation 的逐项 source check。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json call[1] narrator text",
+    "triggeringPressure": "Narrator 需要把“问卡琳娜她最常读的是哪本书”写成自然对白，并面对地图册“够我用”、所有书“读过不止一遍”的上下文，生成了一个错误的引入句“地图册——你说你读得最多”。",
+    "missingGuard": "缺少 player-dialogue presupposition grounding：系统没有要求 Narrator 对“你说过/你读得最多”这类前提性对白逐项核对来源，也没有把已知书籍事实结构化列为可引用/不可引用。",
+    "mechanismStatement": "在“最常读”问题需要自然化的压力下，Narrator 将“地图册够我用”和“每本读过不止一遍”合成为“地图册读得最多”并写成卡琳娜曾说过的事实；由于没有对白前提 source check，该 unsupported detail 直接进入玩家可见文本。",
+    "directCause": "Narrator 对可见书籍信息做了无依据的比较性推断，并把推断写成玩家对白中的既有事实。",
+    "propagation": "错误出现在 turn-47 正文第一段后即成为玩家可见；同轮后续卡琳娜回答“那本诗集”，没有纠正“地图册读得最多”的错误前提。turn-47 output/events 固化该文本。",
+    "nonCauses": [
+      "不是 Choice 组件主因：turn-46 option “问卡琳娜她最常读的是哪本书”本身不含地图册断言。",
+      "不是 story state 缺失：turn-47 prompt 和 state 都有正确书籍事实。",
+      "不是隐藏信息泄露：错误事实并非来自内部秘密，而是 Narrator 的 unsupported inference。"
+    ]
+  },
+  "rootCause": {
+    "label": "unsupported-detail-inference",
+    "family": "llm-self",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "触发压力是 Narrator 要把“最常读哪本书”的玩家动作自然化为对白；缺失防线是没有针对玩家对白中“你说过/最…”这类前提事实的 source-grounding 校验；失败运动是模型把“地图册够我用”和“每本读过不止一遍”错误合成为“地图册读得最多”，并以既有事实形式写入正文。",
+    "fixSurface": [
+      "Narrator prompt presupposition grounding rule",
+      "structured known-facts list for local objects",
+      "post-generation unsupported comparative claim checker"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-45 可见事实只有地图册第一年捡到、缺页但够用，以及所有书读过不止一遍；turn-47 玩家对白新增“地图册读得最多”。",
+    "internalTrace": "turn-47/06a-director-prompt.md 和 06b-narrator-prompt.md recent turns 含正确原文；turn-47/03-story-state.json 记忆摘要强调诗集有特殊意义；turn-47/06-llm-calls.json call[0] Director 未产生地图册断言；call[1] Narrator 首次产生该 unsupported claim。"
+  },
+  "recommendedFixArea": "在 Narrator 阶段加入“玩家对白前提”检查：凡出现“你说过/最常/已经/当然”等断言式或比较式说法，必须能在 recent visible text 或 structured facts 中找到来源；否则改写成开放问题，例如“你更常翻哪一本？”",
+  "confidence": "medium"
+}

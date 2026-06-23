@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-13-turn-43",
+  "turn": 43,
+  "issueValidity": "valid",
+  "problemSummary": "上一轮黑猫已经收回头、后退半步并重新蹲坐；本轮开头又写成鼻尖仍悬在玩家手指上方、没有退开，并在同一轮后文重复收回头和后退动作。",
+  "validityAssessment": {
+    "verdictReason": "该问题仅凭玩家可见文本即可成立：turn-42 的动作终点被 turn-43 开头回滚，随后同一动作再次发生，造成即时动作连续性断裂。",
+    "playerVisibleSupport": "turn-42 末尾写“黑猫在这时候收回了头。她后退半步，重新蹲坐下来”；turn-43 开头写“那只黑猫的鼻尖还悬在你的手指上方——她没有退开”，后文又写“那只黑猫在这时候收回了头。她后退半步”。",
+    "caveats": [
+      "如果只看 turn-43 内部，重复动作可以被误读为延迟完成；但 turn-42 已经明确完成了同一退回动作，因此不是合理延续。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn-42 结束时，主角仍在桌边蹲着，黑猫已从贴近手指的位置收回头、后退半步并在桌沿重新蹲坐，尾巴搭回原处，目光仍落在主角身上。",
+    "relevantFacts": [
+      {
+        "claim": "黑猫在 turn-42 末尾已经完成“收回头/后退半步/重新蹲坐”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06a-director-prompt.md",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06b-narrator-prompt.md"
+        ],
+        "notes": "该事实出现在最近几轮玩家经历中，且是 turn-42 可见正文的末尾状态；prompt 中也有原文片段。"
+      },
+      {
+        "claim": "story state 对 turn-42 的折叠只写成“主角蹲下向黑猫伸手打招呼，卡琳娜和卡尔观察其反应”，未保留最后姿态。",
+        "availability": "present-buried",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/03-story-state.json"
+        ],
+        "notes": "摘要保留了互动方向，但没有把“已退回”的终点作为可执行场景锚点。"
+      },
+      {
+        "claim": "runtime-after 没有保存黑猫微观位置或动作终点。",
+        "availability": "absent",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-42/05-runtime-after.json"
+        ],
+        "notes": "runtime-after 只保留 worldState、entityStates、questStates 等粗粒度字段，没有当前 pose/location slot。"
+      },
+      {
+        "claim": "Director 输出把黑猫状态写成“鼻尖仍悬在主角手指附近”。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06-llm-calls.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/04-output.json"
+        ],
+        "notes": "这是首个内部偏离点，并被 Narrator 当成骨架执行。"
+      }
+    ],
+    "competingPressures": [
+      "玩家选择“继续保持蹲姿”强调身体姿势延续，容易被误扩展为接触状态延续。",
+      "currentStoryline 与 summary 强调“温馨信任/肢体接触/黑猫认可”，但没有终点姿态。",
+      "Director/Narrator prompt 有通用一致性规则，却没有强制“以上一轮可见正文最后一帧作为本轮第一帧”。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06-llm-calls.json call[0] director object",
+    "triggeringPressure": "Director 在 characterBeats 中写出“卡尔：尾巴尖轻摆，鼻尖仍悬在主角手指附近”，并在 summary 中称“主角蹲姿保持与黑猫的肢体接触”。这把上轮中段的鼻尖贴近状态错误地当成本轮起点。",
+    "missingGuard": "缺少 current-scene terminal anchor：最近可见正文虽包含“收回头/后退半步/重新蹲坐”，但该终点没有被提取为高优先级、不可回滚的实体状态，也没有要求 Director 修改或删除与终点冲突的动作提示。",
+    "mechanismStatement": "当玩家输入要求“继续保持蹲姿”时，系统没有把上轮最后一帧的黑猫姿态作为硬锚点，Director 受“保持接触/温馨靠近”的情绪摘要牵引，把已完成的鼻尖靠近动作恢复成当前状态，Narrator 随后按该错误骨架重复演出退回动作。",
+    "directCause": "Director 对上一轮动作终点的误锚定：把“鼻尖仍悬在手指附近”交给 Narrator。",
+    "propagation": "Narrator 在 turn-43 正文第一段写出“鼻尖还悬在你的手指上方——她没有退开”，后文又自然执行 Director 要求的黑猫轻微动作，写成再次“收回了头/后退半步”。04-output 和 events 将该文本固化为玩家可见输出。",
+    "nonCauses": [
+      "不是长期记忆缺失：turn-42 原文在 turn-43 prompt 的最近几轮中 present-clear。",
+      "不是 Choice 组件主因：turn-42 的下一步选项“继续保持蹲姿，轻声回应卡琳娜”没有要求黑猫保持贴近。",
+      "不是 runtime-after 直接写错：runtime-after 没有写入相反姿态，它只是缺少可用于约束生成的微状态。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是玩家输入和剧情摘要共同强调“继续保持蹲姿/温馨接触”；缺失防线是系统没有把最近玩家可见正文的最后一帧抽取为可执行的 current-scene anchor，也没有让该锚点高于情绪摘要和 Director 自行补全；失败运动是 Director 复活上轮中段状态，Narrator 按错误 handoff 在本轮重复同一退回动作。",
+    "fixSurface": [
+      "statefold/current scene entity pose extraction",
+      "Director prompt context priority rules",
+      "Narrator prompt first-frame continuity check",
+      "post-generation continuity validator for repeated immediate actions"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-42 可见正文末尾：“黑猫在这时候收回了头。她后退半步，重新蹲坐下来”；turn-43 可见正文开头：“鼻尖还悬在你的手指上方——她没有退开”；turn-43 后文再次：“收回了头。她后退半步”。",
+    "internalTrace": "turn-43/06a-director-prompt.md 与 turn-43/06b-narrator-prompt.md 的最近几轮包含 turn-42 末尾动作；turn-43/06-llm-calls.json call[0] 首次写出“鼻尖仍悬在主角手指附近”；call[1] Narrator 复现；turn-42/05-runtime-after.json 没有黑猫 pose/location 字段。"
+  },
+  "recommendedFixArea": "在 Director 前增加“上一轮玩家可见最后一帧”的实体/位置/姿态锚点，并在 prompt 中声明它高于 storyline summary、情绪摘要和候选动作；Narrator 输出前检查第一段是否回滚该锚点。",
+  "confidence": "high"
+}

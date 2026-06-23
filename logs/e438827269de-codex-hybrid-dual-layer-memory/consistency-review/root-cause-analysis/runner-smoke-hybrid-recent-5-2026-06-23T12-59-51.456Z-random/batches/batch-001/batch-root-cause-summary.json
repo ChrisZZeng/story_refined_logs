@@ -1,0 +1,458 @@
+{
+  "batchId": "batch-001",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 1,
+      "turn": 3,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity.",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "script/state candidateActions schema：拆分 `intentLabel`、`playerFacingText`、`actionId`",
+          "choiceGenerator prompt：绑定 actionId 时允许重写玩家可见 text，并要求 action-only label",
+          "choice postprocessor/lint：拦截无谓抒情从句、非行动短语、与场景无 referent 的片段"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 candidateActions 到 choiceGenerator 的绑定契约：候选动作应提供稳定 actionId 和语义 intent，但玩家可见文本必须经过 choice 文案生成/校验，而不是直接继承脚本文案。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-001-turn-03/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-001-turn-03/root-cause-report.md",
+      "result": {
+        "issueId": "issue-1-turn-3",
+        "turn": 3,
+        "issueValidity": "valid",
+        "problemSummary": "turn 3 的玩家选项把可行动作“直接去暗街”和无上下文的抒情片段“往日总是如影随形”拼在一起，削弱了选项清晰度。",
+        "validityAssessment": {
+          "verdictReason": "该问题只凭玩家可见内容即可成立：当前场景正在让玩家选择是否去暗街或注意异常目光，选项文本却出现没有行动含义、没有场景 referent 的短句。它不是角色对白或已铺垫的记忆意象，而是玩家需要点击的行动标签。",
+          "playerVisibleSupport": "`visible-timeline.jsonl` turn 3 的 choices 包含 `直接去暗街，往日总是如影随形`；同一轮正文结尾是“暗街。卡琳娜。情报有价。”，另一个选项是明确行动 `你注意到了不寻常的目光——你被盯上了？`。",
+          "caveats": [
+            "该问题是低严重度的可读性退化，不改变后续主线动作绑定；但它确实污染了玩家可点击文本。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家刚从摊贩处得知卡琳娜属于暗街、情报有价、外来记者应低调；当轮正文把视线投向通往内陆方向的道路，合理下一步是去暗街、继续打听路线，或警惕是否被盯上。",
+          "relevantFacts": [
+            {
+              "claim": "本轮需要给玩家一个清晰的前往暗街行动出口。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-03/04-output.json"
+              ],
+              "notes": "玩家可见正文已明确“暗街。卡琳娜。情报有价。”，行动出口自然成立。"
+            },
+            {
+              "claim": "状态机候选动作的 text 已经含有无关抒情片段。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-03/02-script-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-03/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-03/06c-choice-prompt.md"
+              ],
+              "notes": "candidateActions[0].text 是 `直接去暗街，往日总是如影随形`，并被作为 `choice:前往暗街` 的 key choice 候选展示给 choiceGenerator。"
+            },
+            {
+              "claim": "choice prompt 要求在候选动作自然可用时绑定完整 actionId，但没有要求改写或校验候选 text 的玩家可读性。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-03/06c-choice-prompt.md"
+              ],
+              "notes": "prompt 强调复制完整 actionId；对候选 text 是否包含非行动片段没有硬性质量门。"
+            }
+          ],
+          "competingPressures": [
+            "state-machine candidateActions 作为关键剧情出口被高优先级注入",
+            "choiceGenerator 需要保留 actionId，以便进入下一节点",
+            "候选动作 text 同时承担内部锚点说明和玩家可见标签，缺少分离"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-03/02-script-state.json candidateActions[0].text",
+          "triggeringPressure": "`choice:前往暗街` 的候选动作在进入 choice prompt 前已经带有 `往日总是如影随形`；因为它是 key choice，choiceGenerator 倾向于保留并展示这个候选出口。",
+          "missingGuard": "没有把 state-machine action label 和 player-facing choice text 分离，也没有对候选选项做“是否为短、具体、可点击行动”的语义/风格校验。",
+          "mechanismStatement": "状态机候选动作把内部推进锚点和玩家可见文案耦合在同一个 `text` 字段中；当该字段含有无行动含义的抒情残片时，choiceGenerator 为保留 `actionId` 将其直接提交为选项，导致玩家看到被污染的 choice。",
+          "directCause": "choiceGenerator 最终提交了带有污染片段的 key choice 文本。",
+          "propagation": "`turn-03/07-events.json` 的 choiceGenerator worker-done 和 `turn-03/04-output.json` 都提交该选项；turn 4 的 `01-summary.json` 继续把该文本作为 playerInput 记录，但后续正文仍按 `choice:前往暗街` 正常推进。",
+          "nonCauses": [
+            "Narrator 正文本身没有产生该片段；问题只出现在 choices。",
+            "不是长程记忆遗忘；所需行动事实在本轮正文和 Director 摘要中都很清楚。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "具体机制是 key choice 的 action binding 与玩家可见文案共用同一候选 `text`，且候选文案没有质量校验。`choice:前往暗街` 的绑定压力让系统优先保留该候选出口，缺失的文案防线使无关抒情残片穿透到玩家界面。",
+          "fixSurface": [
+            "script/state candidateActions schema：拆分 `intentLabel`、`playerFacingText`、`actionId`",
+            "choiceGenerator prompt：绑定 actionId 时允许重写玩家可见 text，并要求 action-only label",
+            "choice postprocessor/lint：拦截无谓抒情从句、非行动短语、与场景无 referent 的片段"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 3 choices: `直接去暗街，往日总是如影随形`；同轮正文只铺垫去暗街和被盯上的风险，没有铺垫“往日如影随形”的可操作含义。",
+          "internalTrace": "`turn-03/02-script-state.json` 和 `turn-03/03-story-state.json` 的 candidateActions 已含污染 text；`turn-03/06c-choice-prompt.md` 将其列为剧本/状态机候选推进动作；`turn-03/07-events.json` 与 `turn-03/04-output.json` 提交同一文本。"
+        },
+        "recommendedFixArea": "优先修复 candidateActions 到 choiceGenerator 的绑定契约：候选动作应提供稳定 actionId 和语义 intent，但玩家可见文本必须经过 choice 文案生成/校验，而不是直接继承脚本文案。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 2,
+      "turn": 6,
+      "severity": "low",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "The next turn repeats a substantial chunk of already-shown scene text instead of cleanly advancing from the previous state.",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Narrator prompt/context assembly：加入 `lastVisibleSentence` / `startAfter` 硬字段",
+          "storyline lifecycle：标记交互后续中已消费的前置 beat，避免旧分支前置动作继续施压",
+          "post-generation duplicate-span check：检测与上一轮尾段高度重合的开头并重写"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先在 Narrator handoff 中添加结构化承接锚点和重复检测，同时让 storyline/fixed beat 消费状态从“已完成进展”变成可执行的过滤规则。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-002-turn-06/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-002-turn-06/root-cause-report.md",
+      "result": {
+        "issueId": "issue-2-turn-6",
+        "turn": 6,
+        "issueValidity": "valid",
+        "problemSummary": "turn 6 开头逐段重复了 turn 5 结尾已经展示过的停顿、嗤笑、“战友的遗产？”和“你等着他的反应。”，然后才推进攻击动作。",
+        "validityAssessment": {
+          "verdictReason": "该问题只凭玩家可见时间线即可确认：turn 5 以同一段场面收束，turn 6 又从同一段完整开场重放，重复长度超过必要的承接提示。",
+          "playerVisibleSupport": "turn 5 末尾从“巷子里安静了两秒。”到“你等着他的反应。”已经完整出现；turn 6 开头再次逐句出现同一段后，才写“领头的人歪了歪头……去，把相机拿来。”",
+          "caveats": [
+            "短句回钩可用于承接，但这里重复的是完整场面块，超出正常 recap。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 5 结束时，主角已经半蹲示弱，相机和背包在脚边，已说出“战友的遗产”作为拖延，正在等领头者反应；turn 6 玩家选择趁他们放松警惕突然发难，下一步应从对方伸手取相机或主角爆发开始。",
+          "relevantFacts": [
+            {
+              "claim": "上轮已展示过完整的停顿与“战友的遗产？”反应。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/03-story-state.json"
+              ],
+              "notes": "turn 6 的 recentTurns 包含 turn 5 全文结尾，明确最后状态是“你等着他的反应”。"
+            },
+            {
+              "claim": "Director 对 turn 6 的安排要求推进到领头者示意同伴取相机、主角暴起攻击。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/04-output.json"
+              ],
+              "notes": "Director beats 未要求重放 turn 5 尾段；requiredContent 从领头者示意/主角爆发开始。"
+            },
+            {
+              "claim": "当前 storyline 固定分支仍保留“描写主角小心翼翼地把相机和背包放到地上”等已消费内容。",
+              "availability": "stale",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/06a-director-prompt.md"
+              ],
+              "notes": "storyState 的 summary 已写明主角放下相机并观察站位，但 interactionFollowup 仍列出战斗分支前置动作，形成旧 beat 与已完成进展并存。"
+            },
+            {
+              "claim": "系统层有“不要重复已完成进展”的一般原则，但 Narrator 没有收到精确的 start-after anchor。",
+              "availability": "present-buried",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/06-llm-calls.json"
+              ],
+              "notes": "Director system 提到不要重复；Narrator user message主要要求把导演安排落成正文，没有把最后一句作为硬起点。"
+            }
+          ],
+          "competingPressures": [
+            "最近 turn 5 的尾段高度戏剧化，容易被当作新一轮起笔材料",
+            "固定分支素材仍包含已完成的示弱/放下相机前置动作",
+            "Director 第一 beat 写“继续保持示弱姿态，等待对方给出信号”，语义上贴近上轮收束状态",
+            "动作场面需要蓄势，模型倾向重建张力而不是直接续接"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-06/06-llm-calls.json call[1].text / turn-06/04-output.json narrative",
+          "triggeringPressure": "Narrator 同时看到上轮完整尾段、Director 的“继续保持示弱姿态”起步 beat，以及仍在 storyline 中的旧分支前置动作；这些材料都把注意力拉回已经展示过的停顿。",
+          "missingGuard": "缺少一个强制的 current-scene anchor，例如“从上一轮最后一句 `你等着他的反应。` 之后开始，不得复述之前任何句子”；也缺少提交前重复跨度检测。",
+          "mechanismStatement": "最近上下文把上一轮尾段作为长 prose 放入 prompt，而系统没有把“最后可见状态”结构化成硬起点；Narrator 为重建动作张力复用了该 prose 块，导致新回合先回放已消费场面再推进。",
+          "directCause": "Narrator 输出的开头直接重复 turn 5 尾段。",
+          "propagation": "重复块被写入 `turnContent` 并出现在玩家可见 timeline；后续 choices 基于已制服领头者的状态生成，没有把重复继续固化为新的事实错误。",
+          "nonCauses": [
+            "不是玩家输入导致的合法回忆或复述；玩家输入要求突然发难。",
+            "不是长程 memory 缺失；问题依赖上一轮的即时上下文。",
+            "Director 的剧情方向基本正确，主要偏离发生在 Narrator 落文阶段。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "当前场景的最后可见边界没有以强约束传给 Narrator。上轮尾段、固定分支旧 beat 和“继续保持示弱”的导演措辞共同触发了重建前情的压力；缺少 start-after anchor 与重复检测，使 Narrator 将已消费 prose 当成可再次铺垫的开场。",
+          "fixSurface": [
+            "Narrator prompt/context assembly：加入 `lastVisibleSentence` / `startAfter` 硬字段",
+            "storyline lifecycle：标记交互后续中已消费的前置 beat，避免旧分支前置动作继续施压",
+            "post-generation duplicate-span check：检测与上一轮尾段高度重合的开头并重写"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 5 末尾和 turn 6 开头共享同一组句子：`巷子里安静了两秒。`、`战友的遗产？`、`你等着他的反应。`。",
+          "internalTrace": "`turn-06/03-story-state.json` recentTurns 包含 turn 5 结尾；Director object 正确安排领头者示意取相机和主角爆发；Narrator text 在 `turn-06/06-llm-calls.json` 首段开始重复，并被 `turn-06/04-output.json` commit。"
+        },
+        "recommendedFixArea": "优先在 Narrator handoff 中添加结构化承接锚点和重复检测，同时让 storyline/fixed beat 消费状态从“已完成进展”变成可执行的过滤规则。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 3,
+      "turn": 9,
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "The same previously female-coded vendor is suddenly recast as an old man without any visible explanation.",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "memory-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "statefold/memory extractor：为临时 NPC 保存 `genderCue`、`pronouns`、`appearanceCue`、`lastMentionedAs`",
+          "context assembly：当输出提及已见过 NPC 时检索并前置这些属性",
+          "Narrator prompt/output validator：不确定时使用中性称谓“那个摊贩”，禁止新增年龄/性别"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先改进 detail-memory/statefold 对临时 NPC 属性的抽取和回填，并增加“重提已见 NPC 不新增性别/年龄”的 Narrator 约束。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-003-turn-09/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-003-turn-09/root-cause-report.md",
+      "result": {
+        "issueId": "issue-3-turn-9",
+        "turn": 9,
+        "issueValidity": "valid",
+        "problemSummary": "turn 9 中卡琳娜把中央区摊贩称为“那个老头”，但 turns 1-3 玩家看到的同一摊贩一直以“她”呈现。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见证据足以成立：前文多次用女性代词描述摊贩，turn 9 又把“中央区卖旧货的摊贩”接成“那个老头”，没有任何伪装、误认或另一个摊贩的解释。",
+          "playerVisibleSupport": "turns 1-3 可见文本多次写“她把胳膊肘撑在摊子上”“她低下头去整理摊子上的零碎物件”等；turn 9 可见文本写帕兹说“中央区卖旧货的摊贩。他说你住在这里。”，随后卡琳娜说“那个老头啊。”",
+          "caveats": [
+            "如果后续揭示存在另一个中央区卖旧货老人，才可能解释；本批次可见范围内没有这类桥接。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜刚在暗街巷口制止冲突并邀请主角去公寓。主角跟随她穿过暗街，途中解释自己是听中央区摊贩说报卡琳娜名字有用。此时被提及的应是 turns 1-3 同一名已见过的摊贩。",
+          "relevantFacts": [
+            {
+              "claim": "中央区摊贩此前被玩家明确看到为女性编码。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-01/04-output.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-02/04-output.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-03/04-output.json"
+              ],
+              "notes": "玩家可见正文连续使用“她”指代摊贩。"
+            },
+            {
+              "claim": "turn 9 生成所需 prompt 中没有稳定保留摊贩性别/外观属性。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-09/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-09/06a-director-prompt.md"
+              ],
+              "notes": "当前角色集合已不包含“小贩”；事件记忆和历史概览只写“摊贩/摊主/小贩”，没有性别或代词属性。"
+            },
+            {
+              "claim": "turn 9 的 Director 未要求提及摊贩，也未给出摊贩身份细节。",
+              "availability": "not-needed",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-09/06-llm-calls.json"
+              ],
+              "notes": "Director object 的 beats 是跟随卡琳娜、穿过巷道、抵达公寓；vendor 相关对白是 Narrator 自行添加的过渡交谈。"
+            },
+            {
+              "claim": "Narrator 在缺少性别锚点时为摊贩补入“他说/老头”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-09/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-09/04-output.json"
+              ],
+              "notes": "输出同时出现 `他说你住在这里` 和 `那个老头啊`，与前文女性编码冲突。"
+            }
+          ],
+          "competingPressures": [
+            "turn 9 最近上下文主要是暗街冲突，turns 1-3 的摊贩细节已离开 recent window",
+            "memory summary 只保留功能性事实：摊贩提供卡琳娜线索，没有保留性别/外貌",
+            "“卖旧货的摊贩”容易触发老年男性摊主的默认推断",
+            "过渡对白需要让卡琳娜回应线索来源，模型补写了未被约束的人物细节"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-09/03-story-state.json / turn-09/06a-director-prompt.md memory summaries omit vendor gender; visible divergence appears in turn-09/06-llm-calls.json call[1].text",
+          "triggeringPressure": "摊贩的功能性记忆被保留为“中央区摊贩提供卡琳娜线索”，但性别和前文代词没有被持久化；Narrator 需要写一段自然路上对白，于是基于“卖旧货摊贩”进行默认补全。",
+          "missingGuard": "缺少 transient NPC 的实体属性持久化与重提校验：当再次提到已见过的临时 NPC 时，没有要求从 visible history/entity memory 取称谓、性别、外貌，或在不确定时避免新增年龄性别。",
+          "mechanismStatement": "临时 NPC 的性别/代词没有从玩家可见文本写入可检索的实体属性；当最近上下文只剩功能性摘要时，Narrator 用常见摊主刻板印象补写“老头”，把同一摊贩重铸为男性老人。",
+          "directCause": "Narrator 在 turn 9 过渡对白中 unsupported 地新增了 `他说` 和 `那个老头`。",
+          "propagation": "错误被提交进 turn 9 正文；后续如果继续引用该 vendor，可能会把错误身份固化为记忆，但本批次目标处主要是当轮 visibleText。",
+          "nonCauses": [
+            "不是玩家输入造成的二义性；玩家只选择跟上卡琳娜。",
+            "不是 Director 明确要求将摊贩设为男性；Director object 没有该内容。",
+            "不是隐藏设定推翻可见事实；玩家没有看到摊贩伪装或另一个摊主。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "具体机制是临时 NPC 的可见身份属性没有持久化。系统保留了“摊贩提供线索”的剧情功能，却丢失了女性代词/呈现；缺失的实体属性防线让 Narrator 在重提该 NPC 时进行 unsupported gender/age inference，最终输出“老头”。",
+          "fixSurface": [
+            "statefold/memory extractor：为临时 NPC 保存 `genderCue`、`pronouns`、`appearanceCue`、`lastMentionedAs`",
+            "context assembly：当输出提及已见过 NPC 时检索并前置这些属性",
+            "Narrator prompt/output validator：不确定时使用中性称谓“那个摊贩”，禁止新增年龄/性别"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turns 1-3 的摊贩多次以“她”出现；turn 9 同一来源被写成“他说”“那个老头”。",
+          "internalTrace": "turn 9 的 current context 和事件记忆只保存“摊贩/摊主”提供线索，没有保存性别；Director 未安排 vendor 身份变化；Narrator output 首次引入男性老人称谓。"
+        },
+        "recommendedFixArea": "优先改进 detail-memory/statefold 对临时 NPC 属性的抽取和回填，并增加“重提已见 NPC 不新增性别/年龄”的 Narrator 约束。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 4,
+      "turn": 12,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "该句在关键情报分析对白中出现明显错拼式隐喻，短暂破坏正文可读性和语义稳定性。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local",
+        "family": "llm-self",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "Narrator prompt：关键情报分析句优先复用已建立的清晰表达，避免随意改造 idiom",
+          "post-generation quality lint：检测不通顺搭配、疑似错拼隐喻和低置信文本片段",
+          "regeneration policy：对低严重度但明显 malformed 的句子做局部重写"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "优先加入 Narrator 输出质量检查和关键对白局部重写机制；这类问题不需要改剧情状态，主要需要捕捉 malformed idiom。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-004-turn-12/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-004-turn-12/root-cause-report.md",
+      "result": {
+        "issueId": "issue-4-turn-12",
+        "turn": 12,
+        "issueValidity": "valid",
+        "problemSummary": "turn 12 的卡琳娜对白出现“一趟自己走进火药的船”，像把“走进火药桶”和“一趟船/旅程”错拼，造成短暂语义断裂。",
+        "validityAssessment": {
+          "verdictReason": "该句是玩家可见的关键情报分析对白，局部词组不符合中文常用搭配，也不构成清晰隐喻；上一轮同一判断已使用“走进火药桶”，可见更合理表达。",
+          "playerVisibleSupport": "turn 12 可见文本：`一张死人照片。一封匿名信。一趟自己走进火药的船。`；turn 11 可见文本：`一封匿名信，一张死人照片，让你自己走进火药桶。`",
+          "caveats": [
+            "该问题不改变事实或角色立场，只是局部文案质量退化。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 11 卡琳娜已经判断匿名信和死人照片是让主角当炮灰、自己走进火药桶。turn 12 玩家开始坦白匿名信和照片，但保留姓名与关系；卡琳娜应延续审视式分析，确认照片让主角相信那人可能还活着。",
+          "relevantFacts": [
+            {
+              "claim": "上一轮已有清晰且玩家可见的危险隐喻“走进火药桶”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-11/04-output.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/03-story-state.json"
+              ],
+              "notes": "turn 12 recentTurns 中应能看到 turn 11 的分析对白；可直接复用或自然改写。"
+            },
+            {
+              "claim": "Director 对 turn 12 的要求是透露匿名信和照片、隐去敏特姓名，未要求新的复杂隐喻。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/04-output.json"
+              ],
+              "notes": "requiredContent 与 currentTurnConstraints 都很明确，错误不来自剧情安排。"
+            },
+            {
+              "claim": "Narrator 输出了语义不稳定的混合搭配。",
+              "availability": "contradicted",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/04-output.json"
+              ],
+              "notes": "`一趟自己走进火药的船` 既不像可点击行动，也不像自然对白中的稳定隐喻。"
+            }
+          ],
+          "competingPressures": [
+            "卡琳娜对白使用列举式、冷静分析的修辞节奏",
+            "上一轮有“匿名信/死人照片/火药桶”的强近因短语",
+            "场景涉及来岛与跨洋旅程，模型可能将“趟/船”与“火药桶”局部混合；这是从文本形态做出的推断，不是 artifact 明示"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/06-llm-calls.json call[1].text / turn-12/04-output.json narrative",
+          "triggeringPressure": "Narrator 正在把 turn 11 的“匿名信、死人照片、火药桶”判断改写成 turn 12 的卡琳娜短句，同时保持列举式节奏。",
+          "missingGuard": "没有针对 Narrator 输出的 idiom/semantic sanity check；prompt 也没有要求在关键分析句中优先复用已建立的清晰隐喻，而不是临场变形。",
+          "mechanismStatement": "在剧情合同清楚、上下文也清楚的情况下，Narrator 局部生成把相邻概念和隐喻短语错拼成不稳定搭配；缺少输出质量校验使该 malformed idiom 直接进入 visibleText。",
+          "directCause": "Narrator 的局部措辞失败：把“走进火药桶”改坏成“走进火药的船”。",
+          "propagation": "错误只存在于 turn 12 正文句子中；turn 13 回到更自然的“钓鱼/饵”隐喻，没有继续固化该短语。",
+          "nonCauses": [
+            "不是 state 或 memory 缺失：上一轮正确表达仍在 recent context。",
+            "不是 Director/handoff 要求该错误隐喻；Director 只要求表达匿名信和照片。",
+            "不是角色知识边界问题；卡琳娜的判断方向本身合理。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [],
+          "description": "具体机制是局部语言生成在清晰上下文下发生短语融合：近期正确隐喻“走进火药桶”和当前列举式对白被改写成 malformed idiom。系统缺少关键对白的语义/搭配质量防线，因此模型局部 slip 直接暴露给玩家。",
+          "fixSurface": [
+            "Narrator prompt：关键情报分析句优先复用已建立的清晰表达，避免随意改造 idiom",
+            "post-generation quality lint：检测不通顺搭配、疑似错拼隐喻和低置信文本片段",
+            "regeneration policy：对低严重度但明显 malformed 的句子做局部重写"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 11: `让你自己走进火药桶`；turn 12: `一趟自己走进火药的船`。后者破坏同一分析链的可读性。",
+          "internalTrace": "turn 12 Director object 清楚约束“匿名信、一张照片、本应已死的人、隐去姓名”；Narrator output 首次产生异常短语；choices 和 runtime-after 未把它作为事实继续传播。"
+        },
+        "recommendedFixArea": "优先加入 Narrator 输出质量检查和关键对白局部重写机制；这类问题不需要改剧情状态，主要需要捕捉 malformed idiom。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

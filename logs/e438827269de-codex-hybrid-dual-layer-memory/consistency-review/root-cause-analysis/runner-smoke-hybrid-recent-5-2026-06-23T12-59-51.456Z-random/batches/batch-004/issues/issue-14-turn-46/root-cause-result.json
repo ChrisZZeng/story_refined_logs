@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-14-turn-46",
+  "turn": 46,
+  "issueValidity": "valid",
+  "problemSummary": "turn-45 末尾黑猫已经从椅子腿旁移动到书堆前并停在诗集附近；turn-46 开头没有移动承接，直接写成黑猫仍蹲坐在椅子腿旁。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见连续性成立：同一只黑猫的位置从“书堆前/诗集附近”无桥接变回“椅子腿旁”，而 turn-46 没有提供它移动回来的动作。",
+    "playerVisibleSupport": "turn-45 写“黑猫从椅子腿旁站起来，踱了两步，走到书堆前……蹲坐下来”，末尾仍以书堆/诗集边缘和耳朵偏向玩家收束；turn-46 第一段写“黑猫蹲坐在椅子腿旁”。",
+    "caveats": [
+      "房间较小，黑猫理论上可以移动回椅子旁；但文本没有写这个移动，而是以“你的手还悬在半空中”直接把场面回接到旧位置。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn-45 结束时，主角坐在旧椅子上观察书；黑猫已离开椅子腿旁，走到墙边书堆前，在诗集附近蹲坐，尾巴和耳朵仍对玩家有细微反应。",
+    "relevantFacts": [
+      {
+        "claim": "黑猫当前位置是书堆前/诗集附近，而不是椅子腿旁。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/06a-director-prompt.md",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/06b-narrator-prompt.md"
+        ],
+        "notes": "turn-46 prompt 的 recent turns 明确包含 turn-45 的移动原文。"
+      },
+      {
+        "claim": "story state 的地点摘要也记录“黑猫踱步至书堆前短暂停留后静坐”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/03-story-state.json"
+        ],
+        "notes": "这说明必要空间状态不仅在 recent text 中，也进入了地点状态摘要。"
+      },
+      {
+        "claim": "turn-45 的 Choice 输出提供“伸手轻轻摸摸黑猫的头”，没有说明需要起身、靠近书堆或等黑猫回来。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-45/06-llm-calls.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-45/04-output.json"
+        ],
+        "notes": "该选项把一个需要空间桥接的动作包装成可即时执行动作。"
+      },
+      {
+        "claim": "turn-46 Director 只要求“伸手抚摸黑猫头部”，没有加入空间桥接。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/06-llm-calls.json"
+        ],
+        "notes": "Director 没有明确猫的位置，也没有要求先把玩家或猫移动到可触及范围。"
+      }
+    ],
+    "competingPressures": [
+      "玩家刚选择“摸黑猫头”，系统倾向立即满足触摸动作。",
+      "turn-44 的“椅子腿旁”仍在 recent context 中，且与“伸手摸”更容易搭配。",
+      "Choice schema 没有 action precondition/bridge 字段，导致选项文本不能表达“先起身靠近书堆再摸”。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-45/06-llm-calls.json call[2] choiceGenerator object",
+    "triggeringPressure": "ChoiceGenerator 在 turn-45 末尾面对“黑猫已在书堆前”的正文，仍输出即时触摸选项“伸手轻轻摸摸黑猫的头”。玩家选择后，turn-46 Director 将其解释为本轮必须直接完成的动作。",
+    "missingGuard": "缺少 choice-action spatial binding：选项生成没有检查动作是否与当前实体位置可直接匹配，也没有把“需要移动/靠近”的前置桥接写入 option 或 action contract。",
+    "mechanismStatement": "当选项把“摸黑猫头”作为无需位移的即时行动交给下一轮时，Director/Narrator 为满足玩家动作而回收更早的“椅子腿旁”位置，忽略了 turn-45 最后一帧的书堆位置，从而产生无桥接的位置跳转。",
+    "directCause": "turn-46 Narrator 将黑猫起始位置写回“椅子腿旁”，以便玩家直接伸手触摸。",
+    "propagation": "turn-45 Choice 输出成为 turn-46 playerInput；turn-46 Director requiredContent 固化“必须描写主人伸手抚摸黑猫头部”；Narrator 为动作可达性改写空间，04-output/events 将错误位置呈现给玩家。",
+    "nonCauses": [
+      "不是黑猫位置信息缺失：turn-46 story state 和 prompts 均 present-clear。",
+      "不是单纯 detail-memory：错误发生在相邻 turn，并且所需信息仍在 recentTurnLimit=5 内。",
+      "不是 fixed script 重演：当前节点只提供情感铺垫，不要求黑猫回到椅子旁。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 turn-45 选项把“伸手摸黑猫头”包装成即时可执行动作；缺失防线是 Choice/Director handoff 没有把当前实体位置作为动作前置条件，也没有要求不可达动作必须桥接移动；失败运动是 Narrator 为满足触摸动作而选择更早、更方便的“椅子腿旁”位置，覆盖了上一轮最后一帧的书堆位置。",
+    "fixSurface": [
+      "choice generator affordance check",
+      "choice schema action preconditions",
+      "Director selected-action spatial bridge",
+      "Narrator current entity location guard"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-45 可见文本记录黑猫从椅子腿旁到书堆前并在诗集附近停留；turn-46 开头无移动承接，直接写“黑猫蹲坐在椅子腿旁”。",
+    "internalTrace": "turn-46/03-story-state.json 的地点摘要含“黑猫踱步至书堆前短暂停留后静坐”；turn-45/06-llm-calls.json call[2] 输出 unbridged touch option；turn-46/06-llm-calls.json call[0] requiredContent 强化直接抚摸；call[1] Narrator 写回椅子腿旁。"
+  },
+  "recommendedFixArea": "让 ChoiceGenerator 在生成涉及实体接触/拿取/靠近的选项时检查 current entity location；如果动作不可直接发生，选项必须写成“起身走到书堆前，再……”或标记 action precondition，由 Director 在下一轮显式桥接。",
+  "confidence": "high"
+}

@@ -1,0 +1,474 @@
+{
+  "batchId": "batch-004",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 13,
+      "turn": 43,
+      "severity": "medium",
+      "type": "event-negated",
+      "scope": "visibleText",
+      "summary": "上一轮刚完成的黑猫退回动作在本轮开头被回滚为尚未发生，并在本轮内重复演出，造成即时动作连续性断裂。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "statefold/current scene entity pose extraction",
+          "Director prompt context priority rules",
+          "Narrator prompt first-frame continuity check",
+          "post-generation continuity validator for repeated immediate actions"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Director 前增加“上一轮玩家可见最后一帧”的实体/位置/姿态锚点，并在 prompt 中声明它高于 storyline summary、情绪摘要和候选动作；Narrator 输出前检查第一段是否回滚该锚点。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-013-turn-43/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-013-turn-43/root-cause-report.md",
+      "result": {
+        "issueId": "issue-13-turn-43",
+        "turn": 43,
+        "issueValidity": "valid",
+        "problemSummary": "上一轮黑猫已经收回头、后退半步并重新蹲坐；本轮开头又写成鼻尖仍悬在玩家手指上方、没有退开，并在同一轮后文重复收回头和后退动作。",
+        "validityAssessment": {
+          "verdictReason": "该问题仅凭玩家可见文本即可成立：turn-42 的动作终点被 turn-43 开头回滚，随后同一动作再次发生，造成即时动作连续性断裂。",
+          "playerVisibleSupport": "turn-42 末尾写“黑猫在这时候收回了头。她后退半步，重新蹲坐下来”；turn-43 开头写“那只黑猫的鼻尖还悬在你的手指上方——她没有退开”，后文又写“那只黑猫在这时候收回了头。她后退半步”。",
+          "caveats": [
+            "如果只看 turn-43 内部，重复动作可以被误读为延迟完成；但 turn-42 已经明确完成了同一退回动作，因此不是合理延续。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn-42 结束时，主角仍在桌边蹲着，黑猫已从贴近手指的位置收回头、后退半步并在桌沿重新蹲坐，尾巴搭回原处，目光仍落在主角身上。",
+          "relevantFacts": [
+            {
+              "claim": "黑猫在 turn-42 末尾已经完成“收回头/后退半步/重新蹲坐”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实出现在最近几轮玩家经历中，且是 turn-42 可见正文的末尾状态；prompt 中也有原文片段。"
+            },
+            {
+              "claim": "story state 对 turn-42 的折叠只写成“主角蹲下向黑猫伸手打招呼，卡琳娜和卡尔观察其反应”，未保留最后姿态。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/03-story-state.json"
+              ],
+              "notes": "摘要保留了互动方向，但没有把“已退回”的终点作为可执行场景锚点。"
+            },
+            {
+              "claim": "runtime-after 没有保存黑猫微观位置或动作终点。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-42/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 只保留 worldState、entityStates、questStates 等粗粒度字段，没有当前 pose/location slot。"
+            },
+            {
+              "claim": "Director 输出把黑猫状态写成“鼻尖仍悬在主角手指附近”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/04-output.json"
+              ],
+              "notes": "这是首个内部偏离点，并被 Narrator 当成骨架执行。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择“继续保持蹲姿”强调身体姿势延续，容易被误扩展为接触状态延续。",
+            "currentStoryline 与 summary 强调“温馨信任/肢体接触/黑猫认可”，但没有终点姿态。",
+            "Director/Narrator prompt 有通用一致性规则，却没有强制“以上一轮可见正文最后一帧作为本轮第一帧”。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-43/06-llm-calls.json call[0] director object",
+          "triggeringPressure": "Director 在 characterBeats 中写出“卡尔：尾巴尖轻摆，鼻尖仍悬在主角手指附近”，并在 summary 中称“主角蹲姿保持与黑猫的肢体接触”。这把上轮中段的鼻尖贴近状态错误地当成本轮起点。",
+          "missingGuard": "缺少 current-scene terminal anchor：最近可见正文虽包含“收回头/后退半步/重新蹲坐”，但该终点没有被提取为高优先级、不可回滚的实体状态，也没有要求 Director 修改或删除与终点冲突的动作提示。",
+          "mechanismStatement": "当玩家输入要求“继续保持蹲姿”时，系统没有把上轮最后一帧的黑猫姿态作为硬锚点，Director 受“保持接触/温馨靠近”的情绪摘要牵引，把已完成的鼻尖靠近动作恢复成当前状态，Narrator 随后按该错误骨架重复演出退回动作。",
+          "directCause": "Director 对上一轮动作终点的误锚定：把“鼻尖仍悬在手指附近”交给 Narrator。",
+          "propagation": "Narrator 在 turn-43 正文第一段写出“鼻尖还悬在你的手指上方——她没有退开”，后文又自然执行 Director 要求的黑猫轻微动作，写成再次“收回了头/后退半步”。04-output 和 events 将该文本固化为玩家可见输出。",
+          "nonCauses": [
+            "不是长期记忆缺失：turn-42 原文在 turn-43 prompt 的最近几轮中 present-clear。",
+            "不是 Choice 组件主因：turn-42 的下一步选项“继续保持蹲姿，轻声回应卡琳娜”没有要求黑猫保持贴近。",
+            "不是 runtime-after 直接写错：runtime-after 没有写入相反姿态，它只是缺少可用于约束生成的微状态。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是玩家输入和剧情摘要共同强调“继续保持蹲姿/温馨接触”；缺失防线是系统没有把最近玩家可见正文的最后一帧抽取为可执行的 current-scene anchor，也没有让该锚点高于情绪摘要和 Director 自行补全；失败运动是 Director 复活上轮中段状态，Narrator 按错误 handoff 在本轮重复同一退回动作。",
+          "fixSurface": [
+            "statefold/current scene entity pose extraction",
+            "Director prompt context priority rules",
+            "Narrator prompt first-frame continuity check",
+            "post-generation continuity validator for repeated immediate actions"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-42 可见正文末尾：“黑猫在这时候收回了头。她后退半步，重新蹲坐下来”；turn-43 可见正文开头：“鼻尖还悬在你的手指上方——她没有退开”；turn-43 后文再次：“收回了头。她后退半步”。",
+          "internalTrace": "turn-43/06a-director-prompt.md 与 turn-43/06b-narrator-prompt.md 的最近几轮包含 turn-42 末尾动作；turn-43/06-llm-calls.json call[0] 首次写出“鼻尖仍悬在主角手指附近”；call[1] Narrator 复现；turn-42/05-runtime-after.json 没有黑猫 pose/location 字段。"
+        },
+        "recommendedFixArea": "在 Director 前增加“上一轮玩家可见最后一帧”的实体/位置/姿态锚点，并在 prompt 中声明它高于 storyline summary、情绪摘要和候选动作；Narrator 输出前检查第一段是否回滚该锚点。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 14,
+      "turn": 46,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "黑猫上一轮已从椅子腿旁移动到书堆前，本轮没有移动承接就把它写回椅子旁，造成位置连续性错误。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "choice generator affordance check",
+          "choice schema action preconditions",
+          "Director selected-action spatial bridge",
+          "Narrator current entity location guard"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "让 ChoiceGenerator 在生成涉及实体接触/拿取/靠近的选项时检查 current entity location；如果动作不可直接发生，选项必须写成“起身走到书堆前，再……”或标记 action precondition，由 Director 在下一轮显式桥接。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-014-turn-46/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-014-turn-46/root-cause-report.md",
+      "result": {
+        "issueId": "issue-14-turn-46",
+        "turn": 46,
+        "issueValidity": "valid",
+        "problemSummary": "turn-45 末尾黑猫已经从椅子腿旁移动到书堆前并停在诗集附近；turn-46 开头没有移动承接，直接写成黑猫仍蹲坐在椅子腿旁。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见连续性成立：同一只黑猫的位置从“书堆前/诗集附近”无桥接变回“椅子腿旁”，而 turn-46 没有提供它移动回来的动作。",
+          "playerVisibleSupport": "turn-45 写“黑猫从椅子腿旁站起来，踱了两步，走到书堆前……蹲坐下来”，末尾仍以书堆/诗集边缘和耳朵偏向玩家收束；turn-46 第一段写“黑猫蹲坐在椅子腿旁”。",
+          "caveats": [
+            "房间较小，黑猫理论上可以移动回椅子旁；但文本没有写这个移动，而是以“你的手还悬在半空中”直接把场面回接到旧位置。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn-45 结束时，主角坐在旧椅子上观察书；黑猫已离开椅子腿旁，走到墙边书堆前，在诗集附近蹲坐，尾巴和耳朵仍对玩家有细微反应。",
+          "relevantFacts": [
+            {
+              "claim": "黑猫当前位置是书堆前/诗集附近，而不是椅子腿旁。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/06b-narrator-prompt.md"
+              ],
+              "notes": "turn-46 prompt 的 recent turns 明确包含 turn-45 的移动原文。"
+            },
+            {
+              "claim": "story state 的地点摘要也记录“黑猫踱步至书堆前短暂停留后静坐”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/03-story-state.json"
+              ],
+              "notes": "这说明必要空间状态不仅在 recent text 中，也进入了地点状态摘要。"
+            },
+            {
+              "claim": "turn-45 的 Choice 输出提供“伸手轻轻摸摸黑猫的头”，没有说明需要起身、靠近书堆或等黑猫回来。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-45/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-45/04-output.json"
+              ],
+              "notes": "该选项把一个需要空间桥接的动作包装成可即时执行动作。"
+            },
+            {
+              "claim": "turn-46 Director 只要求“伸手抚摸黑猫头部”，没有加入空间桥接。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-46/06-llm-calls.json"
+              ],
+              "notes": "Director 没有明确猫的位置，也没有要求先把玩家或猫移动到可触及范围。"
+            }
+          ],
+          "competingPressures": [
+            "玩家刚选择“摸黑猫头”，系统倾向立即满足触摸动作。",
+            "turn-44 的“椅子腿旁”仍在 recent context 中，且与“伸手摸”更容易搭配。",
+            "Choice schema 没有 action precondition/bridge 字段，导致选项文本不能表达“先起身靠近书堆再摸”。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-45/06-llm-calls.json call[2] choiceGenerator object",
+          "triggeringPressure": "ChoiceGenerator 在 turn-45 末尾面对“黑猫已在书堆前”的正文，仍输出即时触摸选项“伸手轻轻摸摸黑猫的头”。玩家选择后，turn-46 Director 将其解释为本轮必须直接完成的动作。",
+          "missingGuard": "缺少 choice-action spatial binding：选项生成没有检查动作是否与当前实体位置可直接匹配，也没有把“需要移动/靠近”的前置桥接写入 option 或 action contract。",
+          "mechanismStatement": "当选项把“摸黑猫头”作为无需位移的即时行动交给下一轮时，Director/Narrator 为满足玩家动作而回收更早的“椅子腿旁”位置，忽略了 turn-45 最后一帧的书堆位置，从而产生无桥接的位置跳转。",
+          "directCause": "turn-46 Narrator 将黑猫起始位置写回“椅子腿旁”，以便玩家直接伸手触摸。",
+          "propagation": "turn-45 Choice 输出成为 turn-46 playerInput；turn-46 Director requiredContent 固化“必须描写主人伸手抚摸黑猫头部”；Narrator 为动作可达性改写空间，04-output/events 将错误位置呈现给玩家。",
+          "nonCauses": [
+            "不是黑猫位置信息缺失：turn-46 story state 和 prompts 均 present-clear。",
+            "不是单纯 detail-memory：错误发生在相邻 turn，并且所需信息仍在 recentTurnLimit=5 内。",
+            "不是 fixed script 重演：当前节点只提供情感铺垫，不要求黑猫回到椅子旁。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 turn-45 选项把“伸手摸黑猫头”包装成即时可执行动作；缺失防线是 Choice/Director handoff 没有把当前实体位置作为动作前置条件，也没有要求不可达动作必须桥接移动；失败运动是 Narrator 为满足触摸动作而选择更早、更方便的“椅子腿旁”位置，覆盖了上一轮最后一帧的书堆位置。",
+          "fixSurface": [
+            "choice generator affordance check",
+            "choice schema action preconditions",
+            "Director selected-action spatial bridge",
+            "Narrator current entity location guard"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-45 可见文本记录黑猫从椅子腿旁到书堆前并在诗集附近停留；turn-46 开头无移动承接，直接写“黑猫蹲坐在椅子腿旁”。",
+          "internalTrace": "turn-46/03-story-state.json 的地点摘要含“黑猫踱步至书堆前短暂停留后静坐”；turn-45/06-llm-calls.json call[2] 输出 unbridged touch option；turn-46/06-llm-calls.json call[0] requiredContent 强化直接抚摸；call[1] Narrator 写回椅子腿旁。"
+        },
+        "recommendedFixArea": "让 ChoiceGenerator 在生成涉及实体接触/拿取/靠近的选项时检查 current entity location；如果动作不可直接发生，选项必须写成“起身走到书堆前，再……”或标记 action precondition，由 Director 在下一轮显式桥接。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 15,
+      "turn": 47,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "选项中的“她也想”把表达主体写得含混甚至错误，和后续实际展开的“我也想”不一致，影响玩家对所选行动的理解。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "choice schema speaker/utterance fields",
+          "Choice prompt pronoun rules for player utterances",
+          "choice text linter for ambiguous third-person self-reference"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "将 dialogue choice 拆成结构化字段，例如 actionTarget、speaker=player、utteranceText；或至少增加 linter：当选项以“说她/他说也想/觉得”等表达玩家自身态度时，改写为“说自己也想”或“说：我也想……”。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-015-turn-47/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-015-turn-47/root-cause-report.md",
+      "result": {
+        "issueId": "issue-15-turn-47",
+        "turn": 47,
+        "issueValidity": "valid",
+        "problemSummary": "turn-47 选项“说她也想去看看那片海”把玩家本应表达的“我也想”写成含混甚至错误的“她也想”，降低了玩家对所选行动的理解。",
+        "validityAssessment": {
+          "verdictReason": "这是低严重度但真实的 choice 文案退化：选项本应站在玩家视角表达玩家也想看海，却用“她也想”制造主语歧义；turn-48 玩家可见正文将同一选择展开为“我也想去看看那片海”，确认选项语义应为玩家自述。",
+          "playerVisibleSupport": "turn-47 choice: “说她也想去看看那片海”；turn-48 playerInput 记录同样选项，但正文输出为“我也想去看看那片海。”",
+          "caveats": [
+            "可勉强读作“对她说：也想去看看那片海”的省略，但自然阅读中“她”更容易指向卡琳娜或黑猫，因此仍是玩家可见质量问题。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn-47 结束时，卡琳娜刚说自己读到写海的诗会想那片海是否更干净；黑猫在诗集旁做出细微认可动作。此时合理玩家行动是回应“我也想去看看那片海”。",
+          "relevantFacts": [
+            {
+              "claim": "选项需要表达玩家自己的愿望，而不是卡琳娜或黑猫的愿望。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06c-choice-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/06-llm-calls.json"
+              ],
+              "notes": "Choice prompt 要求“选项必须站在玩家视角”；turn-48 Director requiredContent 明确为“我也想去看看那片海”。"
+            },
+            {
+              "claim": "turn-47 当前正文中存在多个女性/雌性代词指代对象。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06c-choice-prompt.md"
+              ],
+              "notes": "“她”可指卡琳娜，也可指黑猫；作为 option 主体时没有被绑定到玩家。"
+            },
+            {
+              "claim": "Choice 输出没有 speaker/utterance 结构，只能用一个 text 字段承载动作和话语。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06c-choice-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json"
+              ],
+              "notes": "schema 只有 options[].text，可选 actionId；没有字段强制“玩家说出口的话”。"
+            }
+          ],
+          "competingPressures": [
+            "同一组选项中有“问问她”“低头看看黑猫，问她叫什么名字”，Choice 模式常用第三人称对象“她”。",
+            "选项要求短、具体，模型用省略句压缩了“对她说，我也想”。",
+            "没有后处理检查第一人称表达是否被第三人称代词替换。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json call[2] choiceGenerator object",
+          "triggeringPressure": "ChoiceGenerator 需要在“卡琳娜谈起想象中的海”之后生成短选项，并沿用中文选项常见的第三人称动作格式，于是输出“说她也想去看看那片海”。",
+          "missingGuard": "缺少 choice text perspective contract：prompt 虽写“玩家视角”，但 schema 没有区分 action target 与 utterance speaker，也没有禁止用“她也想”表达玩家自己的愿望。",
+          "mechanismStatement": "当选项文本同时承担“对她说”和“玩家说出的内容”时，系统没有显式绑定说话主体，Choice 模型将玩家的第一人称愿望压缩成第三人称“她也想”，导致玩家在选择前看到的行动语义含混。",
+          "directCause": "Choice 输出的第二个 option 代词主体错误/含混。",
+          "propagation": "turn-48 Director/Narrator 根据玩家选择恢复为正确的“我也想”，因此错误没有继续污染正文，但已经在 turn-47 的可点击选项层暴露给玩家。",
+          "nonCauses": [
+            "不是 Narrator 生成问题：turn-48 Narrator 正确写成“我也想”。",
+            "不是 memory 或 story state 缺失：该问题只涉及选项文案的人称绑定。",
+            "不是隐藏信息造成：玩家可见上下文已经足以判断应是玩家回应。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "触发压力是短选项生成沿用“问她/说她”的第三人称动作模板；缺失防线是 Choice schema/prompt 没有把玩家说话主体和对话内容分离，也没有对第一人称 utterance 做校验；失败运动是模型把“对她说：我也想”压缩成“说她也想”，使 option semantics 与实际玩家行动不一致。",
+          "fixSurface": [
+            "choice schema speaker/utterance fields",
+            "Choice prompt pronoun rules for player utterances",
+            "choice text linter for ambiguous third-person self-reference"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-47 choices 中第二项为“说她也想去看看那片海”；turn-48 选择后的正文为“我也想去看看那片海。”",
+          "internalTrace": "turn-47/06c-choice-prompt.md 要求选项站在玩家视角；turn-47/06-llm-calls.json call[2] 输出含混 option；turn-48/06-llm-calls.json call[0] requiredContent 明确“主角说出口的话：'我也想去看看那片海。'”。"
+        },
+        "recommendedFixArea": "将 dialogue choice 拆成结构化字段，例如 actionTarget、speaker=player、utteranceText；或至少增加 linter：当选项以“说她/他说也想/觉得”等表达玩家自身态度时，改写为“说自己也想”或“说：我也想……”。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 16,
+      "turn": 47,
+      "severity": "low",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "正文替玩家断言卡琳娜曾说地图册读得最多，但此前玩家可见内容没有这个信息，导致对话依据被凭空添加。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "unsupported-detail-inference",
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Narrator prompt presupposition grounding rule",
+          "structured known-facts list for local objects",
+          "post-generation unsupported comparative claim checker"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "在 Narrator 阶段加入“玩家对白前提”检查：凡出现“你说过/最常/已经/当然”等断言式或比较式说法，必须能在 recent visible text 或 structured facts 中找到来源；否则改写成开放问题，例如“你更常翻哪一本？”",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-016-turn-47/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-016-turn-47/root-cause-report.md",
+      "result": {
+        "issueId": "issue-16-turn-47",
+        "turn": 47,
+        "issueValidity": "valid",
+        "problemSummary": "turn-47 正文替玩家说“那本地图册——你说你读得最多”，但此前玩家可见内容只说地图册是第一年捡到、缺页但够用，以及每本书都读过不止一遍，没有“地图册读得最多”这一事实。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见证据明确支持 issue：turn-45 没有说地图册是最常读的一本，turn-47 却把该事实作为卡琳娜曾说过的话放进玩家对白，属于 unsupported jump。",
+          "playerVisibleSupport": "turn-45: 地图册“第一年捡到”“缺了十几页，但剩下的部分够我用”；诗集有写海的诗；“每一本都读过不止一遍”。turn-47: 玩家对白“那本地图册——你说你读得最多。”",
+          "caveats": [
+            "“够我用”可暗示地图册被使用过，但不能推出“读得最多”，更不能推出“你说过读得最多”。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn-46 后，主角仍在椅子上/黑猫附近，玩家选择“问卡琳娜她最常读的是哪本书”。玩家知道的书籍事实是：旧地图册缺封面、第一年捡到、缺页但够用；暗红诗集第三十七页被撕掉、有写海的诗；机械手册存在；卡琳娜说这些书每本都读过不止一遍。",
+          "relevantFacts": [
+            {
+              "claim": "没有玩家可见证据表明卡琳娜曾说“地图册读得最多”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06b-narrator-prompt.md"
+              ],
+              "notes": "prompts 的 recent turns 包含 turn-45 原文：地图册“够我用”，以及“每一本都读过不止一遍”。"
+            },
+            {
+              "claim": "story/memory summary 指向诗集对卡琳娜有特殊意义，而不是地图册最常读。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06a-director-prompt.md"
+              ],
+              "notes": "turn-47 prompt 的记忆摘要写“诗集中关于另一片海的诗句对她有特殊意义”。"
+            },
+            {
+              "claim": "Director 只要求“主角询问最常读的书，卡琳娜回答”，没有要求玩家先断言地图册。",
+              "availability": "not-needed",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json"
+              ],
+              "notes": "Director requiredContent 为“卡琳娜回答最常读的是哪本书”；错误事实首现于 Narrator 文本。"
+            },
+            {
+              "claim": "Narrator 输出把“最常读”问题改写成带错误前提的玩家对白。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/04-output.json"
+              ],
+              "notes": "这一步把无依据推断写成“你说过”的事实。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择本身要求比较“最常读”，模型需要自然构造提问话术。",
+            "地图册有“够我用”的使用痕迹，诗集有情感意义；模型可能试图先提出一个候选再让卡琳娜纠正为诗集。",
+            "通用“不要无依据写事实”规则存在，但缺少对玩家对白中 presupposition/quotation 的逐项 source check。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/06-llm-calls.json call[1] narrator text",
+          "triggeringPressure": "Narrator 需要把“问卡琳娜她最常读的是哪本书”写成自然对白，并面对地图册“够我用”、所有书“读过不止一遍”的上下文，生成了一个错误的引入句“地图册——你说你读得最多”。",
+          "missingGuard": "缺少 player-dialogue presupposition grounding：系统没有要求 Narrator 对“你说过/你读得最多”这类前提性对白逐项核对来源，也没有把已知书籍事实结构化列为可引用/不可引用。",
+          "mechanismStatement": "在“最常读”问题需要自然化的压力下，Narrator 将“地图册够我用”和“每本读过不止一遍”合成为“地图册读得最多”并写成卡琳娜曾说过的事实；由于没有对白前提 source check，该 unsupported detail 直接进入玩家可见文本。",
+          "directCause": "Narrator 对可见书籍信息做了无依据的比较性推断，并把推断写成玩家对白中的既有事实。",
+          "propagation": "错误出现在 turn-47 正文第一段后即成为玩家可见；同轮后续卡琳娜回答“那本诗集”，没有纠正“地图册读得最多”的错误前提。turn-47 output/events 固化该文本。",
+          "nonCauses": [
+            "不是 Choice 组件主因：turn-46 option “问卡琳娜她最常读的是哪本书”本身不含地图册断言。",
+            "不是 story state 缺失：turn-47 prompt 和 state 都有正确书籍事实。",
+            "不是隐藏信息泄露：错误事实并非来自内部秘密，而是 Narrator 的 unsupported inference。"
+          ]
+        },
+        "rootCause": {
+          "label": "unsupported-detail-inference",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "触发压力是 Narrator 要把“最常读哪本书”的玩家动作自然化为对白；缺失防线是没有针对玩家对白中“你说过/最…”这类前提事实的 source-grounding 校验；失败运动是模型把“地图册够我用”和“每本读过不止一遍”错误合成为“地图册读得最多”，并以既有事实形式写入正文。",
+          "fixSurface": [
+            "Narrator prompt presupposition grounding rule",
+            "structured known-facts list for local objects",
+            "post-generation unsupported comparative claim checker"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-45 可见事实只有地图册第一年捡到、缺页但够用，以及所有书读过不止一遍；turn-47 玩家对白新增“地图册读得最多”。",
+          "internalTrace": "turn-47/06a-director-prompt.md 和 06b-narrator-prompt.md recent turns 含正确原文；turn-47/03-story-state.json 记忆摘要强调诗集有特殊意义；turn-47/06-llm-calls.json call[0] Director 未产生地图册断言；call[1] Narrator 首次产生该 unsupported claim。"
+        },
+        "recommendedFixArea": "在 Narrator 阶段加入“玩家对白前提”检查：凡出现“你说过/最常/已经/当然”等断言式或比较式说法，必须能在 recent visible text 或 structured facts 中找到来源；否则改写成开放问题，例如“你更常翻哪一本？”",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

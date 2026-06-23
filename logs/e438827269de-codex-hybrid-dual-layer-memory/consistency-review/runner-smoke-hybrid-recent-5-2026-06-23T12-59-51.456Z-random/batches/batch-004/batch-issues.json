@@ -1,0 +1,73 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 34,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 34 中玩家问“我们要去哪？”，卡琳娜回答“公园。不远。走几分钟就到。”随后路线被推进到公园方向。",
+    "conflictingEvidence": "Turn 24 中卡琳娜明确提出“今晚凯旋门那边有个晚宴。你如果愿意来——就跟我一起出门”，并解释“晚宴上，康纳不会动手”；Turn 29 又催促“走吧。天黑了，这里更不好走。”",
+    "conflictingTurns": [
+      24,
+      29
+    ],
+    "source": "model-output",
+    "reason": "出门目的此前被建立为去凯旋门晚宴，但当前轮在没有过渡或解释的情况下改成去公园，削弱了玩家对路线和行动目标的理解。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 37 的选项包括“她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的”“她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么”等。",
+    "conflictingEvidence": "窗口内相邻轮次的选项通常是清晰的行动或发问，例如 Turn 36 的“表达自己对这场宴会的疑虑”“反问她对宴会有什么看法”“直接评价：‘一场正式的试探’”。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "这些选项从可执行的玩家动作漂移成较长的元叙事式意图说明，降低了互动选项的清晰度和格式稳定性。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 39,
+    "scope": "visibleText",
+    "type": "language-drift",
+    "severity": "low",
+    "currentEvidence": "Turn 39 写作“它慢悠悠地站起来，在石凳上伸了个懒腰——两隻前爪向前探出去”。",
+    "conflictingEvidence": "同一窗口和同一段叙事主体一直使用简体中文，例如多次写作“那只黑猫”，而不是繁体“隻”。",
+    "conflictingTurns": [
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38
+    ],
+    "source": "model-output",
+    "reason": "单个繁体字混入简体中文正文，属于轻微但玩家可见的语言/字形稳定性问题。"
+  }
+]

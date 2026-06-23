@@ -1,0 +1,81 @@
+{
+  "issueId": "issue-5-turn-16",
+  "issueIndex": 5,
+  "turn": 16,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 16 的两个玩家可见选项带有孤立右引号，形成轻微但真实的选项格式退化。",
+  "validityAssessment": {
+    "verdictReason": "该问题只凭玩家可见 choices 即可成立：两个选项都以 `？”` 结尾，但选项文本前半没有配对的开引号；这不是剧情解释问题，而是 UI 文案格式问题。",
+    "playerVisibleSupport": "`visible-timeline.jsonl` turn 16 choices 显示 `低声问卡琳娜：你现在有武器吗？”` 与 `指向窗户，压低声音问她：后路通哪里？”`。同轮第一项没有该问题，相邻轮选项也通常不使用孤立右引号。",
+    "caveats": [
+      "问题严重度低，不影响事实连续性或玩家行动语义。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "Turn 16 正文以门外急促敲门结尾，玩家刚看到短促用力的指节砸门声，需要选择如何应对门外威胁；Choice worker 只需要生成下一步可点击行动。",
+    "relevantFacts": [
+      {
+        "claim": "选项应是短、具体、可点击的行动文本，而不是正文对白帧。",
+        "availability": "present-clear",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06c-choice-prompt.md",
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06-llm-calls.json"
+        ],
+        "notes": "Choice prompt 明确 `选项要短、具体、可点击`，并要求只返回 JSON options。"
+      },
+      {
+        "claim": "Choice schema 只约束每项有 `text`，没有约束中文引号配对或禁止孤立右引号。",
+        "availability": "absent",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06c-choice-prompt.md"
+        ],
+        "notes": "输出要求没有 `no unmatched quote`、标点平衡检查、或后处理 sanitizer。"
+      },
+      {
+        "claim": "近期正文含有大量中文对白引号和玩家提问式句子，容易把选项写成半对白。",
+        "availability": "present-buried",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06c-choice-prompt.md"
+        ],
+        "notes": "近期玩家经历与本轮正文中多处 `“...”` 对话样式在 prompt 中很长，格式规则相对低显著。"
+      }
+    ],
+    "competingPressures": [
+      "紧张敲门场景要求快速生成应对动作",
+      "选项 2/3 是向卡琳娜发问，模型倾向将其写成对白片段",
+      "JSON schema 接受任意字符串"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06-llm-calls.json call[2].object.options",
+    "triggeringPressure": "Choice worker 在一个充满中文对白引号的上下文中，需要把玩家可问的内容压缩成短选项；它把问题式选项写成半对白，并在末尾保留右引号。",
+    "missingGuard": "Choice prompt/schema/runtime 没有对 `text` 做标点配对校验，也没有把选项文案规范成无引号行动句的后处理。",
+    "mechanismStatement": "自由生成的 choice `text` 在缺少标点平衡校验和选项文案规范化的情况下，把近期对白格式残片带入选项字符串，runtime 又按 schema 原样提交，导致玩家可见孤立右引号。",
+    "directCause": "Choice LLM 输出的两个 option.text 本身包含未配对的右引号；`04-output.json` 与 visible timeline 原样承接。",
+    "propagation": "`turn-16/06-llm-calls.json` call[2] 生成坏 option；`turn-16/04-output.json` 保存同样 choices；`visible-timeline.jsonl` 暴露给玩家。",
+    "nonCauses": [
+      "Director/Narrator 没有制造事实冲突",
+      "storyline 与 statefold 对该格式问题不是主要压力",
+      "玩家输入本身没有包含孤立右引号"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-format-validation-gap",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "llm-self"
+    ],
+    "description": "Choice text 由模型自由生成，但系统只有 JSON 结构校验，没有中文标点配对、引号清洗、或选项句式规范化；在近期对白格式高显著时，模型局部 slip 生成孤立右引号，缺失的格式 guard 让它直接进入玩家可见 choices。",
+    "fixSurface": [
+      "Choice output schema / post-generation validator",
+      "choice text sanitizer",
+      "06c-choice-prompt.md option style contract"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 16 choices 中两个文本分别为 `低声问卡琳娜：你现在有武器吗？”`、`指向窗户，压低声音问她：后路通哪里？”`。",
+    "internalTrace": "`turn-16/06-llm-calls.json` call[2].object.options 已含同样坏文本；`turn-16/04-output.json` choices 原样保存；Choice prompt 只要求 JSON options 和短具体动作，没有标点平衡 guard。"
+  },
+  "recommendedFixArea": "在 Choice worker 后增加 `option.text` 文案 lint：检测未配对 `“”`、`\"`、括号等；同时在 prompt 中要求选项使用无引号行动句，必要时自动把 `低声问卡琳娜：...？”` 规范为 `低声问卡琳娜是否有武器`。",
+  "confidence": "high"
+}

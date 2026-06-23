@@ -1,0 +1,410 @@
+{
+  "generatedAt": "2026-06-23T15:37:30.111Z",
+  "runDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random",
+  "reviewDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random",
+  "issueFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/issues.json",
+  "selectedIssueIndex": 11,
+  "targetTurn": 37,
+  "selectedIssue": {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 37 的选项包括“她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的”“她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么”等。",
+    "conflictingEvidence": "窗口内相邻轮次的选项通常是清晰的行动或发问，例如 Turn 36 的“表达自己对这场宴会的疑虑”“反问她对宴会有什么看法”“直接评价：‘一场正式的试探’”。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "这些选项从可执行的玩家动作漂移成较长的元叙事式意图说明，降低了互动选项的清晰度和格式稳定性。"
+  },
+  "issuesForTurn": [
+    {
+      "index": 11,
+      "issue": {
+        "windowRange": {
+          "start": 21,
+          "end": 40
+        },
+        "evalRange": {
+          "start": 31,
+          "end": 40
+        },
+        "turn": 37,
+        "scope": "choices",
+        "type": "quality-regression",
+        "severity": "low",
+        "currentEvidence": "Turn 37 的选项包括“她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的”“她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么”等。",
+        "conflictingEvidence": "窗口内相邻轮次的选项通常是清晰的行动或发问，例如 Turn 36 的“表达自己对这场宴会的疑虑”“反问她对宴会有什么看法”“直接评价：‘一场正式的试探’”。",
+        "conflictingTurns": [
+          36
+        ],
+        "source": "model-output",
+        "reason": "这些选项从可执行的玩家动作漂移成较长的元叙事式意图说明，降低了互动选项的清晰度和格式稳定性。"
+      }
+    }
+  ],
+  "timelineWindow": [
+    {
+      "turn": 35,
+      "turnDir": "turn-35",
+      "playerInput": "回答她，来这里的时间不长",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "你走在卡琳娜身后几步远的位置，夜风从街道尽头灌进来，带着尘土和远处食物的气味。\n\"不长。\"\n你回答得简短，像是在陈述一件不需要修饰的事实。\"刚来没几天。\"\n卡琳娜没有立刻接话。她走在前面，外套搭在臂弯上，步伐的节奏没有因为你的回答而变化——像在等你说完，又像在等她想要接的那个位置自然出现。\n那只黑猫已经在街道尽头的转角处站起来，尾巴尖向上竖起一个弧度，迈开步子继续往前走。它的步伐不急不缓，像在带路，又像是习惯了在任何一段对话的间隙里保持自己的节奏。\n\"没几天。\"\n她重复了一遍你的话，声音在夜风里很轻，像在咀嚼这个词。\n\"那你找人的效率还行。\"\n她说这话的时候没有回头，语气里听不出是评价还是随口一提。外套的边缘在她臂弯上随着步伐轻轻摆动，在灰蓝色的暮光中留下一道模糊的轮廓。\n街道两侧的建筑越来越矮，路灯还没亮。远处隐约有小贩收摊的吆喝声传来，被距离削得很薄，像层纸。空气里混着泥土和旧砖墙的气味。\n那只黑猫在前方的石板路面上停下来，蹲坐着，琥珀色的瞳孔在昏暗中亮着，尾巴尖在地面上轻轻扫过半圈。它看着你们走近，然后转身拐进了一条更窄的巷口。",
+      "choices": [
+        {
+          "text": "跟上黑猫拐进巷口"
+        },
+        {
+          "text": "看向街边的建筑或路灯，略作观察"
+        },
+        {
+          "text": "问卡琳娜公园是不是有什么特别之处"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-35/01-summary.json",
+        "scriptState": "turn-35/02-script-state.json",
+        "storyState": "turn-35/03-story-state.json",
+        "output": "turn-35/04-output.json"
+      }
+    },
+    {
+      "turn": 36,
+      "turnDir": "turn-36",
+      "playerInput": "看向街边的建筑或路灯，略作观察",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "你的目光从卡琳娜的背影上移开，转向街道两侧。\n建筑矮而老旧，墙面是那种被海风与年月反复啃噬过的灰褐色——有些地方的涂层已经整片剥落，露出底下暗红的砖体。几扇窗户紧闭着，窗帘拉得严严实实，没有光透出来。\n路灯矗立在街角，铁制的灯柱上锈迹斑斑，灯罩里还残留着上一位路人砸碎的玻璃碴。路灯还没亮——傍晚的光已经沉得差不多了，灰蓝色的天幕低低地压着屋檐，把整条街都罩进了一种半明半暗的色调里。\n你注意到那只黑猫蹲在前方的一根灯柱旁，琥珀色的瞳孔在昏暗中亮着，尾巴尖在地面上轻轻扫过半圈——它在等你。\n“看够了？”\n卡琳娜的声音从前方传来，语气里带着一点点逗弄的意味。她没有回头，只是放慢了脚步，外套的边缘在臂弯上轻轻摆动。\n“这里的路灯坏了快半年，一直没人修。你要是想记住路，最好趁现在还能看见。”\n她说完，拐进了黑猫等候的那条窄巷。\n巷子比主街更窄，两侧的墙壁几乎能碰到你的肩膀。脚下的石板路有些湿漉漉的，踩上去发出轻微的声响。空气里多了些潮气和苔藓的味道——和主街的尘土味不一样，像是走进了一个更旧、更沉默的区域。\n那只黑猫走在最前面，尾巴尖在昏暗中有节奏地晃动，步伐不急不缓。\n卡琳娜走在中间，脚步在石板路上落下稳定的节拍。\n走了大约两三分钟，巷子忽然宽了起来。前方的视野在暮色中展开——一片不大的开放空间，几棵老树歪斜地立在边缘，树冠的剪影在灰蓝色的天空中融成一片模糊的墨色。一条石凳摆在靠近巷口的位置，表面被风雨磨得发亮。\n“到了。”\n她说，声音在空旷的空间里落得很轻。\n卡琳娜走到石凳前，没有立刻坐下。她站在那里，侧过头，目光扫过树影稀疏的公园——像是在确认这里只有你们几人。确认完毕之后，她才将外套叠了叠，放在石凳的一头，然后坐了下来。\n她坐在那里，姿态比之前在公寓里放松了一些——但眉宇间有一种说不出的疲倦，像是被暮色染上的一层薄薄的忧郁。\n那只黑猫跳上了石凳的另一头，蜷缩成一团，琥珀色的瞳孔在暮色中半眯着，看着你们。\n卡琳娜抬起头来，目光落在你身上，蓝眼睛里带着一种安静而直接的询问。\n“这场宴会——你怎么看？”",
+      "choices": [
+        {
+          "text": "表达自己对这场宴会的疑虑"
+        },
+        {
+          "text": "反问她对宴会有什么看法"
+        },
+        {
+          "text": "直接评价：‘一场正式的试探’"
+        },
+        {
+          "text": "默然不语，等她继续说"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-36/01-summary.json",
+        "scriptState": "turn-36/02-script-state.json",
+        "storyState": "turn-36/03-story-state.json",
+        "output": "turn-36/04-output.json"
+      }
+    },
+    {
+      "turn": 37,
+      "turnDir": "turn-37",
+      "playerInput": "反问她对宴会有什么看法",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "卡琳娜抬起头来，目光落在你身上，蓝眼睛里带着一种安静而直接的询问。\n\"这场宴会——你怎么看？\"\n你站在她面前几步远的位置，夜风从稀疏的树冠间穿过，带起衣摆边缘轻微的晃动。暮色已经沉得更深了，灰蓝色的天幕正在向暗紫色过渡。\n你没有立刻回答。而是回望着她的眼睛，将那个问题轻轻拨了回去。\n\"你先说说你的看法。\"\n卡琳娜的眉毛微微动了一下——不是意外，更像是确认了你不会轻易接住她抛出的线。她低下头，目光落在自己搭在膝盖上的手指上，指尖轻轻磨蹭着外套布料的边缘。\n\"我怎么看……\"\n她重复了一遍，声音比刚才更轻，像是在跟自己确认措辞。\n\"我觉得它虚伪。那些人——围着一张长桌，杯盏交错，谈着港口的分成和地盘的边界——每个人脸上都挂着笑，但每个人都在计算对方什么时候会翻脸。\"\n她顿了顿，嘴角牵起一个很淡的弧度——不是笑，更像是某种自嘲的表示。\n\"但我得去。因为不去就是示弱。在这个地方，示弱比死更麻烦。\"\n她抬起头来，目光重新落在你脸上。蓝眼睛在暮色中显得比平时更深，像是把周围的光都吸进去了。\n\"这就是我的看法。你呢？你还没告诉我——你觉得那场晚宴有什么值得我去的理由？\"\n石凳另一头，那只黑猫蜷缩的姿势没有变，但它的耳朵轻轻转动了一下——像是在听，又像只是被夜风拂过的反射。",
+      "choices": [
+        {
+          "text": "她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的"
+        },
+        {
+          "text": "她问我有什么值得去的理由——也许我需要先诚实地告诉她，我来新西西里不只是为了找敏特"
+        },
+        {
+          "text": "她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么"
+        },
+        {
+          "text": "晚宴或许虚伪，但至少有吃有酒有情报源——我先从实用角度回答她"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-37/01-summary.json",
+        "scriptState": "turn-37/02-script-state.json",
+        "storyState": "turn-37/03-story-state.json",
+        "output": "turn-37/04-output.json"
+      }
+    },
+    {
+      "turn": 38,
+      "turnDir": "turn-38",
+      "playerInput": "她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "你站在她面前几步远的位置，夜风从树冠间穿过，把暮色搅得更深了一些。\n卡琳娜的目光落在你脸上，蓝眼睛在暗下来的光线里显得很静——她在等你的回答。\n你沉默了几秒，不是在想说什么，而是在想怎么把那种感觉说出来。\n\"虚伪——你说得对。\"\n\"但我觉得不止虚伪。它更像是一种……表演。每个人都在演一个自己不是的角色——你是暗街的掌控者，康纳是体面的合作者，那些围着长桌的人是忠诚的盟友。\"\n你顿了顿，目光落在石凳边缘被风雨磨平的纹路上。\n\"演得久了，有些人就忘了自己在演。有些人还记得，但不敢停下来——因为停下来就得面对自己到底是谁。\"\n你抬起头来，看向她。\n\"你问我有什么值得去的理由——我不知道。但我知道你为什么不得不去。不是因为示弱比死麻烦，是因为如果你不去，那场戏就会绕过你继续演下去——你就会变成一个被排除在剧本之外的观众。而你，显然不是坐在台下看戏的那种人。\"\n话说完了。夜风从你们之间穿过去，拂动她外套的边缘。\n卡琳娜没有立刻回应。她坐在那里，目光落在你脸上，蓝眼睛里的表情变了几次——像是在咀嚼你的话，又像是在辨认什么。\n几秒后，她的嘴角弯了一下。不是自嘲，也不是敷衍——是一个很轻的、真的被触动的弧度。\n\"你说得比我清楚。\"\n她把目光移开，低头看着自己搭在膝盖上的手指，指尖轻轻磨蹭着外套布料的边缘。\n\"被排除在剧本之外——这个说法我喜欢。比我说得好听。\"\n她抬起头，重新看向你。\n\"那你呢？你觉得自己在那场戏里——演的是什么角色？\"\n石凳另一头，那只黑猫蜷缩的姿势没有变。但它的耳朵轻轻转动了一下——琥珀色的瞳孔半眯着，像是在听你们的对话，又像只是被夜风拂过时的反射。",
+      "choices": [
+        {
+          "text": "回答她：我现在也还没看清自己在演什么角色"
+        },
+        {
+          "text": "反问她在那场戏里平时扮演的是什么样的角色"
+        },
+        {
+          "text": "说我还在摸索，这场晚宴也许能帮我找到答案"
+        },
+        {
+          "text": "沉默片刻，然后岔开话题问她要不要换个地方坐"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-38/01-summary.json",
+        "scriptState": "turn-38/02-script-state.json",
+        "storyState": "turn-38/03-story-state.json",
+        "output": "turn-38/04-output.json"
+      }
+    },
+    {
+      "turn": 39,
+      "turnDir": "turn-39",
+      "playerInput": "回答她：我现在也还没看清自己在演什么角色",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "你站在几步之外，夜风从稀疏的树冠间穿过，把暮色搅得更深了一些。\n“我还没看清。”\n你回答得很坦诚，目光没有移开她的眼睛。\n“你说得对——每个人都在演一个角色。但我在那场戏里演什么……”\n你顿了顿，指尖在口袋里轻轻摩挲着那张照片的边缘。\n“……我到现在也没想明白。一个突然冒出来的记者？一个拿着死人照片找人的疯子？还是某个更大剧本里的临时演员？”\n你说完，嘴角牵起一个很淡的弧度——不是笑，只是一种对自己处境的自嘲表示。\n卡琳娜没有立刻回答。她坐在石凳上，蓝眼睛在暮色中望着你，瞳孔里映着最后一线灰蓝色的光。几秒的沉默后，她的嘴角弯了一下——不是之前那种自嘲的弧度，而是一种更轻、更真的笑。\n“我也没有。”\n她说得坦然，声音在夜风里落得很轻。\n“有时候我觉得自己知道自己在做什么。但更多时候……”\n她低下头，目光落在自己搭在膝盖的手指上，指尖轻轻磨蹭着外套布料的边缘。\n“……就像你说的——在演一个自己都还没看清脚本的角色。”\n石凳另一头，那只黑猫蜷缩的姿势一直没有变。但当你和卡琳娜的对话同时陷入沉默时，它动了。\n它慢悠悠地站起来，在石凳上伸了个懒腰——两隻前爪向前探出去，脊背弓成一个弯月的弧度，尾巴尖轻轻抖了抖。然后它跳下石凳，踩着干燥的土地，走到卡琳娜脚边，蹲坐下来。\n琥珀色的瞳孔在昏暗中亮着。它抬起头，先是看了卡琳娜一眼，然后转向你——目光在你脸上停留了两三秒，才移开。\n尾巴尖在卡琳娜的小腿外侧轻轻扫过一圈。\n卡琳娜低下头，看着蹲坐在脚边的黑猫，嘴角那个很轻的弧度没有收回去。她伸出手，指尖在两只猫耳朵中间轻轻揉了揉。\n“她说你说得对。”\n卡琳娜抬起头来，蓝眼睛里带着一丝被夜色染过的柔软。\n“走吧，这里待太久了。我带你去个地方——一个你可以……不用担心有人从背后拿枪指着你的地方。”\n她说着，站起身来，拎起叠好的外套搭在臂弯上。黑猫也跟着站了起来，绕着她的脚踝走了一圈，然后朝着来时的方向迈出几步，尾巴尖向上竖起。\n“不是晚宴。是我的地方——真正住的地方。”\n她顿了顿，目光在暮色中与你对视。\n“不太远。在更里面一点。”",
+      "choices": [
+        {
+          "text": "跟上卡琳娜，去看看她的地方"
+        },
+        {
+          "text": "问她那里是什么样子的"
+        },
+        {
+          "text": "最后看一眼夜色中的公园，再迈步跟上"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-39/01-summary.json",
+        "scriptState": "turn-39/02-script-state.json",
+        "storyState": "turn-39/03-story-state.json",
+        "output": "turn-39/04-output.json"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "turn": 36,
+      "turnDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36",
+      "files": {
+        "summary": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/01-summary.json",
+        "scriptState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/02-script-state.json",
+        "storyState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/03-story-state.json",
+        "output": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/04-output.json",
+        "runtimeAfter": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/05-runtime-after.json",
+        "llmCalls": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/06-llm-calls.json",
+        "directorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/06a-director-prompt.md",
+        "narratorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/06b-narrator-prompt.md",
+        "choicePrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/06c-choice-prompt.md",
+        "events": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-36/07-events.json"
+      },
+      "outputSummary": {
+        "playerIntent": "探索",
+        "summary": "玩家看向街边建筑或路灯，观察周围环境，卡琳娜和黑猫继续引路，走向公园。",
+        "beats": [
+          "玩家观察周围环境",
+          "继续前行到达公园",
+          "卡琳娜在长椅坐下"
+        ],
+        "currentTurnConstraints": [
+          "卡琳娜询问玩家对宴会的看法",
+          "调用cg【和卡琳娜在公园/夜晚】",
+          "卡琳娜可切换表情：卡琳娜-普通、卡琳娜-好奇、卡琳娜-困惑、卡琳娜-非常好奇、卡琳娜-微笑",
+          "不得揭示敏特核心情报",
+          "保持前往晚宴的开放状态"
+        ],
+        "currentStorylineConstraints": [
+          "遵循阶段六情感铺垫：轻松→温馨→安心"
+        ],
+        "revealedFacts": [],
+        "requiredContent": [
+          "描写街道建筑的细节、路灯状态及暮色光线",
+          "黑猫保持引路姿态，偶尔停顿回望",
+          "到达公园后卡琳娜在长椅坐下，神情略带忧郁",
+          "卡琳娜询问玩家对宴会的看法"
+        ],
+        "sectionSignalSuggestion": "continue"
+      },
+      "storyStateSummary": {
+        "id": "6-02-第一章",
+        "name": "推进节点 06-02：归途反思",
+        "summary": "主角在离开公寓前驻足窗边，看向窗外渐暗的天色与暗街景象，卡琳娜和卡尔等待他做出决定。\n主角从窗边收回目光，转身跟上卡琳娜和卡尔，准备离开公寓前往凯旋门晚宴。\n主角在楼梯间停下，回头看向关上的门，随后继续跟随卡琳娜下楼。\n主角摇头示意无事，跟随卡琳娜下楼离开公寓，走向街道。\n卡琳娜带着主角沿昏暗街道前行，回答关于目的地的问题，并走向附近的公园。\n主角回答卡琳娜关于来新西西里时长的问题，一行人继续前往公园。",
+        "constraints": [
+          "请引擎嗲用backgrounds【夜晚的街道/默认】【背景：公园/公园】 characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-好奇 卡琳娜/卡琳娜-困惑 卡琳娜/卡琳娜-非常好奇 卡琳娜/卡琳娜-不悦 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-微笑】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）\n当卡琳娜坐在长椅上时，请引擎调用cgs【和卡琳娜在公园/夜晚】\n必须围绕卡琳娜询问玩家对宴会的看法展开讨论。\n避免一次性倾泻所有秘密。",
+          "卡琳娜提议前往晚宴尚未被拒绝或接受，保持开放状态",
+          "遵循阶段六情感铺垫节点走向：轻松 → 温馨 → 安心",
+          "卡琳娜提议前往晚宴的状态保持开放",
+          "保持前往晚宴的开放状态",
+          "不在本轮揭示敏特核心情报",
+          "遵循阶段六情感铺垫：轻松→温馨→安心"
+        ],
+        "notes": [],
+        "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定】\n- 卡琳娜的内心反思（由角色情绪和氛围驱动）\n- 卡尔与卡琳娜的互动\n- 一天的疲惫与沉淀\n【核心流程】\n- 卡琳娜带着主角来到了附近的公园，她会在公园的长椅上坐下，有些忧郁\n- 她会问玩家对宴会的看法，展开讨论\n- 卡尔向卡琳娜提问主角的处理，引向下一步\n- 卡琳娜会坦白她知道的敏特的情报。",
+        "interactionFollowupPreview": "当卡琳娜态度值>=2：\n- 卡琳娜邀请主角前去她真正的家。不然她无法保证主角的安全。\n- 那里是‘卡尔’的心脏，暗街过去的影子。"
+      },
+      "scriptStateKeys": [
+        "turn",
+        "userInput",
+        "facts",
+        "preLlmEvents",
+        "context"
+      ],
+      "eventCount": 717,
+      "llmCallCount": 3
+    },
+    {
+      "turn": 37,
+      "turnDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37",
+      "files": {
+        "summary": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/01-summary.json",
+        "scriptState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/02-script-state.json",
+        "storyState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/03-story-state.json",
+        "output": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/04-output.json",
+        "runtimeAfter": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/05-runtime-after.json",
+        "llmCalls": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06-llm-calls.json",
+        "directorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06a-director-prompt.md",
+        "narratorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06b-narrator-prompt.md",
+        "choicePrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06c-choice-prompt.md",
+        "events": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/07-events.json"
+      },
+      "outputSummary": {
+        "playerIntent": "表达",
+        "summary": "卡琳娜询问主角对宴会的看法，主角反问她的看法，卡琳娜回应并提及晚宴的复杂性和自身情绪，卡尔加入互动，主角感到安心。",
+        "beats": [
+          "卡琳娜询问主角对宴会的看法",
+          "主角反问她的看法",
+          "卡琳娜回应，提到晚宴的虚伪和自身的不安",
+          "卡尔插话，提议主角留下或前往安全屋",
+          "卡琳娜决定信任主角，提议前往真正的家"
+        ],
+        "currentTurnConstraints": [
+          "保持晚宴邀约的开放状态",
+          "不揭示敏特核心情报",
+          "遵循情感弧线：轻松→温馨→安心"
+        ],
+        "currentStorylineConstraints": [
+          "遵循阶段六情感铺垫节点走向",
+          "卡琳娜邀请主角前往真正的家（卡尔的心脏）作为后续情节承接"
+        ],
+        "revealedFacts": [],
+        "requiredContent": [
+          "卡琳娜询问主角对宴会的看法",
+          "主角反问她的看法",
+          "卡琳娜回应，谈及晚宴的虚伪和自身的不安",
+          "卡尔插入对话，提议主角留下或前往安全屋",
+          "卡琳娜决定信任主角，提议前往真正的家"
+        ],
+        "sectionSignalSuggestion": "continue"
+      },
+      "storyStateSummary": {
+        "id": "6-02-第一章",
+        "name": "推进节点 06-02：归途反思",
+        "summary": "主角在离开公寓前驻足窗边，看向窗外渐暗的天色与暗街景象，卡琳娜和卡尔等待他做出决定。\n主角从窗边收回目光，转身跟上卡琳娜和卡尔，准备离开公寓前往凯旋门晚宴。\n主角在楼梯间停下，回头看向关上的门，随后继续跟随卡琳娜下楼。\n主角摇头示意无事，跟随卡琳娜下楼离开公寓，走向街道。\n卡琳娜带着主角沿昏暗街道前行，回答关于目的地的问题，并走向附近的公园。\n主角回答卡琳娜关于来新西西里时长的问题，一行人继续前往公园。\n玩家看向街边建筑或路灯，观察周围环境，卡琳娜和黑猫继续引路，走向公园。",
+        "constraints": [
+          "请引擎嗲用backgrounds【夜晚的街道/默认】【背景：公园/公园】 characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-好奇 卡琳娜/卡琳娜-困惑 卡琳娜/卡琳娜-非常好奇 卡琳娜/卡琳娜-不悦 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-微笑】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）\n当卡琳娜坐在长椅上时，请引擎调用cgs【和卡琳娜在公园/夜晚】\n必须围绕卡琳娜询问玩家对宴会的看法展开讨论。\n避免一次性倾泻所有秘密。",
+          "卡琳娜提议前往晚宴尚未被拒绝或接受，保持开放状态",
+          "遵循阶段六情感铺垫节点走向：轻松 → 温馨 → 安心",
+          "卡琳娜提议前往晚宴的状态保持开放",
+          "保持前往晚宴的开放状态",
+          "不在本轮揭示敏特核心情报",
+          "遵循阶段六情感铺垫：轻松→温馨→安心"
+        ],
+        "notes": [],
+        "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定】\n- 卡琳娜的内心反思（由角色情绪和氛围驱动）\n- 卡尔与卡琳娜的互动\n- 一天的疲惫与沉淀\n【核心流程】\n- 卡琳娜带着主角来到了附近的公园，她会在公园的长椅上坐下，有些忧郁\n- 她会问玩家对宴会的看法，展开讨论\n- 卡尔向卡琳娜提问主角的处理，引向下一步\n- 卡琳娜会坦白她知道的敏特的情报。",
+        "interactionFollowupPreview": "当卡琳娜态度值>=2：\n- 卡琳娜邀请主角前去她真正的家。不然她无法保证主角的安全。\n- 那里是‘卡尔’的心脏，暗街过去的影子。"
+      },
+      "scriptStateKeys": [
+        "turn",
+        "userInput",
+        "facts",
+        "preLlmEvents",
+        "context"
+      ],
+      "eventCount": 492,
+      "llmCallCount": 3
+    },
+    {
+      "turn": 38,
+      "turnDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38",
+      "files": {
+        "summary": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/01-summary.json",
+        "scriptState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/02-script-state.json",
+        "storyState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/03-story-state.json",
+        "output": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/04-output.json",
+        "runtimeAfter": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/05-runtime-after.json",
+        "llmCalls": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/06-llm-calls.json",
+        "directorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/06a-director-prompt.md",
+        "narratorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/06b-narrator-prompt.md",
+        "choicePrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/06c-choice-prompt.md",
+        "events": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-38/07-events.json"
+      },
+      "outputSummary": {
+        "playerIntent": "表达",
+        "summary": "主角回应卡琳娜的提问，分享自己对晚宴的看法，双方进一步交流。",
+        "beats": [
+          "主角回应卡琳娜关于晚宴的看法",
+          "卡琳娜倾听并回以进一步交流",
+          "卡尔保持静默观察"
+        ],
+        "currentTurnConstraints": [
+          "不使用cgs或其他资源调用",
+          "避免揭示敏特的核心情报",
+          "保持晚宴提议的开放状态"
+        ],
+        "currentStorylineConstraints": [
+          "遵循阶段六情感铺垫：轻松→温馨→安心",
+          "为后续卡琳娜邀请去真正家做铺垫"
+        ],
+        "revealedFacts": [],
+        "requiredContent": [
+          "主角必须说出自己对晚宴的看法，内容应基于当前情境和角色背景",
+          "卡琳娜对此做出回应，氛围保持温暖且略带安心感"
+        ],
+        "sectionSignalSuggestion": "continue"
+      },
+      "storyStateSummary": {
+        "id": "6-02-第一章",
+        "name": "推进节点 06-02：归途反思",
+        "summary": "主角在离开公寓前驻足窗边，看向窗外渐暗的天色与暗街景象，卡琳娜和卡尔等待他做出决定。\n主角从窗边收回目光，转身跟上卡琳娜和卡尔，准备离开公寓前往凯旋门晚宴。\n主角在楼梯间停下，回头看向关上的门，随后继续跟随卡琳娜下楼。\n主角摇头示意无事，跟随卡琳娜下楼离开公寓，走向街道。\n卡琳娜带着主角沿昏暗街道前行，回答关于目的地的问题，并走向附近的公园。\n主角回答卡琳娜关于来新西西里时长的问题，一行人继续前往公园。\n玩家看向街边建筑或路灯，观察周围环境，卡琳娜和黑猫继续引路，走向公园。\n卡琳娜询问主角对宴会的看法，主角反问她的看法，卡琳娜回应并提及晚宴的复杂性和自身情绪，卡尔加入互动，主角感到安心。",
+        "constraints": [
+          "请引擎嗲用backgrounds【夜晚的街道/默认】【背景：公园/公园】 characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-好奇 卡琳娜/卡琳娜-困惑 卡琳娜/卡琳娜-非常好奇 卡琳娜/卡琳娜-不悦 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-微笑】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）\n当卡琳娜坐在长椅上时，请引擎调用cgs【和卡琳娜在公园/夜晚】\n必须围绕卡琳娜询问玩家对宴会的看法展开讨论。\n避免一次性倾泻所有秘密。",
+          "卡琳娜提议前往晚宴尚未被拒绝或接受，保持开放状态",
+          "遵循阶段六情感铺垫节点走向：轻松 → 温馨 → 安心",
+          "卡琳娜提议前往晚宴的状态保持开放",
+          "保持前往晚宴的开放状态",
+          "不在本轮揭示敏特核心情报",
+          "遵循阶段六情感铺垫：轻松→温馨→安心",
+          "卡琳娜邀请主角前往真正的家（卡尔的心脏）作为后续情节承接"
+        ],
+        "notes": [],
+        "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定】\n- 卡琳娜的内心反思（由角色情绪和氛围驱动）\n- 卡尔与卡琳娜的互动\n- 一天的疲惫与沉淀\n【核心流程】\n- 卡琳娜带着主角来到了附近的公园，她会在公园的长椅上坐下，有些忧郁\n- 她会问玩家对宴会的看法，展开讨论\n- 卡尔向卡琳娜提问主角的处理，引向下一步\n- 卡琳娜会坦白她知道的敏特的情报。",
+        "interactionFollowupPreview": "当卡琳娜态度值>=2：\n- 卡琳娜邀请主角前去她真正的家。不然她无法保证主角的安全。\n- 那里是‘卡尔’的心脏，暗街过去的影子。"
+      },
+      "scriptStateKeys": [
+        "turn",
+        "userInput",
+        "facts",
+        "preLlmEvents",
+        "context"
+      ],
+      "eventCount": 574,
+      "llmCallCount": 3
+    }
+  ]
+}

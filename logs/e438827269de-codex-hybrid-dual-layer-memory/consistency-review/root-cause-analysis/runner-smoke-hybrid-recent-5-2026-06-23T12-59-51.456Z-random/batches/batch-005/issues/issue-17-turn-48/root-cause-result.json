@@ -1,0 +1,104 @@
+{
+  "issueId": "issue-17",
+  "turn": 48,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 47 末尾黑猫已经站起并移动到书堆、暗红色布面诗集旁蹲坐；Turn 48 又无承接地写成在椅子腿旁、下巴仍搁在前爪上，形成玩家可见的空间与姿态回退。",
+  "validityAssessment": {
+    "verdictReason": "valid。玩家可见文本中，黑猫在上一轮完成了从椅子腿旁到书堆/诗集旁的移动；本轮没有任何返回动作或时间跳跃，却以“没有站起来——下巴还搁在前爪上”的方式把它放回旧姿态。",
+    "playerVisibleSupport": "visible-timeline.jsonl 显示 Turn 47：黑猫“慢悠悠地站起身”“踱到那堆书前”，并“在暗红色布面诗集旁蹲坐下来”。Turn 48：正文写“椅子腿旁，那只黑猫在这时候轻轻动了一下。她没有站起来——下巴还搁在前爪上”。玩家输入只是“说她也想去看看那片海”，不包含让黑猫回到椅子旁的动作。",
+    "caveats": [
+      "严重度为 low：同一房间内猫可以移动，若正文补一句返回椅子旁即可自洽。",
+      "但本轮文本强调“没有站起来”和“下巴还搁在前爪上”，排除了刚从书堆返回的自然承接，因此仍是有效问题。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "Turn 48 生成前，玩家刚听到卡琳娜谈到诗集与海。卡琳娜靠墙坐在地铺边，主角坐在旧椅子上；黑猫/卡尔在上一轮已经从椅子腿旁站起，走到书堆前，并在暗红色布面诗集旁蹲坐，尾巴在诗集边缘停了一拍。",
+    "relevantFacts": [
+      {
+        "claim": "黑猫在 Turn 47 末尾的最新位置是书堆/暗红色布面诗集旁，姿态是蹲坐。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/03-story-state.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/06b-narrator-prompt.md"
+        ],
+        "notes": "在玩家可见文本和 Narrator prompt 的最近几轮正文里都清楚出现；在 locationStates 的“隐蔽的房间”摘要里也被写成“黑猫踱步至书堆旁并在暗红色诗集边蹲坐”。"
+      },
+      {
+        "claim": "椅子腿旁、下巴搁在前爪上的姿态是更早的旧状态。",
+        "availability": "stale",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/03-story-state.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/06b-narrator-prompt.md"
+        ],
+        "notes": "最近五轮长正文中多次出现椅子腿旁、手下、下巴搁前爪等细节；这些旧状态与 Turn 47 最后的移动相冲突。"
+      },
+      {
+        "claim": "结构化 runtime/story state 没有一个可直接消费的“卡尔当前位置/姿态”字段。",
+        "availability": "absent",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/02-script-state.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/03-story-state.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-47/05-runtime-after.json"
+        ],
+        "notes": "02-script-state 的 stateView 只有 worldState 和少量 entityStates；03-story-state 的 卡尔 characterState 主要是角色卡与记忆召回；05-runtime-after 也没有记录黑猫位置。"
+      },
+      {
+        "claim": "Director 只要求“卡尔（黑猫）的细微动作或观察”，没有把该动作绑定到最新位置。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/04-output.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/07-events.json"
+        ],
+        "notes": "Director 输出没有直接写错位置，但给 Narrator 的硬要求是泛化的“细微动作”，未说明“继续在诗集旁”。"
+      },
+      {
+        "claim": "Prompt 有通用一致性要求：如冲突应优先最近几轮玩家看到的正文。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/06b-narrator-prompt.md"
+        ],
+        "notes": "该规则存在，但远离最终生成指令，且没有把“最新实体状态”提炼为临近输出位置的硬约束。"
+      }
+    ],
+    "competingPressures": [
+      "Narrator prompt 中多轮长正文重复强化“椅子腿旁”和“你手下的黑猫”这一旧画面。",
+      "Director requiredContent 需要写卡尔的细微动作，却未说明动作应发生在书堆/诗集旁。",
+      "本轮 tone/pacing 要求“温馨安心、慢铺、感官细节优先”，鼓励复用柔和的猫动作模板。",
+      "runtime-after 和 script state 没有动态实体位置锚点，导致最新位置只能从长 prose 中推断。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/06-llm-calls.json [streamText narrator] / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-48/04-output.json",
+    "triggeringPressure": "Narrator 被要求写“卡尔（黑猫）的细微动作或观察”，而 prompt 中旧的椅子腿旁/下巴搁前爪/手下触感画面重复出现，且比“最终位置应在诗集旁”更像可直接套用的动作片段。",
+    "missingGuard": "缺少靠近最终输出指令的 current-scene entity anchor，例如“卡尔 currentLocation=书堆/暗红色布面诗集旁，currentPose=蹲坐”；也缺少在同一实体多次移动时必须使用最近动作终点的可执行约束或生成后校验。",
+    "mechanismStatement": "当同一实体的多个位置以长篇 prose 混在 recentTurns 和记忆摘要中时，prompt/context assembly 没有提炼最新位置并建立优先级，Narrator 在泛化“写猫的细微动作”压力下复用了更早、更高频的椅子腿旁姿态，最终产生玩家可见的位置回退。",
+    "directCause": "Narrator 在 Turn 48 正文中把黑猫写回“椅子腿旁”并写成“没有站起来——下巴还搁在前爪上”，直接覆盖了 Turn 47 的书堆/诗集旁终点。",
+    "propagation": "错误被写入 04-output.json 的 narrative/writes，并在 07-events.json 中 committed；turn-48/06c-choice-prompt.md 接收了该错误正文。Turn 49 的 recentTurns 继续包含这段错误位置，使下一轮也从椅子腿旁描写卡尔。",
+    "nonCauses": [
+      "不是玩家输入或 choice-action-binding：玩家只是表达想看海，没有要求黑猫移动。",
+      "不是固定剧情节点强制：active storyline 只要求情感铺垫和晚宴开放状态，不要求黑猫在椅子旁。",
+      "不是长期记忆缺失：所需事实就在上一轮玩家可见文本和 Narrator prompt 中。",
+      "currentLocationId 仍为“夜晚的街道”是一个背景状态陈旧问题，但本轮正文仍保持在隐蔽房间内，非本 issue 的直接触发点。"
+    ]
+  },
+  "rootCause": {
+    "label": "context-priority",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "根因是 current scene 的实体位置优先级没有被结构化和前置：黑猫最新位置虽然存在于最近可见正文和部分摘要中，但与多处旧的椅子腿旁姿态混在长上下文里；Director 又只给出泛化的“卡尔细微动作”要求，缺少把动作绑定到最新位置的 guard。于是 Narrator 在旧画面高频、情绪慢铺的压力下选择了 stale pose。",
+    "fixSurface": [
+      "story state / statefold 的 current-scene entity pose/location writeback",
+      "Narrator prompt assembly 的 latest-visible-state anchor 区块",
+      "post-generation continuity validator for entity location and posture"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 47 末尾：黑猫站起，踱到书堆前，在暗红色布面诗集旁蹲坐。Turn 48：正文无承接地写“椅子腿旁”并称她“没有站起来——下巴还搁在前爪上”。",
+    "internalTrace": "turn-48/03-story-state.json 与 turn-48/06b-narrator-prompt.md 的 recentTurns/locationStates 含有书堆旁事实；turn-48/02-script-state.json 与 turn-47/05-runtime-after.json 没有动态卡尔位置字段；turn-48/04-output.json 和 turn-48/07-events.json 显示错误首次在 narrator output 中出现并提交；turn-48/06c-choice-prompt.md 接收了错误正文。"
+  },
+  "recommendedFixArea": "优先补 current-scene entity anchor：从上一轮 visibleText/normalizedContent 抽取实体最终位置和姿态，写入 story state/runtime-after，并在 Narrator prompt 最后显式列出；同时增加生成后校验，发现同一实体回到旧位置时要求有移动承接或重写。",
+  "confidence": "high"
+}

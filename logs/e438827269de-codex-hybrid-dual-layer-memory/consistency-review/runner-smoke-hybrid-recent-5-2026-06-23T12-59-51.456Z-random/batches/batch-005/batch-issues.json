@@ -1,0 +1,80 @@
+[
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "Turn 43 开头写道：“那只黑猫的鼻尖还悬在你的手指上方——她没有退开，也没有凑近，只是那样停着”。同一轮后文又写“那只黑猫在这时候收回了头。她后退半步，在桌沿重新蹲坐下来”。",
+    "conflictingEvidence": "Turn 42 已经写明黑猫“收回了头。她后退半步，重新蹲坐下来”。",
+    "conflictingTurns": [42],
+    "source": "model-output",
+    "reason": "上一轮刚完成的黑猫退回动作在本轮开头被回滚为尚未发生，并在本轮内重复演出，造成即时动作连续性断裂。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 46,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 46 开头写道：“那只黑猫蹲坐在椅子腿旁，耳朵微微偏向你的方向”。",
+    "conflictingEvidence": "Turn 45 中黑猫已经“从椅子腿旁站起来，踱了两步，走到书堆前”，随后“蹲坐下来”，并停留在诗集附近。",
+    "conflictingTurns": [45],
+    "source": "model-output",
+    "reason": "黑猫上一轮已从椅子腿旁移动到书堆前，本轮没有移动承接就把它写回椅子旁，造成位置连续性错误。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 47,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "Turn 47 玩家对白写道：“那本地图册——你说你读得最多。”",
+    "conflictingEvidence": "Turn 45 只说地图册是卡琳娜来这里第一年捡到的、缺了十几页；同轮概括为“那些书……每一本都读过不止一遍”，没有说地图册读得最多。",
+    "conflictingTurns": [45],
+    "source": "model-output",
+    "reason": "正文替玩家断言卡琳娜曾说地图册读得最多，但此前玩家可见内容没有这个信息，导致对话依据被凭空添加。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 47,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 47 的选项包含：“说她也想去看看那片海”。",
+    "conflictingEvidence": "Turn 47 的其他选项均是玩家接下来要执行的动作或提问，例如“问问她撕掉那一页的人是谁”“低头看看黑猫，问她叫什么名字”；此前语境是在让玩家决定自己如何回应卡琳娜关于那片海的感受。",
+    "conflictingTurns": [47],
+    "source": "model-output",
+    "reason": "选项中的“她也想”把表达主体写得含混甚至错误，和后续实际展开的“我也想”不一致，影响玩家对所选行动的理解。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 48,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 48 写道：“椅子腿旁，那只黑猫在这时候轻轻动了一下。她没有站起来——下巴还搁在前爪上”。",
+    "conflictingEvidence": "Turn 47 中黑猫已经“慢悠悠地站起身”，随后“踱到那堆书前”，并“在暗红色布面诗集旁蹲坐下来”。",
+    "conflictingTurns": [47],
+    "source": "model-output",
+    "reason": "黑猫上一轮已移动到书堆和诗集旁，本轮又无承接地回到椅子腿旁并呈现为趴卧状态，破坏了动作和位置连续性。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "Turn 49 在卡琳娜解释“但只有叫她卡尔的时候，她会眨一下眼睛”之后写道：“你说完这句话的时候，低头看了一眼那只黑猫。”",
+    "conflictingEvidence": "该句之前连续说话者是卡琳娜，玩家本轮只问了“她叫什么名字？”。",
+    "conflictingTurns": [49],
+    "source": "model-output",
+    "reason": "正文把卡琳娜刚说完的话错误归因给玩家，造成说话主体短暂漂移。"
+  }
+]

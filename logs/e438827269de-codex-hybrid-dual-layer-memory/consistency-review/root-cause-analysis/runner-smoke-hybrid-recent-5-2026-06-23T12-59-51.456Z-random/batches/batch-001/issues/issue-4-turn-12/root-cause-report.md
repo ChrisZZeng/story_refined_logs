@@ -1,0 +1,55 @@
+# Root Cause Report - issue-4-turn-12
+
+## Problem
+
+- issueIndex: 4
+- turn: 12
+- issueValidity: valid
+- problemSummary: turn 12 的卡琳娜对白出现“一趟自己走进火药的船”，像把“走进火药桶”和“一趟船/旅程”错拼，造成短暂语义断裂。
+- tracePacket: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/issues/issue-4-turn-12/trace.md`
+
+## Validity
+
+- verdictReason: 该句是玩家可见的关键情报分析对白，局部词组不符合中文常用搭配，也不构成清晰隐喻；上一轮同一判断已使用“走进火药桶”，可见更合理表达。
+- playerVisibleSupport: turn 12 可见文本：`一张死人照片。一封匿名信。一趟自己走进火药的船。`；turn 11 可见文本：`一封匿名信，一张死人照片，让你自己走进火药桶。`
+- caveats: 该问题不改变事实或角色立场，只是局部文案质量退化。
+
+## Context Assessment
+
+- actualStateBeforeIssue: turn 11 卡琳娜已经判断匿名信和死人照片是让主角当炮灰、自己走进火药桶。turn 12 玩家开始坦白匿名信和照片，但保留姓名与关系；卡琳娜应延续审视式分析，确认照片让主角相信那人可能还活着。
+- relevantFacts:
+  - `present-clear` 上一轮已有清晰且玩家可见的危险隐喻“走进火药桶”。 artifacts: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl`, `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-11/04-output.json`, `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/03-story-state.json` notes: turn 12 recentTurns 中应能看到 turn 11 的分析对白；可直接复用或自然改写。
+  - `present-clear` Director 对 turn 12 的要求是透露匿名信和照片、隐去敏特姓名，未要求新的复杂隐喻。 artifacts: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/06-llm-calls.json`, `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/04-output.json` notes: requiredContent 与 currentTurnConstraints 都很明确，错误不来自剧情安排。
+  - `contradicted` Narrator 输出了语义不稳定的混合搭配。 artifacts: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/06-llm-calls.json`, `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/04-output.json` notes: `一趟自己走进火药的船` 既不像可点击行动，也不像自然对白中的稳定隐喻。
+- competingPressures: 卡琳娜对白使用列举式、冷静分析的修辞节奏；上一轮有“匿名信/死人照片/火药桶”的强近因短语；场景涉及来岛与跨洋旅程，模型可能将“趟/船”与“火药桶”局部混合；这是从文本形态做出的推断，不是 artifact 明示
+
+## Causal Chain
+
+- firstDivergenceArtifact: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-12/06-llm-calls.json call[1].text / turn-12/04-output.json narrative`
+- triggeringPressure: Narrator 正在把 turn 11 的“匿名信、死人照片、火药桶”判断改写成 turn 12 的卡琳娜短句，同时保持列举式节奏。
+- missingGuard: 没有针对 Narrator 输出的 idiom/semantic sanity check；prompt 也没有要求在关键分析句中优先复用已建立的清晰隐喻，而不是临场变形。
+- mechanismStatement: 在剧情合同清楚、上下文也清楚的情况下，Narrator 局部生成把相邻概念和隐喻短语错拼成不稳定搭配；缺少输出质量校验使该 malformed idiom 直接进入 visibleText。
+- directCause: Narrator 的局部措辞失败：把“走进火药桶”改坏成“走进火药的船”。
+- propagation: 错误只存在于 turn 12 正文句子中；turn 13 回到更自然的“钓鱼/饵”隐喻，没有继续固化该短语。
+- nonCauses: 不是 state 或 memory 缺失：上一轮正确表达仍在 recent context。；不是 Director/handoff 要求该错误隐喻；Director 只要求表达匿名信和照片。；不是角色知识边界问题；卡琳娜的判断方向本身合理。
+
+## Root Cause
+
+- label: `model-local`
+- family: `llm-self`
+- secondaryFamilies: []
+- description: 具体机制是局部语言生成在清晰上下文下发生短语融合：近期正确隐喻“走进火药桶”和当前列举式对白被改写成 malformed idiom。系统缺少关键对白的语义/搭配质量防线，因此模型局部 slip 直接暴露给玩家。
+- fixSurface: Narrator prompt：关键情报分析句优先复用已建立的清晰表达，避免随意改造 idiom；post-generation quality lint：检测不通顺搭配、疑似错拼隐喻和低置信文本片段；regeneration policy：对低严重度但明显 malformed 的句子做局部重写
+
+## Evidence
+
+- playerVisible: turn 11: `让你自己走进火药桶`；turn 12: `一趟自己走进火药的船`。后者破坏同一分析链的可读性。
+- internalTrace: turn 12 Director object 清楚约束“匿名信、一张照片、本应已死的人、隐去姓名”；Narrator output 首次产生异常短语；choices 和 runtime-after 未把它作为事实继续传播。
+
+## Recommended Fix Area
+
+优先加入 Narrator 输出质量检查和关键对白局部重写机制；这类问题不需要改剧情状态，主要需要捕捉 malformed idiom。
+
+## Confidence
+
+`medium`

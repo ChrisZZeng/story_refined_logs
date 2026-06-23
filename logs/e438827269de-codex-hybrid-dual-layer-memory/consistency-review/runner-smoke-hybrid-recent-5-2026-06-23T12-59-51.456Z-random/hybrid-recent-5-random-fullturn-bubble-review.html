@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>互动叙事一致性审阅 · hybrid-recent-5-random 气泡对照报告</title>
+<style>
+:root { --bg:#f6f7f9; --panel:#ffffff; --ink:#1f2933; --muted:#667085; --line:#d9dee7; --player:#e8f3ff; --dialogue:#f8f3e8; --choice:#edf7ed; --issue:#fff1f1; --issue-line:#ef9a9a; --medium:#ffb55a; --low:#7aa7d9; --high:#e85d5d; --good:#dfeee7; --shadow:0 8px 24px rgba(35,45,62,.08); }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--bg); line-height:1.65; }
+.shell { max-width:1440px; margin:0 auto; padding:24px; }
+.hero { background:var(--panel); border:1px solid var(--line); box-shadow:var(--shadow); padding:22px; border-radius:8px; position:sticky; top:0; z-index:5; }
+.hero h1 { margin:0 0 10px; font-size:24px; }
+.hero p { margin:0; color:var(--muted); }
+.metrics { display:grid; grid-template-columns:repeat(6,minmax(120px,1fr)); gap:10px; margin-top:16px; }
+.metric { border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:#fbfcfe; }
+.metric span { display:block; color:var(--muted); font-size:12px; }
+.metric strong { display:block; font-size:22px; line-height:1.25; }
+.submetrics { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; color:var(--muted); font-size:13px; }
+.submetrics span { border:1px solid var(--line); background:#fbfcfe; border-radius:999px; padding:5px 9px; }
+.nav-strip { display:flex; gap:8px; overflow:auto; padding:14px 0 2px; }
+.nav-issue { flex:0 0 auto; text-decoration:none; color:var(--ink); border:1px solid var(--line); border-radius:999px; padding:7px 10px; background:#fff; display:flex; gap:7px; align-items:center; font-size:13px; }
+.nav-issue span { font-weight:700; }
+.nav-issue.severity-high { border-color:var(--high); background:#fff0f0; }
+.nav-issue.severity-medium { border-color:var(--medium); background:#fff8ec; }
+.nav-issue.severity-low { border-color:#b7cde5; }
+.turn-card { margin-top:18px; background:var(--panel); border:1px solid var(--line); box-shadow:var(--shadow); border-radius:8px; overflow:clip; }
+.turn-card.has-issue { border-color:#edb7b7; }
+.turn-header { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 18px; border-bottom:1px solid var(--line); background:#fbfcfe; }
+.turn-kicker { color:var(--muted); font-size:12px; text-transform:uppercase; }
+h2 { margin:0; font-size:24px; }
+.turn-badges { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
+.issue-pill,.clean-pill { text-decoration:none; color:var(--ink); border:1px solid var(--line); border-radius:999px; padding:6px 10px; background:#fff; font-size:13px; }
+.issue-pill.severity-high { border-color:var(--high); background:#fff0f0; }
+.issue-pill.severity-medium { border-color:var(--medium); background:#fff6e8; }
+.issue-pill.severity-low { border-color:#b7cde5; background:#f5f9ff; }
+.clean-pill { background:var(--good); }
+.turn-grid { display:grid; grid-template-columns:minmax(0,1fr) 390px; gap:0; }
+.conversation { padding:18px; border-right:1px solid var(--line); }
+.bubble { max-width:880px; border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin:0 0 12px; background:#fff; }
+.bubble.player { margin-left:auto; background:var(--player); border-color:#b7d7f4; }
+.bubble.choice { background:var(--choice); border-color:#bfdcc2; }
+.narration-block { max-width:980px; padding:4px 4px 8px 4px; margin:0 0 8px; color:#27313f; }
+.speaker { display:flex; align-items:baseline; gap:8px; margin-bottom:5px; font-weight:700; color:#344054; }
+.speaker small { color:var(--muted); font-weight:500; }
+.bubble-text { white-space:pre-wrap; }
+.choice-group { margin-top:18px; padding-top:12px; border-top:1px dashed var(--line); }
+.choice-group h3 { margin:0 0 10px; font-size:15px; color:var(--muted); }
+.events { border:1px dashed var(--line); border-radius:8px; margin:0 0 12px; padding:8px 12px; background:#fbfcfe; }
+.events summary { cursor:pointer; color:var(--muted); font-weight:700; }
+.event-line pre { white-space:pre-wrap; overflow:auto; max-height:260px; background:rgba(127,127,127,.08); padding:8px; border-radius:6px; }
+.issues-panel { padding:18px; background:#fffafa; }
+.issues-panel.clean { background:#fbfdfc; color:var(--muted); }
+.issues-panel h3 { margin:0 0 12px; font-size:16px; }
+.issue-card { border:1px solid var(--issue-line); border-radius:8px; padding:12px; background:var(--issue); margin-bottom:12px; }
+.issue-card.severity-high { border-color:var(--high); background:#fff0f0; }
+.issue-card.severity-medium { border-color:var(--medium); background:#fff7ea; }
+.issue-head { display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:10px; }
+.issue-head span { color:var(--muted); font-size:13px; white-space:nowrap; }
+dl { margin:0; }
+dt { margin-top:10px; color:#8a3f3f; font-weight:700; font-size:13px; }
+dd { margin:3px 0 0; color:#344054; }
+.footer { color:var(--muted); font-size:12px; padding:20px 4px; text-align:center; }
+@media (max-width:980px) { .shell{padding:12px;} .hero{position:static;} .metrics{grid-template-columns:repeat(2,minmax(120px,1fr));} .turn-grid{grid-template-columns:1fr;} .conversation{border-right:0; border-bottom:1px solid var(--line);} .bubble,.narration-block{max-width:100%;} }
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="hero">
+    <h1>互动叙事一致性审阅 · hybrid-recent-5-random 气泡对照报告</h1>
+    <p>Run：runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random · full-turn consistency 版 · 来源：consistency-review/visible-timeline.jsonl + issues.json</p>
+    <div class="metrics">
+      <div class="metric"><span>首次问题轮次</span><strong>3</strong></div>
+      <div class="metric"><span>问题轮次数</span><strong>16</strong></div>
+      <div class="metric"><span>问题总数</span><strong>18</strong></div>
+      <div class="metric"><span>高严重度</span><strong>0</strong></div>
+      <div class="metric"><span>中严重度</span><strong>6</strong></div>
+      <div class="metric"><span>总轮次</span><strong>50</strong></div>
+    </div>
+    <div class="submetrics">
+      <span>scope：visibleText 14 / choices 4</span>
+      <span>类型：质量退化 5 / 时空断裂 3 / 事实冲突 2 / 身份漂移 2 / 重复演出 2 / 无支撑跳跃 2 / 事件否定 1 / 语言漂移 1</span>
+      <span>fullTurn：18 问题 / 16 轮</span>
+      <span>visibleText：14 问题 / 13 轮</span>
+    </div>
+    <div class="nav-strip" aria-label="问题轮次导航"><a class="nav-issue severity-low" href="#issue-3-undefined"><span>T3</span><b>质量退化</b></a><a class="nav-issue severity-low" href="#issue-6-undefined"><span>T6</span><b>重复演出</b></a><a class="nav-issue severity-medium" href="#issue-9-undefined"><span>T9</span><b>身份漂移</b></a><a class="nav-issue severity-low" href="#issue-12-undefined"><span>T12</span><b>质量退化</b></a><a class="nav-issue severity-low" href="#issue-16-undefined"><span>T16</span><b>质量退化</b></a><a class="nav-issue severity-medium" href="#issue-20-undefined"><span>T20</span><b>事实冲突</b></a><a class="nav-issue severity-low" href="#issue-24-undefined"><span>T24</span><b>事实冲突</b></a><a class="nav-issue severity-medium" href="#issue-24-undefined"><span>T24</span><b>无支撑跳跃</b></a><a class="nav-issue severity-medium" href="#issue-27-undefined"><span>T27</span><b>重复演出</b></a><a class="nav-issue severity-medium" href="#issue-34-undefined"><span>T34</span><b>时空断裂</b></a><a class="nav-issue severity-low" href="#issue-37-undefined"><span>T37</span><b>质量退化</b></a><a class="nav-issue severity-low" href="#issue-39-undefined"><span>T39</span><b>语言漂移</b></a><a class="nav-issue severity-medium" href="#issue-43-undefined"><span>T43</span><b>事件否定</b></a><a class="nav-issue severity-low" href="#issue-46-undefined"><span>T46</span><b>时空断裂</b></a><a class="nav-issue severity-low" href="#issue-47-undefined"><span>T47</span><b>质量退化</b></a><a class="nav-issue severity-low" href="#issue-47-undefined"><span>T47</span><b>无支撑跳跃</b></a><a class="nav-issue severity-low" href="#issue-48-undefined"><span>T48</span><b>时空断裂</b></a><a class="nav-issue severity-low" href="#issue-49-undefined"><span>T49</span><b>身份漂移</b></a></div>
+  </section>
+  <section class="turn-card " id="turn-1">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>1</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span></div><div class="bubble-text">初始回合</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你怀里抱着什么。</div></div><div class="narration-block"><div class="bubble-text">很轻。很重。</div></div><div class="narration-block"><div class="bubble-text">红发的少女靠在你的臂弯里，像一只折断了翅膀的鸟。她的嘴唇在翕动，声音细得像风穿过废墟。</div></div><div class="narration-block"><div class="bubble-text">&quot;帕兹……你就……为自己活下去吧……&quot;</div></div><div class="narration-block"><div class="bubble-text">你摇头。你想说点什么，但喉咙像是被烧红的铁块堵住了。你想告诉她——你不配。活下来的不该是你。你从来就没学会怎么为自己活。</div></div><div class="narration-block"><div class="bubble-text">她看着你。那双眼睛里没有责备，只有一种你承受不起的温柔。</div></div><div class="narration-block"><div class="bubble-text">然后她不动了。</div></div><div class="narration-block"><div class="bubble-text">你的手在抖。你低下头，看见自己的手指上沾着暗红色的东西，粘稠，温热。你记不起这是谁的血。她的？你的？</div></div><div class="narration-block"><div class="bubble-text">周围有人在喊什么。你听不见。你的耳朵里只有一种低沉的嗡鸣，像是一台坏掉的发电机在胸腔里震动。</div></div><div class="narration-block"><div class="bubble-text">你张了张嘴，想喊她的名字。</div></div><div class="narration-block"><div class="bubble-text">——敏特。</div></div><div class="narration-block"><div class="bubble-text">但你发不出声音。你只是抱着她，感到她的体温一点一点地从你的指尖流走。你觉得自己也正在消散，像是被揉进了一张底片里，所有的轮廓都在融化。</div></div><div class="narration-block"><div class="bubble-text">你头晕目眩。</div></div><div class="narration-block"><div class="bubble-text">世界开始旋转。</div></div><div class="narration-block"><div class="bubble-text">你的脑袋被什么东西狠狠锤了一下。</div></div><div class="narration-block"><div class="bubble-text">——不是比喻。</div></div><div class="narration-block"><div class="bubble-text">是真的有什么东西砸在了你的后脑勺上，钝痛从颅骨深处炸开，像一根生锈的钉子被榔头敲进了头盖骨。</div></div><div class="narration-block"><div class="bubble-text">你猛地睁开眼。</div></div><div class="narration-block"><div class="bubble-text">光线刺得你瞳孔骤缩。嘈杂的声音灌进耳朵——笑声，音乐，脚步，有人在嚷嚷着什么&quot;再来一杯&quot;。你闻到煎肉和焦糖的味道，混杂着尘土和廉价香水的气味。</div></div><div class="narration-block"><div class="bubble-text">你坐在一条长椅上。石板路。周围是来来往往的腿。</div></div><div class="narration-block"><div class="bubble-text">你还没完全反应过来。</div></div><div class="narration-block"><div class="bubble-text">&quot;卡琳娜阁下？！&quot;</div></div><div class="narration-block"><div class="bubble-text">一个尖利的声音从你头顶上方传来。你下意识地偏过头，看见一张摊子——卖什么的？你没看清。摊子后面站着个瘦削的人影，正瞪大眼睛望着你身后。</div></div><div class="narration-block"><div class="bubble-text">你转过头。</div></div><div class="narration-block"><div class="bubble-text">金色的。</div></div><div class="narration-block"><div class="bubble-text">最先闯入视野的是金色——金色的长发，在阳光下晃得你眯起眼睛。辫子扎得很高，随着主人的动作轻轻摆动。白色的棉衣，吊带裙，黑色的连裤袜，深棕色的皮鞋。那张脸看上去不超过十二岁。</div></div><div class="narration-block"><div class="bubble-text">她站在你面前，低头看着你。</div></div><div class="narration-block"><div class="bubble-text">&quot;你好，&quot;她说，语气平淡得像在念菜单，&quot;这里不让睡觉。&quot;</div></div><div class="narration-block"><div class="bubble-text">你愣住了。嘴张开又合上，脑子里一片空白。</div></div><div class="narration-block"><div class="bubble-text">刚才的——那个梦——不对——不是梦——</div></div><div class="narration-block"><div class="bubble-text">&quot;阁下，也不需要做到这个地步吧……&quot;摊后的那人嘀咕了一句。</div></div><div class="narration-block"><div class="bubble-text">小女孩连头都没回。&quot;对酒鬼不需要太客气。&quot;</div></div><div class="narration-block"><div class="bubble-text">她把手伸进衣兜，掏出什么东西，随手丢了过来。你下意识地抬手接住。</div></div><div class="narration-block"><div class="bubble-text">硬壳。凉飕飕的。</div></div><div class="narration-block"><div class="bubble-text">你低头看了一眼——是一张记者证。塑料封套里的卡片上印着一张面无表情的照片，下面印着一行字。</div></div><div class="narration-block"><div class="bubble-text">&quot;帕兹，战地记者。我记住了。&quot;她的声音里带着一丝漫不经心的威严，&quot;下次记得睡在床上。&quot;</div></div><div class="narration-block"><div class="bubble-text">她转过身，朝摊后的那人随意地摆了摆手，说了句什么你没能听清的话，然后迈开步子，像一条鱼一样滑进了人群里。金色的马尾在人群中闪烁了两下，就被节庆的人潮吞没了。</div></div><div class="narration-block"><div class="bubble-text">你握着那张记者证，手指上还能感觉到刚才梦境里残留的僵硬。</div></div><div class="narration-block"><div class="bubble-text">&quot;你也真是不走运。&quot;</div></div><div class="narration-block"><div class="bubble-text">摊后的那人叹了口气，一边整理着台面上的零碎物件，一边摇着头道：&quot;庆典上哪还没几个酒鬼？卡琳娜阁下还是太严格了。&quot;</div></div><div class="narration-block"><div class="bubble-text">你说不出话。你低头看了一眼记者证上的照片，又抬起来。</div></div><div class="narration-block"><div class="bubble-text">&quot;你还是记者？&quot;那人又问了一句。</div></div><div class="narration-block"><div class="bubble-text">你动了动嘴唇。帕兹。那是你的名字。</div></div><div class="narration-block"><div class="bubble-text">你揉了一下脸。手碰到了挂在脖子上的东西——一台老旧的胶卷相机。外壳有几处磨损，背带的边缘已经起了毛。你还活着。你还带着它。</div></div><div class="narration-block"><div class="bubble-text">你伸手摸进衣兜。指尖触到一张硬纸片的边缘。你抽出那张照片。</div></div><div class="narration-block"><div class="bubble-text">口袋里有一张合照。照片上是包括自己的六个人——中间挂着相机的是自己。在残垣断壁中，照片的人们衣着都很脏且凌乱，但脸上却都有笑容，围在篝火中间有说有笑，仿佛在庆祝劫后余生。你曾与他们一同突破封锁，带去真相。如今只剩下自己一人。</div></div><div class="narration-block"><div class="bubble-text">你的目光停留在右数第二位。</div></div><div class="narration-block"><div class="bubble-text">红发的女孩。</div></div><div class="narration-block"><div class="bubble-text">敏特。</div></div><div class="narration-block"><div class="bubble-text">你的手指摩挲了一下照片的边角，然后把它翻了过去。你从兜里摸出另一张照片。</div></div><div class="narration-block"><div class="bubble-text">这张照片比那张合照新一些。匿名信里装的。一个本不该出现在这个世界上的人，站在一个你不认识的街道上，背景里有模糊的招牌和路灯。拍摄地点——你查过——新西西里。</div></div><div class="narration-block"><div class="bubble-text">所以你在这里。</div></div><div class="narration-block"><div class="bubble-text">你把两张照片都收回兜里，站起身来。腿有点软，但还能站稳。</div></div><div class="narration-block"><div class="bubble-text">你朝摊后那人转过身，掏出那张敏特的照片递了过去。</div></div><div class="narration-block"><div class="bubble-text">&quot;这个女孩，&quot;你说，声音比预想中要沙哑，&quot;你见过她吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">那人接过照片，眯着眼睛端详了一会儿，然后啧了一声，把照片还给你。</div></div><div class="narration-block"><div class="bubble-text">&quot;复活日见到来找人的客人，真是稀奇。&quot;</div></div><div class="narration-block"><div class="bubble-text">她把胳膊肘撑在摊子上，压低了一点声音。</div></div><div class="narration-block"><div class="bubble-text">&quot;你知道今天是什么日子吧？复活日。十年前的今天，新西西里打了一场大仗。死了一堆人。后来活下来的人就把这天当节日过了——庆祝自己还没死透。&quot;</div></div><div class="narration-block"><div class="bubble-text">她朝四周努了努嘴。到处都是彩带，灯光，醉醺醺的笑脸。</div></div><div class="narration-block"><div class="bubble-text">&quot;可这地方说到底就是一群黑帮在管。你拿着相机到处晃，小心被人当成探子。找人可以，别太显眼。&quot;</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>choice:未来</small></div><div class="bubble-text">询问小贩关于卡琳娜的事</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span><small>choice:理想</small></div><div class="bubble-text">询问小贩关于敏特的事</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">打量这个摊子，看看她在卖什么</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-2">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>2</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">询问小贩关于敏特的事</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">摊贩接过你递过去的照片，眯着眼看了好一会儿。她没有立刻回答，而是用拇指蹭了一下照片的边缘，像是在确认什么。</div></div><div class="narration-block"><div class="bubble-text">然后她抬眼扫了一圈四周——彩带，灯光，人群，笑声。确认没有人留意这边之后，她把照片递还给你，声音压得很低。</div></div><div class="narration-block"><div class="bubble-text">&quot;这姑娘……我见过。&quot;</div></div><div class="narration-block"><div class="bubble-text">你的呼吸顿了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;不是在这里。是在暗街那边，靠近古董街的交界。她不太出现在人多的地方，但如果你运气好，黄昏前后能在那一带看到她。&quot;</div></div><div class="narration-block"><div class="bubble-text">她把胳膊肘撑在摊子上，身体微微前倾。</div></div><div class="narration-block"><div class="bubble-text">&quot;她好像在找什么东西——或者说，找什么人。我有印象她跟人打听过一些事，关于一个叫……&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了一下，嘴唇动了动，像是在犹豫要不要说出口。</div></div><div class="narration-block"><div class="bubble-text">&quot;骷髅会。你知道那是什么吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">你不知道。这个名字对你来说完全是陌生的。</div></div><div class="narration-block"><div class="bubble-text">摊贩看你的表情，也没有继续追问。</div></div><div class="narration-block"><div class="bubble-text">&quot;不知道也好。那地方牵扯的东西不是一句话能说清的。我只能告诉你，这姑娘在查的事，不太干净。&quot;</div></div><div class="narration-block"><div class="bubble-text">她往后靠了靠，语气里带着一丝谨慎的疏离。</div></div><div class="narration-block"><div class="bubble-text">&quot;如果你真想找她，我建议你去古董街碰碰运气。那里鱼龙混杂，但消息也最灵通。比她自己在暗街瞎晃悠要强。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说完，又低下头去整理摊子上的零碎物件，像是在表明自己已经说够了。</div></div><div class="narration-block"><div class="bubble-text">你握着那张照片，指节微微收紧。</div></div><div class="narration-block"><div class="bubble-text">古董街。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>choice:现在</small></div><div class="bubble-text">道谢后前往古董街</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">询问小贩的名字和更多细节</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问她关于卡琳娜的事</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-3">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>3</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-3-0">质量退化 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">问她关于卡琳娜的事</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你把敏特的照片收回兜里，指尖在口袋边缘停留了一会儿。</div></div><div class="narration-block"><div class="bubble-text">你抬起头，望向那个瘦削的摊贩。</div></div><div class="narration-block"><div class="bubble-text">&quot;刚才那个小女孩——卡琳娜阁下，&quot;你说，斟酌着措辞，&quot;她在这地方是什么人？&quot;</div></div><div class="narration-block"><div class="bubble-text">摊贩的手顿了一下。她没有立刻回答，而是低头摆弄着摊子上的零碎物件，像是在整理思路，又像是在判断该不该说。</div></div><div class="narration-block"><div class="bubble-text">&quot;卡琳娜阁下啊……&quot;她压低声音，目光朝你身后的人潮扫了一眼，&quot;她是暗街的人。&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;别看她年纪小，在这地界上，她说话比很多大人管用。暗街那一带的事，基本都绕不开她。&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起头，意味深长地看了你一眼。</div></div><div class="narration-block"><div class="bubble-text">&quot;你要是想打听什么情报——真有用的那种——找她比找古董街那些滑头管用。&quot;</div></div><div class="narration-block"><div class="bubble-text">你的手指在相机外壳上轻轻敲了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;她在暗街？具体在哪里能找到她？&quot;</div></div><div class="narration-block"><div class="bubble-text">摊贩咂了咂嘴，露出一个似笑非笑的表情。</div></div><div class="narration-block"><div class="bubble-text">&quot;暗街说大不大，说小不小。卡琳娜阁下住在那边，但她不是天天窝在窝里的人。你去暗街打听一下，报她名字，自然会有人指路。&quot;</div></div><div class="narration-block"><div class="bubble-text">她停顿了一下，声音又压低了几分。</div></div><div class="narration-block"><div class="bubble-text">&quot;不过我提醒你一句——卡琳娜阁下的情报不是白给的。你得拿东西换。钱也好，消息也好，人情也好……她不是那种平白无故帮人的主。&quot;</div></div><div class="narration-block"><div class="bubble-text">你点了点头。这点你早就料到了。</div></div><div class="narration-block"><div class="bubble-text">你又朝四周看了一眼。彩带在头顶飘动，灯光在人群中闪烁，欢笑声里夹杂着碰杯和吆喝。每个人脸上都带着酒意和笑意，仿佛这座岛从来就没有过黑暗的角落。</div></div><div class="narration-block"><div class="bubble-text">&quot;还有——&quot;摊贩的声音把你拉了回来，&quot;像你这样拿着相机到处晃的外来者，在新西西里不太受欢迎。尤其是暗街那边。如果你不想惹麻烦，最好低调点。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的目光落在你脖子上的相机上，又移开了。</div></div><div class="narration-block"><div class="bubble-text">你沉默了片刻，然后说：&quot;多谢。&quot;</div></div><div class="narration-block"><div class="bubble-text">摊贩摆摆手，重新低下头去整理摊子上的东西。</div></div><div class="narration-block"><div class="bubble-text">&quot;不用谢。我只是说了些大家都知道的事。&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，又补了一句，声音低得几乎像是在自言自语。</div></div><div class="narration-block"><div class="bubble-text">&quot;祝你运气好。在这地方，运气比本事管用。&quot;</div></div><div class="narration-block"><div class="bubble-text">你握着脖子上挂着的相机，感觉到机身微微发热。</div></div><div class="narration-block"><div class="bubble-text">暗街。卡琳娜。情报有价。</div></div><div class="narration-block"><div class="bubble-text">你深吸了一口气，把目光投向远处那条通往内陆方向的道路。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>choice:前往暗街</small></div><div class="bubble-text">直接去暗街，往日总是如影随形</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span><small>choice:察觉到异常</small></div><div class="bubble-text">你注意到了不寻常的目光——你被盯上了？</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-3-0">
+  <div class="issue-head">
+    <strong>质量退化</strong>
+    <span>低 · T3 · choices</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity.</dd>
+    <dt>当前证据</dt><dd>Turn 3 offers the choice &quot;直接去暗街，往日总是如影随形&quot;.</dd>
+    <dt>冲突证据</dt><dd>The surrounding turn 3 context is a concrete routing decision about going to Dark Street, and the other visible choice is the similarly concrete &quot;你注意到了不寻常的目光——你被盯上了？&quot;. The appended clause &quot;往日总是如影随形&quot; has no established referent or actionable meaning in the scene.</dd>
+    <dt>冲突轮次</dt><dd>T3</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-4">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>4</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">直接去暗街，往日总是如影随形</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你离开中央区的庆典喧闹，沿着逐渐变窄的道路向内陆方向走去。身后的欢笑声与音乐声像退潮的海水一样慢慢消散，取而代之的是一种更安静、更沉闷的空气。</div></div><div class="narration-block"><div class="bubble-text">石板路面上散落着节庆留下的彩带碎屑，但没有人去清扫它们。两侧的建筑开始变得低矮破旧，窗户上糊着发黄的报纸，有些门板歪斜地半掩着，露出黑洞洞的内部。</div></div><div class="narration-block"><div class="bubble-text">光影在这里发生了变化——街道两侧的楼房把正午的阳光切割成狭窄的条状，空气里飘着潮湿的霉味和某种说不清的焦糊气息。你下意识地放慢了脚步，手指轻轻搭在挂在脖子上的相机上。</div></div><div class="narration-block"><div class="bubble-text">巷口到了。</div></div><div class="narration-block"><div class="bubble-text">三个人影靠在墙边，像是早就等着有人路过似的。</div></div><div class="narration-block"><div class="bubble-text">他们穿着皱巴巴的深色夹克，袖口卷到手肘，露出前臂上密密麻麻的纹身。其中一个人叼着烟，烟头的红光在阴影里一明一灭。另一个人蹲在地上，手里转着一把折叠刀。第三个人站着，双手插在口袋里，目光懒散地扫过你，然后停住了。</div></div><div class="narration-block"><div class="bubble-text">他动了。</div></div><div class="narration-block"><div class="bubble-text">不是朝你走来——只是把身体从墙上撑起来，像一只刚睡醒的野狗。他的目光落在你身上，嘴角挂着一种说不上是好奇还是不耐烦的表情。</div></div><div class="narration-block"><div class="bubble-text">“离远点，外乡人。”他的声音不高不低，在这条安静的巷子里却格外清晰，“这不是你该来的地方。”</div></div><div class="narration-block"><div class="bubble-text">你停住脚步。你的目光扫过三人——他们的站位很随意，但你注意到他们堵住了巷子最窄的那段路，没有留下可以绕过去的空隙。</div></div><div class="narration-block"><div class="bubble-text">站着的那人朝前走了两步，目光在你身上转了一圈，然后落在你脖子上的相机上。他的表情变了一下——眉毛抬了抬，像是发现了一件不太愉快的事。</div></div><div class="narration-block"><div class="bubble-text">“这里不欢迎记者。”他说，声音里多了一丝冷意，“滚出去。”</div></div><div class="narration-block"><div class="bubble-text">你的手指在相机外壳上停了一下。你能感觉到那三个人都在看着你，目光像是三根钉子。</div></div><div class="narration-block"><div class="bubble-text">你开口了。声音比你预想中要平静。</div></div><div class="narration-block"><div class="bubble-text">“我是来找人的。不能通融一下吗？”</div></div><div class="narration-block"><div class="bubble-text">站着的那人歪了歪头，像是听到了什么新鲜事。他回头看了同伴一眼，叼着烟的那个耸了耸肩。</div></div><div class="narration-block"><div class="bubble-text">“找人？”他重复了一遍，语气里带着一丝玩味，“这时间？这倒是稀奇。”</div></div><div class="narration-block"><div class="bubble-text">他转过身，和另外两个人凑在一起，低声说了几句什么。声音太小，你听不清内容。你只看到其中一个人朝你的方向瞥了一眼，然后三个人交换了一个眼神。</div></div><div class="narration-block"><div class="bubble-text">站着的那人转回身，朝你走过来，在他身前不到两米的地方停下。</div></div><div class="narration-block"><div class="bubble-text">“我们管不着你是来做什么的。”他说，语气平淡得像在陈述一件理所当然的事情，“只能算你运气不好。把相机留下，你可以走了。”</div></div><div class="narration-block"><div class="bubble-text">你的手指微微一紧。</div></div><div class="narration-block"><div class="bubble-text">他没有等你回答。他身后那两个人也动了起来——蹲在地上的那人收起了折叠刀，站起身来。叼着烟的吐掉烟头，用鞋底碾灭。三个人开始朝你这边走过来，步伐不急不慢，像是笃定你不会跑，也不会反抗。</div></div><div class="narration-block"><div class="bubble-text">你的呼吸变了。</div></div><div class="narration-block"><div class="bubble-text">胸口开始发紧，像是有一根看不见的带子在慢慢勒紧你的肺部。你的手——握着相机的手——开始微微发抖。不是恐惧。你知道这种感觉。这是一种你太熟悉的信号。</div></div><div class="narration-block"><div class="bubble-text">空气里有什么东西在变味。</div></div><div class="narration-block"><div class="bubble-text">你看见的不是这条巷子。</div></div><div class="narration-block"><div class="bubble-text">是另一条巷子。另一个地方。另一个午后。那个你本该记住、却拼命想忘记的午后。有人在你耳边说话，但你听不清。你只记得空气中那股焦糊味——和这里的味道一模一样。</div></div><div class="narration-block"><div class="bubble-text">你的瞳孔微微收缩。</div></div><div class="narration-block"><div class="bubble-text">三人的脚步声在石板路上越来越近。</div></div><div class="narration-block"><div class="bubble-text">他们停在你面前。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>anchor:a_azZx0jYROVs6</small></div><div class="bubble-text">深呼吸，压下闪回，举起双手表示没有敌意</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">装作顺从，把相机放在地上，同时观察三人站位</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">后退一步，拉开距离，同时嘴里说着‘好好，我走’边慢慢移动</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">突然冲向三人，趁其不备抢夺先机</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-5">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>5</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">装作顺从，把相机放在地上，同时观察三人站位</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的呼吸还在加速。</div></div><div class="narration-block"><div class="bubble-text">那股焦糊味死死地黏在鼻腔里，和梦里的气味一模一样。胸口像是被什么看不见的东西压住了，每吸一口气都要比上一口更用力。</div></div><div class="narration-block"><div class="bubble-text">但你见过比这更糟的局面。</div></div><div class="narration-block"><div class="bubble-text">你逼着自己把视线从那三个人的脸上移开，低头——看地面，看自己的鞋尖，看石板缝隙里蜷缩的烟蒂。你让自己的肩膀垮下来，让握着相机背带的手指松开几分。</div></div><div class="narration-block"><div class="bubble-text">一个人影从余光里逼近了一步。</div></div><div class="narration-block"><div class="bubble-text">那个站着的——应该是领头的——在你面前不到一米的地方停住。他微微偏着头，像是在等你做决定。</div></div><div class="narration-block"><div class="bubble-text">你开口了。声音比你预想中要干涩，带着一丝恰到好处的沙哑：</div></div><div class="narration-block"><div class="bubble-text">“……我不知道这儿的规矩。”</div></div><div class="narration-block"><div class="bubble-text">你慢慢弯下腰，动作故意放得很慢，像是在向他展示自己没有反抗的意图。相机背带从肩头滑落，你把它连同背包一起放在脚边的地面上。石板面凉丝丝的触感透过帆布包底传到你指尖上。</div></div><div class="narration-block"><div class="bubble-text">你低着头，目光落在相机机身上——但那不是你的焦点。你的余光正快速扫过三个人站立的位置。</div></div><div class="narration-block"><div class="bubble-text">领头的。在你正前方两米左右，双手还插在口袋里，姿态松弛——他在等你服软。</div></div><div class="narration-block"><div class="bubble-text">左边那个。靠墙根站着，离你大约四米，那把折叠刀还握在手里——收起来了，没有打开。他站得很稳，重心在左脚，但视线一直盯着你的手。</div></div><div class="narration-block"><div class="bubble-text">右边那个。刚才叼着烟的。他没有靠近，而是站在巷口更深处一点的位置——大约五米开外，那里有一扇半掩的木门。他的位置像是留了一条退路，或者说是堵住了另一条路。</div></div><div class="narration-block"><div class="bubble-text">你把目光收回来，落在自己的相机上。手指在背包带上微微收紧，像是舍不得——又像是在忍耐什么。</div></div><div class="narration-block"><div class="bubble-text">你低着头，让声音里带着一点颤抖：</div></div><div class="narration-block"><div class="bubble-text">“……这相机是我战友的遗产。我也没拍什么——胶卷和记忆卡都给你。你放我走就行。”</div></div><div class="narration-block"><div class="bubble-text">巷子里安静了两秒。</div></div><div class="narration-block"><div class="bubble-text">你没有抬头。但你听到了——一声极轻的嗤笑，从左边那个人的方向传来。然后是一声鞋底蹭在石板上的摩擦声。领头的那个人动了一下，像是微微偏过头去看了同伴一眼。</div></div><div class="narration-block"><div class="bubble-text">“战友的遗产？”</div></div><div class="narration-block"><div class="bubble-text">他的声音里带着一丝玩味。他没有立刻下令来拿你的东西。他站在原地，像是在品味这句话的真假。</div></div><div class="narration-block"><div class="bubble-text">你的手指还搭在相机背带上。你的身体保持着半蹲的姿势，肌肉紧绷却不显现——像一根即将被拉断的弦，裹着一层示弱的外壳。</div></div><div class="narration-block"><div class="bubble-text">你等着他的反应。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>choice:反抗</small></div><div class="bubble-text">平复呼吸，继续示弱——观察他们的下一步动作</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span><small>choice:战斗</small></div><div class="bubble-text">趁他们放松警惕时突然发难，先解决最近的领头人</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">再补充一句，强调自己只是路过的游客，试图降低敌意</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-6">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>6</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-6-1">重复演出 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">趁他们放松警惕时突然发难，先解决最近的领头人</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">巷子里安静了两秒。</div></div><div class="narration-block"><div class="bubble-text">你没有抬头。但你听到了——一声极轻的嗤笑，从左边那个人的方向传来。然后是一声鞋底蹭在石板上的摩擦声。领头的那个人动了一下，像是微微偏过头去看了同伴一眼。</div></div><div class="narration-block"><div class="bubble-text">“战友的遗产？”</div></div><div class="narration-block"><div class="bubble-text">他的声音里带着一丝玩味。他没有立刻下令来拿你的东西。他站在原地，像是在品味这句话的真假。</div></div><div class="narration-block"><div class="bubble-text">你的手指还搭在相机背带上。你的身体保持着半蹲的姿势，肌肉紧绷却不显现——像一根即将被拉断的弦，裹着一层示弱的外壳。</div></div><div class="narration-block"><div class="bubble-text">你等着他的反应。</div></div><div class="narration-block"><div class="bubble-text">领头的人歪了歪头，朝左边那个靠墙的同伴努了努下巴。“去，把相机拿来。”</div></div><div class="narration-block"><div class="bubble-text">脚步声响起。左边那个人开始朝你走来——步伐散漫，折叠刀在手指间转了一圈，又合上了。他在向你靠近，目光落在你放在地上的相机上，而不是你的脸上。</div></div><div class="narration-block"><div class="bubble-text">三米。</div></div><div class="narration-block"><div class="bubble-text">两米。</div></div><div class="narration-block"><div class="bubble-text">他的影子盖住了你的相机。</div></div><div class="narration-block"><div class="bubble-text">他弯下腰，伸出手——指尖快要碰到相机背带的瞬间——</div></div><div class="narration-block"><div class="bubble-text">你动了。</div></div><div class="narration-block"><div class="bubble-text">不是站起来。你的左脚在地面上猛地一蹬，身体从半蹲的姿态像一根被压紧的弹簧一样弹起。你的右肩对准了领头者的胸口中段——他还在看着同伴拿相机的动作，注意力不在你身上。</div></div><div class="narration-block"><div class="bubble-text">你的肩膀撞进他的胸口。</div></div><div class="narration-block"><div class="bubble-text">一声闷响。他的眼睛猛地睁大——不是因为疼痛，是因为他根本没看清你是怎么从那个位置冲过来的。你的右手在他失去重心的瞬间扣住了他的手腕，向外一翻，关节发出清脆的声响。他的身体顺着你扭转的力道侧倒下去，膝盖砸在石板上的声音又沉又钝。</div></div><div class="narration-block"><div class="bubble-text">你另一只手已经抄起了地上的相机——背带缠在手腕上，机身握在掌中，像一块沉重的金属砖块。</div></div><div class="narration-block"><div class="bubble-text">你把他按在地上。右膝压住他的背，左手扣着他的手腕反剪在腰椎上。他挣扎了一下，但你的体重和角度让他根本使不上力。</div></div><div class="narration-block"><div class="bubble-text">巷子里安静了一个瞬间。</div></div><div class="narration-block"><div class="bubble-text">然后是一声金属撞击声——左边那个人手里的折叠刀掉在了地上。他还保持着弯腰的姿势，手僵在半空中，脸上的表情从散漫变成了震惊。</div></div><div class="narration-block"><div class="bubble-text">右边那个——巷口深处的人影——已经把烟头吐掉了，手伸向腰间。</div></div><div class="narration-block"><div class="bubble-text">你抬起头，目光从左到右扫过两个人。呼吸比刚才急促了一些，但不再是那种应激下的颤抖——而是另一种节奏。</div></div><div class="narration-block"><div class="bubble-text">你压着身下那人的后背，感觉到他的肺在你膝盖下起伏。他闷哼了一声，试图扭头看你，但你手上加了一分力，他便不动了。</div></div><div class="narration-block"><div class="bubble-text">“别动。”你说。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>choice:反抗</small></div><div class="bubble-text">压制领头者，喝令另外两人退后</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span><small>choice:战斗</small></div><div class="bubble-text">趁他们还没反应过来，先解决左边那个</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">用领头者当人质，逼右边那个放下武器</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">松开领头者，举起双手，表示自己没有敌意</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-6-1">
+  <div class="issue-head">
+    <strong>重复演出</strong>
+    <span>低 · T6 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>The next turn repeats a substantial chunk of already-shown scene text instead of cleanly advancing from the previous state.</dd>
+    <dt>当前证据</dt><dd>Turn 6 reopens with the same beat already shown at the end of turn 5: &quot;巷子里安静了两秒。你没有抬头……‘战友的遗产？’……你等着他的反应。&quot; before continuing the fight.</dd>
+    <dt>冲突证据</dt><dd>Turn 5 had already fully presented that exact pause, line, and internal setup as its closing scene, ending on the same &quot;你等着他的反应。&quot;</dd>
+    <dt>冲突轮次</dt><dd>T5</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-7">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>7</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">松开领头者，举起双手，表示自己没有敌意</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的右膝还压着他的背。他的肺在你膝盖下起伏，像一台过热的引擎在慢慢冷却。</div></div><div class="narration-block"><div class="bubble-text">你抬起头，目光扫过左侧那个已经僵住的人——他的折叠刀还躺在地上，手悬在半空中，像是不知道接下来该做什么。右边那个人，手已经摸到了腰间，但也没有下一步动作。</div></div><div class="narration-block"><div class="bubble-text">巷子里只剩下呼吸声。你自己的。你身下那人的。还有远处庆典隐约传来的、被墙壁削薄的音乐声。</div></div><div class="narration-block"><div class="bubble-text">你沉默了大概两秒钟。然后你做了一个决定。</div></div><div class="narration-block"><div class="bubble-text">你松开了他的手腕。</div></div><div class="narration-block"><div class="bubble-text">不是猛地松开——是慢慢地、一寸一寸地松开，让他的手腕从你的指间滑落，落在石板地面上。你抬起膝盖，从他的背上移开，身体向后缓缓站起。你把手从相机背带上也松开了——让相机垂在胸前，空出两只手。</div></div><div class="narration-block"><div class="bubble-text">然后你举起双手。手掌摊开，朝向那两个还站着的人。掌心朝外，手指微微分开。一个任何人都能读懂的姿势——我没有武器，我没有敌意，我不会再动。</div></div><div class="narration-block"><div class="bubble-text">你身下领头的人翻过身来，大口喘着气，一只手捂着自己的手腕，看向你的眼神里混杂着疼痛和难以置信。他嘴唇动了动，但没有说出话来。</div></div><div class="narration-block"><div class="bubble-text">你看着他，又看了看左边那个还僵在原地的人，最后目光落在右边那个已经摸到腰间的人身上。</div></div><div class="narration-block"><div class="bubble-text">你站在那里，双手举着，没有说话。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>anchor:a_azZx0jYROVs6</small></div><div class="bubble-text">开口解释，表示自己只是来找人的，不想惹麻烦</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">保持沉默，等待对方先开口</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">观察他们的表情和动作，评估下一步威胁</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-8">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>8</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">开口解释，表示自己只是来找人的，不想惹麻烦</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你双手还举在半空中，掌心朝外，呼吸逐渐平稳下来。</div></div><div class="narration-block"><div class="bubble-text">你开口了，声音比你预想中要平静。</div></div><div class="narration-block"><div class="bubble-text">&quot;我是来找人的。不是来找麻烦的。&quot;</div></div><div class="narration-block"><div class="bubble-text">领头者撑着一只手从地上爬起来，捂着手腕，目光里还残留着疼痛和难以置信。他张了张嘴——还没来得及说出什么——</div></div><div class="narration-block"><div class="bubble-text">巷口传来一个声音。不大，却让三个人同时僵住了。</div></div><div class="narration-block"><div class="bubble-text">&quot;到此为止。&quot;</div></div><div class="narration-block"><div class="bubble-text">你循声望去。</div></div><div class="narration-block"><div class="bubble-text">一个金发少女站在巷口的阳光与阴影交界处。白色棉衣，旧吊带裙，黑色连裤袜和深棕色的皮鞋。她的马尾辫在肩头轻轻晃了一下，蓝眼睛扫过你们四个人，像是在清点什么东西。</div></div><div class="narration-block"><div class="bubble-text">她站在这里——这条破败、潮湿、堆满垃圾的巷子里——像一页被误贴在旧报纸堆里的彩色插图。</div></div><div class="narration-block"><div class="bubble-text">黑帮三人组的反应比你想象中要快。领头者下意识地退了一步，左边那个人甚至没去捡掉在地上的刀。</div></div><div class="narration-block"><div class="bubble-text">&quot;卡琳娜阁下……&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;我没允许过你们在我眼皮底下乱逛，也没允许过你们在这里动手。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音不大，语调也没什么起伏，像在念一条不需要强调的规矩。</div></div><div class="narration-block"><div class="bubble-text">&quot;明白吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">巷子里安静了三秒。领头者低下头，朝她微微欠了欠身——然后转身，走得很快。另外两个人跟在他身后，甚至没有看你一眼。脚步声在石板路上渐渐远去，消失在巷子拐角。</div></div><div class="narration-block"><div class="bubble-text">你放下双手。相机垂在胸前，机身上还带着你掌心的温度。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜转向你，脸上挂着一副说不上是不耐烦还是审视的表情。</div></div><div class="narration-block"><div class="bubble-text">&quot;午安，记者。&quot;</div></div><div class="narration-block"><div class="bubble-text">她微微歪了歪头。</div></div><div class="narration-block"><div class="bubble-text">&quot;你一直都喜欢往这种阴暗潮湿的地方钻吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">你看着她，把相机背带重新挂好。</div></div><div class="narration-block"><div class="bubble-text">&quot;阴暗潮湿对我来说也还算舒适——要是没这些&#39;热情好客&#39;的人就更好了。&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的表情松动了一下。不是笑——更像是一层薄冰裂开了一条缝。她抬起手，把一缕垂到脸侧的金发别到耳后。</div></div><div class="narration-block"><div class="bubble-text">&quot;他们不是针对你。最近凯旋门的人和其他黑帮之间摩擦不断，他们怕记者是找来的间谍。紧张了一点。&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，目光落在你胸前的相机上，又移开了。</div></div><div class="narration-block"><div class="bubble-text">&quot;不过——你和那些跟着血腥味走的记者不太一样。&quot;</div></div><div class="narration-block"><div class="bubble-text">她像是在判断什么，然后做了一个干脆的决定。</div></div><div class="narration-block"><div class="bubble-text">&quot;如果外人在暗街被人杀了，我就需要替暗街向凶手讨个公道。这是暗街的规矩，我不喜欢麻烦。&quot;</div></div><div class="narration-block"><div class="bubble-text">她转过身，朝巷子深处走了两步，又停下来，回头看你。</div></div><div class="narration-block"><div class="bubble-text">&quot;无论你想要什么——这里都不是说话的好地方。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的语气里带着一种理所当然的笃定，像是在陈述一个不需要商量的事实。</div></div><div class="narration-block"><div class="bubble-text">&quot;跟我来。公寓不远。&quot;</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟上卡琳娜，接受她的邀请去公寓</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">先问清楚她的名字和身份再说</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">站在原地，问她为什么要帮我</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-9">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>9</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-medium" href="#issue-9-2">身份漂移 · 中</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">跟上卡琳娜，接受她的邀请去公寓</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你迈开步子，跟上那个金发少女的身影。</div></div><div class="narration-block"><div class="bubble-text">她走在前面，背影比你想象中要小——但那步伐却带着一种不容置疑的笃定，像是这条路她已经走过千百次，闭着眼睛也知道下一步该踩在哪块石板上。</div></div><div class="narration-block"><div class="bubble-text">巷子在你面前展开。墙壁上的青苔和水渍在午后的光线里泛着暗绿色的光泽。头顶上，晾衣绳横跨巷道，挂着几件洗得发白的衬衫，在微风里轻轻摆动。空气里混着湿水泥、旧木头和某种说不清的植物腐烂的气息——比巷口更浓，但不刺鼻。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有回头，但她的声音从前面飘过来——不大，正好能让你听见。</div></div><div class="narration-block"><div class="bubble-text">&quot;我以前没见过你。&quot;</div></div><div class="narration-block"><div class="bubble-text">这不是一个问题。她在陈述一个事实，语气平淡得像在说今天天气不错。</div></div><div class="narration-block"><div class="bubble-text">&quot;你刚来新西西里？&quot;</div></div><div class="narration-block"><div class="bubble-text">你调整了一下相机的位置，让它稳稳地贴在胸前。脚步没有放慢。</div></div><div class="narration-block"><div class="bubble-text">&quot;今天早上到的。&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;早上到的，下午就往暗街钻？&quot;</div></div><div class="narration-block"><div class="bubble-text">她终于偏过头来看了你一眼，那个角度让你只能看见她半张脸——蓝眼睛在阴影里显得格外亮。她没有等你回答，又把头转了回去。</div></div><div class="narration-block"><div class="bubble-text">&quot;要么是胆子大，要么是不知道自己在做什么。你看起来不像第一种。&quot;</div></div><div class="narration-block"><div class="bubble-text">她拐进一条更窄的巷子。墙壁之间的距离缩窄到大约三米，两侧窗户都紧紧关着，百叶帘低垂。阳光被切割成细长的光带，斜斜地铺在石板路面上。</div></div><div class="narration-block"><div class="bubble-text">你加快了几步，跟上她的节奏。</div></div><div class="narration-block"><div class="bubble-text">&quot;也许是第三种——有人告诉我，在这里报你的名字会有用。&quot;</div></div><div class="narration-block"><div class="bubble-text">走在前面的脚步顿了一下——非常短暂的停顿，几乎像是不存在——然后又恢复了自然的节奏。</div></div><div class="narration-block"><div class="bubble-text">&quot;谁告诉你的？&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;中央区卖旧货的摊贩。他说你住在这里。&quot;</div></div><div class="narration-block"><div class="bubble-text">她轻轻地哼了一声，那声音里听不出是满意还是不以为然。</div></div><div class="narration-block"><div class="bubble-text">&quot;那个老头啊。他倒是记得住谁该找谁。&quot;</div></div><div class="narration-block"><div class="bubble-text">她在巷子尽头停住了。</div></div><div class="narration-block"><div class="bubble-text">你面前是一栋三层的旧楼。外墙刷过白色的灰泥，但已经斑驳得厉害，露出下面暗灰色的砖体。底层有一扇铁质的门，漆面剥落，露出锈迹。门框上方挂着一盏早就熄灭的气灯，灯罩缺了一角。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜从口袋里掏出一把钥匙——很普通的那种，铜色的，拴在一根红绳上。她插入锁孔，转动，铁门发出一声沉闷的咔哒声。</div></div><div class="narration-block"><div class="bubble-text">她推开门，侧过身，给你让开了一条路。</div></div><div class="narration-block"><div class="bubble-text">&quot;进来吧。楼梯有点窄，小心台阶。&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，目光在你的脚上停了一瞬，然后又抬起来看着你的眼睛。</div></div><div class="narration-block"><div class="bubble-text">&quot;不是谁都能进这扇门的，记者。&quot;</div></div><div class="narration-block"><div class="bubble-text">她没有等你的回答，自己先转身走进了门里。脚步声在楼梯间里轻快地响起，一级，两级——她走得毫不迟疑。</div></div><div class="narration-block"><div class="bubble-text">你站在门槛前。门内是一条窄窄的楼梯通道，墙壁被时光染成了灰黄色，灯泡散发出昏暗的橙色光芒。空气里飘着一股旧木头和灰尘混合的气味。</div></div><div class="narration-block"><div class="bubble-text">她的脚步声从上方传来，带着一种&quot;跟上&quot;的节奏。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟上她，注意观察楼梯间环境</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">先停在门边，快速检查一下楼道内外是否有异常</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">跟上她，随口问一句‘这栋楼住了几户人？’</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">停在门口等两秒，确认没有人在尾随</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-medium" id="issue-9-2">
+  <div class="issue-head">
+    <strong>身份漂移</strong>
+    <span>中 · T9 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>The same previously female-coded vendor is suddenly recast as an old man without any visible explanation.</dd>
+    <dt>当前证据</dt><dd>Turn 9 has Karina refer to the Central District vendor as &quot;那个老头啊&quot;.</dd>
+    <dt>冲突证据</dt><dd>Turns 1-3 consistently present that stallkeeper as female-coded: the narration uses &quot;她&quot; repeatedly, including &quot;她把胳膊肘撑在摊子上&quot; and &quot;她低下头去整理摊子上的零碎物件&quot;.</dd>
+    <dt>冲突轮次</dt><dd>T1、T2、T3</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-10">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>10</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">先停在门边，快速检查一下楼道内外是否有异常</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你停在铁门门槛前。</div></div><div class="narration-block"><div class="bubble-text">没有立刻迈步。</div></div><div class="narration-block"><div class="bubble-text">你侧过头，目光先扫过门外的巷子——来时走过的那条窄巷，空荡荡的，只有晾衣绳上的衬衫还在风里摆动。然后是门框两侧的墙壁，斑驳的灰泥层，墙角堆着几个空酒瓶和几片干枯的落叶。你的视线沿着墙根往上走，掠过一楼的窗户——窗玻璃蒙着灰尘，百叶帘低垂着，没有任何移动的迹象。</div></div><div class="narration-block"><div class="bubble-text">耳朵也在工作。</div></div><div class="narration-block"><div class="bubble-text">巷子外隐约传来庆典的音乐声，隔了几条街，被建筑削薄得像是从收音机里放出来的。除此之外，只有脚步声——上面传来的，卡琳娜的脚步声，在楼梯上轻快地响着，一级，两级——节奏没有变化，没有停顿，没有转身往下看的迹象。她还在往上走，理所当然地认为你已经跟上了。</div></div><div class="narration-block"><div class="bubble-text">你已经见过足够多的伏击，也见过足够多次在门槛前犹豫导致的死亡。</div></div><div class="narration-block"><div class="bubble-text">这条楼道，安静，昏暗，只有灯泡投下的橙色光芒照在灰黄色的墙壁上。地面上没有新鲜的脚印，没有拖拽的痕迹，空气中只有旧木头和灰尘的气味——没有烟味，没有铁锈味，没有不该在这栋楼里出现的人留下的气味。</div></div><div class="narration-block"><div class="bubble-text">你确认了这一点。</div></div><div class="narration-block"><div class="bubble-text">你迈进门内，顺手带上了那扇铁门。门锁发出一声轻微的咔哒声，从内侧锁上了。</div></div><div class="narration-block"><div class="bubble-text">脚步声还在上面。</div></div><div class="narration-block"><div class="bubble-text">没有停。</div></div><div class="narration-block"><div class="bubble-text">像是在等你。</div></div><div class="narration-block"><div class="bubble-text">你开始上楼。楼梯窄而陡，木质的台阶在你脚下发出细微的吱呀声。墙壁上贴着几张褪色的海报，内容已经被潮湿和时间侵蚀得看不清了，只剩下一片模糊的深色。越往上走，光线反而越暖——二楼拐角处有一扇小窗，下午的阳光透过蒙尘的玻璃照进来，在地板上投下一块柔和的菱形光斑。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜在二楼的楼梯口等你。</div></div><div class="narration-block"><div class="bubble-text">她一只手扶着墙，微微歪着头看你走上最后几级台阶。她的表情里没有什么不满，但也算不上热情——更像是在确认你没有走丢。</div></div><div class="narration-block"><div class="bubble-text">她没说话。但她转过头，朝走廊尽头那扇门抬了抬下巴——示意你跟上去。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟上卡琳娜，推门进入她的公寓</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">在进门之前在走廊里再观察一下周围的环境</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">直接问她，关于刚才那伙人和暗街的规矩</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-11">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>11</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">跟上卡琳娜，推门进入她的公寓</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你跟在卡琳娜身后，迈过走廊尽头那扇门的门槛。</div></div><div class="narration-block"><div class="bubble-text">房间在你面前展开。</div></div><div class="narration-block"><div class="bubble-text">不大。约莫二十平米，被午后的光线斜斜地切成两半。光从窗户照进来——窗框是老旧的木质，玻璃擦得不算干净，把窗外暗街的屋顶和晾衣绳晕染成模糊的剪影。光斑落在木质的地板上，照亮了空气中的浮尘。</div></div><div class="narration-block"><div class="bubble-text">陈设简单到近乎克制。一张旧沙发，布料磨损但干净。一张矮桌，上面放着搪瓷杯和一本打开的书。墙角有炉灶和水槽，橱柜的漆面也已斑驳。没有电视。没有多余的装饰。整个空间像是被人精心削减过，只剩下功能性的物品，没有一件多余的东西。</div></div><div class="narration-block"><div class="bubble-text">但目光落在那张沙发上的时候，你顿了一下。</div></div><div class="narration-block"><div class="bubble-text">沙发靠背上趴着一只猫。</div></div><div class="narration-block"><div class="bubble-text">黑色的短毛，尾巴从靠背边缘垂下来，末端微微卷起。它的瞳孔是琥珀色的——此刻正一瞬不瞬地看着你，目光随着你跨进门槛的动作而移动。它没有发出声音，也没有站起来，只是那样看着你，尾巴缓慢地、从容地摆动了一下。</div></div><div class="narration-block"><div class="bubble-text">你知道有些猫会警惕陌生人。但这只猫的表情不太一样——它更像是在审视你。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜从你身侧走过，顺手把门带上。她没有回头，径直走到窗边，背靠着窗台站定，双手插在那件白色棉衣的口袋里。</div></div><div class="narration-block"><div class="bubble-text">她朝沙发的方向抬了抬下巴。</div></div><div class="narration-block"><div class="bubble-text">“随便坐。”</div></div><div class="narration-block"><div class="bubble-text">你看了看那张沙发。猫还在沙发靠背上，没有挪开的意思。它的尾巴又摆了一下，像是默许，又像是无所谓。</div></div><div class="narration-block"><div class="bubble-text">你没有立刻坐下去。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜看着你，那目光没有压迫感，但也不是在等你寒暄。</div></div><div class="narration-block"><div class="bubble-text">“首先——”她说，语气像是在列清单，“你现在已经被凯旋门盯上了。刚才那几个人回去以后，会把你的长相、相机型号、身手特征，全都报上去。你今天之内甚至出不了暗街而不被他们的人‘留意’到。”</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，没有给你插话的机会，继续说下去。</div></div><div class="narration-block"><div class="bubble-text">“给你发匿名信的人了解新西西里的局势。他让你来这里，找一个报我名字就能找到人的地方——然后你自己走进了一条黑帮巡逻的巷子。那不是巧合。那是故意让你出现在他们面前。”</div></div><div class="narration-block"><div class="bubble-text">她的蓝眼睛看着你，像是在观察你的反应。</div></div><div class="narration-block"><div class="bubble-text">“你被当炮灰了，记者。一封匿名信，一张死人照片，让你自己走进火药桶。”</div></div><div class="narration-block"><div class="bubble-text">公寓里安静了一瞬。那只黑猫的尾巴又一次缓慢地摆动了一下。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜站在原地，没有靠近你，也没有赶你走的意思。她的表情里没有同情，也没有幸灾乐祸——只有一种冷静的陈述感。</div></div><div class="narration-block"><div class="bubble-text">她抬起一只手，从口袋里抽出来，指了指你胸前的相机。</div></div><div class="narration-block"><div class="bubble-text">“但你也没有跑。你在巷子里制服了一个人，然后松开了他，举起了双手。你做得不像是个只会在安全距离外按快门的人。所以你暂时还坐在我很不习惯让别人坐的沙发上。”</div></div><div class="narration-block"><div class="bubble-text">她说完这句，又顿了顿。目光落在那只黑猫身上片刻，然后又移回到你脸上。</div></div><div class="narration-block"><div class="bubble-text">“新西西里的外来者要么有靠山，要么有运气。你目前两者都没有。”</div></div><div class="narration-block"><div class="bubble-text">她的话语里没有威胁，更像是陈述天气预报那样平淡。</div></div><div class="narration-block"><div class="bubble-text">“但暗街有自己的规矩。我维持的规矩。既然你已经站在我的房间里——那至少今天之内，凯旋门的人不会知道你在哪。”</div></div><div class="narration-block"><div class="bubble-text">她说完，终于从窗边挪了一步，走到矮桌前，拿起那本打开的书——是一本旧诗集，书页泛黄，翻开的那一页刚好被下午的光照亮。她把书合上，放到一旁，然后抬头看你。</div></div><div class="narration-block"><div class="bubble-text">“说说看。你是来这岛上找什么的？”</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">告诉她匿名信和敏特照片的事，但保留部分细节。</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">反问她的身份和‘维持规矩’是什么意思。</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">先不回答，低头观察那只黑猫。</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">简短回应：在找一个人，需要在这里待一段时间。</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-12">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>12</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-12-3">质量退化 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">告诉她匿名信和敏特照片的事，但保留部分细节。</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你坐在那张旧沙发的边缘，手指无意识地搭在相机机身上。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫还在沙发靠背上，琥珀色的瞳孔半阖着，尾巴垂在边缘，末端轻轻摆动。</div></div><div class="narration-block"><div class="bubble-text">她走到矮桌前，拿起那只搪瓷杯，喝了一口——然后放下杯子，目光落在你身上，没有催促，只是在等。</div></div><div class="narration-block"><div class="bubble-text">你开口了。</div></div><div class="narration-block"><div class="bubble-text">&quot;我来这岛上是因为一封匿名信。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的眉毛几不可见地动了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;信里夹着一张照片。照片上的人……是我认识的。一个我以为已经死了的人。&quot;</div></div><div class="narration-block"><div class="bubble-text">你停顿了一下。</div></div><div class="narration-block"><div class="bubble-text">公寓里很安静。窗外的光线斜斜地洒在地板上，能听见远处暗街传来的模糊声响——被墙壁削薄了，像是隔着一层水。</div></div><div class="narration-block"><div class="bubble-text">你没有说出那个人的名字。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有追问。她只是靠在窗台边，双手插在白色棉衣的口袋里，蓝眼睛看着你，像是把你说的话放在一架天平上称量。</div></div><div class="narration-block"><div class="bubble-text">&quot;一张死人照片。一封匿名信。一趟自己走进火药的船。&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了顿。</div></div><div class="narration-block"><div class="bubble-text">&quot;照片让你觉得那个人还活着。&quot;</div></div><div class="narration-block"><div class="bubble-text">这是一个陈述句，不是一个问句。但她的话里有一种很轻的探询——像是随手抛出了一根线，看你会不会接。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">确认她的推测：对，照片上的人还活着——至少我希望她还活着。</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">反问卡琳娜：你好像很熟悉这种陷阱式的邀请？</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">把照片从口袋里掏出来，直接给她看。</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">保持沉默，先观察她的反应再做决定。</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-12-3">
+  <div class="issue-head">
+    <strong>质量退化</strong>
+    <span>低 · T12 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>该句在关键情报分析对白中出现明显错拼式隐喻，短暂破坏正文可读性和语义稳定性。</dd>
+    <dt>当前证据</dt><dd>卡琳娜说：&quot;一张死人照片。一封匿名信。一趟自己走进火药的船。&quot;</dd>
+    <dt>冲突证据</dt><dd>上一轮同一推断使用的是可理解的危险隐喻：&quot;让你自己走进火药桶。&quot; 当前的 &quot;火药的船&quot; 语义不通顺，像是把 &quot;一趟船&quot; 和 &quot;火药桶&quot; 错拼在一起。</dd>
+    <dt>冲突轮次</dt><dd>T11</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-13">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>13</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">确认她的推测：对，照片上的人还活着——至少我希望她还活着。</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">“至少你希望她还活着。”</div></div><div class="narration-block"><div class="bubble-text">她重复了你的话，语气里没有嘲讽——像是在咀嚼这几个字的重量。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜从窗台边直起身，走到矮桌前，拿起那只搪瓷杯，却没有喝。她低头看着杯中的水面，沉默了片刻。</div></div><div class="narration-block"><div class="bubble-text">“一张死人照片。一个你还不能确定是否活着的人。一份足够让你跨过整个大洋的匿名委托。”</div></div><div class="narration-block"><div class="bubble-text">“你知道这听起来像什么吗？”</div></div><div class="narration-block"><div class="bubble-text">她抬起头，蓝眼睛看向你。</div></div><div class="narration-block"><div class="bubble-text">“像钓鱼。而且是专门为你这种人准备的饵。”</div></div><div class="narration-block"><div class="bubble-text">她没有等你回答，自己走到沙发边——但没坐下，只是站在那只黑猫旁边，伸手轻轻摸了摸猫的耳根。黑猫的尾巴尖微微卷起，又落下去。</div></div><div class="narration-block"><div class="bubble-text">“但你没有否认。你没有说‘照片上的人确实死了’——你说的是‘我以为’。”</div></div><div class="narration-block"><div class="bubble-text">她的目光从猫身上移开，落到你的脸上。</div></div><div class="narration-block"><div class="bubble-text">“所以，记者——那个你‘以为’已经死了的人，她叫什么名字？”</div></div><div class="narration-block"><div class="bubble-text">公寓里的光线又偏斜了一些。窗外的晾衣绳上，一件白衬衫的影子在墙壁上随着微风轻轻晃动。</div></div><div class="narration-block"><div class="bubble-text">你张了张嘴——</div></div><div class="narration-block"><div class="bubble-text">门外传来一阵急促的敲门声。</div></div><div class="narration-block"><div class="bubble-text">不是礼貌的叩门。</div></div><div class="narration-block"><div class="bubble-text">是指节砸在木门上的声音，短促，用力，带着一种不容等待的紧迫感。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的耳朵猛地转向前方。卡琳娜的手指停在半空中，动作凝固了一瞬。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">示意卡琳娜先别出声，侧耳辨别门外动静</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">压低声音问卡琳娜：&#39;等的人？还是不等的人？&#39;</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">起身靠近门边，寻找可用的遮挡或武器</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">保持镇定，等待卡琳娜先处理敲门者</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-14">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>14</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">示意卡琳娜先别出声，侧耳辨别门外动静</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的手指在半空中顿住。</div></div><div class="narration-block"><div class="bubble-text">不是那个问题让你停下来的——是别的东西。</div></div><div class="narration-block"><div class="bubble-text">门外的敲门声。</div></div><div class="narration-block"><div class="bubble-text">不是礼貌的叩门。是指节砸在木门上的声音，短促，用力，带着一种不容等待的紧迫感。三下。停顿。又是三下。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的耳朵猛地转向前方，琥珀色的瞳孔收缩成竖线。卡琳娜的手指停在半空中，动作凝固了一瞬。</div></div><div class="narration-block"><div class="bubble-text">你抬起手——手掌朝外，一个无声的手势。</div></div><div class="narration-block"><div class="bubble-text">别出声。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光落在你脸上。她没有动，没有说话，甚至连呼吸的幅度都收小了。那只黑猫也保持着那个姿势——尾巴悬在半空，没有落下。</div></div><div class="narration-block"><div class="bubble-text">房间里安静下来。</div></div><div class="narration-block"><div class="bubble-text">你侧过头，把耳朵朝向门的方向。</div></div><div class="narration-block"><div class="bubble-text">敲门声没有立刻响起。门外传来的是——呼吸声。粗重的，带着一种压抑的急促感。然后是脚步声，不是离开，而是在原地踱了一步。鞋底摩擦老旧地板的声音，嘎吱——停顿——嘎吱。</div></div><div class="narration-block"><div class="bubble-text">有人在门外站着。没有走。也没有再敲。</div></div><div class="narration-block"><div class="bubble-text">像是在等。</div></div><div class="narration-block"><div class="bubble-text">你感觉到自己的手指下意识地收紧了一下——那是你习惯性想要抓住某种可以当作武器的东西时，身体会做的准备动作。你压住了这个冲动，把注意力集中在听觉上。</div></div><div class="narration-block"><div class="bubble-text">走廊里传来另一个声音——很轻，像是布料摩擦墙壁的窸窣声。然后是一个人的低语，声音压得很低，听不清内容，但语气里有一种不耐烦的催促感。</div></div><div class="narration-block"><div class="bubble-text">之后是脚步声。两步，三步，然后转向——向楼梯的方向走去，逐渐变轻，最终消失在楼道深处。</div></div><div class="narration-block"><div class="bubble-text">安静了。</div></div><div class="narration-block"><div class="bubble-text">门外没有人了。</div></div><div class="narration-block"><div class="bubble-text">公寓里的光线又偏斜了一些。窗外晾衣绳上那件白衬衫的影子，在地板上缓缓移动了一小段距离。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">走到门边，从猫眼观察走廊</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">低声询问卡琳娜，她是否知道门外是谁</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">示意危机解除，回到刚才的问题，说出敏特的名字</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-15">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>15</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">低声询问卡琳娜，她是否知道门外是谁</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你压低声音，目光没有从门的方向移开。</div></div><div class="narration-block"><div class="bubble-text">&quot;你知道那是谁吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">你的声音很轻，几乎被窗外的风声盖过。那只黑猫的耳朵还在转动，琥珀色的瞳孔盯着门缝，尾巴尖微微绷直。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有立刻回答。</div></div><div class="narration-block"><div class="bubble-text">她站在矮桌旁，一只手的指尖还悬在搪瓷杯边缘。她看了你一眼——不是看向你的眼睛，而是看向你刚才做出噤声手势的那只手。然后她摇了摇头。</div></div><div class="narration-block"><div class="bubble-text">&quot;不确定。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音也压得很低，像是怕墙壁还有耳朵。</div></div><div class="narration-block"><div class="bubble-text">&quot;但在这个时间点，会在别人门口等那么久才走的——不是跑腿的就是探路的。&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，目光朝门的方向偏了偏。</div></div><div class="narration-block"><div class="bubble-text">&quot;凯旋门的人。我猜。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说这句话时的语气很平淡，像是在说&quot;今天可能会下雨&quot;。但她站在矮桌旁没有动，手指也没有再去碰那只搪瓷杯。</div></div><div class="narration-block"><div class="bubble-text">房间里安静了片刻。窗外的晾衣绳上，白衬衫的影子在地板上缓缓又移动了一小段距离。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">问卡琳娜，刚才门外那人会不会再回来</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问她是否认识门外那种脚步声或气息</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">建议离开这里，换个安全的地方谈</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">继续刚才的话题，说出敏特的名字</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-16">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>16</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-16-4">质量退化 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">继续刚才的话题，说出敏特的名字</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">“敏特。”</div></div><div class="narration-block"><div class="bubble-text">你说出这个名字的时候，声音比你自己预想的要轻一些。</div></div><div class="narration-block"><div class="bubble-text">像是怕太大声会把它震碎。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的蓝眼睛没有移开。她只是那样看着你，等着你把这话说完——像是这个词本身还不足以构成一张完整的牌，她还在等你把它按在桌面上。</div></div><div class="narration-block"><div class="bubble-text">你顿了一下，手指搭在相机的边缘上。</div></div><div class="narration-block"><div class="bubble-text">“她的名字是敏特。我们……一起在中东待过。那是几年前的事了。”</div></div><div class="narration-block"><div class="bubble-text">你没有说下去。但卡琳娜没有催促。她只是微微歪了歪头，马尾辫从肩上滑落，垂在白色棉衣的领口边。</div></div><div class="narration-block"><div class="bubble-text">“敏特。”她重复了一遍这个名字，语调平缓，像是在舌尖上称它的分量。</div></div><div class="narration-block"><div class="bubble-text">然后她沉默了片刻。窗外的光线又偏斜了一点，那件白衬衫的影子在地板上缓缓移动了一小段距离。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的尾巴垂在沙发靠背边缘，末端轻轻卷起，又落下。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光没有从你脸上移开。她似乎在权衡什么——不是权衡你说的话是真是假，而是权衡她自己要不要接住这个话题。</div></div><div class="narration-block"><div class="bubble-text">她开口了。</div></div><div class="narration-block"><div class="bubble-text">“所以，你是为了一个叫敏特的女孩，坐了跨洋的船，带着一张死人照片，走进了黑帮巡逻的巷子。”</div></div><div class="narration-block"><div class="bubble-text">她顿了顿。</div></div><div class="narration-block"><div class="bubble-text">“就因为你‘以为’她还活着。”</div></div><div class="narration-block"><div class="bubble-text">这句话里没有嘲讽。更像是一块石头被她翻过来，放在阳光下，让你也看一看它底下的纹路。</div></div><div class="narration-block"><div class="bubble-text">你刚要回答——</div></div><div class="narration-block"><div class="bubble-text">门外传来一阵急促的敲门声。</div></div><div class="narration-block"><div class="bubble-text">不是礼貌的叩门。</div></div><div class="narration-block"><div class="bubble-text">是指节砸在木门上的声音，短促，用力，带着一种不容等待的紧迫感。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">再次示意卡琳娜安静，自己起身靠近门边听动静</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">低声问卡琳娜：你现在有武器吗？”</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">指向窗户，压低声音问她：后路通哪里？”</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-16-4">
+  <div class="issue-head">
+    <strong>质量退化</strong>
+    <span>低 · T16 · choices</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>两个选项都留下未配对的右引号，属于玩家可见选项格式瑕疵。</dd>
+    <dt>当前证据</dt><dd>选项文本包含孤立右引号：&quot;低声问卡琳娜：你现在有武器吗？”&quot;、&quot;指向窗户，压低声音问她：后路通哪里？”&quot;。</dd>
+    <dt>冲突证据</dt><dd>同批次其他选项通常使用完整引号或不使用引号，例如 turn 17 的 &quot;低声问卡琳娜，刚才外面有几个人&quot;。</dd>
+    <dt>冲突轮次</dt><dd>T17</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-17">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>17</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">再次示意卡琳娜安静，自己起身靠近门边听动静</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的手指再次抬起，示意卡琳娜不要出声。</div></div><div class="narration-block"><div class="bubble-text">她没有动，甚至连呼吸的幅度都收紧了。那只黑猫的耳朵转向门口，琥珀色的瞳孔缩成竖线，尾巴悬在半空。</div></div><div class="narration-block"><div class="bubble-text">你从沙发上起身——动作很轻，鞋底落在木地板上几乎没有声响。</div></div><div class="narration-block"><div class="bubble-text">三步。你走到门边，侧过头，把耳朵贴近门缝。</div></div><div class="narration-block"><div class="bubble-text">门外没有敲门声。</div></div><div class="narration-block"><div class="bubble-text">但你听见了别的东西。</div></div><div class="narration-block"><div class="bubble-text">呼吸声。不是一个人的——至少两个。一个粗重，带着喘息的节奏；另一个更浅、更克制，像是刻意压低。</div></div><div class="narration-block"><div class="bubble-text">然后是脚步声。鞋底在老旧地板上摩擦的声音——极其轻微，但没有完全静止。</div></div><div class="narration-block"><div class="bubble-text">有人在门外站着。没有走。也没有再敲。</div></div><div class="narration-block"><div class="bubble-text">你感觉到自己的手指不自觉地收紧了一下。那是身体在提醒你——这是一个武器可及范围内的距离。</div></div><div class="narration-block"><div class="bubble-text">你压住了这个冲动。</div></div><div class="narration-block"><div class="bubble-text">门外传来一句低语——声音压得很低，像是喉音而不是完整的句子，听不清内容。但语气里有一种不耐烦的催促感。</div></div><div class="narration-block"><div class="bubble-text">之后是脚步声。两步，然后转向——向楼梯方向走去。</div></div><div class="narration-block"><div class="bubble-text">逐渐变轻。</div></div><div class="narration-block"><div class="bubble-text">消失在楼道深处。</div></div><div class="narration-block"><div class="bubble-text">安静了。</div></div><div class="narration-block"><div class="bubble-text">你站在原地，又等了几个呼吸的时间。确认没有折返的动静。</div></div><div class="narration-block"><div class="bubble-text">公寓里的光线又偏斜了一寸。窗外晾衣绳上那件白衬衫的影子，在地板上缓缓移动了一小段距离。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">低声问卡琳娜，刚才外面有几个人</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">检查门锁是否牢固</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">转身回到座位，继续刚才的话题</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-18">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>18</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">检查门锁是否牢固</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你把手掌贴在门板上，指腹从铰链处沿着门框边缘缓缓向下滑，最终停在锁扣的位置。</div></div><div class="narration-block"><div class="bubble-text">铁质锁舌卡入门框的声音很轻——但你确认它确实是卡紧的。老旧的木门，锁具却是后换的，做工扎实。你把指尖抵在锁面上，轻轻推了一把，纹丝不动。</div></div><div class="narration-block"><div class="bubble-text">你站在原地，又等了三个呼吸的时间。</div></div><div class="narration-block"><div class="bubble-text">走廊里没有声音。没有呼吸声，没有脚步声，没有布料摩擦墙壁的窸窣声。</div></div><div class="narration-block"><div class="bubble-text">你转过身。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜还站在矮桌旁，姿势几乎没有变过。但她的手已经从搪瓷杯边沿移开了——双臂交叠在胸前，蓝眼睛正看着你。</div></div><div class="narration-block"><div class="bubble-text">&quot;锁上了？&quot;</div></div><div class="narration-block"><div class="bubble-text">她的语气不像是在确认事实，更像是在确认你会给出什么答案。</div></div><div class="narration-block"><div class="bubble-text">你没回答，只是点了点头。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的视线在你脸上停留了片刻，然后她垂下目光，像是在权衡什么。那只黑猫的尾巴从沙发靠背边缘垂下，末端轻轻卷起，又落下。</div></div><div class="narration-block"><div class="bubble-text">&quot;刚才——那是第二次了。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说这句话的时候，语气依然平淡，但咬字比刚才清晰了一些。</div></div><div class="narration-block"><div class="bubble-text">&quot;一次可以是巧合。两次……就不是了。&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起头，蓝眼睛重新看向你。</div></div><div class="narration-block"><div class="bubble-text">&quot;所以——如果你还想继续那个话题，也许你得说得快一点了。&quot;</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">告诉她敏特的事，简短说</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">反问卡琳娜：你觉得他们是冲你来的，还是冲我来的？</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">拿出相机检查窗外和走廊是否有可疑动静</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-19">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>19</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">告诉她敏特的事，简短说</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你站在门边，确认锁舌卡紧后转过身来。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜双臂交叠在胸前，蓝眼睛正看着你。</div></div><div class="narration-block"><div class="bubble-text">&quot;锁上了？&quot;</div></div><div class="narration-block"><div class="bubble-text">她的语气平淡，不像是在确认事实，更像是在确认你会给出什么答案。你没回答，只是点了点头。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的尾巴从沙发靠背边缘垂下，末端轻轻卷起，又落下。</div></div><div class="narration-block"><div class="bubble-text">你开口了，声音压得很低。</div></div><div class="narration-block"><div class="bubble-text">&quot;敏特。她的名字是敏特。&quot;</div></div><div class="narration-block"><div class="bubble-text">你顿了顿。说出这个名字的时候，喉咙里有一种干涩的感觉——像是太久没有提过，声音已经不习惯这个音节的组合了。</div></div><div class="narration-block"><div class="bubble-text">&quot;我们……在中东认识的。她是当地人。我教过她一些东西——怎么应付各路人马，怎么看穿谎言。&quot;</div></div><div class="narration-block"><div class="bubble-text">你停了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;后来她死了。我亲眼看着她死的。&quot;</div></div><div class="narration-block"><div class="bubble-text">你说完这句话之后，房间里安静了大约两次呼吸的时间。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有移开视线。她的手依然交叠在胸前，但她的呼吸节奏似乎放缓了一些——像是在消化你扔在桌面上的这张牌。</div></div><div class="narration-block"><div class="bubble-text">&quot;所以你收到了一张死人的照片。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音比刚才轻了一点，但语调依然平稳得像是在陈述一个数学公式。</div></div><div class="narration-block"><div class="bubble-text">&quot;然后你就相信她还活着。&quot;</div></div><div class="narration-block"><div class="bubble-text">这不像是一个问题。更像是一面镜子，放在你面前，让你看看自己映在上面的倒影。</div></div><div class="narration-block"><div class="bubble-text">你刚要开口——</div></div><div class="narration-block"><div class="bubble-text">门外传来一阵急促的敲门声。</div></div><div class="narration-block"><div class="bubble-text">不是礼貌的叩门。是指节砸在木门上的声音——短促，用力，带着一种不容等待的紧迫感。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的手指猛地收紧了一下。她的蓝眼睛里闪过一丝冷光——不是恐惧，更像是被人踩到了某种底线之后的本能反应。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的耳朵向后压平，喉咙里发出一声极低极沉的咕噜声。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">示意卡琳娜冷静，走到门边再次确认动静</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">压低声音问卡琳娜，她现在想怎么做</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">把相机背好，准备应对突发状况</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">继续刚才的话题，把敏特的事情说完</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-20">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>20</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-medium" href="#issue-20-5">事实冲突 · 中</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">把相机背好，准备应对突发状况</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你垂下目光，指尖触到相机背带的边缘。</div></div><div class="narration-block"><div class="bubble-text">手腕一转——带子收紧，机身贴着肋骨扣稳。</div></div><div class="narration-block"><div class="bubble-text">你的右手顺势垂下，落在腰侧的高度。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的蓝眼睛跟着你的动作移动了一下——没有提问，没有催促，只是把目光从你脸上移到了门的方向。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的尾巴从沙发靠背边缘垂下来，末端轻轻卷起，又落下。</div></div><div class="narration-block"><div class="bubble-text">安静了大约两次呼吸。</div></div><div class="narration-block"><div class="bubble-text">然后门外响起了第三次敲门声。</div></div><div class="narration-block"><div class="bubble-text">不是之前那种短促、用力的指节砸击。而是——手掌拍在门板上的声音，带着喘息，断断续续，像是敲门的人刚跑完很远的路。</div></div><div class="narration-block"><div class="bubble-text">然后是声音。男人的声音，哑着嗓子，带着一种压不住的急促：</div></div><div class="narration-block"><div class="bubble-text">&quot;卡琳娜！卡琳娜——你在里面吗？是我——德索洛！&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的眉头微微皱了一下。</div></div><div class="narration-block"><div class="bubble-text">不是恐惧。也不是困惑。更像是一种——被人打断了某种她不希望被打断的事之后的不悦。</div></div><div class="narration-block"><div class="bubble-text">她的手从胸前放下来，垂在身侧。指尖没有握紧，但也没有放松。</div></div><div class="narration-block"><div class="bubble-text">&quot;德索洛。&quot;</div></div><div class="narration-block"><div class="bubble-text">她重复了一遍这个名字，语调平平的，像是在确认一块硬币的正反面。</div></div><div class="narration-block"><div class="bubble-text">然后她转过头，蓝眼睛看向你。</div></div><div class="narration-block"><div class="bubble-text">&quot;你站到那边去。别出声。&quot;</div></div><div class="narration-block"><div class="bubble-text">她没有等你回答——她已经转身向门走去。</div></div><div class="narration-block"><div class="bubble-text">她的脚步很轻，但步伐笃定，像是这条路她已经走过太多次了。</div></div><div class="narration-block"><div class="bubble-text">门锁转动的声音。老旧的门轴发出轻微的摩擦声。</div></div><div class="narration-block"><div class="bubble-text">门被拉开了一条缝——卡琳娜没有把门完全打开。她的身体挡在门缝里，金色马尾辫垂在肩侧，蓝眼睛看着门外的人。</div></div><div class="narration-block"><div class="bubble-text">&quot;德索洛先生。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音平静，带着一种恰到好处的距离感。</div></div><div class="narration-block"><div class="bubble-text">&quot;这个时间——你不应该在这里。&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;我知道——我知道——但是我——&quot;</div></div><div class="narration-block"><div class="bubble-text">门外男人的喘息声很重。你听见他的鞋底在地板上蹭了一下——像是站不稳。</div></div><div class="narration-block"><div class="bubble-text">&quot;我需要你的帮助。求你了——卡琳娜——&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜沉默了片刻。</div></div><div class="narration-block"><div class="bubble-text">然后她退后一步——把门拉开了。</div></div><div class="narration-block"><div class="bubble-text">一个穿着白色西装的男人踉跄着冲进门来。</div></div><div class="narration-block"><div class="bubble-text">他的年纪大约五十岁出头，茶色的头发被汗水粘在额头上，脸色是一种不健康的潮红。那件白西装在腋窝和后背的位置洇着深色的汗渍——在这个天气里，他看起来像是刚从水里捞出来的。</div></div><div class="narration-block"><div class="bubble-text">他进门之后没有站直。他的膝盖弯了一下——然后整个人矮了下去。</div></div><div class="narration-block"><div class="bubble-text">他跪在了卡琳娜面前。</div></div><div class="narration-block"><div class="bubble-text">不是单膝。是双膝。</div></div><div class="narration-block"><div class="bubble-text">他低着头，额头几乎要碰到地板，双手撑在膝盖两侧的旧木地板上，肩膀在发抖。</div></div><div class="narration-block"><div class="bubble-text">&quot;他们——凯旋门那帮畜生——他们把安吉拉的舌头割了——&quot;</div></div><div class="narration-block"><div class="bubble-text">他的声音在最后几个字上碎了一下。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜低头看着他。</div></div><div class="narration-block"><div class="bubble-text">她没有伸手去扶他。</div></div><div class="narration-block"><div class="bubble-text">她只是站在那里——站在那件白衬衫影子移动到墙角的旧地板上，蓝眼睛平静地垂视着跪在她面前的男人。</div></div><div class="narration-block"><div class="bubble-text">安静了很久。</div></div><div class="narration-block"><div class="bubble-text">&quot;德索洛先生。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音比刚才轻了一些，但咬字很清楚。</div></div><div class="narration-block"><div class="bubble-text">&quot;我们有多久没见了？&quot;</div></div><div class="narration-block"><div class="bubble-text">德索洛的肩膀又抖了一下。他没有抬头。</div></div><div class="narration-block"><div class="bubble-text">&quot;我——我知道——我这些年——&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;你没有邀请过我。哪怕一顿饭，一杯咖啡——&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了顿。</div></div><div class="narration-block"><div class="bubble-text">&quot;你不想和我扯上关系。你清楚得很。&quot;</div></div><div class="narration-block"><div class="bubble-text">德索洛的双手在地板上攥成了拳头。</div></div><div class="narration-block"><div class="bubble-text">&quot;我只是不想卷入你们的纷争——我只是——&quot;</div></div><div class="narration-block"><div class="bubble-text">他的声音断了。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜沉默了很长一段时间。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫从沙发上跳下来，踩着无声的步子走到卡琳娜脚边，尾巴绕着她的脚踝扫了一圈，然后蹲坐在她身旁。</div></div><div class="narration-block"><div class="bubble-text">&quot;那你现在为什么来了？&quot;</div></div><div class="narration-block"><div class="bubble-text">她的语气依然平淡，但那句话的重量沉甸甸的。</div></div><div class="narration-block"><div class="bubble-text">德索洛的额头几乎贴着地板。</div></div><div class="narration-block"><div class="bubble-text">&quot;因为——除了你——没有人会帮我了。&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有回答。</div></div><div class="narration-block"><div class="bubble-text">她垂下目光，看着跪在她脚边的男人。那只黑猫的尾巴在地板上轻轻拍了一下。</div></div><div class="narration-block"><div class="bubble-text">然后卡琳娜伸出了她的左手。</div></div><div class="narration-block"><div class="bubble-text">很白。很纤细。骨节分明。</div></div><div class="narration-block"><div class="bubble-text">她把手伸到了德索洛面前——手背向上，手指微微松开。</div></div><div class="narration-block"><div class="bubble-text">&quot;你知道规矩。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音平静得像在陈述一杯茶的温度。</div></div><div class="narration-block"><div class="bubble-text">德索洛抬起头。</div></div><div class="narration-block"><div class="bubble-text">他的脸上全是汗。眼眶发红。嘴唇在发抖。</div></div><div class="narration-block"><div class="bubble-text">他伸出手——那只手也在抖——握住了卡琳娜的指尖。</div></div><div class="narration-block"><div class="bubble-text">然后他把头低了下去。低过她的手。低过他的膝盖。低到额头几乎触及她皮鞋的鞋尖。</div></div><div class="narration-block"><div class="bubble-text">&quot;卡琳娜阁下。&quot;</div></div><div class="narration-block"><div class="bubble-text">房间里安静了三秒。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的蓝眼睛里闪过一丝极其细微的变化——不是满意——更像是一块拼图，落进了它该在的位置。</div></div><div class="narration-block"><div class="bubble-text">她没有立刻收回手。她让德索洛的手握着她的指尖，让那个姿势维持了足够长的时间。</div></div><div class="narration-block"><div class="bubble-text">然后她轻轻抽回了手。</div></div><div class="narration-block"><div class="bubble-text">&quot;安吉拉的事——你确定是凯旋门？&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;我——我查过了——他们骗她说他们是正规公司——他们——&quot;</div></div><div class="narration-block"><div class="bubble-text">他的声音又碎了。</div></div><div class="narration-block"><div class="bubble-text">&quot;你的女儿——誓死抵抗了对吧。&quot;</div></div><div class="narration-block"><div class="bubble-text">德索洛猛地抬起头，看着卡琳娜。</div></div><div class="narration-block"><div class="bubble-text">&quot;你怎么知道——&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;她保住了名节，但舌头被割了。&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的语气依然是平静的。</div></div><div class="narration-block"><div class="bubble-text">&quot;你报警了，警局是凯旋门的人。你什么都查不到。&quot;</div></div><div class="narration-block"><div class="bubble-text">德索洛张了张嘴，什么声音都没发出来。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜从口袋里取出一个信封——牛皮纸，没有任何标记。</div></div><div class="narration-block"><div class="bubble-text">她把它捏在指尖，悬在德索洛面前。</div></div><div class="narration-block"><div class="bubble-text">&quot;这里面是凶手的信息。&quot;</div></div><div class="narration-block"><div class="bubble-text">德索洛的眼睛盯着那个信封，像是盯着一块烧红的铁。</div></div><div class="narration-block"><div class="bubble-text">&quot;以我的名义——这件事会往前推进。&quot;</div></div><div class="narration-block"><div class="bubble-text">她把信封放进德索洛颤抖的手里。</div></div><div class="narration-block"><div class="bubble-text">&quot;你不需要知道过程。你只要知道——事情会办妥。&quot;</div></div><div class="narration-block"><div class="bubble-text">德索洛握着信封，手指攥得关节发白。</div></div><div class="narration-block"><div class="bubble-text">他张了好几次嘴，最后挤出一句沙哑的声音：</div></div><div class="narration-block"><div class="bubble-text">&quot;谢谢——谢谢阁下——&quot;</div></div><div class="narration-block"><div class="bubble-text">他撑着地板站起来。动作很笨拙——膝盖像是使不上力。</div></div><div class="narration-block"><div class="bubble-text">他站在门口，又回头看了卡琳娜一眼，嘴唇翕动了片刻，最终什么也没说。</div></div><div class="narration-block"><div class="bubble-text">他拉开门，踉跄着走进了走廊。</div></div><div class="narration-block"><div class="bubble-text">脚步声沿着楼梯向下——逐渐变轻——消失在楼道深处。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜关上门。</div></div><div class="narration-block"><div class="bubble-text">锁舌卡进门框的声音清脆而笃定。</div></div><div class="narration-block"><div class="bubble-text">她站在门边，背对着你，一只手还搭在锁扣上。那只黑猫走过来，用额头蹭了蹭她垂着的手腕。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有动。她沉默了好一会儿。</div></div><div class="narration-block"><div class="bubble-text">然后她转过身来，蓝眼睛看向你——表情平静，看不出情绪。</div></div><div class="narration-block"><div class="bubble-text">&quot;抱歉打断了你。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音恢复了之前那种平淡的节奏。</div></div><div class="narration-block"><div class="bubble-text">&quot;我们刚才说到哪儿了？&quot;</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">接上刚才的话，继续告诉她敏特的事</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问她关于德索洛和凯旋门的事</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问她刚才门口两次敲门的事是否有关联</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-medium" id="issue-20-5">
+  <div class="issue-head">
+    <strong>事实冲突</strong>
+    <span>中 · T20 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>玩家刚要应对第三次敲门，下一轮却把这次敲门的声源和质感从短促用力的指节敲击改写成喘息的手掌拍门，导致同一即时事件的感知证据前后不一致。</dd>
+    <dt>当前证据</dt><dd>turn 20 写道：&quot;然后门外响起了第三次敲门声。不是之前那种短促、用力的指节砸击。而是——手掌拍在门板上的声音，带着喘息，断断续续。&quot;</dd>
+    <dt>冲突证据</dt><dd>turn 19 已经触发同一次当前危机：&quot;门外传来一阵急促的敲门声。不是礼貌的叩门。是指节砸在木门上的声音——短促，用力，带着一种不容等待的紧迫感。&quot;</dd>
+    <dt>冲突轮次</dt><dd>T19</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-21">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>21</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">接上刚才的话，继续告诉她敏特的事</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">卡琳娜转身从门边走回矮桌旁。她的脚步比之前轻了一些，那只黑猫跟在她脚边，走到沙发靠垫的凹陷处时一跃而上，蜷起身子，尾巴搭在边缘。</div></div><div class="narration-block"><div class="bubble-text">“抱歉打断了你。我们刚才说到哪儿了？”</div></div><div class="narration-block"><div class="bubble-text">她的声音恢复了之前那种平淡的节奏，但你注意到她坐下来的时候，手指轻轻搭在搪瓷杯的边沿上，没有握紧——是一种放松的姿态，比德索洛进来之前更放松。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的尾巴在沙发靠背边缘卷起又落下。窗外的光线又偏斜了一点——午后正在向黄昏过渡。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜微微歪了歪头，蓝眼睛看着你，没有催促，只是等着。像是在说：那块石头你还没翻完。</div></div><div class="narration-block"><div class="bubble-text">你开口了。</div></div><div class="narration-block"><div class="bubble-text">“敏特刚开始的时候——她讨厌我们。”</div></div><div class="narration-block"><div class="bubble-text">“她管我们叫‘闻到血腥味的鲨鱼’。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的眉毛微微动了一下——不是惊讶，更像是在脑子里给这个词找了个槽位。</div></div><div class="narration-block"><div class="bubble-text">“战区的小孩。附近的人带着钱和行李跑，能跑多远跑多远。但她是那种——朝炮火的方向往回走的人。”</div></div><div class="narration-block"><div class="bubble-text">你顿了顿。</div></div><div class="narration-block"><div class="bubble-text">“她的家人在很小的时候就带她逃出去了。在国外长大。战争又打起来的时候，她选择回去——回到那片她几乎不记得的故土，帮她同胞。”</div></div><div class="narration-block"><div class="bubble-text">你垂下目光。</div></div><div class="narration-block"><div class="bubble-text">“我们带的物资比枪多。自费的。穿越封锁线进去的。她看到我们不是来捞新闻的——态度才慢慢变了。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有打断你。她的手指仍然搭在搪瓷杯边沿上，指尖没有移动，但她的注意力全在你脸上。</div></div><div class="narration-block"><div class="bubble-text">“我教过她一些东西——怎么看穿对面的话术，怎么判断一个拦路的人是想要钱还是想要命。但她更想学的是另一件事。”</div></div><div class="narration-block"><div class="bubble-text">你停了一下。</div></div><div class="narration-block"><div class="bubble-text">“怎么用枪。”</div></div><div class="narration-block"><div class="bubble-text">窗外的风从晾衣绳下穿过，那件白衬衫的衣摆轻轻晃了一下。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音比刚才轻了一点：“她学了？”</div></div><div class="narration-block"><div class="bubble-text">“她学得很快。”你说。</div></div><div class="narration-block"><div class="bubble-text">“比我见过的任何人都快。”</div></div><div class="narration-block"><div class="bubble-text">房间里安静了片刻。卡琳娜的蓝眼睛没有移开，但她的呼吸节奏放缓了一点——像是在心里数着棋盘上的空格。</div></div><div class="narration-block"><div class="bubble-text">“所以你教了一个渴望复仇的女孩怎么杀人。然后她死了。然后你收到她的照片。然后你来到了这里。”</div></div><div class="narration-block"><div class="bubble-text">她的语气不是质问。更像是一个人在把几块碎片摆到桌面上，看看它们能不能拼起来。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>anchor:a_kalqJ8iwKWRh</small></div><div class="bubble-text">继续讲完敏特的故事</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">反问卡琳娜：你怎么看敏特这种人？</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">把话题拉回正题：你知道她在新西西里吗？</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">沉默片刻，观察卡琳娜的反应</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-22">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>22</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">继续讲完敏特的故事</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你开口了。声音比刚才低了一些——像是那些话从很深的地方提上来，需要一点力气。</div></div><div class="narration-block"><div class="bubble-text">&quot;她学得很快。比我见过的任何人都快。&quot;</div></div><div class="narration-block"><div class="bubble-text">你顿了顿。窗外的风吹动晾衣绳上那件白衬衫的衣摆，影子在地板上轻轻晃了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;但她学会之后——她就变了。&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有打断你。她的手指仍然搭在搪瓷杯边沿上，蓝眼睛没有移开，只是等着。</div></div><div class="narration-block"><div class="bubble-text">&quot;她开始主动接那些危险的任务。一个人去侦察。在夜间摸进对方的补给线。她像是——在找什么东西。或者某个人。&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;你有问过她在找什么吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;问过。她说等结束后再告诉我。&quot;</div></div><div class="narration-block"><div class="bubble-text">你的声音在最后几个字上轻了一些。</div></div><div class="narration-block"><div class="bubble-text">&quot;最后那次——她没告诉任何人她要去哪儿。她只留了一张纸条。上面写着——&#39;如果我没有回来，不要来找我。&#39;&quot;</div></div><div class="narration-block"><div class="bubble-text">安静了。卡琳娜的蓝眼睛里有一丝极其细微的变化——不是同情，更像是一个人看到棋局上一步她没有想到的走法。</div></div><div class="narration-block"><div class="bubble-text">&quot;我们去找她了。找到她的时候——她已经死了。&quot;</div></div><div class="narration-block"><div class="bubble-text">你没有移开视线。你说这句话的时候，喉咙里那种干涩的感觉又回来了。</div></div><div class="narration-block"><div class="bubble-text">&quot;身上有枪伤。她一个人——面对至少六个人。&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;她赢了？&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;赢了。但她没有离开那个房间。&quot;</div></div><div class="narration-block"><div class="bubble-text">你停了很久。</div></div><div class="narration-block"><div class="bubble-text">&quot;我到的时候——她还睁着眼睛。我抱着她。她在我怀里——&quot;</div></div><div class="narration-block"><div class="bubble-text">你的手停了一下。不是颤抖。是一种更深的停顿——像是那段记忆的面孔压在你喉咙上，让你需要一次呼吸才能继续。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫从沙发靠垫上抬起头，琥珀色的瞳孔看着你。它的尾巴在边缘垂着，没有动。</div></div><div class="narration-block"><div class="bubble-text">&quot;所以——是的。我亲眼看着她死的。&quot;</div></div><div class="narration-block"><div class="bubble-text">你说完这句话之后，房间里安静了很长一段时间。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有立刻说话。她低头看着搪瓷杯里微微晃动的水面。那件白衬衫的影子已经移到了墙角，光线正在向更深的颜色过渡。</div></div><div class="narration-block"><div class="bubble-text">然后她抬起头——蓝眼睛平静地平视着你。</div></div><div class="narration-block"><div class="bubble-text">&quot;所以你带着一张死人的照片，跨过大洋，来到一个你一无所知的地方——因为她可能还活着。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的语气不是嘲笑。不是评判。只是一面镜子，放在你面前。</div></div><div class="narration-block"><div class="bubble-text">沙发靠垫上，那只黑猫发出一声低低的呼噜声——像是某种打断，又像是提醒。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光从你脸上移开，转向那只黑猫。她看了它一眼，然后重新看向你。</div></div><div class="narration-block"><div class="bubble-text">&quot;那张照片——能让我看看吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音比刚才轻了一点，但咬字依然清楚。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">把照片递给她看</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">简单描述一下照片内容</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">反问一句为什么想看看照片</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-23">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>23</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">反问一句为什么想看看照片</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你看着她的蓝眼睛，没有立刻把手伸进口袋。</div></div><div class="narration-block"><div class="bubble-text">“为什么想看？”</div></div><div class="narration-block"><div class="bubble-text">你问得很轻。不是拒绝——更像是想在她伸手之前，先知道那一步会踩在什么地方。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的手指依然搭在搪瓷杯边沿上，没有移开。她的蓝眼睛在你脸上停了一瞬——然后微微垂下目光，像是在整理手里那副牌的排列顺序。</div></div><div class="narration-block"><div class="bubble-text">“因为我想看看——”</div></div><div class="narration-block"><div class="bubble-text">她顿了顿。窗外的风从晾衣绳下穿过，那件白衬衫的衣摆在地板上投下的影子晃动了一下。</div></div><div class="narration-block"><div class="bubble-text">“——一个让你跨过大洋、冒险踏入新西西里的死人，长什么样。”</div></div><div class="narration-block"><div class="bubble-text">她的语气没有温度，但也没有嘲讽。更像是一个人在拆一件她不熟悉的机械装置之前，先确认工具的位置。</div></div><div class="narration-block"><div class="bubble-text">“你刚才说了很多关于她的事。你说她讨厌记者，学会了用枪，自己接危险的任务，留了一张纸条——”</div></div><div class="narration-block"><div class="bubble-text">她的蓝眼睛重新看向你。</div></div><div class="narration-block"><div class="bubble-text">“但你还没告诉我——她长什么样。”</div></div><div class="narration-block"><div class="bubble-text">她的头微微歪了一点——那个角度让你想起她在巷口喝止那三个男人之前的样子。不是戒备。是好奇。</div></div><div class="narration-block"><div class="bubble-text">“照片是把一个已经合上的故事重新翻开的方式。如果你带着它走了这么远——那它应该是一张很重要的照片。”</div></div><div class="narration-block"><div class="bubble-text">她说完这句话之后，没有继续催促。她只是坐在那里，蓝眼睛平静地平视着你，指尖搭在搪瓷杯边沿上，等着。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">从口袋里取出照片，递给她</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问她为什么觉得照片会这么重要</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">没有点头，只是看着她的眼睛，手依然留在口袋里</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">告诉她照片里的敏特穿着什么、站在哪里</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-24">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>24</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-24-6">事实冲突 · 低</a><a class="issue-pill severity-medium" href="#issue-24-7">无支撑跳跃 · 中</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">没有点头，只是看着她的眼睛，手依然留在口袋里</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你没有点头。</div></div><div class="narration-block"><div class="bubble-text">你的手依然留在口袋里，指尖隔着布料触到照片边缘的触感——那种你已经熟悉到可以闭着眼睛描出它轮廓的温度。</div></div><div class="narration-block"><div class="bubble-text">你看着她的蓝眼睛。没有拒绝的动作，也没有顺从的动作。只是一只手留在口袋里，视线没有移开。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的睫毛没有眨动。她看着你，像在等一个句子的后半段自然浮现。</div></div><div class="narration-block"><div class="bubble-text">“你不想给我看？”</div></div><div class="narration-block"><div class="bubble-text">她问得很轻，没有失望，也没有催促。更像是确认风向。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫从沙发靠垫上站起来，前爪踩了踩垫子的凹陷，然后跳下来，无声地落在旧木地板上。它没有走向卡琳娜，也没有走向你——它在两者之间的位置蹲坐下来，尾巴绕在前爪上，琥珀色的瞳孔看着你们两个。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光落在那只黑猫身上一瞬，然后重新抬起看向你。她微微歪了歪头——那个角度里没有不满，更像是她在重新评估面前的这张牌桌。</div></div><div class="narration-block"><div class="bubble-text">“行。”</div></div><div class="narration-block"><div class="bubble-text">她的语气平淡，像是把一件没必要争的事放下了。</div></div><div class="narration-block"><div class="bubble-text">“等你觉得该给我看的时候——再说。”</div></div><div class="narration-block"><div class="bubble-text">她伸手拿起桌上的搪瓷杯，喝了一口已经凉掉的水，然后把杯子放回原位。动作很轻，没有多余的声音。</div></div><div class="narration-block"><div class="bubble-text">窗外那件白衬衫的影子又偏斜了一点——光线正在从午后过渡到傍晚的途中。</div></div><div class="narration-block"><div class="bubble-text">“我的邀请仍然有效。”</div></div><div class="narration-block"><div class="bubble-text">她说这句话的时候，蓝眼睛没有看你——她正低头看着那只黑猫，指尖轻轻碰了碰它的耳尖。</div></div><div class="narration-block"><div class="bubble-text">“今晚凯旋门那边有个晚宴。你如果愿意来——就跟我一起出门。”</div></div><div class="narration-block"><div class="bubble-text">她抬起头，目光平静地平视着你。</div></div><div class="narration-block"><div class="bubble-text">“你留在这里反而更危险。谁都有可能来找你的麻烦——但晚宴上，康纳不会动手。”</div></div><div class="narration-block"><div class="bubble-text">她的语气像是在陈述一张已经印好的车票条款。</div></div><div class="narration-block"><div class="bubble-text">“如果你不想来——也没关系。门没有锁。”</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">接受邀请，跟她去晚宴</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">拒绝邀请，留在公寓里</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">拿出照片，递给她看</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">问她关于晚宴的更多细节</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-24-6">
+  <div class="issue-head">
+    <strong>事实冲突</strong>
+    <span>低 · T24 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>门此前刚被明确锁上，之后没有可见开锁动作，却被说成没有锁，造成局部物件状态冲突。</dd>
+    <dt>当前证据</dt><dd>卡琳娜说：“如果你不想来——也没关系。门没有锁。”</dd>
+    <dt>冲突证据</dt><dd>第 18 轮玩家检查门锁，确认“铁质锁舌卡入门框”“它确实是卡紧的”；第 20 轮德索洛离开后，“卡琳娜关上门。锁舌卡进门框的声音清脆而笃定。”</dd>
+    <dt>冲突轮次</dt><dd>T18、T20</dd>
+  </dl>
+</article><article class="issue-card severity-medium" id="issue-24-7">
+  <div class="issue-head">
+    <strong>无支撑跳跃</strong>
+    <span>中 · T24 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>晚宴路线被说成一个仍然有效的既有邀请，但此前玩家只看到过去公寓的邀请，没有看到晚宴邀请被提出。</dd>
+    <dt>当前证据</dt><dd>卡琳娜说：“我的邀请仍然有效。”随后才首次说明“今晚凯旋门那边有个晚宴。你如果愿意来——就跟我一起出门。”</dd>
+    <dt>冲突证据</dt><dd>窗口内此前没有玩家可见的晚宴邀请；可见的既有邀请是第 9 轮“跟上卡琳娜，接受她的邀请去公寓”，且该邀请已在第 11 轮进入公寓后完成。</dd>
+    <dt>冲突轮次</dt><dd>T9、T11、T23</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-25">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>25</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">拿出照片，递给她看</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你没有说话。</div></div><div class="narration-block"><div class="bubble-text">手指从口袋里缓缓抽出——指尖夹着一张照片的边缘。相纸的触感已经变得柔软，带着体温和反复摩挲留下的痕迹。</div></div><div class="narration-block"><div class="bubble-text">你把它递过去。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的蓝眼睛从你的脸上落到你的手上，再落到那张照片上。</div></div><div class="narration-block"><div class="bubble-text">她没有立刻伸手接。她的目光在照片的边缘停顿了一瞬——像是确认那东西真的存在——然后她伸出了手。</div></div><div class="narration-block"><div class="bubble-text">她的指尖很白，骨节分明。她捏住照片的一角，动作比你以为的要轻——像是怕在相纸上留下指纹。</div></div><div class="narration-block"><div class="bubble-text">她把照片拿到了窗边。</div></div><div class="narration-block"><div class="bubble-text">窗外的光线已经偏斜得很厉害了——午后的白光正变成一种带灰的暖色。那件白衬衫的影子几乎移到了墙角，在地板上投下一道瘦长的暗影。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜站在那片即将消逝的光里，低着头，看着你递给她的那张照片。</div></div><div class="narration-block"><div class="bubble-text">“……敏特。”</div></div><div class="narration-block"><div class="bubble-text">她的声音很轻。不是提问。是确认——像一个人在一个陌生的地方，叫出一个她以为自己不会再见到的名字。</div></div><div class="narration-block"><div class="bubble-text">她的拇指轻轻划过照片边缘，动作很慢，像是在读取什么只有她看得见的纹理。</div></div><div class="narration-block"><div class="bubble-text">“……原来你长这样。”</div></div><div class="narration-block"><div class="bubble-text">她说这句话的时候，语气里没有温度。但也没有距离感。更像是自言自语——说给照片里的人听，而不是说给你听。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫蹲在她的脚边，琥珀色的瞳孔仰头看着照片的白底。它的尾巴在地板上轻轻扫了一下。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有立刻把照片还给你。</div></div><div class="narration-block"><div class="bubble-text">她站在那里，直到窗外最后一缕带暖色的光从相纸上滑落，落到地板上，变成一道更暗的影子。</div></div><div class="narration-block"><div class="bubble-text">然后她转过身，蓝眼睛看向你。</div></div><div class="narration-block"><div class="bubble-text">“你拍的吗？”</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">回答她：是我拍的。在你来新西西里之前，她也是这个发型吗？</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">点头承认，然后问她：你认识她？</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">没有立刻回答，看着她的眼睛，等她说出更多关于敏特的事</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">伸过手，示意她把照片还给你，暂时不想继续这个话题</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-26">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>26</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">回答她：是我拍的。在你来新西西里之前，她也是这个发型吗？</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">&quot;是我拍的。&quot;</div></div><div class="narration-block"><div class="bubble-text">你说这句话的时候，目光还落在她指尖捏着的照片边缘上。那只黑猫蹲在她脚边，尾巴尖轻轻卷起又松开——像在等待什么。</div></div><div class="narration-block"><div class="bubble-text">&quot;在你来新西西里之前——她也是这个发型吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的蓝眼睛从照片上抬起来，看向你。她没有立刻回答，而是把照片重新拿到眼前，目光在相纸上停留了片刻——像是在用视线描摹那道轮廓，与记忆中的某张面孔做比对。</div></div><div class="narration-block"><div class="bubble-text">窗外的光线又暗了一分。她的脸在逆光中镀上一层暗淡的金色边缘，瞳孔里映出相纸的白边。</div></div><div class="narration-block"><div class="bubble-text">&quot;不是。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音很轻，但没有犹豫。</div></div><div class="narration-block"><div class="bubble-text">&quot;我知道她的时候——她已经是短发了。剪得很短。比照片上还要短。&quot;</div></div><div class="narration-block"><div class="bubble-text">她用拇指轻轻擦过相纸的一角，像是在确认那个细节的轮廓。</div></div><div class="narration-block"><div class="bubble-text">&quot;她说长头发容易被人抓住。在暗处不方便。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的语气平静，像在陈述一件她已经见过的事实。那只黑猫蹲在她的脚边，琥珀色的瞳孔始终没有离开相纸的方向——像是它也认得那张面孔。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜抬起头，蓝眼睛重新看向你。</div></div><div class="narration-block"><div class="bubble-text">&quot;你拍这张照片的时候，她的头发还没剪。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的语气不是提问——更像是在把那块拼图放在桌上，等着看你能不能接住。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">确认她见过敏特</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问她和敏特怎么认识的</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问她敏特来新西西里做什么</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">沉默地收回照片</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-27">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>27</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-medium" href="#issue-27-8">重复演出 · 中</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">确认她见过敏特</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">不是。</div></div><div class="narration-block"><div class="bubble-text">她的回答比上一次更短。蓝眼睛没有从照片上移开，但她的指尖在相纸边缘停顿了一瞬——像是那句话出口之前，她已经知道它会带来什么。</div></div><div class="narration-block"><div class="bubble-text">我知道她的时候——她已经是短发了。比这张照片上还要短。</div></div><div class="narration-block"><div class="bubble-text">她的拇指轻轻擦过照片边缘，动作很慢。窗外的光线又暗了一分，逆光中她的轮廓更清晰了，但表情反而更难读。</div></div><div class="narration-block"><div class="bubble-text">她说长头发容易被人抓住。在暗处不方便。</div></div><div class="narration-block"><div class="bubble-text">她的语气依然平静——像在陈述一件她已经亲眼见过的事实。但那个句子本身，像一块拼图落在桌面上：她见过敏特。不是在别人口中听说，不是在纸上读到——是面对面。</div></div><div class="narration-block"><div class="bubble-text">你看着她的蓝眼睛从照片上抬起来，重新看向你。</div></div><div class="narration-block"><div class="bubble-text">我见过她。</div></div><div class="narration-block"><div class="bubble-text">她说完这句话之后停顿了一下——不是犹豫，更像是在等那个句子在空气中落稳，才让下一句出口。</div></div><div class="narration-block"><div class="bubble-text">就在新西西里。几个月前。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫蹲在她脚边，琥珀色的瞳孔从相纸移到你的脸上，然后又移回去。尾巴在地板上轻轻扫了一下——像在标记另一个拼图的位置。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光没有移开。她的蓝眼睛在越来越暗的光线里变得更深了，像是那扇你已经推开一条缝的门后面，还有更多她没有说出来的话。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">追问她：你们见过几次？在哪里见的面？</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问她：她来这里做什么？</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问她：你跟她说了什么？——或者她跟你说了什么？</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-medium" id="issue-27-8">
+  <div class="issue-head">
+    <strong>重复演出</strong>
+    <span>中 · T27 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>新一轮没有直接承接玩家的确认动作，而是近乎逐句重复上一轮已完成的回答，并出现对白标点退化，形成明显重复演出。</dd>
+    <dt>当前证据</dt><dd>第 27 轮开头再次写“不是。”“我知道她的时候——她已经是短发了。比这张照片上还要短。”“她说长头发容易被人抓住。在暗处不方便。”并且这些对白没有使用引号。</dd>
+    <dt>冲突证据</dt><dd>第 26 轮卡琳娜已经回答过：“不是。”“我知道她的时候——她已经是短发了。剪得很短。比照片上还要短。”“她说长头发容易被人抓住。在暗处不方便。”第 27 轮玩家输入只是“确认她见过敏特”。</dd>
+    <dt>冲突轮次</dt><dd>T26</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-28">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>28</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">追问她：你们见过几次？在哪里见的面？</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">“两次。”</div></div><div class="narration-block"><div class="bubble-text">她的回答比你以为的要短。蓝眼睛从照片上抬起来，看向你——但目光没有立刻聚焦在你脸上，像是还在读照片留下的最后一行字。</div></div><div class="narration-block"><div class="bubble-text">“第一次在古董街尾巴上那家修钟表的铺子门口。她蹲在台阶上吃一块面包，看起来像是好几天没好好吃过饭了。”</div></div><div class="narration-block"><div class="bubble-text">她说话的语气很淡，像是在描述一张她从别人手里接过来的旧明信片上的画面。那只黑猫蹲在她脚边，尾巴尖轻轻卷起，像是在听一句它已经听过的故事。</div></div><div class="narration-block"><div class="bubble-text">“第二次——在暗街和中央区交界的那个废弃加油站后面。隔了大概……一周左右。”</div></div><div class="narration-block"><div class="bubble-text">她停顿了一下。窗外的光线又往深处沉了一寸。她的脸在逆光里变得只能看清轮廓，瞳孔的颜色沉进阴影中——那扇推开了一条缝的门后面，亮光晃了一下，但没有完全打开。</div></div><div class="narration-block"><div class="bubble-text">“第二次见她的时候，她的头发已经剪短了。比这张照片上短得多。”</div></div><div class="narration-block"><div class="bubble-text">她的拇指轻轻擦过相纸边缘——像是那个画面还留在她的指尖上，而不是照片里。</div></div><div class="narration-block"><div class="bubble-text">“她看起来……比第一次见面的时候更累了。不是身体上的累。”</div></div><div class="narration-block"><div class="bubble-text">她的蓝眼睛重新抬起来看向你。</div></div><div class="narration-block"><div class="bubble-text">“是那种已经决定了什么事情的人，才会有的表情。”</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">问她——她当时知不知道敏特来新西西里是为了什么</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问她——第二次见面时，敏特有没有对她说过什么特别的话</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">把照片收回来，道谢</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">沉默片刻，问她——你觉得她现在还活着吗</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-29">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>29</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">把照片收回来，道谢</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的手指从她指尖接过照片。</div></div><div class="narration-block"><div class="bubble-text">相纸的边缘还带着她指尖的温度——很浅，像落上去的一层薄霜。你的拇指沿着那道折痕滑过，把照片收回口袋，指尖在布料外面按了一瞬。</div></div><div class="narration-block"><div class="bubble-text">&quot;谢谢。&quot;</div></div><div class="narration-block"><div class="bubble-text">你说得很轻。不是客套，更像是一个句号该有的重量。</div></div><div class="narration-block"><div class="bubble-text">&quot;不用谢我。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音从窗边传来，语气平静，蓝眼睛仍然落在你放照片的位置上——像是在确认那道轮廓已经从视野中消失了。</div></div><div class="narration-block"><div class="bubble-text">&quot;……我只是看见了而已。&quot;</div></div><div class="narration-block"><div class="bubble-text">那只黑猫蹲在她脚边，琥珀色的瞳孔在你和卡琳娜之间来回移动了一次。它的尾巴在地板上扫过半圈，然后安静地卷回前爪上。</div></div><div class="narration-block"><div class="bubble-text">窗外的光线已经沉到了街道的屋顶线以下。那件白衬衫的影子彻底融进了墙角——傍晚变成了黄昏。</div></div><div class="narration-block"><div class="bubble-text">&quot;走吧。&quot;</div></div><div class="narration-block"><div class="bubble-text">她转过身，从窗边拿起一件叠好的外套搭在手臂上，动作不急，像是这句话她在心里已经说过一次了。</div></div><div class="narration-block"><div class="bubble-text">&quot;天黑了，这里更不好走。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的蓝眼睛在昏暗中看向你，没有催促，只是在陈述一个你已经知道的事实。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟上卡琳娜出门</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">先问她晚宴上具体要做什么</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">在出门前再看一眼窗外</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-30">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>30</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">在出门前再看一眼窗外</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你走向窗边。</div></div><div class="narration-block"><div class="bubble-text">脚步在旧木地板上发出轻微的声响。窗外，街道尽头的屋顶线已融进灰蓝色的暮色中——最后一丝暖光从墙面退去，像被什么东西缓慢地抽走。</div></div><div class="narration-block"><div class="bubble-text">你站在窗框的阴影里，视线越过积灰的窗沿，落在下面的暗街上。</div></div><div class="narration-block"><div class="bubble-text">路灯还没亮。巷口的轮廓变得模糊，那些破败的屋檐和堆积的阴影融成一片灰色的雾。远处依稀有人影移动——不紧不慢，裹在夜色里的步伐像是属于这片街区自己的脉搏。</div></div><div class="narration-block"><div class="bubble-text">你听见身后的动静很轻——卡琳娜停在了门口，外套搭在臂弯上，没有催促。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫蹲在你脚边的地板上，尾巴尖轻轻卷在爪前。它的琥珀色瞳孔在昏暗中微微张大，像是也在看着窗外的同一个方向——但那目光更安静，更像是在等你看完你想看的。</div></div><div class="narration-block"><div class="bubble-text">风吹动了窗框的缝隙，带进来一声远处的小贩吆喝，被距离削得很薄，像层纸。</div></div><div class="narration-block"><div class="bubble-text">暗街的夜晚正在你的面前一点一点地合拢。</div></div><div class="narration-block"><div class="bubble-text">“你还能看到什么？”</div></div><div class="narration-block"><div class="bubble-text">她的声音从你身后传来——不是催促，也不是提问。更像是一句她从你停顿的背影里读到的旁白，替你说出来而已。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span><small>anchor:a_icVhDMEoZo0T</small></div><div class="bubble-text">收回目光，转身跟上卡琳娜</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">最后环顾一下窗外的暗街</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">低头看一眼脚边的黑猫</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-31">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>31</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">收回目光，转身跟上卡琳娜</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你从窗边收回目光。</div></div><div class="narration-block"><div class="bubble-text">暗街的最后一缕轮廓从你视线中褪去时，你转过身。脚步在旧木地板上发出短促的声响——两下，三下，从窗边到门口的距离不长，但你走得不急。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜还站在门框边，外套搭在臂弯上，蓝眼睛没有移开。</div></div><div class="narration-block"><div class="bubble-text">她看着你的动作，什么也没说。只是在你走近的那一瞬间，嘴角微微动了一下——不是笑，更像是确认某种预判没有出错。</div></div><div class="narration-block"><div class="bubble-text">&quot;看完了？&quot;</div></div><div class="narration-block"><div class="bubble-text">她问得很轻，像在接一句不需要回答的话。</div></div><div class="narration-block"><div class="bubble-text">你还没开口，脚边传来一声轻响——那只黑猫从地板上站起来，前爪向前伸展了一瞬，然后绕过你的脚踝，轻盈地跳出门外。它在楼道里停住，尾巴尖竖起来晃了晃，琥珀色的瞳孔在昏暗中回望，像在说：还等什么。</div></div><div class="narration-block"><div class="bubble-text">&quot;走吧。&quot;</div></div><div class="narration-block"><div class="bubble-text">她跨过门槛的时候，夜风从楼道尽头涌上来，带着街道深处的凉意和尘土的气味。卡琳娜的外套搭在臂弯上没有穿，另一只手扶着门框，侧过肩看了你一眼。</div></div><div class="narration-block"><div class="bubble-text">&quot;天黑透了，路灯还没亮——你跟紧点。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说完就转身向楼梯下走去，脚步声在老旧的水泥台阶上拉出一道简短的节拍。</div></div><div class="narration-block"><div class="bubble-text">你站在门口，最后看了一眼身后的房间——窗边的暗影已经彻底融进夜色，那件白衬衫的轮廓也看不见了。门在你身后轻轻带上，发出木料咬合的低响。</div></div><div class="narration-block"><div class="bubble-text">楼道里很暗。黑猫在楼梯拐弯处蹲坐着，尾巴尖在地面上扫了半圈，像在等你的脚步落稳。</div></div><div class="narration-block"><div class="bubble-text">你迈出第一步。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟紧卡琳娜下楼</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">先开口问凯旋门晚宴的事</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">留意黑猫的动静，边走边观察楼道环境</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">在楼梯间停下，回头看一眼关上的门</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-32">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>32</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">在楼梯间停下，回头看一眼关上的门</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你在台阶上停住了。</div></div><div class="narration-block"><div class="bubble-text">不是突然的——更像是脚步自己慢了下来，在你意识到之前，鞋底已经在粗糙的水泥面上站住了。</div></div><div class="narration-block"><div class="bubble-text">楼道里很暗。夜风从尽头涌上来，带着街道深处的凉意和某种陈旧的尘土气味。你回过头去，目光落在你刚刚带上的那扇门上。</div></div><div class="narration-block"><div class="bubble-text">门是老旧的木色，漆面已经磨得看不出原来的颜色，只有门框边沿还残留着一点深褐色的痕迹。门缝里没有光透出来——那个房间已经完全暗了。</div></div><div class="narration-block"><div class="bubble-text">你看着那扇门，像是看着一个刚刚合上的句号。</div></div><div class="narration-block"><div class="bubble-text">……</div></div><div class="narration-block"><div class="bubble-text">你听见楼梯上方的脚步也停了。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜站在比你低两级的位置，外套还搭在臂弯上，侧过身来——她没有回头看你，只是停住了，像是在用聆听确定你还在。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫蹲在楼梯拐弯处的平台上，尾巴尖在地面上轻轻扫过半圈。琥珀色的瞳孔在昏暗中亮着，没有催促，也没有移开——只是安静地看着你，像在等你把你想看的看完。</div></div><div class="narration-block"><div class="bubble-text">“还有东西忘了？”</div></div><div class="narration-block"><div class="bubble-text">她的声音从下方传来——问得很轻，不是催促，更像是在确认你是不是需要再回去一趟。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">回头再看一眼那扇门</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">摇头说没事，跟上她的脚步</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问她：我们要去哪？</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">弯下腰，对黑猫招招手</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-33">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>33</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">摇头说没事，跟上她的脚步</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你摇了摇头。</div></div><div class="narration-block"><div class="bubble-text">&quot;没事。走吧。&quot;</div></div><div class="narration-block"><div class="bubble-text">你的声音在昏暗的楼道里落得很轻，像是对那句问话的回应——也像是对自己说的。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有追问。她在下方停顿了一瞬，然后继续向下迈出步子。外套在她的臂弯上轻轻摆动了一下边缘，发出一声布料摩擦的细微声响。</div></div><div class="narration-block"><div class="bubble-text">你跟上她的脚步，鞋底在粗糙的水泥台阶上踩出沉稳的节拍。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫从楼梯拐弯处站起来，尾巴尖向上竖起一个弧度，率先沿着台阶往下走去——它的步伐不急，像在带路，又像只是刚好走在你们前面。</div></div><div class="narration-block"><div class="bubble-text">楼道里的夜风从尽头涌上来，带着街道深处的凉意和尘土的气味。</div></div><div class="narration-block"><div class="bubble-text">楼梯间的窗口透进来一点微弱的暮色——灰蓝色的光，落在墙壁上，让每一级台阶的边缘都变得模糊而柔软。脚步声在狭窄的空间里回响，缓慢而规律，像一段不需要言语的默契。</div></div><div class="narration-block"><div class="bubble-text">你走在卡琳娜身后，看着她搭在臂弯上的外套边缘随着步伐轻轻晃动。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫已经下到了楼道的转角，蹲在那里，琥珀色的瞳孔在昏暗中亮着，等你再走近一步。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟上卡琳娜和猫，走出楼道</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">在楼道窗口再看一眼外面的街道</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问卡琳娜我们现在要去哪</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">放慢脚步，观察楼道里的细节</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-34">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>34</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-medium" href="#issue-34-9">时空断裂 · 中</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">问卡琳娜我们现在要去哪</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你跟上她的脚步。</div></div><div class="narration-block"><div class="bubble-text">夜风从楼道尽头涌到街道上，带着尘土和远处食物的气味。路灯还没亮，头顶是一小片灰蓝色的暮天，屋檐的边缘在视野边缘融成暗色的剪影。</div></div><div class="narration-block"><div class="bubble-text">&quot;我们要去哪？&quot;</div></div><div class="narration-block"><div class="bubble-text">你问得直接，脚步没有停。</div></div><div class="narration-block"><div class="bubble-text">她走在前面几步远的位置，外套搭在臂弯上，侧过头来看了你一眼——不是回头，是侧过肩，露出半张脸的轮廓。</div></div><div class="narration-block"><div class="bubble-text">&quot;公园。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音在夜风里很轻，像在陈述一件无关紧要的事。</div></div><div class="narration-block"><div class="bubble-text">&quot;不远。走几分钟就到。&quot;</div></div><div class="narration-block"><div class="bubble-text">她没有多解释的意思。说完就转回头去，继续沿着街道往前走。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫走在更前面——在你和卡琳娜之间，它保持着刚好领先几尺的距离，尾巴尖在暮色中轻轻晃动，偶尔停下来等你们走近，再继续迈步。</div></div><div class="narration-block"><div class="bubble-text">街道两侧的建筑矮而老旧，有些窗口亮着昏黄的灯，有些只是一片漆黑。远处依稀有人声传来——小贩收摊的吆喝、某扇铁门开关的声响，都被距离削得很薄。</div></div><div class="narration-block"><div class="bubble-text">你走在卡琳娜身后，看着她搭在臂弯上的外套边缘随着步伐轻轻摆动。她没有加快脚步，也没有放慢，步幅稳定得像是在走一条她已经走过无数次的路。</div></div><div class="narration-block"><div class="bubble-text">&quot;你还没说你来新西西里多久了。&quot;</div></div><div class="narration-block"><div class="bubble-text">她忽然开口，语气随意，像是刚想起来一个问题。没有回头，声音落在你面前几步远的位置。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫在街道尽头的转角处停下来，蹲在石板地面上，琥珀色的瞳孔在昏暗中望着你们的方向。尾巴尖在地面上轻轻扫过半圈。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">回答她，来这里的时间不长</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">反问她对游客的耐心如何</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">跟她说自己还在找照片上的人</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-medium" id="issue-34-9">
+  <div class="issue-head">
+    <strong>时空断裂</strong>
+    <span>中 · T34 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>出门目的此前被建立为去凯旋门晚宴，但当前轮在没有过渡或解释的情况下改成去公园，削弱了玩家对路线和行动目标的理解。</dd>
+    <dt>当前证据</dt><dd>Turn 34 中玩家问“我们要去哪？”，卡琳娜回答“公园。不远。走几分钟就到。”随后路线被推进到公园方向。</dd>
+    <dt>冲突证据</dt><dd>Turn 24 中卡琳娜明确提出“今晚凯旋门那边有个晚宴。你如果愿意来——就跟我一起出门”，并解释“晚宴上，康纳不会动手”；Turn 29 又催促“走吧。天黑了，这里更不好走。”</dd>
+    <dt>冲突轮次</dt><dd>T24、T29</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-35">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>35</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">回答她，来这里的时间不长</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你走在卡琳娜身后几步远的位置，夜风从街道尽头灌进来，带着尘土和远处食物的气味。</div></div><div class="narration-block"><div class="bubble-text">&quot;不长。&quot;</div></div><div class="narration-block"><div class="bubble-text">你回答得简短，像是在陈述一件不需要修饰的事实。&quot;刚来没几天。&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有立刻接话。她走在前面，外套搭在臂弯上，步伐的节奏没有因为你的回答而变化——像在等你说完，又像在等她想要接的那个位置自然出现。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫已经在街道尽头的转角处站起来，尾巴尖向上竖起一个弧度，迈开步子继续往前走。它的步伐不急不缓，像在带路，又像是习惯了在任何一段对话的间隙里保持自己的节奏。</div></div><div class="narration-block"><div class="bubble-text">&quot;没几天。&quot;</div></div><div class="narration-block"><div class="bubble-text">她重复了一遍你的话，声音在夜风里很轻，像在咀嚼这个词。</div></div><div class="narration-block"><div class="bubble-text">&quot;那你找人的效率还行。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说这话的时候没有回头，语气里听不出是评价还是随口一提。外套的边缘在她臂弯上随着步伐轻轻摆动，在灰蓝色的暮光中留下一道模糊的轮廓。</div></div><div class="narration-block"><div class="bubble-text">街道两侧的建筑越来越矮，路灯还没亮。远处隐约有小贩收摊的吆喝声传来，被距离削得很薄，像层纸。空气里混着泥土和旧砖墙的气味。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫在前方的石板路面上停下来，蹲坐着，琥珀色的瞳孔在昏暗中亮着，尾巴尖在地面上轻轻扫过半圈。它看着你们走近，然后转身拐进了一条更窄的巷口。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟上黑猫拐进巷口</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">看向街边的建筑或路灯，略作观察</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问卡琳娜公园是不是有什么特别之处</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-36">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>36</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">看向街边的建筑或路灯，略作观察</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的目光从卡琳娜的背影上移开，转向街道两侧。</div></div><div class="narration-block"><div class="bubble-text">建筑矮而老旧，墙面是那种被海风与年月反复啃噬过的灰褐色——有些地方的涂层已经整片剥落，露出底下暗红的砖体。几扇窗户紧闭着，窗帘拉得严严实实，没有光透出来。</div></div><div class="narration-block"><div class="bubble-text">路灯矗立在街角，铁制的灯柱上锈迹斑斑，灯罩里还残留着上一位路人砸碎的玻璃碴。路灯还没亮——傍晚的光已经沉得差不多了，灰蓝色的天幕低低地压着屋檐，把整条街都罩进了一种半明半暗的色调里。</div></div><div class="narration-block"><div class="bubble-text">你注意到那只黑猫蹲在前方的一根灯柱旁，琥珀色的瞳孔在昏暗中亮着，尾巴尖在地面上轻轻扫过半圈——它在等你。</div></div><div class="narration-block"><div class="bubble-text">“看够了？”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音从前方传来，语气里带着一点点逗弄的意味。她没有回头，只是放慢了脚步，外套的边缘在臂弯上轻轻摆动。</div></div><div class="narration-block"><div class="bubble-text">“这里的路灯坏了快半年，一直没人修。你要是想记住路，最好趁现在还能看见。”</div></div><div class="narration-block"><div class="bubble-text">她说完，拐进了黑猫等候的那条窄巷。</div></div><div class="narration-block"><div class="bubble-text">巷子比主街更窄，两侧的墙壁几乎能碰到你的肩膀。脚下的石板路有些湿漉漉的，踩上去发出轻微的声响。空气里多了些潮气和苔藓的味道——和主街的尘土味不一样，像是走进了一个更旧、更沉默的区域。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫走在最前面，尾巴尖在昏暗中有节奏地晃动，步伐不急不缓。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜走在中间，脚步在石板路上落下稳定的节拍。</div></div><div class="narration-block"><div class="bubble-text">走了大约两三分钟，巷子忽然宽了起来。前方的视野在暮色中展开——一片不大的开放空间，几棵老树歪斜地立在边缘，树冠的剪影在灰蓝色的天空中融成一片模糊的墨色。一条石凳摆在靠近巷口的位置，表面被风雨磨得发亮。</div></div><div class="narration-block"><div class="bubble-text">“到了。”</div></div><div class="narration-block"><div class="bubble-text">她说，声音在空旷的空间里落得很轻。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜走到石凳前，没有立刻坐下。她站在那里，侧过头，目光扫过树影稀疏的公园——像是在确认这里只有你们几人。确认完毕之后，她才将外套叠了叠，放在石凳的一头，然后坐了下来。</div></div><div class="narration-block"><div class="bubble-text">她坐在那里，姿态比之前在公寓里放松了一些——但眉宇间有一种说不出的疲倦，像是被暮色染上的一层薄薄的忧郁。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫跳上了石凳的另一头，蜷缩成一团，琥珀色的瞳孔在暮色中半眯着，看着你们。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜抬起头来，目光落在你身上，蓝眼睛里带着一种安静而直接的询问。</div></div><div class="narration-block"><div class="bubble-text">“这场宴会——你怎么看？”</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">表达自己对这场宴会的疑虑</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">反问她对宴会有什么看法</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">直接评价：‘一场正式的试探’</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">默然不语，等她继续说</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-37">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>37</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-37-10">质量退化 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">反问她对宴会有什么看法</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">卡琳娜抬起头来，目光落在你身上，蓝眼睛里带着一种安静而直接的询问。</div></div><div class="narration-block"><div class="bubble-text">&quot;这场宴会——你怎么看？&quot;</div></div><div class="narration-block"><div class="bubble-text">你站在她面前几步远的位置，夜风从稀疏的树冠间穿过，带起衣摆边缘轻微的晃动。暮色已经沉得更深了，灰蓝色的天幕正在向暗紫色过渡。</div></div><div class="narration-block"><div class="bubble-text">你没有立刻回答。而是回望着她的眼睛，将那个问题轻轻拨了回去。</div></div><div class="narration-block"><div class="bubble-text">&quot;你先说说你的看法。&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的眉毛微微动了一下——不是意外，更像是确认了你不会轻易接住她抛出的线。她低下头，目光落在自己搭在膝盖上的手指上，指尖轻轻磨蹭着外套布料的边缘。</div></div><div class="narration-block"><div class="bubble-text">&quot;我怎么看……&quot;</div></div><div class="narration-block"><div class="bubble-text">她重复了一遍，声音比刚才更轻，像是在跟自己确认措辞。</div></div><div class="narration-block"><div class="bubble-text">&quot;我觉得它虚伪。那些人——围着一张长桌，杯盏交错，谈着港口的分成和地盘的边界——每个人脸上都挂着笑，但每个人都在计算对方什么时候会翻脸。&quot;</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，嘴角牵起一个很淡的弧度——不是笑，更像是某种自嘲的表示。</div></div><div class="narration-block"><div class="bubble-text">&quot;但我得去。因为不去就是示弱。在这个地方，示弱比死更麻烦。&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起头来，目光重新落在你脸上。蓝眼睛在暮色中显得比平时更深，像是把周围的光都吸进去了。</div></div><div class="narration-block"><div class="bubble-text">&quot;这就是我的看法。你呢？你还没告诉我——你觉得那场晚宴有什么值得我去的理由？&quot;</div></div><div class="narration-block"><div class="bubble-text">石凳另一头，那只黑猫蜷缩的姿势没有变，但它的耳朵轻轻转动了一下——像是在听，又像只是被夜风拂过的反射。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">她问我有什么值得去的理由——也许我需要先诚实地告诉她，我来新西西里不只是为了找敏特</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">晚宴或许虚伪，但至少有吃有酒有情报源——我先从实用角度回答她</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-37-10">
+  <div class="issue-head">
+    <strong>质量退化</strong>
+    <span>低 · T37 · choices</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>这些选项从可执行的玩家动作漂移成较长的元叙事式意图说明，降低了互动选项的清晰度和格式稳定性。</dd>
+    <dt>当前证据</dt><dd>Turn 37 的选项包括“她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的”“她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么”等。</dd>
+    <dt>冲突证据</dt><dd>窗口内相邻轮次的选项通常是清晰的行动或发问，例如 Turn 36 的“表达自己对这场宴会的疑虑”“反问她对宴会有什么看法”“直接评价：‘一场正式的试探’”。</dd>
+    <dt>冲突轮次</dt><dd>T36</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-38">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>38</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你站在她面前几步远的位置，夜风从树冠间穿过，把暮色搅得更深了一些。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光落在你脸上，蓝眼睛在暗下来的光线里显得很静——她在等你的回答。</div></div><div class="narration-block"><div class="bubble-text">你沉默了几秒，不是在想说什么，而是在想怎么把那种感觉说出来。</div></div><div class="narration-block"><div class="bubble-text">&quot;虚伪——你说得对。&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;但我觉得不止虚伪。它更像是一种……表演。每个人都在演一个自己不是的角色——你是暗街的掌控者，康纳是体面的合作者，那些围着长桌的人是忠诚的盟友。&quot;</div></div><div class="narration-block"><div class="bubble-text">你顿了顿，目光落在石凳边缘被风雨磨平的纹路上。</div></div><div class="narration-block"><div class="bubble-text">&quot;演得久了，有些人就忘了自己在演。有些人还记得，但不敢停下来——因为停下来就得面对自己到底是谁。&quot;</div></div><div class="narration-block"><div class="bubble-text">你抬起头来，看向她。</div></div><div class="narration-block"><div class="bubble-text">&quot;你问我有什么值得去的理由——我不知道。但我知道你为什么不得不去。不是因为示弱比死麻烦，是因为如果你不去，那场戏就会绕过你继续演下去——你就会变成一个被排除在剧本之外的观众。而你，显然不是坐在台下看戏的那种人。&quot;</div></div><div class="narration-block"><div class="bubble-text">话说完了。夜风从你们之间穿过去，拂动她外套的边缘。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有立刻回应。她坐在那里，目光落在你脸上，蓝眼睛里的表情变了几次——像是在咀嚼你的话，又像是在辨认什么。</div></div><div class="narration-block"><div class="bubble-text">几秒后，她的嘴角弯了一下。不是自嘲，也不是敷衍——是一个很轻的、真的被触动的弧度。</div></div><div class="narration-block"><div class="bubble-text">&quot;你说得比我清楚。&quot;</div></div><div class="narration-block"><div class="bubble-text">她把目光移开，低头看着自己搭在膝盖上的手指，指尖轻轻磨蹭着外套布料的边缘。</div></div><div class="narration-block"><div class="bubble-text">&quot;被排除在剧本之外——这个说法我喜欢。比我说得好听。&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起头，重新看向你。</div></div><div class="narration-block"><div class="bubble-text">&quot;那你呢？你觉得自己在那场戏里——演的是什么角色？&quot;</div></div><div class="narration-block"><div class="bubble-text">石凳另一头，那只黑猫蜷缩的姿势没有变。但它的耳朵轻轻转动了一下——琥珀色的瞳孔半眯着，像是在听你们的对话，又像只是被夜风拂过时的反射。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">回答她：我现在也还没看清自己在演什么角色</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">反问她在那场戏里平时扮演的是什么样的角色</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">说我还在摸索，这场晚宴也许能帮我找到答案</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">沉默片刻，然后岔开话题问她要不要换个地方坐</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-39">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>39</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-39-11">语言漂移 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">回答她：我现在也还没看清自己在演什么角色</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你站在几步之外，夜风从稀疏的树冠间穿过，把暮色搅得更深了一些。</div></div><div class="narration-block"><div class="bubble-text">“我还没看清。”</div></div><div class="narration-block"><div class="bubble-text">你回答得很坦诚，目光没有移开她的眼睛。</div></div><div class="narration-block"><div class="bubble-text">“你说得对——每个人都在演一个角色。但我在那场戏里演什么……”</div></div><div class="narration-block"><div class="bubble-text">你顿了顿，指尖在口袋里轻轻摩挲着那张照片的边缘。</div></div><div class="narration-block"><div class="bubble-text">“……我到现在也没想明白。一个突然冒出来的记者？一个拿着死人照片找人的疯子？还是某个更大剧本里的临时演员？”</div></div><div class="narration-block"><div class="bubble-text">你说完，嘴角牵起一个很淡的弧度——不是笑，只是一种对自己处境的自嘲表示。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有立刻回答。她坐在石凳上，蓝眼睛在暮色中望着你，瞳孔里映着最后一线灰蓝色的光。几秒的沉默后，她的嘴角弯了一下——不是之前那种自嘲的弧度，而是一种更轻、更真的笑。</div></div><div class="narration-block"><div class="bubble-text">“我也没有。”</div></div><div class="narration-block"><div class="bubble-text">她说得坦然，声音在夜风里落得很轻。</div></div><div class="narration-block"><div class="bubble-text">“有时候我觉得自己知道自己在做什么。但更多时候……”</div></div><div class="narration-block"><div class="bubble-text">她低下头，目光落在自己搭在膝盖的手指上，指尖轻轻磨蹭着外套布料的边缘。</div></div><div class="narration-block"><div class="bubble-text">“……就像你说的——在演一个自己都还没看清脚本的角色。”</div></div><div class="narration-block"><div class="bubble-text">石凳另一头，那只黑猫蜷缩的姿势一直没有变。但当你和卡琳娜的对话同时陷入沉默时，它动了。</div></div><div class="narration-block"><div class="bubble-text">它慢悠悠地站起来，在石凳上伸了个懒腰——两隻前爪向前探出去，脊背弓成一个弯月的弧度，尾巴尖轻轻抖了抖。然后它跳下石凳，踩着干燥的土地，走到卡琳娜脚边，蹲坐下来。</div></div><div class="narration-block"><div class="bubble-text">琥珀色的瞳孔在昏暗中亮着。它抬起头，先是看了卡琳娜一眼，然后转向你——目光在你脸上停留了两三秒，才移开。</div></div><div class="narration-block"><div class="bubble-text">尾巴尖在卡琳娜的小腿外侧轻轻扫过一圈。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜低下头，看着蹲坐在脚边的黑猫，嘴角那个很轻的弧度没有收回去。她伸出手，指尖在两只猫耳朵中间轻轻揉了揉。</div></div><div class="narration-block"><div class="bubble-text">“她说你说得对。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜抬起头来，蓝眼睛里带着一丝被夜色染过的柔软。</div></div><div class="narration-block"><div class="bubble-text">“走吧，这里待太久了。我带你去个地方——一个你可以……不用担心有人从背后拿枪指着你的地方。”</div></div><div class="narration-block"><div class="bubble-text">她说着，站起身来，拎起叠好的外套搭在臂弯上。黑猫也跟着站了起来，绕着她的脚踝走了一圈，然后朝着来时的方向迈出几步，尾巴尖向上竖起。</div></div><div class="narration-block"><div class="bubble-text">“不是晚宴。是我的地方——真正住的地方。”</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，目光在暮色中与你对视。</div></div><div class="narration-block"><div class="bubble-text">“不太远。在更里面一点。”</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟上卡琳娜，去看看她的地方</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问她那里是什么样子的</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">最后看一眼夜色中的公园，再迈步跟上</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-39-11">
+  <div class="issue-head">
+    <strong>语言漂移</strong>
+    <span>低 · T39 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>单个繁体字混入简体中文正文，属于轻微但玩家可见的语言/字形稳定性问题。</dd>
+    <dt>当前证据</dt><dd>Turn 39 写作“它慢悠悠地站起来，在石凳上伸了个懒腰——两隻前爪向前探出去”。</dd>
+    <dt>冲突证据</dt><dd>同一窗口和同一段叙事主体一直使用简体中文，例如多次写作“那只黑猫”，而不是繁体“隻”。</dd>
+    <dt>冲突轮次</dt><dd>T31、T32、T33、T34、T35、T36、T37、T38</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-40">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>40</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">跟上卡琳娜，去看看她的地方</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你跟上卡琳娜的步伐，离开那张石凳。</div></div><div class="narration-block"><div class="bubble-text">黑猫已经走在了最前面，尾巴尖在昏暗中有节奏地晃动，像一道黑色的引线，把你们的脚步串联在一起。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有回头确认你是否跟上——她的步伐放慢了一些，外套搭在臂弯上，衣摆随着走动的节奏轻轻摆动。夜风从巷口灌进来，把她的金发边缘吹起几缕。</div></div><div class="narration-block"><div class="bubble-text">你们离开那片小公园，拐进了一条比来时更窄的巷子。</div></div><div class="narration-block"><div class="bubble-text">这里的墙壁更高，两边的建筑更加破败——有些窗户用木板钉死，有些干脆敞着黑洞洞的口子，像失去眼球的眼眶。脚下的路面不再是石板，而是压实的泥土混合着碎砖，踩上去有一种松散的回弹感。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫在一扇锈迹斑斑的铁门前停下来。它蹲坐在门前的石阶上，尾巴尖轻轻扫过半圈，琥珀色的瞳孔在昏暗中亮着——它看着你们走近，然后转头朝门缝隙里拱了拱，像是在示意“就是这里”。</div></div><div class="narration-block"><div class="bubble-text">“到了。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音从前方传来，比之前在公园里轻了一些，带着一种——放松。</div></div><div class="narration-block"><div class="bubble-text">她走到铁门前，伸出手，握住门把手上那根生锈的铁栓。没有钥匙。她只是用力往上一提，铁栓发出一声短促的金属摩擦声，门便开了。</div></div><div class="narration-block"><div class="bubble-text">她没有立刻推门进去。而是侧过头，目光在暮色中与你对视——蓝眼睛里映着最后一线灰蓝色的光，嘴角带着一个很淡的弧度。</div></div><div class="narration-block"><div class="bubble-text">“这里才是我真正住的地方。没什么规矩，没有晚宴，没有该演的角色。”</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，目光在你的脸上停留了一瞬。</div></div><div class="narration-block"><div class="bubble-text">“……只有我和她。”</div></div><div class="narration-block"><div class="bubble-text">她低下头，看了一眼蹲在脚边的黑猫。黑色的猫抬起头，琥珀色的瞳孔与她对视了一秒，然后轻轻眨了一下眼。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜推开了门。</div></div><div class="narration-block"><div class="bubble-text">门里是一条很短的门道，尽头透着暖黄色的光——不是什么明亮的电灯，更像是蜡烛或油灯，光线昏暗而温暖，在墙壁上投出晃动的影子。</div></div><div class="narration-block"><div class="bubble-text">她迈步走了进去。</div></div><div class="narration-block"><div class="bubble-text">然后停住脚步，回过头，看着你还站在门外。</div></div><div class="narration-block"><div class="bubble-text">“进来吧。外面不安全——这话我是认真的。”</div></div><div class="narration-block"><div class="bubble-text">她说完，转身朝那道暖黄色的光走去。黑猫从她脚边跟进，尾巴尖轻轻扫过门框边缘，像一个无声的邀请。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">跟随卡琳娜走进门道</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">先停在门口，观察门道四周</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">在跨过门槛前，回望来时的巷子</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-41">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>41</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">跟随卡琳娜走进门道</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">&quot;进来吧。外面不安全——这话我是认真的。&quot;</div></div><div class="narration-block"><div class="bubble-text">你跨过门槛。</div></div><div class="narration-block"><div class="bubble-text">脚落下去的那一瞬间，你感觉到了变化——不是来自地面，而是来自身边的空气。铁门外的夜风还在背后涌动，但门道里已经安静了下来。像是走进了一个和外界隔绝的容器。</div></div><div class="narration-block"><div class="bubble-text">门道很短，大约只有三四步的长度。尽头透着一片暖黄色的光——不是电灯那种冷白或惨白的光，而是蜡烛或油灯才有的颜色，昏黄而柔软，在墙壁上投下缓慢晃动的影子。</div></div><div class="narration-block"><div class="bubble-text">你走过那段门道，脚下的地面从门口的压实泥土变成了旧木地板，踩上去有一点点轻微的弹性。空气里有一股淡淡的蜡味和旧纸张的气息——干燥、安静、让人觉得可以在这里放下肩膀的气息。</div></div><div class="narration-block"><div class="bubble-text">房间不大。比你想象中还要小一些。</div></div><div class="narration-block"><div class="bubble-text">一张木桌靠在墙边，桌面上放着一盏玻璃罩子的油灯，暖光从灯罩里漫出来，把整个房间都染成了琥珀色。桌边一张旧椅子，扶手已经被磨得发亮。靠墙的地方铺着一张简单的地铺，毯子叠得很整齐。角落里靠着几本竖着放的书，书脊上的字已经看不清了。</div></div><div class="narration-block"><div class="bubble-text">没有多余的装饰。没有画，没有照片，没有那些用来告诉别人“我是谁”的东西。</div></div><div class="narration-block"><div class="bubble-text">但这里有生活的痕迹——桌角有一块被蜡滴反复覆盖的凹陷，地板上有一道被反复踩踏磨出的浅痕。这个地方被人住过很久，久到那些痕迹已经和房间长在了一起。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜已经走到了房间中央。她转过身来，面对着你，臂弯上的外套还没有放下——但她站在那里，姿态明显比在公园里放松了许多。肩膀不再微微端着，呼吸的节奏也更平了。</div></div><div class="narration-block"><div class="bubble-text">她看着你打量房间的样子，嘴角带着一个很淡的弧度——不是之前在石凳上那种自嘲，而是一种更柔软的、近乎默许的笑。</div></div><div class="narration-block"><div class="bubble-text">&quot;不大。但够用。&quot;</div></div><div class="narration-block"><div class="bubble-text">&quot;而且——她在这里。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的目光向旁边移了一下。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫已经跳上了靠墙的木桌，蹲坐在油灯旁边。暖光从灯罩里透出来，在她的黑色毛发上镀上一层毛茸茸的光晕。她的琥珀色瞳孔半眯着，尾巴尖在桌沿轻轻垂下来，随着呼吸的节奏小幅摆动。</div></div><div class="narration-block"><div class="bubble-text">她就那样看着你——不是打量，不是戒备。只是看着。像在等你先适应这个空间。</div></div><div class="narration-block"><div class="bubble-text">门外传来铁栓落回原位的金属撞击声——卡琳娜在你进来之后随手带上了门。那声响很短，很干脆。像是宣告某种界限的仪式。</div></div><div class="narration-block"><div class="bubble-text">你已经在了。</div></div><div class="narration-block"><div class="bubble-text">在这个没有戏要演的地方。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">打量房间里的物品——那几本书、桌角的蜡痕、地铺</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">开口问卡琳娜这里的故事——她住了多久？一个人？</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">蹲下来，向黑猫伸出手，试着打招呼</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">找个地方坐下——放下来时的疲惫</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-42">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>42</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">蹲下来，向黑猫伸出手，试着打招呼</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你弯下腰，把重心沉到脚跟上，缓慢地在旧木地板上蹲了下来。</div></div><div class="narration-block"><div class="bubble-text">木地板在你的重量下发出一声轻微的吱呀。油灯的光从桌沿漫过来，把你的影子拉长，歪斜地投在对面的墙壁上。</div></div><div class="narration-block"><div class="bubble-text">你和那只黑猫之间，隔了大约一臂的距离。</div></div><div class="narration-block"><div class="bubble-text">她没有后退。没有竖起毛发。也没有发出任何警告的声音。</div></div><div class="narration-block"><div class="bubble-text">那双琥珀色的瞳孔半眯着，在暖光中像两颗被磨旧的玻璃珠——她蹲坐在油灯旁边，尾巴尖从桌沿垂下来，随着呼吸的节奏轻轻摆动，幅度很慢。</div></div><div class="narration-block"><div class="bubble-text">你把手伸出去——手心朝上，手指微微放松，停在她鼻子前方不到一只手掌的距离。没有向前凑，也没有试图去摸她。只是放在那里，像在说：你可以自己决定。</div></div><div class="narration-block"><div class="bubble-text">黑猫的耳朵转动了一下——左耳先动，右耳跟了一拍。</div></div><div class="narration-block"><div class="bubble-text">她的目光从你的脸，移到你的手，再移回你的脸。</div></div><div class="narration-block"><div class="bubble-text">桌沿垂下的尾巴尖停了一秒。</div></div><div class="narration-block"><div class="bubble-text">然后她动了。</div></div><div class="narration-block"><div class="bubble-text">她慢悠悠地站起来，在桌面上迈了两步，走到桌沿——然后低下头，湿润的鼻尖轻轻碰了一下你伸出的中指指尖。</div></div><div class="narration-block"><div class="bubble-text">触感凉凉的，带着一点湿意。</div></div><div class="narration-block"><div class="bubble-text">碰完之后，她没有立刻退开。就那样低着头，鼻尖悬在你的手指上方不到一厘米的位置，琥珀色的瞳孔微微放大了一些，像是在闻你的气味，又像是在确认什么。</div></div><div class="narration-block"><div class="bubble-text">“她很少这样。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音从侧后方传来，比刚才轻了一些，带着一点被夜色暖过的温度。</div></div><div class="narration-block"><div class="bubble-text">“通常要见好几次面才会让人碰她。”</div></div><div class="narration-block"><div class="bubble-text">你侧过头，看到卡琳娜还站在房间中央，外套搭在臂弯上。她没有走过来打断这一幕，只是站在那里看着你们，蓝眼睛里带着一种很安静的柔和——像是看到了什么让她觉得放心的画面。</div></div><div class="narration-block"><div class="bubble-text">黑猫在这时候收回了头。</div></div><div class="narration-block"><div class="bubble-text">她后退半步，重新蹲坐下来。尾巴尖在桌沿扫过一小圈，然后搭回了原来的位置。她的目光依然落在你身上——但不是打量了。更像是……承认了你的存在。</div></div><div class="narration-block"><div class="bubble-text">然后她轻轻眨了一下眼。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">直起身，对卡琳娜说点什么</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">继续保持蹲姿，轻声回应卡琳娜</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">目光落在黑猫身上，低声说一句</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-43">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>43</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-medium" href="#issue-43-12">事件否定 · 中</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">继续保持蹲姿，轻声回应卡琳娜</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你保持蹲姿，膝盖在旧木地板上找到了一个稳定的位置。油灯的光从桌沿漫下来，把你的轮廓镀上一层暖黄色的边。那只黑猫的鼻尖还悬在你的手指上方——她没有退开，也没有凑近，只是那样停着，像在等你把这个动作做完。</div></div><div class="narration-block"><div class="bubble-text">你侧过头，看向卡琳娜。她站在几步外，外套搭在臂弯上，蓝眼睛里的光比之前柔和了许多——像一层被油灯的暖光融化的薄冰。</div></div><div class="narration-block"><div class="bubble-text">&quot;她确实很少这样。&quot;你轻声说，声音在安静的房间里落下得比平时要轻一些，&quot;谢谢你让我来这里。&quot;</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有立刻回答。她垂下目光，看着自己搭在臂弯上的外套边缘，指尖轻轻捻了捻布料的纤维——那个动作很小，小到几乎像是无意识的。</div></div><div class="narration-block"><div class="bubble-text">&quot;我不是随便什么人都往这里带。&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起头来，蓝眼睛在你的脸上停留了一瞬——不是打量，更像是在确认自己说出的那句话是否准确。然后她嘴角弯了一下，那个弧度很浅，却比她在公园里的任何一次笑都要真实。</div></div><div class="narration-block"><div class="bubble-text">&quot;你是第一个从晚宴走到这里的人。&quot;</div></div><div class="narration-block"><div class="bubble-text">那只黑猫在这时候收回了头。她后退半步，在桌沿重新蹲坐下来，尾巴尖搭回原来的位置，轻轻扫过桌角堆积的蜡滴。琥珀色的瞳孔在你和卡琳娜之间来回了一次，然后半眯起来——像是在说：你们继续，我不打扰。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光落在你身上，嘴角那个弧度没有收回去。她顿了顿，声音比刚才更轻了一些。</div></div><div class="narration-block"><div class="bubble-text">&quot;还有时间。在晚宴之前——你可以先真正坐一会儿。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说着，朝那张扶手被磨得发亮的旧椅子抬了抬下巴。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">坐到那张旧椅子上，再放松一会儿</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">继续蹲着，和黑猫多待一会儿</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">站起来，问卡琳娜关于晚宴的具体时间</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">在房间里走走，看看那些书和生活的痕迹</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-medium" id="issue-43-12">
+  <div class="issue-head">
+    <strong>事件否定</strong>
+    <span>中 · T43 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>上一轮刚完成的黑猫退回动作在本轮开头被回滚为尚未发生，并在本轮内重复演出，造成即时动作连续性断裂。</dd>
+    <dt>当前证据</dt><dd>Turn 43 开头写道：“那只黑猫的鼻尖还悬在你的手指上方——她没有退开，也没有凑近，只是那样停着”。同一轮后文又写“那只黑猫在这时候收回了头。她后退半步，在桌沿重新蹲坐下来”。</dd>
+    <dt>冲突证据</dt><dd>Turn 42 已经写明黑猫“收回了头。她后退半步，重新蹲坐下来”。</dd>
+    <dt>冲突轮次</dt><dd>T42</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-44">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>44</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">坐到那张旧椅子上，再放松一会儿</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你从蹲姿缓缓起身，膝盖在旧木地板上发出一声轻微的响动。</div></div><div class="narration-block"><div class="bubble-text">那张旧椅子立在木桌侧旁，扶手的表面已经被经年累月的使用磨得发亮，在油灯的光线下泛着一种温润的暗光。你走过去，手掌搭在椅背边缘停顿了一瞬——然后坐下来。</div></div><div class="narration-block"><div class="bubble-text">椅面比你预想中要低一些，坐下去时身体自然向后靠，肩胛骨贴合着椅背微弯的弧度。扶手刚好承托住你前臂的重量，木料触感光滑，带着一种被无数双手抚摸过的温度。</div></div><div class="narration-block"><div class="bubble-text">你轻轻动了动，找到一个更安稳的姿势。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜站在几步外，看着你坐下的整个过程。她没有催促，也没有说话——只是站在那里，外套还搭在臂弯上，蓝眼睛里映着油灯暖黄色的光。</div></div><div class="narration-block"><div class="bubble-text">然后她垂下目光，把外套从臂弯上取下来，叠了两折，放在桌角一块没有被蜡滴覆盖的空处。</div></div><div class="narration-block"><div class="bubble-text">她没有坐到那张旧椅子上——那张椅子让给了你。她在地铺边缘坐下来，背靠着墙壁，双腿随意伸展，姿态比之前在公园里放松了许多。</div></div><div class="narration-block"><div class="bubble-text">&quot;这样可以吗？&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音比刚才更轻了一些，带着一点被暖光浸泡过的柔软。</div></div><div class="narration-block"><div class="bubble-text">&quot;我是说——这个高度，这把椅子。它坐起来有点矮，我第一次坐的时候差点滑下去。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说这话的时候嘴角带着一个很浅的弧度——不是嘲弄，更像是在分享一个关于这间房子的秘密。</div></div><div class="narration-block"><div class="bubble-text">桌面上传来轻微的动静。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫从油灯旁站起来，在桌沿走了一步，然后轻盈地跳落到地面——四只爪子几乎没发出声音。她在旧木地板上踱了两步，尾巴尖在空中画出一个小小的弧线，然后在你的椅子腿旁边蹲坐下来。</div></div><div class="narration-block"><div class="bubble-text">她没有靠在你腿上。只是蹲坐在那里，距离大约半个手臂远，脸朝向油灯的方向——但两只耳朵都微微偏向你所在的方向。</div></div><div class="narration-block"><div class="bubble-text">房间里安静了几秒。油灯火苗在玻璃罩里轻轻晃动，把墙壁上的影子拉长又缩短。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光落在那只黑猫身上，停留了一会儿。然后她抬起头，看向你。</div></div><div class="narration-block"><div class="bubble-text">&quot;还有时间。&quot;</div></div><div class="narration-block"><div class="bubble-text">她重复了一遍之前在房间里说过的话，但这一次语气更轻了——像是在告诉自己，也像是在告诉你。</div></div><div class="narration-block"><div class="bubble-text">&quot;晚宴在几个小时后才会真正开始。在这之前——你可以先在这里待着。不用想那些事。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的蓝眼睛在暖光中微微弯了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;这里没有那个剧本。&quot;</div></div><div class="narration-block"><div class="bubble-text">椅子腿旁，那只黑猫在这时候轻轻眨了一下眼。</div></div><div class="narration-block"><div class="bubble-text">她的尾巴尖在地板上扫过一小圈——然后她低下头，舔了舔自己前爪上的毛，动作慢悠悠的，像是在说：这里没什么好着急的。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">问问卡琳娜关于那把椅子的故事——为什么是唯一一把椅子</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">伸手试着轻碰一下旁边黑猫的背</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">观察房间里那些书籍的标题</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">告诉她这里确实让人觉得很安稳</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card " id="turn-45">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>45</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">观察房间里那些书籍的标题</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的视线从油灯的光晕上移开，落在墙边那几本竖着放的书上。</div></div><div class="narration-block"><div class="bubble-text">书脊朝外，纸张的边缘已经被翻得起了毛边。你微微侧过头，辨认那些磨损的字母——一本旧地图册，书脊上印着褪色的烫金标题，年份已经模糊得看不清了。旁边紧挨着一本诗集，封面是暗红色的布面，书脊的棱角被反复翻阅磨得发白。再往边上，是一本机械手册——封面上画着某种老式引擎的剖面图，纸张泛黄，边角卷曲。</div></div><div class="narration-block"><div class="bubble-text">三本书挤在一起，像被随手塞进角落，却又在那里放了很久。</div></div><div class="narration-block"><div class="bubble-text">“那本地图册的封面已经掉了。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音从地铺那边传来，带着一点被暖光浸泡过的懒意。她没有坐直，只是微微偏过头，目光越过你的肩膀落在那排书脊上。</div></div><div class="narration-block"><div class="bubble-text">“是我来这里第一年捡到的。缺了十几页，但剩下的部分够我用。”</div></div><div class="narration-block"><div class="bubble-text">你的目光移到那本诗集上。暗红色的布面在油灯下泛着一种老旧的光泽，像一块被风干的记忆。</div></div><div class="narration-block"><div class="bubble-text">“那本诗集的第三十七页被人撕掉了一半。”</div></div><div class="narration-block"><div class="bubble-text">她的声音里多了一丝几乎听不出来的柔和——像是想起了一件很久远的事。</div></div><div class="narration-block"><div class="bubble-text">“但我还是留着它。因为剩下的部分里，有一首写海的诗——写的不是这边的海，是另一片。”</div></div><div class="narration-block"><div class="bubble-text">她停顿了一下。</div></div><div class="narration-block"><div class="bubble-text">“我还没去过那片海。”</div></div><div class="narration-block"><div class="bubble-text">桌边传来轻微的摩擦声。那只黑猫从椅子腿旁站起来，踱了两步，走到书堆前。她没有低头去嗅那些书脊，只是蹲坐下来，尾巴尖在身后轻轻扫过半圈。琥珀色的瞳孔在昏暗中亮着，在诗集的书脊上短暂停留了一瞬——然后她抬起头，把目光转向你。</div></div><div class="narration-block"><div class="bubble-text">那一眼很短。短到像是一个无意识的动作。</div></div><div class="narration-block"><div class="bubble-text">但她的尾巴尖在扫过那本书的边缘时，停了一拍。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有注意到那个停顿——或者她注意到了，但没有说什么。她把目光从书堆上移开，落到油灯跳动的火焰上，声音低了一些。</div></div><div class="narration-block"><div class="bubble-text">“那些书是我这些年攒下来的。不多。但每一本都读过不止一遍。”</div></div><div class="narration-block"><div class="bubble-text">她顿了顿。</div></div><div class="narration-block"><div class="bubble-text">“在这里，有时候你需要一些别人的句子，来帮你想清楚自己的事。”</div></div><div class="narration-block"><div class="bubble-text">油灯火苗在玻璃罩里轻轻跳动了一下。那只黑猫的尾巴尖重新落回地面，在旧木地板上卷成一个小小的弧线。她的耳朵微微偏向你这边——没有转过来，只是偏着。像是在听你接下来的反应，又像是在等你自己决定要不要继续这个话题。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">回应那本诗集，问卡琳娜她读到的那首写海的诗</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问卡琳娜是否愿意一起去看看那片海</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">伸手轻轻摸摸黑猫的头</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">转向卡琳娜，问她‘晚宴’到底是什么</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-46">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>46</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-46-13">时空断裂 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">伸手轻轻摸摸黑猫的头</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的手还悬在半空中——那只黑猫蹲坐在椅子腿旁，耳朵微微偏向你的方向，尾巴尖在地板上卷成一个小小的弧线。</div></div><div class="narration-block"><div class="bubble-text">你缓缓伸出手，手掌朝上，手指微微弯曲，朝她的头顶靠近。</div></div><div class="narration-block"><div class="bubble-text">她没有躲避。也没有绷紧身体。只是蹲坐在那里，琥珀色的瞳孔在油灯光晕中亮着，像两颗被暖光浸透的玻璃珠。</div></div><div class="narration-block"><div class="bubble-text">你的指尖触到了她头顶的毛发——黑色的短毛，比看起来要柔软许多，带着一丝从夜风里带进来的凉意。</div></div><div class="narration-block"><div class="bubble-text">你轻轻划过她的头顶，动作很慢，手指顺着耳根的方向收回来。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫的耳朵轻轻颤动了一下——不是警惕，更像是一种下意识的回应。她的眼睛半眯起来，嘴角的胡须微微向前翘起。</div></div><div class="narration-block"><div class="bubble-text">然后她做出了一个你没想到的反应。</div></div><div class="narration-block"><div class="bubble-text">她把头微微向上抬了一点——迎着你的手——鼻尖几乎碰到你的掌根。然后她重新低下头，闭着眼，喉咙深处发出一声极轻的、几乎听不到的咕噜声。</div></div><div class="narration-block"><div class="bubble-text">那声音很短。短到如果不是房间里足够安静，你根本不会注意到。</div></div><div class="narration-block"><div class="bubble-text">房间的另一侧传来一点呼吸的变化——不是叹气，更像是一个被放松拉长了的呼吸。</div></div><div class="narration-block"><div class="bubble-text">“……她从来不会在第一次见面的人面前打呼噜。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音从地铺那边传来，比之前更轻，带着一丝几乎不敢相信的柔软。</div></div><div class="narration-block"><div class="bubble-text">她仍然靠墙坐着，双腿随意伸展，一只手搭在膝盖上。但她的目光落在那只黑猫和你之间——蓝眼睛里映着油灯跳动的光，那种光让她眼底的阴影变得很浅。</div></div><div class="narration-block"><div class="bubble-text">“你身上有什么让她觉得安心的东西。”</div></div><div class="narration-block"><div class="bubble-text">“……我是说，她不会轻易相信任何人。她见过足够多的人，知道什么人值得信任。”</div></div><div class="narration-block"><div class="bubble-text">你手下的那只黑猫在这时候睁开了眼睛。</div></div><div class="narration-block"><div class="bubble-text">她抬起头，琥珀色的瞳孔在你的脸上停留了一瞬——然后她轻轻眨了一下眼，重新把头低下去，下巴搁在自己交叠的前爪上。尾巴尖在地板上扫过一小圈，然后搭回了原来的位置。</div></div><div class="narration-block"><div class="bubble-text">她没有再发出咕噜声。但她也没有移开。</div></div><div class="narration-block"><div class="bubble-text">油灯火苗在玻璃罩里轻轻晃动了一下，把墙壁上的影子拉长又缩短。房间里安静了几秒——那种安静不是空洞的，而是被信任填满的。</div></div><div class="narration-block"><div class="bubble-text">“还有时间。”</div></div><div class="narration-block"><div class="bubble-text">她的声音在这片安静中落下来，像一片被风吹到水面上的叶子。</div></div><div class="narration-block"><div class="bubble-text">“你可以继续坐在这里。和她待一会儿。”</div></div><div class="narration-block"><div class="bubble-text">她顿了顿，目光从你和黑猫身上移开，落在油灯跳动的火焰上。</div></div><div class="narration-block"><div class="bubble-text">“晚宴的事——等时间到了再说。”</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">留在椅子上，继续抚摸黑猫，享受这片安静</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问卡琳娜她最常读的是哪本书</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">看向卡琳娜，问她关于晚宴更多的想法</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">从椅子上起身，走近书堆，拿起那本诗集</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-46-13">
+  <div class="issue-head">
+    <strong>时空断裂</strong>
+    <span>低 · T46 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>黑猫上一轮已从椅子腿旁移动到书堆前，本轮没有移动承接就把它写回椅子旁，造成位置连续性错误。</dd>
+    <dt>当前证据</dt><dd>Turn 46 开头写道：“那只黑猫蹲坐在椅子腿旁，耳朵微微偏向你的方向”。</dd>
+    <dt>冲突证据</dt><dd>Turn 45 中黑猫已经“从椅子腿旁站起来，踱了两步，走到书堆前”，随后“蹲坐下来”，并停留在诗集附近。</dd>
+    <dt>冲突轮次</dt><dd>T45</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-47">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>47</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-47-14">质量退化 · 低</a><a class="issue-pill severity-low" href="#issue-47-15">无支撑跳跃 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">问卡琳娜她最常读的是哪本书</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的手指从黑猫柔软的头顶滑过，感受到那丝夜风残留的凉意，以及掌根处留下的极轻的咕噜声的震动。</div></div><div class="narration-block"><div class="bubble-text">&quot;那本地图册——你说你读得最多。&quot;</div></div><div class="narration-block"><div class="bubble-text">你没有立刻收回手，只是微微侧过头，目光从书脊上移向地铺的方向。</div></div><div class="narration-block"><div class="bubble-text">&quot;还是那是你来这里第一年捡到的。你更常翻哪一本？&quot;</div></div><div class="narration-block"><div class="bubble-text">地铺那边的安静延长了一息。油灯火苗在玻璃罩里跳了一下，把卡琳娜靠在墙上的影子晃了晃。</div></div><div class="narration-block"><div class="bubble-text">她没有立刻回答。搭在膝盖上的手指轻轻捻了一下布料的纤维——那个动作和之前在房间里的一样小，但这一次她的目光没有移开，而是落在你身上，像是在衡量什么。</div></div><div class="narration-block"><div class="bubble-text">然后她低下头，看着自己交叠的手指，声音比刚才更低了一些。</div></div><div class="narration-block"><div class="bubble-text">&quot;那本诗集。&quot;</div></div><div class="narration-block"><div class="bubble-text">她停顿了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;第三十七页被撕掉了一半，但我还是经常翻到那一页——不是因为那里还有字可以读。是因为撕掉它的那个人，大概也觉得那一页不该被留下。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音在最后一个字上稍微飘了一下，像是自己也还没想清楚那句话的意思。</div></div><div class="narration-block"><div class="bubble-text">椅子腿旁，那只黑猫的耳朵轻轻转动了一下——但不是转向你，而是转向卡琳娜的方向。她的尾巴尖在地板上扫过一小圈，然后卷回来贴在身侧。</div></div><div class="narration-block"><div class="bubble-text">&quot;那首写海的诗在后半本。我读到那首的时候，总会想——&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起头来，蓝眼睛里的光在油灯的暖黄色中显得很柔。</div></div><div class="narration-block"><div class="bubble-text">&quot;——那片海，是不是比这边的更干净一些。&quot;</div></div><div class="narration-block"><div class="bubble-text">她说完这句话，嘴角弯了一个很浅的弧度，然后移开目光，落在油灯跳动的火焰上。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫在这时候动了一下。</div></div><div class="narration-block"><div class="bubble-text">她轻轻抬起头，把下巴从交叠的前爪上抬起来，然后慢悠悠地站起身——不是你手下的方向，而是迈了两步，踱到那堆书前。</div></div><div class="narration-block"><div class="bubble-text">她在暗红色布面诗集旁蹲坐下来，琥珀色的瞳孔在昏暗中亮着。她没有低头去嗅书脊，只是那样蹲着，尾巴尖在身后轻轻扫过半圈。</div></div><div class="narration-block"><div class="bubble-text">然后她看了你一眼。</div></div><div class="narration-block"><div class="bubble-text">那一眼很短。但她的尾巴尖在诗集边缘停了一拍——然后她重新把目光移开，像是在说：你问对人了。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有注意到那个细节——或者她注意到了，但她没有说话。她只是安静地坐在那里，目光从油灯火焰上移开，落在你和那只黑猫之间的空隙里，像是在让那句话自己慢慢落下来。</div></div><div class="narration-block"><div class="bubble-text">房间里安静了几秒。那种安静不是空洞的，而是被书页和暖光和猫的呼吸填满的。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">问问她撕掉那一页的人是谁</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">说她也想去看看那片海</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">低头看看黑猫，问她叫什么名字</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-47-14">
+  <div class="issue-head">
+    <strong>质量退化</strong>
+    <span>低 · T47 · choices</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>选项中的“她也想”把表达主体写得含混甚至错误，和后续实际展开的“我也想”不一致，影响玩家对所选行动的理解。</dd>
+    <dt>当前证据</dt><dd>Turn 47 的选项包含：“说她也想去看看那片海”。</dd>
+    <dt>冲突证据</dt><dd>Turn 47 的其他选项均是玩家接下来要执行的动作或提问，例如“问问她撕掉那一页的人是谁”“低头看看黑猫，问她叫什么名字”；此前语境是在让玩家决定自己如何回应卡琳娜关于那片海的感受。</dd>
+    <dt>冲突轮次</dt><dd>T47</dd>
+  </dl>
+</article><article class="issue-card severity-low" id="issue-47-15">
+  <div class="issue-head">
+    <strong>无支撑跳跃</strong>
+    <span>低 · T47 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>正文替玩家断言卡琳娜曾说地图册读得最多，但此前玩家可见内容没有这个信息，导致对话依据被凭空添加。</dd>
+    <dt>当前证据</dt><dd>Turn 47 玩家对白写道：“那本地图册——你说你读得最多。”</dd>
+    <dt>冲突证据</dt><dd>Turn 45 只说地图册是卡琳娜来这里第一年捡到的、缺了十几页；同轮概括为“那些书……每一本都读过不止一遍”，没有说地图册读得最多。</dd>
+    <dt>冲突轮次</dt><dd>T45</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-48">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>48</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-48-16">时空断裂 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">说她也想去看看那片海</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的手指还停在黑猫头顶的余温里，那句话在安静中落下来时，自己也跟着变得很轻。</div></div><div class="narration-block"><div class="bubble-text">&quot;我也想去看看那片海。&quot;</div></div><div class="narration-block"><div class="bubble-text">地铺那头的安静延长了一瞬。不是僵住的那种安静——更像是那句话被什么柔软的东西接住了，稳稳地放着，没有被惊动。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的目光没有立刻从油灯火焰上移开。她仍然靠墙坐着，指尖搭在膝盖上，蓝眼睛里的光在暖黄色中轻轻晃动了一下。然后她低下头，嘴角那个很浅的弧度没有收回去——反而像是被什么触动了一样，弯得更深了一点点。</div></div><div class="narration-block"><div class="bubble-text">&quot;……你这么说的时候，&quot;她的声音比刚才更轻，带着一丝被暖光泡软的温度，&quot;就好像那片海已经近了一点。&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起目光来看向你——那一眼里没有试探，没有打量，只有一种刚刚确认了某件事的安静。像是她说了那句话以后，自己也跟着想了想，然后觉得那是对的。</div></div><div class="narration-block"><div class="bubble-text">椅子腿旁，那只黑猫在这时候轻轻动了一下。她没有站起来——下巴还搁在前爪上，但耳朵微微转向了卡琳娜的方向，琥珀色的瞳孔半眯着，在昏暗中亮成两颗柔和的光点。她的尾巴尖在地板上扫过一小圈，扫到一半就停住了，搭在旧木地板上，再也没有动。</div></div><div class="narration-block"><div class="bubble-text">书堆旁，油灯火苗在玻璃罩里晃动了一下，把墙壁上的影子拉长了一些，又缩回来。暖光均匀地铺在书脊、旧地板和那只黑猫的背上，把整个房间浸成一种沉静的琥珀色。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜把目光从你身上移开，落在油灯跳动的火焰上。她沉默了几秒钟——不是不知道该说什么的沉默，更像是在让那句话在安静里多停留一会儿。</div></div><div class="narration-block"><div class="bubble-text">&quot;那首诗里写的海，&quot;她轻轻开口，声音低得像在自言自语，&quot;说它的颜色在清晨会变成一种接近透明的蓝。船过的时候，水纹会一直扩散到看不见的远方。&quot;</div></div><div class="narration-block"><div class="bubble-text">她停顿了一下。</div></div><div class="narration-block"><div class="bubble-text">&quot;——我以前觉得那是一个被夸大了的描述。后来想了想，也许只是因为我没有亲眼看到过。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的目光从火焰上移开，转向你，安静地在你脸上落了一瞬。然后她轻轻呼出一口气——那口气比她想象中要深一些，像是那句话把她心里的某根弦松开了。</div></div><div class="narration-block"><div class="bubble-text">那只黑猫在这时候眨了一下眼。她没有抬头，但她的尾巴尖重新在地板上扫过一小圈——那一圈比之前轻快了一些，像是一个微小的同意。</div></div><div class="narration-block"><div class="bubble-text">房间里又安静了几秒。油灯的光在墙上游走，把书和影子的边缘都染成了同一片暖黄色。那种安静不是没有声音的——而是被书页的呼吸、火苗的跳动和那只黑猫喉咙深处极轻的咕噜声填满的。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜没有再说话。她只是坐在那里，蓝眼睛里的光在暖色中变得很柔，像是那句话已经在某处生了根，正在安静地生长。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">问她，撕掉第三十七页的人是谁</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">问问她，暗街有没有人真的见过那片海</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">低头看那只黑猫，轻声问卡琳娜她的名字</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">就这样安静地坐一会儿，让时间慢慢流过</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-48-16">
+  <div class="issue-head">
+    <strong>时空断裂</strong>
+    <span>低 · T48 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>黑猫上一轮已移动到书堆和诗集旁，本轮又无承接地回到椅子腿旁并呈现为趴卧状态，破坏了动作和位置连续性。</dd>
+    <dt>当前证据</dt><dd>Turn 48 写道：“椅子腿旁，那只黑猫在这时候轻轻动了一下。她没有站起来——下巴还搁在前爪上”。</dd>
+    <dt>冲突证据</dt><dd>Turn 47 中黑猫已经“慢悠悠地站起身”，随后“踱到那堆书前”，并“在暗红色布面诗集旁蹲坐下来”。</dd>
+    <dt>冲突轮次</dt><dd>T47</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card has-issue" id="turn-49">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>49</h2></div>
+    <div class="turn-badges"><a class="issue-pill severity-low" href="#issue-49-17">身份漂移 · 低</a></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">低头看那只黑猫，轻声问卡琳娜她的名字</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">你的指尖还残留着那只黑猫头顶的温度。你低下头，看着她蹲坐在椅子腿旁，琥珀色的瞳孔在油灯暖光中亮着，尾巴尖搭在旧木地板上，像一道安静的黑色弧线。</div></div><div class="narration-block"><div class="bubble-text">“她叫什么名字？”</div></div><div class="narration-block"><div class="bubble-text">你听见自己的声音落进这片被暖光和书页浸透的安静里，比想象中要轻一些。</div></div><div class="narration-block"><div class="bubble-text">地铺那头的安静延长了一息。卡琳娜靠在墙上，蓝眼睛里映着油灯跳动的光——她没有立刻回答，像是那句话需要一点时间来落定。</div></div><div class="narration-block"><div class="bubble-text">“……她叫卡尔。”</div></div><div class="narration-block"><div class="bubble-text">她的声音比刚才更轻了一些，带着一丝被暖光泡软的温度。她说出那个名字的时候，指尖在膝盖上轻轻捻了一下——像是那个名字说出来的时候，自己也跟着确认了一遍。</div></div><div class="narration-block"><div class="bubble-text">“她自己选的名字。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜停顿了一下，目光从你身上移开，落在油灯跳动的火焰上。</div></div><div class="narration-block"><div class="bubble-text">“我来这里的第一年……有一天晚上，她蹲在门口的石阶上，对着我叫了一声。不是普通的猫叫——是有声音的，像是在说‘开门’。”</div></div><div class="narration-block"><div class="bubble-text">她嘴角弯了一个很浅的弧度。</div></div><div class="narration-block"><div class="bubble-text">“我当时刚读完一本旧书，书的作者姓卡尔。我就随口叫她卡尔——她没有走开。后来她再也没有离开过。”</div></div><div class="narration-block"><div class="bubble-text">椅子腿旁，那只黑猫——卡尔——在这时候轻轻动了一下。她没有站起来，但耳朵微微转向了卡琳娜的方向，琥珀色的瞳孔半眯着，在昏暗中亮着。她的尾巴尖在地板上扫过一小圈，然后重新搭回原来的位置——像是在说：你在叫我。</div></div><div class="narration-block"><div class="bubble-text">“她从来不会纠正别人叫她‘猫’。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音里多了一丝几乎听不出来的笑意。</div></div><div class="narration-block"><div class="bubble-text">“……但只有叫她卡尔的时候，她会眨一下眼睛。”</div></div><div class="narration-block"><div class="bubble-text">你说完这句话的时候，低头看了一眼那只黑猫。</div></div><div class="narration-block"><div class="bubble-text">卡尔蹲坐在那里，下巴微微抬着，琥珀色的目光在你脸上停留了一瞬——然后她轻轻眨了一下眼。</div></div><div class="narration-block"><div class="bubble-text">那一眼很短。但她的耳朵向前转了一下，尾巴尖在地板上轻轻敲了两下——像是在说：没错。</div></div><div class="narration-block"><div class="bubble-text">房间里安静了几秒。那种安静不是空洞的——而是被油灯火苗的跳动、旧木地板上偶尔传来的轻微摩擦、以及卡尔喉咙深处时断时续的极轻咕噜声填满的。暖光均匀地铺在书脊、旧地板和那只黑猫的背上，把整个房间浸成一种沉静的琥珀色。</div></div><div class="narration-block"><div class="bubble-text">“……你问她的名字。”</div></div><div class="narration-block"><div class="bubble-text">卡琳娜的声音在这片安静中落下来，像一片被暖光浸透的叶子，轻轻落在水面上。</div></div><div class="narration-block"><div class="bubble-text">“她现在知道你在叫她了。”</div></div><div class="narration-block"><div class="bubble-text">她的目光落在你和卡尔之间的空隙里，蓝眼睛里映着油灯跳动的光，那种光让她的眼底变得很柔。她没有再说更多——只是安静地坐在那里，让那句话在暖光中自己慢慢落下来。</div></div><div class="narration-block"><div class="bubble-text">卡尔在这时候轻轻抬起头，把下巴从交叠的前爪上抬起来，然后慢悠悠地转过身子——不是站起来，只是换了一个方向，把脸朝向卡琳娜所在的方向。她的耳朵微微松开，尾巴尖在地板上扫过一小圈，然后卷回来贴在自己的后背上。</div></div><div class="narration-block"><div class="bubble-text">油灯火苗跳动了一下，把墙壁上的影子拉长了一些，又缩回来。房间里更安静了——但那种安静里，有一种被轻轻握住的温暖。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">问卡琳娜，她给卡尔取名的那本书里写了什么</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">低头对卡尔说，她的名字很好听</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">问卡琳娜，晚宴的事——我们什么时候出发</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">沉默一会儿，感受这个房间里的安静</div></div></div>
+    </main>
+    <aside class="issues-panel"><h3>一致性审阅</h3><article class="issue-card severity-low" id="issue-49-17">
+  <div class="issue-head">
+    <strong>身份漂移</strong>
+    <span>低 · T49 · visibleText</span>
+  </div>
+  <dl>
+    <dt>判定原因</dt><dd>正文把卡琳娜刚说完的话错误归因给玩家，造成说话主体短暂漂移。</dd>
+    <dt>当前证据</dt><dd>Turn 49 在卡琳娜解释“但只有叫她卡尔的时候，她会眨一下眼睛”之后写道：“你说完这句话的时候，低头看了一眼那只黑猫。”</dd>
+    <dt>冲突证据</dt><dd>该句之前连续说话者是卡琳娜，玩家本轮只问了“她叫什么名字？”。</dd>
+    <dt>冲突轮次</dt><dd>T49</dd>
+  </dl>
+</article></aside>
+  </div>
+</section><section class="turn-card " id="turn-50">
+  <header class="turn-header">
+    <div><span class="turn-kicker">Turn</span><h2>50</h2></div>
+    <div class="turn-badges"><span class="clean-pill">本轮未标记问题</span></div>
+  </header>
+  <div class="turn-grid">
+    <main class="conversation">
+      <div class="bubble player"><div class="speaker"><span>玩家输入</span><small>playerInput</small></div><div class="bubble-text">问卡琳娜，她给卡尔取名的那本书里写了什么</div></div>
+      
+      <div class="narration-block"><div class="bubble-text">&quot;那本书……&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音从地铺那边传来，带着一点被暖光浸透的懒意。她仍然靠墙坐着，蓝眼睛落在油灯跳动的火焰上，像是在那团光里寻找一个已经很久远的画面。</div></div><div class="narration-block"><div class="bubble-text">&quot;是一本很旧的书。书脊上的字都快磨没了，纸页泛黄得像秋天的叶子。我在一个废弃的阁楼里捡到它的——那时候我刚来这里，还不知道什么能碰什么不能碰。&quot;</div></div><div class="narration-block"><div class="bubble-text">她停顿了一下，指尖在膝盖上轻轻捻了一下布料。</div></div><div class="narration-block"><div class="bubble-text">&quot;那本书里写了一个人的故事。一个……原本很有尊严的人。他失去了一切，被赶出家门，流落到一个没人认识他的地方。&quot;</div></div><div class="narration-block"><div class="bubble-text">她的声音这时候变得更轻了一些——不是悲伤的那种轻，而是像在触碰一件自己还没完全理解的事。</div></div><div class="narration-block"><div class="bubble-text">&quot;书里有一句话，我一直记得——他说：&#39;他们可以夺走我的房子，我的名字，甚至我记忆里那片海的颜色。但他们夺不走我选择如何记住这些的方式。&#39;&quot;</div></div><div class="narration-block"><div class="bubble-text">她的目光从油灯火焰上移开，转向你所在的方向，在昏暗中找到你的轮廓。</div></div><div class="narration-block"><div class="bubble-text">&quot;我当时读到这里的时候，把书合上了。坐了很久。&quot;</div></div><div class="narration-block"><div class="bubble-text">椅子腿旁，那只黑猫——卡尔——在这时候轻轻动了一下。她没有站起来，但耳朵微微转向了卡琳娜的方向。琥珀色的瞳孔半眯着，在油灯暖光中亮着。她的尾巴尖在地板上轻轻敲了两下——像是在说：你记得。</div></div><div class="narration-block"><div class="bubble-text">卡琳娜低下头，看向那只黑猫的方向。她嘴角弯了一个很浅的弧度。</div></div><div class="narration-block"><div class="bubble-text">&quot;后来我遇到了她。她蹲在石阶上，对着我叫了一声——不是普通的猫叫。像是说&#39;开门&#39;。&quot;</div></div><div class="narration-block"><div class="bubble-text">她轻轻笑了一下——那个笑声很短，很轻，像是无意中泄露出来的。</div></div><div class="narration-block"><div class="bubble-text">&quot;我当时想——如果一个人可以选择如何记住自己失去的东西，那只猫大概也可以选择自己的名字。&quot;</div></div><div class="narration-block"><div class="bubble-text">她抬起目光，重新看向你。</div></div><div class="narration-block"><div class="bubble-text">&quot;所以我就叫她卡尔。书的作者姓卡尔。我看完了那本书，然后合上它，再也没有翻开过。&quot;</div></div><div class="narration-block"><div class="bubble-text">油灯火苗在玻璃罩里跳动了一下，把墙壁上的影子拉长又缩短。</div></div><div class="narration-block"><div class="bubble-text">&quot;但我记住了那句话。&quot;</div></div><div class="narration-block"><div class="bubble-text">房间里安静了几秒。卡尔蹲坐在椅子腿旁，琥珀色的瞳孔从卡琳娜身上移开，落在你身上——然后她轻轻眨了一下眼。</div></div><div class="narration-block"><div class="bubble-text">那种安静不是空洞的：被油灯火苗的轻响、旧木地板偶尔传来的微小摩擦、以及卡尔喉咙深处时断时续的极轻咕噜声填满。</div></div>
+      <div class="choice-group"><h3>本轮可见选项</h3><div class="bubble choice"><div class="speaker"><span>选项 1</span></div><div class="bubble-text">问卡琳娜后来为什么再也没有翻开那本书。</div></div><div class="bubble choice"><div class="speaker"><span>选项 2</span></div><div class="bubble-text">低下头，对着卡尔轻声重复她的名字。</div></div><div class="bubble choice"><div class="speaker"><span>选项 3</span></div><div class="bubble-text">看向卡琳娜，说我也记得那句话。</div></div><div class="bubble choice"><div class="speaker"><span>选项 4</span></div><div class="bubble-text">伸手轻轻抚摸卡尔的背，没有说话。</div></div></div>
+    </main>
+    <aside class="issues-panel clean"><h3>一致性审阅</h3><p>本轮未标记一致性问题。</p></aside>
+  </div>
+</section>
+  <footer class="footer">Generated at 2026-06-23T15:17:30.344Z · /Users/wanghaha/code/oreturn-owlet-hybrid-dual-layer-memory/tmp/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/consistency-review/hybrid-recent-5-random-fullturn-bubble-review.html</footer>
+</div>
+</body>
+</html>

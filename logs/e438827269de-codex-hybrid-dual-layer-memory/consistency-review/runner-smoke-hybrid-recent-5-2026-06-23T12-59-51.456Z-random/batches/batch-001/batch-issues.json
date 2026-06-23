@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 3 offers the choice \"直接去暗街，往日总是如影随形\".",
+    "conflictingEvidence": "The surrounding turn 3 context is a concrete routing decision about going to Dark Street, and the other visible choice is the similarly concrete \"你注意到了不寻常的目光——你被盯上了？\". The appended clause \"往日总是如影随形\" has no established referent or actionable meaning in the scene.",
+    "conflictingTurns": [3],
+    "source": "model-output",
+    "reason": "The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity."
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 6,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 6 reopens with the same beat already shown at the end of turn 5: \"巷子里安静了两秒。你没有抬头……‘战友的遗产？’……你等着他的反应。\" before continuing the fight.",
+    "conflictingEvidence": "Turn 5 had already fully presented that exact pause, line, and internal setup as its closing scene, ending on the same \"你等着他的反应。\"",
+    "conflictingTurns": [5],
+    "source": "model-output",
+    "reason": "The next turn repeats a substantial chunk of already-shown scene text instead of cleanly advancing from the previous state."
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "Turn 9 has Karina refer to the Central District vendor as \"那个老头啊\".",
+    "conflictingEvidence": "Turns 1-3 consistently present that stallkeeper as female-coded: the narration uses \"她\" repeatedly, including \"她把胳膊肘撑在摊子上\" and \"她低下头去整理摊子上的零碎物件\".",
+    "conflictingTurns": [1, 2, 3],
+    "source": "model-output",
+    "reason": "The same previously female-coded vendor is suddenly recast as an old man without any visible explanation."
+  }
+]

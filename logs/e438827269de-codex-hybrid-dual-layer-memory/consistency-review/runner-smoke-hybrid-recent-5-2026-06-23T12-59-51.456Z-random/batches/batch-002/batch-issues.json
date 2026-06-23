@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "卡琳娜说：\"一张死人照片。一封匿名信。一趟自己走进火药的船。\"",
+    "conflictingEvidence": "上一轮同一推断使用的是可理解的危险隐喻：\"让你自己走进火药桶。\" 当前的 \"火药的船\" 语义不通顺，像是把 \"一趟船\" 和 \"火药桶\" 错拼在一起。",
+    "conflictingTurns": [11],
+    "source": "model-output",
+    "reason": "该句在关键情报分析对白中出现明显错拼式隐喻，短暂破坏正文可读性和语义稳定性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 16,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "选项文本包含孤立右引号：\"低声问卡琳娜：你现在有武器吗？”\"、\"指向窗户，压低声音问她：后路通哪里？”\"。",
+    "conflictingEvidence": "同批次其他选项通常使用完整引号或不使用引号，例如 turn 17 的 \"低声问卡琳娜，刚才外面有几个人\"。",
+    "conflictingTurns": [17],
+    "source": "model-output",
+    "reason": "两个选项都留下未配对的右引号，属于玩家可见选项格式瑕疵。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 20 写道：\"然后门外响起了第三次敲门声。不是之前那种短促、用力的指节砸击。而是——手掌拍在门板上的声音，带着喘息，断断续续。\"",
+    "conflictingEvidence": "turn 19 已经触发同一次当前危机：\"门外传来一阵急促的敲门声。不是礼貌的叩门。是指节砸在木门上的声音——短促，用力，带着一种不容等待的紧迫感。\"",
+    "conflictingTurns": [19],
+    "source": "model-output",
+    "reason": "玩家刚要应对第三次敲门，下一轮却把这次敲门的声源和质感从短促用力的指节敲击改写成喘息的手掌拍门，导致同一即时事件的感知证据前后不一致。"
+  }
+]

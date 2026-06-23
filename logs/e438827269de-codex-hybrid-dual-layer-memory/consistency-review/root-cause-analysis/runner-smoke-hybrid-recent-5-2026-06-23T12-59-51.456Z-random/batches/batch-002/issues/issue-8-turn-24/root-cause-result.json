@@ -1,0 +1,103 @@
+{
+  "issueId": "issue-8-turn-24",
+  "issueIndex": 8,
+  "turn": 24,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 24 把晚宴路线说成 `我的邀请仍然有效`，但玩家此前没有看到晚宴邀请被提出。",
+  "validityAssessment": {
+    "verdictReason": "玩家此前只看到卡琳娜邀请主角去公寓并已完成进入公寓；晚宴信息在 Turn 24 这句之后才首次出现。将其称为 `仍然有效` 会让玩家以为已有一个未完成的晚宴邀请。",
+    "playerVisibleSupport": "Turn 8/9 的邀请是 `跟我来。公寓不远` / `接受她的邀请去公寓`，Turn 11 已进入公寓；Turn 21-23 话题是敏特故事和照片；Turn 24 首次出现 `今晚凯旋门那边有个晚宴`，却前置 `我的邀请仍然有效`。",
+    "caveats": [
+      "如果 `邀请` 泛指早前进入公寓的善意延续，则字面仍可勉强解释；但紧接着的晚宴说明和 choices 使它实际指向一条新晚宴路线，因此 unsupported jump 成立。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "Turn 24 前，玩家仍在公寓内，刚拒绝/延迟给卡琳娜看敏特照片；可见剧情没有提出去凯旋门晚宴，也没有显示卡琳娜准备出门邀请主角同行。",
+    "relevantFacts": [
+      {
+        "claim": "已有邀请只是不久前去公寓谈话的邀请，且已经完成。",
+        "availability": "present-clear",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl"
+        ],
+        "notes": "Turn 8/9 明确 `公寓不远` 和 `接受她的邀请去公寓`，Turn 11 进入公寓后该邀请已消费。"
+      },
+      {
+        "claim": "晚宴邀请在 Turn 24 前对玩家可见证据中 absent。",
+        "availability": "absent",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/03-story-state.json"
+        ],
+        "notes": "最近 visible turns 21-23 都围绕敏特与照片，没有晚宴提议。"
+      },
+      {
+        "claim": "Turn 23 runtime 已过早完成 `4-01` 并激活 `4-02` 出门与晚宴邀请。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-23/05-runtime-after.json",
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/02-script-state.json",
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/03-story-state.json"
+        ],
+        "notes": "Turn 24 `currentStoryline` 为 `推进节点 04-02：出门与晚宴邀请`，内容直接包含 `邀请主角共赴晚宴` 与接受/拒绝转移。"
+      },
+      {
+        "claim": "Turn 24 Director 输出并未明确要求晚宴邀请，但 Narrator prompt 仍包含 over-active storyline。",
+        "availability": "contradicted",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06-llm-calls.json",
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06b-narrator-prompt.md"
+        ],
+        "notes": "Director summary 是照片请求后的沉默对峙；Narrator 实际被 currentStoryline 拉向 4-02 邀请节点。"
+      },
+      {
+        "claim": "Choice worker 将晚宴分支锁成可点击路线。",
+        "availability": "present-clear",
+        "artifacts": [
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06-llm-calls.json",
+          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/04-output.json"
+        ],
+        "notes": "Choice output 包含 `接受邀请，跟她去晚宴` / `拒绝邀请，留在公寓里`，并带 `choice:accept_invitation` / `choice:refuse_invitation`。"
+      }
+    ],
+    "competingPressures": [
+      "`4-02` 节点功能是出门与晚宴邀请",
+      "runtime currentLocationId 已是 `暗街-夜晚`，比玩家可见公寓状态超前",
+      "玩家当前输入只是照片话题中的沉默，没有触发出门",
+      "系统需要尽快暴露接受/拒绝晚宴的 key choice"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-23/05-runtime-after.json and story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/02-script-state.json",
+    "triggeringPressure": "Turn 23 只处理卡琳娜为什么想看照片，但 runtime-after 已把 beat 从 `4-01` 推进到 `4-02`；Turn 24 开始时 active story 已是 `出门与晚宴邀请`，并有接受/拒绝转移。",
+    "missingGuard": "storyline lifecycle 缺少 visible prerequisite：没有检查 `晚宴邀请是否已向玩家提出`、`公寓内照片话题是否已完成`、`角色是否已可见准备出门`，也没有要求首次提出邀请时避免使用 `仍然有效`。",
+    "mechanismStatement": "过早激活的 `4-02` 邀请节点把尚未可见引入的晚宴路线作为当前既定路线交给 Narrator；缺少 visible-introduction guard 使 Narrator 为了衔接强行写成 `我的邀请仍然有效`，把新邀请伪装成旧邀请。",
+    "directCause": "Narrator 在 `turn-24/06-llm-calls.json` call[1] 输出 `我的邀请仍然有效`，随后首次说明晚宴。",
+    "propagation": "`turn-24/04-output.json` 保存该正文；Choice worker 基于该正文和 storyline 生成 `接受邀请，跟她去晚宴` / `拒绝邀请` 并绑定关键 actionId，进一步固化晚宴路线。",
+    "nonCauses": [
+      "不是玩家漏看隐藏信息：玩家可见时间线此前没有晚宴邀请",
+      "不是 Choice 首先制造：Choice 在 Narrator 已写出邀请后才绑定分支",
+      "不是单纯角色知识问题：卡琳娜可以知道晚宴，但玩家未被可见邀请过"
+    ]
+  },
+  "rootCause": {
+    "label": "storyline-lifecycle",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "剧情节点生命周期提前从 `4-01` 进入 `4-02`，并把 `邀请主角共赴晚宴` 作为当前节点目标注入 prompt；系统没有 visible-introduction / invitation-state guard 来区分 `首次提出邀请` 与 `既有邀请仍有效`，导致 Narrator 把未呈现的晚宴路线写成已存在邀请。",
+    "fixSurface": [
+      "quest/beat prerequisite checks",
+      "invitation lifecycle state (`not_introduced`/`offered`/`accepted`/`declined`)",
+      "Narrator bridge rules for first-time route introduction",
+      "Choice key-action availability gating"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 8/9 只有公寓邀请；Turn 24 首次出现晚宴，却说 `我的邀请仍然有效`。",
+    "internalTrace": "`turn-23/05-runtime-after.json` 激活 `4-02-第一章`；`turn-24/02-script-state.json` currentLocationId 为 `暗街-夜晚` 且 activeBeatIds 为 `4-02-第一章`；`turn-24/03-story-state.json` currentStoryline 直接要求 `邀请主角共赴晚宴`；Narrator 生成 `我的邀请仍然有效`，Choice 随后绑定 accept/refuse invitation。"
+  },
+  "recommendedFixArea": "为 storyline node 添加可见前置条件与 invitation lifecycle：只有当晚宴被可见提出后才能显示 `仍然有效` 或绑定 accept/refuse；如果 4-02 首次触发，Narrator 应先桥接 `我有一个新提议`，并保持 location 不从公寓超前到 `暗街-夜晚`。",
+  "confidence": "high"
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜说：“我的邀请仍然有效。”随后才首次说明“今晚凯旋门那边有个晚宴。你如果愿意来——就跟我一起出门。”",
+    "conflictingEvidence": "窗口内此前没有玩家可见的晚宴邀请；可见的既有邀请是第 9 轮“跟上卡琳娜，接受她的邀请去公寓”，且该邀请已在第 11 轮进入公寓后完成。",
+    "conflictingTurns": [
+      9,
+      11,
+      23
+    ],
+    "source": "model-output",
+    "reason": "晚宴路线被说成一个仍然有效的既有邀请，但此前玩家只看到过去公寓的邀请，没有看到晚宴邀请被提出。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "卡琳娜说：“如果你不想来——也没关系。门没有锁。”",
+    "conflictingEvidence": "第 18 轮玩家检查门锁，确认“铁质锁舌卡入门框”“它确实是卡紧的”；第 20 轮德索洛离开后，“卡琳娜关上门。锁舌卡进门框的声音清脆而笃定。”",
+    "conflictingTurns": [
+      18,
+      20
+    ],
+    "source": "model-output",
+    "reason": "门此前刚被明确锁上，之后没有可见开锁动作，却被说成没有锁，造成局部物件状态冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "第 27 轮开头再次写“不是。”“我知道她的时候——她已经是短发了。比这张照片上还要短。”“她说长头发容易被人抓住。在暗处不方便。”并且这些对白没有使用引号。",
+    "conflictingEvidence": "第 26 轮卡琳娜已经回答过：“不是。”“我知道她的时候——她已经是短发了。剪得很短。比照片上还要短。”“她说长头发容易被人抓住。在暗处不方便。”第 27 轮玩家输入只是“确认她见过敏特”。",
+    "conflictingTurns": [
+      26
+    ],
+    "source": "model-output",
+    "reason": "新一轮没有直接承接玩家的确认动作，而是近乎逐句重复上一轮已完成的回答，并出现对白标点退化，形成明显重复演出。"
+  }
+]

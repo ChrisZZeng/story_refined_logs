@@ -1,0 +1,494 @@
+{
+  "batchId": "batch-002",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 5,
+      "turn": 16,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "两个选项都留下未配对的右引号，属于玩家可见选项格式瑕疵。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-format-validation-gap",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Choice output schema / post-generation validator",
+          "choice text sanitizer",
+          "06c-choice-prompt.md option style contract"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Choice worker 后增加 `option.text` 文案 lint：检测未配对 `“”`、`\"`、括号等；同时在 prompt 中要求选项使用无引号行动句，必要时自动把 `低声问卡琳娜：...？”` 规范为 `低声问卡琳娜是否有武器`。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-005-turn-16/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-005-turn-16/root-cause-report.md",
+      "result": {
+        "issueId": "issue-5-turn-16",
+        "issueIndex": 5,
+        "turn": 16,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 16 的两个玩家可见选项带有孤立右引号，形成轻微但真实的选项格式退化。",
+        "validityAssessment": {
+          "verdictReason": "该问题只凭玩家可见 choices 即可成立：两个选项都以 `？”` 结尾，但选项文本前半没有配对的开引号；这不是剧情解释问题，而是 UI 文案格式问题。",
+          "playerVisibleSupport": "`visible-timeline.jsonl` turn 16 choices 显示 `低声问卡琳娜：你现在有武器吗？”` 与 `指向窗户，压低声音问她：后路通哪里？”`。同轮第一项没有该问题，相邻轮选项也通常不使用孤立右引号。",
+          "caveats": [
+            "问题严重度低，不影响事实连续性或玩家行动语义。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "Turn 16 正文以门外急促敲门结尾，玩家刚看到短促用力的指节砸门声，需要选择如何应对门外威胁；Choice worker 只需要生成下一步可点击行动。",
+          "relevantFacts": [
+            {
+              "claim": "选项应是短、具体、可点击的行动文本，而不是正文对白帧。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06c-choice-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06-llm-calls.json"
+              ],
+              "notes": "Choice prompt 明确 `选项要短、具体、可点击`，并要求只返回 JSON options。"
+            },
+            {
+              "claim": "Choice schema 只约束每项有 `text`，没有约束中文引号配对或禁止孤立右引号。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06c-choice-prompt.md"
+              ],
+              "notes": "输出要求没有 `no unmatched quote`、标点平衡检查、或后处理 sanitizer。"
+            },
+            {
+              "claim": "近期正文含有大量中文对白引号和玩家提问式句子，容易把选项写成半对白。",
+              "availability": "present-buried",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06c-choice-prompt.md"
+              ],
+              "notes": "近期玩家经历与本轮正文中多处 `“...”` 对话样式在 prompt 中很长，格式规则相对低显著。"
+            }
+          ],
+          "competingPressures": [
+            "紧张敲门场景要求快速生成应对动作",
+            "选项 2/3 是向卡琳娜发问，模型倾向将其写成对白片段",
+            "JSON schema 接受任意字符串"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-16/06-llm-calls.json call[2].object.options",
+          "triggeringPressure": "Choice worker 在一个充满中文对白引号的上下文中，需要把玩家可问的内容压缩成短选项；它把问题式选项写成半对白，并在末尾保留右引号。",
+          "missingGuard": "Choice prompt/schema/runtime 没有对 `text` 做标点配对校验，也没有把选项文案规范成无引号行动句的后处理。",
+          "mechanismStatement": "自由生成的 choice `text` 在缺少标点平衡校验和选项文案规范化的情况下，把近期对白格式残片带入选项字符串，runtime 又按 schema 原样提交，导致玩家可见孤立右引号。",
+          "directCause": "Choice LLM 输出的两个 option.text 本身包含未配对的右引号；`04-output.json` 与 visible timeline 原样承接。",
+          "propagation": "`turn-16/06-llm-calls.json` call[2] 生成坏 option；`turn-16/04-output.json` 保存同样 choices；`visible-timeline.jsonl` 暴露给玩家。",
+          "nonCauses": [
+            "Director/Narrator 没有制造事实冲突",
+            "storyline 与 statefold 对该格式问题不是主要压力",
+            "玩家输入本身没有包含孤立右引号"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-format-validation-gap",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "Choice text 由模型自由生成，但系统只有 JSON 结构校验，没有中文标点配对、引号清洗、或选项句式规范化；在近期对白格式高显著时，模型局部 slip 生成孤立右引号，缺失的格式 guard 让它直接进入玩家可见 choices。",
+          "fixSurface": [
+            "Choice output schema / post-generation validator",
+            "choice text sanitizer",
+            "06c-choice-prompt.md option style contract"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 16 choices 中两个文本分别为 `低声问卡琳娜：你现在有武器吗？”`、`指向窗户，压低声音问她：后路通哪里？”`。",
+          "internalTrace": "`turn-16/06-llm-calls.json` call[2].object.options 已含同样坏文本；`turn-16/04-output.json` choices 原样保存；Choice prompt 只要求 JSON options 和短具体动作，没有标点平衡 guard。"
+        },
+        "recommendedFixArea": "在 Choice worker 后增加 `option.text` 文案 lint：检测未配对 `“”`、`\"`、括号等；同时在 prompt 中要求选项使用无引号行动句，必要时自动把 `低声问卡琳娜：...？”` 规范为 `低声问卡琳娜是否有武器`。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 6,
+      "turn": 20,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "玩家刚要应对第三次敲门，下一轮却把这次敲门的声源和质感从短促用力的指节敲击改写成喘息的手掌拍门，导致同一即时事件的感知证据前后不一致。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "storyline-lifecycle",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "quest/beat lifecycle transition guard",
+          "Director handoff schema for unresolved sensory events",
+          "Narrator prompt current-scene anchor section"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 storyline transition 增加可见前置条件：只有 DeSalo 的第三次敲门/身份揭示桥段被玩家看见后才能完成 `2-02`；同时在 Director 输出中加入 `unresolvedImmediateEvents`，把 `soundProfile: knuckle/short/forceful` 传给 Narrator 并禁止改写。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-006-turn-20/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-006-turn-20/root-cause-report.md",
+      "result": {
+        "issueId": "issue-6-turn-20",
+        "issueIndex": 6,
+        "turn": 20,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 20 把玩家刚要应对的第三次敲门，从 Turn 19 的短促用力指节砸门改写为带喘息的手掌拍门。",
+        "validityAssessment": {
+          "verdictReason": "玩家在 Turn 19 结尾刚看到当前危机的敲门声，并选择把相机背好准备应对；Turn 20 仍称其为第三次敲门，却明确说 `不是之前那种...指节砸击`，把同一即时事件的声源和质感重写。",
+          "playerVisibleSupport": "Turn 18 中卡琳娜已说 `刚才——那是第二次了`；Turn 19 结尾写 `门外传来一阵急促的敲门声...是指节砸在木门上的声音——短促，用力`；Turn 20 写 `然后门外响起了第三次敲门声。不是之前那种短促、用力的指节砸击。而是——手掌拍在门板上的声音，带着喘息`。",
+          "caveats": [
+            "如果强行解释为 Turn 19 后又隔了两次呼吸才出现的新拍门，矛盾会减轻；但文本同时使用 `第三次` 并紧接玩家应对动作，玩家自然会把它视为同一当前敲门事件。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "Turn 20 开始前，玩家刚听到第三次门外急促敲门，声学证据是短促、用力的指节砸在木门上；玩家选择把相机背好，准备应对突发状况。门外身份尚未可见揭示。",
+          "relevantFacts": [
+            {
+              "claim": "第三次敲门的最近可见声学事实是 `指节砸在木门上`、`短促，用力`。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/06b-narrator-prompt.md"
+              ],
+              "notes": "该句出现在 Turn 19 visible text 末尾，也进入 Turn 20 recentTurns。"
+            },
+            {
+              "claim": "Turn 19 结束后 runtime 已把 `2-02` 完成并激活 `2-03` 交易节点。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-19/05-runtime-after.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/02-script-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/03-story-state.json"
+              ],
+              "notes": "`activeBeatIds` 变为 `2-03-第一章`，且 `德索洛的倾诉` anchor 已为 true；这比玩家可见的 DeSalo 入场/倾诉更靠前。"
+            },
+            {
+              "claim": "当前故事线强制推进 DeSalo 交易全流程，突出 DeSalo `大口喘息`、汗湿、闯入。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/06-llm-calls.json"
+              ],
+              "notes": "Director requiredContent 包含 `门外第三次敲门并伴随男人喊声`，characterBeats 写 `大口喘息，汗湿西装`，但没有保留 `指节砸门` 的硬约束。"
+            },
+            {
+              "claim": "写作一致性原则要求最近可见事实优先。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/06b-narrator-prompt.md"
+              ],
+              "notes": "该原则是通用条款，未把当前敲门声 profile 提升为本轮 must-preserve anchor。"
+            }
+          ],
+          "competingPressures": [
+            "`2-03` 节点必须在本轮完成 DeSalo 闯入、下跪、交易、离开",
+            "DeSalo 角色表现要求喘息、汗湿、急迫",
+            "玩家输入只做准备动作，没有提供新的声学观察",
+            "最近可见声学事实在长 prompt 中存在，但没有被 Director 结构化传递"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-19/05-runtime-after.json -> story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-20/06a-director-prompt.md",
+          "triggeringPressure": "Turn 19 只把第三次敲门带到门前，runtime 却已经切到 `2-03` 尊严交易节点；Turn 20 Director 因此把本轮目标设为 `门外第三次敲门并伴随男人喊声` 与 DeSalo 全流程交易。",
+          "missingGuard": "缺少 unresolved current-scene event anchor：系统没有把 `当前这次敲门已被玩家听成短促用力的指节砸门` 作为 Narrator 必须保留的硬约束，也没有要求 fixed beat 入场时桥接已出现的感知证据。",
+          "mechanismStatement": "过早激活 DeSalo 交易节点把未解决的当前敲门重包装成 fixed beat 入场；由于 handoff 只传递 `第三次敲门+男人喊声` 而未传递原声学 profile，Narrator 将 DeSalo 的喘息/急迫特征回填到敲门本身，改写了玩家刚看到的指节砸门。",
+          "directCause": "Narrator 在 `turn-20/06-llm-calls.json` call[1] 首次写出 `不是之前那种...而是手掌拍在门板上的声音，带着喘息`。",
+          "propagation": "错误文本进入 `turn-20/04-output.json` narrative 与 `visible-timeline.jsonl`；后续 DeSalo 入场和交易继续沿该版本展开。",
+          "nonCauses": [
+            "不是长期记忆缺失：Turn 19 声学事实仍在 recentTurns 中",
+            "不是玩家输入造成：玩家只是准备应对，没有改变敲门方式",
+            "不是单纯 Narrator 任意幻觉：active storyline 与 Director requiredContent 对 DeSalo 入场施加了强压力"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "`2-02` 到 `2-03` 的 storyline transition 在可见 DeSalo 入场桥段完成前被推进，固定交易节点成为高优先级目标；系统缺少 current-scene event anchor 来保护上一轮刚建立的敲门声学事实，导致 DeSalo `喘息` 设定被错误合并进敲门质感。",
+          "fixSurface": [
+            "quest/beat lifecycle transition guard",
+            "Director handoff schema for unresolved sensory events",
+            "Narrator prompt current-scene anchor section"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 19：第三次敲门是 `指节砸在木门上的声音——短促，用力`；Turn 20：同一应对链条中改成 `手掌拍在门板上的声音，带着喘息`。",
+          "internalTrace": "`turn-19/05-runtime-after.json` 已完成 `2-02` 并激活 `2-03`；`turn-20/03-story-state.json` currentStoryline 是 `推进节点 02-03：尊严换公道的交易`；Director requiredContent 只写 `门外第三次敲门并伴随男人喊声`，Narrator 输出首个错误声学改写。"
+        },
+        "recommendedFixArea": "为 storyline transition 增加可见前置条件：只有 DeSalo 的第三次敲门/身份揭示桥段被玩家看见后才能完成 `2-02`；同时在 Director 输出中加入 `unresolvedImmediateEvents`，把 `soundProfile: knuckle/short/forceful` 传给 Narrator 并禁止改写。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 7,
+      "turn": 24,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "门此前刚被明确锁上，之后没有可见开锁动作，却被说成没有锁，造成局部物件状态冲突。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "state-writeback",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "scene object state extraction/writeback",
+          "current-scene affordance block in Director/Narrator prompts",
+          "exit/choice validation against locked-door state"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "把门/窗/出口等场景 affordance 从正文事件抽取到 scene state，例如 `apartmentDoor.locked=true`，并在 Narrator 与 Choice 生成前做 contradiction check；若需要离开，先生成可见开锁动作或改写为 `我会给你开门`。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-007-turn-24/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-007-turn-24/root-cause-report.md",
+      "result": {
+        "issueId": "issue-7-turn-24",
+        "issueIndex": 7,
+        "turn": 24,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 24 说 `门没有锁`，但此前门锁刚被两次明确写成锁上，且没有可见开锁动作。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本已建立门锁状态：Turn 18 检查并确认锁舌卡紧；Turn 20 DeSalo 离开后卡琳娜关门，锁舌再次卡进门框。Turn 21-23 没有开锁或离门动作，Turn 24 却宣称门没有锁。",
+          "playerVisibleSupport": "Turn 18：`铁质锁舌卡入门框...确实是卡紧的`；Turn 20：`卡琳娜关上门。锁舌卡进门框的声音清脆而笃定`；Turn 24：`如果你不想来——也没关系。门没有锁。`。",
+          "caveats": [
+            "可以把 `门没有锁` 理解成卡琳娜愿意放行的社交表达，但它仍然直接描述物件状态，与刚建立的锁舌状态冲突。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "Turn 24 前玩家仍在卡琳娜公寓内，就是否交出敏特照片与卡琳娜沉默对峙。门在 DeSalo 离开后被卡琳娜关上并锁舌卡紧；玩家没有看到任何人重新开锁。",
+          "relevantFacts": [
+            {
+              "claim": "公寓门当前应为锁上状态。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06a-director-prompt.md",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06b-narrator-prompt.md"
+              ],
+              "notes": "Turn 20 lock sentence 在 Turn 24 recentTurns 尾部和 Narrator prompt 中可见。"
+            },
+            {
+              "claim": "门锁状态没有被结构化持久化。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/02-script-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/03-story-state.json"
+              ],
+              "notes": "`entityStates` 只有 `公园` 和 `卡琳娜`，没有 `door.locked` 或公寓门状态；`currentScene` 也为 null。"
+            },
+            {
+              "claim": "Turn 24 前系统已进入 `4-02` 出门与晚宴邀请节点，提供接受/拒绝邀请分支。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/02-script-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/03-story-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06a-director-prompt.md"
+              ],
+              "notes": "`currentStoryline` 要求邀请主角共赴晚宴，`interactionFollowup` 写 `当主角未接受邀请时，卡琳娜会独自前往`，对离开/拒绝可行性形成强压力。"
+            },
+            {
+              "claim": "Director 本轮摘要没有要求改变门锁状态。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06-llm-calls.json"
+              ],
+              "notes": "Director 只总结主角不拿照片、卡琳娜等待决定；错误由 Narrator 在扩写时引入。"
+            }
+          ],
+          "competingPressures": [
+            "晚宴邀请节点需要给玩家接受/拒绝的自由",
+            "拒绝分支需要解释玩家可以不跟卡琳娜走",
+            "门锁事实只在长 recent prose 中，没有结构化 scene affordance",
+            "当前Location 在 script state 已偏向 `暗街-夜晚`，削弱了公寓门的物理状态显著性"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06-llm-calls.json call[1].text",
+          "triggeringPressure": "`4-02` 当前故事线要求发出晚宴邀请并给出拒绝路径，Narrator 需要让玩家觉得可以不去；于是用 `门没有锁` 来表达离开自由。",
+          "missingGuard": "门锁这一局部物件状态没有写入结构化 state，也没有在 handoff 中作为 `must-preserve scene affordance` 出现；通用一致性规则不足以压过晚宴/拒绝分支压力。",
+          "mechanismStatement": "可离开分支被 foreground，而门锁状态只以 buried recent prose 存在且未 state-writeback；Narrator 为了给拒绝邀请提供通行解释，生成了 `门没有锁` 这一未经开锁动作支持的物件状态。",
+          "directCause": "Narrator 输出最后一句 `如果你不想来——也没关系。门没有锁。`，与 recent visible lock state 冲突。",
+          "propagation": "错误句进入 `turn-24/04-output.json` 和 visible timeline；Choice worker 随后提供 `拒绝邀请，留在公寓里`，使错误的离开/留置分支成为玩家可操作语境。",
+          "nonCauses": [
+            "不是玩家选择导致：玩家只是没有拿出照片",
+            "不是长期 detail-memory：锁门事实仍在 recentTurns 中",
+            "不是 Director 明确要求：Director 没有提门锁"
+          ]
+        },
+        "rootCause": {
+          "label": "state-writeback",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "公寓门锁这种可持续影响行动 affordance 的局部物件状态没有被写回结构化 state；当晚宴邀请/拒绝分支要求呈现玩家可不跟随时，Narrator 缺少 `door.locked=true` guard，只在长 recent prose 中埋着锁门事实，因而生成了相反的 `门没有锁`。",
+          "fixSurface": [
+            "scene object state extraction/writeback",
+            "current-scene affordance block in Director/Narrator prompts",
+            "exit/choice validation against locked-door state"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 18 和 Turn 20 均明确锁上；Turn 24 无开锁动作却说门没有锁。",
+          "internalTrace": "Turn 24 prompt recentTurns 包含 `锁舌卡进门框的声音清脆而笃定`；`turn-24/02-script-state.json` / `03-story-state.json` 没有门锁结构化状态；Narrator call[1] 首次引入相反状态。"
+        },
+        "recommendedFixArea": "把门/窗/出口等场景 affordance 从正文事件抽取到 scene state，例如 `apartmentDoor.locked=true`，并在 Narrator 与 Choice 生成前做 contradiction check；若需要离开，先生成可见开锁动作或改写为 `我会给你开门`。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 8,
+      "turn": 24,
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "晚宴路线被说成一个仍然有效的既有邀请，但此前玩家只看到过去公寓的邀请，没有看到晚宴邀请被提出。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "storyline-lifecycle",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "quest/beat prerequisite checks",
+          "invitation lifecycle state (`not_introduced`/`offered`/`accepted`/`declined`)",
+          "Narrator bridge rules for first-time route introduction",
+          "Choice key-action availability gating"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 storyline node 添加可见前置条件与 invitation lifecycle：只有当晚宴被可见提出后才能显示 `仍然有效` 或绑定 accept/refuse；如果 4-02 首次触发，Narrator 应先桥接 `我有一个新提议`，并保持 location 不从公寓超前到 `暗街-夜晚`。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-008-turn-24/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-002/issues/issue-008-turn-24/root-cause-report.md",
+      "result": {
+        "issueId": "issue-8-turn-24",
+        "issueIndex": 8,
+        "turn": 24,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 24 把晚宴路线说成 `我的邀请仍然有效`，但玩家此前没有看到晚宴邀请被提出。",
+        "validityAssessment": {
+          "verdictReason": "玩家此前只看到卡琳娜邀请主角去公寓并已完成进入公寓；晚宴信息在 Turn 24 这句之后才首次出现。将其称为 `仍然有效` 会让玩家以为已有一个未完成的晚宴邀请。",
+          "playerVisibleSupport": "Turn 8/9 的邀请是 `跟我来。公寓不远` / `接受她的邀请去公寓`，Turn 11 已进入公寓；Turn 21-23 话题是敏特故事和照片；Turn 24 首次出现 `今晚凯旋门那边有个晚宴`，却前置 `我的邀请仍然有效`。",
+          "caveats": [
+            "如果 `邀请` 泛指早前进入公寓的善意延续，则字面仍可勉强解释；但紧接着的晚宴说明和 choices 使它实际指向一条新晚宴路线，因此 unsupported jump 成立。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "Turn 24 前，玩家仍在公寓内，刚拒绝/延迟给卡琳娜看敏特照片；可见剧情没有提出去凯旋门晚宴，也没有显示卡琳娜准备出门邀请主角同行。",
+          "relevantFacts": [
+            {
+              "claim": "已有邀请只是不久前去公寓谈话的邀请，且已经完成。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl"
+              ],
+              "notes": "Turn 8/9 明确 `公寓不远` 和 `接受她的邀请去公寓`，Turn 11 进入公寓后该邀请已消费。"
+            },
+            {
+              "claim": "晚宴邀请在 Turn 24 前对玩家可见证据中 absent。",
+              "availability": "absent",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/03-story-state.json"
+              ],
+              "notes": "最近 visible turns 21-23 都围绕敏特与照片，没有晚宴提议。"
+            },
+            {
+              "claim": "Turn 23 runtime 已过早完成 `4-01` 并激活 `4-02` 出门与晚宴邀请。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-23/05-runtime-after.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/02-script-state.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/03-story-state.json"
+              ],
+              "notes": "Turn 24 `currentStoryline` 为 `推进节点 04-02：出门与晚宴邀请`，内容直接包含 `邀请主角共赴晚宴` 与接受/拒绝转移。"
+            },
+            {
+              "claim": "Turn 24 Director 输出并未明确要求晚宴邀请，但 Narrator prompt 仍包含 over-active storyline。",
+              "availability": "contradicted",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06b-narrator-prompt.md"
+              ],
+              "notes": "Director summary 是照片请求后的沉默对峙；Narrator 实际被 currentStoryline 拉向 4-02 邀请节点。"
+            },
+            {
+              "claim": "Choice worker 将晚宴分支锁成可点击路线。",
+              "availability": "present-clear",
+              "artifacts": [
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/06-llm-calls.json",
+                "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/04-output.json"
+              ],
+              "notes": "Choice output 包含 `接受邀请，跟她去晚宴` / `拒绝邀请，留在公寓里`，并带 `choice:accept_invitation` / `choice:refuse_invitation`。"
+            }
+          ],
+          "competingPressures": [
+            "`4-02` 节点功能是出门与晚宴邀请",
+            "runtime currentLocationId 已是 `暗街-夜晚`，比玩家可见公寓状态超前",
+            "玩家当前输入只是照片话题中的沉默，没有触发出门",
+            "系统需要尽快暴露接受/拒绝晚宴的 key choice"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-23/05-runtime-after.json and story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-24/02-script-state.json",
+          "triggeringPressure": "Turn 23 只处理卡琳娜为什么想看照片，但 runtime-after 已把 beat 从 `4-01` 推进到 `4-02`；Turn 24 开始时 active story 已是 `出门与晚宴邀请`，并有接受/拒绝转移。",
+          "missingGuard": "storyline lifecycle 缺少 visible prerequisite：没有检查 `晚宴邀请是否已向玩家提出`、`公寓内照片话题是否已完成`、`角色是否已可见准备出门`，也没有要求首次提出邀请时避免使用 `仍然有效`。",
+          "mechanismStatement": "过早激活的 `4-02` 邀请节点把尚未可见引入的晚宴路线作为当前既定路线交给 Narrator；缺少 visible-introduction guard 使 Narrator 为了衔接强行写成 `我的邀请仍然有效`，把新邀请伪装成旧邀请。",
+          "directCause": "Narrator 在 `turn-24/06-llm-calls.json` call[1] 输出 `我的邀请仍然有效`，随后首次说明晚宴。",
+          "propagation": "`turn-24/04-output.json` 保存该正文；Choice worker 基于该正文和 storyline 生成 `接受邀请，跟她去晚宴` / `拒绝邀请` 并绑定关键 actionId，进一步固化晚宴路线。",
+          "nonCauses": [
+            "不是玩家漏看隐藏信息：玩家可见时间线此前没有晚宴邀请",
+            "不是 Choice 首先制造：Choice 在 Narrator 已写出邀请后才绑定分支",
+            "不是单纯角色知识问题：卡琳娜可以知道晚宴，但玩家未被可见邀请过"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "剧情节点生命周期提前从 `4-01` 进入 `4-02`，并把 `邀请主角共赴晚宴` 作为当前节点目标注入 prompt；系统没有 visible-introduction / invitation-state guard 来区分 `首次提出邀请` 与 `既有邀请仍有效`，导致 Narrator 把未呈现的晚宴路线写成已存在邀请。",
+          "fixSurface": [
+            "quest/beat prerequisite checks",
+            "invitation lifecycle state (`not_introduced`/`offered`/`accepted`/`declined`)",
+            "Narrator bridge rules for first-time route introduction",
+            "Choice key-action availability gating"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 8/9 只有公寓邀请；Turn 24 首次出现晚宴，却说 `我的邀请仍然有效`。",
+          "internalTrace": "`turn-23/05-runtime-after.json` 激活 `4-02-第一章`；`turn-24/02-script-state.json` currentLocationId 为 `暗街-夜晚` 且 activeBeatIds 为 `4-02-第一章`；`turn-24/03-story-state.json` currentStoryline 直接要求 `邀请主角共赴晚宴`；Narrator 生成 `我的邀请仍然有效`，Choice 随后绑定 accept/refuse invitation。"
+        },
+        "recommendedFixArea": "为 storyline node 添加可见前置条件与 invitation lifecycle：只有当晚宴被可见提出后才能显示 `仍然有效` 或绑定 accept/refuse；如果 4-02 首次触发，Narrator 应先桥接 `我有一个新提议`，并保持 location 不从公寓超前到 `暗街-夜晚`。",
+        "confidence": "high"
+      }
+    }
+  ]
+}
