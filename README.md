@@ -5,7 +5,7 @@
 
 ```text
 请在仓库根目录：
-current_dir/oreturn
+current_dir/
 
 直接读取并遵循这个 coordinator skill：
 current_dir/story_refined_logs/skills/consistency_evaluator/skills/coordinator/SKILL.md
@@ -27,7 +27,7 @@ current_dir/story_refined_logs/logs/<current_branch>-<current_version>/consisten
 
 ```text
 请在仓库根目录：
-current_dir/oreturn
+current_dir/
 
 直接读取并遵循这个 root cause coordinator skill：
 current_dir/story_refined_logs/skills/consistency_root_cause/skills/coordinator/SKILL.md
