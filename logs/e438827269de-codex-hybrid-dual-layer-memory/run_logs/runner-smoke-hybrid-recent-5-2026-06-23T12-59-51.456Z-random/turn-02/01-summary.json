@@ -1,0 +1,659 @@
+{
+  "turn": 2,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "询问小贩关于敏特的事",
+  "selectedFromPreviousTurn": {
+    "text": "询问小贩关于敏特的事",
+    "actionId": "choice:理想"
+  },
+  "submittedAction": {
+    "actionId": "choice:理想",
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 2
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 2
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 2
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "问她关于卡琳娜的事"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "道谢后前往古董街",
+        "actionId": "choice:现在"
+      },
+      {
+        "text": "询问小贩的名字和更多细节"
+      },
+      {
+        "text": "问她关于卡琳娜的事"
+      }
+    ]
+  },
+  "visibleChars": 504,
+  "durationMs": 82517.26,
+  "memory": {
+    "recentTurns": 1,
+    "recentEvents": 0,
+    "characterEvents": 5,
+    "locationEvents": 1,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T13:01:19.446Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T13:01:19.448Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-63fc7324",
+      "taskId": "b0eccc4f-0730-4355-b05f-339273999a4d",
+      "durationMs": 235.19995900000504,
+      "at": "2026-06-23T13:01:19.674Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-248a48aa",
+      "taskId": "03aba41a-be38-47c3-bc81-550acbf03c8f",
+      "durationMs": 277.54829200000677,
+      "at": "2026-06-23T13:01:19.717Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-83b880dd",
+      "taskId": "48bb89b4-13eb-4af0-84bc-8bb9e54d481b",
+      "durationMs": 289.05337500000314,
+      "at": "2026-06-23T13:01:19.728Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-4e42b8b2",
+      "taskId": "1eaf07a3-7b72-4198-90fb-881effcc3bab",
+      "durationMs": 356.81933300000674,
+      "at": "2026-06-23T13:01:19.796Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-a504171c",
+      "taskId": "3428f2b4-d278-48d3-bfc1-cd227f23b713",
+      "durationMs": 357.1457079999964,
+      "at": "2026-06-23T13:01:19.796Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-9e53f080",
+      "taskId": "22adc7a8-f333-4b2f-bdff-2d18d9bd5ad4",
+      "durationMs": 212.22087499999907,
+      "at": "2026-06-23T13:01:19.887Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-b668764d",
+      "taskId": "9684585a-bffe-4c00-9ef3-f0d6a0e9aa2f",
+      "durationMs": 252.20370800000092,
+      "at": "2026-06-23T13:01:19.969Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-e43b19e2",
+      "taskId": "08f28307-0a1b-46f5-9cb9-74fd82bfe08c",
+      "durationMs": 290.80374999999185,
+      "at": "2026-06-23T13:01:20.019Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-0805242b",
+      "taskId": "cc151376-c238-4f97-aa6d-f11d4c10db32",
+      "durationMs": 272.47529199998826,
+      "at": "2026-06-23T13:01:20.068Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-dd5a859f",
+      "taskId": "3059f720-8032-43e3-a69e-7373c356a370",
+      "durationMs": 272.3962920000049,
+      "at": "2026-06-23T13:01:20.069Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-42cbc6df",
+      "taskId": "f72d2d20-ce6d-40f8-ae4a-cc385533b6ce",
+      "durationMs": 246.23912500000733,
+      "at": "2026-06-23T13:01:20.133Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-a2e5965b",
+      "taskId": "ca4b5720-8b13-41c9-885b-1ef61bc3aef4",
+      "durationMs": 236.37341600000218,
+      "at": "2026-06-23T13:01:20.205Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-e9283dbd",
+      "taskId": "7bf02cf7-efb2-4f5d-a64b-74c15322a04b",
+      "durationMs": 259.27300000000105,
+      "at": "2026-06-23T13:01:20.328Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-fc72c9f3",
+      "taskId": "33f6f4e7-5c89-4775-ab29-0b879fafeb96",
+      "durationMs": 315.1290830000071,
+      "at": "2026-06-23T13:01:20.334Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-37e8a570",
+      "taskId": "8ac8adb2-b9a0-4413-a746-416d260b252e",
+      "durationMs": 203.93429099999776,
+      "at": "2026-06-23T13:01:20.337Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-9df7746c",
+      "taskId": "6c0e1a76-97a3-4ff7-a803-e195485d35b9",
+      "durationMs": 353.63629200001014,
+      "at": "2026-06-23T13:01:20.422Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-c8185087",
+      "taskId": "5ab171e4-7005-475a-9fcd-d3190af54eb9",
+      "durationMs": 232.52658299999894,
+      "at": "2026-06-23T13:01:20.438Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-d5ab635f",
+      "taskId": "2ca3f0e2-0aa0-4f2f-b213-cd2adb93d075",
+      "durationMs": 214.63341700000456,
+      "at": "2026-06-23T13:01:20.542Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-d16c9069",
+      "taskId": "a6e27d4a-2af0-44c4-8697-f838c8154dca",
+      "durationMs": 242.36241699999664,
+      "at": "2026-06-23T13:01:20.576Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "询问小贩关于敏特的事",
+      "requestId": "req-57708d4d",
+      "taskId": "2490bf8b-67f4-47b0-8363-75d321d517f3",
+      "durationMs": 297.92087499999616,
+      "at": "2026-06-23T13:01:20.635Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-993ba509",
+      "taskId": "6a313573-7585-420c-b372-1ea139e87d8a",
+      "durationMs": 232.89187500000116,
+      "at": "2026-06-23T13:01:20.869Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-9841ba28",
+      "taskId": "81d59330-5efd-4449-bc6e-c80d8b829658",
+      "durationMs": 309.4727920000005,
+      "at": "2026-06-23T13:01:20.946Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 中央区 的事迹？",
+      "requestId": "req-0b0291f4",
+      "taskId": "77695389-436f-47ab-b6dc-f0795bba56b6",
+      "durationMs": 310.1444589999883,
+      "at": "2026-06-23T13:01:20.946Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 在 中央区 的事迹？",
+      "requestId": "req-44f1a2b1",
+      "taskId": "76d64398-4a7b-4b23-8dea-e8ebfa78801b",
+      "durationMs": 311.71962500001246,
+      "at": "2026-06-23T13:01:20.948Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 中央区 的事迹？",
+      "requestId": "req-354b2dc6",
+      "taskId": "41773ae3-0227-4f45-a896-f487cf65ae29",
+      "durationMs": 312.95412500000384,
+      "at": "2026-06-23T13:01:20.949Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 共同经历的\"重要\"的事件？",
+      "requestId": "req-40f6cfdf",
+      "taskId": "90c0d147-7ffc-415a-8aa9-ebac5df1dbd0",
+      "durationMs": 241.20475000000442,
+      "at": "2026-06-23T13:01:21.189Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-eae6a8b1",
+      "taskId": "fe2a7337-95e0-465f-a921-37acebb9bbac",
+      "durationMs": 293.5707919999986,
+      "at": "2026-06-23T13:01:21.240Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-2e7762e4",
+      "taskId": "7cbbf5f2-3bba-4839-a2e5-e4ae8f34d742",
+      "durationMs": 295.13375000000815,
+      "at": "2026-06-23T13:01:21.242Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-0cc11acd",
+      "taskId": "76a0596d-78b9-41f3-a1f7-9fe3e9f91a34",
+      "durationMs": 292.6434159999917,
+      "at": "2026-06-23T13:01:21.242Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 的独特对话、合作、冲突？",
+      "requestId": "req-7d4fa853",
+      "taskId": "ed0c0730-96bd-40e3-9d28-6c5105542d4e",
+      "durationMs": 457.64508300001035,
+      "at": "2026-06-23T13:01:21.327Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-82fd6a03",
+      "taskId": "f22a6889-35cb-4f9c-9936-d8664c35d879",
+      "durationMs": 249.67862500000047,
+      "at": "2026-06-23T13:01:21.439Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 “小贩” 有哪些约定？",
+      "requestId": "req-bc164d38",
+      "taskId": "57c9a2fe-470b-4035-ac5a-34d3a002f576",
+      "durationMs": 240.4602920000034,
+      "at": "2026-06-23T13:01:21.480Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-4e3a045b",
+      "taskId": "a20dc126-6622-4456-ab38-7cc372b36dec",
+      "durationMs": 277.487083,
+      "at": "2026-06-23T13:01:21.520Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 “小贩” 有哪些代号或内部梗？",
+      "requestId": "req-450d4121",
+      "taskId": "e8818d48-9a8d-4cfe-b35a-84659e880eda",
+      "durationMs": 241.56900000000314,
+      "at": "2026-06-23T13:01:21.569Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-cc9152b6",
+      "taskId": "814c778f-9c12-455f-bfa1-288fed1a9342",
+      "durationMs": 327.19024999999965,
+      "at": "2026-06-23T13:01:21.569Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "中央区 与哪些自然景象、物件相关？",
+      "requestId": "req-2692f1dc",
+      "taskId": "32e32968-a919-4926-8b07-4f651c4be315",
+      "durationMs": 214.41066700000374,
+      "at": "2026-06-23T13:01:21.653Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-39cda080",
+      "taskId": "825076fe-caa9-43aa-8419-0db6763882f1",
+      "durationMs": 203.23791699999128,
+      "at": "2026-06-23T13:01:21.683Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-f903464e",
+      "taskId": "91d48858-c320-4006-b99c-85cd65dde582",
+      "durationMs": 248.69129200000316,
+      "at": "2026-06-23T13:01:21.768Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "“小贩” 说过的话有哪些文学意象？",
+      "requestId": "req-6ea462c0",
+      "taskId": "fcbc9406-90c3-4074-a720-97b41326c209",
+      "durationMs": 213.15379099998972,
+      "at": "2026-06-23T13:01:21.782Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "询问小贩关于敏特的事",
+      "requestId": "req-8bacbfab",
+      "taskId": "72f66609-8278-47db-b185-5d481ce710b1",
+      "durationMs": 258.7397090000013,
+      "at": "2026-06-23T13:01:21.828Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-0ecf68a3",
+      "taskId": "2a1eb639-36aa-4c67-aa9c-1c95fec83efe",
+      "durationMs": 12539.335833000005,
+      "at": "2026-06-23T13:01:46.855Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "敏特",
+                  "core_profile": "红发少女；帕兹昔日的战友或亲密同伴；行事谨慎、警觉性高，习惯避开人群秘密行动；目标明确，具备独立调查与搜集情报的能力。",
+                  "current_snapshot": "据摊贩描述，近期活跃于暗街与古董街交界地带，常在黄昏前后现身；正主动打探“骷髅会”相关情报，似乎在搜寻特定的人或物；其调查方向涉及灰色地带，处境较为敏感。",
+                  "relationship_network": [
+                    "摊贩（提供线索的街头知情人）",
+                    "帕兹（依据旧记忆：昔日同伴/追查者）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "敏特",
+                "core_profile": "红发少女；帕兹昔日的战友或亲密同伴；行事谨慎、警觉性高，习惯避开人群秘密行动；目标明确，具备独立调查与搜集情报的能力。",
+                "current_snapshot": "据摊贩描述，近期活跃于暗街与古董街交界地带，常在黄昏前后现身；正主动打探“骷髅会”相关情报，似乎在搜寻特定的人或物；其调查方向涉及灰色地带，处境较为敏感。",
+                "relationship_network": [
+                  "摊贩（提供线索的街头知情人）",
+                  "帕兹（依据旧记忆：昔日同伴/追查者）"
+                ]
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "摊贩透露敏特行踪与骷髅会线索",
+                  "time": "复活日",
+                  "location": "新西西里节庆街道摊位旁",
+                  "involved_characters": [
+                    "帕兹",
+                    "摊贩"
+                  ],
+                  "summary": "帕兹向摊贩出示敏特照片询问下落。摊贩确认见过该女子，透露她主要在暗街与古董街交界一带活动，尤以黄昏前后居多；摊贩进一步告知敏特似在调查某事，曾打听名为“骷髅会”的组织，暗示其牵扯的事情并不简单，并建议帕兹前往消息更灵通的古董街碰碰运气。",
+                  "consequence": "帕兹掌握了敏特具体的活动范围、时间段及调查对象（“骷髅会”），明确了前往古董街深入调查的行动计划，寻人线索从模糊转为具象，并意识到敏特所涉事务的危险性。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "摊贩透露敏特行踪与骷髅会线索",
+                "time": "复活日",
+                "location": "新西西里节庆街道摊位旁",
+                "involved_characters": [
+                  "帕兹",
+                  "摊贩"
+                ],
+                "summary": "帕兹向摊贩出示敏特照片询问下落。摊贩确认见过该女子，透露她主要在暗街与古董街交界一带活动，尤以黄昏前后居多；摊贩进一步告知敏特似在调查某事，曾打听名为“骷髅会”的组织，暗示其牵扯的事情并不简单，并建议帕兹前往消息更灵通的古董街碰碰运气。",
+                "consequence": "帕兹掌握了敏特具体的活动范围、时间段及调查对象（“骷髅会”），明确了前往古董街深入调查的行动计划，寻人线索从模糊转为具象，并意识到敏特所涉事务的危险性。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "新西西里",
+                  "description": "十年前爆发过大规模战役的城区/街区，现被黑帮实际控制。每逢“复活日”会举办民间庆典，街头遍布石板路、临时摊位、彩带与灯光，混杂着煎肉、焦糖与廉价香水的气味，环境喧嚣且人员复杂。",
+                  "appearances": [
+                    "旧记忆：主角从创伤梦境中惊醒后所处的现实场景；摊贩提及该地为十年前大战旧址及黑帮势力范围。",
+                    "当前片段：节庆氛围下的临时摊位区域，主角在此向摊贩询问敏特的下落，周围环绕着彩带、灯光与人群。"
+                  ],
+                  "current_affiliation": "名义上供民众自发纪念与庆祝，实则由当地黑帮实际控制与管辖。"
+                },
+                {
+                  "name": "暗街",
+                  "description": "一条靠近古董街交界的隐蔽街道，人烟相对稀少，氛围较为冷清，黄昏前后偶有特定目标或边缘人物出没。",
+                  "appearances": [
+                    "摊贩提及曾在此地及与古董街的交界地带见过敏特，指出她习惯避开人多之处，但在黄昏前后可能于该区域活动。"
+                  ],
+                  "current_affiliation": ""
+                },
+                {
+                  "name": "古董街",
+                  "description": "一条鱼龙混杂的商业与信息交汇街区，汇聚了各类零碎物件商贩与情报流通渠道，被认为是比暗街更高效的消息搜集地。",
+                  "appearances": [
+                    "摊贩强烈建议主角前往此地碰碰运气，称其虽鱼龙混杂但消息最为灵通，是寻找敏特的更佳选择。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "新西西里",
+                "description": "十年前爆发过大规模战役的城区/街区，现被黑帮实际控制。每逢“复活日”会举办民间庆典，街头遍布石板路、临时摊位、彩带与灯光，混杂着煎肉、焦糖与廉价香水的气味，环境喧嚣且人员复杂。",
+                "appearances": [
+                  "旧记忆：主角从创伤梦境中惊醒后所处的现实场景；摊贩提及该地为十年前大战旧址及黑帮势力范围。",
+                  "当前片段：节庆氛围下的临时摊位区域，主角在此向摊贩询问敏特的下落，周围环绕着彩带、灯光与人群。"
+                ],
+                "current_affiliation": "名义上供民众自发纪念与庆祝，实则由当地黑帮实际控制与管辖。"
+              },
+              {
+                "name": "暗街",
+                "description": "一条靠近古董街交界的隐蔽街道，人烟相对稀少，氛围较为冷清，黄昏前后偶有特定目标或边缘人物出没。",
+                "appearances": [
+                  "摊贩提及曾在此地及与古董街的交界地带见过敏特，指出她习惯避开人多之处，但在黄昏前后可能于该区域活动。"
+                ],
+                "current_affiliation": ""
+              },
+              {
+                "name": "古董街",
+                "description": "一条鱼龙混杂的商业与信息交汇街区，汇聚了各类零碎物件商贩与情报流通渠道，被认为是比暗街更高效的消息搜集地。",
+                "appearances": [
+                  "摊贩强烈建议主角前往此地碰碰运气，称其虽鱼龙混杂但消息最为灵通，是寻找敏特的更佳选择。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 3,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "a34de7d9-e893-4b79-91d1-cdc7586d4a34",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-01",
+            "topic_turn_end": "turn-02",
+            "topic_turn_count": 2,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 3,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "敏特",
+                "target_id": "08436dff-358a-57fb-a3bc-96b95762dbd4",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "摊贩透露敏特行踪与骷髅会线索: 帕兹向摊贩出示敏特照片询问下落",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "新西西里",
+                "target_id": "9dfeb343-e306-5b99-8deb-d40c3e638dc6",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "古董街",
+                "operation": "ADD"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-23T13:02:38.492Z",
+      "source": "bucket"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

@@ -1,0 +1,504 @@
+{
+  "turn": 9,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "跟上卡琳娜，接受她的邀请去公寓",
+  "selectedFromPreviousTurn": {
+    "text": "跟上卡琳娜，接受她的邀请去公寓"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-03-第一章",
+    "beatUid": "n_BNYJHO4hJEuE",
+    "turnInBeat": 2
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-03-第一章",
+    "beatUid": "n_BNYJHO4hJEuE",
+    "turnInBeat": 2
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-03-第一章",
+    "beatUid": "n_BNYJHO4hJEuE",
+    "turnInBeat": 2
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-04-第一章",
+    "beatUid": "n_DCpaUhtwiCwI",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "先停在门边，快速检查一下楼道内外是否有异常"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "跟上她，注意观察楼梯间环境"
+      },
+      {
+        "text": "先停在门边，快速检查一下楼道内外是否有异常"
+      },
+      {
+        "text": "跟上她，随口问一句‘这栋楼住了几户人？’"
+      },
+      {
+        "text": "停在门口等两秒，确认没有人在尾随"
+      }
+    ]
+  },
+  "visibleChars": 1037,
+  "durationMs": 64444.92,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 8,
+    "locationEvents": 4,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T13:11:10.062Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T13:11:10.065Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-bfa656c9",
+      "taskId": "34b8b454-cb15-4630-a7dc-323bb38e6f32",
+      "durationMs": 260.9948330000043,
+      "at": "2026-06-23T13:11:10.315Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-a9a0ff8e",
+      "taskId": "8640f578-0bdd-493f-bef7-58c7ecbd9453",
+      "durationMs": 364.35033400007524,
+      "at": "2026-06-23T13:11:10.418Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-70311fb1",
+      "taskId": "102ac178-c004-4801-a23b-75b0a712a005",
+      "durationMs": 364.640625,
+      "at": "2026-06-23T13:11:10.418Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-a5f284e1",
+      "taskId": "367376fb-5109-4284-a397-94d0d9c208ea",
+      "durationMs": 370.5907919999445,
+      "at": "2026-06-23T13:11:10.424Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 暗街-深处 的事迹？",
+      "requestId": "req-5a1cf977",
+      "taskId": "318c3dfc-8e5a-4576-96fd-854152f58a45",
+      "durationMs": 372.3080840000184,
+      "at": "2026-06-23T13:11:10.426Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-4937664f",
+      "taskId": "5277a9ae-7736-4787-bae9-209d59882b72",
+      "durationMs": 353.091791999992,
+      "at": "2026-06-23T13:11:10.668Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-fe5e7659",
+      "taskId": "2a048fbd-8189-424f-bdac-c202ace0a012",
+      "durationMs": 250.15795899997465,
+      "at": "2026-06-23T13:11:10.668Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-a8980c6a",
+      "taskId": "b318505c-b0ad-4b06-83bf-8044f7b4e62c",
+      "durationMs": 336.3184170000022,
+      "at": "2026-06-23T13:11:10.755Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-a88434f1",
+      "taskId": "9c105417-9975-4ba0-9773-c8ca25a68f8f",
+      "durationMs": 330.77483300003223,
+      "at": "2026-06-23T13:11:10.755Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-123dcd76",
+      "taskId": "b421730b-b757-4b00-b5f7-e4eefb008134",
+      "durationMs": 331.6135419999482,
+      "at": "2026-06-23T13:11:10.758Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-10fd3243",
+      "taskId": "ad9253ca-5c39-4dff-a906-86cdd88ee306",
+      "durationMs": 214.89641599997412,
+      "at": "2026-06-23T13:11:10.883Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-b2803732",
+      "taskId": "bf6d8fef-93ad-4c38-8588-b05d73cc55c9",
+      "durationMs": 241.19358300010208,
+      "at": "2026-06-23T13:11:10.909Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "跟上卡琳娜，接受她的邀请去公寓",
+      "requestId": "req-25dfcf4f",
+      "taskId": "f522087e-a6cb-4a80-811f-44e9e0b7d47e",
+      "durationMs": 258.46058400010224,
+      "at": "2026-06-23T13:11:11.014Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-8434687a",
+      "taskId": "6580d161-7825-471f-9804-895fedd159ac",
+      "durationMs": 259.1135830000276,
+      "at": "2026-06-23T13:11:11.014Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 暗街-深处 的事迹？",
+      "requestId": "req-f210cc06",
+      "taskId": "e5fec2d1-019d-4929-9099-9f6254d05f20",
+      "durationMs": 226.38712500000838,
+      "at": "2026-06-23T13:11:11.243Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-eec533dd",
+      "taskId": "0f1015f7-e03d-4bdc-bb2a-c9ec1f1d120f",
+      "durationMs": 269.9157910000067,
+      "at": "2026-06-23T13:11:11.286Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-7c467c6b",
+      "taskId": "870814be-8b7d-4e5b-8263-50f54bb622de",
+      "durationMs": 324.4059589999961,
+      "at": "2026-06-23T13:11:11.340Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-5240dabc",
+      "taskId": "84a02105-acf7-4739-978d-7440e13b5906",
+      "durationMs": 326.80904199997894,
+      "at": "2026-06-23T13:11:11.343Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-d8acf7dc",
+      "taskId": "63c6d269-b38d-4397-ba59-67b9abe37ae1",
+      "durationMs": 327.37725000001956,
+      "at": "2026-06-23T13:11:11.343Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-a9496928",
+      "taskId": "2977451b-1227-433f-815b-fc7e8321c0a0",
+      "durationMs": 212.5038329999661,
+      "at": "2026-06-23T13:11:11.455Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-9505ff8e",
+      "taskId": "9a993ddc-436c-4b60-8afc-b2b1b51da45c",
+      "durationMs": 241.82024999998976,
+      "at": "2026-06-23T13:11:11.528Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-e2712be6",
+      "taskId": "1c549b5a-b4be-4583-8f11-680b1e6b38bc",
+      "durationMs": 233.2616670000134,
+      "at": "2026-06-23T13:11:11.574Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-235c3de2",
+      "taskId": "e7cf3a49-236c-46cb-8837-e35a5c7256dd",
+      "durationMs": 282.420749999932,
+      "at": "2026-06-23T13:11:11.626Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-ccad766b",
+      "taskId": "80663afd-54a5-4943-bd6d-a3348e97cb73",
+      "durationMs": 283.1962910000002,
+      "at": "2026-06-23T13:11:11.626Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-ff3dd75d",
+      "taskId": "a4a25e57-dd0a-4e13-acb4-5fa945015b84",
+      "durationMs": 249.2715830000816,
+      "at": "2026-06-23T13:11:11.704Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-5c4d8fde",
+      "taskId": "446d5601-cc6e-495f-b3c7-3b619d5826e7",
+      "durationMs": 245.73441600007936,
+      "at": "2026-06-23T13:11:11.773Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "跟上卡琳娜，接受她的邀请去公寓",
+      "requestId": "req-59639e5a",
+      "taskId": "38e274b8-1b1c-42e9-85a7-c3552ef0b104",
+      "durationMs": 238.34420799999498,
+      "at": "2026-06-23T13:11:11.864Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-d871f534",
+      "taskId": "2f3588d1-94ac-4aca-8ab8-93818af8961d",
+      "durationMs": 290.7706659999676,
+      "at": "2026-06-23T13:11:11.864Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-c39d6950",
+      "taskId": "7b3e8e0c-fd1f-4425-9b9f-73deef92adb8",
+      "durationMs": 17908.44316600007,
+      "at": "2026-06-23T13:11:48.384Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "新西西里暗街居民；金发蓝眼少女，行事笃定，对周边地形与本地人际网络极为熟悉；性格沉稳务实，略带神秘感。",
+                  "current_snapshot": "主动邀请初到本地的记者前往其住所；正处于带路至公寓途中，准备进行下一步的信息交换或接触。",
+                  "relationship_network": [
+                    "卖旧货的摊贩",
+                    "记者"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "卡琳娜",
+                "core_profile": "新西西里暗街居民；金发蓝眼少女，行事笃定，对周边地形与本地人际网络极为熟悉；性格沉稳务实，略带神秘感。",
+                "current_snapshot": "主动邀请初到本地的记者前往其住所；正处于带路至公寓途中，准备进行下一步的信息交换或接触。",
+                "relationship_network": [
+                  "卖旧货的摊贩",
+                  "记者"
+                ]
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "卡琳娜引路至公寓",
+                  "time": "下午",
+                  "location": "新西西里暗街及卡琳娜居住的三层旧楼",
+                  "involved_characters": [
+                    "卡琳娜",
+                    "记者"
+                  ],
+                  "summary": "用户跟随卡琳娜穿过暗街巷子，双方交谈确认了用户是今早抵达新西西里的记者，并提及由中央区旧货摊贩指引前来寻找卡琳娜。卡琳娜带领用户到达其居住的三层旧楼前，用钥匙打开铁门后侧身邀请用户进入。",
+                  "consequence": "打破了双方的陌生状态，卡琳娜对用户的身份与来意表现出认可与接纳；用户获得进入其私人住所的许可，为后续深入交流或获取线索提供了物理空间与契机。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "卡琳娜引路至公寓",
+                "time": "下午",
+                "location": "新西西里暗街及卡琳娜居住的三层旧楼",
+                "involved_characters": [
+                  "卡琳娜",
+                  "记者"
+                ],
+                "summary": "用户跟随卡琳娜穿过暗街巷子，双方交谈确认了用户是今早抵达新西西里的记者，并提及由中央区旧货摊贩指引前来寻找卡琳娜。卡琳娜带领用户到达其居住的三层旧楼前，用钥匙打开铁门后侧身邀请用户进入。",
+                "consequence": "打破了双方的陌生状态，卡琳娜对用户的身份与来意表现出认可与接纳；用户获得进入其私人住所的许可，为后续深入交流或获取线索提供了物理空间与契机。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街",
+                  "description": "新西西里城内的一处老旧街区，以狭窄弯曲的巷弄、石板路面和斑驳的建筑为特征，环境隐蔽且充满生活与破败交织的市井气息。",
+                  "appearances": [
+                    "角色在对话中明确提及该区域名称；主角初到新西西里后便前往此地寻找线索与目标人物。"
+                  ],
+                  "current_affiliation": "新西西里城内的一片老旧街区"
+                },
+                {
+                  "name": "卡琳娜的公寓（三层旧楼）",
+                  "description": "位于暗街尽头的一栋三层旧式建筑，外墙白灰泥斑驳脱落露出暗灰色砖体，底层装有漆面剥落的铁门与残缺气灯。内部通道狭窄昏暗，墙壁泛黄，弥漫旧木与灰尘气味，入口隐蔽且带有强烈的私密与排他属性。",
+                  "appearances": [
+                    "主角跟随卡琳娜穿越窄巷抵达此处；卡琳娜使用铜色红绳钥匙开启铁门并主动邀请主角进入，同时强调该地点的非公开性与准入限制。"
+                  ],
+                  "current_affiliation": "卡琳娜的私人住所"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街",
+                "description": "新西西里城内的一处老旧街区，以狭窄弯曲的巷弄、石板路面和斑驳的建筑为特征，环境隐蔽且充满生活与破败交织的市井气息。",
+                "appearances": [
+                  "角色在对话中明确提及该区域名称；主角初到新西西里后便前往此地寻找线索与目标人物。"
+                ],
+                "current_affiliation": "新西西里城内的一片老旧街区"
+              },
+              {
+                "name": "卡琳娜的公寓（三层旧楼）",
+                "description": "位于暗街尽头的一栋三层旧式建筑，外墙白灰泥斑驳脱落露出暗灰色砖体，底层装有漆面剥落的铁门与残缺气灯。内部通道狭窄昏暗，墙壁泛黄，弥漫旧木与灰尘气味，入口隐蔽且带有强烈的私密与排他属性。",
+                "appearances": [
+                  "主角跟随卡琳娜穿越窄巷抵达此处；卡琳娜使用铜色红绳钥匙开启铁门并主动邀请主角进入，同时强调该地点的非公开性与准入限制。"
+                ],
+                "current_affiliation": "卡琳娜的私人住所"
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "afec18e6-2b3f-46a1-b470-4a3270ba5f2d",
+            "topic_reason": "max_turns_reached",
+            "topic_changed": true,
+            "topic_turn_start": "turn-09",
+            "topic_turn_end": "turn-09",
+            "topic_turn_count": 1,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 0,
+            "forced_update_to_add": 0,
+            "kept_add": 4,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "event",
+                "key": "卡琳娜引路至公寓: 用户跟随卡琳娜穿过暗街巷子，双方交谈确认了用户是今早抵达新西西里的记者，并提及由",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "卡琳娜的公寓（三层旧楼）",
+                "operation": "ADD"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-23T13:12:13.234Z",
+      "source": "bucket"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

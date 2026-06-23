@@ -1,0 +1,47 @@
+{
+  "scriptPath": "tmp/ad78fb59-v8.semantic-split-preview.json",
+  "turnCount": 50,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "startedAt": "2026-06-23T12:59:51.456Z",
+  "stateFoldEnabled": true,
+  "memory": {
+    "mode": "hybrid",
+    "recentTurnLimit": 5,
+    "turnDelayMs": 100
+  },
+  "outRoot": "/Users/wqy/Code/story_refined_logs/logs/f7f35a9-hybrid-dual-layer-memory/run_logs",
+  "memorax": {
+    "baseUrl": "http://47.112.192.211:8800",
+    "hasApiKey": true,
+    "appId": "oreturn",
+    "userId": "hybrid-random-20260623205951",
+    "agentId": "v8-script",
+    "topK": 6,
+    "ownerResolution": "query",
+    "playerAliases": [
+      "主角",
+      "玩家"
+    ],
+    "outputMode": "mix",
+    "writeMode": "memorax:blocking+bucket:blocking",
+    "seedMarker": "v8-memorax-seed-1782219591456",
+    "seedFact": ""
+  },
+  "model": {
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.deepseek.com/v1",
+    "model": "deepseek-v4-flash",
+    "hasApiKey": true,
+    "thinkingEnabled": "false"
+  },
+  "pilotModel": {
+    "source": "LLM_* fallback",
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.deepseek.com/v1",
+    "model": "deepseek-v4-flash",
+    "hasApiKey": true,
+    "apiKeyEnvVar": "LLM_API_KEY",
+    "thinkingEnabled": "false"
+  }
+}

@@ -1,0 +1,654 @@
+{
+  "turn": 13,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "去开门",
+  "selectedFromPreviousTurn": {
+    "text": "去开门"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 4
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 4
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 4
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-01-第一章",
+    "beatUid": "n_o4fZDWzzYAM7",
+    "turnInBeat": 5
+  },
+  "selectedForNext": {
+    "text": "走上前一步，喉咙里挤出一个名字",
+    "actionId": "choice:说明敏特的事"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:说明敏特的事",
+      "id": "说明敏特的事",
+      "text": "说明敏特的事"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "走上前一步，喉咙里挤出一个名字",
+        "actionId": "choice:说明敏特的事"
+      },
+      {
+        "text": "站在原地，等她先开口"
+      },
+      {
+        "text": "低头看向她滑落的帆布包，里面散落着什么"
+      },
+      {
+        "text": "转头看向卡琳娜，用眼神询问她是否知情"
+      }
+    ]
+  },
+  "visibleChars": 1029,
+  "durationMs": 38368.62,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 25,
+    "locationEvents": 19,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T14:48:33.454Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T14:48:33.459Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-cdb6fa87",
+      "taskId": "5b0259c9-5a9f-48bd-9ef3-b4cbdc717684",
+      "durationMs": 266.8591659999802,
+      "at": "2026-06-23T14:48:33.709Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-79eddf30",
+      "taskId": "00a4fe30-5228-4e09-8a0f-122b4afe4e7a",
+      "durationMs": 356.8917500000098,
+      "at": "2026-06-23T14:48:33.799Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-eca77b58",
+      "taskId": "50aa12bf-dce4-4b15-a9c1-913c9e3327fe",
+      "durationMs": 359.3094169999822,
+      "at": "2026-06-23T14:48:33.801Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-3f000670",
+      "taskId": "d9abdf54-427d-45ec-b81d-e6f2f2b673c5",
+      "durationMs": 359.39112500002375,
+      "at": "2026-06-23T14:48:33.802Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-15213540",
+      "taskId": "fa4fdad3-a295-4cb7-b5bb-49e888049538",
+      "durationMs": 359.44858300004853,
+      "at": "2026-06-23T14:48:33.802Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-f20f4b2c",
+      "taskId": "090c6d26-9fee-434d-b1d7-147c2242345c",
+      "durationMs": 299.03183299995726,
+      "at": "2026-06-23T14:48:34.008Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-3cd9a7ef",
+      "taskId": "bb674cfc-bf1b-40dc-ae9b-2a660d685b43",
+      "durationMs": 210.36358299996937,
+      "at": "2026-06-23T14:48:34.012Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-768ba39c",
+      "taskId": "763a6d1e-115a-4052-818b-3c6590d3fd78",
+      "durationMs": 272.81037500000093,
+      "at": "2026-06-23T14:48:34.074Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-ec4704c3",
+      "taskId": "2167bc1d-0606-480f-9418-2436d3543269",
+      "durationMs": 334.9797499999986,
+      "at": "2026-06-23T14:48:34.136Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-5aee7941",
+      "taskId": "ae71fcf6-dfce-4a60-a604-186e20c4759f",
+      "durationMs": 337.3157080000383,
+      "at": "2026-06-23T14:48:34.136Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-393e14c8",
+      "taskId": "a9698313-da47-4499-b200-9824a8c73565",
+      "durationMs": 222.64554200001294,
+      "at": "2026-06-23T14:48:34.231Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-af90f4fa",
+      "taskId": "dbf2d7cd-effc-4a2e-86bd-9e8cba1d3107",
+      "durationMs": 264.1095000000205,
+      "at": "2026-06-23T14:48:34.276Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-4cd22724",
+      "taskId": "2aa358d8-a791-4d07-a644-3f53ee17e91d",
+      "durationMs": 243.0140830000164,
+      "at": "2026-06-23T14:48:34.318Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-9e22dbac",
+      "taskId": "78cf7020-8454-45b8-82bb-d1db72122599",
+      "durationMs": 232.086500000034,
+      "at": "2026-06-23T14:48:34.368Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-969c6e63",
+      "taskId": "0cc5cfb9-a289-4bee-9a84-b1facc2e5f40",
+      "durationMs": 280.116624999966,
+      "at": "2026-06-23T14:48:34.417Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-051b84d7",
+      "taskId": "3cf6f434-9c36-4f89-937b-69e44e7a2f51",
+      "durationMs": 235.163499999966,
+      "at": "2026-06-23T14:48:34.466Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-feb14a0e",
+      "taskId": "ff588108-6052-49c1-bc72-657e745cb7e2",
+      "durationMs": 219.4515830000164,
+      "at": "2026-06-23T14:48:34.495Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-ffc19ece",
+      "taskId": "91d2422c-74f5-490a-aa45-853ae903fcfd",
+      "durationMs": 222.60358300001826,
+      "at": "2026-06-23T14:48:34.540Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-883eeeca",
+      "taskId": "f87c780b-aa3a-41bb-8a61-a5114a170e44",
+      "durationMs": 240.56299999996554,
+      "at": "2026-06-23T14:48:34.609Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "去开门",
+      "requestId": "req-181498a3",
+      "taskId": "73499eb1-0452-4874-8e89-9bf4d444da37",
+      "durationMs": 231.52958300005412,
+      "at": "2026-06-23T14:48:34.648Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-939abb8b",
+      "taskId": "3d5f63a4-5625-4512-bcf1-35d5be28f3cd",
+      "durationMs": 236.38120800000615,
+      "at": "2026-06-23T14:48:34.887Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-23b22a2b",
+      "taskId": "96546c4e-5f38-4be0-9f7e-cb998d42e758",
+      "durationMs": 280.1407079999917,
+      "at": "2026-06-23T14:48:34.931Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-ea25789d",
+      "taskId": "d6d9be82-a8d7-446b-bf9f-f40269d4c9da",
+      "durationMs": 297.39904099999694,
+      "at": "2026-06-23T14:48:34.948Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-c6bf0d43",
+      "taskId": "e3af515f-9e75-4132-9446-9e9c6f8f048a",
+      "durationMs": 330.12562499998603,
+      "at": "2026-06-23T14:48:34.981Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-ce2572e1",
+      "taskId": "d68626c3-bb49-47df-9541-a9aef6064d1c",
+      "durationMs": 353.48441699997056,
+      "at": "2026-06-23T14:48:35.004Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-a13a8b9f",
+      "taskId": "48db3b59-5272-40cf-bca7-f525248b3f71",
+      "durationMs": 230.6862919999985,
+      "at": "2026-06-23T14:48:35.118Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-8ae3be75",
+      "taskId": "c6665901-4653-4fd0-969f-a3592217b4a2",
+      "durationMs": 288.67337500001304,
+      "at": "2026-06-23T14:48:35.220Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-5fdbd237",
+      "taskId": "60f14e88-a623-4c2a-9344-8867346afd36",
+      "durationMs": 215.63537499995437,
+      "at": "2026-06-23T14:48:35.220Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-105508d7",
+      "taskId": "c5aee7bf-fdba-433e-8ac3-a94f7b0e9091",
+      "durationMs": 240.91216700000223,
+      "at": "2026-06-23T14:48:35.222Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-a5e54f24",
+      "taskId": "5643eb2e-391d-42a0-b537-ff52f2eb70a5",
+      "durationMs": 220.7386670000269,
+      "at": "2026-06-23T14:48:35.339Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-b89d276d",
+      "taskId": "4044332d-89c0-45e0-85a7-5030cd41adfb",
+      "durationMs": 394.1797919999808,
+      "at": "2026-06-23T14:48:35.342Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-3cff4f6a",
+      "taskId": "3466951a-3793-41d1-99a5-58da8e2c7f9b",
+      "durationMs": 270.9475419999799,
+      "at": "2026-06-23T14:48:35.493Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-6960df36",
+      "taskId": "3641098d-7d68-4bbb-ba07-6d79ed1b448f",
+      "durationMs": 275.37329099996714,
+      "at": "2026-06-23T14:48:35.495Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-8f4a301b",
+      "taskId": "cc1718b9-e75d-4641-bd62-34b0f620979c",
+      "durationMs": 246.02412499999627,
+      "at": "2026-06-23T14:48:35.588Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-edbf81e3",
+      "taskId": "7af29076-4064-491f-ab95-2a88a9f24ae7",
+      "durationMs": 369.0220829999889,
+      "at": "2026-06-23T14:48:35.589Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-cfa20e8e",
+      "taskId": "4d4deec2-da88-4134-b6ef-4e8be80c06a4",
+      "durationMs": 250.19754100003047,
+      "at": "2026-06-23T14:48:35.589Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-d61e2d6e",
+      "taskId": "3c5263e4-8725-4f17-9fd5-ce2b934a4ef1",
+      "durationMs": 223.34566599997925,
+      "at": "2026-06-23T14:48:35.716Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-e4c8f81b",
+      "taskId": "de558c87-7ffe-4ddc-95ff-f680f5055477",
+      "durationMs": 266.58687500003725,
+      "at": "2026-06-23T14:48:35.762Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "去开门",
+      "requestId": "req-7c7e9fd8",
+      "taskId": "53d47a2b-1c05-41c5-878a-bba690b01df8",
+      "durationMs": 193.39412499999162,
+      "at": "2026-06-23T14:48:35.782Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-c633f556",
+      "taskId": "c3e6d9bc-a033-4a45-97a7-481f9cdd0532",
+      "durationMs": 236.16595799999777,
+      "at": "2026-06-23T14:48:35.825Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "主角",
+                  "core_profile": "战场幸存者，性格内敛克制，对已故同伴怀有深厚执念与创伤。当前处于现实认知与超常线索的剧烈冲突中，意志坚定但精神高度紧绷。",
+                  "current_snapshot": "正与卡琳娜在室内准备应对门外访客。听到“敏特”之名后情绪受到强烈冲击，手指下意识收紧相机带，全神贯注等待确认下一步行动，身旁黑猫同步进入高度警戒状态。",
+                  "relationship_network": [
+                    "卡琳娜（当前同行者与问询对象）",
+                    "敏特（名义上已故但此刻现身门外的关键人物）"
+                  ]
+                },
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "居住于暗街区域的当地人士；气质沉静敏锐，善于观察与试探，具备较强的心理博弈能力，对敏特的行踪与目的有直接了解，掌握部分关键情报。",
+                  "current_snapshot": "压低声音向主角透露门外女子的真实身份为“敏特”。措辞刻意轻描淡写但神情专注，未立刻开门而是先观察主角反应并确认其是否准备好面对局面。",
+                  "relationship_network": [
+                    "你（正在配合应对门外状况的伙伴）",
+                    "敏特（知晓其近期行踪与来访动机）"
+                  ]
+                },
+                {
+                  "name": "敏特",
+                  "core_profile": "战区出身的女性幸存者；性格坚韧独立，具备极高的学习与战斗天赋，尤擅枪械使用与乱局应对。近期以隐秘方式潜入新西西里岛活动。",
+                  "current_snapshot": "实际存活状态，此刻正位于门外走廊区域。呼吸尚未完全平复，鞋底在地面轻微挪动，处于静止等待的状态，刚刚抵达你所处位置。",
+                  "relationship_network": [
+                    "你（生前战友及此次到访的直接目标）",
+                    "卡琳娜（近期向其提问并打探消息的中间人）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "主角",
+                "core_profile": "战场幸存者，性格内敛克制，对已故同伴怀有深厚执念与创伤。当前处于现实认知与超常线索的剧烈冲突中，意志坚定但精神高度紧绷。",
+                "current_snapshot": "正与卡琳娜在室内准备应对门外访客。听到“敏特”之名后情绪受到强烈冲击，手指下意识收紧相机带，全神贯注等待确认下一步行动，身旁黑猫同步进入高度警戒状态。",
+                "relationship_network": [
+                  "卡琳娜（当前同行者与问询对象）",
+                  "敏特（名义上已故但此刻现身门外的关键人物）"
+                ]
+              },
+              {
+                "name": "卡琳娜",
+                "core_profile": "居住于暗街区域的当地人士；气质沉静敏锐，善于观察与试探，具备较强的心理博弈能力，对敏特的行踪与目的有直接了解，掌握部分关键情报。",
+                "current_snapshot": "压低声音向主角透露门外女子的真实身份为“敏特”。措辞刻意轻描淡写但神情专注，未立刻开门而是先观察主角反应并确认其是否准备好面对局面。",
+                "relationship_network": [
+                  "你（正在配合应对门外状况的伙伴）",
+                  "敏特（知晓其近期行踪与来访动机）"
+                ]
+              },
+              {
+                "name": "敏特",
+                "core_profile": "战区出身的女性幸存者；性格坚韧独立，具备极高的学习与战斗天赋，尤擅枪械使用与乱局应对。近期以隐秘方式潜入新西西里岛活动。",
+                "current_snapshot": "实际存活状态，此刻正位于门外走廊区域。呼吸尚未完全平复，鞋底在地面轻微挪动，处于静止等待的状态，刚刚抵达你所处位置。",
+                "relationship_network": [
+                  "你（生前战友及此次到访的直接目标）",
+                  "卡琳娜（近期向其提问并打探消息的中间人）"
+                ]
+              }
+            ],
+            "parsed_count": 3,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "门外敲门与敏特身份揭晓",
+                  "time": "",
+                  "location": "房间内",
+                  "involved_characters": [
+                    "你",
+                    "卡琳娜"
+                  ],
+                  "summary": "门外急促的敲门声打断原有对话后，你向卡琳娜示意准备应对并低声询问门外女人身份。卡琳娜先观察门外动静再压低声音透露来者是“敏特”。听到这个名字你手指收紧相机带，感到强烈心理冲击。房间里的黑猫警觉站立、身体紧绷如弓弦，卡琳娜看向你进行无声确认，等待你做出决定。",
+                  "consequence": "此前关于敏特生死的理论性质疑瞬间转化为现实危机与直接对峙压力。“敏特”身份的当面揭晓彻底打破平静，迫使你们必须立即面对门外的未知状况，剧情张力与紧迫感急剧上升，双方正式进入应对开门的待命状态。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "门外敲门与敏特身份揭晓",
+                "time": "",
+                "location": "房间内",
+                "involved_characters": [
+                  "你",
+                  "卡琳娜"
+                ],
+                "summary": "门外急促的敲门声打断原有对话后，你向卡琳娜示意准备应对并低声询问门外女人身份。卡琳娜先观察门外动静再压低声音透露来者是“敏特”。听到这个名字你手指收紧相机带，感到强烈心理冲击。房间里的黑猫警觉站立、身体紧绷如弓弦，卡琳娜看向你进行无声确认，等待你做出决定。",
+                "consequence": "此前关于敏特生死的理论性质疑瞬间转化为现实危机与直接对峙压力。“敏特”身份的当面揭晓彻底打破平静，迫使你们必须立即面对门外的未知状况，剧情张力与紧迫感急剧上升，双方正式进入应对开门的待命状态。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "卡琳娜的房间",
+                  "description": "陈设简单的室内空间，设有沙发与窗台，是主角与卡琳娜进行核心对话与等待的场所。",
+                  "appearances": [
+                    "作为当前片段的主要叙事舞台，主角在此侧身向卡琳娜压低声音询问门外女人身份，双方维持高度戒备状态。",
+                    "黑猫从室内的沙发靠垫上警觉起身，四条腿稳稳撑住身体，耳朵完全转向房门方向，全身肌肉紧绷如弓弦。",
+                    "通过门体传入外部环境声响：门外女子的喘息声、鞋底在门口地面轻微挪动的摩擦声，以及远处巷子中飘来的庆典余音与零星金属碰撞声。"
+                  ],
+                  "current_affiliation": "卡琳娜的临时居所"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "卡琳娜的房间",
+                "description": "陈设简单的室内空间，设有沙发与窗台，是主角与卡琳娜进行核心对话与等待的场所。",
+                "appearances": [
+                  "作为当前片段的主要叙事舞台，主角在此侧身向卡琳娜压低声音询问门外女人身份，双方维持高度戒备状态。",
+                  "黑猫从室内的沙发靠垫上警觉起身，四条腿稳稳撑住身体，耳朵完全转向房门方向，全身肌肉紧绷如弓弦。",
+                  "通过门体传入外部环境声响：门外女子的喘息声、鞋底在门口地面轻微挪动的摩擦声，以及远处巷子中飘来的庆典余音与零星金属碰撞声。"
+                ],
+                "current_affiliation": "卡琳娜的临时居所"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "69c6bdad-bece-4cd0-baad-1cdf0b989034",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-09",
+            "topic_turn_end": "turn-12",
+            "topic_turn_count": 4,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 4,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "主角",
+                "target_id": "947078e4-f6df-5dcc-bb05-cf09eddab541",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "target_id": "952dad29-a723-5bbe-9036-6e5d1eff8840",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "character",
+                "key": "敏特",
+                "target_id": "52b224d8-8f5a-5433-bd0d-a616f7e6ed6c",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "门外敲门与敏特身份揭晓: 门外急促的敲门声打断原有对话后，你向卡琳娜示意准备应对并低声询问门外女人身份",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "卡琳娜的房间",
+                "target_id": "ac653a62-79d9-58aa-a48f-58959bb6b7b0",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-23T14:48:54.200Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-c6df4f72",
+      "taskId": "768af9f3-08aa-4cbc-b79a-c33f3f7fee12",
+      "durationMs": 17557.83170800004,
+      "at": "2026-06-23T14:49:09.813Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

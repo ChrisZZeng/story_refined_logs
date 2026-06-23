@@ -1,0 +1,645 @@
+{
+  "turn": 5,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "装作顺从，把相机放在地上，同时观察三人站位",
+  "selectedFromPreviousTurn": {
+    "text": "装作顺从，把相机放在地上，同时观察三人站位"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 3
+  },
+  "selectedForNext": {
+    "text": "趁他们放松警惕时突然发难，先解决最近的领头人",
+    "actionId": "choice:战斗"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:反抗",
+      "id": "反抗",
+      "text": "尽力平复呼吸——你知道怎么应付这种人"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:战斗",
+      "id": "战斗",
+      "text": "准备战斗"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "平复呼吸，继续示弱——观察他们的下一步动作",
+        "actionId": "choice:反抗"
+      },
+      {
+        "text": "趁他们放松警惕时突然发难，先解决最近的领头人",
+        "actionId": "choice:战斗"
+      },
+      {
+        "text": "再补充一句，强调自己只是路过的游客，试图降低敌意"
+      }
+    ]
+  },
+  "visibleChars": 877,
+  "durationMs": 52656.03,
+  "memory": {
+    "recentTurns": 4,
+    "recentEvents": 0,
+    "characterEvents": 3,
+    "locationEvents": 6,
+    "entityEvents": 1
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T13:07:29.752Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T13:07:29.758Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-巷口 的事迹？",
+      "requestId": "req-999b4bb7",
+      "taskId": "25c2cb34-33f8-4456-99d6-6d2c7d21288f",
+      "durationMs": 221.77633300004527,
+      "at": "2026-06-23T13:07:29.964Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-7e8b0578",
+      "taskId": "8acaa764-3f2a-44f4-8c2e-daab529f204e",
+      "durationMs": 304.30187500000466,
+      "at": "2026-06-23T13:07:30.047Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-a2a7b76e",
+      "taskId": "1c96ff9f-05b3-433d-9cd6-aa47256d9dc4",
+      "durationMs": 357.38108299998567,
+      "at": "2026-06-23T13:07:30.100Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-过道 的事迹？",
+      "requestId": "req-a8a2ba0a",
+      "taskId": "f97fb333-5f60-4fd8-995c-1cfec3e9c75b",
+      "durationMs": 360.9459579999675,
+      "at": "2026-06-23T13:07:30.103Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-b692a9e9",
+      "taskId": "5d7b342d-f2be-44a6-a675-c465c27bda18",
+      "durationMs": 418.4782910000067,
+      "at": "2026-06-23T13:07:30.161Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-0ed0289f",
+      "taskId": "ae3f6e65-5bf6-4344-8f68-25e96e5f3cb2",
+      "durationMs": 265.8401250000461,
+      "at": "2026-06-23T13:07:30.230Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-过道 与哪些自然景象、物件相关？",
+      "requestId": "req-5e2bfcdb",
+      "taskId": "043e2c12-231b-4655-bd1f-c2624fb6fc70",
+      "durationMs": 341.3472500000498,
+      "at": "2026-06-23T13:07:30.445Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-0d5e3eec",
+      "taskId": "5e479cb5-6da6-4916-8d99-6e58cb3db260",
+      "durationMs": 398.00149999995483,
+      "at": "2026-06-23T13:07:30.445Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-巷口 与哪些自然景象、物件相关？",
+      "requestId": "req-0189df1d",
+      "taskId": "664a20d3-db90-4cf9-90ad-586f5699448b",
+      "durationMs": 345.3505829999922,
+      "at": "2026-06-23T13:07:30.445Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-fb00f62e",
+      "taskId": "7e9ffb76-263e-4186-b416-2135fa793b21",
+      "durationMs": 303.97375000000466,
+      "at": "2026-06-23T13:07:30.465Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "装作顺从，把相机放在地上，同时观察三人站位",
+      "requestId": "req-655a0d6d",
+      "taskId": "10e342c7-9d58-4f1d-ac9c-099ca5debb1f",
+      "durationMs": 232.95062499999767,
+      "at": "2026-06-23T13:07:30.678Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-b096f57e",
+      "taskId": "3becfd88-90bb-4052-8bc0-5feeb06ef94c",
+      "durationMs": 451.81683299998986,
+      "at": "2026-06-23T13:07:30.682Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-巷口 的事迹？",
+      "requestId": "req-793f223f",
+      "taskId": "26f74bb7-7288-432d-99ce-8ef35d12dc81",
+      "durationMs": 228.0417090000119,
+      "at": "2026-06-23T13:07:30.910Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-过道 的事迹？",
+      "requestId": "req-f37b06a0",
+      "taskId": "c94cbbdf-6318-4a70-b775-eb149189ece7",
+      "durationMs": 269.41137499996694,
+      "at": "2026-06-23T13:07:30.952Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-41cddad0",
+      "taskId": "a2931b0f-9e1f-4162-a078-f3a35aacf276",
+      "durationMs": 312.38529200002085,
+      "at": "2026-06-23T13:07:30.995Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-6ca71ca9",
+      "taskId": "50b59905-2a57-4f36-b0a0-e3c8f85f181b",
+      "durationMs": 359.22783300001174,
+      "at": "2026-06-23T13:07:31.041Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-da2bf1fe",
+      "taskId": "3ef6f184-53dc-43e5-9b77-a86e79dc81d9",
+      "durationMs": 360.40045799996005,
+      "at": "2026-06-23T13:07:31.043Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-5c2b5359",
+      "taskId": "f173e204-175a-480b-ae4b-efabf1c9ba5a",
+      "durationMs": 224.09612499998184,
+      "at": "2026-06-23T13:07:31.134Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-436d6503",
+      "taskId": "fa905916-841b-4204-9641-be881f5760e6",
+      "durationMs": 236.50500000000466,
+      "at": "2026-06-23T13:07:31.188Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-巷口 与哪些自然景象、物件相关？",
+      "requestId": "req-b497d13d",
+      "taskId": "e3fb4eb6-5e30-4eba-b213-bce1a6b3bb7f",
+      "durationMs": 241.5112080000108,
+      "at": "2026-06-23T13:07:31.236Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-过道 与哪些自然景象、物件相关？",
+      "requestId": "req-46936f6f",
+      "taskId": "01b59831-5c2a-4dae-8ca9-f8c09dc7251e",
+      "durationMs": 211.08387500001118,
+      "at": "2026-06-23T13:07:31.252Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-6497b36e",
+      "taskId": "9db55a48-d3b8-4674-9502-6c07987bf9c5",
+      "durationMs": 253.62991700001294,
+      "at": "2026-06-23T13:07:31.296Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-6fb2635c",
+      "taskId": "8d6435aa-1469-45b8-b813-2dd3e3b1d67a",
+      "durationMs": 248.59175000002142,
+      "at": "2026-06-23T13:07:31.383Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "装作顺从，把相机放在地上，同时观察三人站位",
+      "requestId": "req-e88a14be",
+      "taskId": "fea7f94b-a93f-485d-9615-a8a48ff6c3c9",
+      "durationMs": 283.7516670000041,
+      "at": "2026-06-23T13:07:31.472Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-f103a7ff",
+      "taskId": "e7691c02-d9fa-48dc-9d64-f79e9da44cf2",
+      "durationMs": 26860.038542000053,
+      "at": "2026-06-23T13:08:16.237Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "领头的",
+                  "core_profile": "三人中的实际主导者；姿态松弛但具备掌控局面的气场，习惯通过言语与姿态试探对方底线；行事谨慎且带有压迫感。",
+                  "current_snapshot": "正于巷中近距离逼视主角，等待其做出服软决定；对主角‘战友遗产’的说辞持玩味与质疑态度，暂未下令收缴物品。",
+                  "relationship_network": [
+                    "主角（对峙与盘问对象）",
+                    "左边的、右边的（同伴）"
+                  ]
+                },
+                {
+                  "name": "左边的",
+                  "core_profile": "三人之一；靠墙根站立，重心稳定；手持未打开的折叠刀，警惕性高，视线紧盯主角手部细微动作。",
+                  "current_snapshot": "距主角约四米，维持警戒站位；对主角的示弱姿态报以轻蔑嗤笑，保持距离但未主动发起攻击。",
+                  "relationship_network": [
+                    "主角（监视对象）",
+                    "领头的、右边的（同伴）"
+                  ]
+                },
+                {
+                  "name": "右边的",
+                  "core_profile": "三人之一；原叼着烟，不贸然靠近；善于利用环境（如巷口木门）进行路线把控与战术封锁。",
+                  "current_snapshot": "站在巷口深处约五米处，半掩木门旁；位置意在留退路或堵截另一条出路，持续构成包围态势。",
+                  "relationship_network": [
+                    "主角（路径封锁对象）",
+                    "领头的、左边的（同伴）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "领头的",
+                "core_profile": "三人中的实际主导者；姿态松弛但具备掌控局面的气场，习惯通过言语与姿态试探对方底线；行事谨慎且带有压迫感。",
+                "current_snapshot": "正于巷中近距离逼视主角，等待其做出服软决定；对主角‘战友遗产’的说辞持玩味与质疑态度，暂未下令收缴物品。",
+                "relationship_network": [
+                  "主角（对峙与盘问对象）",
+                  "左边的、右边的（同伴）"
+                ]
+              },
+              {
+                "name": "左边的",
+                "core_profile": "三人之一；靠墙根站立，重心稳定；手持未打开的折叠刀，警惕性高，视线紧盯主角手部细微动作。",
+                "current_snapshot": "距主角约四米，维持警戒站位；对主角的示弱姿态报以轻蔑嗤笑，保持距离但未主动发起攻击。",
+                "relationship_network": [
+                  "主角（监视对象）",
+                  "领头的、右边的（同伴）"
+                ]
+              },
+              {
+                "name": "右边的",
+                "core_profile": "三人之一；原叼着烟，不贸然靠近；善于利用环境（如巷口木门）进行路线把控与战术封锁。",
+                "current_snapshot": "站在巷口深处约五米处，半掩木门旁；位置意在留退路或堵截另一条出路，持续构成包围态势。",
+                "relationship_network": [
+                  "主角（路径封锁对象）",
+                  "领头的、左边的（同伴）"
+                ]
+              }
+            ],
+            "parsed_count": 3,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "帕兹抵暗街遭拦截后的对峙与周旋",
+                  "time": "复活日",
+                  "location": "暗街巷口",
+                  "involved_characters": [
+                    "帕兹"
+                  ],
+                  "summary": "帕兹在遭遇三名街头混混拦截并触发创伤闪回后，强行控制呼吸与肢体语言伪装顺从。他将相机和背包放在石板地面上，低声谎称相机是“战友的遗产”并主动交出胶卷与记忆卡，试图以此换取放行。混混群中传来嗤笑与鞋底摩擦声，领头者对“战友遗产”的说辞表示玩味与怀疑，双方处于言语试探的僵持阶段。",
+                  "consequence": "帕兹通过刻意示弱与编造理由成功延缓了对方的武力收缴动作，暂时化解了即刻升级为直接暴力的危机；但谎言引发了混混首领的警惕与盘问，暴露出自身意图的同时也将局势推向更微妙的心理博弈，迫使帕兹必须继续保持镇定以寻找下一步脱身或周旋的机会。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "帕兹抵暗街遭拦截后的对峙与周旋",
+                "time": "复活日",
+                "location": "暗街巷口",
+                "involved_characters": [
+                  "帕兹"
+                ],
+                "summary": "帕兹在遭遇三名街头混混拦截并触发创伤闪回后，强行控制呼吸与肢体语言伪装顺从。他将相机和背包放在石板地面上，低声谎称相机是“战友的遗产”并主动交出胶卷与记忆卡，试图以此换取放行。混混群中传来嗤笑与鞋底摩擦声，领头者对“战友遗产”的说辞表示玩味与怀疑，双方处于言语试探的僵持阶段。",
+                "consequence": "帕兹通过刻意示弱与编造理由成功延缓了对方的武力收缴动作，暂时化解了即刻升级为直接暴力的危机；但谎言引发了混混首领的警惕与盘问，暴露出自身意图的同时也将局势推向更微妙的心理博弈，迫使帕兹必须继续保持镇定以寻找下一步脱身或周旋的机会。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街",
+                  "description": "隐蔽破败的街区与巷道，石板路面，环境压抑沉闷，弥漫潮湿霉味与刺鼻焦糊气息。此处实际由街头混混或黑帮成员把守，对外来者高度戒备且极具排他性，是易发冲突的灰色管制地带。",
+                  "appearances": [
+                    "旧记忆出现：主角离开节庆喧闹的中央区分界明显区域后步行抵达，街道低矮破旧，门窗歪斜，残留节庆彩带但无人清理；在此遭遇三名纹身男子的物理阻拦与言语警告，要求交出相机方可通行。",
+                    "当前片段出现：主角在此石板路上被迫装作顺从，将相机与背包置于脚边地面；遭遇三名持械男子呈战术站位阻拦（领头者约两米前、左侧靠墙根者约四米、右侧巷口深处木门旁约五米）；环境骤静，仅余鞋底摩擦石板声与同伴嗤笑，强化该地封闭、高危及黑帮管控的特征。"
+                  ],
+                  "current_affiliation": "实际由当地黑帮势力或街头武装实际控制与管辖，对非本区人员（特别是媒体与外来调查者）实施严格隔离与监视；作为情报与势力辐射的边缘枢纽，受暗中监管。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街",
+                "description": "隐蔽破败的街区与巷道，石板路面，环境压抑沉闷，弥漫潮湿霉味与刺鼻焦糊气息。此处实际由街头混混或黑帮成员把守，对外来者高度戒备且极具排他性，是易发冲突的灰色管制地带。",
+                "appearances": [
+                  "旧记忆出现：主角离开节庆喧闹的中央区分界明显区域后步行抵达，街道低矮破旧，门窗歪斜，残留节庆彩带但无人清理；在此遭遇三名纹身男子的物理阻拦与言语警告，要求交出相机方可通行。",
+                  "当前片段出现：主角在此石板路上被迫装作顺从，将相机与背包置于脚边地面；遭遇三名持械男子呈战术站位阻拦（领头者约两米前、左侧靠墙根者约四米、右侧巷口深处木门旁约五米）；环境骤静，仅余鞋底摩擦石板声与同伴嗤笑，强化该地封闭、高危及黑帮管控的特征。"
+                ],
+                "current_affiliation": "实际由当地黑帮势力或街头武装实际控制与管辖，对非本区人员（特别是媒体与外来调查者）实施严格隔离与监视；作为情报与势力辐射的边缘枢纽，受暗中监管。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "领头的",
+              "左边的",
+              "右边的"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "领头的",
+                "candidate_names": [
+                  "领头的"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "领头的的人物档案",
+                "facts": [
+                  {
+                    "content": "领头的。当前快照：正于巷中近距离逼视主角，等待其做出服软决定；对主角‘战友遗产’的说辞持玩味与质疑态度，暂未下令收缴物品。。 关系网：主角（对峙与盘问对象）；左边的、右边的（同伴）。",
+                    "summary": null,
+                    "entity_names": [
+                      "领头的"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "三人中的实际主导者；姿态松弛但具备掌控局面的气场，习惯通过言语与姿态试探对方底线；行事谨慎且带有压迫感。",
+                  "character_current_snapshot": "正于巷中近距离逼视主角，等待其做出服软决定；对主角‘战友遗产’的说辞持玩味与质疑态度，暂未下令收缴物品。",
+                  "character_relationship_network": [
+                    "主角（对峙与盘问对象）",
+                    "左边的、右边的（同伴）"
+                  ],
+                  "turn_id": "turn-05",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              },
+              {
+                "character_name": "左边的",
+                "candidate_names": [
+                  "左边的"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "左边的的人物档案",
+                "facts": [
+                  {
+                    "content": "左边的。当前快照：距主角约四米，维持警戒站位；对主角的示弱姿态报以轻蔑嗤笑，保持距离但未主动发起攻击。。 关系网：主角（监视对象）；领头的、右边的（同伴）。",
+                    "summary": null,
+                    "entity_names": [
+                      "左边的"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "三人之一；靠墙根站立，重心稳定；手持未打开的折叠刀，警惕性高，视线紧盯主角手部细微动作。",
+                  "character_current_snapshot": "距主角约四米，维持警戒站位；对主角的示弱姿态报以轻蔑嗤笑，保持距离但未主动发起攻击。",
+                  "character_relationship_network": [
+                    "主角（监视对象）",
+                    "领头的、右边的（同伴）"
+                  ],
+                  "turn_id": "turn-05",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              },
+              {
+                "character_name": "右边的",
+                "candidate_names": [
+                  "右边的"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "右边的的人物档案",
+                "facts": [
+                  {
+                    "content": "右边的。当前快照：站在巷口深处约五米处，半掩木门旁；位置意在留退路或堵截另一条出路，持续构成包围态势。。 关系网：主角（路径封锁对象）；领头的、左边的（同伴）。",
+                    "summary": null,
+                    "entity_names": [
+                      "右边的"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "三人之一；原叼着烟，不贸然靠近；善于利用环境（如巷口木门）进行路线把控与战术封锁。",
+                  "character_current_snapshot": "站在巷口深处约五米处，半掩木门旁；位置意在留退路或堵截另一条出路，持续构成包围态势。",
+                  "character_relationship_network": [
+                    "主角（路径封锁对象）",
+                    "领头的、左边的（同伴）"
+                  ],
+                  "turn_id": "turn-05",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "a34de7d9-e893-4b79-91d1-cdc7586d4a34",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-01",
+            "topic_turn_end": "turn-05",
+            "topic_turn_count": 5,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 1,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "event",
+                "key": "帕兹抵暗街遭拦截后的对峙与周旋: 帕兹在遭遇三名街头混混拦截并触发创伤闪回后，强行控制呼吸与肢体语言伪装顺从",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街",
+                "target_id": "c7d23def-5f73-5a9b-8c80-0978e3f12bd8",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-23T13:08:21.525Z",
+      "source": "bucket"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

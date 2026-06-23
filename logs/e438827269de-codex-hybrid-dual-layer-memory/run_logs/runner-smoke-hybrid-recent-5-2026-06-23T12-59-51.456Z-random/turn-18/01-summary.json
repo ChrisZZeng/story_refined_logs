@@ -1,0 +1,698 @@
+{
+  "turn": 18,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "检查门锁是否牢固",
+  "selectedFromPreviousTurn": {
+    "text": "检查门锁是否牢固"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-02-第一章",
+    "beatUid": "n_1NMU3hJYakmb",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-02-第一章",
+    "beatUid": "n_1NMU3hJYakmb",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "2-02-第一章",
+    "beatUid": "n_1NMU3hJYakmb",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-02-第一章",
+    "beatUid": "n_1NMU3hJYakmb",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "告诉她敏特的事，简短说"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "告诉她敏特的事，简短说"
+      },
+      {
+        "text": "反问卡琳娜：你觉得他们是冲你来的，还是冲我来的？"
+      },
+      {
+        "text": "拿出相机检查窗外和走廊是否有可疑动静"
+      }
+    ]
+  },
+  "visibleChars": 436,
+  "durationMs": 41117.09,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 26,
+    "locationEvents": 13,
+    "entityEvents": 1
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-23T13:21:48.125Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-23T13:21:48.129Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-c30566ca",
+      "taskId": "989ed26c-acf3-4268-b4da-db0a2a118004",
+      "durationMs": 237.11479099979624,
+      "at": "2026-06-23T13:21:48.353Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-4b1c9c77",
+      "taskId": "cbebc778-048f-4302-8268-e91862013b01",
+      "durationMs": 301.80804200004786,
+      "at": "2026-06-23T13:21:48.418Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-cc367118",
+      "taskId": "8af32f7f-5d9b-4bf3-ac10-d7872c67d29a",
+      "durationMs": 364.88262499985285,
+      "at": "2026-06-23T13:21:48.481Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-4cffeebe",
+      "taskId": "422a891c-28db-4a35-b037-2a39341256f7",
+      "durationMs": 373.6308339999523,
+      "at": "2026-06-23T13:21:48.490Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-68ce7769",
+      "taskId": "bc1f2506-f324-4e65-a40c-4ad1117d2a55",
+      "durationMs": 377.55741700017825,
+      "at": "2026-06-23T13:21:48.493Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-7099bca4",
+      "taskId": "8e11303c-269d-4ee2-ba7d-71df71c8c972",
+      "durationMs": 234.89354100008495,
+      "at": "2026-06-23T13:21:48.588Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-d4f962e2",
+      "taskId": "2e914f87-3542-44b1-9dc1-b785479f8fac",
+      "durationMs": 243.07137500005774,
+      "at": "2026-06-23T13:21:48.661Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-b5b3cd87",
+      "taskId": "ca686e3e-5615-4612-9016-80622bc61838",
+      "durationMs": 270.0794169998262,
+      "at": "2026-06-23T13:21:48.760Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 的独特对话、合作、冲突？",
+      "requestId": "req-ec77880b",
+      "taskId": "a93fdd8c-4f89-4df3-bf31-6a2292b1f2e8",
+      "durationMs": 318.0454589999281,
+      "at": "2026-06-23T13:21:48.799Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-4f3c04f4",
+      "taskId": "2e95bf00-1ebd-4dd0-abee-fdce30fb06a9",
+      "durationMs": 323.6662500000093,
+      "at": "2026-06-23T13:21:48.817Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-e3cbc64e",
+      "taskId": "c822386f-5f7a-435f-befe-cb1e3ec6faf5",
+      "durationMs": 284.892625000095,
+      "at": "2026-06-23T13:21:48.873Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 共同经历的\"重要\"的事件？",
+      "requestId": "req-114a67ad",
+      "taskId": "6adde97c-c0e9-4af1-8697-483bfac08448",
+      "durationMs": 248.16362499981187,
+      "at": "2026-06-23T13:21:48.909Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-51eaf2b8",
+      "taskId": "7f977642-3c3c-4866-a816-be93a296762c",
+      "durationMs": 225.21483299997635,
+      "at": "2026-06-23T13:21:48.985Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-b8463bd1",
+      "taskId": "54079dad-8444-41fa-b5d7-f073c23286cd",
+      "durationMs": 254.50195800000802,
+      "at": "2026-06-23T13:21:49.053Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-7f5fbb7c",
+      "taskId": "526120f2-adbd-4c00-a9ad-c379a6d205c6",
+      "durationMs": 239.14012499991804,
+      "at": "2026-06-23T13:21:49.056Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 德索洛 有哪些约定？",
+      "requestId": "req-316666f8",
+      "taskId": "ef6cf445-bbbc-435d-a31b-a04528ef921f",
+      "durationMs": 267.5905000001658,
+      "at": "2026-06-23T13:21:49.140Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-f8fe42f4",
+      "taskId": "1ca3fbca-2ba3-4cbd-bb76-de45b6617aba",
+      "durationMs": 235.1140000000596,
+      "at": "2026-06-23T13:21:49.144Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-8ac7015d",
+      "taskId": "de332501-49cb-42ea-a192-b588afd02310",
+      "durationMs": 301.77658300008625,
+      "at": "2026-06-23T13:21:49.287Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 有哪些代号或内部梗？",
+      "requestId": "req-8c6df55e",
+      "taskId": "d3e656ac-9b4a-4c42-ae77-e4494c606df2",
+      "durationMs": 248.69949999987148,
+      "at": "2026-06-23T13:21:49.305Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-fb7fe1dd",
+      "taskId": "c9170ab1-c1f1-4c65-97ea-9fff19757ea5",
+      "durationMs": 281.19516699993983,
+      "at": "2026-06-23T13:21:49.335Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-39ec7310",
+      "taskId": "f3d24263-46be-428c-8fc8-0c26570c8660",
+      "durationMs": 253.28074999991804,
+      "at": "2026-06-23T13:21:49.397Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-0d92841e",
+      "taskId": "16855b6e-e640-4b2c-8966-ad1d4028c059",
+      "durationMs": 259.3236250001937,
+      "at": "2026-06-23T13:21:49.400Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-4e476c09",
+      "taskId": "b4638b8c-5b79-4eff-8f5b-8b151930d83f",
+      "durationMs": 235.5437920000404,
+      "at": "2026-06-23T13:21:49.522Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-ff23c7db",
+      "taskId": "33ba16d0-7aa3-4c9b-897a-1f37fac234e4",
+      "durationMs": 258.82962500001304,
+      "at": "2026-06-23T13:21:49.564Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 说过的话有哪些文学意象？",
+      "requestId": "req-aed9f958",
+      "taskId": "e4e2ee22-5c03-4268-b655-2d1a0155186f",
+      "durationMs": 275.7410840000957,
+      "at": "2026-06-23T13:21:49.610Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "检查门锁是否牢固",
+      "requestId": "req-9827fbd1",
+      "taskId": "2e07774c-284f-4176-939a-6b317fc67a9c",
+      "durationMs": 238.31954200007021,
+      "at": "2026-06-23T13:21:49.636Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-851888fb",
+      "taskId": "1b9497f1-d2d6-4523-abdf-42c4fe48a7dc",
+      "durationMs": 215.76237500016578,
+      "at": "2026-06-23T13:21:49.854Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-cd19b62c",
+      "taskId": "18b0328c-3cef-47ee-8eef-5cbded81d4ff",
+      "durationMs": 218.99066699994728,
+      "at": "2026-06-23T13:21:49.857Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-9b2dacb9",
+      "taskId": "57fbf423-8113-495a-9d3a-52c76edee480",
+      "durationMs": 326.44699999992736,
+      "at": "2026-06-23T13:21:49.964Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-c2786435",
+      "taskId": "ada8ff7e-155d-48a6-8558-c17f05683609",
+      "durationMs": 327.6950829999987,
+      "at": "2026-06-23T13:21:49.966Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-a5d3b167",
+      "taskId": "096e2277-5765-4abf-8726-b8329a5d4d5d",
+      "durationMs": 330.4619169998914,
+      "at": "2026-06-23T13:21:49.968Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-79225e69",
+      "taskId": "ff82e893-0876-46c8-beca-8cfc8654c157",
+      "durationMs": 228.60533299995586,
+      "at": "2026-06-23T13:21:50.082Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-2f0334fa",
+      "taskId": "129fcae6-b476-4357-b61e-cda36eed44a9",
+      "durationMs": 237.32029199996032,
+      "at": "2026-06-23T13:21:50.094Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 的独特对话、合作、冲突？",
+      "requestId": "req-4da80211",
+      "taskId": "3ae4b9bc-6ae3-49a4-8215-efa38da09069",
+      "durationMs": 220.5926670001354,
+      "at": "2026-06-23T13:21:50.185Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-2079fe83",
+      "taskId": "2425b8cd-b769-4df0-8471-f8c40f34804f",
+      "durationMs": 304.35399999981746,
+      "at": "2026-06-23T13:21:50.273Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-1b79c9bc",
+      "taskId": "7b8fef2f-7ea0-4da9-b072-53e995577cd1",
+      "durationMs": 307.35141699993983,
+      "at": "2026-06-23T13:21:50.273Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-b92db224",
+      "taskId": "a4be3188-7b7c-4101-863e-2f4ef6404328",
+      "durationMs": 254.15425000013784,
+      "at": "2026-06-23T13:21:50.336Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 共同经历的\"重要\"的事件？",
+      "requestId": "req-0773e81d",
+      "taskId": "328798e2-d79e-43e4-9d62-e4d3da53ee21",
+      "durationMs": 283.25641599996015,
+      "at": "2026-06-23T13:21:50.377Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-82fa3bd8",
+      "taskId": "c224bab8-b7d5-4555-8cbc-3bdf4d196a15",
+      "durationMs": 271.67666699993424,
+      "at": "2026-06-23T13:21:50.457Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-5d9f28c5",
+      "taskId": "d68d3097-7689-4159-8a7a-6862d04f55dc",
+      "durationMs": 230.13637500000186,
+      "at": "2026-06-23T13:21:50.503Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-1f808341",
+      "taskId": "39c2956e-f015-49a1-a133-1556b9e2d597",
+      "durationMs": 266.861791000003,
+      "at": "2026-06-23T13:21:50.540Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 德索洛 有哪些约定？",
+      "requestId": "req-240482b6",
+      "taskId": "b6cce6a0-4bb2-4f91-8e57-195a8065d0c8",
+      "durationMs": 247.63925000000745,
+      "at": "2026-06-23T13:21:50.584Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-5011f87b",
+      "taskId": "43f84f2e-5aec-49b5-871e-71ac510fcc15",
+      "durationMs": 245.4465420001652,
+      "at": "2026-06-23T13:21:50.623Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-497d6cbc",
+      "taskId": "f8f88132-f747-47cb-be33-94834759060a",
+      "durationMs": 246.23570799990557,
+      "at": "2026-06-23T13:21:50.703Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-32a21ea9",
+      "taskId": "2d273929-769e-42bd-8b2a-ab18df6337c7",
+      "durationMs": 251.10800000000745,
+      "at": "2026-06-23T13:21:50.754Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 有哪些代号或内部梗？",
+      "requestId": "req-6eb02317",
+      "taskId": "37003e9c-e440-4eb6-8361-b29d2280fca0",
+      "durationMs": 263.00587500003166,
+      "at": "2026-06-23T13:21:50.803Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-596402cd",
+      "taskId": "33bbd6eb-bc15-4c3c-9bb8-cabdeb93ac99",
+      "durationMs": 223.63804100011475,
+      "at": "2026-06-23T13:21:50.808Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-40848955",
+      "taskId": "abc27c0d-7d70-4118-a03b-b28065b894cc",
+      "durationMs": 246.9246249999851,
+      "at": "2026-06-23T13:21:50.870Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-e44e109e",
+      "taskId": "00b6ae0d-b0a1-46a2-9532-62a9c2d88d58",
+      "durationMs": 251.11045800009742,
+      "at": "2026-06-23T13:21:50.954Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-228b657a",
+      "taskId": "191b9118-7abf-4b54-9c85-1f925f4b2d6d",
+      "durationMs": 268.1156669999473,
+      "at": "2026-06-23T13:21:51.022Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "检查门锁是否牢固",
+      "requestId": "req-c692532c",
+      "taskId": "07acae7c-7523-4c10-91ba-1407ffdf5531",
+      "durationMs": 237.39141599996947,
+      "at": "2026-06-23T13:21:51.045Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 说过的话有哪些文学意象？",
+      "requestId": "req-e4233fb5",
+      "taskId": "8645c75e-a360-4132-a770-a8b2db5e29cd",
+      "durationMs": 242.93316600006074,
+      "at": "2026-06-23T13:21:51.046Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-dc6bd162",
+      "taskId": "380e583e-1266-45d1-8f44-e3164e98847e",
+      "durationMs": 12804.608083000174,
+      "at": "2026-06-23T13:22:13.198Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "沉默且高度警觉的同伴；具备极强的肢体控制力与指令服从性，对环境变动极为敏感，行事冷静克制。",
+                  "current_snapshot": "与“你”在同一公寓内执行隐蔽行动；在确认门锁牢固后从绝对静止转为双臂交叠于胸前的观察姿态，以平淡语气指出特定事件已发生第二次并暗示局势紧迫，催促“你”加快推进关键话题的沟通。",
+                  "relationship_network": [
+                    "你（同行者与指令下达者）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "卡琳娜",
+                "core_profile": "沉默且高度警觉的同伴；具备极强的肢体控制力与指令服从性，对环境变动极为敏感，行事冷静克制。",
+                "current_snapshot": "与“你”在同一公寓内执行隐蔽行动；在确认门锁牢固后从绝对静止转为双臂交叠于胸前的观察姿态，以平淡语气指出特定事件已发生第二次并暗示局势紧迫，催促“你”加快推进关键话题的沟通。",
+                "relationship_network": [
+                  "你（同行者与指令下达者）"
+                ]
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "门外潜伏者探查",
+                  "time": "",
+                  "location": "公寓门口及室内",
+                  "involved_characters": [
+                    "主角",
+                    "卡琳娜"
+                  ],
+                  "summary": "在确认门外异响消失后，主角仔细检查并确认门锁牢固，静候片刻确认走廊无异常后转身。卡琳娜指出此前类似动静已发生第二次，强调连续出现绝非巧合，并语气紧迫地催促主角若继续相关话题需加快进度。",
+                  "consequence": "彻底排除了门外即时威胁并巩固了物理防线。卡琳娜察觉危险频率升级，现场氛围由排查转向紧迫，直接推动双方必须尽快推进核心话题的讨论。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "门外潜伏者探查",
+                "time": "",
+                "location": "公寓门口及室内",
+                "involved_characters": [
+                  "主角",
+                  "卡琳娜"
+                ],
+                "summary": "在确认门外异响消失后，主角仔细检查并确认门锁牢固，静候片刻确认走廊无异常后转身。卡琳娜指出此前类似动静已发生第二次，强调连续出现绝非巧合，并语气紧迫地催促主角若继续相关话题需加快进度。",
+                "consequence": "彻底排除了门外即时威胁并巩固了物理防线。卡琳娜察觉危险频率升级，现场氛围由排查转向紧迫，直接推动双方必须尽快推进核心话题的讨论。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "公寓室内",
+                  "description": "铺设木地板的居住空间，内有沙发、矮桌与窗户（窗外有晾衣绳）。配备一扇后换的做工扎实的老旧木门，整体环境安静且带有悬疑氛围。",
+                  "appearances": [
+                    "主角从沙发上起身，轻步踏上木地板走向门边；主角贴耳聆听门缝外动静后在室内原地等待确认安全；窗外白衬衫的影子随光线偏移在室内地板上缓慢移动。",
+                    "主角仔细检查老旧木门的锁扣并确认卡紧，在原地等待三个呼吸；转身看到卡琳娜站在矮桌旁双臂交叠注视自己；注意到沙发靠背边缘垂下的黑猫尾巴。"
+                  ],
+                  "current_affiliation": "主角当前的居所"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "公寓室内",
+                "description": "铺设木地板的居住空间，内有沙发、矮桌与窗户（窗外有晾衣绳）。配备一扇后换的做工扎实的老旧木门，整体环境安静且带有悬疑氛围。",
+                "appearances": [
+                  "主角从沙发上起身，轻步踏上木地板走向门边；主角贴耳聆听门缝外动静后在室内原地等待确认安全；窗外白衬衫的影子随光线偏移在室内地板上缓慢移动。",
+                  "主角仔细检查老旧木门的锁扣并确认卡紧，在原地等待三个呼吸；转身看到卡琳娜站在矮桌旁双臂交叠注视自己；注意到沙发靠背边缘垂下的黑猫尾巴。"
+                ],
+                "current_affiliation": "主角当前的居所"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "38c640fc-9430-4236-a3a7-cfe81fa8a057",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-17",
+            "topic_turn_end": "turn-18",
+            "topic_turn_count": 2,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "target_id": "16521184-48e9-54ee-b13f-ab4f4d9bb876",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "门外潜伏者探查: 在确认门外异响消失后，主角仔细检查并确认门锁牢固，静候片刻确认走廊无异常后转身",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "公寓室内",
+                "target_id": "da1fd9ea-c713-54e6-9f70-3a9b1a7b9ced",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-23T13:22:28.212Z",
+      "source": "bucket"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}
