@@ -1,0 +1,31 @@
+{
+  "scriptPath": "tmp/ad78fb59-v8.semantic-split-preview.json",
+  "turnCount": 200,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "startedAt": "2026-06-23T16:37:09.082Z",
+  "stateFoldEnabled": true,
+  "memory": {
+    "mode": "baseline",
+    "recentTurnLimit": 5,
+    "turnDelayMs": 100
+  },
+  "outRoot": "/Users/wqy/Code/story_refined_logs/logs/f7f35a9-hybrid-dual-layer-memory/run_logs",
+  "memorax": null,
+  "model": {
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.deepseek.com/v1",
+    "model": "deepseek-v4-flash",
+    "hasApiKey": true,
+    "thinkingEnabled": "false"
+  },
+  "pilotModel": {
+    "source": "LLM_* fallback",
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.deepseek.com/v1",
+    "model": "deepseek-v4-flash",
+    "hasApiKey": true,
+    "apiKeyEnvVar": "LLM_API_KEY",
+    "thinkingEnabled": "false"
+  }
+}

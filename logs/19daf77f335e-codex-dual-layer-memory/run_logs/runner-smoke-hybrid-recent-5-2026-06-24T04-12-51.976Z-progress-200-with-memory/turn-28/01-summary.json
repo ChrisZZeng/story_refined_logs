@@ -1,0 +1,450 @@
+{
+  "turn": 28,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "点头确认，然后反问她：那你觉得你还欠谁？",
+  "selectedFromPreviousTurn": {
+    "text": "点头确认，然后反问她：那你觉得你还欠谁？"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "4-01-第一章",
+    "beatUid": "n_LkJY23cL2aP6",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "4-01-第一章",
+    "beatUid": "n_LkJY23cL2aP6",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "4-01-第一章",
+    "beatUid": "n_LkJY23cL2aP6",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "4-02-第一章",
+    "beatUid": "n_2CV0mHYah75y",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "如实评价她的白色棉衣"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "如实评价她的白色棉衣"
+      },
+      {
+        "text": "揭穿她转移话题的意图，追问她欠了谁"
+      },
+      {
+        "text": "询问晚宴的具体细节"
+      }
+    ]
+  },
+  "visibleChars": 962,
+  "durationMs": 32131.06,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 26,
+    "locationEvents": 17,
+    "entityEvents": 1
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-24T04:30:21.649Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-24T04:30:21.656Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-781934d4",
+      "taskId": "a17cdecb-af25-4ff8-a6b3-986dfe04e208",
+      "durationMs": 350.1382919999305,
+      "at": "2026-06-24T04:30:21.982Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-a4c0fda0",
+      "taskId": "a9dbaba3-2b8d-47bc-989c-a0fdb7339b6e",
+      "durationMs": 364.9737909999676,
+      "at": "2026-06-24T04:30:21.997Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-b4078c06",
+      "taskId": "b2c53cfe-4ace-4f5d-8033-08ea957c40cd",
+      "durationMs": 365.2820410002023,
+      "at": "2026-06-24T04:30:21.997Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-7adbc734",
+      "taskId": "b06e517d-222e-42a3-8568-3ef2b8f58d3d",
+      "durationMs": 365.3874580000993,
+      "at": "2026-06-24T04:30:21.997Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-1dd04cc8",
+      "taskId": "112a79b7-fdb4-4637-832c-2620fab5a41d",
+      "durationMs": 470.1677079999354,
+      "at": "2026-06-24T04:30:22.102Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-e1d8fc65",
+      "taskId": "3a93835d-a49c-4471-886b-b4a000b7f523",
+      "durationMs": 306.3858749999199,
+      "at": "2026-06-24T04:30:22.303Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-28c2d4f0",
+      "taskId": "87475ced-60e0-424d-bc27-27c608474c8e",
+      "durationMs": 311.61508300015703,
+      "at": "2026-06-24T04:30:22.308Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-9b8e311b",
+      "taskId": "c100dd88-d798-48ee-8f6a-a3262f829f35",
+      "durationMs": 311.670124999946,
+      "at": "2026-06-24T04:30:22.309Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-3eb2f1a5",
+      "taskId": "549938cd-7ca7-4e83-8382-78ccd73f093e",
+      "durationMs": 206.9897499999497,
+      "at": "2026-06-24T04:30:22.309Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-86e45cab",
+      "taskId": "3ebb4c54-dbb9-40aa-8c84-4b98d5696d06",
+      "durationMs": 451.4872079999186,
+      "at": "2026-06-24T04:30:22.433Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-3301423f",
+      "taskId": "75ec34e1-dbab-470e-8d5d-44755bd34cf3",
+      "durationMs": 235.39420800004154,
+      "at": "2026-06-24T04:30:22.539Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-37f35c90",
+      "taskId": "d65eea95-f834-4b48-9274-2ba0c092071d",
+      "durationMs": 282.7463749998715,
+      "at": "2026-06-24T04:30:22.592Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-800332ba",
+      "taskId": "f8e8ffd6-ddb3-4a0f-8236-823a14464779",
+      "durationMs": 286.8170000000391,
+      "at": "2026-06-24T04:30:22.595Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-db0182c4",
+      "taskId": "578fca71-9379-4750-bea2-9ec64ed699f3",
+      "durationMs": 321.107624999946,
+      "at": "2026-06-24T04:30:22.630Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-c8699492",
+      "taskId": "d92d1eea-ba04-4b03-994f-9cfa686bedc5",
+      "durationMs": 251.17574999993667,
+      "at": "2026-06-24T04:30:22.685Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-9995580a",
+      "taskId": "55ae73aa-648e-4922-abf8-0df29a63a9c3",
+      "durationMs": 244.57808399992064,
+      "at": "2026-06-24T04:30:22.783Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-f2322c88",
+      "taskId": "2cef4e5d-468e-4f0b-96b5-af9e9d03a541",
+      "durationMs": 230.9814170000609,
+      "at": "2026-06-24T04:30:22.823Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-02aaa316",
+      "taskId": "e3606835-eed8-445b-9fb7-a5d21deaf5cf",
+      "durationMs": 249.6824590000324,
+      "at": "2026-06-24T04:30:22.845Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-29d02332",
+      "taskId": "18bfec7d-52e3-44b7-8fd0-36ac08c5c143",
+      "durationMs": 244.88891700003296,
+      "at": "2026-06-24T04:30:22.875Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "点头确认，然后反问她：那你觉得你还欠谁？",
+      "requestId": "req-fb8fa65e",
+      "taskId": "b3112d86-75d3-4643-b5fd-dd1ff19068a5",
+      "durationMs": 254.50941599998623,
+      "at": "2026-06-24T04:30:22.939Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-5a81c332",
+      "taskId": "a19a6e42-ddc8-4b18-9705-ff4660e85008",
+      "durationMs": 316.39154199999757,
+      "at": "2026-06-24T04:30:23.258Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-8a841d88",
+      "taskId": "c26b564b-dfc7-4adb-9d31-ac6aab3927ad",
+      "durationMs": 323.65870799985714,
+      "at": "2026-06-24T04:30:23.265Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-0eba85f2",
+      "taskId": "5b7586a2-bd0f-44d6-8fb7-2054a1b3594b",
+      "durationMs": 333.9871249999851,
+      "at": "2026-06-24T04:30:23.276Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-39dbb17e",
+      "taskId": "c244b782-71e9-44eb-9758-3143696aea97",
+      "durationMs": 334.1797080000397,
+      "at": "2026-06-24T04:30:23.276Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-d16e9ef6",
+      "taskId": "161889f6-944c-498a-8b0d-b877a62030b3",
+      "durationMs": 359.13891700003296,
+      "at": "2026-06-24T04:30:23.301Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-1a02fe5b",
+      "taskId": "c1b59cda-a309-489a-bbf0-dd7e959f654e",
+      "durationMs": 257.6737500000745,
+      "at": "2026-06-24T04:30:23.516Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-1004854b",
+      "taskId": "3bf65f20-141b-440f-90df-03e932a6b783",
+      "durationMs": 308.26216599997133,
+      "at": "2026-06-24T04:30:23.574Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-14f04e06",
+      "taskId": "cf3d216c-21ea-4561-b415-455adb567a94",
+      "durationMs": 308.4904159998987,
+      "at": "2026-06-24T04:30:23.584Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-4446480c",
+      "taskId": "dc1db86c-b20b-4748-8b68-c74fed93470f",
+      "durationMs": 308.61404099990614,
+      "at": "2026-06-24T04:30:23.584Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-7da06606",
+      "taskId": "f9fa85da-19ec-4cd3-9403-83880f163cd7",
+      "durationMs": 286.5525839999318,
+      "at": "2026-06-24T04:30:23.587Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-f58bbc50",
+      "taskId": "7308f71b-a99c-42f2-a043-3a0ed0667362",
+      "durationMs": 243.2741250002291,
+      "at": "2026-06-24T04:30:23.759Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-83cadd29",
+      "taskId": "4305ea9a-165f-445a-8ade-c024106550a7",
+      "durationMs": 233.53049999987707,
+      "at": "2026-06-24T04:30:23.821Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-f773319d",
+      "taskId": "6699d137-5a6b-43a5-85c2-91a61ec8e579",
+      "durationMs": 288.00654199998826,
+      "at": "2026-06-24T04:30:23.862Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-098ec022",
+      "taskId": "5b7d6e55-e7e9-4477-9077-aa5eab299c89",
+      "durationMs": 321.2310840000864,
+      "at": "2026-06-24T04:30:23.906Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-83f76503",
+      "taskId": "a4ae6bbe-a8ca-474c-9d3b-11c7e1a4ff15",
+      "durationMs": 321.4074159997981,
+      "at": "2026-06-24T04:30:23.906Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-a03e86e8",
+      "taskId": "4ac78742-babb-47b7-a8fa-dcaad81e8faa",
+      "durationMs": 225.74891699990258,
+      "at": "2026-06-24T04:30:23.985Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-cc6ef77d",
+      "taskId": "cdbe6429-fe59-446b-9cd9-f7935434ae3c",
+      "durationMs": 215.60258399997838,
+      "at": "2026-06-24T04:30:24.037Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-5925f16a",
+      "taskId": "c3025f47-e8e7-4a5b-bf43-e9e58763ee78",
+      "durationMs": 244.94016600004397,
+      "at": "2026-06-24T04:30:24.106Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "点头确认，然后反问她：那你觉得你还欠谁？",
+      "requestId": "req-e45efe22",
+      "taskId": "7a9f1c35-3777-4f37-b3de-3d13be4ef522",
+      "durationMs": 229.7807080000639,
+      "at": "2026-06-24T04:30:24.136Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-8631a823",
+      "taskId": "93d9f7ee-901d-4296-a1d7-c785634ad847",
+      "durationMs": 285.5542079999577,
+      "at": "2026-06-24T04:30:24.191Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-d8fcb03a",
+      "taskId": "a71091c1-d38f-4206-9952-ca676cc209f0",
+      "durationMs": 12904.971416999819,
+      "at": "2026-06-24T04:30:52.338Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

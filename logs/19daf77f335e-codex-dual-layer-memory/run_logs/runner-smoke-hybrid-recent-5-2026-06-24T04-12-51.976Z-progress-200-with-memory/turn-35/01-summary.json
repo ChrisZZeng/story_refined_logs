@@ -1,0 +1,779 @@
+{
+  "turn": 35,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "直视康纳，回答他的问题——你愿意为看到真相付出代价",
+  "selectedFromPreviousTurn": {
+    "text": "直视康纳，回答他的问题——你愿意为看到真相付出代价"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "认真回答她——你是认真的"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_icVhDMEoZo0T",
+      "label": "玩家已回应",
+      "description": "玩家接受卡琳娜的邀请"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "认真回答她——你是认真的"
+      },
+      {
+        "text": "转移话题，问她关于罗英的事"
+      },
+      {
+        "text": "反问她——她觉得你是什么样的人"
+      },
+      {
+        "text": "继续观察康纳在宴会上的动向"
+      }
+    ]
+  },
+  "visibleChars": 855,
+  "durationMs": 35745.11,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 26,
+    "locationEvents": 21,
+    "entityEvents": 1
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-24T04:35:32.804Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-24T04:35:32.813Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 夜晚的街道 的事迹？",
+      "requestId": "req-efcd4bb0",
+      "taskId": "461f8a38-8db1-4d21-a2ac-fa9e2fd6e414",
+      "durationMs": 336.5742080002092,
+      "at": "2026-06-24T04:35:33.118Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 夜晚的街道 的事迹？",
+      "requestId": "req-e1325cc1",
+      "taskId": "e01a7754-b10a-4b32-a2d2-aaaeba1b66d5",
+      "durationMs": 338.70074999984354,
+      "at": "2026-06-24T04:35:33.120Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 公园 的事迹？",
+      "requestId": "req-b4daf76a",
+      "taskId": "85812c17-0321-4495-998d-bd2bc4b8e67e",
+      "durationMs": 338.92566700000316,
+      "at": "2026-06-24T04:35:33.120Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 夜晚的街道 的事迹？",
+      "requestId": "req-b2a93276",
+      "taskId": "99ff3956-dd9b-4fe1-beb1-f3c7273ac34a",
+      "durationMs": 431.4171670000069,
+      "at": "2026-06-24T04:35:33.213Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 公园 的事迹？",
+      "requestId": "req-b3007ac9",
+      "taskId": "e87839cf-0c83-47a2-9f20-3584264acece",
+      "durationMs": 432.6193750000093,
+      "at": "2026-06-24T04:35:33.214Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-b728656b",
+      "taskId": "507b4d9f-158d-4365-b78e-78813d3daf2d",
+      "durationMs": 271.08887500013225,
+      "at": "2026-06-24T04:35:33.392Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 公园 的事迹？",
+      "requestId": "req-85b09369",
+      "taskId": "52a91975-d1ae-48ae-85fa-1c0ce1b8ba88",
+      "durationMs": 346.02208400005475,
+      "at": "2026-06-24T04:35:33.465Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-03a3b138",
+      "taskId": "5122ee9d-733e-467f-adec-2fb493a5fe4d",
+      "durationMs": 346.17208300018683,
+      "at": "2026-06-24T04:35:33.467Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-c1a3fd46",
+      "taskId": "05840c25-b400-4eac-8c62-f8b2e7fb3db8",
+      "durationMs": 256.0861249999143,
+      "at": "2026-06-24T04:35:33.469Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-f0ba72b3",
+      "taskId": "b235e7f5-5e04-4946-90a2-d7591d830201",
+      "durationMs": 254.935499999905,
+      "at": "2026-06-24T04:35:33.469Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-b78d56e3",
+      "taskId": "13646677-9f58-495c-8bb8-ddc6a7154276",
+      "durationMs": 271.8965829999652,
+      "at": "2026-06-24T04:35:33.664Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-468670a0",
+      "taskId": "da45b744-e570-48fa-95ca-395ad9c9181b",
+      "durationMs": 251.68895899993367,
+      "at": "2026-06-24T04:35:33.716Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-e5147caa",
+      "taskId": "27b59edc-f651-4f00-b062-46f39fa54fdf",
+      "durationMs": 299.6364579999354,
+      "at": "2026-06-24T04:35:33.769Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-6cef83ff",
+      "taskId": "f029f875-a784-4d54-8cfc-74e02b13d60a",
+      "durationMs": 303.2145829999354,
+      "at": "2026-06-24T04:35:33.770Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-7a431b85",
+      "taskId": "3540b523-1f7e-422b-bd52-a4a0d39aec52",
+      "durationMs": 361.3041670001112,
+      "at": "2026-06-24T04:35:33.831Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-70c0393c",
+      "taskId": "fbea1644-ea1c-46fe-8864-a6e73f84dced",
+      "durationMs": 247.47320799995214,
+      "at": "2026-06-24T04:35:33.911Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-f30b7a0f",
+      "taskId": "f5544943-4e1c-4f93-9684-b26deda6425e",
+      "durationMs": 270.6088750001509,
+      "at": "2026-06-24T04:35:33.987Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "夜晚的街道 与哪些自然景象、物件相关？",
+      "requestId": "req-c3167b84",
+      "taskId": "0805ce70-efaa-49d1-8125-15c10eb477fb",
+      "durationMs": 257.84158300003037,
+      "at": "2026-06-24T04:35:34.028Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-0a8a5fc8",
+      "taskId": "ee43bfd1-6545-4d4d-bfe5-aa9411fe0167",
+      "durationMs": 265.3360840000678,
+      "at": "2026-06-24T04:35:34.034Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "公园 与哪些自然景象、物件相关？",
+      "requestId": "req-f2ddff0e",
+      "taskId": "2a4a6cc8-8f3e-4fa1-a96c-40887d636828",
+      "durationMs": 268.78437500004657,
+      "at": "2026-06-24T04:35:34.099Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-cae3fcb3",
+      "taskId": "4cdc5f15-81d5-438c-ad67-046396cb76e1",
+      "durationMs": 202.6201669999864,
+      "at": "2026-06-24T04:35:34.114Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-9fd11c27",
+      "taskId": "6c311dba-073d-473b-8721-5cc097a673ba",
+      "durationMs": 265.74325000005774,
+      "at": "2026-06-24T04:35:34.252Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "直视康纳，回答他的问题——你愿意为看到真相付出代价",
+      "requestId": "req-597a31e0",
+      "taskId": "04f99ea3-487a-4d7c-9b30-c8d910845b5e",
+      "durationMs": 274.60533299995586,
+      "at": "2026-06-24T04:35:34.309Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-d6c05be5",
+      "taskId": "96cf69a0-3037-468c-a4bc-85c19e23a7e3",
+      "durationMs": 281.03375000017695,
+      "at": "2026-06-24T04:35:34.309Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 公园 的事迹？",
+      "requestId": "req-a3259b8d",
+      "taskId": "61561fd5-4e70-4781-b5f2-cebdc2964250",
+      "durationMs": 254.39445800008252,
+      "at": "2026-06-24T04:35:34.566Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 夜晚的街道 的事迹？",
+      "requestId": "req-5f0508e7",
+      "taskId": "bb1298cb-4470-4f42-b227-df2d725d32b9",
+      "durationMs": 305.21450000000186,
+      "at": "2026-06-24T04:35:34.617Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 公园 的事迹？",
+      "requestId": "req-b5a80bc9",
+      "taskId": "05082d83-635a-4cd1-8064-bfbbe51a1ba9",
+      "durationMs": 305.36908299988136,
+      "at": "2026-06-24T04:35:34.617Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 夜晚的街道 的事迹？",
+      "requestId": "req-682f5049",
+      "taskId": "eec68bff-e7c1-4b30-86c4-2cb34067991b",
+      "durationMs": 369.87166699999943,
+      "at": "2026-06-24T04:35:34.681Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 夜晚的街道 的事迹？",
+      "requestId": "req-54c46e47",
+      "taskId": "619cf9b6-2b2e-4a40-96d5-a73cb3a8cbd0",
+      "durationMs": 419.4755839998834,
+      "at": "2026-06-24T04:35:34.731Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 公园 的事迹？",
+      "requestId": "req-318bd902",
+      "taskId": "dcc3d2d3-e2a0-4904-b10b-d22b768fd14e",
+      "durationMs": 233.83337499992922,
+      "at": "2026-06-24T04:35:34.800Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-5002b851",
+      "taskId": "153386f0-a064-4924-959a-24e63f4acf96",
+      "durationMs": 237.99824999994598,
+      "at": "2026-06-24T04:35:34.855Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-3a014251",
+      "taskId": "dddb283b-4a5b-4107-989c-293633b25fd8",
+      "durationMs": 230.1941250001546,
+      "at": "2026-06-24T04:35:34.912Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-f0e006c4",
+      "taskId": "6b396546-78c8-4f3d-a14b-e639bd6b1188",
+      "durationMs": 295.2364590000361,
+      "at": "2026-06-24T04:35:34.912Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-4eb1986d",
+      "taskId": "efe96595-1f0c-4cce-817f-79a2f86f3f50",
+      "durationMs": 249.61691700015217,
+      "at": "2026-06-24T04:35:34.981Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-d9d38c68",
+      "taskId": "1acb253b-4f35-4861-8778-b6317fa86d98",
+      "durationMs": 240.87779099983163,
+      "at": "2026-06-24T04:35:35.041Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-1077a84a",
+      "taskId": "d7ef5af0-811f-45c0-b220-dbd52a578954",
+      "durationMs": 279.01949999993667,
+      "at": "2026-06-24T04:35:35.134Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-c6c0f676",
+      "taskId": "3b7e14c9-94e8-4bdb-9867-c553b2201fe6",
+      "durationMs": 223.50262500019744,
+      "at": "2026-06-24T04:35:35.135Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-3b322cc6",
+      "taskId": "9d9245bb-691d-46a7-9265-07e7af678daa",
+      "durationMs": 288.9975829999894,
+      "at": "2026-06-24T04:35:35.201Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-505fd0ab",
+      "taskId": "ad8e5629-633e-4c86-8b3d-b0c9e7dce96d",
+      "durationMs": 258.9951669999864,
+      "at": "2026-06-24T04:35:35.240Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-17dc5d95",
+      "taskId": "e6caff1a-6663-422a-86ca-b31fde3d44aa",
+      "durationMs": 244.14387500006706,
+      "at": "2026-06-24T04:35:35.285Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-4703cddd",
+      "taskId": "ff535703-343f-40ea-a4f2-c34bc1ad6a19",
+      "durationMs": 225.91149999992922,
+      "at": "2026-06-24T04:35:35.360Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-6c7aee47",
+      "taskId": "bd4101af-675f-4420-93be-d32a698a38de",
+      "durationMs": 277.40870800009,
+      "at": "2026-06-24T04:35:35.413Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "夜晚的街道 与哪些自然景象、物件相关？",
+      "requestId": "req-7b955f72",
+      "taskId": "47a17687-011f-4d29-953a-3d716c18653b",
+      "durationMs": 214.93587499996647,
+      "at": "2026-06-24T04:35:35.416Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "公园 与哪些自然景象、物件相关？",
+      "requestId": "req-785034cb",
+      "taskId": "5242a56b-a216-420a-b284-ad82504d1291",
+      "durationMs": 245.1911249998957,
+      "at": "2026-06-24T04:35:35.485Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-4b33aad2",
+      "taskId": "84e690bc-780f-40cb-9df3-e881e5ba4371",
+      "durationMs": 256.60195899987593,
+      "at": "2026-06-24T04:35:35.541Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-d9453928",
+      "taskId": "fa9dbe62-43ab-404b-80f3-c6696f18c0f8",
+      "durationMs": 230.4210000000894,
+      "at": "2026-06-24T04:35:35.590Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-357f2189",
+      "taskId": "10efd487-6d89-474c-9e44-b18fa39156b1",
+      "durationMs": 242.61908299988136,
+      "at": "2026-06-24T04:35:35.655Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "直视康纳，回答他的问题——你愿意为看到真相付出代价",
+      "requestId": "req-d7aef2c2",
+      "taskId": "bfc5b219-7b8d-45a3-ae4e-5f7845223692",
+      "durationMs": 268.14783299993724,
+      "at": "2026-06-24T04:35:35.684Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "康纳·凯拉宁",
+                  "core_profile": "宴会主人，身着西装，拥有一双浅色眼睛。性格沉稳敏锐，擅长拆解话语内涵并在内心反复权衡；习惯以不带褒贬的语气陈述事实，行事节奏耐心且注重掌控感，常将出牌权暂交对方后再做决断。",
+                  "current_snapshot": "在宴会厅中与对方探讨“暗街的光”，平静接纳观点并反问背后代价；目光短暂掠过身旁的白棉衣轮廓后收回，重心落于后脚，以安静耐心的姿态等待下一轮交锋。",
+                  "relationship_network": [
+                    "卡琳娜（宴会上被其目光关注的白棉衣轮廓人物）"
+                  ]
+                },
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "曾离开新西西里约十年后重返的旧人。身着白色旧棉衣，性格隐忍谨慎，情绪内敛但面对特定语境或旧识时会伴随细微的生理反应，与“暗街”背景存在潜在牵连。",
+                  "current_snapshot": "静立于对话主角身侧，手指稳握杯壁未动。刻意避开双方视线落向远处吊灯光晕，姿态与握杯高度毫无变化，显已提前预判局势走向并决心不介入此次言语交锋。",
+                  "relationship_network": [
+                    "康纳·凯拉宁（宴会主人/十年未见的前任熟人）",
+                    "记者先生（引荐的同行者/受保护对象）",
+                    "对话主角（身旁站立者）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "康纳·凯拉宁",
+                "core_profile": "宴会主人，身着西装，拥有一双浅色眼睛。性格沉稳敏锐，擅长拆解话语内涵并在内心反复权衡；习惯以不带褒贬的语气陈述事实，行事节奏耐心且注重掌控感，常将出牌权暂交对方后再做决断。",
+                "current_snapshot": "在宴会厅中与对方探讨“暗街的光”，平静接纳观点并反问背后代价；目光短暂掠过身旁的白棉衣轮廓后收回，重心落于后脚，以安静耐心的姿态等待下一轮交锋。",
+                "relationship_network": [
+                  "卡琳娜（宴会上被其目光关注的白棉衣轮廓人物）"
+                ]
+              },
+              {
+                "name": "卡琳娜",
+                "core_profile": "曾离开新西西里约十年后重返的旧人。身着白色旧棉衣，性格隐忍谨慎，情绪内敛但面对特定语境或旧识时会伴随细微的生理反应，与“暗街”背景存在潜在牵连。",
+                "current_snapshot": "静立于对话主角身侧，手指稳握杯壁未动。刻意避开双方视线落向远处吊灯光晕，姿态与握杯高度毫无变化，显已提前预判局势走向并决心不介入此次言语交锋。",
+                "relationship_network": [
+                  "康纳·凯拉宁（宴会主人/十年未见的前任熟人）",
+                  "记者先生（引荐的同行者/受保护对象）",
+                  "对话主角（身旁站立者）"
+                ]
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "299456df-bca7-5c14-b678-e25be3a49f35",
+                  "time": "",
+                  "location": "宴会大厅",
+                  "involved_characters": [
+                    "康纳·凯拉宁",
+                    "卡琳娜",
+                    "记者"
+                  ],
+                  "summary": "记者于宴会大厅正面迎上康纳的目光并回敬举杯。康纳缓步上前至三步外，宣告新西西里的阶级划分并警告“暗街”事物不宜见光。记者直视其眼平静回应“暗街的光只有走进去的人才能看见”，康纳咀嚼话语后予以确认，随即反诘记者是否准备好为目睹真相付出代价，并将目光投向身旁的卡琳娜。卡琳娜全程姿态稳如止水，未作任何干涉。周围宾客察觉气氛变化，交谈声渐低并倾向此处。康纳重心落于后脚，安静而耐心地等待记者的下一步决断。",
+                  "consequence": "双方从背景试探转入核心议题的直接碰撞，“暗街”的立场与代价被公开摊牌；卡琳娜的极度克制反衬出局势的凶险与其自身的掌控力；全场的暗中关注将私人博弈推至台前，迫使对话进入必须明确风险承担与行动底线的临界阶段。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "299456df-bca7-5c14-b678-e25be3a49f35",
+                "time": "",
+                "location": "宴会大厅",
+                "involved_characters": [
+                  "康纳·凯拉宁",
+                  "卡琳娜",
+                  "记者"
+                ],
+                "summary": "记者于宴会大厅正面迎上康纳的目光并回敬举杯。康纳缓步上前至三步外，宣告新西西里的阶级划分并警告“暗街”事物不宜见光。记者直视其眼平静回应“暗街的光只有走进去的人才能看见”，康纳咀嚼话语后予以确认，随即反诘记者是否准备好为目睹真相付出代价，并将目光投向身旁的卡琳娜。卡琳娜全程姿态稳如止水，未作任何干涉。周围宾客察觉气氛变化，交谈声渐低并倾向此处。康纳重心落于后脚，安静而耐心地等待记者的下一步决断。",
+                "consequence": "双方从背景试探转入核心议题的直接碰撞，“暗街”的立场与代价被公开摊牌；卡琳娜的极度克制反衬出局势的凶险与其自身的掌控力；全场的暗中关注将私人博弈推至台前，迫使对话进入必须明确风险承担与行动底线的临界阶段。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "宴会大厅",
+                  "description": "康纳私人宴会的核心举办场所，空间开阔且灯光明暗交错，设有吊灯、长桌与古典乐队演奏区，是权力展示、社交博弈与高层对峙的绝对主场。",
+                  "appearances": [
+                    "当前片段中作为主要对话舞台，空气凝重如深水投石，背景钢琴曲转为舒缓古典乐，周边宾客自觉压低声音并暗中将注意力倾斜至主角与康纳的对峙区域。",
+                    "旧记忆中描述为具备华丽装潢与严密动线的奢华空间，人群会因康纳的移动自动让出通道形成避让波纹，凸显其绝对控制力。"
+                  ],
+                  "current_affiliation": "康纳·凯拉宁私人主办与绝对掌控的领地。"
+                },
+                {
+                  "name": "暗街",
+                  "description": "位于新西西里的隐秘街区与社会边缘隐喻，因‘那里的东西不适合被光照到’而得名，是被主流秩序视为‘怪物’之人的聚居地或象征性归宿。",
+                  "appearances": [
+                    "当前片段中作为核心哲学隐喻被直接引用，用户以‘暗街的光，只有走进去的人才能看见’向康纳发起平静试探，康纳复述后顺势追问直视真相所需的代价。",
+                    "旧记忆中作为康纳在宴会上划分新西西里社会结构时的第三种人群代称提出，引发旁听者卡琳娜的无声反应。"
+                  ],
+                  "current_affiliation": "与新西西里表面秩序（康纳代表的阶层）处于对立或隐秘共存状态，具体控制权未明。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "宴会大厅",
+                "description": "康纳私人宴会的核心举办场所，空间开阔且灯光明暗交错，设有吊灯、长桌与古典乐队演奏区，是权力展示、社交博弈与高层对峙的绝对主场。",
+                "appearances": [
+                  "当前片段中作为主要对话舞台，空气凝重如深水投石，背景钢琴曲转为舒缓古典乐，周边宾客自觉压低声音并暗中将注意力倾斜至主角与康纳的对峙区域。",
+                  "旧记忆中描述为具备华丽装潢与严密动线的奢华空间，人群会因康纳的移动自动让出通道形成避让波纹，凸显其绝对控制力。"
+                ],
+                "current_affiliation": "康纳·凯拉宁私人主办与绝对掌控的领地。"
+              },
+              {
+                "name": "暗街",
+                "description": "位于新西西里的隐秘街区与社会边缘隐喻，因‘那里的东西不适合被光照到’而得名，是被主流秩序视为‘怪物’之人的聚居地或象征性归宿。",
+                "appearances": [
+                  "当前片段中作为核心哲学隐喻被直接引用，用户以‘暗街的光，只有走进去的人才能看见’向康纳发起平静试探，康纳复述后顺势追问直视真相所需的代价。",
+                  "旧记忆中作为康纳在宴会上划分新西西里社会结构时的第三种人群代称提出，引发旁听者卡琳娜的无声反应。"
+                ],
+                "current_affiliation": "与新西西里表面秩序（康纳代表的阶层）处于对立或隐秘共存状态，具体控制权未明。"
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "康纳·凯拉宁"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "康纳·凯拉宁",
+                "candidate_names": [
+                  "康纳·凯拉宁"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "康纳·凯拉宁的人物档案",
+                "facts": [
+                  {
+                    "content": "康纳·凯拉宁。当前快照：在宴会厅中与对方探讨“暗街的光”，平静接纳观点并反问背后代价；目光短暂掠过身旁的白棉衣轮廓后收回，重心落于后脚，以安静耐心的姿态等待下一轮交锋。。 关系网：卡琳娜（宴会上被其目光关注的白棉衣轮廓人物）。",
+                    "summary": null,
+                    "entity_names": [
+                      "康纳·凯拉宁"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "宴会主人，身着西装，拥有一双浅色眼睛。性格沉稳敏锐，擅长拆解话语内涵并在内心反复权衡；习惯以不带褒贬的语气陈述事实，行事节奏耐心且注重掌控感，常将出牌权暂交对方后再做决断。",
+                  "character_current_snapshot": "在宴会厅中与对方探讨“暗街的光”，平静接纳观点并反问背后代价；目光短暂掠过身旁的白棉衣轮廓后收回，重心落于后脚，以安静耐心的姿态等待下一轮交锋。",
+                  "character_relationship_network": [
+                    "卡琳娜（宴会上被其目光关注的白棉衣轮廓人物）"
+                  ],
+                  "turn_id": "turn-34",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "237b6836-cce1-4158-8a50-74f594438d59",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-33",
+            "topic_turn_end": "turn-34",
+            "topic_turn_count": 2,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 3,
+            "forced_update_to_add": 0,
+            "kept_add": 1,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "target_id": "a6217720-268a-5408-a6d7-4f2d7b5fb8c2",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "event",
+                "key": "299456df-bca7-5c14-b678-e25be3a49f35: 记者于宴会大厅正面迎上康纳的目光并回敬举杯",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "宴会大厅",
+                "target_id": "c26a3dd3-7cdd-5dcf-a6f4-e24218916f3c",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街",
+                "target_id": "a239610a-ea8d-5455-80b7-972dd2431a2a",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-24T04:35:57.157Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-8632778c",
+      "taskId": "5aa054e2-da21-41bd-a0d6-c489c312affa",
+      "durationMs": 17359.178041999927,
+      "at": "2026-06-24T04:36:07.411Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

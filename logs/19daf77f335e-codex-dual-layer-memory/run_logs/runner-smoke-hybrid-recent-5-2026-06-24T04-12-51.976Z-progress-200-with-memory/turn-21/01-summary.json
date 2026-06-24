@@ -1,0 +1,749 @@
+{
+  "turn": 21,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "继续质问德索洛，逼问他为什么这些年疏远卡琳娜",
+  "selectedFromPreviousTurn": {
+    "text": "继续质问德索洛，逼问他为什么这些年疏远卡琳娜"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-03-第一章",
+    "beatUid": "n_SiL3HDIOkF7Y",
+    "turnInBeat": 2
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-03-第一章",
+    "beatUid": "n_SiL3HDIOkF7Y",
+    "turnInBeat": 2
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "2-03-第一章",
+    "beatUid": "n_SiL3HDIOkF7Y",
+    "turnInBeat": 2
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "2-03-第一章",
+    "beatUid": "n_SiL3HDIOkF7Y",
+    "turnInBeat": 3
+  },
+  "selectedForNext": {
+    "text": "后退一步，把空间留给卡琳娜，让她自己处理"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "后退一步，把空间留给卡琳娜，让她自己处理"
+      },
+      {
+        "text": "继续追问德索洛，逼他说出更多细节"
+      },
+      {
+        "text": "沉默观察，等德索洛自己开口"
+      }
+    ]
+  },
+  "visibleChars": 1070,
+  "durationMs": 40759.57,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 23,
+    "locationEvents": 13,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-24T04:25:57.818Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-24T04:25:57.823Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-69d258d6",
+      "taskId": "603e5384-5358-4ecc-a27a-c73af5eeb4c7",
+      "durationMs": 251.13454200001433,
+      "at": "2026-06-24T04:25:58.058Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-78ae53b3",
+      "taskId": "02be6e4b-97af-4215-9796-e2df4c0430eb",
+      "durationMs": 323.14508399995975,
+      "at": "2026-06-24T04:25:58.130Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-62f6b9a8",
+      "taskId": "06305f4c-ec11-4d9b-a2a5-2ed71fbe2f2c",
+      "durationMs": 330.24983300000895,
+      "at": "2026-06-24T04:25:58.137Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-29ca9f8f",
+      "taskId": "4bcfbb39-7e16-4705-b9a8-1043e51da617",
+      "durationMs": 332.3864169999724,
+      "at": "2026-06-24T04:25:58.139Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-20a5982c",
+      "taskId": "50fb9437-201e-4641-820b-982bc66ad7f6",
+      "durationMs": 370.6465830000816,
+      "at": "2026-06-24T04:25:58.177Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-dbfd97c7",
+      "taskId": "e648640d-f34d-4aeb-9090-c2cfc8df3739",
+      "durationMs": 280.188375000027,
+      "at": "2026-06-24T04:25:58.410Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 的独特对话、合作、冲突？",
+      "requestId": "req-c1c8f7cd",
+      "taskId": "ffa1face-275f-402b-8606-38c3b4e7879a",
+      "durationMs": 289.954207999981,
+      "at": "2026-06-24T04:25:58.427Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-18986053",
+      "taskId": "65a94598-3479-4b7c-878b-c109c4370f1d",
+      "durationMs": 319.20974999992177,
+      "at": "2026-06-24T04:25:58.458Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-026dd3a4",
+      "taskId": "285a144b-6c15-463c-9380-bf95398ebf22",
+      "durationMs": 281.21495799999684,
+      "at": "2026-06-24T04:25:58.458Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-045fd7e9",
+      "taskId": "d4a9b031-4008-4674-a39f-1e1a99192d23",
+      "durationMs": 224.65487500000745,
+      "at": "2026-06-24T04:25:58.635Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 共同经历的\"重要\"的事件？",
+      "requestId": "req-1043360c",
+      "taskId": "94ea3607-b443-41c8-844a-65836487cf13",
+      "durationMs": 249.76975000009406,
+      "at": "2026-06-24T04:25:58.677Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-ac2efa2d",
+      "taskId": "05e24435-af62-4b24-a5c3-3670de8e115a",
+      "durationMs": 279.9888749999227,
+      "at": "2026-06-24T04:25:58.738Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-d0fcc660",
+      "taskId": "eaaf05a5-b811-41f2-b7d3-8dbbe45cd590",
+      "durationMs": 280.7311670000199,
+      "at": "2026-06-24T04:25:58.739Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-89915f86",
+      "taskId": "0f9d42e0-d7d2-4f24-b73f-afcf5a2d39dd",
+      "durationMs": 227.89808299997821,
+      "at": "2026-06-24T04:25:58.863Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 德索洛 有哪些约定？",
+      "requestId": "req-69d5ac01",
+      "taskId": "e482e538-6162-48d6-8fbf-65e2f84a3d29",
+      "durationMs": 259.1431249999441,
+      "at": "2026-06-24T04:25:58.936Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-634b0e23",
+      "taskId": "b35fcbce-c1bf-4e10-98a5-f48849950578",
+      "durationMs": 285.7310829999624,
+      "at": "2026-06-24T04:25:59.024Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-62c53f1f",
+      "taskId": "c6340940-991f-4524-8af0-69322ae0ac23",
+      "durationMs": 285.18933300010394,
+      "at": "2026-06-24T04:25:59.024Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-d6eceb0a",
+      "taskId": "90157826-8373-4457-803e-ce76307a5129",
+      "durationMs": 289.24258299998473,
+      "at": "2026-06-24T04:25:59.152Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 有哪些代号或内部梗？",
+      "requestId": "req-6c7c4bab",
+      "taskId": "2c7ed79b-f5e9-4c5f-8a5f-a13c34f6022f",
+      "durationMs": 304.69095800002106,
+      "at": "2026-06-24T04:25:59.241Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-e2ea3ada",
+      "taskId": "c5a7606a-d6ec-4ba7-b95c-fafd518ef8bb",
+      "durationMs": 329.59504200005904,
+      "at": "2026-06-24T04:25:59.354Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-d76171c6",
+      "taskId": "05ac838e-66eb-49ca-8669-d7bf3ad56b2f",
+      "durationMs": 330.44995799998287,
+      "at": "2026-06-24T04:25:59.354Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-df417352",
+      "taskId": "6c5b9e66-b6c7-4f0d-8bd6-ebdbc3387cbe",
+      "durationMs": 290.22233400004916,
+      "at": "2026-06-24T04:25:59.531Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-5522528f",
+      "taskId": "435bd75f-1ed9-4087-8b0c-c2413acc8cd4",
+      "durationMs": 379.0924589999486,
+      "at": "2026-06-24T04:25:59.531Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-85e406e3",
+      "taskId": "a190ea79-5aa4-49e8-a1f4-92225fdf32fc",
+      "durationMs": 1473.407499999972,
+      "at": "2026-06-24T04:25:59.531Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 说过的话有哪些文学意象？",
+      "requestId": "req-69a90850",
+      "taskId": "d2fc0214-71d4-407b-8eb8-5aa29223faee",
+      "durationMs": 256.6715839999961,
+      "at": "2026-06-24T04:25:59.611Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "继续质问德索洛，逼问他为什么这些年疏远卡琳娜",
+      "requestId": "req-2267e940",
+      "taskId": "e3a7ec31-987d-435c-a478-263467823807",
+      "durationMs": 260.8656669999473,
+      "at": "2026-06-24T04:25:59.615Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-e5d76370",
+      "taskId": "2a18d3aa-90fa-4acc-b2d2-06c849549cf2",
+      "durationMs": 224.69295799999963,
+      "at": "2026-06-24T04:25:59.844Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-2fa6fd68",
+      "taskId": "af5ab086-5137-4754-b25a-89e9305adb9b",
+      "durationMs": 270.98804199998267,
+      "at": "2026-06-24T04:25:59.890Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-0422bc63",
+      "taskId": "faacb028-73a3-40c1-8f78-5e033016d9d2",
+      "durationMs": 336.8394579999149,
+      "at": "2026-06-24T04:25:59.956Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-0f31a3ae",
+      "taskId": "c17c3150-2589-49ca-87dd-d6b8340a086f",
+      "durationMs": 338.11974999995437,
+      "at": "2026-06-24T04:25:59.957Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 卡琳娜的公寓 的事迹？",
+      "requestId": "req-50479886",
+      "taskId": "ae6f3205-1c1b-45f2-a33c-c9fa3aaefe17",
+      "durationMs": 341.0903330000583,
+      "at": "2026-06-24T04:25:59.960Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-ed2f124e",
+      "taskId": "f9e45dbf-7538-4b4e-8b6f-175cc41d7a65",
+      "durationMs": 237.4916249999078,
+      "at": "2026-06-24T04:26:00.082Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-4f670c57",
+      "taskId": "7990fd0f-e0ea-4262-9d09-d62551ea7501",
+      "durationMs": 266.5081670000218,
+      "at": "2026-06-24T04:26:00.157Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 的独特对话、合作、冲突？",
+      "requestId": "req-a7cc080e",
+      "taskId": "c2e5ac6b-b2c5-4472-8c2d-48290231dd81",
+      "durationMs": 236.71716700005345,
+      "at": "2026-06-24T04:26:00.193Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-6452dced",
+      "taskId": "90c162cd-ae4b-4dfa-8b55-9ccbf72a4052",
+      "durationMs": 287.65366700000595,
+      "at": "2026-06-24T04:26:00.245Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-e8ced65b",
+      "taskId": "5360a926-96bb-467b-8b36-546ca71be345",
+      "durationMs": 288.83533399994485,
+      "at": "2026-06-24T04:26:00.249Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-88ad9952",
+      "taskId": "46a42e72-d003-40a2-8676-5a8423610b56",
+      "durationMs": 231.32424999994691,
+      "at": "2026-06-24T04:26:00.313Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 共同经历的\"重要\"的事件？",
+      "requestId": "req-3c2d539f",
+      "taskId": "727db950-c705-4236-adfc-e329575b5322",
+      "durationMs": 211.23916700005066,
+      "at": "2026-06-24T04:26:00.368Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-db110a16",
+      "taskId": "c2a10362-f4e8-48e0-9209-d05666e9580f",
+      "durationMs": 224.98858300002757,
+      "at": "2026-06-24T04:26:00.418Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-5e523076",
+      "taskId": "2d46253d-3738-4172-b982-23f11bf766da",
+      "durationMs": 233.17249999998603,
+      "at": "2026-06-24T04:26:00.478Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-093e6193",
+      "taskId": "6424d761-c19f-4272-84be-228bf74da745",
+      "durationMs": 283.13308299996424,
+      "at": "2026-06-24T04:26:00.532Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 德索洛 有哪些约定？",
+      "requestId": "req-ff9df2ec",
+      "taskId": "0b367c6f-e79c-44b9-b901-3b1177765080",
+      "durationMs": 219.77308299997821,
+      "at": "2026-06-24T04:26:00.533Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-06340d6f",
+      "taskId": "f627a6a1-7264-4d9a-8055-8c3695251296",
+      "durationMs": 238.0575419999659,
+      "at": "2026-06-24T04:26:00.606Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-e6f898d6",
+      "taskId": "c0396a06-620a-4905-b019-c52b222f61eb",
+      "durationMs": 269.91875000006985,
+      "at": "2026-06-24T04:26:00.688Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-566ef268",
+      "taskId": "55d90119-34ed-4cd8-b285-e9bf366e4139",
+      "durationMs": 256.84104099997785,
+      "at": "2026-06-24T04:26:00.735Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 德索洛 有哪些代号或内部梗？",
+      "requestId": "req-d655f855",
+      "taskId": "5fe39e7d-bacc-4481-b8b6-ae25c8462c28",
+      "durationMs": 258.4582089999458,
+      "at": "2026-06-24T04:26:00.791Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜的公寓 与哪些自然景象、物件相关？",
+      "requestId": "req-b591d6f4",
+      "taskId": "1031d548-8b70-4e4d-9d95-379ca7c2fd06",
+      "durationMs": 259.4420000000391,
+      "at": "2026-06-24T04:26:00.792Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-68a5a567",
+      "taskId": "210fd8bc-980d-42a7-8107-451fdc87635e",
+      "durationMs": 270.64000000001397,
+      "at": "2026-06-24T04:26:00.958Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-804030f9",
+      "taskId": "395c2365-2e36-4a0d-a69c-bcea683a16ca",
+      "durationMs": 242.59941699996125,
+      "at": "2026-06-24T04:26:00.978Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "德索洛 说过的话有哪些文学意象？",
+      "requestId": "req-b0652046",
+      "taskId": "88c22ac4-f174-4fab-a7e5-eb6f0c6887a1",
+      "durationMs": 237.95933400001377,
+      "at": "2026-06-24T04:26:01.029Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-814d9338",
+      "taskId": "80106e3d-bd94-4f8d-ad7c-072fbc46dee0",
+      "durationMs": 442.6450409999816,
+      "at": "2026-06-24T04:26:01.049Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "继续质问德索洛，逼问他为什么这些年疏远卡琳娜",
+      "requestId": "req-68156654",
+      "taskId": "71b75445-3477-42ef-a837-de4b13b073ca",
+      "durationMs": 256.701166999992,
+      "at": "2026-06-24T04:26:01.049Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "行事冷静审慎，善于计算与预判；情绪表达极度内敛，习惯以微小肢体动作或极低响度传递信息，对人际边界与空间掌控具有强烈意识。",
+                  "current_snapshot": "正于门口维持半挡门缝的防御姿态，未回头注视身后的介入，但通过肩膀微调与嘴角细微变化进行无声计算与局势确认；持续封锁入口，不主动退让，任由门外对峙双方自行交锋。",
+                  "relationship_network": [
+                    "你（身后质问者/室内行动协同方）",
+                    "德索洛（门外叩门者/被其冷面审视的目标对象）"
+                  ]
+                },
+                {
+                  "name": "德索洛",
+                  "core_profile": "中年男性，衣着特征为白色西装；性格急躁且易陷入困境，面对突发复杂局面时语言组织能力下降，本能倾向通过防御性反问或拖延来缓解心理压力。",
+                  "current_snapshot": "立于门外门槛处，面色紧绷、呼吸沉重；因屋内两人的联合审视陷入被动，试图辩解却语塞，最终以沙哑嗓音反问身份以试探虚实并争取喘息时机。",
+                  "relationship_network": [
+                    "卡琳娜（屋内开门者/其求助目标）",
+                    "你（室内阻拦者/强势质问方）"
+                  ]
+                },
+                {
+                  "name": "你",
+                  "core_profile": "行事果断敏锐，擅长在冲突中迅速切入核心；语调平稳但极具压迫感与追问性，带有战地记者特有的职业惯性，习惯通过心理施压获取信息。",
+                  "current_snapshot": "主动从卡琳娜身后上前一步介入门外对峙，以平稳而锐利的语气连续发问，精准拆解对方处境并施加心理压制，迫使德索洛露怯反问。",
+                  "relationship_network": [
+                    "卡琳娜（门前掩护者/行动协同方）",
+                    "德索洛（门外质疑对象/潜在关联者）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "卡琳娜",
+                "core_profile": "行事冷静审慎，善于计算与预判；情绪表达极度内敛，习惯以微小肢体动作或极低响度传递信息，对人际边界与空间掌控具有强烈意识。",
+                "current_snapshot": "正于门口维持半挡门缝的防御姿态，未回头注视身后的介入，但通过肩膀微调与嘴角细微变化进行无声计算与局势确认；持续封锁入口，不主动退让，任由门外对峙双方自行交锋。",
+                "relationship_network": [
+                  "你（身后质问者/室内行动协同方）",
+                  "德索洛（门外叩门者/被其冷面审视的目标对象）"
+                ]
+              },
+              {
+                "name": "德索洛",
+                "core_profile": "中年男性，衣着特征为白色西装；性格急躁且易陷入困境，面对突发复杂局面时语言组织能力下降，本能倾向通过防御性反问或拖延来缓解心理压力。",
+                "current_snapshot": "立于门外门槛处，面色紧绷、呼吸沉重；因屋内两人的联合审视陷入被动，试图辩解却语塞，最终以沙哑嗓音反问身份以试探虚实并争取喘息时机。",
+                "relationship_network": [
+                  "卡琳娜（屋内开门者/其求助目标）",
+                  "你（室内阻拦者/强势质问方）"
+                ]
+              },
+              {
+                "name": "你",
+                "core_profile": "行事果断敏锐，擅长在冲突中迅速切入核心；语调平稳但极具压迫感与追问性，带有战地记者特有的职业惯性，习惯通过心理施压获取信息。",
+                "current_snapshot": "主动从卡琳娜身后上前一步介入门外对峙，以平稳而锐利的语气连续发问，精准拆解对方处境并施加心理压制，迫使德索洛露怯反问。",
+                "relationship_network": [
+                  "卡琳娜（门前掩护者/行动协同方）",
+                  "德索洛（门外质疑对象/潜在关联者）"
+                ]
+              }
+            ],
+            "parsed_count": 3,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "241da516-b129-5dde-bdf7-2a8bc1f674c1",
+                  "time": "",
+                  "location": "房间铁门处",
+                  "involved_characters": [
+                    "卡琳娜",
+                    "德索洛",
+                    "记者先生"
+                  ],
+                  "summary": "德索洛现身于铁门外自称不知卡琳娜在此。用户上前打断并尖锐质问其多年后才来找人的意图，逐步推演并点破其女儿被“凯旋门”欺骗、报警无果后走投无路才想起卡琳娜的过往动机。德索洛神情紧绷，反问用户身份以争取时间；卡琳娜全程立于门槛内侧挡住门缝，未作言语干预但通过细微神态确认了局势发展。",
+                  "consequence": "叙事由单纯的访客抵达升级为三方心理对峙；直接暴露德索洛寻找卡琳娜的真实困境与紧迫性，打破其被动防御姿态，迫使对方正视用户的介入，同时卡琳娜继续以守门姿态维持局面控制权，为后续交涉设定了高压基调。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "241da516-b129-5dde-bdf7-2a8bc1f674c1",
+                "time": "",
+                "location": "房间铁门处",
+                "involved_characters": [
+                  "卡琳娜",
+                  "德索洛",
+                  "记者先生"
+                ],
+                "summary": "德索洛现身于铁门外自称不知卡琳娜在此。用户上前打断并尖锐质问其多年后才来找人的意图，逐步推演并点破其女儿被“凯旋门”欺骗、报警无果后走投无路才想起卡琳娜的过往动机。德索洛神情紧绷，反问用户身份以争取时间；卡琳娜全程立于门槛内侧挡住门缝，未作言语干预但通过细微神态确认了局势发展。",
+                "consequence": "叙事由单纯的访客抵达升级为三方心理对峙；直接暴露德索洛寻找卡琳娜的真实困境与紧迫性，打破其被动防御姿态，迫使对方正视用户的介入，同时卡琳娜继续以守门姿态维持局面控制权，为后续交涉设定了高压基调。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "暗街",
+                  "description": "深夜的户外街道区域，环境死寂且隐含悬疑气氛。作为具有特定规则与地下关联的地域概念，是“申诉人”这一名称产生重大影响与象征意义的所在区域，承载着过往的历史纠葛与潜在势力博弈的背景。",
+                  "appearances": [
+                    "旧记忆：通过铁门外的环境白描间接呈现，用以烘托悬疑气氛，交代敲门者在外静候的未知动向。",
+                    "当前片段：被直接点名为知晓内情与背景的关键地域，强调“申诉人”之名在此处所代表的分量与特殊含义，暗示其作为事件核心背景的地下属性与规则约束力。"
+                  ],
+                  "current_affiliation": ""
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "暗街",
+                "description": "深夜的户外街道区域，环境死寂且隐含悬疑气氛。作为具有特定规则与地下关联的地域概念，是“申诉人”这一名称产生重大影响与象征意义的所在区域，承载着过往的历史纠葛与潜在势力博弈的背景。",
+                "appearances": [
+                  "旧记忆：通过铁门外的环境白描间接呈现，用以烘托悬疑气氛，交代敲门者在外静候的未知动向。",
+                  "当前片段：被直接点名为知晓内情与背景的关键地域，强调“申诉人”之名在此处所代表的分量与特殊含义，暗示其作为事件核心背景的地下属性与规则约束力。"
+                ],
+                "current_affiliation": ""
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "ece98736-98fa-4a7a-9331-20ea33a0ffaa",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-17",
+            "topic_turn_end": "turn-20",
+            "topic_turn_count": 4,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 3,
+            "forced_update_to_add": 0,
+            "kept_add": 2,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "target_id": "ccb7c9b0-1ab6-54c9-a298-5e3f6b7c0419",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "character",
+                "key": "德索洛",
+                "target_id": "57ad1307-8d7e-503e-b0ef-71a68fdfc4af",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "character",
+                "key": "主角",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "event",
+                "key": "241da516-b129-5dde-bdf7-2a8bc1f674c1: 德索洛现身于铁门外自称不知卡琳娜在此",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "暗街",
+                "target_id": "9c881501-5c40-5783-b418-4afdf6095102",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-24T04:26:22.304Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-f6107b06",
+      "taskId": "35cae219-5055-444d-98c9-ad6723f61b0f",
+      "durationMs": 15226.62962500006,
+      "at": "2026-06-24T04:26:37.422Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

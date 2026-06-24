@@ -1,0 +1,778 @@
+{
+  "turn": 130,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "点头，把空杯推向前，表示愿意再来一杯",
+  "selectedFromPreviousTurn": {
+    "text": "点头，把空杯推向前，表示愿意再来一杯"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 97
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 97
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 97
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "6-02-第一章",
+    "beatUid": "n_M7TsIW8j7Gsj",
+    "turnInBeat": 98
+  },
+  "selectedForNext": {
+    "text": "端起第二泡茶，慢慢喝"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "端起第二泡茶，慢慢喝"
+      },
+      {
+        "text": "问问她以前经常泡这种茶吗"
+      },
+      {
+        "text": "视线落回那只银色铃铛，再问点什么"
+      }
+    ]
+  },
+  "visibleChars": 891,
+  "durationMs": 37067.95,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 46,
+    "locationEvents": 69,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-24T05:33:06.234Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-24T05:33:06.247Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 夜晚的街道 的事迹？",
+      "requestId": "req-00718f43",
+      "taskId": "bb8ebe0a-2aff-4406-84d2-433efa55e8dc",
+      "durationMs": 248.0634999992326,
+      "at": "2026-06-24T05:33:06.439Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 公园 的事迹？",
+      "requestId": "req-b41636db",
+      "taskId": "769385ec-118c-4e4b-b06d-ff8dc2846256",
+      "durationMs": 279.6352909998968,
+      "at": "2026-06-24T05:33:06.471Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 夜晚的街道 的事迹？",
+      "requestId": "req-40df0cb2",
+      "taskId": "625b4762-37d2-46da-909b-2d5fd0b33960",
+      "durationMs": 362.69912499934435,
+      "at": "2026-06-24T05:33:06.554Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 夜晚的街道 的事迹？",
+      "requestId": "req-f7c8e432",
+      "taskId": "90a46090-1d9b-428d-a9d7-95a1a7d4e27d",
+      "durationMs": 384.2583750002086,
+      "at": "2026-06-24T05:33:06.575Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 公园 的事迹？",
+      "requestId": "req-e2af3589",
+      "taskId": "0455c52e-c29f-4ef2-a03d-f936d2346c28",
+      "durationMs": 411.61737500038,
+      "at": "2026-06-24T05:33:06.603Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-26e65a77",
+      "taskId": "4db0eb38-f3e1-46c5-ab6b-8b72b50c241b",
+      "durationMs": 257.61175000015646,
+      "at": "2026-06-24T05:33:06.728Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 公园 的事迹？",
+      "requestId": "req-d49e7aea",
+      "taskId": "3d950487-9450-4d88-8b4f-39afad940659",
+      "durationMs": 369.0814580004662,
+      "at": "2026-06-24T05:33:06.808Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-455a00b4",
+      "taskId": "012f3f82-3408-46a1-8386-39e7af9846de",
+      "durationMs": 254.50425000023097,
+      "at": "2026-06-24T05:33:06.808Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-5efa4a82",
+      "taskId": "4e9d065d-d15e-48dc-b153-8087641eb875",
+      "durationMs": 287.75833299942315,
+      "at": "2026-06-24T05:33:06.890Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-69f63398",
+      "taskId": "2256b7b8-73b9-446f-abe6-0a9075427240",
+      "durationMs": 315.2835830003023,
+      "at": "2026-06-24T05:33:06.890Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-ea7d65f8",
+      "taskId": "4d8117c3-e03a-4640-b55a-3346d1bb8c2e",
+      "durationMs": 244.11933299992234,
+      "at": "2026-06-24T05:33:06.972Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-341d6eda",
+      "taskId": "5cea3aa0-89d5-4558-be04-c94e572dfb95",
+      "durationMs": 273.240167000331,
+      "at": "2026-06-24T05:33:07.081Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-c9454463",
+      "taskId": "e23f2fd2-d697-42a1-8131-eea4cb4a2d42",
+      "durationMs": 282.0663330005482,
+      "at": "2026-06-24T05:33:07.090Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-8f87b6cf",
+      "taskId": "a4e77439-d9be-48c4-9961-6fc65386414e",
+      "durationMs": 279.0354170007631,
+      "at": "2026-06-24T05:33:07.169Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-1d30026d",
+      "taskId": "1ffaf389-0f75-4102-a56e-f5721212c092",
+      "durationMs": 286.9005000004545,
+      "at": "2026-06-24T05:33:07.177Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-4da87f15",
+      "taskId": "c3b68b5e-50c1-41c8-89ee-6db49a5a91ad",
+      "durationMs": 278.0470000002533,
+      "at": "2026-06-24T05:33:07.250Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-a34fb613",
+      "taskId": "ab259b89-cac4-4166-a6e3-3d06f54e4dfc",
+      "durationMs": 297.7496670000255,
+      "at": "2026-06-24T05:33:07.379Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-088867e1",
+      "taskId": "8005dbad-c73a-4b01-829d-e33bdd3d9800",
+      "durationMs": 291.77604100015014,
+      "at": "2026-06-24T05:33:07.382Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "夜晚的街道 与哪些自然景象、物件相关？",
+      "requestId": "req-30b483ac",
+      "taskId": "3c98ff8c-6439-40bc-8a41-cd3cb1bffd09",
+      "durationMs": 228.43795900046825,
+      "at": "2026-06-24T05:33:07.398Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "公园 与哪些自然景象、物件相关？",
+      "requestId": "req-f44bbde6",
+      "taskId": "e62f677a-769e-428e-9341-53015ed523d4",
+      "durationMs": 353.32974999956787,
+      "at": "2026-06-24T05:33:07.531Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-3fbc08c1",
+      "taskId": "e55d4238-2c72-4dda-81c0-5c1da953111b",
+      "durationMs": 280.36791699938476,
+      "at": "2026-06-24T05:33:07.531Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-97f74158",
+      "taskId": "6c31f60b-3a5a-4cf2-8c11-1989be8271cf",
+      "durationMs": 318.1473749997094,
+      "at": "2026-06-24T05:33:07.697Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-21a96e68",
+      "taskId": "e49cc3f8-d64a-4605-94d4-34883f849517",
+      "durationMs": 319.72470900043845,
+      "at": "2026-06-24T05:33:07.702Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "点头，把空杯推向前，表示愿意再来一杯",
+      "requestId": "req-012894a2",
+      "taskId": "5dd6ff5d-a8b4-4c71-beaf-6cfc6f5d35c6",
+      "durationMs": 363.9017909998074,
+      "at": "2026-06-24T05:33:07.762Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 公园 的事迹？",
+      "requestId": "req-5789762b",
+      "taskId": "53ad27b8-40f5-406b-9d7d-1102436658e5",
+      "durationMs": 233.41775000002235,
+      "at": "2026-06-24T05:33:07.998Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 夜晚的街道 的事迹？",
+      "requestId": "req-3841ae73",
+      "taskId": "4e473412-14ed-4db2-973c-d6ca38f3ab41",
+      "durationMs": 373.2465000003576,
+      "at": "2026-06-24T05:33:08.138Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 公园 的事迹？",
+      "requestId": "req-0ac3693f",
+      "taskId": "3b9e9e9d-600c-418c-99e7-e89bf6c509c5",
+      "durationMs": 373.6699160002172,
+      "at": "2026-06-24T05:33:08.138Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 夜晚的街道 的事迹？",
+      "requestId": "req-c765f460",
+      "taskId": "c4fc804d-8c06-452e-9b01-182d117e3d15",
+      "durationMs": 373.8805839996785,
+      "at": "2026-06-24T05:33:08.138Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 夜晚的街道 的事迹？",
+      "requestId": "req-3c0317c3",
+      "taskId": "52c8be6e-749f-4c66-bdef-445b4c4b104f",
+      "durationMs": 374.08916699979454,
+      "at": "2026-06-24T05:33:08.138Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 在 公园 的事迹？",
+      "requestId": "req-17c6d278",
+      "taskId": "f70f86e8-4f2b-4b3f-a456-f24af1bbea3d",
+      "durationMs": 266.9776659999043,
+      "at": "2026-06-24T05:33:08.265Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-40604f46",
+      "taskId": "074f5f4e-e5e2-409d-bbcd-dac48d8287ed",
+      "durationMs": 270.1218329994008,
+      "at": "2026-06-24T05:33:08.408Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-38f77396",
+      "taskId": "0fba565e-9044-40e9-870b-e664e374a8d9",
+      "durationMs": 271.37650000024587,
+      "at": "2026-06-24T05:33:08.409Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-6525e6db",
+      "taskId": "810d7785-655e-41fb-ab0f-45ae79edaf1a",
+      "durationMs": 340.0252080000937,
+      "at": "2026-06-24T05:33:08.478Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-b2d19aba",
+      "taskId": "8dce420d-9443-461d-8d10-5126721aa4e5",
+      "durationMs": 272.19479199964553,
+      "at": "2026-06-24T05:33:08.537Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 的独特对话、合作、冲突？",
+      "requestId": "req-50e9a558",
+      "taskId": "98073847-b70d-4272-bbdf-bc474fb6c3f8",
+      "durationMs": 412.1190420007333,
+      "at": "2026-06-24T05:33:08.550Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 共同经历的\"重要\"的事件？",
+      "requestId": "req-3a2963dd",
+      "taskId": "684c75ff-0761-40ad-a1c5-376e03222900",
+      "durationMs": 249.6002500001341,
+      "at": "2026-06-24T05:33:08.657Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-8b9e7f90",
+      "taskId": "3bcbc496-080f-46f8-95dc-80aa95830e34",
+      "durationMs": 309.44183399993926,
+      "at": "2026-06-24T05:33:08.719Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-9abe6bdb",
+      "taskId": "0bbf109e-bdee-4969-86f6-537a5d7732c5",
+      "durationMs": 244.05329200066626,
+      "at": "2026-06-24T05:33:08.722Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-703798dd",
+      "taskId": "1be55103-5c54-45e4-b4eb-1408c7c3bff3",
+      "durationMs": 258.29562500026077,
+      "at": "2026-06-24T05:33:08.809Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡尔 有哪些约定？",
+      "requestId": "req-bc11997a",
+      "taskId": "39ee2615-a126-4e18-85fe-2d6e48e9068f",
+      "durationMs": 280.139959000051,
+      "at": "2026-06-24T05:33:08.817Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-4a358da0",
+      "taskId": "7ea3be55-c16c-4a6b-ad1a-397cbff9cb19",
+      "durationMs": 256.0498330006376,
+      "at": "2026-06-24T05:33:08.913Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "夜晚的街道 与哪些自然景象、物件相关？",
+      "requestId": "req-bc3511b4",
+      "taskId": "f8bb484f-59bb-43f5-91b9-ba0743c48950",
+      "durationMs": 254.91145900078118,
+      "at": "2026-06-24T05:33:08.977Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡尔 有哪些代号或内部梗？",
+      "requestId": "req-06590490",
+      "taskId": "45b5cab8-0968-4c87-b0cc-7626446d652d",
+      "durationMs": 321.5946659995243,
+      "at": "2026-06-24T05:33:09.040Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "公园 与哪些自然景象、物件相关？",
+      "requestId": "req-b59c2d28",
+      "taskId": "7a619470-5199-4e80-8c54-cc128338c851",
+      "durationMs": 303.371249999851,
+      "at": "2026-06-24T05:33:09.112Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-f8799164",
+      "taskId": "774388a0-ee49-422d-ac77-7a2b6e0a96b5",
+      "durationMs": 295.9120829999447,
+      "at": "2026-06-24T05:33:09.113Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-4211a1a7",
+      "taskId": "843e6237-3154-40ce-9312-b15f2f67b7a9",
+      "durationMs": 212.26900000032037,
+      "at": "2026-06-24T05:33:09.125Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡尔 说过的话有哪些文学意象？",
+      "requestId": "req-bbce957e",
+      "taskId": "7d2c6738-2296-4e1e-a1cc-5099256fa8b5",
+      "durationMs": 229.53258399944752,
+      "at": "2026-06-24T05:33:09.207Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "点头，把空杯推向前，表示愿意再来一杯",
+      "requestId": "req-04d0cc8d",
+      "taskId": "cbc6a845-d562-4bec-9316-4e8c0a16a129",
+      "durationMs": 262.3870000001043,
+      "at": "2026-06-24T05:33:09.303Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "她（未具名女性）",
+                  "core_profile": "居住在设有炉灶与暖光环境的成年女性。性格沉稳内敛，待人温和但保有心理边界。行事从容细致，习惯借由日常琐事（如泡茶、整理旧物）传递情绪。对过往信物（如旧铃铛）怀有隐秘情感，不轻易向外人剖析内心动机。",
+                  "current_snapshot": "正于室内与“你”进行安静对话。面对直接提问时短暂沉默并自我确认，随后坦然回应，认为沟通的深入程度取决于提问者的立场与位置。对话间隙自然过渡至待客常态，主动询问是否续茶，释放出允许对话继续或转向更深层交流的开放信号。",
+                  "relationship_network": [
+                    "你（对话者）"
+                  ]
+                },
+                {
+                  "name": "卡琳娜（黑猫）",
+                  "core_profile": "一只栖息于室内的黑猫，生有琥珀色瞳孔。性格警觉而从容，对人类互动具备敏锐的观察力与选择性接纳特质。",
+                  "current_snapshot": "静卧于沙发扶手之上。在“她”与“你”完成一段对话后，缓慢转移视线审视双方状态，似在评估此次交流的氛围是否符合其舒适标准，展现出对环境互动的旁观与默许姿态。",
+                  "relationship_network": [
+                    "你",
+                    "她（未具名女性）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "她（未具名女性）",
+                "core_profile": "居住在设有炉灶与暖光环境的成年女性。性格沉稳内敛，待人温和但保有心理边界。行事从容细致，习惯借由日常琐事（如泡茶、整理旧物）传递情绪。对过往信物（如旧铃铛）怀有隐秘情感，不轻易向外人剖析内心动机。",
+                "current_snapshot": "正于室内与“你”进行安静对话。面对直接提问时短暂沉默并自我确认，随后坦然回应，认为沟通的深入程度取决于提问者的立场与位置。对话间隙自然过渡至待客常态，主动询问是否续茶，释放出允许对话继续或转向更深层交流的开放信号。",
+                "relationship_network": [
+                  "你（对话者）"
+                ]
+              },
+              {
+                "name": "卡琳娜（黑猫）",
+                "core_profile": "一只栖息于室内的黑猫，生有琥珀色瞳孔。性格警觉而从容，对人类互动具备敏锐的观察力与选择性接纳特质。",
+                "current_snapshot": "静卧于沙发扶手之上。在“她”与“你”完成一段对话后，缓慢转移视线审视双方状态，似在评估此次交流的氛围是否符合其舒适标准，展现出对环境互动的旁观与默许姿态。",
+                "relationship_network": [
+                  "你",
+                  "她（未具名女性）"
+                ]
+              }
+            ],
+            "parsed_count": 2,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "告知缘由与铃铛之问",
+                  "time": "",
+                  "location": "",
+                  "involved_characters": [
+                    "卡琳娜",
+                    "黑猫"
+                  ],
+                  "summary": "用户询问卡琳娜为何选择透露过往；卡琳娜解释原因仅是因为“是你问的”，并提及一枚长期放置、少有人注意或过问来源的旧铃铛，表明态度取决于提问者的位置。随后她主动续水泡茶，将是否深入对话的选择权交还给用户。",
+                  "consequence": "卡琳娜的心理防线因用户的直接发问而进一步松动，确认了双方互动的独特性；用户对细节的关注获得了正面反馈，对话氛围由试探转为平静接纳，为后续深入了解埋下伏笔。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "告知缘由与铃铛之问",
+                "time": "",
+                "location": "",
+                "involved_characters": [
+                  "卡琳娜",
+                  "黑猫"
+                ],
+                "summary": "用户询问卡琳娜为何选择透露过往；卡琳娜解释原因仅是因为“是你问的”，并提及一枚长期放置、少有人注意或过问来源的旧铃铛，表明态度取决于提问者的位置。随后她主动续水泡茶，将是否深入对话的选择权交还给用户。",
+                "consequence": "卡琳娜的心理防线因用户的直接发问而进一步松动，确认了双方互动的独特性；用户对细节的关注获得了正面反馈，对话氛围由试探转为平静接纳，为后续深入了解埋下伏笔。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "炉灶与沙发所在的室内空间",
+                  "description": "光线温暖的室内场所，设有炉灶、旧水壶与置物架用于烹煮姜茶，配有沙发供人落座；空气中常悬有姜与陈皮的气味。",
+                  "appearances": [
+                    "用户在桌沿旁提问并放下残留姜片的搪瓷杯",
+                    "女性站在炉灶边回应问题，随后转身从架子上取下旧水壶续水",
+                    "黑猫停留在沙发扶手上，目光在女性与用户之间缓慢移动"
+                  ],
+                  "current_affiliation": "目前由该女性角色实际控制与使用，作为提供茶水与进行深度交谈的场所"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "炉灶与沙发所在的室内空间",
+                "description": "光线温暖的室内场所，设有炉灶、旧水壶与置物架用于烹煮姜茶，配有沙发供人落座；空气中常悬有姜与陈皮的气味。",
+                "appearances": [
+                  "用户在桌沿旁提问并放下残留姜片的搪瓷杯",
+                  "女性站在炉灶边回应问题，随后转身从架子上取下旧水壶续水",
+                  "黑猫停留在沙发扶手上，目光在女性与用户之间缓慢移动"
+                ],
+                "current_affiliation": "目前由该女性角色实际控制与使用，作为提供茶水与进行深度交谈的场所"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "她（未具名女性）",
+              "卡琳娜（黑猫）"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "她（未具名女性）",
+                "candidate_names": [
+                  "她（未具名女性）"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "她（未具名女性）的人物档案",
+                "facts": [
+                  {
+                    "content": "她（未具名女性）。当前快照：正于室内与“你”进行安静对话。面对直接提问时短暂沉默并自我确认，随后坦然回应，认为沟通的深入程度取决于提问者的立场与位置。对话间隙自然过渡至待客常态，主动询问是否续茶，释放出允许对话继续或转向更深层交流的开放信号。。 关系网：你（对话者）。",
+                    "summary": null,
+                    "entity_names": [
+                      "她（未具名女性）"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "居住在设有炉灶与暖光环境的成年女性。性格沉稳内敛，待人温和但保有心理边界。行事从容细致，习惯借由日常琐事（如泡茶、整理旧物）传递情绪。对过往信物（如旧铃铛）怀有隐秘情感，不轻易向外人剖析内心动机。",
+                  "character_current_snapshot": "正于室内与“你”进行安静对话。面对直接提问时短暂沉默并自我确认，随后坦然回应，认为沟通的深入程度取决于提问者的立场与位置。对话间隙自然过渡至待客常态，主动询问是否续茶，释放出允许对话继续或转向更深层交流的开放信号。",
+                  "character_relationship_network": [
+                    "你（对话者）"
+                  ],
+                  "turn_id": "turn-129",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              },
+              {
+                "character_name": "卡琳娜（黑猫）",
+                "candidate_names": [
+                  "卡琳娜（黑猫）"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "卡琳娜（黑猫）的人物档案",
+                "facts": [
+                  {
+                    "content": "卡琳娜（黑猫）。当前快照：静卧于沙发扶手之上。在“她”与“你”完成一段对话后，缓慢转移视线审视双方状态，似在评估此次交流的氛围是否符合其舒适标准，展现出对环境互动的旁观与默许姿态。。 关系网：你；她（未具名女性）。",
+                    "summary": null,
+                    "entity_names": [
+                      "卡琳娜（黑猫）"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "一只栖息于室内的黑猫，生有琥珀色瞳孔。性格警觉而从容，对人类互动具备敏锐的观察力与选择性接纳特质。",
+                  "character_current_snapshot": "静卧于沙发扶手之上。在“她”与“你”完成一段对话后，缓慢转移视线审视双方状态，似在评估此次交流的氛围是否符合其舒适标准，展现出对环境互动的旁观与默许姿态。",
+                  "character_relationship_network": [
+                    "你",
+                    "她（未具名女性）"
+                  ],
+                  "turn_id": "turn-129",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "c7b7aaeb-7600-407e-8bc3-f202f729accc",
+            "topic_reason": "max_turns_reached",
+            "topic_changed": true,
+            "topic_turn_start": "turn-129",
+            "topic_turn_end": "turn-129",
+            "topic_turn_count": 1,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 0,
+            "forced_update_to_add": 0,
+            "kept_add": 2,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "event",
+                "key": "告知缘由与铃铛之问: 用户询问卡琳娜为何选择透露过往；卡琳娜解释原因仅是因为是你问的，并提及一枚长",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "炉灶与沙发所在的室内空间",
+                "operation": "ADD"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-24T05:33:16.001Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-0c0d83a3",
+      "taskId": "ffc9c84b-0f62-423e-b011-6754a7e63cba",
+      "durationMs": 18726.785167000256,
+      "at": "2026-06-24T05:33:42.412Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

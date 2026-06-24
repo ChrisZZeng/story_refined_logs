@@ -1,0 +1,713 @@
+{
+  "turn": 32,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "继续观察康纳的动作，先不主动接触",
+  "selectedFromPreviousTurn": {
+    "text": "继续观察康纳的动作，先不主动接触"
+  },
+  "submittedAction": null,
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "5-02-第一章",
+    "beatUid": "n_rdPeh8WeOj6R",
+    "turnInBeat": 1
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "5-02-第一章",
+    "beatUid": "n_rdPeh8WeOj6R",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "5-02-第一章",
+    "beatUid": "n_rdPeh8WeOj6R",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "5-03-第一章",
+    "beatUid": "n_gLhH6YwuOkRY",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "回敬康纳的举杯——当面迎上他的目光"
+  },
+  "candidateActions": [],
+  "choices": {
+    "options": [
+      {
+        "text": "回敬康纳的举杯——当面迎上他的目光"
+      },
+      {
+        "text": "压低声音问卡琳娜:康纳这个巡视的‘提醒’一般会做到什么程度？"
+      },
+      {
+        "text": "假装没注意到康纳的示意，借势转向侧门方向寻找罗英的踪迹"
+      },
+      {
+        "text": "径直走向康纳——既然他看到了，不如主动打破距离"
+      }
+    ]
+  },
+  "visibleChars": 1553,
+  "durationMs": 48063.77,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 23,
+    "locationEvents": 17,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-24T04:33:26.363Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-24T04:33:26.370Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-8bac83d6",
+      "taskId": "46db424e-9005-4974-8180-798f1f85f424",
+      "durationMs": 346.96362499985844,
+      "at": "2026-06-24T04:33:26.686Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 宴会厅 的事迹？",
+      "requestId": "req-fe554498",
+      "taskId": "3795c13e-9682-43b6-ab3b-59c46fe9bce4",
+      "durationMs": 347.6124169998802,
+      "at": "2026-06-24T04:33:26.687Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-58fdf70a",
+      "taskId": "1d0dacad-52c9-4981-8301-428dc2b6428c",
+      "durationMs": 347.83908400009386,
+      "at": "2026-06-24T04:33:26.687Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 宴会厅 的事迹？",
+      "requestId": "req-df0eee29",
+      "taskId": "53ed2a73-a5b5-4451-b741-765d8c2cbb66",
+      "durationMs": 362.0454579999205,
+      "at": "2026-06-24T04:33:26.701Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "康纳 在 宴会厅 的事迹？",
+      "requestId": "req-c4e317d1",
+      "taskId": "db71fb09-2b82-4218-b121-0d47b08aec7a",
+      "durationMs": 438.15749999997206,
+      "at": "2026-06-24T04:33:26.777Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-38a210ff",
+      "taskId": "9f75a7fc-d8c5-47a2-b81f-7ae9845429c9",
+      "durationMs": 261.720708000008,
+      "at": "2026-06-24T04:33:26.948Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 康纳 的独特对话、合作、冲突？",
+      "requestId": "req-d94818d3",
+      "taskId": "809a83ea-88ea-46f4-9481-0236771dfe87",
+      "durationMs": 308.453125,
+      "at": "2026-06-24T04:33:26.995Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-3985aa87",
+      "taskId": "7816d06b-1a03-42bd-8aff-72aded88b414",
+      "durationMs": 311.315166000044,
+      "at": "2026-06-24T04:33:26.998Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 康纳 共同经历的\"重要\"的事件？",
+      "requestId": "req-95445cac",
+      "taskId": "7deef629-4761-4efb-b8ab-97588f1ed840",
+      "durationMs": 328.4411249998957,
+      "at": "2026-06-24T04:33:27.030Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-944c627c",
+      "taskId": "961cf133-a2d6-42f6-8358-57b4c9ff85a7",
+      "durationMs": 298.7857500000391,
+      "at": "2026-06-24T04:33:27.076Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-5cc228a1",
+      "taskId": "254598fa-9342-44fa-b03d-1dfe912434a7",
+      "durationMs": 262.51175000006333,
+      "at": "2026-06-24T04:33:27.211Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-621dfe07",
+      "taskId": "88e5f8d5-7b93-4335-9c8d-df93a0ec9b03",
+      "durationMs": 270.7242920000572,
+      "at": "2026-06-24T04:33:27.269Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-2a3356cd",
+      "taskId": "0bdeb62a-fcd6-4929-8084-6995bdbfa165",
+      "durationMs": 298.8995419999119,
+      "at": "2026-06-24T04:33:27.329Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 康纳 有哪些代号或内部梗？",
+      "requestId": "req-65d21e30",
+      "taskId": "d1a665ee-6b30-4c65-9c33-b38af06e6207",
+      "durationMs": 260.4897910000291,
+      "at": "2026-06-24T04:33:27.337Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 康纳 有哪些约定？",
+      "requestId": "req-45d00c9a",
+      "taskId": "fdab227e-5a3f-4849-ae4d-fc404aaec537",
+      "durationMs": 342.2980830001179,
+      "at": "2026-06-24T04:33:27.337Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "宴会厅 与哪些自然景象、物件相关？",
+      "requestId": "req-4380d82b",
+      "taskId": "502ecbc9-3482-4650-b31c-bd4f8efbc837",
+      "durationMs": 252.97937499987893,
+      "at": "2026-06-24T04:33:27.464Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-9b2113a7",
+      "taskId": "80af31d6-e5f0-4ae3-9fec-1561eb7e21c1",
+      "durationMs": 274.70166700007394,
+      "at": "2026-06-24T04:33:27.544Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-dfecd324",
+      "taskId": "3f6d0af3-c195-41fe-ba25-10e1c8998295",
+      "durationMs": 223.77770900004543,
+      "at": "2026-06-24T04:33:27.552Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "继续观察康纳的动作，先不主动接触",
+      "requestId": "req-34542460",
+      "taskId": "5492d252-9802-4be6-96d0-f2a8c1c14567",
+      "durationMs": 265.9460419998504,
+      "at": "2026-06-24T04:33:27.603Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "康纳 说过的话有哪些文学意象？",
+      "requestId": "req-e2214dee",
+      "taskId": "ee131bce-ddd3-4169-a9a1-cc3a8eb848ba",
+      "durationMs": 296.8694579999428,
+      "at": "2026-06-24T04:33:27.634Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-6f717cbc",
+      "taskId": "c53143f9-2199-4429-85d5-45e21a705d40",
+      "durationMs": 247.28433300019242,
+      "at": "2026-06-24T04:33:27.884Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 的独特对话、合作、冲突？",
+      "requestId": "req-039ec179",
+      "taskId": "491ecfbd-83e9-4a1a-8abe-0149cc4cc453",
+      "durationMs": 307.3918339998927,
+      "at": "2026-06-24T04:33:27.944Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "康纳 在 宴会厅 的事迹？",
+      "requestId": "req-81db8891",
+      "taskId": "2dba9fb2-76f6-45dd-98b3-01e2fc2bfc08",
+      "durationMs": 313.812042000005,
+      "at": "2026-06-24T04:33:27.950Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 宴会厅 的事迹？",
+      "requestId": "req-9e77a3d5",
+      "taskId": "450a02ae-07f5-439c-87b7-93ab6cb0fc63",
+      "durationMs": 315.3493749999907,
+      "at": "2026-06-24T04:33:27.952Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 在 宴会厅 的事迹？",
+      "requestId": "req-c0914539",
+      "taskId": "10c5a19d-08de-4627-9848-1a4d02968b50",
+      "durationMs": 315.45049999980256,
+      "at": "2026-06-24T04:33:27.952Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 康纳 的独特对话、合作、冲突？",
+      "requestId": "req-90bdc18d",
+      "taskId": "14846166-0988-4bd4-a3c6-5d312e960383",
+      "durationMs": 249.86691700015217,
+      "at": "2026-06-24T04:33:28.134Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-e4875410",
+      "taskId": "5667e448-8970-44ea-9080-0d2929109e9e",
+      "durationMs": 273.67204200010747,
+      "at": "2026-06-24T04:33:28.226Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-49753e8d",
+      "taskId": "1677a20e-74bc-432e-908f-c5dd61e5fc24",
+      "durationMs": 281.88925000000745,
+      "at": "2026-06-24T04:33:28.226Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 康纳 共同经历的\"重要\"的事件？",
+      "requestId": "req-ddebc468",
+      "taskId": "8f08eebf-00ba-468c-9926-43c6e88f0a6d",
+      "durationMs": 347.6657910000067,
+      "at": "2026-06-24T04:33:28.299Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 共同经历的\"重要\"的事件？",
+      "requestId": "req-b9eea0f2",
+      "taskId": "d1f79e3b-259c-4bad-9576-82416997e959",
+      "durationMs": 349.3977500000037,
+      "at": "2026-06-24T04:33:28.300Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 卡琳娜 有哪些约定？",
+      "requestId": "req-855e817b",
+      "taskId": "457d24ab-fbbd-49c3-99ad-001fd3c1949d",
+      "durationMs": 254.14474999997765,
+      "at": "2026-06-24T04:33:28.388Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-d3a0529b",
+      "taskId": "d6e24b80-959a-4196-bff3-7c6c942e87ad",
+      "durationMs": 278.6549590001814,
+      "at": "2026-06-24T04:33:28.504Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 康纳 有哪些约定？",
+      "requestId": "req-a1a91d92",
+      "taskId": "657ec0e9-43cb-492f-8b87-2ecb7682f2c5",
+      "durationMs": 285.00316700013354,
+      "at": "2026-06-24T04:33:28.511Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 康纳 有哪些代号或内部梗？",
+      "requestId": "req-042bca3a",
+      "taskId": "610220fe-2185-430a-9899-d0f1c50c5f67",
+      "durationMs": 276.5922089999076,
+      "at": "2026-06-24T04:33:28.576Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 卡琳娜 有哪些代号或内部梗？",
+      "requestId": "req-2b0c203b",
+      "taskId": "abf8cb9b-66c4-4fe4-9f21-1df52a51b2d0",
+      "durationMs": 279.39829199993983,
+      "at": "2026-06-24T04:33:28.579Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "宴会厅 与哪些自然景象、物件相关？",
+      "requestId": "req-33274026",
+      "taskId": "622d4c3c-7cc0-44e8-abd7-7c6bc62da905",
+      "durationMs": 251.73308399994858,
+      "at": "2026-06-24T04:33:28.640Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "卡琳娜 说过的话有哪些文学意象？",
+      "requestId": "req-8c5d0591",
+      "taskId": "ebc3e176-ad0f-417b-8db7-ffef3d03713e",
+      "durationMs": 281.31300000008196,
+      "at": "2026-06-24T04:33:28.792Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "康纳 说过的话有哪些文学意象？",
+      "requestId": "req-25bee738",
+      "taskId": "3e246064-ffbf-42fe-9c6d-a370a4047c05",
+      "durationMs": 234.60941699985415,
+      "at": "2026-06-24T04:33:28.811Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-96b15cd2",
+      "taskId": "0da0f096-0e2d-4454-828c-bfae6ad5ba60",
+      "durationMs": 333.21179200010374,
+      "at": "2026-06-24T04:33:28.838Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "继续观察康纳的动作，先不主动接触",
+      "requestId": "req-41a8dd30",
+      "taskId": "153f12e3-567a-4605-a984-a51451d3bf8d",
+      "durationMs": 259.02358299982734,
+      "at": "2026-06-24T04:33:28.838Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "details": {
+        "enrichmentDebug": {
+          "character": {
+            "raw_output": {
+              "characters": [
+                {
+                  "name": "卡琳娜",
+                  "core_profile": "长期活跃于暗街与市井环境的务实型人物，性格冷静敏锐、沉稳独立。习惯以实际效用和个人舒适度优先，对浮夸的社交装饰与常规话术高度免疫，但在复杂场合具备清晰的风险评估能力与空间掌控力。行事节奏稳健，熟悉城市隐秘路径，能在市井与正式场合间自如切换，沟通方式直接且不喜迂回。",
+                  "current_snapshot": "身着白色旧棉衣出席凯旋门晚宴，在一众正装中显得突兀但从容。已抵达大厅角落并迅速完成动线、视野与出口扫描，手持热饮暂歇。通过观察人群反应确认了康纳·凯拉宁的入场，判断晚宴正式进入核心阶段，准备按原计划继续观察或等待下一步时机。",
+                  "relationship_network": [
+                    "你（对话者/同行者，被其直接介绍为“记者”）",
+                    "罗英（“小贩”/黄昏会代首领，熟识且能自然调侃的旧识）",
+                    "康纳·凯拉宁（晚宴关键人物，其动向与气场是当晚局势的核心风向标）"
+                  ]
+                },
+                {
+                  "name": "罗英",
+                  "core_profile": "新西西里的情报掮客，表面自称为“卖消息的小贩”，实则为“黄昏会代首领”。行事谨慎圆融，擅长在社交缝隙中周旋，习惯用自嘲与模糊头衔掩饰真实立场。目光锐利，对局势气压变化极度敏感，注重自身安全与信息交换的边界感，倾向以最小代价保全情报网络。",
+                  "current_snapshot": "现身晚宴现场，刻意选择光线交界处的隐蔽位置落脚。向初识的记者发出关于本地秘密调查的警告，展现出不愿卷入深层纠纷的疏离态度。察觉康纳·凯拉宁入场引发的群体注意力转移后，果断且流畅地借故离场，避开正面交锋与过度关注。",
+                  "relationship_network": [
+                    "卡琳娜（熟识的旧交，彼此了解行事风格与底线）",
+                    "你（初识的“记者”，对其调查意图保持距离与善意提醒）",
+                    "康纳·凯拉宁（重量级在场人物，其存在本身足以引起她的警觉与策略性避让）"
+                  ]
+                },
+                {
+                  "name": "康纳·凯拉宁",
+                  "core_profile": "新西西里高层社交圈中的重量级人物，具备极强的存在感与隐性权威。不依赖张扬姿态或高声指令，而是通过沉稳的步伐、克制的举止与冷静的观察力自然掌控场面节奏。眼神敏锐，行事有条不紊，通常被视为大型场合的核心焦点或潜在规则制定者。",
+                  "current_snapshot": "身着深灰色西装外套步入宴会厅入口，衣着随意却难掩气场。入场瞬间引发人群下意识的音量校正与目光汇聚。并未主动参与寒暄，而是取酒握持、缓慢环视大厅仿佛在清点人数。其出现打破了晚宴初期的试探氛围，标志着正式议程与权力博弈的启动。",
+                  "relationship_network": [
+                    "卡琳娜（晚宴关键关联人物，其动向是卡琳娜当晚的核心关注点）",
+                    "全场宾客/宴会参与者（无形的权力焦点与社交引力中心）",
+                    "罗英（同场人物，其气场与存在直接促使情报掮客提前退场）"
+                  ]
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "卡琳娜",
+                "core_profile": "长期活跃于暗街与市井环境的务实型人物，性格冷静敏锐、沉稳独立。习惯以实际效用和个人舒适度优先，对浮夸的社交装饰与常规话术高度免疫，但在复杂场合具备清晰的风险评估能力与空间掌控力。行事节奏稳健，熟悉城市隐秘路径，能在市井与正式场合间自如切换，沟通方式直接且不喜迂回。",
+                "current_snapshot": "身着白色旧棉衣出席凯旋门晚宴，在一众正装中显得突兀但从容。已抵达大厅角落并迅速完成动线、视野与出口扫描，手持热饮暂歇。通过观察人群反应确认了康纳·凯拉宁的入场，判断晚宴正式进入核心阶段，准备按原计划继续观察或等待下一步时机。",
+                "relationship_network": [
+                  "你（对话者/同行者，被其直接介绍为“记者”）",
+                  "罗英（“小贩”/黄昏会代首领，熟识且能自然调侃的旧识）",
+                  "康纳·凯拉宁（晚宴关键人物，其动向与气场是当晚局势的核心风向标）"
+                ]
+              },
+              {
+                "name": "罗英",
+                "core_profile": "新西西里的情报掮客，表面自称为“卖消息的小贩”，实则为“黄昏会代首领”。行事谨慎圆融，擅长在社交缝隙中周旋，习惯用自嘲与模糊头衔掩饰真实立场。目光锐利，对局势气压变化极度敏感，注重自身安全与信息交换的边界感，倾向以最小代价保全情报网络。",
+                "current_snapshot": "现身晚宴现场，刻意选择光线交界处的隐蔽位置落脚。向初识的记者发出关于本地秘密调查的警告，展现出不愿卷入深层纠纷的疏离态度。察觉康纳·凯拉宁入场引发的群体注意力转移后，果断且流畅地借故离场，避开正面交锋与过度关注。",
+                "relationship_network": [
+                  "卡琳娜（熟识的旧交，彼此了解行事风格与底线）",
+                  "你（初识的“记者”，对其调查意图保持距离与善意提醒）",
+                  "康纳·凯拉宁（重量级在场人物，其存在本身足以引起她的警觉与策略性避让）"
+                ]
+              },
+              {
+                "name": "康纳·凯拉宁",
+                "core_profile": "新西西里高层社交圈中的重量级人物，具备极强的存在感与隐性权威。不依赖张扬姿态或高声指令，而是通过沉稳的步伐、克制的举止与冷静的观察力自然掌控场面节奏。眼神敏锐，行事有条不紊，通常被视为大型场合的核心焦点或潜在规则制定者。",
+                "current_snapshot": "身着深灰色西装外套步入宴会厅入口，衣着随意却难掩气场。入场瞬间引发人群下意识的音量校正与目光汇聚。并未主动参与寒暄，而是取酒握持、缓慢环视大厅仿佛在清点人数。其出现打破了晚宴初期的试探氛围，标志着正式议程与权力博弈的启动。",
+                "relationship_network": [
+                  "卡琳娜（晚宴关键关联人物，其动向是卡琳娜当晚的核心关注点）",
+                  "全场宾客/宴会参与者（无形的权力焦点与社交引力中心）",
+                  "罗英（同场人物，其气场与存在直接促使情报掮客提前退场）"
+                ]
+              }
+            ],
+            "parsed_count": 3,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "event": {
+            "raw_output": {
+              "events": [
+                {
+                  "event_id": "宴厅落脚与康纳入场",
+                  "time": "当晚（入夜时分至晚宴开场）",
+                  "location": "新西西里凯旋门宴会厅（左侧角落靠墙小桌）",
+                  "involved_characters": [
+                    "用户",
+                    "卡琳娜",
+                    "罗英",
+                    "康纳·凯拉宁"
+                  ],
+                  "summary": "用户与卡琳娜抵达凯旋门晚宴后，在左侧角落小桌落座并观察环境。卡琳娜指出该位置的视野优势与乐队侧门的备用出口，并询问用户的观察偏好。此时，“黄昏会”代首领罗英（自称“小贩”）主动搭话，以轻松自嘲的语气警告用户在新西西里挖掘真相的风险。罗英话音未落，大厅入口出现人群微动，康纳·凯拉宁步入灯光区。罗英察觉重量级人物到场后从容告退，卡琳娜平静确认来人身份，宣告晚宴正式拉开帷幕。",
+                  "consequence": "团队成功利用本地路线隐蔽抵达并完成初期落脚点布置；卡琳娜掌握了现场空间布局与潜在撤离通道；罗英的介入带来了关于新西西里信息环境危险性的核心警告，补充了世界观背景；康纳·凯拉宁的现身直接终结了前期的试探性观察，将场景重心推向核心权力人物的正面交锋，晚宴实质性博弈阶段正式启动。"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "event_id": "宴厅落脚与康纳入场",
+                "time": "当晚（入夜时分至晚宴开场）",
+                "location": "新西西里凯旋门宴会厅（左侧角落靠墙小桌）",
+                "involved_characters": [
+                  "用户",
+                  "卡琳娜",
+                  "罗英",
+                  "康纳·凯拉宁"
+                ],
+                "summary": "用户与卡琳娜抵达凯旋门晚宴后，在左侧角落小桌落座并观察环境。卡琳娜指出该位置的视野优势与乐队侧门的备用出口，并询问用户的观察偏好。此时，“黄昏会”代首领罗英（自称“小贩”）主动搭话，以轻松自嘲的语气警告用户在新西西里挖掘真相的风险。罗英话音未落，大厅入口出现人群微动，康纳·凯拉宁步入灯光区。罗英察觉重量级人物到场后从容告退，卡琳娜平静确认来人身份，宣告晚宴正式拉开帷幕。",
+                "consequence": "团队成功利用本地路线隐蔽抵达并完成初期落脚点布置；卡琳娜掌握了现场空间布局与潜在撤离通道；罗英的介入带来了关于新西西里信息环境危险性的核心警告，补充了世界观背景；康纳·凯拉宁的现身直接终结了前期的试探性观察，将场景重心推向核心权力人物的正面交锋，晚宴实质性博弈阶段正式启动。"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "location": {
+            "raw_output": {
+              "locations": [
+                {
+                  "name": "凯旋门（晚宴举办地）",
+                  "description": "宏伟的上流社交宴会场所。内部空间高阔，天花板垂吊三盏水晶吊灯，墙面覆盖深色木饰面板并间隔悬挂油画。沿墙排列铺有雪白桌布的长桌，陈列银质餐具与瓶插鲜花。空气混杂烤肉焦香、柑橘调香水与陈年木头气味。场内设角落乐队演奏区、左侧靠墙放置热饮的安静小桌，以及乐队旁的侧门（直通后厨与后院）。整体环境奢华、动线复杂，充满克制的社交观察与潜流涌动氛围。",
+                  "appearances": [
+                    "当前片段核心场景；文本通过‘三盏水晶吊灯折射暖光’、‘深色木饰面板与肖像画’、‘雪白桌布与银器’及‘角落乐队轻柔旋律’等细节完整锚定其奢华餐饮社交空间的布局与感官体验。",
+                    "角色于左侧角落靠墙小桌驻足，该位置视野开阔可俯瞰大厅动静；提及乐队侧门为唯一不经过正门的备用通道。",
+                    "大厅入口光区成为关键人物（康纳·凯拉宁）入场焦点，人群发生细微避让与声量校正，凸显该地点的权力交汇与信息筛选属性。",
+                    "继承已有记忆，该地点持续作为新西西里顶层社交与情报暗流的物理载体，维持其公开奢华与隐秘博弈并存的空间特质。"
+                  ],
+                  "current_affiliation": "康纳·凯拉宁势力影响/晚宴主办方控制区"
+                }
+              ]
+            },
+            "parsed_output_field": [
+              {
+                "name": "凯旋门（晚宴举办地）",
+                "description": "宏伟的上流社交宴会场所。内部空间高阔，天花板垂吊三盏水晶吊灯，墙面覆盖深色木饰面板并间隔悬挂油画。沿墙排列铺有雪白桌布的长桌，陈列银质餐具与瓶插鲜花。空气混杂烤肉焦香、柑橘调香水与陈年木头气味。场内设角落乐队演奏区、左侧靠墙放置热饮的安静小桌，以及乐队旁的侧门（直通后厨与后院）。整体环境奢华、动线复杂，充满克制的社交观察与潜流涌动氛围。",
+                "appearances": [
+                  "当前片段核心场景；文本通过‘三盏水晶吊灯折射暖光’、‘深色木饰面板与肖像画’、‘雪白桌布与银器’及‘角落乐队轻柔旋律’等细节完整锚定其奢华餐饮社交空间的布局与感官体验。",
+                  "角色于左侧角落靠墙小桌驻足，该位置视野开阔可俯瞰大厅动静；提及乐队侧门为唯一不经过正门的备用通道。",
+                  "大厅入口光区成为关键人物（康纳·凯拉宁）入场焦点，人群发生细微避让与声量校正，凸显该地点的权力交汇与信息筛选属性。",
+                  "继承已有记忆，该地点持续作为新西西里顶层社交与情报暗流的物理载体，维持其公开奢华与隐秘博弈并存的空间特质。"
+                ],
+                "current_affiliation": "康纳·凯拉宁势力影响/晚宴主办方控制区"
+              }
+            ],
+            "parsed_count": 1,
+            "fallback_used": false,
+            "fallback_count": 0,
+            "fallback_values": []
+          },
+          "object": {},
+          "imagery": {},
+          "character_whitelist_filter": {
+            "allowed_character_names": [
+              "卡琳娜",
+              "卡尔",
+              "康纳",
+              "罗英",
+              "爵士",
+              "科恩",
+              "柳德米拉",
+              "德索洛",
+              "布莱克",
+              "主角",
+              "敏特",
+              "小贩"
+            ],
+            "dropped_character_keys": [
+              "康纳·凯拉宁"
+            ],
+            "dropped_character_items": [
+              {
+                "character_name": "康纳·凯拉宁",
+                "candidate_names": [
+                  "康纳·凯拉宁"
+                ],
+                "allowed_character_names": [
+                  "卡琳娜",
+                  "卡尔",
+                  "康纳",
+                  "罗英",
+                  "爵士",
+                  "科恩",
+                  "柳德米拉",
+                  "德索洛",
+                  "布莱克",
+                  "主角",
+                  "敏特",
+                  "小贩"
+                ],
+                "summary": "康纳·凯拉宁的人物档案",
+                "facts": [
+                  {
+                    "content": "康纳·凯拉宁。当前快照：身着深灰色西装外套步入宴会厅入口，衣着随意却难掩气场。入场瞬间引发人群下意识的音量校正与目光汇聚。并未主动参与寒暄，而是取酒握持、缓慢环视大厅仿佛在清点人数。其出现打破了晚宴初期的试探氛围，标志着正式议程与权力博弈的启动。。 关系网：卡琳娜（晚宴关键关联人物，其动向是卡琳娜当晚的核心关注点）；全场宾客/宴会参与者（无形的权力焦点与社交引力中心）；罗英（同场人物，其气场与存在直接促使情报掮客提前退场）。",
+                    "summary": null,
+                    "entity_names": [
+                      "康纳·凯拉宁"
+                    ]
+                  }
+                ],
+                "metadata": {
+                  "character_core_profile": "新西西里高层社交圈中的重量级人物，具备极强的存在感与隐性权威。不依赖张扬姿态或高声指令，而是通过沉稳的步伐、克制的举止与冷静的观察力自然掌控场面节奏。眼神敏锐，行事有条不紊，通常被视为大型场合的核心焦点或潜在规则制定者。",
+                  "character_current_snapshot": "身着深灰色西装外套步入宴会厅入口，衣着随意却难掩气场。入场瞬间引发人群下意识的音量校正与目光汇聚。并未主动参与寒暄，而是取酒握持、缓慢环视大厅仿佛在清点人数。其出现打破了晚宴初期的试探氛围，标志着正式议程与权力博弈的启动。",
+                  "character_relationship_network": [
+                    "卡琳娜（晚宴关键关联人物，其动向是卡琳娜当晚的核心关注点）",
+                    "全场宾客/宴会参与者（无形的权力焦点与社交引力中心）",
+                    "罗英（同场人物，其气场与存在直接促使情报掮客提前退场）"
+                  ],
+                  "turn_id": "turn-31",
+                  "chapter_id": "v8-runner",
+                  "scene_id": "runner-smoke"
+                }
+              }
+            ]
+          },
+          "bucket_topic_service_operation": {
+            "service_decides_operation": true,
+            "topic_segment_id": "c4e49f5c-f4ee-4867-820b-b2511f176027",
+            "topic_reason": "same_topic",
+            "topic_changed": false,
+            "topic_turn_start": "turn-25",
+            "topic_turn_end": "turn-31",
+            "topic_turn_count": 7,
+            "merge_buckets": [
+              "character",
+              "event",
+              "location"
+            ],
+            "rewritten_add_to_update": 2,
+            "forced_update_to_add": 0,
+            "kept_add": 2,
+            "kept_update": 0,
+            "items": [
+              {
+                "bucket": "character",
+                "key": "卡琳娜",
+                "target_id": "cdaf9df4-c4f5-573f-a53e-e2754e619c65",
+                "operation": "UPDATE"
+              },
+              {
+                "bucket": "character",
+                "key": "罗英",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "event",
+                "key": "宴厅落脚与康纳入场: 用户与卡琳娜抵达凯旋门晚宴后，在左侧角落小桌落座并观察环境",
+                "operation": "ADD"
+              },
+              {
+                "bucket": "location",
+                "key": "凯旋门（晚宴举办地）",
+                "target_id": "05a385f3-69af-5f68-94c7-e4961834b1f0",
+                "operation": "UPDATE"
+              }
+            ]
+          }
+        }
+      },
+      "at": "2026-06-24T04:33:34.345Z",
+      "source": "bucket"
+    },
+    {
+      "op": "add",
+      "requestId": "req-9f3d496e",
+      "taskId": "795a2112-382c-4a62-8746-dee1482b2ffb",
+      "durationMs": 23027.54175000009,
+      "at": "2026-06-24T04:34:13.414Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}

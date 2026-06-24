@@ -1,0 +1,85 @@
+{
+  "turn": 4,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "random",
+  "playerInput": "直接去暗街，往日总是如影随形",
+  "selectedFromPreviousTurn": {
+    "text": "直接去暗街，往日总是如影随形",
+    "actionId": "choice:前往暗街"
+  },
+  "submittedAction": {
+    "actionId": "choice:前往暗街",
+    "committed": true,
+    "satisfiedAnchors": [
+      "玩家主动进入暗街"
+    ]
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 2
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "平复呼吸，假装示弱，把相机和胶卷交出去",
+    "actionId": "anchor:a_azZx0jYROVs6"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "平复呼吸，假装示弱，把相机和胶卷交出去",
+        "actionId": "anchor:a_azZx0jYROVs6"
+      },
+      {
+        "text": "假装服从，趁他们放松警惕时动手"
+      }
+    ]
+  },
+  "visibleChars": 983,
+  "durationMs": 20633.48,
+  "memory": {
+    "recentTurns": 3,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

@@ -1,0 +1,323 @@
+{
+  "turn": 6,
+  "memoryMode": "hybrid",
+  "recentTurnLimit": 5,
+  "inputStrategy": "choice",
+  "choiceStrategy": "progress",
+  "playerInput": "直接去暗街，往日总是如影随形",
+  "selectedFromPreviousTurn": {
+    "text": "直接去暗街，往日总是如影随形",
+    "actionId": "choice:前往暗街"
+  },
+  "submittedAction": {
+    "actionId": "choice:前往暗街",
+    "committed": true,
+    "satisfiedAnchors": [
+      "玩家主动进入暗街"
+    ]
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 4
+  },
+  "beatAfterAction": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "平复呼吸，冷静下来，假装示弱",
+    "actionId": "anchor:a_azZx0jYROVs6"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "平复呼吸，冷静下来，假装示弱",
+        "actionId": "anchor:a_azZx0jYROVs6"
+      },
+      {
+        "text": "放下相机和背包，准备战斗"
+      },
+      {
+        "text": "转身离开，暂避锋芒"
+      }
+    ]
+  },
+  "visibleChars": 1417,
+  "durationMs": 43284.89,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 2,
+    "locationEvents": 6,
+    "entityEvents": 4
+  },
+  "memoraxRequests": [
+    {
+      "op": "keys",
+      "at": "2026-06-24T04:17:01.385Z",
+      "source": "bucket"
+    },
+    {
+      "op": "context",
+      "at": "2026-06-24T04:17:01.389Z",
+      "source": "bucket"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-巷口 的事迹？",
+      "requestId": "req-4cb3cabb",
+      "taskId": "1ec9c2dd-9849-4e76-b733-66bfe426f934",
+      "durationMs": 216.45624999998836,
+      "at": "2026-06-24T04:17:01.592Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-过道 的事迹？",
+      "requestId": "req-55dd7a1d",
+      "taskId": "dec87d57-f4d7-41cb-8b73-4ec936ac8403",
+      "durationMs": 317.896791999985,
+      "at": "2026-06-24T04:17:01.693Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-53192551",
+      "taskId": "04f17c7c-c581-49c8-865e-2c39d6f9ec37",
+      "durationMs": 322.76708299998427,
+      "at": "2026-06-24T04:17:01.698Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-88637cc4",
+      "taskId": "71e0e299-7190-44f1-ae1d-83e0fa1f04d0",
+      "durationMs": 324.90341600001557,
+      "at": "2026-06-24T04:17:01.700Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-cdf0ce22",
+      "taskId": "410de306-5f92-420a-aaff-4b2421816027",
+      "durationMs": 325.6215839999786,
+      "at": "2026-06-24T04:17:01.701Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-20e092d9",
+      "taskId": "b810053f-516b-41e2-a9c0-7e00d113b011",
+      "durationMs": 240.01283399999375,
+      "at": "2026-06-24T04:17:01.832Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-d3bc8bd2",
+      "taskId": "7175f90a-3cfa-4ebf-8c6c-b513bc5b29e9",
+      "durationMs": 251.8842500000028,
+      "at": "2026-06-24T04:17:01.945Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-29a7df5e",
+      "taskId": "8a0463bd-32c9-41a0-ad4f-bb52d7775de5",
+      "durationMs": 449.5934170000255,
+      "at": "2026-06-24T04:17:02.151Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-437aa0e7",
+      "taskId": "99d83a69-7f3a-4660-8b0a-768b233572ba",
+      "durationMs": 320.04354199999943,
+      "at": "2026-06-24T04:17:02.152Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-巷口 与哪些自然景象、物件相关？",
+      "requestId": "req-73a6d8af",
+      "taskId": "e83e7024-7cb1-453b-8481-0f53152b0edf",
+      "durationMs": 456.7202920000127,
+      "at": "2026-06-24T04:17:02.155Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-过道 与哪些自然景象、物件相关？",
+      "requestId": "req-1d904ab3",
+      "taskId": "e62a3b30-32cc-490c-8cb8-111d40eb3672",
+      "durationMs": 454.6345830000064,
+      "at": "2026-06-24T04:17:02.155Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "直接去暗街，往日总是如影随形",
+      "requestId": "req-e0c467e6",
+      "taskId": "0d730124-8a39-439d-a18b-826e6adc6c47",
+      "durationMs": 439.2972080000036,
+      "at": "2026-06-24T04:17:02.384Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-深处 的事迹？",
+      "requestId": "req-9ab9d79c",
+      "taskId": "ba7b9815-160d-4b76-9e4f-ac15d6a23068",
+      "durationMs": 244.95975000000908,
+      "at": "2026-06-24T04:17:02.631Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-过道 的事迹？",
+      "requestId": "req-6739010b",
+      "taskId": "1c920f6b-9820-438b-8b7f-63bdebd50712",
+      "durationMs": 313.61725000001024,
+      "at": "2026-06-24T04:17:02.700Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 在 暗街-巷口 的事迹？",
+      "requestId": "req-945a70a2",
+      "taskId": "e177226c-37cd-4ef4-892a-a29fcf7e38e0",
+      "durationMs": 314.24775000000955,
+      "at": "2026-06-24T04:17:02.700Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 共同经历的\"重要\"的事件？",
+      "requestId": "req-9a1a4c9c",
+      "taskId": "dc1bb8b2-922f-49e4-93f0-b5d102a84370",
+      "durationMs": 336.3729170000006,
+      "at": "2026-06-24T04:17:02.722Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 的独特对话、合作、冲突？",
+      "requestId": "req-e7737119",
+      "taskId": "977729dc-c423-4493-87ca-496dc47addf5",
+      "durationMs": 354.7382499999949,
+      "at": "2026-06-24T04:17:02.741Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家在哪跟 主角 有哪些约定？",
+      "requestId": "req-b2f166dc",
+      "taskId": "70759167-dfd7-4ada-938b-d41b45ce3983",
+      "durationMs": 229.5963749999937,
+      "at": "2026-06-24T04:17:02.861Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-巷口 与哪些自然景象、物件相关？",
+      "requestId": "req-ddd525c0",
+      "taskId": "b6673ace-04a6-48af-9d0d-b5ffd52b2844",
+      "durationMs": 257.05320799999754,
+      "at": "2026-06-24T04:17:02.957Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "玩家跟 主角 有哪些代号或内部梗？",
+      "requestId": "req-12d1df73",
+      "taskId": "a564e6fa-84cb-46f6-bc48-f8c387a2f986",
+      "durationMs": 313.29991699999664,
+      "at": "2026-06-24T04:17:03.013Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-过道 与哪些自然景象、物件相关？",
+      "requestId": "req-b52fd0f9",
+      "taskId": "d8ecc01b-af08-4b04-9926-9fe691c168db",
+      "durationMs": 294.31474999999045,
+      "at": "2026-06-24T04:17:03.017Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "暗街-深处 与哪些自然景象、物件相关？",
+      "requestId": "req-8e86e45a",
+      "taskId": "58b56f64-cc33-43e7-98f4-6fbe31b1d194",
+      "durationMs": 276.05220899998676,
+      "at": "2026-06-24T04:17:03.017Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "主角 说过的话有哪些文学意象？",
+      "requestId": "req-755fa489",
+      "taskId": "6a3cdb96-9761-4c28-88ec-8ab9c79b6adf",
+      "durationMs": 226.1009999999951,
+      "at": "2026-06-24T04:17:03.087Z",
+      "source": "memorax"
+    },
+    {
+      "op": "search",
+      "query": "直接去暗街，往日总是如影随形",
+      "requestId": "req-56b97064",
+      "taskId": "063462f5-47c7-4fb8-8da7-6127305f1bdf",
+      "durationMs": 275.1144579999964,
+      "at": "2026-06-24T04:17:03.232Z",
+      "source": "memorax"
+    },
+    {
+      "op": "add",
+      "requestId": "req-2fee3417",
+      "taskId": "a9bdf99c-bdd8-4185-abe2-37c58ad1cacb",
+      "durationMs": 14415.562958999944,
+      "at": "2026-06-24T04:17:43.580Z",
+      "source": "memorax"
+    }
+  ],
+  "seedMarkerFound": false,
+  "backgroundErrorCount": 0
+}
