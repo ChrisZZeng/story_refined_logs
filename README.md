@@ -1,5 +1,9 @@
 # story_refined_logs
 
+文档：
+- 当前需要解决的问题清单：`docs/orchestrator-issue-backlog.md`
+- 新同事 case 根因分析 onboarding：`docs/case-root-cause-onboarding.md`
+
 使用方式：
 - 整体评测 prompt，修改对应的日志组路径：
 
