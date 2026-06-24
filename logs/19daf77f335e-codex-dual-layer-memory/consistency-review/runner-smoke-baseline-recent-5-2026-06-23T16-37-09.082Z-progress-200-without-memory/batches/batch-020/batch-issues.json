@@ -1,0 +1,87 @@
+[
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 191,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "玩家输入是“看着她说：那你是对我的答案满意，还是想继续追问？”，但正文复述为“那你是在确认我的答案，还是想继续追问？”",
+    "conflictingEvidence": "同一轮玩家输入明确询问卡琳娜“对我的答案满意”还是要继续追问，而不是询问她是否在“确认我的答案”。",
+    "conflictingTurns": [
+      191
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家想表达的“满意/不满意”问题改写成“确认答案”，轻微改变了玩家发问的含义。"
+  },
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 198,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "正文写“你加快了两步，走到她身旁。她没有加快脚步，也没有放慢——保持着刚才的节奏”，并继续写“她只是继续走着”。",
+    "conflictingEvidence": "turn 197 结尾写“公园的入口处，卡琳娜披着那件外套，正站在晨风中等着你。她没有催促，只是站在那儿”，且 turn 198 玩家输入是“走近她，好奇她等的时候在想什么”。",
+    "conflictingTurns": [
+      197,
+      198
+    ],
+    "source": "model-output",
+    "reason": "上一轮和本轮玩家输入都建立了卡琳娜正在站着等待，正文却无承接地把她写成一直在行走并保持步行节奏。"
+  },
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 198,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "正文写“她的声音在指尖上停顿了一拍，目光仍然看着前方的路”。",
+    "conflictingEvidence": "同段正在描写卡琳娜开口说“在想……”，上下文没有建立任何与指尖发声或声音落在指尖相关的特殊表达机制。",
+    "conflictingTurns": [
+      198
+    ],
+    "source": "model-output",
+    "reason": "“声音在指尖上停顿”语义搭配明显异常，像局部生成错误，会造成阅读上的突兀感。"
+  },
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 200,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "正文写“她的鞋底踩过那些湿润的石板时，发出轻微的、干燥的声音——因为脚步足够轻，所以水汽还没来得及渗进鞋印的轮廓，她就已经走了过去”。",
+    "conflictingEvidence": "同一句同时建立“湿润的石板”和“干燥的声音”，并用“水汽还没来得及渗进鞋印”解释脚步声，和普通物理感知不协调。",
+    "conflictingTurns": [
+      200
+    ],
+    "source": "model-output",
+    "reason": "湿润路面、干燥脚步声与水汽渗入鞋印的解释互相牵扯成不自然的感官描写，属于局部文本质量退化。"
+  }
+]

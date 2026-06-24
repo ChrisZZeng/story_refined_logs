@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 71, "end": 90 },
+    "evalRange": { "start": 81, "end": 90 },
+    "turn": 84,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 84 says: \"你从长椅上站起来。\" Immediately after, it describes: \"那光圈落在你搁在膝盖上的手背上\".",
+    "conflictingEvidence": "Within the same turn, the player has already stood up from the bench, so the seated posture with a hand resting on the knee is no longer naturally available.",
+    "conflictingTurns": [84],
+    "source": "model-output",
+    "reason": "The narration briefly preserves a seated-body detail after the player has stood, creating a local posture continuity error."
+  },
+  {
+    "windowRange": { "start": 71, "end": 90 },
+    "evalRange": { "start": 81, "end": 90 },
+    "turn": 86,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "Turn 86 player input is \"问她今晚打算住哪里\", but the visible text renders the question as: \"今晚——我住哪里？\" and frames it as the player asking where they will stay.",
+    "conflictingEvidence": "Turn 85 offered the choice \"问她今晚打算住哪里\", which asks about Karina's sleeping arrangement, not the player's.",
+    "conflictingTurns": [85, 86],
+    "source": "model-output",
+    "reason": "The generated text reverses the target of the player's question, changing an inquiry about Karina into an inquiry about the player's own lodging."
+  },
+  {
+    "windowRange": { "start": 71, "end": 90 },
+    "evalRange": { "start": 81, "end": 90 },
+    "turn": 87,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 87 says Karina raises her right hand and \"那只银铃铛正悬在她的指间\", then \"卡琳娜把银铃收进口袋里\". The final sentence still says light falls on \"前方那枚还没被摇响的银铃\".",
+    "conflictingEvidence": "Turn 86 ended with Kar carrying the bell: \"卡尔从小屋侧面绕出来——嘴里衔着一只小小的银色铃铛\" and \"银铃在她嘴里没有发出声响\". No transfer to Karina is shown before turn 87 says Karina already has it.",
+    "conflictingTurns": [86, 87],
+    "source": "model-output",
+    "reason": "The bell changes holder from Kar's mouth to Karina's hand without visible transfer, and then remains visually lit after being put into Karina's pocket."
+  },
+  {
+    "windowRange": { "start": 71, "end": 90 },
+    "evalRange": { "start": 81, "end": 90 },
+    "turn": 90,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 90 first says: \"卡尔在旁侧的步伐没有变化。\" Later in the same turn it says: \"卡尔在她转身的同时站起来\".",
+    "conflictingEvidence": "Turn 89 had already described Kar standing up and following when Karina resumed walking: \"卡尔在她迈步时一同站了起来.\" Turn 90 itself also places Kar walking beside them before the later standing-up line.",
+    "conflictingTurns": [89, 90],
+    "source": "model-output",
+    "reason": "Kar is already walking in the current scene, so describing her as standing up again without any intervening sitting or stopping breaks action continuity."
+  }
+]

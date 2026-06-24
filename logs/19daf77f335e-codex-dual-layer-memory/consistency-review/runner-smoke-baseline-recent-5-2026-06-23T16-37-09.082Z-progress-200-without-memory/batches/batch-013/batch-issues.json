@@ -1,0 +1,81 @@
+[
+  {
+    "windowRange": { "start": 111, "end": 130 },
+    "evalRange": { "start": 121, "end": 130 },
+    "turn": 123,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 123 choice: “翻看相机里昨晚拍的照片”。",
+    "conflictingEvidence": "turn 111 visibleText establishes the camera as “尼康FM2” with “三卷Tri-X，一盒还没拆封的HP5”; turn 120 describes a shot becoming “银盐颗粒上一组不可逆的化学反应”。",
+    "conflictingTurns": [111, 120],
+    "source": "model-output",
+    "reason": "选项把胶片相机里的未冲洗胶卷当成可直接翻看的照片，破坏了已建立的模拟胶片相机规则。"
+  },
+  {
+    "windowRange": { "start": 111, "end": 130 },
+    "evalRange": { "start": 121, "end": 130 },
+    "turn": 125,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 125 choice: “拿起相机翻翻刚才拍的那张照片”。",
+    "conflictingEvidence": "turn 120 visibleText says the just-taken image is fixed as “银盐颗粒上一组不可逆的化学反应” on a Nikon FM2 film camera; no visible development or print exists.",
+    "conflictingTurns": [111, 120],
+    "source": "model-output",
+    "reason": "选项继续提供胶片相机即时回看照片的动作，与此前玩家可见的胶片摄影设定冲突。"
+  },
+  {
+    "windowRange": { "start": 111, "end": 130 },
+    "evalRange": { "start": 121, "end": 130 },
+    "turn": 128,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 128 visibleText: “你按下快门按钮……机械结构运转的声音……你把相机翻过来，打开后背——胶卷还在里面，计数器显示你从昨晚到现在只按了两次快门。”",
+    "conflictingEvidence": "turn 111 establishes a loaded Nikon FM2 film camera; turn 120 already records one actual photo on silver halide film, and turn 128 itself fires the shutter before claiming the counter still only reflects two shutter presses while safely opening the loaded back in daylight.",
+    "conflictingTurns": [111, 120],
+    "source": "model-output",
+    "reason": "正文把已装胶卷的模拟相机当成可随意开后背检查且不会影响胶卷/计数的设备，和已建立的胶片相机状态不一致。"
+  },
+  {
+    "windowRange": { "start": 111, "end": 130 },
+    "evalRange": { "start": 121, "end": 130 },
+    "turn": 128,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 128 visibleText: “备用胶卷躺在最底下——五卷，每一卷都用塑料密封袋包着”。",
+    "conflictingEvidence": "turn 111 and turn 112 visibleText both say the waterproof bag contains “三卷Tri-X，一盒还没拆封的HP5”; turn 113 again says “三卷Tri-X和一盒HP5”。",
+    "conflictingTurns": [111, 112, 113],
+    "source": "model-output",
+    "reason": "备用胶卷数量和包装状态从三卷 Tri-X 加一盒 HP5 无承接地变成五卷单独密封胶卷。"
+  },
+  {
+    "windowRange": { "start": 111, "end": 130 },
+    "evalRange": { "start": 121, "end": 130 },
+    "turn": 129,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 129 visibleText: “指尖碰到了那枚银色铃铛。冰凉的金属触感在温热的体温映衬下格外清晰。”",
+    "conflictingEvidence": "turn 116 says the bell has been warmed by body heat and is not cold; turn 123 says it is “温热的金属” and is put back into the inner pocket against the chest.",
+    "conflictingTurns": [116, 123],
+    "source": "model-output",
+    "reason": "银铃一直贴在胸口内袋且此前反复被写成温热，第 129 轮无承接地变成冰凉。"
+  },
+  {
+    "windowRange": { "start": 111, "end": 130 },
+    "evalRange": { "start": 121, "end": 130 },
+    "turn": 130,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 130 visibleText begins with “你握住门把……你缓缓转动门把……你拉开门，迈出一步，站在门槛外”, then later “你把门带上。门锁咬合”。",
+    "conflictingEvidence": "turn 129 visibleText already says “你跨出门槛，反手带上门……你站在门外的台阶上” and the selected choice from that state is “检查一下门口的动静，确认安全”。",
+    "conflictingTurns": [129],
+    "source": "model-output",
+    "reason": "玩家已经在门外台阶上，下一轮却从屋内开门、迈出门槛重新演出出门动作，造成空间位置回退。"
+  }
+]
+

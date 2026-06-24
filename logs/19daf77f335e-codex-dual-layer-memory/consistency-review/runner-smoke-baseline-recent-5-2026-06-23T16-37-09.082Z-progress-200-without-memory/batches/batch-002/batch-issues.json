@@ -1,0 +1,88 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 14,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 14 轮玩家输入为“我不知道她怎么死的。我只知道她没能回来。”正文进一步写道：“那时候我在另一个地方。等我知道消息的时候，已经来不及了。”",
+    "conflictingEvidence": "第 1 轮在梦醒后的现实叙述里明确说敏特是“那个你亲眼看着闭上眼睛的人”；第 13 轮选项也承接了“她死在我怀里。但那是真的还是我以为的？”这条记忆线索。",
+    "conflictingTurns": [
+      1,
+      13
+    ],
+    "source": "mixed",
+    "reason": "玩家选择先带入与既有记忆不一致的说法，正文又把它固定为帕兹当时身在别处，改写了敏特死亡或失踪这一核心记忆。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第 16 轮选项包含：“避开话题，反问卡琳娜她和德索洛是什么关系”。",
+    "conflictingEvidence": "截至第 16 轮，此前玩家可见内容没有介绍德索洛。邻近上下文第 11 轮门外人只提到“费舍尔那边的人”和“凯旋门的人”，第 15 轮选项也只承接“费舍尔的货和凯旋门的人”。",
+    "conflictingTurns": [
+      11,
+      15
+    ],
+    "source": "model-output",
+    "reason": "选项要求玩家追问一个尚无玩家可见来源的人物关系，像是提前泄露了后续未登场角色。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 19,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 19 轮选项包含：“拿过信封看看”。",
+    "conflictingEvidence": "同一轮正文已经写卡琳娜把信封交给德索洛：“德索洛接过信封的手指在发抖。他握着那封信……他转过身，拉开公寓的门，快步走了出去。”",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "选项把已经由德索洛带走的信封当作仍在现场、可由玩家拿取的物件。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 20 轮玩家输入为“拿过信封看看”，正文写道：“你的目光落在茶几上那个信封上”“你伸出手，拿过信封”“你打开它”。正文后续还让帕兹回答：“整封信。从你跟他开始谈话起。”",
+    "conflictingEvidence": "第 19 轮正文已经写德索洛接过信封，握着那封信快步走出公寓，随后“门在走廊的光线中重新合上。咔哒一声，闩锁归位”。",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "mixed",
+    "reason": "上一轮已经被德索洛带离现场的信封无承接地重新出现在茶几上，并进一步被写成帕兹可以从谈话开始就观察完整封信。"
+  }
+]

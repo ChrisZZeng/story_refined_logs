@@ -1,0 +1,22 @@
+# Window Timeline 181-200
+
+- 181: The player leaves the park bench and reaches the street outside the park, with routes toward the darker alley or brighter open street.
+- 182: The player stops to look and listen; no footsteps, voices, shadows, or other anomalies are detected.
+- 183: The player checks the silver bell in the inner pocket and confirms it is still there.
+- 184: The player hides in a recessed shop entrance and watches the street for several minutes; nobody passes.
+- 185: The player climbs to a second-floor balcony/fire escape vantage point, surveys the area, sees the park and street empty, then returns to the street.
+- 186: The player returns to the park bench. Karina arrives, sits nearby, and opens a conversation about what she said last night.
+- 187: The player asks whether she is worried what they will think. Karina says yes and describes opening a door without knowing whether the player will enter or close it.
+- 188: The player says they can walk in. Karina talks about returning home, sitting by the fireplace, and telling Karl about the conversation.
+- 189: The player touches the silver bell and says they can see what is behind the door together. Karina asks what Minte means to the player.
+- 190: The player says Minte gave them a reason to come to New Sicily and explains the photo, the name, and the need for an answer.
+- 191: The player asks whether Karina is satisfied with the answer or wants to keep asking. The text alters the spoken question, then Karina asks whether the player has found the answer.
+- 192: The player asks whether Karina is asking for Minte or for herself. Karina is surprised and starts to consider the question.
+- 193: The player asks what kind of person Minte is. Karina says Minte came to find her two or three times, was direct, wanted specific answers, and seemed to know what she wanted.
+- 194: The player agrees that Karina and Minte sound incompatible. Karina elaborates that Minte asked questions in one direction and left without extra small talk.
+- 195: The player stands and says it is time to go back. Karina stands too and appears ready to follow toward Karl's cottage.
+- 196: The player asks whether they should go back together. Karina agrees and starts toward the park entrance.
+- 197: The player stops to look back at the park and remember it. Karina is described as standing at the park entrance, waiting.
+- 198: The player walks up to Karina and asks what she was thinking while waiting. The text shifts her into walking continuity and she asks whether the player still uses Minte as their reason.
+- 199: The player answers that they still do. Karina accepts the answer with a quiet “好” while they continue toward the alley.
+- 200: The player slows down to observe Karina walking ahead. The text focuses on her gait, the morning light, wet stone, and the option to keep walking, speak, rejoin her, or take a photo.

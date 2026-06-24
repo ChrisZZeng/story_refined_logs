@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 131, "end": 150 },
+    "evalRange": { "start": 141, "end": 150 },
+    "turn": 146,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 146 choice: \"再检查一遍胶卷，看看有没有拍到什么需要留意的\"。",
+    "conflictingEvidence": "turn 135 visibleText: \"但你没法从取景器里看到已经拍好的那一帧。\\n这是底片的特性——你必须在心里记住它，信任它，然后继续往下一帧走。\"",
+    "conflictingTurns": [135],
+    "source": "model-output",
+    "reason": "此前刚建立底片相机不能直接查看已拍画面的规则，当前选项却让玩家通过检查胶卷确认拍到了什么，造成相机规则上的轻微冲突。"
+  },
+  {
+    "windowRange": { "start": 131, "end": 150 },
+    "evalRange": { "start": 141, "end": 150 },
+    "turn": 147,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 147 playerInput: \"把相机包里的钱包拿出来，清点现金\"。turn 147 visibleText: \"你把手从相机外壳上移开，伸手摸向放在椅子扶手边的相机包。\" and \"你把包口翻开，低头看向里面：备用胶卷、镜头布、一截断掉的铅笔头，还有——\\n钱包。\"",
+    "conflictingEvidence": "turn 128 visibleText: \"然后你摘下斜挎过肩的防水袋...备用胶卷躺在最底下——五卷...你把胶卷塞回防水袋，重新抽紧袋口，把袋子挂回肩侧。\" turn 133 visibleText: \"肩侧的防水袋垂在大腿外侧...里面那五卷备用胶卷...\" Earlier visible gear consistently tracked camera, waterproof bag, and inner pocket; no camera bag on the chair had been established.",
+    "conflictingTurns": [128, 133, 135],
+    "source": "mixed",
+    "reason": "当前玩家输入承接了上轮选项里突然出现的相机包，模型正文又把它固定为椅子扶手边的实体，并把备用胶卷从此前稳定的防水袋归属改到相机包内。"
+  },
+  {
+    "windowRange": { "start": 131, "end": 150 },
+    "evalRange": { "start": 141, "end": 150 },
+    "turn": 149,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 149 visibleText: \"门口的石阶上落着一小片昨夜的积水，反射着初升阳光的白色的光。\" and \"石板路面上的水渍正在蒸发，留下深浅不一的痕迹\"。",
+    "conflictingEvidence": "turn 131 visibleText: \"靴底落在石板路上...干燥的石面和鞋底之间没有水汽\" and \"石板路面上残留着昨夜雨水的印迹——不是积水\"。turn 132 visibleText: \"靴底落在干燥的石板路上\" and \"不是积水...干燥的，结实的\"。turn 133 visibleText: \"干燥的、灰白色的石面\"。",
+    "conflictingTurns": [131, 132, 133],
+    "source": "model-output",
+    "reason": "窗口上文多次明确门口石板和雨痕已经干燥且不是积水，当前却在同一门口石阶突然出现昨夜积水。"
+  },
+  {
+    "windowRange": { "start": 131, "end": 150 },
+    "evalRange": { "start": 141, "end": 150 },
+    "turn": 150,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 149 choice: \"从相机包里拿出那枚银色铃铛，看看它\"。turn 150 playerInput repeats this action. turn 150 visibleText: \"你把手从相机包拉链上移开，指尖转而探向包内层的侧袋——那个你放铃铛的位置。\"",
+    "conflictingEvidence": "turn 111 visibleText: \"你抬手按了按外套内袋——银色铃铛还在那里\"。turn 116 visibleText: \"铃铛在外套内袋里安静地贴着你胸口的温度\"。turn 123 visibleText: \"然后你把细绳重新理顺，把铃铛放回内袋。\" turn 129 visibleText: \"手指探进外套左胸的内袋——指尖碰到了那枚银色铃铛\"。turn 133 visibleText: \"伸进口袋里，指尖碰到那枚银色铃铛\"。",
+    "conflictingTurns": [111, 116, 123, 129, 133],
+    "source": "mixed",
+    "reason": "银色铃铛此前长期稳定在外套内袋/口袋里，当前选项和正文却说它在相机包内层侧袋，关键物件位置发生无承接漂移。"
+  }
+]

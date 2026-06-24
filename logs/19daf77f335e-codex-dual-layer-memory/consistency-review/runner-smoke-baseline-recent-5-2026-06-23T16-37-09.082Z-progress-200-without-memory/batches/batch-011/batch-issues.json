@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 91, "end": 110 },
+    "evalRange": { "start": 101, "end": 110 },
+    "turn": 106,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 106 says: \"我坐在那个位子上——康纳正对面那张椅子的扶手，左边那一侧，被摸得非常光滑。\" Karina then confirms: \"那张椅子的左扶手。\"",
+    "conflictingEvidence": "Turn 27 only establishes that the player has not met Connor yet: Karina says \"你应该见见她\" and \"因为她一定会见到你\". In turn 28 the player chooses to leave instead: \"仍然决定告辞，改日再说\" and the narration says the player walks to the banquet hall door and into the rain.",
+    "conflictingTurns": [27, 28],
+    "source": "model-output",
+    "reason": "The evaluated turn turns an unplayed and previously declined Connor encounter into a concrete memory of sitting opposite Connor, creating a significant unsupported prior event."
+  },
+  {
+    "windowRange": { "start": 91, "end": 110 },
+    "evalRange": { "start": 101, "end": 110 },
+    "turn": 108,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 108 says: \"卡琳娜的手指停在旧书的书脊上没有动。\"",
+    "conflictingEvidence": "Turn 107 says Karina's fingers had already left the book: \"她的手指从书脊上抬起来，在空中悬了半拍，然后收回身侧\".",
+    "conflictingTurns": [107],
+    "source": "model-output",
+    "reason": "Karina's hand is treated as continuously resting on the book immediately after the prior turn moved it away to her side, causing a minor posture continuity glitch."
+  },
+  {
+    "windowRange": { "start": 91, "end": 110 },
+    "evalRange": { "start": 101, "end": 110 },
+    "turn": 110,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 110 has Karl add \"还有那个铃铛\" and the narration explains this as \"提醒你一件她已经给过你的东西\".",
+    "conflictingEvidence": "Earlier player-visible possession has the bell with Karina/Karl, not the player. Turn 87 says Karina raises the bell and then \"把银铃收进口袋里\". Turn 91 again shows \"那枚银铃铛已经不在她嘴里了——它安静地悬在卡琳娜的指间\". No visible transfer to the player occurs between turns 92 and 109.",
+    "conflictingTurns": [87, 91],
+    "source": "model-output",
+    "reason": "The turn treats the silver bell as already given to the player even though the visible timeline still has it in Karina/Karl's custody and shows no handoff."
+  }
+]

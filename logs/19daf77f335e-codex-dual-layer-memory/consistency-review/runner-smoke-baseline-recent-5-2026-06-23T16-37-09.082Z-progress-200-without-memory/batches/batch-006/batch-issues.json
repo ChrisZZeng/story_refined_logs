@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 54,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第54轮正文在玩家开始讲述敏特时写道：“她叫敏特。我认识她的时候——还在战区。”紧接着叙述为：“她说出这个名字时，语气平缓得像是在念一段她已经重复过很多次的开场白。”",
+    "conflictingEvidence": "同一轮玩家输入是“说来话长。不过既然你问了——可以告诉你。”，正文前后也都在写玩家讲述：“等你开口”“你靠在长椅的靠背上”“你的手指在膝盖上蜷了一下”。说出“敏特”这个名字的人应是玩家，而不是“她”。",
+    "conflictingTurns": [
+      54
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家正在说出的名字错误归给“她”，造成叙述主体短暂漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 57,
+    "scope": "mixed",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第57轮正文把卡琳娜口中“那个人”写成男性代词：“但我从来没对他说过——他对我有多重要。”“他那种人——大概早就知道了吧。”同轮选项又写：“『他』——是卡尔吗？”",
+    "conflictingEvidence": "此前玩家可见内容稳定把卡尔写作女性/雌性代词，例如第44轮“卡尔……她会说”，第46轮“她出现在暗街的那一天”“她只是甩了甩尾巴”。第59轮揭示“那个人”正是卡尔后也恢复为“她教会了我很多事”。",
+    "conflictingTurns": [
+      44,
+      46,
+      59
+    ],
+    "source": "model-output",
+    "reason": "正文和选项把已建立为“她”的卡尔临时写成“他”，并在选项中直接把“他”和卡尔绑定，造成角色称谓/身份连续性漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 58,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第58轮正文出现连续引号断裂：“而且——”“时机这件事，不是光靠等就能等来的。”",
+    "conflictingEvidence": "同一段中卡琳娜正在连续发言，中间没有叙述插入；多出的闭合和开启引号让一句自然对白被硬切成格式异常的两段。",
+    "conflictingTurns": [
+      58
+    ],
+    "source": "model-output",
+    "reason": "对白标点格式明显异常，虽不改变剧情事实，但会造成阅读卡顿。"
+  }
+]

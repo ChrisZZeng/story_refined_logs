@@ -1,0 +1,80 @@
+[
+  {
+    "windowRange": { "start": 141, "end": 160 },
+    "evalRange": { "start": 151, "end": 160 },
+    "turn": 157,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 157 轮选项提供：“从相机包里拿出烟点上，让呼吸更稳一些”。",
+    "conflictingEvidence": "第 153 轮相机包还在屋内椅子扶手和玩家手边：“指尖落在相机包的拉链头上”；第 155-156 轮玩家只是打开门、坐到门前石阶上，没有带出相机包。第 155 轮选项还说“回屋拿相机”，也暗示相机/包不在室外手边。",
+    "conflictingTurns": [153, 155, 156],
+    "source": "model-output",
+    "reason": "玩家正坐在门外石阶上时，选项却要求从仍应在屋内的相机包里取烟，造成可执行动作和物件位置不一致。"
+  },
+  {
+    "windowRange": { "start": 141, "end": 160 },
+    "evalRange": { "start": 151, "end": 160 },
+    "turn": 158,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "玩家输入是“从相机包里拿出烟点上，让呼吸更稳一些”，但正文开头改成：“你从外套内袋里摸出烟盒。”",
+    "conflictingEvidence": "第 157 轮可见选项明确指定“从相机包里拿出烟”；第 158 轮正文没有承接相机包，直接把烟盒来源改成外套内袋。",
+    "conflictingTurns": [157, 158],
+    "source": "mixed",
+    "reason": "玩家选择中指定的取物来源被正文无说明地改写，虽然可能是在绕开上一轮选项的空间问题，但玩家可见行动仍被替换。"
+  },
+  {
+    "windowRange": { "start": 141, "end": 160 },
+    "evalRange": { "start": 151, "end": 160 },
+    "turn": 159,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "第 159 轮玩家站在门口活动后：“你低头看了一眼相机包。一切都在原位。”",
+    "conflictingEvidence": "第 153 轮相机包被写在屋内椅子扶手附近；第 155-156 轮玩家开门、坐到石阶上，没有拿起或带出相机包；第 158 轮点烟也改写成从外套内袋取烟，没有建立相机包已经在室外。",
+    "conflictingTurns": [153, 155, 156, 158],
+    "source": "model-output",
+    "reason": "相机包在没有玩家动作支撑的情况下出现在门外玩家低头可见的位置，造成物件位置跳跃。"
+  },
+  {
+    "windowRange": { "start": 141, "end": 160 },
+    "evalRange": { "start": 151, "end": 160 },
+    "turn": 160,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 160 轮写道：“桌面上搁着你的相机包，拉链还保持着你最后一次检查时的状态——半开着”，紧接着又写“你走过去，把包放在桌上，拉开拉链。”",
+    "conflictingEvidence": "第 148 轮明确整理并拉上相机包拉链，把相机包放在椅子扶手上；第 152 轮把铃铛放回侧袋后“拉链合拢”；第 153 轮玩家指尖还落在椅子扶手和包面固定出的拉链头位置。",
+    "conflictingTurns": [148, 152, 153],
+    "source": "model-output",
+    "reason": "相机包从已合拢、在椅子扶手附近，变成桌上半开；同一轮还先说包已在桌上又说把包放到桌上，物件状态和位置承接混乱。"
+  },
+  {
+    "windowRange": { "start": 141, "end": 160 },
+    "evalRange": { "start": 151, "end": 160 },
+    "turn": 160,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 160 轮检查备用胶卷时写：“三卷黑色的小筒，用铝箔纸包着，整整齐齐地塞在侧袋里”。",
+    "conflictingEvidence": "第 128 轮写“备用胶卷躺在最底下——五卷，每一卷都用塑料密封袋包着”；第 129 轮再次写“那五卷备用胶卷——每卷都用塑料密封袋包着”；第 133 轮也确认防水袋里有“五卷备用胶卷”。",
+    "conflictingTurns": [128, 129, 133],
+    "source": "model-output",
+    "reason": "备用胶卷的数量和包装从五卷塑料密封袋变成三卷铝箔纸小筒，且没有消耗或重新整理的可见过程。"
+  },
+  {
+    "windowRange": { "start": 141, "end": 160 },
+    "evalRange": { "start": 151, "end": 160 },
+    "turn": 160,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 160 轮写：“你轻轻摇了摇它——它没有发出声音。”",
+    "conflictingEvidence": "第 151 轮同样轻轻晃动铃铛时，“铃铛发出一声清脆的声响”；第二次“动作更轻，几乎只是手腕的微转”时也出现“同样的声音”，并让窗玻璃雾气产生细微波纹。",
+    "conflictingTurns": [151],
+    "source": "model-output",
+    "reason": "同一只银色铃铛在相同的轻摇动作下从清晰发声变成完全无声，且没有给出握法、损坏或规则变化的解释，破坏关键物件的行为连续性。"
+  }
+]

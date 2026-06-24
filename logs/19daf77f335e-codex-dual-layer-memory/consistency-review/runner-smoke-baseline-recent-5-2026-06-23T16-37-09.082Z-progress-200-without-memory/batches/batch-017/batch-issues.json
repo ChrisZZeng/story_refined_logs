@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 151, "end": 170 },
+    "evalRange": { "start": 161, "end": 170 },
+    "turn": 161,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 161 的选项写道：“低头检查一下拍下的那张照片是否满意”。同一轮正文刚写玩家按下快门，图像会留在“银盐粒子”里并在“定影液”里显影。",
+    "conflictingEvidence": "Turn 1 已建立玩家手里是“一台老旧的胶卷相机”；Turn 160 又检查了“备用胶卷。三卷黑色的小筒”。胶卷相机无法在拍摄后立刻低头查看照片是否满意。",
+    "conflictingTurns": [1, 160],
+    "source": "model-output",
+    "reason": "选项把已建立的胶卷相机交互写成类似数码相机的即时回看，破坏物件规则连续性。"
+  },
+  {
+    "windowRange": { "start": 151, "end": 170 },
+    "evalRange": { "start": 161, "end": 170 },
+    "turn": 162,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 162 玩家选择“回到屋里，在门边找个更舒服的位置坐下”，正文随即写“你推开木门，跨进屋内”。该选项来自 Turn 161 的“回到屋里，在门边找个更舒服的位置坐下”。",
+    "conflictingEvidence": "Turn 160 明确写玩家“回到屋内，轻轻带上门。门闩在身后落回原位”，并且最后“重新在窗边的椅子里坐下来”。Turn 161 只是拿相机取景拍巷口，没有可见地开门或离开屋内。",
+    "conflictingTurns": [160, 161],
+    "source": "model-output",
+    "reason": "玩家可见位置从屋内窗边等待无承接地变成屋外/门外，随后又被选项和正文写成重新进屋，造成空间连续性断裂。"
+  },
+  {
+    "windowRange": { "start": 151, "end": 170 },
+    "evalRange": { "start": 161, "end": 170 },
+    "turn": 163,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 163 写铃铛“还是没有发出声音”，并进一步说明“你无论怎么动作，它都不会响”；举到耳边轻轻摇时“没有声音”，只感到铃舌位置的微小震颤。",
+    "conflictingEvidence": "Turn 151 玩家轻轻晃动铃铛时，铃铛“发出一声清脆的声响”；随后“又摇了一次。动作更轻”也出现“同样的声音”，还让窗玻璃雾气颤动。",
+    "conflictingTurns": [151],
+    "source": "model-output",
+    "reason": "同一枚铃铛在没有可见状态变化或解释的情况下，从轻摇会响变成无论如何都不会响，破坏关键物件状态连续性。"
+  },
+  {
+    "windowRange": { "start": 151, "end": 170 },
+    "evalRange": { "start": 161, "end": 170 },
+    "turn": 166,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 166 检查相机包时写：“相机在最上层，机身横向放置，镜头朝内”。",
+    "conflictingEvidence": "Turn 165 先写“你把相机挂回胸前”，随后回到靠垫边“把相机搁在膝头”。在 Turn 166 之前没有玩家可见动作把相机重新放入相机包。",
+    "conflictingTurns": [165],
+    "source": "model-output",
+    "reason": "相机位置从膝头/胸前无承接地变为包内最上层，造成局部物件位置不连续。"
+  },
+  {
+    "windowRange": { "start": 151, "end": 170 },
+    "evalRange": { "start": 161, "end": 170 },
+    "turn": 167,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 167 写晨光“又从窗沿往壁炉的方向爬了一段”，并“吞没壁炉的铁架下缘，在灰烬槽的边缘上停留了一会儿”。",
+    "conflictingEvidence": "Turn 166 已经写晨光“从灰烬槽的边缘越过，正沿着壁炉的铁架爬上炉口上缘”。更早的 Turn 164-165 也已写晨光越过铁架并铺到灰烬槽里。",
+    "conflictingTurns": [164, 165, 166],
+    "source": "model-output",
+    "reason": "晨光位置在连续等待场景中回退到此前阶段，重复了已推进过的光线轨迹。"
+  }
+]

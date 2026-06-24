@@ -1,0 +1,66 @@
+[
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 63,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第63轮卡琳娜承接玩家建议时写道：“但你刚才那句话——‘有些话不说出来的话，那个人可能永远不知道’——”随后却说：“——她说得没错。”",
+    "conflictingEvidence": "同一轮玩家输入和正文都表明这句话是玩家刚说的：“告诉她——有些话不说出来的话，那个人可能永远不知道”，正文也写“你的话落在雨后湿润的空气里”。应承接为“你说得没错”，而不是“她说得没错”。",
+    "conflictingTurns": [
+      63
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家刚说的话短暂归给第三人称女性，造成叙述主体和称谓漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 68,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第68轮写：“卡尔还趴在那里，姿态和你离开时几乎一样——四足收拢，尾巴从垫子边缘垂下来……”",
+    "conflictingEvidence": "第65轮玩家离开前的可见状态是“卡琳娜还抱着卡尔，那只黑色母猫的尾巴从她臂弯垂下来”，并且“卡尔从卡琳娜怀里探出头来”。第67轮玩家回来时才写“卡尔已经回到了靠垫上”。",
+    "conflictingTurns": [
+      65,
+      67
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家离开时在卡琳娜怀里的卡尔回写成当时就趴在靠垫上，轻微破坏角色姿态连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 70,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "第70轮玩家输入是“问卡琳娜那句话是什么意思”。正文中卡琳娜解释：“有些话不说……对方可能永远都不会知道。”“我今天说了。”“就是那句话的意思。”",
+    "conflictingEvidence": "第69轮最后的直接可见对话是卡尔提醒：“不过这是一码事。你知道该怎么做，是另一码事。”随后才出现选项“问卡琳娜那句话是什么意思”。按即时上下文，玩家更像是在追问卡尔这句提醒的含义，而不是让卡琳娜解释早前已经说出口的“你对我很重要”。",
+    "conflictingTurns": [
+      69
+    ],
+    "source": "model-output",
+    "reason": "正文把“那句话”解析到较早的告白主题，未回应上一轮刚出现的卡尔提醒，导致对话承接偏移。"
+  }
+]

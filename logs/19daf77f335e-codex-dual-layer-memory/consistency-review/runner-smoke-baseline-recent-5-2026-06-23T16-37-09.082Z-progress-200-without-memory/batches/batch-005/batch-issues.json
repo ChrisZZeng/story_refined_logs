@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 41,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 41 writes: “如果不是康纳派人来，你还会去吗？” and Karina says “德索洛的宴会上必须有一个来自暗街的位置”。",
+    "conflictingEvidence": "Turn 27 identifies Connor Keilanen as “凯旋门的实际管理者。这场晚宴的主人” and frames meeting Connor as something still to do. Turn 28 then shows the player choosing to leave without that meeting; no player-visible event shows Connor sending someone for Karina.",
+    "conflictingTurns": [
+      27,
+      28
+    ],
+    "source": "model-output",
+    "reason": "The turn reassigns the dinner from Connor to DeSollo and imports an unsupported “Connor sent someone” cause, making the banquet's ownership and Karina's reason for attending unstable."
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 45,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 45 says Carl “从来不用‘原来的你’或者‘本来的你’这种说法” and “只会说‘你今天在想什么’”。",
+    "conflictingEvidence": "Turn 44 says Carl would answer: “你本来就没有变过。你只是需要记住它。” and adds that she “总是这样说”。",
+    "conflictingTurns": [
+      44
+    ],
+    "source": "model-output",
+    "reason": "The next turn changes Carl's habitual wording from a quoted repeated line to an exclusive different line, creating a small but direct continuity wobble in how Karina characterizes Carl."
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 48,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 48 says “第一次见面之后的第二天。就是她说了‘你坐得够稳了’就跳走的那天” and later in the same account says “那天是我就任申诉人的第一天”。",
+    "conflictingEvidence": "Turn 46 places Karina's first meeting with Carl on “我刚成为申诉人的第一天。那天晚上”. Turn 47 says Carl slept on Karina's lap through that night and at daybreak said “你坐得够稳了” before jumping out.",
+    "conflictingTurns": [
+      46,
+      47
+    ],
+    "source": "model-output",
+    "reason": "The account labels the morning after the first meeting as both the second day and the first day of Karina's tenure, blurring the sequence of Carl choosing her."
+  }
+]

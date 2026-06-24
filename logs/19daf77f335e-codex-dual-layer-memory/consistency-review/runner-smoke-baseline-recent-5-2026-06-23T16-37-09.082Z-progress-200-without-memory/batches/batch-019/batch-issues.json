@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 171, "end": 190 },
+    "evalRange": { "start": 181, "end": 190 },
+    "turn": 183,
+    "scope": "visibleText",
+    "type": "language-drift",
+    "severity": "low",
+    "currentEvidence": "同轮正文先写“你把手伸进外套内袋”，随后写“它安静地躺在他内袋底部”。",
+    "conflictingEvidence": "本轮玩家输入是“伸手摸了摸内袋里的银铃铛，确认它还在”，周围叙述也稳定使用第二人称“你/你的”。",
+    "conflictingTurns": [183],
+    "source": "model-output",
+    "reason": "第二人称叙事中突然出现“他内袋”造成代词和视角漂移，虽不改变剧情事实，但会破坏玩家阅读连续性。"
+  },
+  {
+    "windowRange": { "start": 171, "end": 190 },
+    "evalRange": { "start": 181, "end": 190 },
+    "turn": 186,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "“你沿着街道走回公园入口时，晨光已经爬到了铁艺围栏的第二道横杆上”。",
+    "conflictingEvidence": "181 轮已写“晨光比刚才又爬高了一些，从铁艺围栏的第三根横杆移到了接近顶端的位置”；之后 184 轮观察两三分钟，185 轮又在阳台停留将近三分钟。",
+    "conflictingTurns": [181, 184, 185],
+    "source": "model-output",
+    "reason": "时间继续推进后，晨光在同一围栏上的位置从接近顶端退回第二道横杆，造成局部时间/光影连续性倒退。"
+  },
+  {
+    "windowRange": { "start": 171, "end": 190 },
+    "evalRange": { "start": 181, "end": 190 },
+    "turn": 188,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜说：“卡尔问我怎么了。我说没什么。她没追问……我后来跟她说——我说，我今天跟一个人说了很多我自己都不确定能不能说得出口的话……卡尔说，那不是很好吗。”",
+    "conflictingEvidence": "34 轮卡尔此前回答“她后来没有说什么了”，并将卡琳娜后来开口的内容明确为“她问我——你值不值得信任”；31-32 轮也强调卡琳娜回来后没有像往常那样复盘，只是沉默很久后询问玩家是否值得信任。",
+    "conflictingTurns": [31, 32, 34],
+    "source": "model-output",
+    "reason": "188 轮为昨晚壁炉前新增了一段卡琳娜向卡尔倾诉且得到回应的对话，改写了早前卡尔给玩家的可见叙述，影响这段情感推进的连续性。"
+  }
+]

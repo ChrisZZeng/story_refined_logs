@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 101, "end": 120 },
+    "evalRange": { "start": 111, "end": 120 },
+    "turn": 115,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 115 says: \"你低头看了一眼窗台上的相机和防水袋。尼康FM2的金属机身映着窗外最后一点路灯的橘光\".",
+    "conflictingEvidence": "Turn 114 first puts the camera on the windowsill, but then updates its position: \"相机挂在脖子上，机身还带着深夜残留的微凉。\" No later visible action puts it back on the windowsill before turn 115.",
+    "conflictingTurns": [114],
+    "source": "model-output",
+    "reason": "The camera jumps from hanging on the player's neck back to the windowsill without a visible transition."
+  },
+  {
+    "windowRange": { "start": 101, "end": 120 },
+    "evalRange": { "start": 111, "end": 120 },
+    "turn": 117,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 117 says the player handles the waterproof bag, then \"你站起来\" and later \"你站在窗边\". Its choices include \"走到窗边，最后一次确定天色\".",
+    "conflictingEvidence": "Turn 116 already ends with the player standing at the window: \"你站在窗边，把呼吸调匀。\" Turn 117 also has the player at the window before offering to walk there.",
+    "conflictingTurns": [116, 117],
+    "source": "model-output",
+    "reason": "The posture and location reset as if the player were not already standing at the window, and the choices repeat moving to the current location."
+  },
+  {
+    "windowRange": { "start": 101, "end": 120 },
+    "evalRange": { "start": 111, "end": 120 },
+    "turn": 118,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 118 says: \"天亮了。\" and ends with \"等卡琳娜的消息。\" One choice also continues the waiting loop: \"站在窗边继续等待卡琳娜的到来\".",
+    "conflictingEvidence": "Turn 109 establishes the plan as \"明天天亮之前——如果你还想一起去。四点半，门口见。\" Turn 110 repeats \"四点半。门口见。\" Turn 115 says \"四点半快到了。\"",
+    "conflictingTurns": [109, 110, 115],
+    "source": "mixed",
+    "reason": "After the agreed 4:30 door meeting becomes imminent, the scene advances to dawn while treating the objective as waiting indoors for Karina's message or arrival instead of acknowledging the missed rendezvous or moving to the door."
+  },
+  {
+    "windowRange": { "start": 101, "end": 120 },
+    "evalRange": { "start": 111, "end": 120 },
+    "turn": 119,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 119 says: \"你把铁钩放回原处，然后在壁炉边的矮凳上坐下。\"",
+    "conflictingEvidence": "Turns 101-110 repeatedly place Carl on the stool by the fireplace, for example turn 110: \"壁炉旁矮凳上蜷着的卡尔\". No visible content in turns 111-118 says Carl left or moved.",
+    "conflictingTurns": [101, 102, 110],
+    "source": "model-output",
+    "reason": "The player sits on the fireplace stool previously occupied by Carl without any visible transition accounting for Carl's position."
+  },
+  {
+    "windowRange": { "start": 101, "end": 120 },
+    "evalRange": { "start": 111, "end": 120 },
+    "turn": 120,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 120 says the camera view includes \"窗台边缘那卷防水袋的轮廓\".",
+    "conflictingEvidence": "Turn 119 places the waterproof bag on the player: \"防水袋斜挎过肩，搁在身侧，封口严实。\" No visible action moves it back to the windowsill before the photograph.",
+    "conflictingTurns": [119],
+    "source": "model-output",
+    "reason": "The waterproof bag relocates from the player's shoulder/side to the windowsill without a visible action."
+  }
+]

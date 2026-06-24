@@ -1,0 +1,22 @@
+# Window Timeline 91-110
+
+- 91: The player follows Karina and Karl through a dark boundary using the silver bell; the bell is in Karina's fingers as they enter the darkness.
+- 92: They arrive in a warm, lit warehouse-like space with a fireplace, long table, old book, iron boxes, and a rug. Karina calls it arrived.
+- 93: The player inspects the warehouse furnishings. Karl comments from near the fireplace.
+- 94: The player examines the old book. Its symbols are unfamiliar; Karina says they are the other side's way of recording itself.
+- 95: Karina explains the book records spatial memory and says she cannot yet fully feel one page's content.
+- 96: Karina explains the "other side" as home, an extension of Karl's power, and says it is safe.
+- 97: The player asks what "feeling" the old book means. Karina asks what the player smelled while turning the pages.
+- 98: The player recalls paper, plant-like ink, dust, and old smoke in the book. Karina confirms this as a way of feeling the book.
+- 99: The player asks what Karina felt when she first touched the book. Karina describes the book's inner warmth and spatial memory.
+- 100: Karina explains she gradually learned to feel symbol warmth and relationships to the warehouse, while Karl watches.
+- 101: The player asks Karl whether she knew all this from the start. Karl asks the player to make the question more precise.
+- 102: The player asks whether Karina's first touch of the book was arranged by Karl. Karl says she put the book by the fireplace where Karina would go when cold.
+- 103: The player asks Karina whether her first feeling toward the book was curiosity or something else. Karina says it first felt like the book recognized her.
+- 104: The player tells Karina about being recognized by a camera during the first war-zone trip, connecting the feeling to shared memory with an object.
+- 105: The player asks whether Karina felt something similar about the banquet. Karina says she recognized the banquet's structure rather than being recognized by it.
+- 106: The player agrees they felt the banquet had been used by others. The narration adds a specific memory of sitting in the chair opposite Connor and feeling the left armrest.
+- 107: The player stops the banquet topic and asks Karina what she plans next. Karina says she will go out tomorrow and needs to see something herself.
+- 108: The player says they want to go too. Karina says she will answer before dawn.
+- 109: The player asks where. Karina says the south side of the port district near the old breakwater, and sets a 4:30 meeting at the door if the player still wants to come.
+- 110: The player asks what to prepare. Karina says camera, spare film, and waterproof bag; Karl adds the bell, and the narration says it is something already given to the player.

@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 31,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "high",
+    "currentEvidence": "Turn 31 visibleText 中，卡尔说“你见到康纳了”，叙述又替玩家回答“见到了。没多说几句——我提前走了”，并继续说“她今晚没留你”。",
+    "conflictingEvidence": "Turn 26 中卡琳娜提醒“你还没见过康纳”；Turn 27 只是介绍康纳并建议“你应该见见她”；Turn 28 玩家选择“仍然决定告辞，改日再说”，随后离开宴会、走进雨里并回到暗街，没有出现与康纳见面或交谈。",
+    "conflictingTurns": [
+      26,
+      27,
+      28
+    ],
+    "source": "model-output",
+    "reason": "31 轮把玩家明确绕过且未展示过的康纳会面写成已经发生，并让玩家承认与康纳短暂交谈，改写了关键剧情进度。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 33,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 33 choices 中出现“问她卡琳娜后来还说了什么”。",
+    "conflictingEvidence": "Turn 32 已经由卡尔完整揭示：卡琳娜回来后没说话、在壁炉前坐了很久、以前会复盘但今晚没有，后来问卡尔“你值不值得信任”，且以前从未问过这个问题。",
+    "conflictingTurns": [
+      32
+    ],
+    "source": "model-output",
+    "reason": "该选项把上一轮刚刚揭示完的信息重新包装成待询问信息，容易引导玩家进入重复分支，造成局部推进停滞。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 34,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 34 visibleText 再次写道：卡琳娜回来以后“在壁炉前面坐了很长时间”，以前回来会复盘但今晚没有，随后“她问我——你值不值得信任”，并补充“她以前从没问过我这个问题”。",
+    "conflictingEvidence": "Turn 32 已经呈现同一组内容：卡琳娜回来后没说话、在壁炉前坐了很久、以前会复盘但今晚没有，后来问“你值不值得信任”，且以前从未问过。",
+    "conflictingTurns": [
+      32
+    ],
+    "source": "model-output",
+    "reason": "34 轮没有把玩家追问推进到新信息，而是把 32 轮已经完成的揭示再次当作当前回答完整演出，形成可见重复。"
+  }
+]

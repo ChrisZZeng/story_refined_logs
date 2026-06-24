@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 81, "end": 100 },
+    "evalRange": { "start": 91, "end": 100 },
+    "turn": 93,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 93 describes the table object as \"那本翻开的旧书脊背朝上\" but immediately says the player can glance at the pages and see the writing: \"你扫了一眼书页，上面的文字不是英语，也不是意大利语\".",
+    "conflictingEvidence": "An open book with its spine/back upward is presented as physically positioned face-down or with its pages not naturally readable, yet the same visible description treats the page contents as directly visible without any repositioning.",
+    "conflictingTurns": [93],
+    "source": "model-output",
+    "reason": "The object orientation and page visibility conflict in the same visible description, making the inspection of the old book physically unclear."
+  },
+  {
+    "windowRange": { "start": 81, "end": 100 },
+    "evalRange": { "start": 91, "end": 100 },
+    "turn": 94,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 94 repeats that \"那本翻开的旧书躺在桌面上，书脊朝上\" and then has the player \"看向书页上的内容\" and \"翻了一下书页\".",
+    "conflictingEvidence": "Turn 93 had already established the same awkward state, \"那本翻开的旧书脊背朝上,\" while still letting the player see page writing. Turn 94 continues this unresolved physical contradiction during a focused inspection.",
+    "conflictingTurns": [93],
+    "source": "model-output",
+    "reason": "The focused book interaction repeats the same incompatible orientation and readable-page state, so the player-visible handling of the prop remains inconsistent."
+  },
+  {
+    "windowRange": { "start": 81, "end": 100 },
+    "evalRange": { "start": 91, "end": 100 },
+    "turn": 97,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "Turn 97 says the player's gaze returns to \"长桌上那本翻开的旧书\" and that the lamp makes \"那组由三条弧线和两个短点组成的符号\" clearer.",
+    "conflictingEvidence": "Turn 95 explicitly says Karina closed the book and moved it: \"她合上了书\" and \"她把合上的书往桌中央推了推\". Turn 96 continues with her fingertip on the old book cover rather than an open page.",
+    "conflictingTurns": [95, 96],
+    "source": "model-output",
+    "reason": "After the book is visibly closed, it is treated as open again with visible symbols without any intervening player or character action reopening it."
+  }
+]

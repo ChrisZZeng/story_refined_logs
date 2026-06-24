@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 72,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 72 narrates the player saying: “宴会上，康纳递酒给你的时候——他左手无名指上戴着一枚银戒。我注意到他递酒时，那枚戒指朝内翻转了一下。” Karina and Carl then validate it as a real observed signal.",
+    "conflictingEvidence": "Earlier visible context only established that Connor was the banquet host and someone Karina suggested the player should meet. In turn 28, after that suggestion, the player selected “仍然决定告辞，改日再说” and the narration says the player left the banquet hall and walked back through the rain.",
+    "conflictingTurns": [27, 28],
+    "source": "model-output",
+    "reason": "The turn invents a concrete past observation of Connor serving wine and turning a ring, then makes it plot-relevant, although the visible timeline does not support the player having that interaction."
+  },
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 76,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 76 begins with “你的目光从卡尔身上移开，落回长椅上的卡琳娜身上” and places the scene under “公园的树梢” beside a “长椅边上的路灯”, while the same paragraph also says “靠垫上那只黑色母猫的尾巴尖在火光里轻轻摆动”.",
+    "conflictingEvidence": "Turn 75 is still inside Carl's cottage by the fireplace: Carl is on the cushion, Karina is in the old chair by the hearth, and the conversation ends with “壁炉里的火苗轻轻跃动着”. No player-visible move back to the park occurs before turn 76.",
+    "conflictingTurns": [75],
+    "source": "model-output",
+    "reason": "The narration abruptly relocates the conversation from the indoor fireplace scene to an outdoor park bench and mixes incompatible indoor firelight/cushion details into that outdoor setting."
+  },
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 78,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 78 visible text says Karina recalls Mint asking “你不恨吗？” and then states: “我没有回答她。因为我还没想好答案。” The first choice immediately offers: “问她是怎么回答敏特那个问题的”.",
+    "conflictingEvidence": "The contradiction is local to turn 78: the body explicitly says Karina did not answer Mint's question, but the choice assumes there was an answer to ask about.",
+    "conflictingTurns": [78],
+    "source": "model-output",
+    "reason": "The option contradicts the same turn's visible text and can make the player feel the interface has forgotten the immediately preceding statement."
+  }
+]

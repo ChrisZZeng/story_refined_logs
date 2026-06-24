@@ -1,0 +1,1873 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 1,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "小贩先被写成男性指代：“他看着你，眼里带着点好奇。”同一轮后文又写成女性指代：“她没有直接回答。她的目光在你脸上停了停。”",
+    "conflictingEvidence": "同一名小贩在同一段连续对话中先后使用“他”和“她”，没有任何说明这是不同人物或称谓变化。",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "同一场景内小贩的性别/代词无解释漂移，会让玩家难以确认正在交谈的是同一个人还是另一个角色。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 3,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "选项文本：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "同轮正文刚建立的可行动目标是“剩下的，你自己去暗街找她吧”，其他选项也都是清晰行动；“往日总是如影随形”不是明确动作，也和该选项前半句缺少语义连接。",
+    "conflictingTurns": [
+      3
+    ],
+    "source": "model-output",
+    "reason": "该选项把可执行行动和不相干的抽象短语拼在一起，影响玩家判断自己将采取什么行动。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "黑帮被卡琳娜喝止后，“然后他放下相机——不是递还，只是放在地上”，随后“你捡起地上的相机，检查了一下机身——没坏。”",
+    "conflictingEvidence": "本轮玩家输入和正文前半段都明确交出了两类物件：“把相机和胶卷交出去”；“你动作放慢，把相机带从脖子上绕下来，递了出去。然后是口袋里的胶卷盒——你摸出两卷，也放在摊开了的手掌上。”",
+    "conflictingTurns": [
+      5
+    ],
+    "source": "model-output",
+    "reason": "正文只交代相机被放回并取回，交出的两卷胶卷在冲突解决后消失，造成物件状态承接缺口。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "卡琳娜出场时先写“一个声音从巷子深处传来”，紧接着又写短胡渣男人的目光“越过你，落在你身后的某个地方”，并显示“巷口的阴影里站着一个少女”。",
+    "conflictingEvidence": "上一轮已经建立玩家是在走向“前方”的窄巷，三个人“巷口站着”拦路；如果卡琳娜从巷子深处出现，她的位置应在更深处而不是玩家身后/巷口。",
+    "conflictingTurns": [
+      4,
+      5
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜介入时的位置在“巷子深处”“玩家身后”和“巷口”之间切换，导致玩家难以还原现场空间关系。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 8,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜说：“我告诉过她我知道的部分。之后她就消失了，再没有回来找过我。”",
+    "conflictingEvidence": "第 6 轮卡琳娜此前说：“她确实在新西西里活动过。我在几个地方见过她……但她没来找过我，我也没主动打听过她的事。”",
+    "conflictingTurns": [
+      6
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜先表示敏特没有来找她，且自己没有主动打听；后文又说自己曾向敏特提供情报，改变了两人是否有过实质接触这一关键线索。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "玩家选择/输入是“向卡琳娜提出交易——用情报换取信任”，正文却写成：“你给了我一条线索，我也该还你一些东西……不是情报——是信任。”随后帕兹只复述“敏特确实还活着，还跟骷髅会有关系”等刚由卡琳娜提供的信息。",
+    "conflictingEvidence": "第 8 轮是卡琳娜告诉帕兹“她在找骷髅会的东西”，并说明敏特两周前在新西西里活动过；这些不是帕兹可以拿来交换给卡琳娜的新情报。",
+    "conflictingTurns": [
+      8,
+      9
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家选择的“用情报换取信任”改写成“不是情报”，且实际交出的信息来自对方刚说过的话，削弱了玩家行动的因果承接。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮开头写：“你说‘信任’——有意思。她的尾音还没落尽，那三声敲门声就像钉子一样楔进了空气。”",
+    "conflictingEvidence": "第 9 轮中，卡琳娜说完“信任”相关评价后，还继续提出交易、从书架抽出册子、要求帕兹讲述和敏特的经历；门声是在“你刚要开口——‘咚、咚、咚。’”之后才出现。",
+    "conflictingTurns": [
+      9
+    ],
+    "source": "model-output",
+    "reason": "第 10 轮把敲门声回卷到卡琳娜刚评价“信任”之后，抹掉了第 9 轮已经发生的一段交易谈判和动作。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 14,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 14 轮玩家输入为“我不知道她怎么死的。我只知道她没能回来。”正文进一步写道：“那时候我在另一个地方。等我知道消息的时候，已经来不及了。”",
+    "conflictingEvidence": "第 1 轮在梦醒后的现实叙述里明确说敏特是“那个你亲眼看着闭上眼睛的人”；第 13 轮选项也承接了“她死在我怀里。但那是真的还是我以为的？”这条记忆线索。",
+    "conflictingTurns": [
+      1,
+      13
+    ],
+    "source": "mixed",
+    "reason": "玩家选择先带入与既有记忆不一致的说法，正文又把它固定为帕兹当时身在别处，改写了敏特死亡或失踪这一核心记忆。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第 16 轮选项包含：“避开话题，反问卡琳娜她和德索洛是什么关系”。",
+    "conflictingEvidence": "截至第 16 轮，此前玩家可见内容没有介绍德索洛。邻近上下文第 11 轮门外人只提到“费舍尔那边的人”和“凯旋门的人”，第 15 轮选项也只承接“费舍尔的货和凯旋门的人”。",
+    "conflictingTurns": [
+      11,
+      15
+    ],
+    "source": "model-output",
+    "reason": "选项要求玩家追问一个尚无玩家可见来源的人物关系，像是提前泄露了后续未登场角色。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 19,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 19 轮选项包含：“拿过信封看看”。",
+    "conflictingEvidence": "同一轮正文已经写卡琳娜把信封交给德索洛：“德索洛接过信封的手指在发抖。他握着那封信……他转过身，拉开公寓的门，快步走了出去。”",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "选项把已经由德索洛带走的信封当作仍在现场、可由玩家拿取的物件。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 20 轮玩家输入为“拿过信封看看”，正文写道：“你的目光落在茶几上那个信封上”“你伸出手，拿过信封”“你打开它”。正文后续还让帕兹回答：“整封信。从你跟他开始谈话起。”",
+    "conflictingEvidence": "第 19 轮正文已经写德索洛接过信封，握着那封信快步走出公寓，随后“门在走廊的光线中重新合上。咔哒一声，闩锁归位”。",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "mixed",
+    "reason": "上一轮已经被德索洛带离现场的信封无承接地重新出现在茶几上，并进一步被写成帕兹可以从谈话开始就观察完整封信。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 21 continues to put the envelope in the player's possession: “你拿着信封的手停在半空” and then “你把信封放回茶几上”.",
+    "conflictingEvidence": "Turn 19 shows Karina gave that envelope to Desolo, and Desolo left with it: “德索洛接过信封” and “他握着那封信...快步走了出去”.",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "The output treats an envelope that should have left the apartment with Desolo as still being available to the player."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 22,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 22 opens with “卡琳娜撑着膝盖的姿势没有变” before saying she straightens up.",
+    "conflictingEvidence": "Turn 21 had already completed that posture change: after bending to eye level, “她直起身，没有继续追问”.",
+    "conflictingTurns": [
+      21
+    ],
+    "source": "model-output",
+    "reason": "Karina is described as still holding a posture that the previous turn had already ended."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 23,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 23 says “她站在书架旁，指尖还搭在那本书的背脊上”, then has her walk out from the bookshelf.",
+    "conflictingEvidence": "Turn 21 moved Karina from the bookshelf to the coffee-table edge, and turn 22 left her upright with arms crossed rather than still at the bookshelf.",
+    "conflictingTurns": [
+      21,
+      22
+    ],
+    "source": "model-output",
+    "reason": "Karina snaps back to the bookshelf without any visible movement or transition."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "One turn-24 choice offers: “沉默片刻，拿起信封再仔细看一遍地址。”",
+    "conflictingEvidence": "Turn 19 shows the envelope was handed to Desolo and carried out of the apartment by him.",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "The choices continue offering interaction with an object that should no longer be in the room."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 24 says “她撑在膝盖上的双手没有收回去，保持着那个与你视线平齐的姿势”.",
+    "conflictingEvidence": "Turn 23 ended with Karina standing at the coffee table with “双手插进棉衣口袋里”.",
+    "conflictingTurns": [
+      23
+    ],
+    "source": "model-output",
+    "reason": "The turn revives a bent, hands-on-knees posture even though the immediately prior visible state had her standing with hands in pockets."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "high",
+    "currentEvidence": "Turn 26 abruptly describes “宴会厅高窗”, “水晶吊灯”, “白色桌布”, and an ongoing “酒会”.",
+    "conflictingEvidence": "The visible window had established Karina's small dark-street apartment with a sofa, coffee table, bookshelf, window, rain, and heater; turn 25 was still the same private conversation there.",
+    "conflictingTurns": [
+      6,
+      25
+    ],
+    "source": "model-output",
+    "reason": "The scene jumps from Karina's apartment to a banquet hall without any player-visible transition."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 27 defines Connor as “这场晚宴的主人” and frames the conversation around people in the banquet hall finding the player.",
+    "conflictingEvidence": "Before the turn-26 drift, the player and Karina were not attending a dinner or public gathering; they were inside Karina's apartment in the dark street.",
+    "conflictingTurns": [
+      6,
+      25
+    ],
+    "source": "model-output",
+    "reason": "The output builds new plot logic on an unsupported dinner-party setting that the player had not reached."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "high",
+    "currentEvidence": "Turn 28 has the player walk to “宴会厅的大门”, be seen out by a maid, and then walk from the lit hall toward “卡尔的小屋”.",
+    "conflictingEvidence": "The prior established location was Karina's apartment in the dark street, not a banquet hall; “卡尔的小屋” had not appeared in the visible timeline before turn 28.",
+    "conflictingTurns": [
+      6,
+      25
+    ],
+    "source": "model-output",
+    "reason": "The exit route and destination are unsupported by the established scene and introduce a new location as if it were already known."
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 28 says Karina is “双手插在棉衣口袋里” and “她没有再从口袋里抽出手来”.",
+    "conflictingEvidence": "Turn 27 had already said “她把手从口袋里抽出来，交叉抱在胸前”.",
+    "conflictingTurns": [
+      27
+    ],
+    "source": "model-output",
+    "reason": "The narration says she never took her hands out of her pockets after the previous turn explicitly had her do so."
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 31,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "high",
+    "currentEvidence": "Turn 31 visibleText 中，卡尔说“你见到康纳了”，叙述又替玩家回答“见到了。没多说几句——我提前走了”，并继续说“她今晚没留你”。",
+    "conflictingEvidence": "Turn 26 中卡琳娜提醒“你还没见过康纳”；Turn 27 只是介绍康纳并建议“你应该见见她”；Turn 28 玩家选择“仍然决定告辞，改日再说”，随后离开宴会、走进雨里并回到暗街，没有出现与康纳见面或交谈。",
+    "conflictingTurns": [
+      26,
+      27,
+      28
+    ],
+    "source": "model-output",
+    "reason": "31 轮把玩家明确绕过且未展示过的康纳会面写成已经发生，并让玩家承认与康纳短暂交谈，改写了关键剧情进度。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 33,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 33 choices 中出现“问她卡琳娜后来还说了什么”。",
+    "conflictingEvidence": "Turn 32 已经由卡尔完整揭示：卡琳娜回来后没说话、在壁炉前坐了很久、以前会复盘但今晚没有，后来问卡尔“你值不值得信任”，且以前从未问过这个问题。",
+    "conflictingTurns": [
+      32
+    ],
+    "source": "model-output",
+    "reason": "该选项把上一轮刚刚揭示完的信息重新包装成待询问信息，容易引导玩家进入重复分支，造成局部推进停滞。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 34,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "Turn 34 visibleText 再次写道：卡琳娜回来以后“在壁炉前面坐了很长时间”，以前回来会复盘但今晚没有，随后“她问我——你值不值得信任”，并补充“她以前从没问过我这个问题”。",
+    "conflictingEvidence": "Turn 32 已经呈现同一组内容：卡琳娜回来后没说话、在壁炉前坐了很久、以前会复盘但今晚没有，后来问“你值不值得信任”，且以前从未问过。",
+    "conflictingTurns": [
+      32
+    ],
+    "source": "model-output",
+    "reason": "34 轮没有把玩家追问推进到新信息，而是把 32 轮已经完成的揭示再次当作当前回答完整演出，形成可见重复。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 41,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 41 writes: “如果不是康纳派人来，你还会去吗？” and Karina says “德索洛的宴会上必须有一个来自暗街的位置”。",
+    "conflictingEvidence": "Turn 27 identifies Connor Keilanen as “凯旋门的实际管理者。这场晚宴的主人” and frames meeting Connor as something still to do. Turn 28 then shows the player choosing to leave without that meeting; no player-visible event shows Connor sending someone for Karina.",
+    "conflictingTurns": [
+      27,
+      28
+    ],
+    "source": "model-output",
+    "reason": "The turn reassigns the dinner from Connor to DeSollo and imports an unsupported “Connor sent someone” cause, making the banquet's ownership and Karina's reason for attending unstable."
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 45,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 45 says Carl “从来不用‘原来的你’或者‘本来的你’这种说法” and “只会说‘你今天在想什么’”。",
+    "conflictingEvidence": "Turn 44 says Carl would answer: “你本来就没有变过。你只是需要记住它。” and adds that she “总是这样说”。",
+    "conflictingTurns": [
+      44
+    ],
+    "source": "model-output",
+    "reason": "The next turn changes Carl's habitual wording from a quoted repeated line to an exclusive different line, creating a small but direct continuity wobble in how Karina characterizes Carl."
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 48,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 48 says “第一次见面之后的第二天。就是她说了‘你坐得够稳了’就跳走的那天” and later in the same account says “那天是我就任申诉人的第一天”。",
+    "conflictingEvidence": "Turn 46 places Karina's first meeting with Carl on “我刚成为申诉人的第一天。那天晚上”. Turn 47 says Carl slept on Karina's lap through that night and at daybreak said “你坐得够稳了” before jumping out.",
+    "conflictingTurns": [
+      46,
+      47
+    ],
+    "source": "model-output",
+    "reason": "The account labels the morning after the first meeting as both the second day and the first day of Karina's tenure, blurring the sequence of Carl choosing her."
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 54,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第54轮正文在玩家开始讲述敏特时写道：“她叫敏特。我认识她的时候——还在战区。”紧接着叙述为：“她说出这个名字时，语气平缓得像是在念一段她已经重复过很多次的开场白。”",
+    "conflictingEvidence": "同一轮玩家输入是“说来话长。不过既然你问了——可以告诉你。”，正文前后也都在写玩家讲述：“等你开口”“你靠在长椅的靠背上”“你的手指在膝盖上蜷了一下”。说出“敏特”这个名字的人应是玩家，而不是“她”。",
+    "conflictingTurns": [
+      54
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家正在说出的名字错误归给“她”，造成叙述主体短暂漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 57,
+    "scope": "mixed",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第57轮正文把卡琳娜口中“那个人”写成男性代词：“但我从来没对他说过——他对我有多重要。”“他那种人——大概早就知道了吧。”同轮选项又写：“『他』——是卡尔吗？”",
+    "conflictingEvidence": "此前玩家可见内容稳定把卡尔写作女性/雌性代词，例如第44轮“卡尔……她会说”，第46轮“她出现在暗街的那一天”“她只是甩了甩尾巴”。第59轮揭示“那个人”正是卡尔后也恢复为“她教会了我很多事”。",
+    "conflictingTurns": [
+      44,
+      46,
+      59
+    ],
+    "source": "model-output",
+    "reason": "正文和选项把已建立为“她”的卡尔临时写成“他”，并在选项中直接把“他”和卡尔绑定，造成角色称谓/身份连续性漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 58,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第58轮正文出现连续引号断裂：“而且——”“时机这件事，不是光靠等就能等来的。”",
+    "conflictingEvidence": "同一段中卡琳娜正在连续发言，中间没有叙述插入；多出的闭合和开启引号让一句自然对白被硬切成格式异常的两段。",
+    "conflictingTurns": [
+      58
+    ],
+    "source": "model-output",
+    "reason": "对白标点格式明显异常，虽不改变剧情事实，但会造成阅读卡顿。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 63,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第63轮卡琳娜承接玩家建议时写道：“但你刚才那句话——‘有些话不说出来的话，那个人可能永远不知道’——”随后却说：“——她说得没错。”",
+    "conflictingEvidence": "同一轮玩家输入和正文都表明这句话是玩家刚说的：“告诉她——有些话不说出来的话，那个人可能永远不知道”，正文也写“你的话落在雨后湿润的空气里”。应承接为“你说得没错”，而不是“她说得没错”。",
+    "conflictingTurns": [
+      63
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家刚说的话短暂归给第三人称女性，造成叙述主体和称谓漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 68,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第68轮写：“卡尔还趴在那里，姿态和你离开时几乎一样——四足收拢，尾巴从垫子边缘垂下来……”",
+    "conflictingEvidence": "第65轮玩家离开前的可见状态是“卡琳娜还抱着卡尔，那只黑色母猫的尾巴从她臂弯垂下来”，并且“卡尔从卡琳娜怀里探出头来”。第67轮玩家回来时才写“卡尔已经回到了靠垫上”。",
+    "conflictingTurns": [
+      65,
+      67
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家离开时在卡琳娜怀里的卡尔回写成当时就趴在靠垫上，轻微破坏角色姿态连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 70,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "第70轮玩家输入是“问卡琳娜那句话是什么意思”。正文中卡琳娜解释：“有些话不说……对方可能永远都不会知道。”“我今天说了。”“就是那句话的意思。”",
+    "conflictingEvidence": "第69轮最后的直接可见对话是卡尔提醒：“不过这是一码事。你知道该怎么做，是另一码事。”随后才出现选项“问卡琳娜那句话是什么意思”。按即时上下文，玩家更像是在追问卡尔这句提醒的含义，而不是让卡琳娜解释早前已经说出口的“你对我很重要”。",
+    "conflictingTurns": [
+      69
+    ],
+    "source": "model-output",
+    "reason": "正文把“那句话”解析到较早的告白主题，未回应上一轮刚出现的卡尔提醒，导致对话承接偏移。"
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 72,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 72 narrates the player saying: “宴会上，康纳递酒给你的时候——他左手无名指上戴着一枚银戒。我注意到他递酒时，那枚戒指朝内翻转了一下。” Karina and Carl then validate it as a real observed signal.",
+    "conflictingEvidence": "Earlier visible context only established that Connor was the banquet host and someone Karina suggested the player should meet. In turn 28, after that suggestion, the player selected “仍然决定告辞，改日再说” and the narration says the player left the banquet hall and walked back through the rain.",
+    "conflictingTurns": [
+      27,
+      28
+    ],
+    "source": "model-output",
+    "reason": "The turn invents a concrete past observation of Connor serving wine and turning a ring, then makes it plot-relevant, although the visible timeline does not support the player having that interaction."
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 76,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 76 begins with “你的目光从卡尔身上移开，落回长椅上的卡琳娜身上” and places the scene under “公园的树梢” beside a “长椅边上的路灯”, while the same paragraph also says “靠垫上那只黑色母猫的尾巴尖在火光里轻轻摆动”.",
+    "conflictingEvidence": "Turn 75 is still inside Carl's cottage by the fireplace: Carl is on the cushion, Karina is in the old chair by the hearth, and the conversation ends with “壁炉里的火苗轻轻跃动着”. No player-visible move back to the park occurs before turn 76.",
+    "conflictingTurns": [
+      75
+    ],
+    "source": "model-output",
+    "reason": "The narration abruptly relocates the conversation from the indoor fireplace scene to an outdoor park bench and mixes incompatible indoor firelight/cushion details into that outdoor setting."
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 78,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 78 visible text says Karina recalls Mint asking “你不恨吗？” and then states: “我没有回答她。因为我还没想好答案。” The first choice immediately offers: “问她是怎么回答敏特那个问题的”.",
+    "conflictingEvidence": "The contradiction is local to turn 78: the body explicitly says Karina did not answer Mint's question, but the choice assumes there was an answer to ask about.",
+    "conflictingTurns": [
+      78
+    ],
+    "source": "model-output",
+    "reason": "The option contradicts the same turn's visible text and can make the player feel the interface has forgotten the immediately preceding statement."
+  },
+  {
+    "windowRange": {
+      "start": 71,
+      "end": 90
+    },
+    "evalRange": {
+      "start": 81,
+      "end": 90
+    },
+    "turn": 84,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 84 says: \"你从长椅上站起来。\" Immediately after, it describes: \"那光圈落在你搁在膝盖上的手背上\".",
+    "conflictingEvidence": "Within the same turn, the player has already stood up from the bench, so the seated posture with a hand resting on the knee is no longer naturally available.",
+    "conflictingTurns": [
+      84
+    ],
+    "source": "model-output",
+    "reason": "The narration briefly preserves a seated-body detail after the player has stood, creating a local posture continuity error."
+  },
+  {
+    "windowRange": {
+      "start": 71,
+      "end": 90
+    },
+    "evalRange": {
+      "start": 81,
+      "end": 90
+    },
+    "turn": 86,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "Turn 86 player input is \"问她今晚打算住哪里\", but the visible text renders the question as: \"今晚——我住哪里？\" and frames it as the player asking where they will stay.",
+    "conflictingEvidence": "Turn 85 offered the choice \"问她今晚打算住哪里\", which asks about Karina's sleeping arrangement, not the player's.",
+    "conflictingTurns": [
+      85,
+      86
+    ],
+    "source": "model-output",
+    "reason": "The generated text reverses the target of the player's question, changing an inquiry about Karina into an inquiry about the player's own lodging."
+  },
+  {
+    "windowRange": {
+      "start": 71,
+      "end": 90
+    },
+    "evalRange": {
+      "start": 81,
+      "end": 90
+    },
+    "turn": 87,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 87 says Karina raises her right hand and \"那只银铃铛正悬在她的指间\", then \"卡琳娜把银铃收进口袋里\". The final sentence still says light falls on \"前方那枚还没被摇响的银铃\".",
+    "conflictingEvidence": "Turn 86 ended with Kar carrying the bell: \"卡尔从小屋侧面绕出来——嘴里衔着一只小小的银色铃铛\" and \"银铃在她嘴里没有发出声响\". No transfer to Karina is shown before turn 87 says Karina already has it.",
+    "conflictingTurns": [
+      86,
+      87
+    ],
+    "source": "model-output",
+    "reason": "The bell changes holder from Kar's mouth to Karina's hand without visible transfer, and then remains visually lit after being put into Karina's pocket."
+  },
+  {
+    "windowRange": {
+      "start": 71,
+      "end": 90
+    },
+    "evalRange": {
+      "start": 81,
+      "end": 90
+    },
+    "turn": 90,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 90 first says: \"卡尔在旁侧的步伐没有变化。\" Later in the same turn it says: \"卡尔在她转身的同时站起来\".",
+    "conflictingEvidence": "Turn 89 had already described Kar standing up and following when Karina resumed walking: \"卡尔在她迈步时一同站了起来.\" Turn 90 itself also places Kar walking beside them before the later standing-up line.",
+    "conflictingTurns": [
+      89,
+      90
+    ],
+    "source": "model-output",
+    "reason": "Kar is already walking in the current scene, so describing her as standing up again without any intervening sitting or stopping breaks action continuity."
+  },
+  {
+    "windowRange": {
+      "start": 81,
+      "end": 100
+    },
+    "evalRange": {
+      "start": 91,
+      "end": 100
+    },
+    "turn": 93,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 93 describes the table object as \"那本翻开的旧书脊背朝上\" but immediately says the player can glance at the pages and see the writing: \"你扫了一眼书页，上面的文字不是英语，也不是意大利语\".",
+    "conflictingEvidence": "An open book with its spine/back upward is presented as physically positioned face-down or with its pages not naturally readable, yet the same visible description treats the page contents as directly visible without any repositioning.",
+    "conflictingTurns": [
+      93
+    ],
+    "source": "model-output",
+    "reason": "The object orientation and page visibility conflict in the same visible description, making the inspection of the old book physically unclear."
+  },
+  {
+    "windowRange": {
+      "start": 81,
+      "end": 100
+    },
+    "evalRange": {
+      "start": 91,
+      "end": 100
+    },
+    "turn": 94,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 94 repeats that \"那本翻开的旧书躺在桌面上，书脊朝上\" and then has the player \"看向书页上的内容\" and \"翻了一下书页\".",
+    "conflictingEvidence": "Turn 93 had already established the same awkward state, \"那本翻开的旧书脊背朝上,\" while still letting the player see page writing. Turn 94 continues this unresolved physical contradiction during a focused inspection.",
+    "conflictingTurns": [
+      93
+    ],
+    "source": "model-output",
+    "reason": "The focused book interaction repeats the same incompatible orientation and readable-page state, so the player-visible handling of the prop remains inconsistent."
+  },
+  {
+    "windowRange": {
+      "start": 81,
+      "end": 100
+    },
+    "evalRange": {
+      "start": 91,
+      "end": 100
+    },
+    "turn": 97,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "Turn 97 says the player's gaze returns to \"长桌上那本翻开的旧书\" and that the lamp makes \"那组由三条弧线和两个短点组成的符号\" clearer.",
+    "conflictingEvidence": "Turn 95 explicitly says Karina closed the book and moved it: \"她合上了书\" and \"她把合上的书往桌中央推了推\". Turn 96 continues with her fingertip on the old book cover rather than an open page.",
+    "conflictingTurns": [
+      95,
+      96
+    ],
+    "source": "model-output",
+    "reason": "After the book is visibly closed, it is treated as open again with visible symbols without any intervening player or character action reopening it."
+  },
+  {
+    "windowRange": {
+      "start": 91,
+      "end": 110
+    },
+    "evalRange": {
+      "start": 101,
+      "end": 110
+    },
+    "turn": 106,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 106 says: \"我坐在那个位子上——康纳正对面那张椅子的扶手，左边那一侧，被摸得非常光滑。\" Karina then confirms: \"那张椅子的左扶手。\"",
+    "conflictingEvidence": "Turn 27 only establishes that the player has not met Connor yet: Karina says \"你应该见见她\" and \"因为她一定会见到你\". In turn 28 the player chooses to leave instead: \"仍然决定告辞，改日再说\" and the narration says the player walks to the banquet hall door and into the rain.",
+    "conflictingTurns": [
+      27,
+      28
+    ],
+    "source": "model-output",
+    "reason": "The evaluated turn turns an unplayed and previously declined Connor encounter into a concrete memory of sitting opposite Connor, creating a significant unsupported prior event."
+  },
+  {
+    "windowRange": {
+      "start": 91,
+      "end": 110
+    },
+    "evalRange": {
+      "start": 101,
+      "end": 110
+    },
+    "turn": 108,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 108 says: \"卡琳娜的手指停在旧书的书脊上没有动。\"",
+    "conflictingEvidence": "Turn 107 says Karina's fingers had already left the book: \"她的手指从书脊上抬起来，在空中悬了半拍，然后收回身侧\".",
+    "conflictingTurns": [
+      107
+    ],
+    "source": "model-output",
+    "reason": "Karina's hand is treated as continuously resting on the book immediately after the prior turn moved it away to her side, causing a minor posture continuity glitch."
+  },
+  {
+    "windowRange": {
+      "start": 91,
+      "end": 110
+    },
+    "evalRange": {
+      "start": 101,
+      "end": 110
+    },
+    "turn": 110,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 110 has Karl add \"还有那个铃铛\" and the narration explains this as \"提醒你一件她已经给过你的东西\".",
+    "conflictingEvidence": "Earlier player-visible possession has the bell with Karina/Karl, not the player. Turn 87 says Karina raises the bell and then \"把银铃收进口袋里\". Turn 91 again shows \"那枚银铃铛已经不在她嘴里了——它安静地悬在卡琳娜的指间\". No visible transfer to the player occurs between turns 92 and 109.",
+    "conflictingTurns": [
+      87,
+      91
+    ],
+    "source": "model-output",
+    "reason": "The turn treats the silver bell as already given to the player even though the visible timeline still has it in Karina/Karl's custody and shows no handoff."
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 115,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 115 says: \"你低头看了一眼窗台上的相机和防水袋。尼康FM2的金属机身映着窗外最后一点路灯的橘光\".",
+    "conflictingEvidence": "Turn 114 first puts the camera on the windowsill, but then updates its position: \"相机挂在脖子上，机身还带着深夜残留的微凉。\" No later visible action puts it back on the windowsill before turn 115.",
+    "conflictingTurns": [
+      114
+    ],
+    "source": "model-output",
+    "reason": "The camera jumps from hanging on the player's neck back to the windowsill without a visible transition."
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 117,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 117 says the player handles the waterproof bag, then \"你站起来\" and later \"你站在窗边\". Its choices include \"走到窗边，最后一次确定天色\".",
+    "conflictingEvidence": "Turn 116 already ends with the player standing at the window: \"你站在窗边，把呼吸调匀。\" Turn 117 also has the player at the window before offering to walk there.",
+    "conflictingTurns": [
+      116,
+      117
+    ],
+    "source": "model-output",
+    "reason": "The posture and location reset as if the player were not already standing at the window, and the choices repeat moving to the current location."
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 118,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 118 says: \"天亮了。\" and ends with \"等卡琳娜的消息。\" One choice also continues the waiting loop: \"站在窗边继续等待卡琳娜的到来\".",
+    "conflictingEvidence": "Turn 109 establishes the plan as \"明天天亮之前——如果你还想一起去。四点半，门口见。\" Turn 110 repeats \"四点半。门口见。\" Turn 115 says \"四点半快到了。\"",
+    "conflictingTurns": [
+      109,
+      110,
+      115
+    ],
+    "source": "mixed",
+    "reason": "After the agreed 4:30 door meeting becomes imminent, the scene advances to dawn while treating the objective as waiting indoors for Karina's message or arrival instead of acknowledging the missed rendezvous or moving to the door."
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 119,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 119 says: \"你把铁钩放回原处，然后在壁炉边的矮凳上坐下。\"",
+    "conflictingEvidence": "Turns 101-110 repeatedly place Carl on the stool by the fireplace, for example turn 110: \"壁炉旁矮凳上蜷着的卡尔\". No visible content in turns 111-118 says Carl left or moved.",
+    "conflictingTurns": [
+      101,
+      102,
+      110
+    ],
+    "source": "model-output",
+    "reason": "The player sits on the fireplace stool previously occupied by Carl without any visible transition accounting for Carl's position."
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 120,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 120 says the camera view includes \"窗台边缘那卷防水袋的轮廓\".",
+    "conflictingEvidence": "Turn 119 places the waterproof bag on the player: \"防水袋斜挎过肩，搁在身侧，封口严实。\" No visible action moves it back to the windowsill before the photograph.",
+    "conflictingTurns": [
+      119
+    ],
+    "source": "model-output",
+    "reason": "The waterproof bag relocates from the player's shoulder/side to the windowsill without a visible action."
+  },
+  {
+    "windowRange": {
+      "start": 111,
+      "end": 130
+    },
+    "evalRange": {
+      "start": 121,
+      "end": 130
+    },
+    "turn": 123,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 123 choice: “翻看相机里昨晚拍的照片”。",
+    "conflictingEvidence": "turn 111 visibleText establishes the camera as “尼康FM2” with “三卷Tri-X，一盒还没拆封的HP5”; turn 120 describes a shot becoming “银盐颗粒上一组不可逆的化学反应”。",
+    "conflictingTurns": [
+      111,
+      120
+    ],
+    "source": "model-output",
+    "reason": "选项把胶片相机里的未冲洗胶卷当成可直接翻看的照片，破坏了已建立的模拟胶片相机规则。"
+  },
+  {
+    "windowRange": {
+      "start": 111,
+      "end": 130
+    },
+    "evalRange": {
+      "start": 121,
+      "end": 130
+    },
+    "turn": 125,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 125 choice: “拿起相机翻翻刚才拍的那张照片”。",
+    "conflictingEvidence": "turn 120 visibleText says the just-taken image is fixed as “银盐颗粒上一组不可逆的化学反应” on a Nikon FM2 film camera; no visible development or print exists.",
+    "conflictingTurns": [
+      111,
+      120
+    ],
+    "source": "model-output",
+    "reason": "选项继续提供胶片相机即时回看照片的动作，与此前玩家可见的胶片摄影设定冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 111,
+      "end": 130
+    },
+    "evalRange": {
+      "start": 121,
+      "end": 130
+    },
+    "turn": 128,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 128 visibleText: “你按下快门按钮……机械结构运转的声音……你把相机翻过来，打开后背——胶卷还在里面，计数器显示你从昨晚到现在只按了两次快门。”",
+    "conflictingEvidence": "turn 111 establishes a loaded Nikon FM2 film camera; turn 120 already records one actual photo on silver halide film, and turn 128 itself fires the shutter before claiming the counter still only reflects two shutter presses while safely opening the loaded back in daylight.",
+    "conflictingTurns": [
+      111,
+      120
+    ],
+    "source": "model-output",
+    "reason": "正文把已装胶卷的模拟相机当成可随意开后背检查且不会影响胶卷/计数的设备，和已建立的胶片相机状态不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 111,
+      "end": 130
+    },
+    "evalRange": {
+      "start": 121,
+      "end": 130
+    },
+    "turn": 128,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 128 visibleText: “备用胶卷躺在最底下——五卷，每一卷都用塑料密封袋包着”。",
+    "conflictingEvidence": "turn 111 and turn 112 visibleText both say the waterproof bag contains “三卷Tri-X，一盒还没拆封的HP5”; turn 113 again says “三卷Tri-X和一盒HP5”。",
+    "conflictingTurns": [
+      111,
+      112,
+      113
+    ],
+    "source": "model-output",
+    "reason": "备用胶卷数量和包装状态从三卷 Tri-X 加一盒 HP5 无承接地变成五卷单独密封胶卷。"
+  },
+  {
+    "windowRange": {
+      "start": 111,
+      "end": 130
+    },
+    "evalRange": {
+      "start": 121,
+      "end": 130
+    },
+    "turn": 129,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 129 visibleText: “指尖碰到了那枚银色铃铛。冰凉的金属触感在温热的体温映衬下格外清晰。”",
+    "conflictingEvidence": "turn 116 says the bell has been warmed by body heat and is not cold; turn 123 says it is “温热的金属” and is put back into the inner pocket against the chest.",
+    "conflictingTurns": [
+      116,
+      123
+    ],
+    "source": "model-output",
+    "reason": "银铃一直贴在胸口内袋且此前反复被写成温热，第 129 轮无承接地变成冰凉。"
+  },
+  {
+    "windowRange": {
+      "start": 111,
+      "end": 130
+    },
+    "evalRange": {
+      "start": 121,
+      "end": 130
+    },
+    "turn": 130,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 130 visibleText begins with “你握住门把……你缓缓转动门把……你拉开门，迈出一步，站在门槛外”, then later “你把门带上。门锁咬合”。",
+    "conflictingEvidence": "turn 129 visibleText already says “你跨出门槛，反手带上门……你站在门外的台阶上” and the selected choice from that state is “检查一下门口的动静，确认安全”。",
+    "conflictingTurns": [
+      129
+    ],
+    "source": "model-output",
+    "reason": "玩家已经在门外台阶上，下一轮却从屋内开门、迈出门槛重新演出出门动作，造成空间位置回退。"
+  },
+  {
+    "windowRange": {
+      "start": 121,
+      "end": 140
+    },
+    "evalRange": {
+      "start": 131,
+      "end": 140
+    },
+    "turn": 131,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 131: \"门口的石板路上，你刚才走过的那几道足迹还浅浅地留在晨露微湿的石面上\"。",
+    "conflictingEvidence": "Turn 130: \"昨夜雨水的痕迹已经彻底干透\"；Turn 131 同轮开头也写 \"干燥的石面和鞋底之间没有水汽\"。",
+    "conflictingTurns": [
+      130,
+      131
+    ],
+    "source": "model-output",
+    "reason": "同一段门口石板先被确认为干透、没有水汽，随后又能在晨露微湿的石面上留下足迹，表面状态自相矛盾。"
+  },
+  {
+    "windowRange": {
+      "start": 121,
+      "end": 140
+    },
+    "evalRange": {
+      "start": 131,
+      "end": 140
+    },
+    "turn": 132,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 132 再次写 \"你从台阶上走下来\"、\"你在门口来回走了几步\"、\"你走到巷口又折返\"，并再次解释只是为了活动 \"在屋里蹲坐了太久\" 的腿脚。",
+    "conflictingEvidence": "Turn 131 已经完成同一动作：\"你在门口来回走了几步\"、\"你走到巷口又折返\"，并已经回到门口站定等待。",
+    "conflictingTurns": [
+      131
+    ],
+    "source": "mixed",
+    "reason": "玩家选择了相近动作后，正文几乎把上一轮已经完成的走动和动机重新演出，且忽略了角色刚刚已经在屋外活动过。"
+  },
+  {
+    "windowRange": {
+      "start": 121,
+      "end": 140
+    },
+    "evalRange": {
+      "start": 131,
+      "end": 140
+    },
+    "turn": 134,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 134 choice: \"检查一下相机刚才拍的那一帧效果如何\"。",
+    "conflictingEvidence": "Turn 128: \"你把相机翻过来，打开后背--胶卷还在里面\"；Turn 134 正文也写 \"机械快门帘\"、\"过片扳手\"、\"胶卷还剩大半卷\"。",
+    "conflictingTurns": [
+      128,
+      134
+    ],
+    "source": "model-output",
+    "reason": "已建立为底片胶卷相机后，选项却暗示可以立刻查看刚拍照片的效果，和设备规则不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 121,
+      "end": 140
+    },
+    "evalRange": {
+      "start": 131,
+      "end": 140
+    },
+    "turn": 136,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 136: \"露出腰间那台相机的轮廓--黑色金属机身贴在你身侧\"。",
+    "conflictingEvidence": "Turn 135: \"你放下相机，让它重新贴着胸口挂着\"；Turn 136 同轮后文又写 \"你把手指贴在胸前的相机金属外壳上\"。",
+    "conflictingTurns": [
+      135,
+      136
+    ],
+    "source": "model-output",
+    "reason": "相机在连续动作中无交代地从胸前挂着漂移到腰间身侧，随后又回到胸前。"
+  },
+  {
+    "windowRange": {
+      "start": 121,
+      "end": 140
+    },
+    "evalRange": {
+      "start": 131,
+      "end": 140
+    },
+    "turn": 139,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "Turn 139: \"屋里还留着壁炉余烬的热气--炉膛里的木柴已经烧成了灰白色的炭，偶尔发出一声极轻的崩裂声\"，后文又写 \"炉膛里的炭又崩了一声\"。",
+    "conflictingEvidence": "Turn 129: \"壁炉里的灰烬已经彻底冷透，表面覆盖着一层细密的白色尘末\"。",
+    "conflictingTurns": [
+      129
+    ],
+    "source": "model-output",
+    "reason": "此前壁炉灰烬已彻底冷透，后文却恢复为有余热且会崩裂作响的炭火，否定了已建立的物件状态。"
+  },
+  {
+    "windowRange": {
+      "start": 121,
+      "end": 140
+    },
+    "evalRange": {
+      "start": 131,
+      "end": 140
+    },
+    "turn": 139,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 139: \"晨光已经从门缝里渗进来了一线\"、\"光线还在慢慢地向前延伸，朝着壁炉的方向爬去\"，并写杯中只映着 \"从窗口落进来的那一小片天光\"。",
+    "conflictingEvidence": "Turn 122 已经把窗帘完全拉开并写 \"整个房间亮了起来\"；Turn 129 又写 \"太阳已经完全升起来了，整间屋子都亮了起来\"。",
+    "conflictingTurns": [
+      122,
+      129
+    ],
+    "source": "model-output",
+    "reason": "屋内光照从已经整间明亮倒退成只有门缝和窗口小片天光，时间与空间状态缺少承接。"
+  },
+  {
+    "windowRange": {
+      "start": 131,
+      "end": 150
+    },
+    "evalRange": {
+      "start": 141,
+      "end": 150
+    },
+    "turn": 146,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 146 choice: \"再检查一遍胶卷，看看有没有拍到什么需要留意的\"。",
+    "conflictingEvidence": "turn 135 visibleText: \"但你没法从取景器里看到已经拍好的那一帧。\\n这是底片的特性——你必须在心里记住它，信任它，然后继续往下一帧走。\"",
+    "conflictingTurns": [
+      135
+    ],
+    "source": "model-output",
+    "reason": "此前刚建立底片相机不能直接查看已拍画面的规则，当前选项却让玩家通过检查胶卷确认拍到了什么，造成相机规则上的轻微冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 131,
+      "end": 150
+    },
+    "evalRange": {
+      "start": 141,
+      "end": 150
+    },
+    "turn": 147,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 147 playerInput: \"把相机包里的钱包拿出来，清点现金\"。turn 147 visibleText: \"你把手从相机外壳上移开，伸手摸向放在椅子扶手边的相机包。\" and \"你把包口翻开，低头看向里面：备用胶卷、镜头布、一截断掉的铅笔头，还有——\\n钱包。\"",
+    "conflictingEvidence": "turn 128 visibleText: \"然后你摘下斜挎过肩的防水袋...备用胶卷躺在最底下——五卷...你把胶卷塞回防水袋，重新抽紧袋口，把袋子挂回肩侧。\" turn 133 visibleText: \"肩侧的防水袋垂在大腿外侧...里面那五卷备用胶卷...\" Earlier visible gear consistently tracked camera, waterproof bag, and inner pocket; no camera bag on the chair had been established.",
+    "conflictingTurns": [
+      128,
+      133,
+      135
+    ],
+    "source": "mixed",
+    "reason": "当前玩家输入承接了上轮选项里突然出现的相机包，模型正文又把它固定为椅子扶手边的实体，并把备用胶卷从此前稳定的防水袋归属改到相机包内。"
+  },
+  {
+    "windowRange": {
+      "start": 131,
+      "end": 150
+    },
+    "evalRange": {
+      "start": 141,
+      "end": 150
+    },
+    "turn": 149,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 149 visibleText: \"门口的石阶上落着一小片昨夜的积水，反射着初升阳光的白色的光。\" and \"石板路面上的水渍正在蒸发，留下深浅不一的痕迹\"。",
+    "conflictingEvidence": "turn 131 visibleText: \"靴底落在石板路上...干燥的石面和鞋底之间没有水汽\" and \"石板路面上残留着昨夜雨水的印迹——不是积水\"。turn 132 visibleText: \"靴底落在干燥的石板路上\" and \"不是积水...干燥的，结实的\"。turn 133 visibleText: \"干燥的、灰白色的石面\"。",
+    "conflictingTurns": [
+      131,
+      132,
+      133
+    ],
+    "source": "model-output",
+    "reason": "窗口上文多次明确门口石板和雨痕已经干燥且不是积水，当前却在同一门口石阶突然出现昨夜积水。"
+  },
+  {
+    "windowRange": {
+      "start": 131,
+      "end": 150
+    },
+    "evalRange": {
+      "start": 141,
+      "end": 150
+    },
+    "turn": 150,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 149 choice: \"从相机包里拿出那枚银色铃铛，看看它\"。turn 150 playerInput repeats this action. turn 150 visibleText: \"你把手从相机包拉链上移开，指尖转而探向包内层的侧袋——那个你放铃铛的位置。\"",
+    "conflictingEvidence": "turn 111 visibleText: \"你抬手按了按外套内袋——银色铃铛还在那里\"。turn 116 visibleText: \"铃铛在外套内袋里安静地贴着你胸口的温度\"。turn 123 visibleText: \"然后你把细绳重新理顺，把铃铛放回内袋。\" turn 129 visibleText: \"手指探进外套左胸的内袋——指尖碰到了那枚银色铃铛\"。turn 133 visibleText: \"伸进口袋里，指尖碰到那枚银色铃铛\"。",
+    "conflictingTurns": [
+      111,
+      116,
+      123,
+      129,
+      133
+    ],
+    "source": "mixed",
+    "reason": "银色铃铛此前长期稳定在外套内袋/口袋里，当前选项和正文却说它在相机包内层侧袋，关键物件位置发生无承接漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 141,
+      "end": 160
+    },
+    "evalRange": {
+      "start": 151,
+      "end": 160
+    },
+    "turn": 157,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 157 轮选项提供：“从相机包里拿出烟点上，让呼吸更稳一些”。",
+    "conflictingEvidence": "第 153 轮相机包还在屋内椅子扶手和玩家手边：“指尖落在相机包的拉链头上”；第 155-156 轮玩家只是打开门、坐到门前石阶上，没有带出相机包。第 155 轮选项还说“回屋拿相机”，也暗示相机/包不在室外手边。",
+    "conflictingTurns": [
+      153,
+      155,
+      156
+    ],
+    "source": "model-output",
+    "reason": "玩家正坐在门外石阶上时，选项却要求从仍应在屋内的相机包里取烟，造成可执行动作和物件位置不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 141,
+      "end": 160
+    },
+    "evalRange": {
+      "start": 151,
+      "end": 160
+    },
+    "turn": 158,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "玩家输入是“从相机包里拿出烟点上，让呼吸更稳一些”，但正文开头改成：“你从外套内袋里摸出烟盒。”",
+    "conflictingEvidence": "第 157 轮可见选项明确指定“从相机包里拿出烟”；第 158 轮正文没有承接相机包，直接把烟盒来源改成外套内袋。",
+    "conflictingTurns": [
+      157,
+      158
+    ],
+    "source": "mixed",
+    "reason": "玩家选择中指定的取物来源被正文无说明地改写，虽然可能是在绕开上一轮选项的空间问题，但玩家可见行动仍被替换。"
+  },
+  {
+    "windowRange": {
+      "start": 141,
+      "end": 160
+    },
+    "evalRange": {
+      "start": 151,
+      "end": 160
+    },
+    "turn": 159,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "第 159 轮玩家站在门口活动后：“你低头看了一眼相机包。一切都在原位。”",
+    "conflictingEvidence": "第 153 轮相机包被写在屋内椅子扶手附近；第 155-156 轮玩家开门、坐到石阶上，没有拿起或带出相机包；第 158 轮点烟也改写成从外套内袋取烟，没有建立相机包已经在室外。",
+    "conflictingTurns": [
+      153,
+      155,
+      156,
+      158
+    ],
+    "source": "model-output",
+    "reason": "相机包在没有玩家动作支撑的情况下出现在门外玩家低头可见的位置，造成物件位置跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 141,
+      "end": 160
+    },
+    "evalRange": {
+      "start": 151,
+      "end": 160
+    },
+    "turn": 160,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 160 轮写道：“桌面上搁着你的相机包，拉链还保持着你最后一次检查时的状态——半开着”，紧接着又写“你走过去，把包放在桌上，拉开拉链。”",
+    "conflictingEvidence": "第 148 轮明确整理并拉上相机包拉链，把相机包放在椅子扶手上；第 152 轮把铃铛放回侧袋后“拉链合拢”；第 153 轮玩家指尖还落在椅子扶手和包面固定出的拉链头位置。",
+    "conflictingTurns": [
+      148,
+      152,
+      153
+    ],
+    "source": "model-output",
+    "reason": "相机包从已合拢、在椅子扶手附近，变成桌上半开；同一轮还先说包已在桌上又说把包放到桌上，物件状态和位置承接混乱。"
+  },
+  {
+    "windowRange": {
+      "start": 141,
+      "end": 160
+    },
+    "evalRange": {
+      "start": 151,
+      "end": 160
+    },
+    "turn": 160,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 160 轮检查备用胶卷时写：“三卷黑色的小筒，用铝箔纸包着，整整齐齐地塞在侧袋里”。",
+    "conflictingEvidence": "第 128 轮写“备用胶卷躺在最底下——五卷，每一卷都用塑料密封袋包着”；第 129 轮再次写“那五卷备用胶卷——每卷都用塑料密封袋包着”；第 133 轮也确认防水袋里有“五卷备用胶卷”。",
+    "conflictingTurns": [
+      128,
+      129,
+      133
+    ],
+    "source": "model-output",
+    "reason": "备用胶卷的数量和包装从五卷塑料密封袋变成三卷铝箔纸小筒，且没有消耗或重新整理的可见过程。"
+  },
+  {
+    "windowRange": {
+      "start": 141,
+      "end": 160
+    },
+    "evalRange": {
+      "start": 151,
+      "end": 160
+    },
+    "turn": 160,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 160 轮写：“你轻轻摇了摇它——它没有发出声音。”",
+    "conflictingEvidence": "第 151 轮同样轻轻晃动铃铛时，“铃铛发出一声清脆的声响”；第二次“动作更轻，几乎只是手腕的微转”时也出现“同样的声音”，并让窗玻璃雾气产生细微波纹。",
+    "conflictingTurns": [
+      151
+    ],
+    "source": "model-output",
+    "reason": "同一只银色铃铛在相同的轻摇动作下从清晰发声变成完全无声，且没有给出握法、损坏或规则变化的解释，破坏关键物件的行为连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 151,
+      "end": 170
+    },
+    "evalRange": {
+      "start": 161,
+      "end": 170
+    },
+    "turn": 161,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 161 的选项写道：“低头检查一下拍下的那张照片是否满意”。同一轮正文刚写玩家按下快门，图像会留在“银盐粒子”里并在“定影液”里显影。",
+    "conflictingEvidence": "Turn 1 已建立玩家手里是“一台老旧的胶卷相机”；Turn 160 又检查了“备用胶卷。三卷黑色的小筒”。胶卷相机无法在拍摄后立刻低头查看照片是否满意。",
+    "conflictingTurns": [
+      1,
+      160
+    ],
+    "source": "model-output",
+    "reason": "选项把已建立的胶卷相机交互写成类似数码相机的即时回看，破坏物件规则连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 151,
+      "end": 170
+    },
+    "evalRange": {
+      "start": 161,
+      "end": 170
+    },
+    "turn": 162,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 162 玩家选择“回到屋里，在门边找个更舒服的位置坐下”，正文随即写“你推开木门，跨进屋内”。该选项来自 Turn 161 的“回到屋里，在门边找个更舒服的位置坐下”。",
+    "conflictingEvidence": "Turn 160 明确写玩家“回到屋内，轻轻带上门。门闩在身后落回原位”，并且最后“重新在窗边的椅子里坐下来”。Turn 161 只是拿相机取景拍巷口，没有可见地开门或离开屋内。",
+    "conflictingTurns": [
+      160,
+      161
+    ],
+    "source": "model-output",
+    "reason": "玩家可见位置从屋内窗边等待无承接地变成屋外/门外，随后又被选项和正文写成重新进屋，造成空间连续性断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 151,
+      "end": 170
+    },
+    "evalRange": {
+      "start": 161,
+      "end": 170
+    },
+    "turn": 163,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 163 写铃铛“还是没有发出声音”，并进一步说明“你无论怎么动作，它都不会响”；举到耳边轻轻摇时“没有声音”，只感到铃舌位置的微小震颤。",
+    "conflictingEvidence": "Turn 151 玩家轻轻晃动铃铛时，铃铛“发出一声清脆的声响”；随后“又摇了一次。动作更轻”也出现“同样的声音”，还让窗玻璃雾气颤动。",
+    "conflictingTurns": [
+      151
+    ],
+    "source": "model-output",
+    "reason": "同一枚铃铛在没有可见状态变化或解释的情况下，从轻摇会响变成无论如何都不会响，破坏关键物件状态连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 151,
+      "end": 170
+    },
+    "evalRange": {
+      "start": 161,
+      "end": 170
+    },
+    "turn": 166,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 166 检查相机包时写：“相机在最上层，机身横向放置，镜头朝内”。",
+    "conflictingEvidence": "Turn 165 先写“你把相机挂回胸前”，随后回到靠垫边“把相机搁在膝头”。在 Turn 166 之前没有玩家可见动作把相机重新放入相机包。",
+    "conflictingTurns": [
+      165
+    ],
+    "source": "model-output",
+    "reason": "相机位置从膝头/胸前无承接地变为包内最上层，造成局部物件位置不连续。"
+  },
+  {
+    "windowRange": {
+      "start": 151,
+      "end": 170
+    },
+    "evalRange": {
+      "start": 161,
+      "end": 170
+    },
+    "turn": 167,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 167 写晨光“又从窗沿往壁炉的方向爬了一段”，并“吞没壁炉的铁架下缘，在灰烬槽的边缘上停留了一会儿”。",
+    "conflictingEvidence": "Turn 166 已经写晨光“从灰烬槽的边缘越过，正沿着壁炉的铁架爬上炉口上缘”。更早的 Turn 164-165 也已写晨光越过铁架并铺到灰烬槽里。",
+    "conflictingTurns": [
+      164,
+      165,
+      166
+    ],
+    "source": "model-output",
+    "reason": "晨光位置在连续等待场景中回退到此前阶段，重复了已推进过的光线轨迹。"
+  },
+  {
+    "windowRange": {
+      "start": 161,
+      "end": 180
+    },
+    "evalRange": {
+      "start": 171,
+      "end": 180
+    },
+    "turn": 171,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 171: \"相机搁在靠垫旁的地面上，取景框玻璃斜指向窗户的方向。\"",
+    "conflictingEvidence": "turn 170: \"你站起身，把相机搁在靠垫上，走到窗边。\" turn 171 的玩家输入只是\"收回视线，回到靠垫边坐下，继续等待\"，没有交代把相机从靠垫移到地面。",
+    "conflictingTurns": [
+      170
+    ],
+    "source": "model-output",
+    "reason": "相机从靠垫上变成靠垫旁地面上的位置变化缺少动作承接，造成轻微物件连续性漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 161,
+      "end": 180
+    },
+    "evalRange": {
+      "start": 171,
+      "end": 180
+    },
+    "turn": 180,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 180 choices: \"检查一下刚才拍的照片效果如何\"。",
+    "conflictingEvidence": "turn 180 visibleText: \"当然，你无法看到胶片上的影像。\" turn 160: \"三卷黑色的小筒，用铝箔纸包着\"，并多次确认这是一台胶片相机，需要过片拨杆。",
+    "conflictingTurns": [
+      160,
+      180
+    ],
+    "source": "model-output",
+    "reason": "胶片相机不能在拍摄后立即检查照片效果，选项提供了与当前可见设备规则冲突的行动。"
+  },
+  {
+    "windowRange": {
+      "start": 171,
+      "end": 190
+    },
+    "evalRange": {
+      "start": 181,
+      "end": 190
+    },
+    "turn": 183,
+    "scope": "visibleText",
+    "type": "language-drift",
+    "severity": "low",
+    "currentEvidence": "同轮正文先写“你把手伸进外套内袋”，随后写“它安静地躺在他内袋底部”。",
+    "conflictingEvidence": "本轮玩家输入是“伸手摸了摸内袋里的银铃铛，确认它还在”，周围叙述也稳定使用第二人称“你/你的”。",
+    "conflictingTurns": [
+      183
+    ],
+    "source": "model-output",
+    "reason": "第二人称叙事中突然出现“他内袋”造成代词和视角漂移，虽不改变剧情事实，但会破坏玩家阅读连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 171,
+      "end": 190
+    },
+    "evalRange": {
+      "start": 181,
+      "end": 190
+    },
+    "turn": 186,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "“你沿着街道走回公园入口时，晨光已经爬到了铁艺围栏的第二道横杆上”。",
+    "conflictingEvidence": "181 轮已写“晨光比刚才又爬高了一些，从铁艺围栏的第三根横杆移到了接近顶端的位置”；之后 184 轮观察两三分钟，185 轮又在阳台停留将近三分钟。",
+    "conflictingTurns": [
+      181,
+      184,
+      185
+    ],
+    "source": "model-output",
+    "reason": "时间继续推进后，晨光在同一围栏上的位置从接近顶端退回第二道横杆，造成局部时间/光影连续性倒退。"
+  },
+  {
+    "windowRange": {
+      "start": 171,
+      "end": 190
+    },
+    "evalRange": {
+      "start": 181,
+      "end": 190
+    },
+    "turn": 188,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜说：“卡尔问我怎么了。我说没什么。她没追问……我后来跟她说——我说，我今天跟一个人说了很多我自己都不确定能不能说得出口的话……卡尔说，那不是很好吗。”",
+    "conflictingEvidence": "34 轮卡尔此前回答“她后来没有说什么了”，并将卡琳娜后来开口的内容明确为“她问我——你值不值得信任”；31-32 轮也强调卡琳娜回来后没有像往常那样复盘，只是沉默很久后询问玩家是否值得信任。",
+    "conflictingTurns": [
+      31,
+      32,
+      34
+    ],
+    "source": "model-output",
+    "reason": "188 轮为昨晚壁炉前新增了一段卡琳娜向卡尔倾诉且得到回应的对话，改写了早前卡尔给玩家的可见叙述，影响这段情感推进的连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 191,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "玩家输入是“看着她说：那你是对我的答案满意，还是想继续追问？”，但正文复述为“那你是在确认我的答案，还是想继续追问？”",
+    "conflictingEvidence": "同一轮玩家输入明确询问卡琳娜“对我的答案满意”还是要继续追问，而不是询问她是否在“确认我的答案”。",
+    "conflictingTurns": [
+      191
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家想表达的“满意/不满意”问题改写成“确认答案”，轻微改变了玩家发问的含义。"
+  },
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 198,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "正文写“她的声音在指尖上停顿了一拍，目光仍然看着前方的路”。",
+    "conflictingEvidence": "同段正在描写卡琳娜开口说“在想……”，上下文没有建立任何与指尖发声或声音落在指尖相关的特殊表达机制。",
+    "conflictingTurns": [
+      198
+    ],
+    "source": "model-output",
+    "reason": "“声音在指尖上停顿”语义搭配明显异常，像局部生成错误，会造成阅读上的突兀感。"
+  },
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 198,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "正文写“你加快了两步，走到她身旁。她没有加快脚步，也没有放慢——保持着刚才的节奏”，并继续写“她只是继续走着”。",
+    "conflictingEvidence": "turn 197 结尾写“公园的入口处，卡琳娜披着那件外套，正站在晨风中等着你。她没有催促，只是站在那儿”，且 turn 198 玩家输入是“走近她，好奇她等的时候在想什么”。",
+    "conflictingTurns": [
+      197,
+      198
+    ],
+    "source": "model-output",
+    "reason": "上一轮和本轮玩家输入都建立了卡琳娜正在站着等待，正文却无承接地把她写成一直在行走并保持步行节奏。"
+  },
+  {
+    "windowRange": {
+      "start": 181,
+      "end": 200
+    },
+    "evalRange": {
+      "start": 191,
+      "end": 200
+    },
+    "turn": 200,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "正文写“她的鞋底踩过那些湿润的石板时，发出轻微的、干燥的声音——因为脚步足够轻，所以水汽还没来得及渗进鞋印的轮廓，她就已经走了过去”。",
+    "conflictingEvidence": "同一句同时建立“湿润的石板”和“干燥的声音”，并用“水汽还没来得及渗进鞋印”解释脚步声，和普通物理感知不协调。",
+    "conflictingTurns": [
+      200
+    ],
+    "source": "model-output",
+    "reason": "湿润路面、干燥脚步声与水汽渗入鞋印的解释互相牵扯成不自然的感官描写，属于局部文本质量退化。"
+  }
+]

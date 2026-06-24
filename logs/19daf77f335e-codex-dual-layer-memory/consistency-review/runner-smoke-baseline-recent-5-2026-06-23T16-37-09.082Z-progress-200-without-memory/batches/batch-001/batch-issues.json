@@ -1,0 +1,93 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 1,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "小贩先被写成男性指代：“他看着你，眼里带着点好奇。”同一轮后文又写成女性指代：“她没有直接回答。她的目光在你脸上停了停。”",
+    "conflictingEvidence": "同一名小贩在同一段连续对话中先后使用“他”和“她”，没有任何说明这是不同人物或称谓变化。",
+    "conflictingTurns": [1],
+    "source": "model-output",
+    "reason": "同一场景内小贩的性别/代词无解释漂移，会让玩家难以确认正在交谈的是同一个人还是另一个角色。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "选项文本：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "同轮正文刚建立的可行动目标是“剩下的，你自己去暗街找她吧”，其他选项也都是清晰行动；“往日总是如影随形”不是明确动作，也和该选项前半句缺少语义连接。",
+    "conflictingTurns": [3],
+    "source": "model-output",
+    "reason": "该选项把可执行行动和不相干的抽象短语拼在一起，影响玩家判断自己将采取什么行动。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "黑帮被卡琳娜喝止后，“然后他放下相机——不是递还，只是放在地上”，随后“你捡起地上的相机，检查了一下机身——没坏。”",
+    "conflictingEvidence": "本轮玩家输入和正文前半段都明确交出了两类物件：“把相机和胶卷交出去”；“你动作放慢，把相机带从脖子上绕下来，递了出去。然后是口袋里的胶卷盒——你摸出两卷，也放在摊开了的手掌上。”",
+    "conflictingTurns": [5],
+    "source": "model-output",
+    "reason": "正文只交代相机被放回并取回，交出的两卷胶卷在冲突解决后消失，造成物件状态承接缺口。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "卡琳娜出场时先写“一个声音从巷子深处传来”，紧接着又写短胡渣男人的目光“越过你，落在你身后的某个地方”，并显示“巷口的阴影里站着一个少女”。",
+    "conflictingEvidence": "上一轮已经建立玩家是在走向“前方”的窄巷，三个人“巷口站着”拦路；如果卡琳娜从巷子深处出现，她的位置应在更深处而不是玩家身后/巷口。",
+    "conflictingTurns": [4, 5],
+    "source": "model-output",
+    "reason": "卡琳娜介入时的位置在“巷子深处”“玩家身后”和“巷口”之间切换，导致玩家难以还原现场空间关系。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 8,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜说：“我告诉过她我知道的部分。之后她就消失了，再没有回来找过我。”",
+    "conflictingEvidence": "第 6 轮卡琳娜此前说：“她确实在新西西里活动过。我在几个地方见过她……但她没来找过我，我也没主动打听过她的事。”",
+    "conflictingTurns": [6],
+    "source": "model-output",
+    "reason": "卡琳娜先表示敏特没有来找她，且自己没有主动打听；后文又说自己曾向敏特提供情报，改变了两人是否有过实质接触这一关键线索。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "玩家选择/输入是“向卡琳娜提出交易——用情报换取信任”，正文却写成：“你给了我一条线索，我也该还你一些东西……不是情报——是信任。”随后帕兹只复述“敏特确实还活着，还跟骷髅会有关系”等刚由卡琳娜提供的信息。",
+    "conflictingEvidence": "第 8 轮是卡琳娜告诉帕兹“她在找骷髅会的东西”，并说明敏特两周前在新西西里活动过；这些不是帕兹可以拿来交换给卡琳娜的新情报。",
+    "conflictingTurns": [8, 9],
+    "source": "model-output",
+    "reason": "正文把玩家选择的“用情报换取信任”改写成“不是情报”，且实际交出的信息来自对方刚说过的话，削弱了玩家行动的因果承接。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮开头写：“你说‘信任’——有意思。她的尾音还没落尽，那三声敲门声就像钉子一样楔进了空气。”",
+    "conflictingEvidence": "第 9 轮中，卡琳娜说完“信任”相关评价后，还继续提出交易、从书架抽出册子、要求帕兹讲述和敏特的经历；门声是在“你刚要开口——‘咚、咚、咚。’”之后才出现。",
+    "conflictingTurns": [9],
+    "source": "model-output",
+    "reason": "第 10 轮把敲门声回卷到卡琳娜刚评价“信任”之后，抹掉了第 9 轮已经发生的一段交易谈判和动作。"
+  }
+]

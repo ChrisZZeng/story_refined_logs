@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 161, "end": 180 },
+    "evalRange": { "start": 171, "end": 180 },
+    "turn": 171,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 171: \"相机搁在靠垫旁的地面上，取景框玻璃斜指向窗户的方向。\"",
+    "conflictingEvidence": "turn 170: \"你站起身，把相机搁在靠垫上，走到窗边。\" turn 171 的玩家输入只是\"收回视线，回到靠垫边坐下，继续等待\"，没有交代把相机从靠垫移到地面。",
+    "conflictingTurns": [170],
+    "source": "model-output",
+    "reason": "相机从靠垫上变成靠垫旁地面上的位置变化缺少动作承接，造成轻微物件连续性漂移。"
+  },
+  {
+    "windowRange": { "start": 161, "end": 180 },
+    "evalRange": { "start": 171, "end": 180 },
+    "turn": 180,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 180 choices: \"检查一下刚才拍的照片效果如何\"。",
+    "conflictingEvidence": "turn 180 visibleText: \"当然，你无法看到胶片上的影像。\" turn 160: \"三卷黑色的小筒，用铝箔纸包着\"，并多次确认这是一台胶片相机，需要过片拨杆。",
+    "conflictingTurns": [160, 180],
+    "source": "model-output",
+    "reason": "胶片相机不能在拍摄后立即检查照片效果，选项提供了与当前可见设备规则冲突的行动。"
+  }
+]

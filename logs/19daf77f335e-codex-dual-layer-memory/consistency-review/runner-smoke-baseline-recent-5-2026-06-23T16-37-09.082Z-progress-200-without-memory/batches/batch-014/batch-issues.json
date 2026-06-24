@@ -1,0 +1,80 @@
+[
+  {
+    "windowRange": { "start": 121, "end": 140 },
+    "evalRange": { "start": 131, "end": 140 },
+    "turn": 131,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 131: \"门口的石板路上，你刚才走过的那几道足迹还浅浅地留在晨露微湿的石面上\"。",
+    "conflictingEvidence": "Turn 130: \"昨夜雨水的痕迹已经彻底干透\"；Turn 131 同轮开头也写 \"干燥的石面和鞋底之间没有水汽\"。",
+    "conflictingTurns": [130, 131],
+    "source": "model-output",
+    "reason": "同一段门口石板先被确认为干透、没有水汽，随后又能在晨露微湿的石面上留下足迹，表面状态自相矛盾。"
+  },
+  {
+    "windowRange": { "start": 121, "end": 140 },
+    "evalRange": { "start": 131, "end": 140 },
+    "turn": 132,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 132 再次写 \"你从台阶上走下来\"、\"你在门口来回走了几步\"、\"你走到巷口又折返\"，并再次解释只是为了活动 \"在屋里蹲坐了太久\" 的腿脚。",
+    "conflictingEvidence": "Turn 131 已经完成同一动作：\"你在门口来回走了几步\"、\"你走到巷口又折返\"，并已经回到门口站定等待。",
+    "conflictingTurns": [131],
+    "source": "mixed",
+    "reason": "玩家选择了相近动作后，正文几乎把上一轮已经完成的走动和动机重新演出，且忽略了角色刚刚已经在屋外活动过。"
+  },
+  {
+    "windowRange": { "start": 121, "end": 140 },
+    "evalRange": { "start": 131, "end": 140 },
+    "turn": 134,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 134 choice: \"检查一下相机刚才拍的那一帧效果如何\"。",
+    "conflictingEvidence": "Turn 128: \"你把相机翻过来，打开后背--胶卷还在里面\"；Turn 134 正文也写 \"机械快门帘\"、\"过片扳手\"、\"胶卷还剩大半卷\"。",
+    "conflictingTurns": [128, 134],
+    "source": "model-output",
+    "reason": "已建立为底片胶卷相机后，选项却暗示可以立刻查看刚拍照片的效果，和设备规则不一致。"
+  },
+  {
+    "windowRange": { "start": 121, "end": 140 },
+    "evalRange": { "start": 131, "end": 140 },
+    "turn": 136,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 136: \"露出腰间那台相机的轮廓--黑色金属机身贴在你身侧\"。",
+    "conflictingEvidence": "Turn 135: \"你放下相机，让它重新贴着胸口挂着\"；Turn 136 同轮后文又写 \"你把手指贴在胸前的相机金属外壳上\"。",
+    "conflictingTurns": [135, 136],
+    "source": "model-output",
+    "reason": "相机在连续动作中无交代地从胸前挂着漂移到腰间身侧，随后又回到胸前。"
+  },
+  {
+    "windowRange": { "start": 121, "end": 140 },
+    "evalRange": { "start": 131, "end": 140 },
+    "turn": 139,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "Turn 139: \"屋里还留着壁炉余烬的热气--炉膛里的木柴已经烧成了灰白色的炭，偶尔发出一声极轻的崩裂声\"，后文又写 \"炉膛里的炭又崩了一声\"。",
+    "conflictingEvidence": "Turn 129: \"壁炉里的灰烬已经彻底冷透，表面覆盖着一层细密的白色尘末\"。",
+    "conflictingTurns": [129],
+    "source": "model-output",
+    "reason": "此前壁炉灰烬已彻底冷透，后文却恢复为有余热且会崩裂作响的炭火，否定了已建立的物件状态。"
+  },
+  {
+    "windowRange": { "start": 121, "end": 140 },
+    "evalRange": { "start": 131, "end": 140 },
+    "turn": 139,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 139: \"晨光已经从门缝里渗进来了一线\"、\"光线还在慢慢地向前延伸，朝着壁炉的方向爬去\"，并写杯中只映着 \"从窗口落进来的那一小片天光\"。",
+    "conflictingEvidence": "Turn 122 已经把窗帘完全拉开并写 \"整个房间亮了起来\"；Turn 129 又写 \"太阳已经完全升起来了，整间屋子都亮了起来\"。",
+    "conflictingTurns": [122, 129],
+    "source": "model-output",
+    "reason": "屋内光照从已经整间明亮倒退成只有门缝和窗口小片天光，时间与空间状态缺少承接。"
+  }
+]

@@ -1,0 +1,22 @@
+# Window Timeline: Turns 141-160
+
+- Turn 141: From the chair, the player walks to the window and confirms the street and alley mouth remain empty.
+- Turn 142: The player checks the camera battery and frame counter, then waits.
+- Turn 143: The player wipes fog from the window and checks the alley mouth again.
+- Turn 144: The player watches the wiped arc of fog close over and continues waiting.
+- Turn 145: The player returns to the chair and waits.
+- Turn 146: The player confirms the camera is still against the chest.
+- Turn 147: The player takes the wallet from the camera bag on the chair arm and counts cash.
+- Turn 148: The player organizes the camera bag, closes it, and leaves it on the chair arm.
+- Turn 149: The player opens the door, checks the street, closes the door, and remains inside.
+- Turn 150: The player reaches into the camera bag side pocket and removes the silver bell.
+- Turn 151: The player gently shakes the bell; it rings clearly and causes a faint ripple in the window fog.
+- Turn 152: The player listens to the bell near the ear, finds it silent, returns it to the camera bag side pocket, and closes the zipper.
+- Turn 153: The player sits in the chair with eyes closed, fingers resting on the camera bag zipper.
+- Turn 154: The player drinks water, stretches, walks around the room, and sees the alley mouth is still empty.
+- Turn 155: The player opens the door for air and stands at the threshold, still waiting.
+- Turn 156: The player sits on the stone step outside and watches the light move.
+- Turn 157: The player continues sitting outside; the choices include taking a cigarette from the camera bag.
+- Turn 158: The selected action says to take a cigarette from the camera bag, but the text has the player take a cigarette case from the coat inner pocket.
+- Turn 159: The player finishes the cigarette, stands and stretches outside, then looks down at the camera bag.
+- Turn 160: The player returns indoors, checks equipment in the camera bag, sees three spare rolls, shakes the bell with no sound, and waits by the window.
