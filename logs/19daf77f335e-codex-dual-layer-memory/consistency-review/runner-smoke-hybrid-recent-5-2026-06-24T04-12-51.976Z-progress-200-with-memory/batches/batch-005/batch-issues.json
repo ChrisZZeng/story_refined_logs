@@ -1,0 +1,96 @@
+[
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 45,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 45 visibleText: 黑猫坐在卡琳娜小腿外侧，“看着你，也看着那扇你刚刚推开的门”。",
+    "conflictingEvidence": "turn 39 visibleText: “她推开门，门轴发出一声短促的、低沉的呻吟”，卡琳娜先跨过门槛；turn 40 visibleText: “你跨过门槛”，“铁门在你身后合上”。此前玩家只是跨入门内，不是推开门的人。",
+    "conflictingTurns": [
+      39,
+      40
+    ],
+    "source": "model-output",
+    "reason": "正文把开门动作归给玩家，并用“刚刚”压缩了中间多轮室内互动，造成轻微动作归属和时间承接错误。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 46,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 46 visibleText: 卡琳娜说“卡尔带我来的”，随后视线落到黑猫；“它的耳朵轻轻转了一下——不是回应，更像是对自己名字的间接承认。”接着又说“她说这里够安静，够暗”。",
+    "conflictingEvidence": "turn 2 visibleText: 小贩说“卡尔大人”是“创建暗街秩序的那位”；turn 38 visibleText: 卡琳娜说真正的家“是卡尔的心脏。也是暗街过去的影子”。此前玩家可见信息把卡尔建立为暗街秩序相关的人物或历史核心，而黑猫一直只作为黑猫出现。",
+    "conflictingTurns": [
+      2,
+      38
+    ],
+    "source": "model-output",
+    "reason": "本轮突然让黑猫像是在承认“卡尔”是自己的名字，同时又用“她说”承接卡尔，混淆了卡尔大人与黑猫的身份关系。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 47,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "medium",
+    "currentEvidence": "turn 47 choices: “她侧过头，沉默地注视着那行褪色的小字，没有开口。”",
+    "conflictingEvidence": "turn 47 visibleText 当前承接的是玩家询问“刚来的时候最难的是什么”，卡琳娜回答“空”，场景焦点是地板、搪瓷杯和黑猫；“那行褪色的小字”来自 turn 42-44 的笔记本调查，且该选项用“她”描述卡琳娜动作，不像玩家可选择的行动。",
+    "conflictingTurns": [
+      42,
+      43,
+      44,
+      47
+    ],
+    "source": "model-output",
+    "reason": "选项把早前笔记本线索硬拉回当前对话，并把可选行动写成第三人称角色动作，破坏玩家操作语义。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "turn 50 visibleText: “你把杯子放到桌面上，站起来。”",
+    "conflictingEvidence": "turn 45 visibleText 中玩家接过茶后站在卡琳娜面前问话；turn 46-49 连续写玩家手中握着搪瓷杯听卡琳娜说话，没有玩家坐下的可见动作。turn 43 曾出现“在沙发上坐下来”的未选择选项，但玩家没有选择它。",
+    "conflictingTurns": [
+      43,
+      45,
+      46,
+      47,
+      48,
+      49
+    ],
+    "source": "model-output",
+    "reason": "正文让玩家“站起来”，但此前可见行动没有建立玩家已经坐下，属于轻微姿态连续性跳跃。"
+  }
+]

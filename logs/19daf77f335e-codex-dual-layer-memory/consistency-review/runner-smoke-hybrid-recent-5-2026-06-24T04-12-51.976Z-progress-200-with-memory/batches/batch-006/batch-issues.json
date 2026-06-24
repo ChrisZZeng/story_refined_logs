@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 41, "end": 60 },
+    "evalRange": { "start": 51, "end": 60 },
+    "turn": 53,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 53: \"卡琳娜从口袋里掏出钥匙——那把旧铜钥匙你在暗街铁门上见过的那把，但它的齿痕不同。\"",
+    "conflictingEvidence": "同一句同时说这是此前见过的“那把”旧铜钥匙，又说“齿痕不同”。turn 9 只建立过暗街铁门上使用了一把老式长柄铜钥匙。",
+    "conflictingTurns": [9, 53],
+    "source": "model-output",
+    "reason": "如果是同一把钥匙，齿痕不应不同；如果是另一把钥匙，正文不应称为此前见过的“那把”。"
+  },
+  {
+    "windowRange": { "start": 41, "end": 60 },
+    "evalRange": { "start": 51, "end": 60 },
+    "turn": 54,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "high",
+    "currentEvidence": "turn 52-54 将“真正的家”作为另外一个地方重新引出，turn 53 再次从公园侧方小路走到灰砖墙老铁门，turn 54 再次进入约二十平米、有暗绿色裂纹灯罩、深棕色皮质沙发、灰白毛毯、旧木桌、磨损书籍和搪瓷茶杯的房间。",
+    "conflictingEvidence": "turn 39-40 已经从公园侧方更暗的小路进入一扇灰砖墙里的老旧铁门，并在 turn 40 看到同样约二十平米、天花板比暗街房间高、暗绿色裂纹灯罩、深棕色皮沙发、灰白毛毯、旧木桌、磨损书籍和搪瓷杯的房间。turn 41-50 都在这个房间内互动，turn 51 则从这扇铁门跨出去到公园。",
+    "conflictingTurns": [39, 40, 41, 50, 51],
+    "source": "model-output",
+    "reason": "重点评估段把玩家刚刚待过并离开的房间重新当成未知新地点进入，重置了空间进度和场景连续性。"
+  },
+  {
+    "windowRange": { "start": 41, "end": 60 },
+    "evalRange": { "start": 51, "end": 60 },
+    "turn": 54,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 54: \"脚边传来一道几乎无声的动静。那只黑猫不知什么时候已经蹲坐在沙发扶手上...\"",
+    "conflictingEvidence": "turn 51 明确写道：\"那只黑猫没有跟来——它在铁门边蹲坐下来，用尾巴尖搭住前爪，看着你们离开的方向，但没有动。\" turn 53 的前往铁门途中也没有交代黑猫跟随或提前到达。",
+    "conflictingTurns": [51, 53],
+    "source": "model-output",
+    "reason": "黑猫刚被明示留在上一扇铁门边，随后无承接地出现在另一处室内，造成角色/物件位置跳跃。"
+  },
+  {
+    "windowRange": { "start": 41, "end": 60 },
+    "evalRange": { "start": 51, "end": 60 },
+    "turn": 56,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "turn 56 choice: \"她也在沙发上坐下，等你自己开口说想说的话\"",
+    "conflictingEvidence": "turn 56 visibleText 刚写明：\"卡琳娜没有坐下来。她仍然倚靠在桌沿...\"；同轮其他选项都是玩家发问或玩家动作。",
+    "conflictingTurns": [56],
+    "source": "model-output",
+    "reason": "该选项让玩家直接决定卡琳娜的动作和等待状态，偏离玩家可选行动/发言的交互视角，并与正文刚建立的 NPC 姿态相冲突。"
+  }
+]

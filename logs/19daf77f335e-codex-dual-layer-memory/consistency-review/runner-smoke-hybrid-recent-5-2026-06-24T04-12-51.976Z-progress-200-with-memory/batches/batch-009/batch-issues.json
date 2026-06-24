@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 71, "end": 90 },
+    "evalRange": { "start": 81, "end": 90 },
+    "turn": 89,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 89 前半仍写她的目光落在“自己平放在膝盖上的指尖上”，随后突然写“路灯的光透过梧桐叶在她眼底投下一层浅影”“夜风从你们之间穿过去”“她从长椅上站起身”“她站在路灯照亮的潮湿路面上”。",
+    "conflictingEvidence": "Turn 88 仍明确处在室内小屋：卡琳娜“坐在旧木桌沿，手指平放在暖光与暗影交界的那条线上”，炉灶里有余烬，空气里有姜片和煮茶味；Turn 71-88 连续维持沙发、旧木桌、炉灶、裂纹灯罩、卡尔在沙发扶手上的室内场景。",
+    "conflictingTurns": [71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88],
+    "source": "model-output",
+    "reason": "模型在同一轮内未写出离开房间的动作，就把人物和环境从室内茶桌切到室外长椅/路灯/潮湿路面，破坏玩家对当前位置和动作顺序的感知。"
+  },
+  {
+    "windowRange": { "start": 71, "end": 90 },
+    "evalRange": { "start": 81, "end": 90 },
+    "turn": 90,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 90 写“你跟着她站起身的动作，从暖光笼罩的室内跨出门槛，走进暗街夜晚的空气里”，随后“穿过三条窄巷”到达梧桐树和铸铁长椅所在的开阔地。",
+    "conflictingEvidence": "Turn 89 结尾已经写卡琳娜“从长椅上站起身”，并且“站在路灯照亮的潮湿路面上，侧过半个肩膀来等你”，玩家在 Turn 90 选择的也是“跟她一起走走”。",
+    "conflictingTurns": [89],
+    "source": "model-output",
+    "reason": "前一轮已经把卡琳娜放到室外路灯下等待，下一轮又从室内重新起身出门，等于回滚了刚刚可见的空间状态和动作进度。"
+  }
+]

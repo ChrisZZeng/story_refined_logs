@@ -1,0 +1,24 @@
+[
+  {
+    "windowRange": {
+      "start": 151,
+      "end": 170
+    },
+    "evalRange": {
+      "start": 161,
+      "end": 170
+    },
+    "turn": 168,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "“像是已经把该说的话都留在了那间暖光”后面直接切到下一句“她的脚步声在旧砖墙之间轻轻碰撞，然后被夜风收走。”，句子在 player-visible 文本里明显断在半截。",
+    "conflictingEvidence": "同一 turn 的上下文本应把这一句完整收束；当前 visibleText 没有给出应有的收尾词或短语，导致读到这里时像少了一小段正文。",
+    "conflictingTurns": [
+      168
+    ],
+    "source": "model-output",
+    "reason": "这是一处直接影响阅读顺滑度的断句/残句问题，玩家可见文本在语义上没有完整闭合。"
+  }
+]
+

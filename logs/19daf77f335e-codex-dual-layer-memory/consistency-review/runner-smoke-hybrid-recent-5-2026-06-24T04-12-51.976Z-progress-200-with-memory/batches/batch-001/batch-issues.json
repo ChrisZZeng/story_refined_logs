@@ -1,0 +1,47 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 5,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第5轮选项写作：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "第3-5轮玩家目标一直是去暗街找卡琳娜、换取敏特情报；同轮正文也只讨论“用什么代价”换情报，没有建立“往日总是如影随形”这个片段可承接的对象或含义。",
+    "conflictingTurns": [
+      3,
+      4,
+      5
+    ],
+    "source": "model-output",
+    "reason": "该选项后半句像未清理的诗性残片，和可执行行动“直接去暗街”拼接后语义不清，降低了玩家选择时的可读性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第9轮卡琳娜说：“愿意跟一个只见过两次面的小女孩走夜路的人，在这岛上不太多。”",
+    "conflictingEvidence": "第8轮同一连续场景中卡琳娜称呼玩家“午安，记者”，并说“至少今天还没过完”；第1轮梦醒后的场景也明确有阳光、庆典和人潮，没有出现入夜的时间推进。",
+    "conflictingTurns": [
+      1,
+      8
+    ],
+    "source": "model-output",
+    "reason": "暗街环境可以昏暗潮湿，但此前玩家可见时间仍是白天或午后，“走夜路”把同一段连续移动误标成夜间，造成轻微时间感冲突。"
+  }
+]

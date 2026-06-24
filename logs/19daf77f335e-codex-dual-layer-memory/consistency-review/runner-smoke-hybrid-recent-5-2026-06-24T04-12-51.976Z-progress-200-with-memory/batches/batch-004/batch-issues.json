@@ -1,0 +1,48 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 31,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 31 中，新出现的女性被卡琳娜称为“小贩”，随后又被介绍为“罗英。黄昏会的代首领。但她更喜欢别人叫她‘小贩’”，并自称“我只是一个卖消息的小贩”。",
+    "conflictingEvidence": "turn 1-5 中玩家已经持续与“那个小贩”互动，该人物被描述为“他的年纪不大，穿着一件肥大的旧外套，站在摊子后面”，后续也一直用“他/小贩”指代，并在摊子边缘、摊子底下取烟盒等动作中保持为同一男性摊贩。",
+    "conflictingTurns": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "source": "model-output",
+    "reason": "前文已经把“小贩”建立为男性摊贩兼情报提供者，turn 31 又把同一称呼作为女性罗英的偏好称号使用，且没有解释这是多人称号、绰号重名或身份伪装，容易造成玩家可见身份漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 36 中，在玩家回答“认真的”后，正文写道：“她握着杯子的手指松开了。杯底落在桌面上，发出一声轻而确定的钝响”。",
+    "conflictingEvidence": "turn 35 末尾已经写明：“卡琳娜把杯子放回桌面上，杯底落在木板上的声响很轻，却清晰可辨”，之后没有可见动作显示她重新拿起杯子。",
+    "conflictingTurns": [
+      35
+    ],
+    "source": "model-output",
+    "reason": "杯子在上一轮已经被放回桌面，下一轮又被写成再次落到桌面，形成轻微的物件状态和动作承接重复。"
+  }
+]

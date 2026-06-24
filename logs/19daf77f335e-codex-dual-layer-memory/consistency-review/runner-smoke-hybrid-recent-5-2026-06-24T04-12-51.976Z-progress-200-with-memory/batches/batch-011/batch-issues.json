@@ -1,0 +1,28 @@
+[
+  {
+    "windowRange": { "start": 91, "end": 110 },
+    "evalRange": { "start": 101, "end": 110 },
+    "turn": 109,
+    "scope": "choices",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "第109轮选项：「问她空下来的手，想试试做什么」",
+    "conflictingEvidence": "同轮玩家刚问「那现在呢——手空出来了，打算做什么？」，卡琳娜已经回答「还没想好」「你问我打算做什么——我不知道」「不急着知道」。",
+    "conflictingTurns": [109],
+    "source": "model-output",
+    "reason": "选项把同一问题作为下一步再次提供，导致玩家可见交互在已经得到回答后回到原地。"
+  },
+  {
+    "windowRange": { "start": 91, "end": 110 },
+    "evalRange": { "start": 101, "end": 110 },
+    "turn": 110,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "第110轮玩家输入为「问她空下来的手，想试试做什么」；正文中卡琳娜回答「还没想过」，又解释「扶着梯子，接东西，拉线」「后来手放进口袋里，放了那么久」「不急着知道」。",
+    "conflictingEvidence": "第109轮刚对「手空出来了，打算做什么」回答「还没想好」，并说明「扶着梯子，或者接他递下来的螺丝刀，或者帮忙拉着线」「我不知道」「不急着知道」。",
+    "conflictingTurns": [109],
+    "source": "mixed",
+    "reason": "当前玩家输入来自上一轮重复选项，正文又将同一心理动作和答案重新演出，形成连续两轮的重复场景。"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "windowRange": {
+      "start": 81,
+      "end": 100
+    },
+    "evalRange": {
+      "start": 91,
+      "end": 100
+    },
+    "turn": 92,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 92 visibleText reopens the banquet interpretation with: “宴会上——你一直在看。” / “那些吊灯、那些礼服、那些——恰到好处的笑容。你觉得……像什么？” The choices then offer: “像一场精心排练的舞台剧——每个人都有角色要演。”",
+    "conflictingEvidence": "Turn 81 already established this exact interpretation: the player said “宴会像是一个精心布置的剧场——每个人都知道自己的台词，也知道什么时候该退场”, and Karina answered “那不是一场宴会——那是一个展示橱窗。”",
+    "conflictingTurns": [
+      81
+    ],
+    "source": "model-output",
+    "reason": "The turn asks the player to rediscover a central banquet metaphor that had already been stated, accepted, and developed in the visible conversation, making the interaction feel reset rather than continued."
+  },
+  {
+    "windowRange": {
+      "start": 81,
+      "end": 100
+    },
+    "evalRange": {
+      "start": 91,
+      "end": 100
+    },
+    "turn": 99,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 99 repeats the same quiet-sitting passage and the same event: “你继续坐着”, “远处有一只猫的影子沿着墙根走过去”, and “那只黑猫走过路灯下的光区时，她的目光似乎跟着动了一下。”",
+    "conflictingEvidence": "Turn 98 had just presented the same state and event: “你选择继续坐着”, “远处有一只猫的影子沿着墙根走过去”, and “那只黑猫走过路灯下的光区时，她的目光似乎跟着动了一下。”",
+    "conflictingTurns": [
+      98
+    ],
+    "source": "model-output",
+    "reason": "The player chose to keep sitting, which can extend the silence, but the model replayed a near-identical descriptive block and repeated the cat crossing as if it were happening for the first time."
+  }
+]

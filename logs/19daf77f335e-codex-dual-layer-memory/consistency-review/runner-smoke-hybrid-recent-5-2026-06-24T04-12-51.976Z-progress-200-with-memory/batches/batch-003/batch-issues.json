@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "「你的声音打断了它自己。不尖锐，但像一张纸被平稳地从中间撕开。」",
+    "conflictingEvidence": "同轮语境是玩家继续质问德索洛，并打断德索洛关于暗街的解释；「它自己」没有清晰指代，读成声音自我打断，造成局部病句。",
+    "conflictingTurns": [21],
+    "source": "model-output",
+    "reason": "正文出现明显不顺的指代/搭配错误，轻微破坏阅读流畅性。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 24,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "选项：「换话题：名片上的事现在方便兑现吗？」",
+    "conflictingEvidence": "检索 1-24 轮玩家可见 visibleText 与 choices，除本选项外没有出现过「名片」；此前可见物件主要是记者证、相机、照片，以及本轮卡琳娜交给德索洛的信封。",
+    "conflictingTurns": [1, 10, 23],
+    "source": "model-output",
+    "reason": "选项要求玩家围绕一个尚未玩家可见建立的「名片」行动，缺少上下文支撑。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 25,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜听到玩家说「我看懂了你用‘亏欠’作货币」后回应：「亏欠？」「我第一次听到有人这么形容。」「但你说是‘亏欠’。」",
+    "conflictingEvidence": "第 4 轮小贩已经说「申诉人不收钱，收亏欠」；第 13 轮卡琳娜本人解释暗街规矩时说「尊严。亏欠。」以及「这份亏欠本身，就是暗街的货币」。",
+    "conflictingTurns": [4, 13],
+    "source": "model-output",
+    "reason": "卡琳娜把此前自己已经明确提出的核心概念当成第一次听到，破坏了暗街规则和人物记忆的连续性。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "黑猫对卡琳娜说：「你得告诉她。」「你欠的人。你不说，她会一直问下去。你知道她会的。」",
+    "conflictingEvidence": "此前卡琳娜多次称呼玩家为「记者先生」，例如第 18 轮「站着别动，记者先生。」和第 24 轮「记者先生。这一行你看懂了多少？」当前语境中持续追问卡琳娜的是玩家。",
+    "conflictingTurns": [18, 24],
+    "source": "model-output",
+    "reason": "台词用「她」指代正在追问的玩家，与此前男性称谓「记者先生」冲突；若另指他人，则该人未在当前对话中建立，仍会造成玩家可见混乱。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 30,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "玩家输入为「建议她穿这件旧棉衣——它更适合她」；正文随后写卡琳娜说「我们走」，并直接叙述「你跟上去」进入凯旋门晚宴。",
+    "conflictingEvidence": "第 29 轮选项中另有单独选项「直接表明：如果跟她去晚宴能避开麻烦，那我去」，但玩家没有选择该项；本轮玩家只对衣服给建议，没有明确同意同行或进入晚宴。",
+    "conflictingTurns": [29, 30],
+    "source": "model-output",
+    "reason": "模型把服装建议推进成玩家已经同意赴宴并完成场景迁移，越过了玩家本可选择是否同行的行动分支。"
+  }
+]

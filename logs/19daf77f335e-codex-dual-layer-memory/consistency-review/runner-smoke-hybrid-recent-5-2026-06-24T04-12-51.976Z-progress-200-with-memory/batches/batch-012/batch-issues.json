@@ -1,0 +1,48 @@
+[
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 113,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 113 choices include \"轻轻伸出手，覆上她的手背\". Turn 114 then follows that selected action with \"让那只手自然地、平稳地落到了她搁在椅面上的手背上\" and \"手背上她皮肤的温度，在你掌心下保持着稳定\".",
+    "conflictingEvidence": "Turn 113 visibleText states that Karina placed the hand on the bench \"掌心朝上\". With the palm facing up on the bench, the back of the hand is not the exposed upper surface for the player to cover without an intervening repositioning.",
+    "conflictingTurns": [
+      113
+    ],
+    "source": "model-output",
+    "reason": "The generated choice and subsequent narration treat a palm-up hand as if the back of the hand were exposed upward, making the focal touch posture physically inconsistent."
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 120,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "high",
+    "currentEvidence": "Turn 119 has Karina answer \"真正的家\" and say \"带你去看\". Turn 120 then presents the route and arrival as a fresh reveal: \"朝一条你之前没有注意到的岔路走去\", an old iron door, a key from her coat pocket, a short passage with warm light, and Karina waiting for the player to cross the threshold.",
+    "conflictingEvidence": "Turns 38-40 already showed Karina saying \"我带你回我家\" and clarifying \"我说的不是暗街那扇铁门后面的房间。是真正的家。\" She then led the player through a darker side path to an old iron door, used a key, and the player crossed the threshold into the warm room. Turns 89-90 later show them leaving that room and walking back out to the park.",
+    "conflictingTurns": [
+      38,
+      39,
+      40,
+      89,
+      90
+    ],
+    "source": "model-output",
+    "reason": "The scene replays discovery of the true home as if it has not already happened, instead of treating this as returning to a place the player has already visited earlier that night."
+  }
+]

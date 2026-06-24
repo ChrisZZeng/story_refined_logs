@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 71,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "turn 71 playerInput 是“顺着她的话，看向卡尔，等它加入”，但 visibleText 开头写“\"它说——它在想事情。\"”，随后又写“在你说完那句话之后”。",
+    "conflictingEvidence": "turn 70 中“它说——它在想事情。”是卡琳娜说出的内容；turn 71 玩家只选择看向卡尔并等待，并没有说出这句话。",
+    "conflictingTurns": [70],
+    "source": "model-output",
+    "reason": "正文把上一轮卡琳娜的话重新放到当前轮，并用“你说完”把未发生的发言归到玩家身上，轻微改写了玩家动作。"
+  },
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 71,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 71 写“卡尔仍然闭着眼睛，蹲坐在沙发扶手上”，并写“它的尾巴尖垂在扶手边缘”。",
+    "conflictingEvidence": "turn 70 刚写黑猫“跳上沙发的另一头”，在那里“把前爪收进身体下面”，且“尾巴尖在沙发垫上轻轻敲了两下”。",
+    "conflictingTurns": [70],
+    "source": "model-output",
+    "reason": "上一轮黑猫的位置和尾巴接触点在沙发另一头/沙发垫上，当前轮无移动承接就变成蹲坐在扶手边缘。"
+  },
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 72,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "turn 72 visibleText 写“\"它醒了。\"”以及“然后它缓缓睁开眼睛”。",
+    "conflictingEvidence": "turn 71 已经写“黑猫缓缓睁开眼睛”，并且它“看了你一眼，然后转过头，把目光落在卡琳娜身上”；在 turn 72 前没有看到它重新闭眼。",
+    "conflictingTurns": [71],
+    "source": "model-output",
+    "reason": "正文把刚刚完成的醒来动作重新演出了一遍，造成卡尔状态承接重复。"
+  },
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 79,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 79 choices 中出现“聊聊宴会上那个关于‘白鸽’的传闻”。",
+    "conflictingEvidence": "此前玩家可见内容到 turn 78 没有出现过“白鸽”或“鸽”相关线索；宴会段 turn 31-38 主要围绕康纳、罗英、宴会像戏、暗街的光等内容展开，没有建立这个传闻。",
+    "conflictingTurns": [31, 32, 33, 34, 35, 36, 37, 38],
+    "source": "model-output",
+    "reason": "选项把一个未在玩家可见上下文中铺垫过的宴会传闻写成已知话题，给玩家制造了缺失线索感。"
+  },
+  {
+    "windowRange": { "start": 61, "end": 80 },
+    "evalRange": { "start": 71, "end": 80 },
+    "turn": 80,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 80 playerInput 是“聊聊宴会上那个关于‘白鸽’的传闻”；visibleText 随后写“你是说宴会上那个传闻”以及“白鸽在宴会上有很多名字”。",
+    "conflictingEvidence": "到 turn 78 为止玩家可见时间线没有建立“白鸽”传闻；turn 79 才第一次在选项中引入“聊聊宴会上那个关于‘白鸽’的传闻”。",
+    "conflictingTurns": [31, 32, 33, 34, 35, 36, 37, 38, 79],
+    "source": "mixed",
+    "reason": "上一轮选项先带入未铺垫传闻，当前轮玩家选择后正文又把它固定成卡琳娜可识别的既有宴会话题，扩大了上下文跳跃。"
+  }
+]

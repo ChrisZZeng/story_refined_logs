@@ -1,0 +1,807 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 5,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第5轮选项写作：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "第3-5轮玩家目标一直是去暗街找卡琳娜、换取敏特情报；同轮正文也只讨论“用什么代价”换情报，没有建立“往日总是如影随形”这个片段可承接的对象或含义。",
+    "conflictingTurns": [
+      3,
+      4,
+      5
+    ],
+    "source": "model-output",
+    "reason": "该选项后半句像未清理的诗性残片，和可执行行动“直接去暗街”拼接后语义不清，降低了玩家选择时的可读性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第9轮卡琳娜说：“愿意跟一个只见过两次面的小女孩走夜路的人，在这岛上不太多。”",
+    "conflictingEvidence": "第8轮同一连续场景中卡琳娜称呼玩家“午安，记者”，并说“至少今天还没过完”；第1轮梦醒后的场景也明确有阳光、庆典和人潮，没有出现入夜的时间推进。",
+    "conflictingTurns": [
+      1,
+      8
+    ],
+    "source": "model-output",
+    "reason": "暗街环境可以昏暗潮湿，但此前玩家可见时间仍是白天或午后，“走夜路”把同一段连续移动误标成夜间，造成轻微时间感冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "「你的声音打断了它自己。不尖锐，但像一张纸被平稳地从中间撕开。」",
+    "conflictingEvidence": "同轮语境是玩家继续质问德索洛，并打断德索洛关于暗街的解释；「它自己」没有清晰指代，读成声音自我打断，造成局部病句。",
+    "conflictingTurns": [
+      21
+    ],
+    "source": "model-output",
+    "reason": "正文出现明显不顺的指代/搭配错误，轻微破坏阅读流畅性。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "选项：「换话题：名片上的事现在方便兑现吗？」",
+    "conflictingEvidence": "检索 1-24 轮玩家可见 visibleText 与 choices，除本选项外没有出现过「名片」；此前可见物件主要是记者证、相机、照片，以及本轮卡琳娜交给德索洛的信封。",
+    "conflictingTurns": [
+      1,
+      10,
+      23
+    ],
+    "source": "model-output",
+    "reason": "选项要求玩家围绕一个尚未玩家可见建立的「名片」行动，缺少上下文支撑。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 25,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜听到玩家说「我看懂了你用‘亏欠’作货币」后回应：「亏欠？」「我第一次听到有人这么形容。」「但你说是‘亏欠’。」",
+    "conflictingEvidence": "第 4 轮小贩已经说「申诉人不收钱，收亏欠」；第 13 轮卡琳娜本人解释暗街规矩时说「尊严。亏欠。」以及「这份亏欠本身，就是暗街的货币」。",
+    "conflictingTurns": [
+      4,
+      13
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜把此前自己已经明确提出的核心概念当成第一次听到，破坏了暗街规则和人物记忆的连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "黑猫对卡琳娜说：「你得告诉她。」「你欠的人。你不说，她会一直问下去。你知道她会的。」",
+    "conflictingEvidence": "此前卡琳娜多次称呼玩家为「记者先生」，例如第 18 轮「站着别动，记者先生。」和第 24 轮「记者先生。这一行你看懂了多少？」当前语境中持续追问卡琳娜的是玩家。",
+    "conflictingTurns": [
+      18,
+      24
+    ],
+    "source": "model-output",
+    "reason": "台词用「她」指代正在追问的玩家，与此前男性称谓「记者先生」冲突；若另指他人，则该人未在当前对话中建立，仍会造成玩家可见混乱。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 30,
+    "scope": "mixed",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "玩家输入为「建议她穿这件旧棉衣——它更适合她」；正文随后写卡琳娜说「我们走」，并直接叙述「你跟上去」进入凯旋门晚宴。",
+    "conflictingEvidence": "第 29 轮选项中另有单独选项「直接表明：如果跟她去晚宴能避开麻烦，那我去」，但玩家没有选择该项；本轮玩家只对衣服给建议，没有明确同意同行或进入晚宴。",
+    "conflictingTurns": [
+      29,
+      30
+    ],
+    "source": "model-output",
+    "reason": "模型把服装建议推进成玩家已经同意赴宴并完成场景迁移，越过了玩家本可选择是否同行的行动分支。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 31,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 31 中，新出现的女性被卡琳娜称为“小贩”，随后又被介绍为“罗英。黄昏会的代首领。但她更喜欢别人叫她‘小贩’”，并自称“我只是一个卖消息的小贩”。",
+    "conflictingEvidence": "turn 1-5 中玩家已经持续与“那个小贩”互动，该人物被描述为“他的年纪不大，穿着一件肥大的旧外套，站在摊子后面”，后续也一直用“他/小贩”指代，并在摊子边缘、摊子底下取烟盒等动作中保持为同一男性摊贩。",
+    "conflictingTurns": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "source": "model-output",
+    "reason": "前文已经把“小贩”建立为男性摊贩兼情报提供者，turn 31 又把同一称呼作为女性罗英的偏好称号使用，且没有解释这是多人称号、绰号重名或身份伪装，容易造成玩家可见身份漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 36 中，在玩家回答“认真的”后，正文写道：“她握着杯子的手指松开了。杯底落在桌面上，发出一声轻而确定的钝响”。",
+    "conflictingEvidence": "turn 35 末尾已经写明：“卡琳娜把杯子放回桌面上，杯底落在木板上的声响很轻，却清晰可辨”，之后没有可见动作显示她重新拿起杯子。",
+    "conflictingTurns": [
+      35
+    ],
+    "source": "model-output",
+    "reason": "杯子在上一轮已经被放回桌面，下一轮又被写成再次落到桌面，形成轻微的物件状态和动作承接重复。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 45,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 45 visibleText: 黑猫坐在卡琳娜小腿外侧，“看着你，也看着那扇你刚刚推开的门”。",
+    "conflictingEvidence": "turn 39 visibleText: “她推开门，门轴发出一声短促的、低沉的呻吟”，卡琳娜先跨过门槛；turn 40 visibleText: “你跨过门槛”，“铁门在你身后合上”。此前玩家只是跨入门内，不是推开门的人。",
+    "conflictingTurns": [
+      39,
+      40
+    ],
+    "source": "model-output",
+    "reason": "正文把开门动作归给玩家，并用“刚刚”压缩了中间多轮室内互动，造成轻微动作归属和时间承接错误。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 46,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 46 visibleText: 卡琳娜说“卡尔带我来的”，随后视线落到黑猫；“它的耳朵轻轻转了一下——不是回应，更像是对自己名字的间接承认。”接着又说“她说这里够安静，够暗”。",
+    "conflictingEvidence": "turn 2 visibleText: 小贩说“卡尔大人”是“创建暗街秩序的那位”；turn 38 visibleText: 卡琳娜说真正的家“是卡尔的心脏。也是暗街过去的影子”。此前玩家可见信息把卡尔建立为暗街秩序相关的人物或历史核心，而黑猫一直只作为黑猫出现。",
+    "conflictingTurns": [
+      2,
+      38
+    ],
+    "source": "model-output",
+    "reason": "本轮突然让黑猫像是在承认“卡尔”是自己的名字，同时又用“她说”承接卡尔，混淆了卡尔大人与黑猫的身份关系。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 47,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "medium",
+    "currentEvidence": "turn 47 choices: “她侧过头，沉默地注视着那行褪色的小字，没有开口。”",
+    "conflictingEvidence": "turn 47 visibleText 当前承接的是玩家询问“刚来的时候最难的是什么”，卡琳娜回答“空”，场景焦点是地板、搪瓷杯和黑猫；“那行褪色的小字”来自 turn 42-44 的笔记本调查，且该选项用“她”描述卡琳娜动作，不像玩家可选择的行动。",
+    "conflictingTurns": [
+      42,
+      43,
+      44,
+      47
+    ],
+    "source": "model-output",
+    "reason": "选项把早前笔记本线索硬拉回当前对话，并把可选行动写成第三人称角色动作，破坏玩家操作语义。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "turn 50 visibleText: “你把杯子放到桌面上，站起来。”",
+    "conflictingEvidence": "turn 45 visibleText 中玩家接过茶后站在卡琳娜面前问话；turn 46-49 连续写玩家手中握着搪瓷杯听卡琳娜说话，没有玩家坐下的可见动作。turn 43 曾出现“在沙发上坐下来”的未选择选项，但玩家没有选择它。",
+    "conflictingTurns": [
+      43,
+      45,
+      46,
+      47,
+      48,
+      49
+    ],
+    "source": "model-output",
+    "reason": "正文让玩家“站起来”，但此前可见行动没有建立玩家已经坐下，属于轻微姿态连续性跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 53,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 53: \"卡琳娜从口袋里掏出钥匙——那把旧铜钥匙你在暗街铁门上见过的那把，但它的齿痕不同。\"",
+    "conflictingEvidence": "同一句同时说这是此前见过的“那把”旧铜钥匙，又说“齿痕不同”。turn 9 只建立过暗街铁门上使用了一把老式长柄铜钥匙。",
+    "conflictingTurns": [
+      9,
+      53
+    ],
+    "source": "model-output",
+    "reason": "如果是同一把钥匙，齿痕不应不同；如果是另一把钥匙，正文不应称为此前见过的“那把”。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 54,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "high",
+    "currentEvidence": "turn 52-54 将“真正的家”作为另外一个地方重新引出，turn 53 再次从公园侧方小路走到灰砖墙老铁门，turn 54 再次进入约二十平米、有暗绿色裂纹灯罩、深棕色皮质沙发、灰白毛毯、旧木桌、磨损书籍和搪瓷茶杯的房间。",
+    "conflictingEvidence": "turn 39-40 已经从公园侧方更暗的小路进入一扇灰砖墙里的老旧铁门，并在 turn 40 看到同样约二十平米、天花板比暗街房间高、暗绿色裂纹灯罩、深棕色皮沙发、灰白毛毯、旧木桌、磨损书籍和搪瓷杯的房间。turn 41-50 都在这个房间内互动，turn 51 则从这扇铁门跨出去到公园。",
+    "conflictingTurns": [
+      39,
+      40,
+      41,
+      50,
+      51
+    ],
+    "source": "model-output",
+    "reason": "重点评估段把玩家刚刚待过并离开的房间重新当成未知新地点进入，重置了空间进度和场景连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 54,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 54: \"脚边传来一道几乎无声的动静。那只黑猫不知什么时候已经蹲坐在沙发扶手上...\"",
+    "conflictingEvidence": "turn 51 明确写道：\"那只黑猫没有跟来——它在铁门边蹲坐下来，用尾巴尖搭住前爪，看着你们离开的方向，但没有动。\" turn 53 的前往铁门途中也没有交代黑猫跟随或提前到达。",
+    "conflictingTurns": [
+      51,
+      53
+    ],
+    "source": "model-output",
+    "reason": "黑猫刚被明示留在上一扇铁门边，随后无承接地出现在另一处室内，造成角色/物件位置跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 56,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "turn 56 choice: \"她也在沙发上坐下，等你自己开口说想说的话\"",
+    "conflictingEvidence": "turn 56 visibleText 刚写明：\"卡琳娜没有坐下来。她仍然倚靠在桌沿...\"；同轮其他选项都是玩家发问或玩家动作。",
+    "conflictingTurns": [
+      56
+    ],
+    "source": "model-output",
+    "reason": "该选项让玩家直接决定卡琳娜的动作和等待状态，偏离玩家可选行动/发言的交互视角，并与正文刚建立的 NPC 姿态相冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 64,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第64轮正文多处混入异常字符或被误替换的破折号，例如“旧木纹路上一一没有握紧”、“语调平淡一一但”、“松了ー分”、“一一然后她开口了”。",
+    "conflictingEvidence": "同一窗口相邻轮次使用的是稳定的中文叙事标点，例如第63轮“不是不能说。只是……”和第65轮“我刚才说‘刺’——那不是比喻。”",
+    "conflictingTurns": [
+      63,
+      65
+    ],
+    "source": "model-output",
+    "reason": "异常字符和误替换标点破坏了此前稳定的中文正文格式，属于局部可见文本质量回退。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 65,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "第65轮在玩家点头后，再次写“好”、“我刚才说‘刺’——那不是比喻”、“有些事就是这样。你知道了，它就扎在那里”、“那你知道——这个人是怎么变成这样的吗？”。",
+    "conflictingEvidence": "第64轮已经完成同一组铺垫：“好”、“我刚才说'刺'一一那不是什么比喻”、“你知道了，它就扎在那里”、“你刚才说，你看到了一个不用计算每一步的人。那你知道这个人是怎么变成这样的吗？”并以“然后她开口了”收束。",
+    "conflictingTurns": [
+      64
+    ],
+    "source": "model-output",
+    "reason": "玩家选择继续听后，正文先重放上一轮已经建立的同一情绪和信息节点，再进入新内容，造成轻微重复演出。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 69,
+    "scope": "choices",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第69轮正文写“你留在原地，没有急着起身”，但同轮选项仍提供“坐下来，安静地待一会儿”。",
+    "conflictingEvidence": "第56轮已经建立玩家“在那道被坐压了太多次的凹陷里坐下来”；第69轮正文自身也确认玩家没有起身。",
+    "conflictingTurns": [
+      56,
+      69
+    ],
+    "source": "model-output",
+    "reason": "选项把已经坐着且没有起身的玩家重新放到需要坐下的位置，造成轻微姿态连续性断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 51,
+      "end": 70
+    },
+    "evalRange": {
+      "start": 61,
+      "end": 70
+    },
+    "turn": 70,
+    "scope": "mixed",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第70轮正文写“卡尔有时候会在这个时间醒过来”“它晚上不怎么睡”，随后卡琳娜看向“沙发那头闭着眼睛的黑猫”；同轮选项继续写“顺着她的话，看向卡尔，等它加入”和“问她卡尔晚上都在‘想事情’想什么”。",
+    "conflictingEvidence": "此前玩家可见内容把卡尔作为重要人物或暗街创设者处理：第2轮称“卡尔大人……就是创建暗街秩序的那位”，第42轮写“卡尔让我记下……她说”，第60轮写“从卡尔把这间屋子交给我开始”，第65轮写“那时候卡尔把我带到这里”；直到第69轮，在场动物仍主要被称为“黑猫”。",
+    "conflictingTurns": [
+      2,
+      42,
+      60,
+      65,
+      69
+    ],
+    "source": "model-output",
+    "reason": "正文和选项无过渡地把此前像重要人物一样出现的“卡尔”绑定到在场黑猫，关键身份关系缺少玩家可见承接。"
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 71,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 71 写“卡尔仍然闭着眼睛，蹲坐在沙发扶手上”，并写“它的尾巴尖垂在扶手边缘”。",
+    "conflictingEvidence": "turn 70 刚写黑猫“跳上沙发的另一头”，在那里“把前爪收进身体下面”，且“尾巴尖在沙发垫上轻轻敲了两下”。",
+    "conflictingTurns": [
+      70
+    ],
+    "source": "model-output",
+    "reason": "上一轮黑猫的位置和尾巴接触点在沙发另一头/沙发垫上，当前轮无移动承接就变成蹲坐在扶手边缘。"
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 71,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "low",
+    "currentEvidence": "turn 71 playerInput 是“顺着她的话，看向卡尔，等它加入”，但 visibleText 开头写“\"它说——它在想事情。\"”，随后又写“在你说完那句话之后”。",
+    "conflictingEvidence": "turn 70 中“它说——它在想事情。”是卡琳娜说出的内容；turn 71 玩家只选择看向卡尔并等待，并没有说出这句话。",
+    "conflictingTurns": [
+      70
+    ],
+    "source": "model-output",
+    "reason": "正文把上一轮卡琳娜的话重新放到当前轮，并用“你说完”把未发生的发言归到玩家身上，轻微改写了玩家动作。"
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 72,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "turn 72 visibleText 写“\"它醒了。\"”以及“然后它缓缓睁开眼睛”。",
+    "conflictingEvidence": "turn 71 已经写“黑猫缓缓睁开眼睛”，并且它“看了你一眼，然后转过头，把目光落在卡琳娜身上”；在 turn 72 前没有看到它重新闭眼。",
+    "conflictingTurns": [
+      71
+    ],
+    "source": "model-output",
+    "reason": "正文把刚刚完成的醒来动作重新演出了一遍，造成卡尔状态承接重复。"
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 79,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 79 choices 中出现“聊聊宴会上那个关于‘白鸽’的传闻”。",
+    "conflictingEvidence": "此前玩家可见内容到 turn 78 没有出现过“白鸽”或“鸽”相关线索；宴会段 turn 31-38 主要围绕康纳、罗英、宴会像戏、暗街的光等内容展开，没有建立这个传闻。",
+    "conflictingTurns": [
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38
+    ],
+    "source": "model-output",
+    "reason": "选项把一个未在玩家可见上下文中铺垫过的宴会传闻写成已知话题，给玩家制造了缺失线索感。"
+  },
+  {
+    "windowRange": {
+      "start": 61,
+      "end": 80
+    },
+    "evalRange": {
+      "start": 71,
+      "end": 80
+    },
+    "turn": 80,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 80 playerInput 是“聊聊宴会上那个关于‘白鸽’的传闻”；visibleText 随后写“你是说宴会上那个传闻”以及“白鸽在宴会上有很多名字”。",
+    "conflictingEvidence": "到 turn 78 为止玩家可见时间线没有建立“白鸽”传闻；turn 79 才第一次在选项中引入“聊聊宴会上那个关于‘白鸽’的传闻”。",
+    "conflictingTurns": [
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      79
+    ],
+    "source": "mixed",
+    "reason": "上一轮选项先带入未铺垫传闻，当前轮玩家选择后正文又把它固定成卡琳娜可识别的既有宴会话题，扩大了上下文跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 71,
+      "end": 90
+    },
+    "evalRange": {
+      "start": 81,
+      "end": 90
+    },
+    "turn": 89,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 89 前半仍写她的目光落在“自己平放在膝盖上的指尖上”，随后突然写“路灯的光透过梧桐叶在她眼底投下一层浅影”“夜风从你们之间穿过去”“她从长椅上站起身”“她站在路灯照亮的潮湿路面上”。",
+    "conflictingEvidence": "Turn 88 仍明确处在室内小屋：卡琳娜“坐在旧木桌沿，手指平放在暖光与暗影交界的那条线上”，炉灶里有余烬，空气里有姜片和煮茶味；Turn 71-88 连续维持沙发、旧木桌、炉灶、裂纹灯罩、卡尔在沙发扶手上的室内场景。",
+    "conflictingTurns": [
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88
+    ],
+    "source": "model-output",
+    "reason": "模型在同一轮内未写出离开房间的动作，就把人物和环境从室内茶桌切到室外长椅/路灯/潮湿路面，破坏玩家对当前位置和动作顺序的感知。"
+  },
+  {
+    "windowRange": {
+      "start": 71,
+      "end": 90
+    },
+    "evalRange": {
+      "start": 81,
+      "end": 90
+    },
+    "turn": 90,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 90 写“你跟着她站起身的动作，从暖光笼罩的室内跨出门槛，走进暗街夜晚的空气里”，随后“穿过三条窄巷”到达梧桐树和铸铁长椅所在的开阔地。",
+    "conflictingEvidence": "Turn 89 结尾已经写卡琳娜“从长椅上站起身”，并且“站在路灯照亮的潮湿路面上，侧过半个肩膀来等你”，玩家在 Turn 90 选择的也是“跟她一起走走”。",
+    "conflictingTurns": [
+      89
+    ],
+    "source": "model-output",
+    "reason": "前一轮已经把卡琳娜放到室外路灯下等待，下一轮又从室内重新起身出门，等于回滚了刚刚可见的空间状态和动作进度。"
+  },
+  {
+    "windowRange": {
+      "start": 81,
+      "end": 100
+    },
+    "evalRange": {
+      "start": 91,
+      "end": 100
+    },
+    "turn": 92,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 92 visibleText reopens the banquet interpretation with: “宴会上——你一直在看。” / “那些吊灯、那些礼服、那些——恰到好处的笑容。你觉得……像什么？” The choices then offer: “像一场精心排练的舞台剧——每个人都有角色要演。”",
+    "conflictingEvidence": "Turn 81 already established this exact interpretation: the player said “宴会像是一个精心布置的剧场——每个人都知道自己的台词，也知道什么时候该退场”, and Karina answered “那不是一场宴会——那是一个展示橱窗。”",
+    "conflictingTurns": [
+      81
+    ],
+    "source": "model-output",
+    "reason": "The turn asks the player to rediscover a central banquet metaphor that had already been stated, accepted, and developed in the visible conversation, making the interaction feel reset rather than continued."
+  },
+  {
+    "windowRange": {
+      "start": 81,
+      "end": 100
+    },
+    "evalRange": {
+      "start": 91,
+      "end": 100
+    },
+    "turn": 99,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "Turn 99 repeats the same quiet-sitting passage and the same event: “你继续坐着”, “远处有一只猫的影子沿着墙根走过去”, and “那只黑猫走过路灯下的光区时，她的目光似乎跟着动了一下。”",
+    "conflictingEvidence": "Turn 98 had just presented the same state and event: “你选择继续坐着”, “远处有一只猫的影子沿着墙根走过去”, and “那只黑猫走过路灯下的光区时，她的目光似乎跟着动了一下。”",
+    "conflictingTurns": [
+      98
+    ],
+    "source": "model-output",
+    "reason": "The player chose to keep sitting, which can extend the silence, but the model replayed a near-identical descriptive block and repeated the cat crossing as if it were happening for the first time."
+  },
+  {
+    "windowRange": {
+      "start": 91,
+      "end": 110
+    },
+    "evalRange": {
+      "start": 101,
+      "end": 110
+    },
+    "turn": 109,
+    "scope": "choices",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "第109轮选项：「问她空下来的手，想试试做什么」",
+    "conflictingEvidence": "同轮玩家刚问「那现在呢——手空出来了，打算做什么？」，卡琳娜已经回答「还没想好」「你问我打算做什么——我不知道」「不急着知道」。",
+    "conflictingTurns": [
+      109
+    ],
+    "source": "model-output",
+    "reason": "选项把同一问题作为下一步再次提供，导致玩家可见交互在已经得到回答后回到原地。"
+  },
+  {
+    "windowRange": {
+      "start": 91,
+      "end": 110
+    },
+    "evalRange": {
+      "start": 101,
+      "end": 110
+    },
+    "turn": 110,
+    "scope": "mixed",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "第110轮玩家输入为「问她空下来的手，想试试做什么」；正文中卡琳娜回答「还没想过」，又解释「扶着梯子，接东西，拉线」「后来手放进口袋里，放了那么久」「不急着知道」。",
+    "conflictingEvidence": "第109轮刚对「手空出来了，打算做什么」回答「还没想好」，并说明「扶着梯子，或者接他递下来的螺丝刀，或者帮忙拉着线」「我不知道」「不急着知道」。",
+    "conflictingTurns": [
+      109
+    ],
+    "source": "mixed",
+    "reason": "当前玩家输入来自上一轮重复选项，正文又将同一心理动作和答案重新演出，形成连续两轮的重复场景。"
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 113,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 113 choices include \"轻轻伸出手，覆上她的手背\". Turn 114 then follows that selected action with \"让那只手自然地、平稳地落到了她搁在椅面上的手背上\" and \"手背上她皮肤的温度，在你掌心下保持着稳定\".",
+    "conflictingEvidence": "Turn 113 visibleText states that Karina placed the hand on the bench \"掌心朝上\". With the palm facing up on the bench, the back of the hand is not the exposed upper surface for the player to cover without an intervening repositioning.",
+    "conflictingTurns": [
+      113
+    ],
+    "source": "model-output",
+    "reason": "The generated choice and subsequent narration treat a palm-up hand as if the back of the hand were exposed upward, making the focal touch posture physically inconsistent."
+  },
+  {
+    "windowRange": {
+      "start": 101,
+      "end": 120
+    },
+    "evalRange": {
+      "start": 111,
+      "end": 120
+    },
+    "turn": 120,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "high",
+    "currentEvidence": "Turn 119 has Karina answer \"真正的家\" and say \"带你去看\". Turn 120 then presents the route and arrival as a fresh reveal: \"朝一条你之前没有注意到的岔路走去\", an old iron door, a key from her coat pocket, a short passage with warm light, and Karina waiting for the player to cross the threshold.",
+    "conflictingEvidence": "Turns 38-40 already showed Karina saying \"我带你回我家\" and clarifying \"我说的不是暗街那扇铁门后面的房间。是真正的家。\" She then led the player through a darker side path to an old iron door, used a key, and the player crossed the threshold into the warm room. Turns 89-90 later show them leaving that room and walking back out to the park.",
+    "conflictingTurns": [
+      38,
+      39,
+      40,
+      89,
+      90
+    ],
+    "source": "model-output",
+    "reason": "The scene replays discovery of the true home as if it has not already happened, instead of treating this as returning to a place the player has already visited earlier that night."
+  },
+  {
+    "windowRange": {
+      "start": 151,
+      "end": 170
+    },
+    "evalRange": {
+      "start": 161,
+      "end": 170
+    },
+    "turn": 168,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "“像是已经把该说的话都留在了那间暖光”后面直接切到下一句“她的脚步声在旧砖墙之间轻轻碰撞，然后被夜风收走。”，句子在 player-visible 文本里明显断在半截。",
+    "conflictingEvidence": "同一 turn 的上下文本应把这一句完整收束；当前 visibleText 没有给出应有的收尾词或短语，导致读到这里时像少了一小段正文。",
+    "conflictingTurns": [
+      168
+    ],
+    "source": "model-output",
+    "reason": "这是一处直接影响阅读顺滑度的断句/残句问题，玩家可见文本在语义上没有完整闭合。"
+  }
+]
