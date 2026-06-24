@@ -267,6 +267,73 @@ function loadTurnOutput(runDir, turn) {
   return readJsonIfExists(path.join(runDir, `turn-${padded}`, '04-output.json'));
 }
 
+function loadTurnScriptState(runDir, turn) {
+  const padded = String(turn).padStart(2, '0');
+  return readJsonIfExists(path.join(runDir, `turn-${padded}`, '02-script-state.json'));
+}
+
+function firstLine(value) {
+  return String(value ?? '').split(/\r?\n/).find((line) => line.trim() !== '')?.trim() ?? '';
+}
+
+function collectCategoryText(byCategory, categories) {
+  const values = categories.flatMap((category) => byCategory.get(category) ?? []);
+  return values.join('\n\n');
+}
+
+function buildStorylineBrief(scriptState) {
+  const items = Array.isArray(scriptState?.context?.items) ? scriptState.context.items : [];
+  const beatItems = items.filter((item) => item?.owner?.kind === 'beat' && item?.owner?.id);
+  const currentBeatId = beatItems[0]?.owner?.id;
+  if (!currentBeatId) return null;
+
+  const currentItems = beatItems.filter((item) => item?.owner?.id === currentBeatId);
+  const byCategory = new Map();
+  for (const item of currentItems) {
+    const text = item?.text;
+    if (typeof text !== 'string' || text.trim() === '') continue;
+    const category = item?.category ?? 'beat::other';
+    const existing = byCategory.get(category) ?? [];
+    existing.push(text.trim());
+    byCategory.set(category, existing);
+  }
+
+  const title = byCategory.get('beat::title')?.[0] ?? currentBeatId;
+  const themeCompass = byCategory.get('beat::theme_compass')?.[0] ?? '';
+  const orderedCategories = [
+    ['Opening template', ['beat::opening_template', 'beat::openingTemplate', 'beat::opening-template']],
+    ['Core beats / 核心流程', ['beat::core_beats', 'beat::coreBeats', 'beat::core-beats', 'beat::core_flow']],
+    ['主题罗盘', ['beat::theme_compass']],
+    ['约束', ['beat::constraints']],
+    ['互动后续', ['beat::interaction_followup']],
+  ];
+  const usedCategories = new Set([
+    'beat::title',
+    'beat::content',
+    ...orderedCategories.flatMap(([, categories]) => categories),
+  ]);
+  const structuredSections = orderedCategories.flatMap(([label, categories]) => {
+    const text = collectCategoryText(byCategory, categories);
+    return text ? [{ label, text }] : [];
+  });
+  const extraSections = [...byCategory.entries()].flatMap(([category, values]) => {
+    if (usedCategories.has(category)) return [];
+    const text = Array.isArray(values) ? values.join('\n\n') : '';
+    if (!text) return [];
+    return [{ label: category.replace(/^beat::/, ''), text }];
+  });
+
+  return {
+    beatId: currentBeatId,
+    title,
+    summary: firstLine(themeCompass),
+    sections: [
+      ...structuredSections,
+      ...extraSections,
+    ],
+  };
+}
+
 function buildMetrics(summary, issues, turns, mode) {
   const report = summary?.reports?.[mode] ?? {};
   const issueTurns = uniqueSorted(issues.map((issue) => issue.turn).filter(Number.isFinite));
@@ -317,6 +384,26 @@ function renderPlotPoint(output) {
     renderList('requiredContent', plotPoint.requiredContent),
     renderList('currentTurnConstraints', plotPoint.currentTurnConstraints),
     renderList('currentStorylineConstraints', plotPoint.currentStorylineConstraints),
+    '</details>',
+  ].join('\n');
+}
+
+function renderStorylineBrief(scriptState, defaultOpen) {
+  const brief = buildStorylineBrief(scriptState);
+  if (!brief) return '';
+  const openAttr = defaultOpen ? ' open' : '';
+  const subtitle = brief.summary ? ` · ${brief.summary}` : '';
+
+  return [
+    `<details class="storyline-brief"${openAttr}>`,
+    `<summary>当前故事线 / Beat 参考：${escapeHtml(brief.beatId)} · ${escapeHtml(brief.title)}</summary>`,
+    `<div class="storyline-meta">${escapeHtml(brief.beatId)}${escapeHtml(subtitle)}</div>`,
+    ...brief.sections.map((section) => [
+      '<section class="storyline-section">',
+      `<h4>${escapeHtml(section.label)}</h4>`,
+      `<p>${escapeHtml(section.text)}</p>`,
+      '</section>',
+    ].join('\n')),
     '</details>',
   ].join('\n');
 }
@@ -408,7 +495,7 @@ function renderIssueCard(issue, id) {
   ].join('\n');
 }
 
-function renderTurn(turn, output, issuesForTurn, issueIndexByObject) {
+function renderTurn(turn, output, scriptState, issuesForTurn, issueIndexByObject) {
   const choices = Array.isArray(turn.choices) ? turn.choices : [];
   const hasIssues = issuesForTurn.length > 0;
   const issuePills = issuesForTurn.map((issue) => {
@@ -433,6 +520,7 @@ function renderTurn(turn, output, issuesForTurn, issueIndexByObject) {
     turn.playerInputSource ? `<div class="source-note">${escapeHtml(turn.playerInputSource)}</div>` : '',
     '</div>',
     renderObjectDetails('生成前可见事件', turn.preLlmEvents),
+    renderStorylineBrief(scriptState, hasIssues),
     renderPlotPoint(output),
     renderNarrative(turn, output),
     choices.length > 0
@@ -463,6 +551,7 @@ function renderHtml(data) {
     issues,
     turns,
     outputsByTurn,
+    scriptStatesByTurn,
     mode,
   } = data;
 
@@ -547,6 +636,12 @@ h2 { margin:0; font-size:24px; }
 .director-brief dl { display:grid; grid-template-columns:90px minmax(0,1fr); gap:4px 10px; margin:8px 0; }
 .director-brief dt { color:var(--muted); font-weight:700; }
 .director-brief dd { margin:0; }
+.storyline-brief { border:1px solid #cdd7e3; border-radius:8px; margin:0 0 12px; padding:9px 12px; background:#f8fbff; }
+.storyline-brief summary { cursor:pointer; color:#3d556f; font-weight:800; }
+.storyline-meta { margin:8px 0 10px; color:var(--muted); font-size:13px; }
+.storyline-section { border-top:1px dashed #cdd7e3; padding-top:8px; margin-top:8px; }
+.storyline-section h4 { margin:0 0 5px; color:#3d556f; font-size:13px; }
+.storyline-section p { margin:0; white-space:pre-wrap; }
 .detail-list h4 { margin:10px 0 4px; color:var(--muted); font-size:13px; }
 .detail-list ul { margin:0 0 8px 18px; padding:0; }
 .character-beat { border:1px solid var(--line); background:#fff; border-radius:6px; padding:8px 10px; margin:0 0 8px; }
@@ -590,7 +685,7 @@ dd { margin:3px 0 0; color:#344054; }
     </div>
     <div class="nav-strip" aria-label="问题轮次导航">${nav.length > 0 ? nav.join('') : '<span class="clean-pill">没有 issue</span>'}</div>
   </section>
-  ${turns.map((turn) => renderTurn(turn, outputsByTurn.get(turn.turn), issuesByTurn.get(turn.turn) ?? [], issueIndexByObject)).join('\n')}
+  ${turns.map((turn) => renderTurn(turn, outputsByTurn.get(turn.turn), scriptStatesByTurn.get(turn.turn), issuesByTurn.get(turn.turn) ?? [], issueIndexByObject)).join('\n')}
   <footer class="footer">Generated from ${escapeHtml(path.basename(groupDir))} · ${escapeHtml(mode)} consistency review</footer>
 </div>
 </body>
@@ -616,6 +711,7 @@ function loadRunData(groupDir, runId, mode) {
   const summary = readJsonIfExists(path.join(reviewDir, 'summary.json'), {});
   const runConfig = readJsonIfExists(path.join(runDir, '00-run-config.json'), {});
   const outputsByTurn = new Map(turns.map((turn) => [turn.turn, loadTurnOutput(runDir, turn.turn)]));
+  const scriptStatesByTurn = new Map(turns.map((turn) => [turn.turn, loadTurnScriptState(runDir, turn.turn)]));
 
   return {
     runId,
@@ -627,6 +723,7 @@ function loadRunData(groupDir, runId, mode) {
     issues,
     turns,
     outputsByTurn,
+    scriptStatesByTurn,
     mode,
   };
 }
