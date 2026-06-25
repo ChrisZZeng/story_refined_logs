@@ -1,0 +1,80 @@
+[
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "德索洛下跪时写道：“他的另一条膝盖也跟着落下。触地的时候发出一声沉闷的声响——布料和水面之间的接触，在安静的空气里扩散开来。”",
+    "conflictingEvidence": "同一段前文说“他跪在卡琳娜面前的水泥地面上”；turn 26 描述这个地下室的地板是“裸露的水泥”。",
+    "conflictingTurns": [26],
+    "source": "model-output",
+    "reason": "地下室场景是水泥地面，却突然写成“水面”，造成局部动作和材质描写不成立。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 35,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 35 写道：“高窗上透进来的光线从暖黄转向更深的色调——像是太阳的位置在窗外发生了推移。”",
+    "conflictingEvidence": "turn 22 和 turn 23 已把场景定在夜里，窗外是“暗街夜景”和“路灯染黄的建筑轮廓”；turn 26 进入安全屋时也写明“今晚。明天天亮之后……安全。至少今晚是。”",
+    "conflictingTurns": [22, 23, 26],
+    "source": "model-output",
+    "reason": "夜间地下室中来自路灯或街灯的高窗光线被改写成太阳移动造成的光线变化，暗示了没有承接的时间跳跃。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜突然说：“晚宴的邀请函还在桌上。”随后又说“天快黑了”和“……需要换件衣服。”",
+    "conflictingEvidence": "turn 25 的紧迫点是“天亮之前”会有人摸到这片区域；turn 26 选择并抵达安全屋后，卡琳娜明确说“今晚。明天天亮之后——条件谈清楚。你决定要不要接。安全。至少今晚是。”此前玩家可见时间线没有铺垫晚宴或邀请函。",
+    "conflictingTurns": [25, 26],
+    "source": "model-output",
+    "reason": "本轮把等待天亮的安全屋休整突然改成赴晚宴，并把当前时间说成“天快黑了”，缺少玩家可见承接。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 37 正文开头标注：“[卡尔 → 帕兹]“你觉得呢，卡尔——你希望她穿成什么样？””",
+    "conflictingEvidence": "turn 37 的 playerInput 是“你觉得呢，卡尔——你希望她穿成什么样？”，turn 36 的对应选项也是玩家向卡尔发问。",
+    "conflictingTurns": [36],
+    "source": "model-output",
+    "reason": "玩家台词被错误归属给卡尔，导致说话人身份和互动方向短暂错位。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 38,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 38 正文只写卡琳娜说“走”，打开通往楼道的铁门，卡尔跟上，最后“门在你们身后合上”；但本轮 choices 已经变成“扫视宴会厅”“跟上卡琳娜的步伐”“走向摆着食物的长桌”“搜寻康纳的身影”。",
+    "conflictingEvidence": "turn 37 只是提出“来吗？”并展示邀请函；turn 38 尚未呈现离开安全屋后的路程、换装或抵达宴会厅。",
+    "conflictingTurns": [37],
+    "source": "model-output",
+    "reason": "选项预设玩家已经站在宴会厅里，但当前可见正文尚未把玩家移动到那个地点。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 39,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 39 开头写道：“铁门在身后合拢时发出的金属碰撞声，被门外的嘈杂吞没了。你站在宴会厅入口内侧的台阶上。”",
+    "conflictingEvidence": "turn 38 结束时只呈现了从地下室铁门离开并关门，未呈现通往宴会厅的路程、换衣、入场检查或实际抵达。",
+    "conflictingTurns": [38],
+    "source": "model-output",
+    "reason": "正文直接把地下安全屋门外切换为宴会厅入口，省略了必要的空间和行动承接。"
+  }
+]

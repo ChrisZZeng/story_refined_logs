@@ -1,0 +1,90 @@
+{
+  "turn": 4,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "random",
+  "selectedFromPreviousTurn": {
+    "text": "你注意到了不寻常的目光——你被盯上了？",
+    "actionId": "choice:察觉到异常"
+  },
+  "submittedSelectedAction": {
+    "actionId": "choice:察觉到异常",
+    "committed": true,
+    "satisfiedAnchors": [
+      "察觉异常"
+    ]
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-B-第一章",
+    "beatUid": "n_sQsKbJPxPPqw",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-01-B-第一章",
+    "beatUid": "n_sQsKbJPxPPqw",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-B-第一章",
+    "beatUid": "n_sQsKbJPxPPqw",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "不去——你知道黑帮都是些什么东西",
+    "actionId": "choice:哈哈，我不去"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:接受黑帮的邀请",
+      "id": "接受黑帮的邀请",
+      "text": "接受邀请——去探探他们的身份",
+      "key": true,
+      "satisfyAnchors": [
+        "玩家接受邀请"
+      ]
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:哈哈，我不去",
+      "id": "哈哈，我不去",
+      "text": "不去——你知道黑帮都是些什么东西",
+      "key": true,
+      "satisfyAnchors": [
+        "玩家拒绝邀请"
+      ]
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "接受邀请——去探探他们的身份",
+        "actionId": "choice:接受黑帮的邀请"
+      },
+      {
+        "text": "不去——你知道黑帮都是些什么东西",
+        "actionId": "choice:哈哈，我不去"
+      }
+    ],
+    "lockInput": true
+  },
+  "visibleChars": 1780,
+  "durationMs": 54892.79,
+  "memory": {
+    "recentTurns": 3,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

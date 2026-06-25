@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 41,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "high",
+    "currentEvidence": "Turn 41 中卡琳娜说：“康纳会注意到。她已经注意到了。”同轮稍后又写：“康纳站在长桌南端——她的右手捏着一只重新注满的酒杯”。",
+    "conflictingEvidence": "Turn 39 首次正面描写康纳·凯拉宁时连续使用男性代词：“黑色大衣在步伐中微微摆动”“他的步伐不快”“他的目光平静地扫过全场”“他的周身散发着一种自然而然的压迫感”。Turn 40 也继续写“他的右手”“他的目光”“他的笑容”。",
+    "conflictingTurns": [39, 40],
+    "source": "model-output",
+    "reason": "康纳在玩家可见文本中从男性代词突然切换成女性代词，且没有任何解释，会直接破坏玩家对该角色身份的稳定理解。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 42,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 42 在帕兹已经站在露台并完成扫视后写：“身后传来帘子被掀开的声响……卡琳娜侧身挤过门缝”，随后又写卡琳娜“走向的不是露台的边缘——是她刚才出来的那扇窄门”。",
+    "conflictingEvidence": "Turn 41 结尾已经让卡琳娜先穿过窄门站到露台上：“卡琳娜侧身挤过门缝，右手扶着门沿，给你留出通过的空间。她站在露台上，转过身来，看着你……[卡琳娜 → 帕兹]‘出来了。’”此前没有玩家可见内容说明她又回到宴会厅内。",
+    "conflictingTurns": [41],
+    "source": "model-output",
+    "reason": "卡琳娜刚刚已经在露台上，下一轮却被写成再次从室内掀帘出来，导致角色位置和行动顺序断裂。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 44,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "high",
+    "currentEvidence": "Turn 44 中卡琳娜详细评价康纳时连续使用女性代词：“她是个把整座岛都攥在手里的人”“她知道每个人——每个势力的底线在哪里”“康纳不喜欢走到那一步。她喜欢——”“她今晚留我们吃饭”。帕兹随后也说：“听起来你挺了解她。”",
+    "conflictingEvidence": "Turn 39 和 Turn 40 刚刚把康纳·凯拉宁稳定呈现为男性代词角色，例如 Turn 39 的“他的步伐不快”“他的目光平静地扫过全场”，以及 Turn 40 的“他的右手”“他的目光”“他的笑容”。",
+    "conflictingTurns": [39, 40],
+    "source": "model-output",
+    "reason": "Turn 44 把前两轮建立为男性代词的康纳整段改写为女性代词，且玩家追问的正是康纳身份与性格，这会放大角色身份漂移。"
+  }
+]

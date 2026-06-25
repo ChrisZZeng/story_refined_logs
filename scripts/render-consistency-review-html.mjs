@@ -431,18 +431,31 @@ function parseNarrativeParagraphs(output, fallbackText) {
   if (!rawHtml) return [{ text: fallbackText }];
 
   const paragraphs = [];
+  const pushTextSegment = (segment) => {
+    const text = htmlFragmentToText(segment);
+    if (!text) return;
+    const blocks = text.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
+    for (const block of blocks) {
+      paragraphs.push({ text: block });
+    }
+  };
   const paragraphPattern = /<p\b([^>]*)>([\s\S]*?)<\/p>/gi;
   let match;
+  let cursor = 0;
   while ((match = paragraphPattern.exec(rawHtml)) !== null) {
+    pushTextSegment(rawHtml.slice(cursor, match.index));
     const attrs = match[1] ?? '';
     const text = htmlFragmentToText(match[2]);
-    if (!text) continue;
-    paragraphs.push({
-      speaker: getHtmlAttribute(attrs, 'data-speaker'),
-      to: getHtmlAttribute(attrs, 'data-to'),
-      text,
-    });
+    if (text) {
+      paragraphs.push({
+        speaker: getHtmlAttribute(attrs, 'data-speaker'),
+        to: getHtmlAttribute(attrs, 'data-to'),
+        text,
+      });
+    }
+    cursor = paragraphPattern.lastIndex;
   }
+  pushTextSegment(rawHtml.slice(cursor));
 
   if (paragraphs.length > 0) return paragraphs;
   return [{ text: htmlFragmentToText(rawHtml) || fallbackText }];

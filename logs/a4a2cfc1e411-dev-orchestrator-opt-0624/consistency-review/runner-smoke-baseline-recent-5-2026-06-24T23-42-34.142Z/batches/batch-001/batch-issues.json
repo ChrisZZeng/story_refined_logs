@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 1,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 1 轮正文写道：“头像被什么东西敲了一下。”",
+    "conflictingEvidence": "同一段随后写道：“你猛地睁开眼睛”“后脑勺枕着什么硬邦邦的东西——是地面。石板地。”上下文是在描写帕兹的头部和身体感知。",
+    "conflictingTurns": [1],
+    "source": "model-output",
+    "reason": "“头像”在这里像是“头好像”或“头被”的误写，局部破坏了复活醒来这一关键转场的可读性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 3 轮正文写道：“你朝摊贩卖掉的方向看了一眼。”",
+    "conflictingEvidence": "第 2 轮结尾写摊贩“拎起布袋，朝你点了点头，然后转身没入人群”；第 3 轮下一句也写“她的身影已经淹没在人潮里”。",
+    "conflictingTurns": [2, 3],
+    "source": "model-output",
+    "reason": "这里应承接摊贩离开的方向，却写成“卖掉的方向”，造成明显的词语错置。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 3 轮选项写道：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "第 3 轮正文已经以“暗街到了”收束，另一个选项围绕已经察觉到的目光推进；“往日总是如影随形”没有明确动作，也没有和当前选择菜单形成自然语义。",
+    "conflictingTurns": [3],
+    "source": "model-output",
+    "reason": "该选项同时重复已经完成的抵达动作，并混入无法执行的句子碎片，削弱了选择菜单的清晰度。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 9 轮正文写道：“你凑近取景器，透过小窗看了一下。图像不大，但够清楚了——那扇铁皮门，那个被白漆覆盖了一半的符号。”同轮选项又提供：“翻开相机后背，仔细查看刚才拍的底片——确认铁皮门和符号的清晰度”。",
+    "conflictingEvidence": "第 1 轮建立相机是“老式的胶片机”；第 7 轮写帕兹把“新胶卷塞进片仓”，并通过空拍和过片杆确认传动。未冲洗的胶卷不应在相机小窗中立即显示成可检查清晰度的照片，翻开后背也会破坏胶片状态。",
+    "conflictingTurns": [1, 7],
+    "source": "model-output",
+    "reason": "模型把老式胶片机写成可以即时预览底片的设备，并在选项中继续提供会破坏胶片的检查动作。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮正文写道：“铁皮门一张，远景补一张，入口的骷髅图案一张，加上巷口随手拍的两张街景。四张。”并继续通过片窗确认铁皮门图像清晰。",
+    "conflictingEvidence": "第 9 轮只可见一次拍摄：“你透过取景器看向那扇门——把它框进画面的中央……你按下快门。”此前没有远景补拍、入口骷髅图案拍摄或两张街景拍摄；当前列举的 1+1+1+2 也不是“四张”。",
+    "conflictingTurns": [9],
+    "source": "model-output",
+    "reason": "当前轮凭空补出多张此前没有玩家可见支撑的照片，并把错误的胶片预览状态继续固定下来。"
+  }
+]

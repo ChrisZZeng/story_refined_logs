@@ -1,0 +1,87 @@
+{
+  "turn": 8,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "random",
+  "selectedFromPreviousTurn": {
+    "text": "先退到巷口阴影里，观察一会儿再说"
+  },
+  "submittedSelectedAction": {
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 4
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 4
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 5
+  },
+  "selectedForNext": {
+    "text": "记下位置和符号，先退回主街"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:反抗",
+      "id": "反抗",
+      "text": "尽力平复呼吸——你知道怎么应付这种人"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:战斗",
+      "id": "战斗",
+      "text": "准备战斗"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "靠近铁皮门，模仿那个节奏敲门"
+      },
+      {
+        "text": "继续潜伏，看看还有没有其他人"
+      },
+      {
+        "text": "记下位置和符号，先退回主街"
+      },
+      {
+        "text": "沿着巷子两侧寻找其他入口或可攀爬处"
+      }
+    ]
+  },
+  "visibleChars": 970,
+  "durationMs": 42012.54,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

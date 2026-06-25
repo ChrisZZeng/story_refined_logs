@@ -1,0 +1,81 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 12,
+    "affectedTurns": [12, 13, 14, 15, 16],
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "medium",
+    "currentEvidence": "第12轮首次出现可见内部英文标识，例如“[shortface → unknown]‘去门口看一眼。’”。后续第13-16轮继续出现“shortface”“unknown”“warehouse_boss”“shortface_group”和“[卡琳娜 → —]”。",
+    "conflictingEvidence": "此前玩家可见对话标签使用自然中文称谓或角色名，例如第1-2轮的“[摊贩 → 帕兹]”和“[卡琳娜 → 帕兹]”。",
+    "conflictingTurns": [1, 2],
+    "source": "model-output",
+    "reason": "正文对话标签泄漏了内部英文角色 id 和占位目标，破坏了既有中文叙事格式，并在连续多轮中影响玩家可见文本。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第12轮写道：“另一个人的脚步，比我更沉重，更拖沓，像是不太情愿地在移动。”",
+    "conflictingEvidence": "同一段上下文一直以第二人称叙述玩家感知，并且这里比较的是仓库中另一人的脚步，不应切到第一人称“我”。",
+    "conflictingTurns": [12],
+    "source": "model-output",
+    "reason": "“比我更沉重”让叙述视角短暂错位，属于局部可见文本质量问题。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第16轮两次称初遇地点为“中央公园”，例如“你在中央公园的庆典上听到过她说话”和“和她在中央公园时一样的穿着”。",
+    "conflictingEvidence": "第1轮初遇卡琳娜时，帕兹躺在“一条热闹的街道上”，周围是摊位和庆典人潮；第2-4轮后续称该区域为“中央区”或“中央区的主街道”，没有建立“中央公园”。",
+    "conflictingTurns": [1, 2, 4],
+    "source": "model-output",
+    "reason": "正文把已建立的中央区街道庆典改称为中央公园，造成地点名漂移。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第16轮卡琳娜对帕兹说：“午安，记者。”",
+    "conflictingEvidence": "同一轮此前已经写明“夜晚的空气”“路灯的光”“庆典远处飘来的油烟味和烤肉的焦香”；第17轮也继续写“夜色”和暗橘色天空。",
+    "conflictingTurns": [16, 17],
+    "source": "model-output",
+    "reason": "夜晚场景中使用“午安”作为问候，和已建立的时间氛围不一致。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 17,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第17轮卡琳娜说：“凯旋门那边还没人知道你的长相——刚才巷子里那几个人，他们也只是记住了你的轮廓和相机。”",
+    "conflictingEvidence": "第13轮短脸男近距离看过帕兹的脸、胸前相机和手；第14轮仓库头目在灯下检查帕兹的相机、外套、腰带、裤袋、鞋，并与帕兹对视；第15轮两人继续面对面对话。",
+    "conflictingTurns": [13, 14, 15],
+    "source": "model-output",
+    "reason": "仓库人员此前已经在有灯光的室内近距离观察过帕兹，后文却说他们只记住轮廓和相机，削弱了追踪风险的信息状态连续性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第20轮卡琳娜说：“你今天在港口区露了脸。凯旋门的人现在知道有个背相机的陌生人在打听他们的货。”随后又说“这就是为什么我今晚去了港口区。”",
+    "conflictingEvidence": "第11-16轮的调查、潜入和对峙都发生在暗街的铁皮门仓库；第16-19轮卡琳娜也一直围绕暗街、凯旋门和刚才巷子里的事件解释风险；第20轮同一段稍后又说“你在暗街拍照片”。",
+    "conflictingTurns": [11, 12, 16, 17, 19, 20],
+    "source": "model-output",
+    "reason": "正文把刚发生的暗街仓库事件改写成港口区暴露，造成关键地点和行动线索的连续性断裂。"
+  }
+]

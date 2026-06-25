@@ -1,0 +1,93 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第21轮玩家输入是“告诉她配电室找到的旧地图和签收单”；正文又写“你把手伸进口袋——工装的侧袋——手指触到那个纸卷……你把它取出来”。",
+    "conflictingEvidence": "第16轮玩家把“033。七点。备用通道。”纸条“放回原来的位置”；第17轮离开前还写“工装侧袋，空的”，并只把值班表信息记在脑中。此前玩家可见内容找到的是纸条和值班表，不是旧地图和签收单。",
+    "conflictingTurns": [16, 17, 20],
+    "source": "mixed",
+    "reason": "当前轮把未带走的纸条和未出现过的旧地图、签收单当成可交出的实物证据，破坏了线索物件的连续性。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 23,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "medium",
+    "currentEvidence": "第23轮开头标成“[卡琳娜 → 帕兹]‘听你的，先休息——四点前叫我。’”，紧接着却写“你重复了一遍那个时间”；后文又出现“[卡琳娜 → 卡琳娜]‘战地记者。’”。",
+    "conflictingEvidence": "同轮玩家输入就是“听你的，先休息——四点前叫我。”，上下文中卡琳娜是在询问帕兹的经历，不应对自己说“战地记者”。",
+    "conflictingTurns": [23],
+    "source": "model-output",
+    "reason": "说话标签把玩家台词和卡琳娜的自述对象标错，导致当前对话的发话人与受话人短暂混乱。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第24轮在描写第三阵敲门时说这次“更慢了一些”，随后又以“一阵急促的敲门声打断了你们的对话”收束。",
+    "conflictingEvidence": "第23轮末尾已经由敲门声打断对话；第24轮当前敲门被明确写成节奏更慢，并且本轮已经进入警戒和聆听状态。",
+    "conflictingTurns": [23, 24],
+    "source": "model-output",
+    "reason": "末句像迟到的事件摘要，既重复上一轮的打断效果，也和本轮“更慢”的敲门节奏不合。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第28轮帕兹开口说：“你说的那个铁皮招牌——在哪里。”",
+    "conflictingEvidence": "第27轮铁皮招牌由帕兹自己描述：“那张照片里有一条街……街边有一个老式的铁皮招牌”；卡琳娜只回应“暗街有很多老招牌”。",
+    "conflictingTurns": [27],
+    "source": "model-output",
+    "reason": "当前台词把线索来源错归给卡琳娜，轻微扭曲了双方已经掌握的信息。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 28,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第28轮选项4写道：“现在你跪在这里，是因为别无选择……”。",
+    "conflictingEvidence": "同轮正文反复写德索洛站着：“他站到了房间中央”，“德索洛还站在房间中央”，“他低下头。肩膀在抖。”直到第30轮，他才真正跪下。",
+    "conflictingTurns": [28, 30],
+    "source": "model-output",
+    "reason": "选项提前把尚未发生的下跪当成当前事实，给玩家提供了与眼前场面不匹配的发言。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 30,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第30轮德索洛离开时写道：“金属台阶在他的体重下发出有节奏的叮当声”。",
+    "conflictingEvidence": "第19轮进入卡琳娜住处时，楼梯是“木质，深褐色的漆面”；第28轮德索洛上楼的脚步也写在“木制楼梯”上。",
+    "conflictingTurns": [19, 28],
+    "source": "model-output",
+    "reason": "同一栋楼的同一段楼梯从木质变成金属，造成场景材质和声音连续性错误。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 30,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第30轮选项3写道：“看向卡尔，低声说：‘它刚才一直在看德索洛——它在确认什么？’”。",
+    "conflictingEvidence": "第20到第30轮玩家可见内容只把它称作“一只黑猫”“那只黑猫”或“那只猫”；第30轮正文同样写“那只黑猫蹲坐在门垫旁”。没有玩家可见内容介绍“卡尔”这个名字。",
+    "conflictingTurns": [20, 30],
+    "source": "model-output",
+    "reason": "选项突然给黑猫引入未展示过的专名，玩家无法知道“卡尔”是谁。"
+  }
+]

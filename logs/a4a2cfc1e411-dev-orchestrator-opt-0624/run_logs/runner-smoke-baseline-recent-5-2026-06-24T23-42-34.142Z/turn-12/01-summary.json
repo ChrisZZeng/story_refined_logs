@@ -1,0 +1,84 @@
+{
+  "turn": 12,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "random",
+  "selectedFromPreviousTurn": {
+    "text": "从门缝挤进去，看看里面到底在做什么"
+  },
+  "submittedSelectedAction": {
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 8
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 8
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 9
+  },
+  "selectedForNext": {
+    "text": "尽力平复呼吸——你知道怎么应付这种人",
+    "actionId": "choice:反抗"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:反抗",
+      "id": "反抗",
+      "text": "尽力平复呼吸——你知道怎么应付这种人"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:战斗",
+      "id": "战斗",
+      "text": "准备战斗"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "尽力平复呼吸——你知道怎么应付这种人",
+        "actionId": "choice:反抗"
+      },
+      {
+        "text": "准备战斗",
+        "actionId": "choice:战斗"
+      }
+    ]
+  },
+  "visibleChars": 2546,
+  "durationMs": 49345.27,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

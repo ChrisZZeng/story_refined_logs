@@ -1,0 +1,492 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 1,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 1 轮正文写道：“头像被什么东西敲了一下。”",
+    "conflictingEvidence": "同一段随后写道：“你猛地睁开眼睛”“后脑勺枕着什么硬邦邦的东西——是地面。石板地。”上下文是在描写帕兹的头部和身体感知。",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "“头像”在这里像是“头好像”或“头被”的误写，局部破坏了复活醒来这一关键转场的可读性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 3,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 3 轮正文写道：“你朝摊贩卖掉的方向看了一眼。”",
+    "conflictingEvidence": "第 2 轮结尾写摊贩“拎起布袋，朝你点了点头，然后转身没入人群”；第 3 轮下一句也写“她的身影已经淹没在人潮里”。",
+    "conflictingTurns": [
+      2,
+      3
+    ],
+    "source": "model-output",
+    "reason": "这里应承接摊贩离开的方向，却写成“卖掉的方向”，造成明显的词语错置。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮正文写道：“铁皮门一张，远景补一张，入口的骷髅图案一张，加上巷口随手拍的两张街景。四张。”并继续通过片窗确认铁皮门图像清晰。",
+    "conflictingEvidence": "第 9 轮只可见一次拍摄：“你透过取景器看向那扇门——把它框进画面的中央……你按下快门。”此前没有远景补拍、入口骷髅图案拍摄或两张街景拍摄；当前列举的 1+1+1+2 也不是“四张”。",
+    "conflictingTurns": [
+      9
+    ],
+    "source": "model-output",
+    "reason": "当前轮凭空补出多张此前没有玩家可见支撑的照片，并把错误的胶片预览状态继续固定下来。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "affectedTurns": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "medium",
+    "currentEvidence": "第12轮首次出现可见内部英文标识，例如“[shortface → unknown]‘去门口看一眼。’”。后续第13-16轮继续出现“shortface”“unknown”“warehouse_boss”“shortface_group”和“[卡琳娜 → —]”。",
+    "conflictingEvidence": "此前玩家可见对话标签使用自然中文称谓或角色名，例如第1-2轮的“[摊贩 → 帕兹]”和“[卡琳娜 → 帕兹]”。",
+    "conflictingTurns": [
+      1,
+      2
+    ],
+    "source": "model-output",
+    "reason": "正文对话标签泄漏了内部英文角色 id 和占位目标，破坏了既有中文叙事格式，并在连续多轮中影响玩家可见文本。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第12轮写道：“另一个人的脚步，比我更沉重，更拖沓，像是不太情愿地在移动。”",
+    "conflictingEvidence": "同一段上下文一直以第二人称叙述玩家感知，并且这里比较的是仓库中另一人的脚步，不应切到第一人称“我”。",
+    "conflictingTurns": [
+      12
+    ],
+    "source": "model-output",
+    "reason": "“比我更沉重”让叙述视角短暂错位，属于局部可见文本质量问题。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第16轮两次称初遇地点为“中央公园”，例如“你在中央公园的庆典上听到过她说话”和“和她在中央公园时一样的穿着”。",
+    "conflictingEvidence": "第1轮初遇卡琳娜时，帕兹躺在“一条热闹的街道上”，周围是摊位和庆典人潮；第2-4轮后续称该区域为“中央区”或“中央区的主街道”，没有建立“中央公园”。",
+    "conflictingTurns": [
+      1,
+      2,
+      4
+    ],
+    "source": "model-output",
+    "reason": "正文把已建立的中央区街道庆典改称为中央公园，造成地点名漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第16轮卡琳娜对帕兹说：“午安，记者。”",
+    "conflictingEvidence": "同一轮此前已经写明“夜晚的空气”“路灯的光”“庆典远处飘来的油烟味和烤肉的焦香”；第17轮也继续写“夜色”和暗橘色天空。",
+    "conflictingTurns": [
+      16,
+      17
+    ],
+    "source": "model-output",
+    "reason": "夜晚场景中使用“午安”作为问候，和已建立的时间氛围不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 17,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第17轮卡琳娜说：“凯旋门那边还没人知道你的长相——刚才巷子里那几个人，他们也只是记住了你的轮廓和相机。”",
+    "conflictingEvidence": "第13轮短脸男近距离看过帕兹的脸、胸前相机和手；第14轮仓库头目在灯下检查帕兹的相机、外套、腰带、裤袋、鞋，并与帕兹对视；第15轮两人继续面对面对话。",
+    "conflictingTurns": [
+      13,
+      14,
+      15
+    ],
+    "source": "model-output",
+    "reason": "仓库人员此前已经在有灯光的室内近距离观察过帕兹，后文却说他们只记住轮廓和相机，削弱了追踪风险的信息状态连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第20轮卡琳娜说：“你今天在港口区露了脸。凯旋门的人现在知道有个背相机的陌生人在打听他们的货。”随后又说“这就是为什么我今晚去了港口区。”",
+    "conflictingEvidence": "第11-16轮的调查、潜入和对峙都发生在暗街的铁皮门仓库；第16-19轮卡琳娜也一直围绕暗街、凯旋门和刚才巷子里的事件解释风险；第20轮同一段稍后又说“你在暗街拍照片”。",
+    "conflictingTurns": [
+      11,
+      12,
+      16,
+      17,
+      19,
+      20
+    ],
+    "source": "model-output",
+    "reason": "正文把刚发生的暗街仓库事件改写成港口区暴露，造成关键地点和行动线索的连续性断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 21 visibleText 以「[卡琳娜 → 帕兹]“一封匿名信和一笔钱。没有署名，但指向这里。”」开头，随后又写「你说完这句话」。",
+    "conflictingEvidence": "turn 20 的选项和 turn 21 的 playerInput 都是让帕兹回答卡琳娜的第一个问题：「一封匿名信和一笔钱，没有署名，但指向这里。」",
+    "conflictingTurns": [
+      20,
+      21
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家角色的回答标成卡琳娜对帕兹发言，发言归属和叙述视角互相冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 22,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 22 visibleText 写「[卡琳娜 → 帕兹]“认识。但我不想谈这个。”」，紧接着又写「你的话落在地毯上」。",
+    "conflictingEvidence": "turn 21 的选项和 turn 22 的 playerInput 都把「认识。但我不想谈这个。」作为帕兹对卡琳娜问题的回答。",
+    "conflictingTurns": [
+      21,
+      22
+    ],
+    "source": "model-output",
+    "reason": "正文再次把玩家角色的话标成卡琳娜发言，破坏对话参与者的连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 27 visibleText 写「台灯的光从高窗方向渗下来，在她侧脸上投下柔和的轮廓线」。",
+    "conflictingEvidence": "turn 26 的地下室只建立了木桌上的半截蜡烛、火柴和高窗外透入的路灯光，没有建立台灯；台灯是之前客厅场景里的光源。",
+    "conflictingTurns": [
+      26
+    ],
+    "source": "model-output",
+    "reason": "地下室光源被写成从高窗方向渗来的台灯光，混淆了当前安全屋和前一处客厅场景的物件。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 27 visibleText 写「高窗上，黑猫的尾巴——停止了摆动。尾尖固定在地面上」。",
+    "conflictingEvidence": "turn 26 已建立黑猫蹲在高窗窗台上；同一段 turn 27 也说黑猫在高窗上。",
+    "conflictingTurns": [
+      26,
+      27
+    ],
+    "source": "model-output",
+    "reason": "猫在高窗上时尾尖却固定在地面上，空间位置不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 30,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 30 visibleText 末尾写「高窗上，黑猫的耳朵动了一下」，并描写它的尾巴搭在前爪旁边。",
+    "conflictingEvidence": "turn 28 末尾黑猫已经从窗台落地，退到墙角阴影并蹲伏；turn 29 没有写黑猫移动回高窗。",
+    "conflictingTurns": [
+      28,
+      29
+    ],
+    "source": "model-output",
+    "reason": "黑猫从墙角无承接地回到高窗，缺少可见行动过渡。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "德索洛下跪时写道：“他的另一条膝盖也跟着落下。触地的时候发出一声沉闷的声响——布料和水面之间的接触，在安静的空气里扩散开来。”",
+    "conflictingEvidence": "同一段前文说“他跪在卡琳娜面前的水泥地面上”；turn 26 描述这个地下室的地板是“裸露的水泥”。",
+    "conflictingTurns": [
+      26
+    ],
+    "source": "model-output",
+    "reason": "地下室场景是水泥地面，却突然写成“水面”，造成局部动作和材质描写不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 35,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 35 写道：“高窗上透进来的光线从暖黄转向更深的色调——像是太阳的位置在窗外发生了推移。”",
+    "conflictingEvidence": "turn 22 和 turn 23 已把场景定在夜里，窗外是“暗街夜景”和“路灯染黄的建筑轮廓”；turn 26 进入安全屋时也写明“今晚。明天天亮之后……安全。至少今晚是。”",
+    "conflictingTurns": [
+      22,
+      23,
+      26
+    ],
+    "source": "model-output",
+    "reason": "夜间地下室中来自路灯或街灯的高窗光线被改写成太阳移动造成的光线变化，暗示了没有承接的时间跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜突然说：“晚宴的邀请函还在桌上。”随后又说“天快黑了”和“……需要换件衣服。”",
+    "conflictingEvidence": "turn 25 的紧迫点是“天亮之前”会有人摸到这片区域；turn 26 选择并抵达安全屋后，卡琳娜明确说“今晚。明天天亮之后——条件谈清楚。你决定要不要接。安全。至少今晚是。”此前玩家可见时间线没有铺垫晚宴或邀请函。",
+    "conflictingTurns": [
+      25,
+      26
+    ],
+    "source": "model-output",
+    "reason": "本轮把等待天亮的安全屋休整突然改成赴晚宴，并把当前时间说成“天快黑了”，缺少玩家可见承接。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "turn 37 正文开头标注：“[卡尔 → 帕兹]“你觉得呢，卡尔——你希望她穿成什么样？””",
+    "conflictingEvidence": "turn 37 的 playerInput 是“你觉得呢，卡尔——你希望她穿成什么样？”，turn 36 的对应选项也是玩家向卡尔发问。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "玩家台词被错误归属给卡尔，导致说话人身份和互动方向短暂错位。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 39,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 39 开头写道：“铁门在身后合拢时发出的金属碰撞声，被门外的嘈杂吞没了。你站在宴会厅入口内侧的台阶上。”",
+    "conflictingEvidence": "turn 38 结束时只呈现了从地下室铁门离开并关门，未呈现通往宴会厅的路程、换衣、入场检查或实际抵达。",
+    "conflictingTurns": [
+      38
+    ],
+    "source": "model-output",
+    "reason": "正文直接把地下安全屋门外切换为宴会厅入口，省略了必要的空间和行动承接。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 41,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "high",
+    "currentEvidence": "Turn 41 中卡琳娜说：“康纳会注意到。她已经注意到了。”同轮稍后又写：“康纳站在长桌南端——她的右手捏着一只重新注满的酒杯”。",
+    "conflictingEvidence": "Turn 39 首次正面描写康纳·凯拉宁时连续使用男性代词：“黑色大衣在步伐中微微摆动”“他的步伐不快”“他的目光平静地扫过全场”“他的周身散发着一种自然而然的压迫感”。Turn 40 也继续写“他的右手”“他的目光”“他的笑容”。",
+    "conflictingTurns": [
+      39,
+      40
+    ],
+    "source": "model-output",
+    "reason": "康纳在玩家可见文本中从男性代词突然切换成女性代词，且没有任何解释，会直接破坏玩家对该角色身份的稳定理解。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 42,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 42 在帕兹已经站在露台并完成扫视后写：“身后传来帘子被掀开的声响……卡琳娜侧身挤过门缝”，随后又写卡琳娜“走向的不是露台的边缘——是她刚才出来的那扇窄门”。",
+    "conflictingEvidence": "Turn 41 结尾已经让卡琳娜先穿过窄门站到露台上：“卡琳娜侧身挤过门缝，右手扶着门沿，给你留出通过的空间。她站在露台上，转过身来，看着你……[卡琳娜 → 帕兹]‘出来了。’”此前没有玩家可见内容说明她又回到宴会厅内。",
+    "conflictingTurns": [
+      41
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜刚刚已经在露台上，下一轮却被写成再次从室内掀帘出来，导致角色位置和行动顺序断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 44,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "high",
+    "currentEvidence": "Turn 44 中卡琳娜详细评价康纳时连续使用女性代词：“她是个把整座岛都攥在手里的人”“她知道每个人——每个势力的底线在哪里”“康纳不喜欢走到那一步。她喜欢——”“她今晚留我们吃饭”。帕兹随后也说：“听起来你挺了解她。”",
+    "conflictingEvidence": "Turn 39 和 Turn 40 刚刚把康纳·凯拉宁稳定呈现为男性代词角色，例如 Turn 39 的“他的步伐不快”“他的目光平静地扫过全场”，以及 Turn 40 的“他的右手”“他的目光”“他的笑容”。",
+    "conflictingTurns": [
+      39,
+      40
+    ],
+    "source": "model-output",
+    "reason": "Turn 44 把前两轮建立为男性代词的康纳整段改写为女性代词，且玩家追问的正是康纳身份与性格，这会放大角色身份漂移。"
+  }
+]

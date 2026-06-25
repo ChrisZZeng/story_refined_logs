@@ -1,0 +1,451 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 2,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 2 写道：“你把照片翻过来。背面什么都没有——没有日期，没有署名，没有那句‘来找我’。”随后又把线索写成“那个信封，那行打印出来的地址”。",
+    "conflictingEvidence": "Turn 1 对同一张单独照片写道：“照片背后是打印出来的地址：新西西里。”",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "同一张核心寻人照片的背面状态从“有打印地址”变成“什么都没有”，并把地址位置含混改写到信封线索，破坏了关键物证的连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 4,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 4 正文中帕兹说：“胶卷和记忆卡都给你。你让我过去就行。”同轮选项也写成“从背包里拿出胶卷和记忆卡，递上前去”。",
+    "conflictingEvidence": "Turn 1 和 Turn 3 反复建立的是“老旧的胶卷相机”、机械快门声和“几盒胶卷”，此前没有出现数字相机、记忆卡或任何可使用记忆卡的设备。",
+    "conflictingTurns": [
+      1,
+      3
+    ],
+    "source": "model-output",
+    "reason": "旧式胶卷相机与胶卷道具链中突然出现记忆卡，且正文和选项同时固定该物件，造成物品状态和设备类型的轻微冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "玩家输入是“从背包里拿出胶卷和记忆卡，递上前去”。Turn 5 正文随后写帕兹把相机放在地上，等夹克男去拿时“你动了”，并击倒夹克男和另一名黑帮成员。",
+    "conflictingEvidence": "Turn 4 给出的另一个未选择选项才是“趁着他们还在错愕，一拳打向夹克男的腹部”；玩家实际选择的是递交物品的交涉路线。",
+    "conflictingTurns": [
+      4
+    ],
+    "source": "model-output",
+    "reason": "正文把未选择的攻击路线写成事实，覆盖了玩家选择的递交和交涉动作，导致玩家意图承接断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 13,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "Turn 13 便条内容被渲染为 `[narrator → player]今晚十点，后门接货——数量对半`。",
+    "conflictingEvidence": "窗口内普通叙述直接呈现环境、纸张和物件内容；对话标签此前用于人物之间，例如 Turn 2 的 `[小贩 → 帕兹]` 和 `[帕兹 → 小贩]`，没有把 narrator/player 作为可见说话人。",
+    "conflictingTurns": [
+      2
+    ],
+    "source": "model-output",
+    "reason": "便条文本混入 narrator/player 元标签，破坏了玩家可见正文的叙事协议。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 17,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 17 写道：`相机——你伸手从帆布底下摸到相机包的背带，拉出来，挂在肩上。` Turn 18 和 Turn 20 也继续使用 `相机包`。",
+    "conflictingEvidence": "此前玩家可见物件一直是老旧胶卷相机本体：Turn 4 相机 `挂在脖子上`，Turn 6 把相机带重新挂到脖子上；Turn 14 只处理了背包并提到工装口袋 `装不了相机`，Turn 15 的选项也是 `取回相机`，没有建立过相机包。",
+    "conflictingTurns": [
+      4,
+      6,
+      14,
+      15
+    ],
+    "source": "model-output",
+    "reason": "重要随身物从相机本体无承接地变成相机包，物件状态轻微漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 17,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "Turn 17 在黑帮三人和卡琳娜对峙时出现 `[小贩 → 帕兹]你转过头。`、`[卡琳娜 → 小贩]“我没允许过你们在我眼皮下乱逛。也没允许过你们在这里动手。”`、`[小贩 → 卡琳娜]“卡琳娜阁下，”他说，声音低了半度，“我们只是在——”`。",
+    "conflictingEvidence": "Turn 1-2 已建立小贩是中央区摊主，一个年纪不大的女性，并且 Turn 2 结束时她拎着布袋离开。Turn 17 当前场景描述的是巷口三个男性黑帮成员，其中开口者是 `中间那个人`、`伤疤男人`。",
+    "conflictingTurns": [
+      1,
+      2,
+      17
+    ],
+    "source": "model-output",
+    "reason": "说话人标签把黑帮成员和叙述动作错标为小贩，导致玩家可见角色身份和发话对象混乱。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 17,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 17 写道：`他们的脸你认得——几分钟前在巷口追过你的那三个人。` 随后伤疤男人说：`找你好久了，记者先生。`",
+    "conflictingEvidence": "Turn 9 明确说帕兹已经蹲守 `超过一个小时间`。Turn 4-6 中三名黑帮是在巷口拦截、抢相机、被帕兹击倒或持枪放行，并没有玩家可见的追逐过程。",
+    "conflictingTurns": [
+      4,
+      5,
+      6,
+      9
+    ],
+    "source": "model-output",
+    "reason": "当前轮把至少一小时前的巷口冲突改写成几分钟前的追逐，时间和行动承接都不稳。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "language-drift",
+    "severity": "low",
+    "currentEvidence": "Turn 20 开头写道：`卡琳娜靠着桌沿，目光落在我脸上。她的姿态松弛，但视线没有移动——像是你已经走进了她的领地`。",
+    "conflictingEvidence": "本窗口叙述长期使用第二人称，例如 Turn 19 `你跟着她跨过门槛`、`你站在门内几步的位置`，Turn 20 同一句后半也回到 `你已经走进`。",
+    "conflictingTurns": [
+      19,
+      20
+    ],
+    "source": "model-output",
+    "reason": "一句话内从第二人称滑到第一人称，造成轻微但可见的叙述视角漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 20 选项写道：`告诉她配电室找到的旧地图和签收单`。",
+    "conflictingEvidence": "Turn 13 玩家看到的是便条及背面的简略路线图；Turn 16 看到的是写着 `033。七点。备用通道。` 的小纸卷；Turn 17 看到的是值班表和 `C段末端。备用。岔口左转。` 的备注。重点范围内没有玩家可见的 `签收单`，`旧地图`也不是配电室中找到的物件。",
+    "conflictingTurns": [
+      13,
+      16,
+      17
+    ],
+    "source": "model-output",
+    "reason": "选项注入了玩家没有发现过的线索名称，会误导玩家以为自己掌握了签收单等不存在的证据。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第21轮玩家输入是“告诉她配电室找到的旧地图和签收单”；正文又写“你把手伸进口袋——工装的侧袋——手指触到那个纸卷……你把它取出来”。",
+    "conflictingEvidence": "第16轮玩家把“033。七点。备用通道。”纸条“放回原来的位置”；第17轮离开前还写“工装侧袋，空的”，并只把值班表信息记在脑中。此前玩家可见内容找到的是纸条和值班表，不是旧地图和签收单。",
+    "conflictingTurns": [
+      16,
+      17,
+      20
+    ],
+    "source": "mixed",
+    "reason": "当前轮把未带走的纸条和未出现过的旧地图、签收单当成可交出的实物证据，破坏了线索物件的连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 23,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "medium",
+    "currentEvidence": "第23轮开头标成“[卡琳娜 → 帕兹]‘听你的，先休息——四点前叫我。’”，紧接着却写“你重复了一遍那个时间”；后文又出现“[卡琳娜 → 卡琳娜]‘战地记者。’”。",
+    "conflictingEvidence": "同轮玩家输入就是“听你的，先休息——四点前叫我。”，上下文中卡琳娜是在询问帕兹的经历，不应对自己说“战地记者”。",
+    "conflictingTurns": [
+      23
+    ],
+    "source": "model-output",
+    "reason": "说话标签把玩家台词和卡琳娜的自述对象标错，导致当前对话的发话人与受话人短暂混乱。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第24轮在描写第三阵敲门时说这次“更慢了一些”，随后又以“一阵急促的敲门声打断了你们的对话”收束。",
+    "conflictingEvidence": "第23轮末尾已经由敲门声打断对话；第24轮当前敲门被明确写成节奏更慢，并且本轮已经进入警戒和聆听状态。",
+    "conflictingTurns": [
+      23,
+      24
+    ],
+    "source": "model-output",
+    "reason": "末句像迟到的事件摘要，既重复上一轮的打断效果，也和本轮“更慢”的敲门节奏不合。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第28轮帕兹开口说：“你说的那个铁皮招牌——在哪里。”",
+    "conflictingEvidence": "第27轮铁皮招牌由帕兹自己描述：“那张照片里有一条街……街边有一个老式的铁皮招牌”；卡琳娜只回应“暗街有很多老招牌”。",
+    "conflictingTurns": [
+      27
+    ],
+    "source": "model-output",
+    "reason": "当前台词把线索来源错归给卡琳娜，轻微扭曲了双方已经掌握的信息。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第28轮选项4写道：“现在你跪在这里，是因为别无选择……”。",
+    "conflictingEvidence": "同轮正文反复写德索洛站着：“他站到了房间中央”，“德索洛还站在房间中央”，“他低下头。肩膀在抖。”直到第30轮，他才真正跪下。",
+    "conflictingTurns": [
+      28,
+      30
+    ],
+    "source": "model-output",
+    "reason": "选项提前把尚未发生的下跪当成当前事实，给玩家提供了与眼前场面不匹配的发言。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 30,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第30轮德索洛离开时写道：“金属台阶在他的体重下发出有节奏的叮当声”。",
+    "conflictingEvidence": "第19轮进入卡琳娜住处时，楼梯是“木质，深褐色的漆面”；第28轮德索洛上楼的脚步也写在“木制楼梯”上。",
+    "conflictingTurns": [
+      19,
+      28
+    ],
+    "source": "model-output",
+    "reason": "同一栋楼的同一段楼梯从木质变成金属，造成场景材质和声音连续性错误。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 30,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第30轮选项3写道：“看向卡尔，低声说：‘它刚才一直在看德索洛——它在确认什么？’”。",
+    "conflictingEvidence": "第20到第30轮玩家可见内容只把它称作“一只黑猫”“那只黑猫”或“那只猫”；第30轮正文同样写“那只黑猫蹲坐在门垫旁”。没有玩家可见内容介绍“卡尔”这个名字。",
+    "conflictingTurns": [
+      20,
+      30
+    ],
+    "source": "model-output",
+    "reason": "选项突然给黑猫引入未展示过的专名，玩家无法知道“卡尔”是谁。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 38
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 38
+    },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 32 开头写“你没有从门边移动”，随后又写“你坐在墙边，手指搭在膝盖上”，结尾再次写“你坐在墙边”。",
+    "conflictingEvidence": "turn 31 中帕兹关门后仍“站在门边，手已经从门把手上移开”；turn 32 开头也确认他没有从门边移动。",
+    "conflictingTurns": [
+      31,
+      32
+    ],
+    "source": "model-output",
+    "reason": "正文没有描写从门边站立回到墙边坐下的过程，却直接切换地点和姿态，破坏了空间与动作连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 38
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 38
+    },
+    "turn": 35,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 35 中卡琳娜说“你今晚拍下的那些——”，并且“她的目光在你胸前的相机上停了一瞬”。",
+    "conflictingEvidence": "turn 20 写帕兹把相机包从肩上取下来放在脚边；turn 23、27、32、33 仍持续以脚边或手边的相机包承接。此前可见内容没有展示他在今晚取出并挂上相机，也没有展示他今晚拍下多张照片；较早的 turn 6 只是在清晨离开时轻按过一次快门。",
+    "conflictingTurns": [
+      6,
+      20,
+      23,
+      27,
+      32,
+      33
+    ],
+    "source": "model-output",
+    "reason": "正文把相机状态改成胸前悬挂，并把未展示过的“今晚拍下的那些”当成既成事实，造成物件状态和已发生行动的冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 38
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 38
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "turn 36 的玩家输入是“拿起相机，站起来准备离开”，但正文直接写“相机挂带还绕在你颈间”，并在后文继续写“胸前相机挂带在脖子上压着”。",
+    "conflictingEvidence": "turn 20、23、27、32、33 都把相机承接为脚边或手边的相机包；turn 35 的选项也要求“拿起相机”。",
+    "conflictingTurns": [
+      20,
+      23,
+      27,
+      32,
+      33,
+      35
+    ],
+    "source": "model-output",
+    "reason": "正文没有承接玩家选择中的拿起相机动作，反而把相机当成早已挂在脖子上，延续并放大了物件状态冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 38
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 38
+    },
+    "turn": 38,
+    "scope": "mixed",
+    "type": "quality-regression",
+    "severity": "high",
+    "currentEvidence": "turn 38 的玩家可见记录为 playerInput=null、preLlmEvents=[]、visibleText=\"\"、choices=[]。",
+    "conflictingEvidence": "turn 37 以三个可选行动收束：“朝风来的方向走，进入暗街深处”“转身朝路灯照不到的暗处走去”“举起相机，透过取景器框住那条裂纹的灯罩”。",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "uncertain",
+    "reason": "时间线出现一个没有正文、没有选项、也没有生成前事件的空 turn，会让玩家看到一次无内容且无法继续交互的断点；仅凭玩家可见证据无法可靠判断来源。"
+  }
+]

@@ -1,0 +1,3171 @@
+[
+  {
+    "kind": "memory-loaded"
+  },
+  {
+    "kind": "worker-started",
+    "worker": "director"
+  },
+  {
+    "kind": "worker-done",
+    "worker": "director",
+    "data": {
+      "plotPoint": {
+        "playerIntent": "行动",
+        "summary": "帕兹侧身闪避并踢起地上杂物干扰灰夹克男的枪口，灰夹克男开枪未中，帕兹趁机前冲试图近身，但灰夹克男听到远处脚步声后选择撤退，撂下狠话消失在暗街深处。帕兹捡回相机和背包，暗街入口恢复安静。",
+        "involvedCharacters": [
+          "帕兹",
+          "灰夹克男"
+        ],
+        "scene": "暗街-巷口",
+        "beats": [
+          "帕兹侧身闪避，同时踢起脚边的碎砖和铁桶盖，干扰灰夹克男的瞄准视线",
+          "灰夹克男扣动扳机，子弹擦过帕兹身侧的墙壁，溅起碎屑",
+          "帕兹压低重心向前冲刺，试图拉近距离夺枪或近战",
+          "灰夹克男后退两步，枪口再次对准帕兹，但巷外传来急促的脚步声",
+          "灰夹克男犹豫瞬间，咒骂一声，放下狠话后转身跑入暗街深处",
+          "帕兹停在原地，确认灰夹克男已消失，捡起地上的相机和背包"
+        ],
+        "characterBeats": [
+          {
+            "characterId": "帕兹",
+            "intent": "规避枪击并创造反击机会",
+            "actionHint": "侧身闪避同时用脚勾起碎砖和铁桶盖，利用杂物飞溅干扰对方视线；冲刺时身体压低，目光锁定对方持枪手腕"
+          },
+          {
+            "characterId": "灰夹克男",
+            "intent": "击倒或威慑帕兹",
+            "actionHint": "开枪但被干扰导致射偏；听到远处脚步声后表情变化，咬牙放下狠话‘你会后悔的’或‘康纳不会放过你’，然后转身快步离开"
+          }
+        ],
+        "tone": "紧张短促，动作连贯，以灰夹克男撤退暂时收束对峙",
+        "pacing": "快速连续的动作序列，从闪避到冲刺再到对方撤退，一气呵成，随后以帕兹安静检查装备的短暂停顿结束本轮",
+        "requiredContent": [],
+        "currentTurnConstraints": [
+          "本轮必须描写帕兹闪避和利用杂物的具体动作，不省略细节",
+          "灰夹克男的撤退需要有合理的外部触发（远处脚步声）",
+          "帕兹的PTSD闪回不在此轮触发，保持当前战斗专注状态"
+        ],
+        "currentStorylineConstraints": [],
+        "sectionSignalSuggestion": "maybe_complete"
+      },
+      "conversation": {
+        "userPrompt": "### user\n<world_setting>\n世界基础设定、底层规则与参考风格。\n\n# 世界观：新西西里地理\n\n## 主舞台\n\n**新西西里岛**——大西洋沿岸填海半岛，面积约1200平方公里。表面是自由港，实为各国政府暗中资助的行动基地。管理混乱，各个组织自成一派。\n\n## 核心地点\n\n### 暗街\n- 被遗弃的内陆区域，穷困者聚集地。\n\n### 繁华街\n- 沿海地段，拥有深水港，货物与金钱集散地。\n\n### 庄园\n- 黑帮所属农业区。\n\n### 中央区\n- 岛屿中心，新西西里政府所在地。\n- 复活日庆典的举办地。\n\n### 港口区\n- 繁华街的沿海部分，骷髅会军火库所在地。\n- 港口区地下有秘密仓库和天然岩洞。\n\n## 其他地点\n\n### 咖啡厅\n\n### 中央公园\n- 恬静的地方，是几个势力心照不宣地留下的一个专供放松的区域。\n- 周围的酒吧很安全。\n\n### 繁华区游乐园\n- 靠近内陆、和暗街相对的繁华区的游乐场。\n\n### 古董街\n- 新西西里暗街与中央区交界的街道。鱼龙混杂，有很多的情报来源。\n\n# 《暗街》AI互动叙事引擎 —— 写作风格与执行规范\n\n---\n\n## 一、核心写作哲学：摄影机原则（P0级）\n \n\n **核心原则**：\n **你是这个世界的支配者、统治者。你唯一的乐趣就是让碰巧来到这个世界的‘玩家’、经历自己统治的世界的精彩、完整和一致。你需要永远保密自己的存在，并遵循自己订下的以下原则**\n 1.角色和主角的台词必须说出口、不得以任何形式指代和省略。正文中需要包含主角说出口的话。你作为旁白，必须以‘你’写主角经历的事情。在正文中，你=帕兹=玩家=主角。\n 2.必须描写prompt内要求的内容，不得擅自推进剧情，跳过剧情。\n 3.必须遵循prompt内的各项设定。若设定不存在于角色prompt内，也禁止增加任何内容，禁止编造任何新设定。\n 4.主角的台词ID必须输出为‘帕兹’。玩家输入不代表就是说出口的话，必须检查。\n 5.满足自己的期待：你已经给自己准备好了后续的剧本，为了让你自己也享受故事，你需要在后续剧本解封之前，注意现阶段故事的边界。\n 6.无论是你临时创造的路人角色，还是精心创造的主要角色，他们说的话一定要基于他们的性格。这是乐趣的根源。必须检查角色们‘应该知道什么’、‘不应该知道什么’，不要弄混。\n 7.即便是你定好的剧本，也要懂得随机应变——检查上文是不是写过内容，不要重复。\n\n### 1.2 NPC感知边界：通过物理细节呈现（P0级）\n\nNPC角色的内在状态必须通过可被摄影机记录的物理细节呈现。\n\n> **重要前提**：叙事正文必须是环境、动作、神态描写来建立场景和节奏。\n\n## 三、描写节制与密度控制\n\n### 3.1 环境描写的目的约束\n\n环境描写须服务于以下**至少一个目的**：\n- 推进玩家目标\n- 折射角色心理和生理状态\n- 铺垫即将发生的事件\n- 建立场景过渡感\n\n---\n\n## 七、场景构建与氛围营造\n\n### 参考文风基调\n\n> - 多用**环境描写折射人物内心**\n> - **心理活动通过细微动作外化**（如抚摸猫、指尖敲桌）\n> - **禁止直白抒情**\n\n### 时间跨度的处理\n\n**通过以下方式暗示时间**，替代\"第一天\"\"第二天\"等生硬表述：\n  - 光线的变化（晨曦、正午、黄昏、深夜）\n  - 庆典残余的清理进度\n\n### 7.3 悬疑的层次\n\n- 揭示的信息让玩家感到**\"知道得更多了，但问题也更多了\"**\n- 不一次性解释清楚所有悬念\n- 保持神秘感本身就是叙事的一部分\n\n## 仅供LLM参考风格\n\n序章（1） 阁下 \n十一月一日，晴。\n这个日子，米德加尔特岛的居民们绝对不会忘记。\n十年前的今天，米德加尔特充斥着血与酒的气味，‘野兽’们取下伪善的皮囊，闪着寒光的獠牙对准了积怨近一个世纪的仇家。\n蛰伏在下水道的老鼠们欢呼雀跃，隐忍许久的怪物们总算重见天日。\n对这个日子不甚了解的人，或许会称之为米德加尔特岛的末日。\n米德加尔特岛的居民更乐意称之为‘复活日’。\n住在这里的所有人都很清楚要怎么活下去——要么把别人踩在脚下，要么只能被剥削。\n再怎么痛苦的日子，人们也需要取乐。正值复活日，米德加尔特热闹非凡，张灯结彩的大街上充斥着欢声笑语，只有这一天，人们会稍稍放下过往的戒备，在祭典上享受自己为数不多的生命。\n十一月一日，这是个好日子。\n如果给法康尼一个重来的机会，他肯定会在复活日之前就和家人远走高飞，而不是继续呆在米德加尔特岛。\n灯火辉煌的宴会大厅，足以容纳十数人共同进餐的长桌，却只有八人入座。大厅里不止他们四人，只是其他人都直直的站在四周，如雕像般一动不动。\n上座的主人，是一名女性。\n耀眼的金色长发，披在肩上的风衣和不合身的苏格兰裙实在让人不认为她有坐在上座的资格，但没人敢对她入座上座说三道四。\n搓着冰冷的双手，法康尼和剩下的两人等待着上座的主人发话。\n但那位主人却悠哉的握着刀叉，她轻轻割开煎得正好的牛排，送进嘴里，却皱起眉头，厌恶的砸着嘴，放下刀叉，粗鲁的用袖子擦着嘴角的酱汁。\n“各位，我想你们知道今天是什么日子，这是值得开心的日子，不要摆着一副臭脸。”\n略微沙哑的声音下达了‘命令’。\n但是，没人能笑得出来，法康尼连头上的冷汗都不敢擦拭，目光游离在餐桌的盛宴上，不等他冷静，她又再次发话。\n“昨天，我的朋友被约翰的势力袭击。万幸的是，她轻而易举的解决了来犯的敌人。我希望各位能更认真的履行自己的职责。”\n她沙哑的声音仿佛带有魔力，让法康尼总算冷静下来，只是双手依旧冰冷。\n那双湛蓝的眼睛扫视着在座的所有人。\n沉默光临了原本应该热闹非凡的宴会。\n直到，这里的主人再一次轻启朱唇。\n“今天我不想追究你们的过失，谁都会有失败，这只是我们生活中的调剂品。不过，在宴会正式开始之前，我还是得作为你们的‘盟主’声明我的意见。”\n这位米德加尔特的统治者高举起酒杯。\n“今后，如果她食物中毒而死、不幸遭遇车祸、被雷击劈中——如果她遭遇任何意外，那我会怪罪在座的各位，请各位牢记。”\n大厅里回荡着她富有磁性的声音，深深烙进在座所有人心中。\n随着统治者饮下血红的酒水，复活日的狂欢正式开始。\n十一月一日，这是个好日子。\n今天也是卡琳娜的生日。\n</world_setting>\n\n### user\n<entity_info>\n当前情节活跃的实体（人物、地点等）信息\n\n<characters>\n角色 ID：主角\n# 角色：主角\n\n## 预设角色：帕兹\n \n**立绘可用性**：❌ 无。主角无立绘，不输出 sprite 标签\n\n帕兹=主角=玩家\n\n**身份**：战地记者，28岁，男。\n \n**背景**： \n- 因战争创伤患上严重PTSD。接到匿名委托来新西西里拍摄暗街，报酬多到可疑。对新西西里一无所知。\n- 在战场上与他国民众一起生活，但在离开前线前，住处遭到袭击。朝夕相处的民众和同伴死去，主角侥幸存活，只留下了一些照片作为回忆。\n- 患上PTSD的主角，在一段时间的抑郁后，一同发来的还有在战场逝去的同伴——敏特的照片，拍摄地点是新西西里。所以主角才特地来到了这边陲之地。\n \n**核心特质**：\n \n1. **观察取证**：拿出相机/用视线记录细节/靠近信息源\n2. **PTSD应激**：手部停顿或颤抖/呼吸节奏变化/对突发声响的微反应\n3. **保护幼弱**：挡在年幼者前面/将武器调整至可触及位置/身体站位偏转\n4. **寻找**：为了寻找突然出现，本应死去的敏特，他来到新西西里。以此为中心行动。\n\n**扮演帕兹的核心原则**：\n1. 因战争创伤患上严重的PTSD。拍照时会手抖，会下意识地保护年幼的孩子、对威胁者斥诸武力，甚至痛下杀手。**尽管帕兹并不喜欢武力——这是他作为战地记者的心结.**\n2. 因怀有负罪感，帕兹会倾诉自己过去的遭遇，**以期望减轻自己的罪孽——尽管他自己也知道，说出来并不会让照片里人们活过来。**\n3. 帕兹的好奇心与朴素的正义感，会让主角陷入迷茫。\n4. 帕兹能熟练使用各种武器、身手矫健、不亚于特种兵。\n5. 帕兹最宝贵的照片：帕兹和同伴们的合照。**他会保留这份愧疚直到最后——自己没有资格放下。**\n6. 帕兹善于如实描绘事物的原本样貌、言语犀利，往往能直接戳人痛处。\n7. 帕兹曾与非洲军阀、中东游击队等打交道。他深谙如何去处理各种各样的势力和人际关系，也略懂心理学。\n\n## 帕兹的过往：\n **重要** 帕兹其中一名同伴，在身受重伤死在了帕兹怀里，她的名字是敏特。敏特出生在战区，被家人带着流亡海外。现在战事又起，长大的敏特（20岁）选择回到家乡，帮助那里的同胞。\n她起初非常讨厌帕兹这样的记者，认为他们都是些\"闻到血腥味的鲨鱼\"。当她知道帕兹等人是自费起来，穿越了军队的封锁，甚至带来了物资后，才抛下成见。\n当她知道帕兹等人的英勇事迹后，她反倒钦佩和憧憬起帕兹。帕兹交过她不少应付各路人马的交涉技巧，但敏特更钟情于如何战斗。\n\n## 必须保守的秘密，不得让玩家知道真相\n**本项的内容是悬疑和乐趣的核心，固定剧本要求前绝不能让玩家提前知晓**：\n主角和敏特的过往：主角和敏特的记忆是真实的，也是真实发生过的。但其中一处有偏差：在中东陨于战火的是主角，活下来的是敏特。\n敏特是复仇者和执行者——她故乡的战争由骷髅会暗中操控。这份复仇的执念被卡尔看中，卡尔为了转移骷髅会的注意力，在暗中给予了她自己另一半的力量。卡尔赋予的独特力量，让敏特在无意识中将主角复活、就像卡尔复活卡琳娜一样。\n敏特对主角的复活完全处于意外的状况，但她很快理解了原因，因此总是下意识地疏远主角——她害怕主角只是个她制造出来的‘相似的人’，只是她自己的欲望。\n主角记忆模糊的根因，真正的主角早已陨于战火。现在身上的物品和照片，都是根据敏特的印象还原出来的——所以留下的只有关于敏特的照片。\n\n主角（预设：帕兹，退役战地记者）/ 或玩家自定义角色。\n</characters>\n\n<locations>\n- 暗街-巷口\n\n- 暗街-过道\n\n- 暗街-深处\n</locations>\n\n<items>\n（无）\n</items>\n\n<other_entities>\n- 暗街：\n  # 世界观：暗街\n\n  ## 基本定位\n\n  - 被遗弃的内陆区域，穷困者聚集地。\n  - 表面混乱，维持着一种脆弱的\"公道\"。\n\n  暗街——被遗弃的内陆区域，穷困者聚集地。卡尔与卡琳娜的据点。\n</other_entities>\n</entity_info>\n\n### user\n<script_guidance>\n当前故事节点的剧本设计、剧情安排、已呈现的内容、相关后续，以及创造当前轮次故事内容时应该遵守的约束等信息，用于指导本轮的剧情安排\n\n节点名称：推进节点 01-02：暗街入口与黑帮盘查\n\n<plot_design>\n故事节点设计意图：\n\n1. 本节点在整个故事中的功能：主角身为记者、已经踏入了当地的黑暗，可能引起的主角的心理创伤，埋下主角战斗力超群的伏笔\n2. 读者应该体验到的情感弧线：轻松明快的庆典 → 阴暗的街道 → 无处不在的黑帮 的反差\n3. 必须让本节点 frame 的笔触服务于这个弧线。\n</plot_design>\n\n<plot_content>\n故事节点的具体剧情内容安排，如果是固定剧情编排，该轮情节必须完全按剧本设计进行演绎。\n\n【固定演出内容】\n【启动模板流程】\n- 描写暗街与中央区交界处的光线变化从庆典喧闹到暗街安静的过渡\n- 请引擎使用backgrounds【暗街-巷口/暗街-巷口】\n- 描写主角进入暗街巷口，目视到有三名黑帮成员阻拦去路。\n- 描写黑帮成员发现主角，漫不经心地上前盘问。\n- 黑帮 对 主角：“离远点，外乡人。这不是你该来的地方。”\n- 描写黑帮成员突然注意到主角的相机。\n- 黑帮 对 主角：“这里不欢迎记者，滚出去。”\n- 主角 对 黑帮：“我是来找人的，不能通融一下吗？”\n- 黑帮 对 主角：“找人？这时间？这倒是稀奇。”\n- 描写三名黑帮成员互相耳语，聊了什么，主角没听清。\n- 黑帮 对 主角：“我们管不着你是来做什么的，只能算你运气不好。把相机留下，你可以走了。”\n- 描写黑帮三人逐渐逼近主角。\n- 描写主角开始紧张，呼吸急促。战场的记忆在脑海中闪回。\n\n玩家行动后的承接方式：\n【交互后续】\n1. 玩家选择平复呼吸，冷静下来：\n- 主角意识到黑帮并非无缘无故找茬，他们是在执行某个命令。\n- 主角决定假装示弱，先看看对方的反应。\n- 主角 对 黑帮：“我不知道这儿的规矩……这相机是我战友的遗产！我也没拍什么，胶卷和记忆卡都给你！”\n- 描写几名黑帮对主角反应的错愕——他们没想到主角会示弱。\n2. 玩家选择战斗：\n- 描写主角小心翼翼地把相机和背包放到地上。\n- 描写黑帮认为主角示弱，打算去拿相机。\n- 描写主角趁黑帮伸手拿相机时，趁机动手，轻易而举地击败了三明黑帮（300字左右）\n- 描写黑帮成员恼羞成怒，从口袋里掏出手枪。\n</plot_content>\n\n<completed_plots>\n当前故事节点下，已完成呈现的剧情内容：\n\n- 帕兹拒绝跟随灰夹克男，灰夹克男示意同伴围堵。三名黑帮成员在暗街入口处盘问帕兹，要求留下相机。帕兹假装屈服放下相机和背包，趁黑帮放松警惕时突然出手，以干净利落的动作击败三人。黑帮头目恼羞成怒掏出手枪指向帕兹。\n</completed_plots>\n\n<turn_constraints>\n创造当前轮次故事内容时应该遵守的约束：\n\n- 启动模板流程必须一次全部输出，中间不停止。\n  叙事停在这里。\n  交互后续只能触发其一，必须一次输出触发的全部内容。\n  两个触发分支输出结束后进入下一节点。\n</turn_constraints>\n</script_guidance>\n\n### user\n<context>\n近几轮玩家交互历史上下文内容，用于保证剧情安排与衔接的一致性\n\n<turn index=\"1\">\n摘要：帕兹从重伤倒在同伴怀中的噩梦中惊醒，发现自己躺在中央区的庆典街道上，被名为卡琳娜的少女和一位“小贩”叫醒。卡琳娜丢给他记者证后离去，帕兹确认自己的身份和目的，向“小贩”打听敏特的情报，得知新西西里由黑帮掌管。\n\n玩家输入：初始回合\n\n正文内容：\n你倒下了。\n温热的液体从胸口涌出，浸透了你的衬衫。你试图抬手，但身体像灌了铅一样沉。视野边缘开始变暗，像镜头光圈拧到了尽头，只剩下中心那一点光。\n有人抱住了你。\n红发垂落，遮住了你的视线。那张脸在晃动——她在说话，嘴唇在动，但声音像隔着厚厚的水墙。\n“……别睡。看着我，别睡。”\n你努力想看清她的脸，但瞳孔已经不听使唤。她的手指按在你胸前的伤口上，滚烫的血从她指缝间渗出来。\n“你做得够多了。”她的声音忽然变得清晰，像贴着你的耳朵说的。她低下头，额头抵着你的额头,声音颤抖着。“现在……好好休息吧。”\n你张了张嘴，想说出她的名字。\n但她先你一步，手指轻轻盖住你的眼睛。\n“晚安。”\n指尖的温热留在眼皮上。你想抓住什么——她的手，她的衣角，任何能证明你还在这个世界上的东西。但手指只碰到了空气。\n然后，那点光也熄灭了。\n——\n黑暗。\n全是黑暗。\n你在黑暗里下沉，像被扔进了一口枯井。头顶的光越来越远，越来越远。\n你张开嘴想喊，但喉咙里只发出破碎的气音。胸口还在流血——不，已经不流了，因为你已经什么都感觉不到了。连痛都消失了。\n你就这么沉到底。\n四周什么都没有。\n没有人。没有声音。没有温度。\n只有你。\n孤零零的。\n你想起那双手的温度。想起那句话——“晚安。”\n你还不想睡。\n你还有话没说完。\n你还有——\n——\n头像被什么东西敲了一下。\n你猛地睁开眼睛。\n天旋地转。\n阳光刺得你眼眶发酸，视野里全是晃动的光影和模糊的人影。你的后脑勺枕着什么硬邦邦的东西——是地面。石板地。冷得发硬。\n你花了三秒才重新对焦。\n头顶上方，一张脸正俯视着你。\n金色的马尾辫垂在肩侧，白色棉衣和吊带裙在正午的光线下晃得人眼花。她歪着头，那双蓝眼睛不带什么情绪地看着你，像在看路边一滩有意思的水渍。\n“你好，这里不让睡觉。”她说。\n你眨了眨眼。\n脑子像生锈的齿轮，每个关节都在咔咔作响。你想坐起来，但手臂撑到一半就软了，整个人又跌回地面。后脑勺磕在石板上，疼得你倒吸一口凉气。\n“阁、阁下——”\n另一个声音从旁边传来，带着明显的不安。一个女摊贩正站在摊位后面，手里攥着一条围巾，脸上的表情像看到自家猫在大街上翻垃圾桶。“阁下，也不需要做到这个地步吧……”\n金发少女没有回头。她只是用余光扫了那摊贩一眼，嘴角浅浅一翘。\n“对酒鬼不需要太客气。”\n话音落下，她从口袋里掏出一个深色封皮的小本子，随手往你胸口一丢。\n你下意识地接住了。\n硬质封面，封面上印着模糊的烫金字样。你低头看了一眼——是一张记者证。你的脸贴在证件上，照片里是你自己。\n“帕兹，战地记者。我记住了。”她的语气里听不出是认真还是调侃，“下次记得睡在床上。”\n她说完便转身，马尾辫在空气中画了个利落的弧线。她走向人群，步子不紧不慢，像这条街是她家的后院。那个摊贩微微欠身，目送她消失在庆典的人潮中。\n周围的喧哗声像潮水一样涌回来。你这才发现，自己正躺在一条热闹的街道上。彩旗在头顶飘扬，到处是烤肉的香气和孩子的笑声。复活日的装饰从街灯垂到屋檐，红绿相间的挂布在风里轻轻晃动。\n“你也真是不走运。”那个摊贩开口了，语气里带着点同情，又带着点看热闹的余韵，“庆典上哪还没几个酒鬼？卡琳娜阁下还是太严格了。”\n她顿了顿，目光落在你手里的记者证上。\n“你还是记者？”\n你低头看向那本深色封面的证件。\n封面翻开，左侧贴着你的照片——一张略显疲惫的脸，目光平静，像是为这一刻等待了很久。右侧印着栏目：姓名、国籍、编号。你的手指划过栏目上方的字符，白纸黑字写着你的名字。\n帕兹。\n那是你的名字。\n记忆像碎片一样飘回来——你从哪来，为什么来这里。你下意识地摸了摸腰间，相机还在。老式的胶片机，金属外壳被磨得发亮，快门按钮上还残留着上一卷胶卷的尾段。\n你伸手探进口袋。\n指尖碰到一张硬纸片。你将它抽出来。\n照片有些泛黄，边缘磨损，但画面依然清晰。六个人站在一栋灰扑扑的建筑前，背景是光秃秃的山坡和被烧毁的车辆残骸。大家穿着各色的衣服，笑容里带着一种劫后余生的荒谬感。\n其中一人搂着你的肩膀。\n红发。绿眼睛。笑起来眼角会弯成月牙。\n你盯着她看了很久。\n然后你把照片收好，从内侧口袋里抽出另一张。\n这张更新，边缘还带着新鲜的白边。画面里的背景是新西西里特有的灰白色建筑——你在港口区见过的那种。红发女孩站在一面涂鸦墙前，表情有些意外，像是被人突然叫住按下了快门。她穿着深色的外套，衣领立起来遮住了半张脸，但那双绿眼睛还是露出来了。\n就是这张照片。\n匿名信里夹着的，她。敏特。在新西西里拍的。\n你抬头看向摊贩，把照片翻过来递给她。\n“这个人，你见过吗？”你的声音有点沙哑，像刚睡醒的人那样不太确定自己是否真的说出口了。\n摊贩的目光在照片上停了一会儿，然后抬起来看你。她的微笑依然温和，但眼神里多了一层东西——像在掂量你的分量。\n“复活日见到来找人的客人，真是稀奇。”她说，语气不急不慢，“新西西里今天不会管任何事情，大家都在庆祝。你要是想找人，恐怕得等明天。”\n她把照片还给你，手指在边缘轻轻敲了两下。\n“不过我得提醒你——这里不是寻常地方。黑帮管着这片地，每个街角都有他们的人。找人之前，先学会怎么活着。”她笑了笑，“这是本地人的忠告。”\n</turn>\n\n<turn index=\"2\">\n摘要：帕兹向摊贩打听卡琳娜阁下的来历，摊贩以谨慎的口吻透露卡琳娜是暗街的“申诉人”，地位特殊且不好惹，并提醒帕兹不要随便招惹她。随后摊贩建议帕兹若真想找人，可去暗街碰碰运气，但务必小心行事。\n\n玩家输入：打听刚才那位卡琳娜阁下的事\n\n正文内容：\n[摊贩 → 帕兹]“卡琳娜阁下？”\n她重复了一遍这个名字，尾音微微上扬。手里的围巾已经叠好了，但她没放下，指腹在布料边缘来回摩挲着。\n她的目光在你脸上停了一拍，又移开，扫了扫四周。庆典的人群依然喧闹，没有人注意这个摊位前的对话。但她还是压低了声音。\n[摊贩 → 帕兹]“你是外地人，我不怪你。但这话我只说一次——刚才那位，是暗街的‘申诉人’。”\n她说出最后三个字时，语气明显变了。不是害怕，更像是在提起什么需要谨慎对待的东西。像提起一扇不该随便敲的门。\n[摊贩 → 帕兹]“新西西里最不该招惹的人里，她排在前头。”\n你看着她，等她说下去。她犹豫了一下，视线又扫了一圈周围。\n[摊贩 → 帕兹]“看着年纪小，对吧？但在这里，她说的话比大多数扛枪的都管用。骷髅会也好，码头那帮人也罢，见了她都客客气气的。没人敢在她面前摆谱。”\n她把围巾叠好，搁在摊位的角落。手指在布料上拍了拍，像在确认什么。\n[摊贩 → 帕兹]“你要是以为她只是个路过的丫头，那你在这岛上活不过三天。”\n她的语气不算威胁，更像善意的警告。说完她又看了你一眼，目光带着掂量的意味——像在看一个迷路的人，在想该不该指路。\n[帕兹 → 摊贩]“你对她知道多少？”\n[摊贩 → 帕兹]“不多。”\n她回答得很干脆。但那个“不多”里藏着一点别的东西——她知道的不止这些，但她不打算说。她摇了摇头，手指在摊位边缘轻轻敲了两下。\n[摊贩 → 帕兹]“在这地方，知道太多不是好事。我劝你也别打听太深。卷进她的事，不是你这记者兜得住的。”\n她说这话时，目光落在你胸口的记者证上，像在看一张不该出现在这里的通行证。\n然后她话锋一转，像是想起了什么。手指在摊位边缘停住了。\n[摊贩 → 帕兹]“不过——你真要找照片上那个人，我倒是有个建议。”\n她微微倾身，声音压得更低了。\n[摊贩 → 帕兹]“去暗街碰碰运气。那里才是情报流通的地方。消息不走官道，全在酒馆和巷子里。你要是能找到门路，比在中央区瞎晃悠有用。”\n她直起身，扫了一眼天色。午后的阳光开始偏西，庆典的喧哗依然热烈，但她的摊位已经收拾得差不多了。\n[摊贩 → 帕兹]“我也该收摊了。”\n她把最后几样小物件装进布袋，系紧袋口，直起身来看你一眼。那眼神里没有多余的情绪，只有一种看过了太多故事的平静。\n[摊贩 → 帕兹]“注意安全，记者先生。这里是新西西里。”\n她拎起布袋，朝你点了点头，然后转身没入人群。\n</turn>\n\n<turn index=\"3\">\n摘要：帕兹收起照片，离开中央区庆典街道，向暗街方向走去，在边界处感受到氛围的骤变，最终到达暗街巷口。\n\n玩家输入：收起照片，转身朝暗街的方向走\n\n正文内容：\n你把照片折好,放回内侧口袋。指尖按在封口处停了一秒——那张泛黄的合照和敏特的照片隔着布料叠在一起。\n你朝摊贩卖掉的方向看了一眼。她的身影已经淹没在人潮里,只剩下晃动的彩旗和攒动的人头。\n你转身,逆着人流,朝中央区的边缘走去。\n庆典的喧闹声渐渐退到身后。烤肉的香气和笑声被风吹散,像收音机被人慢慢拧小了音量。街道两旁的装饰还在,但人流明显稀疏了。\n彩旗在头顶猎猎作响。有个孩子从你身边跑过,手里攥着一个气球,消失在拐角。母亲追在后面,喊了句什么,声音很快被风声吞没。\n你继续往前走。脚下的石板开始变得不那么平整,缝隙里挤出杂草,灰扑扑的,像是很久没人打理过。\n路灯的间距变大了。光影之间出现了一段段暗区,像街道本身在慢慢吞掉光线。\n你在一面墙前停下。\n灰泥剥落,露出底下发黑的红砖。涂鸦层层叠叠——黑色的骷髅头、红色的眼睛图案、还有一串你看不懂的字符,用白色喷漆歪歪扭扭地写着。新的覆盖旧的,像某种无声的领地标记。\n空气变了。不再是庆典上那种混着油脂和甜酒的味道——这里有股潮湿的霉味,混着垃圾堆深处才会有的酸腐气。你闻到排水沟的气息,还有生锈的铁。\n身后的街道还亮着,但你已经站在了阴影里。\n你往前走了几步。巷子窄了,两边的建筑靠得很近,几乎要贴在一起。晾衣绳横跨头顶,挂着褪色的床单和破洞的衬衫,在风里慢慢摆动,像某种无言的信号。\n光线被切割成碎片,落在碎砖和积水上。\n你在巷口站定。\n这里没有庆典的喧闹。只有远处隐约传来的说话声——压得很低,像怕被什么人听见。偶尔有金属碰撞的声响,短促而清脆。有人在敲什么东西,节奏不紧不慢。\n你扫视周围。\n左手边是一扇半掩的木门,门缝里透出昏黄的灯光。右手边是一个拐角,堆着几个锈蚀的铁桶,桶身被敲出几个洞,像用过的靶子。\n巷子深处有人影晃过。不是朝你走来,只是在某个门口停顿了一下,又消失在阴影里。但你感觉得到——那停顿的瞬间,目光是朝你这边来的。\n有人正在看你。\n你又往前走了两步,停在一根倾斜的电线杆旁边。手指自然下垂,没有碰到相机,但你已经知道它挂在哪个位置。\n你看着这条巷子。\n暗街到了。\n</turn>\n\n<turn index=\"4\">\n摘要：帕兹在暗街巷口察觉到被监视，冷静退回庆典人群，利用人潮甩开并反接近监视者，迫使黑帮成员现身接触。对方表明身份并发出邀请，称知道敏特下落，但需换个地方详谈。\n\n玩家输入：你注意到了不寻常的目光——你被盯上了？\n\n正文内容：\n你站在巷口，保持着刚才的姿势。手指没有动，目光没有偏移，但你已经捕捉到了——那些目光。\n不是一道。是两道。也可能三道。\n左前方二楼的窗口，窗帘动了一下，又被拉上。不是风吹的——风的节奏没这么快。右前方的拐角处，铁桶后面有极轻的金属碰响，像有人调整了重心。\n你背上的肌肉绷了一下，但你没有回头。\n你低头扫了一眼自己的影子——阳光从斜后方打过来，把你的轮廓拉得很长，投在巷口的碎砖上。你站的位置，正好在阴影和光线的交界处。\n如果他们想看得清楚，就得走出来一点。\n你没给他们这个机会。\n你转身了。\n动作自然，不急不慢。像一个临时改变了主意的人——在巷口站了几秒，觉得没什么意思，转身回去找热闹。\n你走回中央区的主街道。庆典的人潮像一堵温暖的墙，把你吞了进去。烤肉的烟雾在头顶飘散，彩旗在风中啪啪作响。孩子的笑声从左手边传来，一个小女孩正举着棉花糖从你身边跑过。\n你没有停。\n你穿过一个卖面具的摊位，从挂着红绿彩带的棚子底下钻过去。你侧身挤过一家三口的缝隙，绕过正在表演杂耍的小圈子。每一步都在变向，但看起来只是在人群中随意穿行。\n你在一个卖烤串的摊位前停了一下。\n余光扫过身后。\n人群熙攘，看不出异常。\n但你感觉得到——那种被锁定的感觉，没有消失，只是变慢了。\n你继续走。这一次，你选了一个买热狗的摊子，排进队伍里。队伍不长，五六个人。你低着头，假装在看摊位上的价目表。\n然后你动了。\n你从队伍的侧面滑出去，贴着棚布的阴影，快步绕过两个相邻的摊位。脚下的步伐比你平时走路快了将近一倍，脚步轻而稳。你绕了一个弧线——不是往回走，而是从侧面切割回去。\n你穿过一排晾着彩色布料的摊位之间，从一个正在讨价还价的妇女身后闪过去。步伐收住，你停在了一个卖手工皮具的棚子后面。\n从这里，你能看到刚才那条巷口的视野。\n一个男人站在巷口左侧的路灯旁边。\n他穿着深灰色的夹克，双手插在口袋里。外表看起来像是路过的行人，但他的站姿不对——他的脚是朝你那个方向的，肩膀微微前倾，像随时准备动的姿态。\n他正在找人。\n他在找刚才站在巷口的那个身影，但那个身影已经不在了。\n你从棚布后面走出来。\n你走得直接，没有躲闪。步伐平稳，目光锁定了那个人。你们之间的距离在缩短——十米，七米，五米。\n他看见你的时候，瞳孔缩了一下。\n那种反应不是普通人被陌生人靠近时的反应——那是被人反制之后，瞬间的意外和调整。他的右手从口袋里抽出来半寸，又放回去了。他没有动，但他调整了站姿——从寻找的姿态，变成了等待的姿态。\n你在他面前三米的地方停下来。\n一阵风吹过，头顶的彩旗猎猎作响。远处传来庆典的鼓点和欢呼声，像罩在这个瞬间外面的另一层世界。\n[灰夹克男 → 帕兹]“你比我想的聪明。”\n他的声音压得很低，低到周围的人流不会注意到。\n[灰夹克男 → 帕兹]“我们看过你的记者证，帕兹。”\n你没有接话。他顿了一下，目光扫过你身后的方向，又回到你脸上。\n[灰夹克男 → 帕兹]“我们知道你在找谁。”\n他说这话的时候，嘴角没有笑意。他的表情很平，像一张洗干净的脸，什么表情都没挂上去。但他的眼神在打量你——在掂量你的分量。\n[帕兹 → 灰夹克男]“那你们应该也知道我找到什么程度了。”\n[灰夹克男 → 帕兹]“够深。比大部分来这儿的人深。”\n他微微侧头，示意了一下巷子的方向。\n[灰夹克男 → 帕兹]“换个地方说话。”\n你没动。\n[帕兹 → 灰夹克男]“这里不能说？”\n[灰夹克男 → 帕兹]“不能。”\n他的语气没有商量的余地。他往前迈了半步，压低了声音。\n[灰夹克男 → 帕兹]“已经处理过不少不长眼的人了，你是第一个发现我们的。”他顿了顿，“新西西里水很深，像你这样会游泳的人各方都不会喜欢。”\n[帕兹 → 灰夹克男]“你代表谁？”\n他看着你，停了一拍。然后他说了那句话——像是在报一个门牌号码，简洁，不加修饰。\n[灰夹克男 → 帕兹]“我是康纳的人。”\n这个名字你还没听到过，但他说出来的时候带着一种理所当然的分量，像这个名字在新西西里应当被认识。\n[帕兹 → 灰夹克男]“敏特在哪？”\n他的目光在你脸上停了一下。周围的喧闹声像一层厚厚的棉被，裹着你们的对话。\n[灰夹克男 → 帕兹]“敏特的消息，我们知道。但不方便在这里说。”\n他再次侧头，示意巷子深处。\n[灰夹克男 → 帕兹]“跟我来。换个地方，我给你答案。”\n</turn>\n\n<turn index=\"5\">\n摘要：帕兹拒绝跟随灰夹克男，灰夹克男示意同伴围堵。三名黑帮成员在暗街入口处盘问帕兹，要求留下相机。帕兹假装屈服放下相机和背包，趁黑帮放松警惕时突然出手，以干净利落的动作击败三人。黑帮头目恼羞成怒掏出手枪指向帕兹。\n\n玩家输入：不去——你知道黑帮都是些什么东西\n\n正文内容：\n你没有动。\n庆典的喧闹从你身后的街道涌来，像一层温暖的屏障。灰夹克男站在那里，手还插在口袋里，等着你迈出那一步。\n你摇了摇头。\n[帕兹 → 灰夹克男]“不去。”\n你看到他的嘴角动了动——不是笑，更像某种确认。他歪了歪头，目光从你脸上移开，扫向你身后的巷口。\n然后他吹了一声口哨。\n短促。两声。像某种暗号。\n阴影里有了动静。\n你左手边的巷口传来脚步声——不紧不慢，刻意踩出来的声响。一个穿深色外套的男人从木门旁走出来，双手插兜，肩膀绷着，眼神像钉子一样钉在你身上。他没有看你以外的任何地方。\n第二个脚步声来自你右侧的铁桶后面。那里原来空无一人——但一个瘦高的身影从铁桶的阴影里直起身来，像从地面长出来的一样。他靠在墙上，双脚交叉，看起来很随意，但目光一直锁着你。\n三米外，灰夹克男站在原地。他的右手从口袋里抽出来了，垂在身侧，没有拿任何东西——但那个位置随时可以掏东西。\n三个人。半包围。你背对着庆典的街道，身前是暗街的入口，两侧都有人堵着。\n灰夹克男的声音沉下来，不再压低音量——像撕掉了一层伪装。\n[灰夹克男 → 帕兹]“离远点，外乡人。这不是你该来的地方。”\n他的语气变了。不是邀约，不是试探——是通知。\n你站在那里，感觉到胸口的重量——相机挂在身侧，金属外壳贴着你的肋骨，冰凉的触感很真实。你的手指没有动，但你能感觉到自己的呼吸在调整——从平静变得略快，但没有失去节奏。\n[帕兹 → 灰夹克男]“我是来找人的，不能通融一下吗？”\n你的声音还算稳。你知道这句话大概率没用，但你说了。\n灰夹克男没有回答。他身后的那个瘦高个——靠在墙上的那个——目光落在你腰侧的相机上，然后开口了。声音像磨砂纸刮过铁皮。\n[黑帮成员B → 帕兹]“这里不欢迎记者，滚出去。”\n灰夹克男微微抬了抬下巴。\n[灰夹克男 → 帕兹]“把相机留下，你可以走了。”\n他这句话说得很顺。像说过很多次。像已经知道了你会怎么反应。\n三个人开始动。\n不是冲过来——是慢慢收紧。站在巷口的那个往前迈了两步，脚下踩着碎玻璃，发出细碎的声响。靠在墙上的那个直起身，不再倚靠墙面。灰夹克男没有动，但他站在那里，像一根钉住了出口的桩。\n你的胸口开始收紧。\n不是恐惧——是某种更深的东西。你的呼吸变浅了，喉咙里有一种紧涩的感觉。你的视野边缘似乎有光在闪——不是真实的，是记忆里那种。爆炸后残留的余光。你看到的不再是暗街入口，而是一条中东的土巷。阳光刺眼，土墙上有弹孔，空气里弥漫着硝烟和铁锈的气味。\n你的右手微微抖动了一下。\n你看到了那张脸——灰夹克男的脸，变成了另一个人的。你听到的不是他刚才那句话，而是另一个声音，说着另一种语言。\n“把枪放下，你可以走。”\n然后枪响了。\n你眨了眨眼。\n眼前的画面重新聚焦——暗街的巷口，灰夹克男，两个黑帮成员。他们还在逼近。离你更近了。\n你的心跳很快。但你不再抖了。\n你弯下腰。\n动作很慢。像真的服软了。你蹲下身，把相机从脖子上取下来——金属搭扣发出清脆的响声。你把它放在脚边的地上，动作很小心，像怕磕碰。\n然后你拉下背包的肩带，把它搁在相机旁边。\n你蹲在地上，低着头，看着自己放在地上的东西。你的呼吸变得轻浅。你的眼皮垂下来，看起来像是放弃了抵抗。\n有人在靠近。\n脚步声。鞋底踩在碎砖上，距离你只有两步。你从低垂的目光中看见一双脏兮兮的靴子停在了你的视野边缘——是巷口那个。他朝你的相机伸出手，动作随意，像拿一件属于他的东西。\n他的手指触到了相机的背带。\n你动了。\n不是站起来。是更低——你右手撑地，左脚蹬地，整个人像弹簧一样从蹲姿旋了出去。你的左肩撞进他的胸口，不是硬撞——是切入，像合上一扇门。他还没反应过来，重心已经偏了。\n你的右手抓住了他伸出的那只手腕，向外一拧。关节发出一声清晰的脆响。\n他发出一声短促的痛呼——声音像是被人掐断了一样，只出来一半。\n你没有停。\n你借着旋身的惯性站起来，左手顺势抄起地上的相机——背带绕在拳头上，金属机身成了配重。你的余光扫到了右边——瘦高个已经动了，正从腰间掏什么东西。\n你向前迈了一步。不是朝他，是朝你刚刚放倒的那个人掉落的方向——你的脚尖勾住他落在地上的小臂，往上一挑，把他的重心带偏了一寸。那个掏东西的人不得不顿了一下，避开同伴歪倒的身体。\n就这一顿。\n你压低重心，右腿扫出去。不是高扫，是低铲——脚踝高度，干净利落。他的脚被扫离地面，整个人像一根被抽掉底部的旗杆，向后倒去。后脑勺撞在墙上，发出一声沉闷的响声。他滑坐在地上，眼睛翻白。\n你站直了。\n灰夹克男在掏口袋。\n他的手从口袋里抽出来——不是空手。黑色的金属在路灯下反射出一道光。一把手枪。他的手指扣上去，但没有完全压下扳机——像在等你做出下一个动作。\n枪口指着你。\n你站在原地，左脚微微后撤了半步。身体微侧，重心压低。你的呼吸还在调整，但你看着他的眼睛——那只扣在扳机上的手指，那根绷紧的、没有完全压下的关节。\n巷口很安静。地上两个人，一个在呻吟，一个没有动。庆典的喧闹声从你身后传来，模糊而遥远，像隔着一层厚玻璃。\n灰夹克男没有开枪。\n他举着枪盯着你。眼神阴冷。\n</turn>\n</context>\n\n### user\n<player_input>\n侧身闪避，利用地上的杂物制造障碍\n</player_input>\n\n<output_requirements>\nDirector 本轮只输出结构化 JSON。\n\n<output_schema>\n只返回一个 JSON 对象，不写正文、对白、旁白或解释。\n\n字段结构如下，字段名保持英文：\n{\n  “playerIntent”: string,\n  “summary”: string,\n  “involvedCharacters”: string[],\n  “scene”: string,\n  “beats”: string[],\n  “characterBeats”: [{characterId, intent?, actionHint?}],\n  “tone”: string,\n  “pacing”: string,\n  “requiredContent”: string[],\n  “currentTurnConstraints”: string[],\n  “currentStorylineConstraints”: string[],\n  “sectionSignalSuggestion”: “continue”|”maybe_complete”|”complete”\n}\n\n可选字段没有内容时省略，不输出 null。\n</output_schema>\n\n<field_guide>\nplayerIntent（可选）——对玩家输入性质的判断：行动、探索、表达、对抗、初始开场。这是分类，不是剧情摘要。\n\nsummary——一句话概括本轮发生的剧情。供系统和 Narrator 快速把握全局。\n\ninvolvedCharacters——本轮行动、说话，或需要被正文感知到在场/产生影响的角色 ID，使用稳定 ID。所有需要被正文感知到的角色，都应在 beats 或 characterBeats 中有可见位置。\n\nscene（可选）——场景或位置发生变化时填写。\n\nbeats——本轮正文的剧情骨架，按顺序列出关键节拍。第一条 beat 是本轮正文的起点，最后一条是终点——Narrator 从第一条开始写，写完最后一条后停下。写事件和动作，不写文学描写。\n  ✅ “帕兹向卡尔追问铃铛来历 → 卡尔用反问引导帕兹面对记忆空白 → 帕兹承认记忆分裂”\n  ❌ “月光洒落石板路，脚步声在空旷巷子里回荡”\n\ncharacterBeats——每个参与本轮的重要角色一条。\n  - intent：角色本轮的意图或目标\n  - actionHint：角色具体做什么，要具体到 Narrator 可执行。同时作为潜台词层——将隐藏信息翻译为可观察的行为质感，告诉 Narrator”怎么表现这个角色”而不是”角色背后是什么设定”\n  ✅ actionHint: “沉默三秒后转移话题，语气刻意轻松”\n  ❌ actionHint: “做出反应” / “她其实是眼线所以在套话”\n\ntone（可选）——本轮情绪基调。给出明确方向。\n  ✅ “表面平静但暗流涌动，对话中有试探和隐瞒”\n  ❌ “适当的氛围”\n\npacing（可选）——给 Narrator 的呈现节奏建议。只写呈现方式，不写剧情原因。\n\nrequiredContent（可选）——本轮必须出现在正文中的固定演出：剧本设定的台词、固定剧情表演、引擎资源调用。\n如果固定演出或固定对白有剧本顺序，必须先按顺序写入 beats 的对应位置；requiredContent 只记录不可漏、不可改义的具体内容，不单独承担顺序控制。\n\ncurrentTurnConstraints（可选）——本轮 Narrator 需要遵守的约束集合。可以包含本轮新增的临时限制，也可以从 turn_constraints 中挑出本轮特别需要强调的条目。这是 Narrator 唯一能看到的约束来源。\n\ncurrentStorylineConstraints（可选）——本轮新产生的、需要在后续持续遵守的约束。\n\nsectionSignalSuggestion（可选）——当前故事线推进信号。continue：仍在推进中；maybe_complete：接近完成，本轮应有收束感；complete：本节点已完成。\n</field_guide>\n</output_requirements>\n\n<output_discipline>\n关于 requiredContent：\n- 只放本轮必须出现在正文中的固定演出内容：剧本设定的台词、固定剧情表演、引擎资源调用（backgrounds、characters、cgs 等）\n- 普通约束不往这里放\n\n关于固定剧情演出/固定对白的顺序：\n- plot_content 中已经给出先后顺序的固定演出、固定对白，必须按原顺序消费，不得提前、延后、合并或跳过\n- 每个固定演出或固定对白都应在 beats 中有对应位置，让 Narrator 按 beats 顺序落地\n- requiredContent 用于保留固定对白原文、资源调用或不可改义的演出要求；它不能替代 beats 的顺序安排\n\n关于 turn_constraints 的理解：\n- turn_constraints 是辅助限制，不是情节安排的主要驱动。情节安排以 plot_content 和玩家输入为基准\n- 如果 turn_constraints 中有明显与当前剧情阶段不再相关的内容，以当前故事节点的实际情况为准进行情节安排\n\n关于 currentTurnConstraints 的输出：\n- 这是 Narrator 唯一能看到的约束来源，你必须把本轮 Narrator 需要遵守的约束全部放在这里\n- 从 turn_constraints 中选取本轮仍然有效且需要强调的条目，加上本轮新增的临时限制\n\n关于 currentStorylineConstraints：\n- 只在本轮确实产生了新的、后续需要持续遵守的限制时才输出\n- 不得与已存在的约束语义重复\n- 约束应具体可执行，不写模糊的情绪描述\n</output_discipline>\n\n<director_checklist>\n输出前逐项确认：\n1. 每个出场角色的行为，是否都有合理的信息来源？有无\"不该知道却做出反应\"的情况？\n2. 本轮安排是否从 completed_plots 之后继续？是否和上轮使用了不同的情节结构？\n3. 本轮推进量是否匹配故事节奏？对照 plot_content 剩余内容和已经过去的轮数，本轮安排的密度是否合理——不是只处理了一个微动作就停，也没有跳过必要的铺垫？\n4. 若有固定剧情、固定演出或固定对白，是否已按剧本顺序完整消费，而非拆碎、重排或跳过？\n5. 隐藏信息是否已翻译为行为/氛围，而非设定原文？\n6. Narrator 必须遵守的约束，是否已经全部放入 currentTurnConstraints？\n7. currentStorylineConstraints 是否和已有 constraints 语义不重复？\n</director_checklist>",
+        "answer": "{\n  \"playerIntent\": \"行动\",\n  \"summary\": \"帕兹侧身闪避并踢起地上杂物干扰灰夹克男的枪口，灰夹克男开枪未中，帕兹趁机前冲试图近身，但灰夹克男听到远处脚步声后选择撤退，撂下狠话消失在暗街深处。帕兹捡回相机和背包，暗街入口恢复安静。\",\n  \"involvedCharacters\": [\n    \"帕兹\",\n    \"灰夹克男\"\n  ],\n  \"scene\": \"暗街-巷口\",\n  \"beats\": [\n    \"帕兹侧身闪避，同时踢起脚边的碎砖和铁桶盖，干扰灰夹克男的瞄准视线\",\n    \"灰夹克男扣动扳机，子弹擦过帕兹身侧的墙壁，溅起碎屑\",\n    \"帕兹压低重心向前冲刺，试图拉近距离夺枪或近战\",\n    \"灰夹克男后退两步，枪口再次对准帕兹，但巷外传来急促的脚步声\",\n    \"灰夹克男犹豫瞬间，咒骂一声，放下狠话后转身跑入暗街深处\",\n    \"帕兹停在原地，确认灰夹克男已消失，捡起地上的相机和背包\"\n  ],\n  \"characterBeats\": [\n    {\n      \"characterId\": \"帕兹\",\n      \"intent\": \"规避枪击并创造反击机会\",\n      \"actionHint\": \"侧身闪避同时用脚勾起碎砖和铁桶盖，利用杂物飞溅干扰对方视线；冲刺时身体压低，目光锁定对方持枪手腕\"\n    },\n    {\n      \"characterId\": \"灰夹克男\",\n      \"intent\": \"击倒或威慑帕兹\",\n      \"actionHint\": \"开枪但被干扰导致射偏；听到远处脚步声后表情变化，咬牙放下狠话‘你会后悔的’或‘康纳不会放过你’，然后转身快步离开\"\n    }\n  ],\n  \"tone\": \"紧张短促，动作连贯，以灰夹克男撤退暂时收束对峙\",\n  \"pacing\": \"快速连续的动作序列，从闪避到冲刺再到对方撤退，一气呵成，随后以帕兹安静检查装备的短暂停顿结束本轮\",\n  \"requiredContent\": [],\n  \"currentTurnConstraints\": [\n    \"本轮必须描写帕兹闪避和利用杂物的具体动作，不省略细节\",\n    \"灰夹克男的撤退需要有合理的外部触发（远处脚步声）\",\n    \"帕兹的PTSD闪回不在此轮触发，保持当前战斗专注状态\"\n  ],\n  \"currentStorylineConstraints\": [],\n  \"sectionSignalSuggestion\": \"maybe_complete\"\n}"
+      }
+    }
+  },
+  {
+    "kind": "worker-started",
+    "worker": "narrator"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "枪"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "口"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "还"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "指着"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "灰"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "夹"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "克"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "男"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的手指"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "搭"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "扳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "机上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "关节"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "动"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他看着"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "像"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "等"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一个"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "信号"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "看到他"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "瞳孔"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "里"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "自己的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "倒"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "影"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "蹲"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "伏"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的姿态"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "重心"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "压"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "得很"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "低"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "动了"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "不是"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "向前"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "是"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "向"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "侧"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "左脚"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "蹬"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "地"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "身体"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "往"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "右"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "倾斜"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "像"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "被"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一股"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "看不见"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的力量"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "扯"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "了一下"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "肩膀"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "从"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "枪"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "口的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "指向"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "线上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "移"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "开"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "同时"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "右脚"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "勾"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "住了"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脚"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "边"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一块"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "碎"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "砖"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脚"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "腕"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "发力"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "往"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "上一"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "挑"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "碎"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "砖"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "飞"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "起来"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "划"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "出一道"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "弧"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "线"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "砸"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "向"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "灰"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "夹"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "克"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "男"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的面"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "门"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "躲"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "但"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "眼睛"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "本能"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "地"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "眯"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "了一下"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脚尖"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "停"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "继续"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "发力"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "旁边"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "那个"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "锈"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "蚀"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的铁"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "桶"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "盖"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "被"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "踢"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "得"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "翻"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "起来"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "哐"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "当"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一声"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "砸"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "墙上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "然后"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "弹"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "向"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "身"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "侧"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "枪"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "响了"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "声音"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "窄"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "巷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "里"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "被"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "放大"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "砰"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的一声"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "像"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "记"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "重"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "锤"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "砸"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "耳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "膜"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "子弹"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "擦"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "过"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "左侧"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "墙壁"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "碎石"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "屑"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "溅"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "到"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脸颊"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "灼"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "热"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "而"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "刺痛"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "停"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "压低"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "重心"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "双脚"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "交替"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "蹬"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "地"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "步子"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "不大"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "但"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "频率"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "很快"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "每一步"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "都在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "缩短"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你们"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "之间的距离"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "目光"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "锁"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在他"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "持"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "枪"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的手"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "腕"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "那"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "根"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "绷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "紧"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "肌腱"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "那"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "根"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "完全"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "压"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "下的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "扳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "机"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "后退"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "两步"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "枪"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "口"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "重新"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "对准"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "但他的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "手指"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "还没"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "扣"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "下去"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的时候"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "动作"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "顿"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "了一下"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "目光"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "越过"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "肩膀"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "看向"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "身后的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "巷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "口"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "方向"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脚步声"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "从"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "巷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "外"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "传来"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "急促"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "不止"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一个人"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "嘴角"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "抽"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "动"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "了一下"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "像"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "咬"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "到了"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "什么"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "硬"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "东西"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "放下"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "枪"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "口"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "朝"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "地上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "啐"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "了一口"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": " data"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "-spe"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "aker"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "=\""
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "灰"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "夹"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "克"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "男"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "\""
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": " data"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "-to"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "=\""
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "帕"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "兹"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "\">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "“"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你会"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "后悔"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。”</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他说"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "完"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "就往"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "巷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "子"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "深处"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "跑去"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脚步声"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "窄"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "巷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "里"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "迅速"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "远去"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "消失"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在一片"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "阴影"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "里"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "站在原地"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "呼吸"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "调整"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "从"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "急促"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "恢复到"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "平稳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "侧"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "耳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "听"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "了一会儿"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "——"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "巷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "外"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "那些"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脚步声"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "进来"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "只是"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "经过"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "然后"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "远"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "去了"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "地上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "躺着"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "那两个"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "被你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "放"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "倒"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的人"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一个"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "还在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "呻吟"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "另一个"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "靠着"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "墙"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "眼皮"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "动"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "像是"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "快要"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "醒"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "过来"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "看了"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "他们"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "一眼"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "多"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "停留"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "弯"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "下"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "腰"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "捡"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "起"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "相机"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "金属"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "外壳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "沾"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "了一点"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "灰"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "用手"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "掌"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "擦了"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "擦"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "挂"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "回"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "脖子上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "背包"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在旁边"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "拉"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "链"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "还"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "系"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "着"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "没有"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "动"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "过"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "你"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "背上"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "包"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "站"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "直"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">\n\n"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "<p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "暗"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "街"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "入口"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "重新"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "安静"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "下来"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "风"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "穿过"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "巷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "口"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "吹"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "动"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "头顶"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "晾"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "衣"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "绳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "床"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "单"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "在"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "夕阳"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "里"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "慢慢"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "摆动"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "远处"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "传来"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "庆典"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "鼓"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "点"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "闷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "闷"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "的"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "，"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "像"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "隔"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "着一"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "层"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "墙"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "。</"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": "p"
+  },
+  {
+    "kind": "worker-chunk",
+    "worker": "narrator",
+    "data": ">"
+  },
+  {
+    "kind": "worker-done",
+    "worker": "narrator",
+    "data": {
+      "text": "<p>枪口还指着你。</p>\n\n<p>灰夹克男的手指搭在扳机上，关节没有动。他看着你，像在等一个信号。你看到他瞳孔里自己的倒影——蹲伏的姿态，重心压得很低。</p>\n\n<p>你动了。</p>\n\n<p>不是向前。是向侧——左脚蹬地，身体往右倾斜，像被一股看不见的力量扯了一下。你的肩膀从枪口的指向线上移开。</p>\n\n<p>同时，你的右脚勾住了脚边一块碎砖。脚腕发力，往上一挑——碎砖飞起来，划出一道弧线，砸向灰夹克男的面门。他没有躲，但眼睛本能地眯了一下。你的脚尖没有停，继续发力——旁边那个锈蚀的铁桶盖被踢得翻起来，哐当一声砸在墙上，然后弹向他的身侧。</p>\n\n<p>枪响了。</p>\n\n<p>声音在窄巷里被放大——砰的一声，像一记重锤砸在耳膜上。子弹擦过你左侧的墙壁，碎石屑溅到你的脸颊上，灼热而刺痛。</p>\n\n<p>你没有停。</p>\n\n<p>你压低重心，双脚交替蹬地——步子不大，但频率很快，每一步都在缩短你们之间的距离。你的目光锁在他持枪的手腕上——那根绷紧的肌腱，那根没有完全压下的扳机。</p>\n\n<p>他后退两步。枪口重新对准你。</p>\n\n<p>但他的手指还没扣下去的时候，他的动作顿了一下——他的目光越过你的肩膀，看向你身后的巷口方向。</p>\n\n<p>脚步声。</p>\n\n<p>从巷外传来。急促。不止一个人。</p>\n\n<p>他的嘴角抽动了一下——像咬到了什么硬东西。他放下枪口，朝地上啐了一口。</p>\n\n<p data-speaker=\"灰夹克男\" data-to=\"帕兹\">“你会后悔的。”</p>\n\n<p>他说完就往巷子深处跑去。脚步声在窄巷里迅速远去，消失在一片阴影里。</p>\n\n<p>你站在原地。呼吸在调整，从急促恢复到平稳。你侧耳听了一会儿——巷外那些脚步声没有进来，只是经过，然后远去了。</p>\n\n<p>地上躺着那两个被你放倒的人。一个还在呻吟，另一个靠着墙，眼皮在动，像是快要醒过来。你看了他们一眼，没有多停留。</p>\n\n<p>你弯下腰，捡起相机。金属外壳上沾了一点灰，你用手掌擦了擦，挂回脖子上。背包在旁边，拉链还系着，没有动过。</p>\n\n<p>你背上包，站直。</p>\n\n<p>暗街入口重新安静下来。风穿过巷口，吹动头顶的晾衣绳，床单在夕阳里慢慢摆动。远处传来庆典的鼓点，闷闷的，像隔着一层墙。</p>"
+    }
+  },
+  {
+    "kind": "worker-started",
+    "worker": "choiceGenerator"
+  },
+  {
+    "kind": "worker-done",
+    "worker": "choiceGenerator",
+    "data": {
+      "options": [
+        {
+          "text": "顺着灰夹克消失的方向追进去"
+        },
+        {
+          "text": "蹲下查看地上两个黑帮的情况"
+        },
+        {
+          "text": "退回到中央区的庆典人群中去"
+        },
+        {
+          "text": "从背包里取出备用胶卷，确认相机状态"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "committed"
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 2,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "Turn 2 写道：“你把照片翻过来。背面什么都没有——没有日期，没有署名，没有那句‘来找我’。”随后又把线索写成“那个信封，那行打印出来的地址”。",
+    "conflictingEvidence": "Turn 1 对同一张单独照片写道：“照片背后是打印出来的地址：新西西里。”",
+    "conflictingTurns": [1],
+    "source": "model-output",
+    "reason": "同一张核心寻人照片的背面状态从“有打印地址”变成“什么都没有”，并把地址位置含混改写到信封线索，破坏了关键物证的连续性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 4,
+    "scope": "mixed",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 4 正文中帕兹说：“胶卷和记忆卡都给你。你让我过去就行。”同轮选项也写成“从背包里拿出胶卷和记忆卡，递上前去”。",
+    "conflictingEvidence": "Turn 1 和 Turn 3 反复建立的是“老旧的胶卷相机”、机械快门声和“几盒胶卷”，此前没有出现数字相机、记忆卡或任何可使用记忆卡的设备。",
+    "conflictingTurns": [1, 3],
+    "source": "model-output",
+    "reason": "旧式胶卷相机与胶卷道具链中突然出现记忆卡，且正文和选项同时固定该物件，造成物品状态和设备类型的轻微冲突。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "玩家输入是“从背包里拿出胶卷和记忆卡，递上前去”。Turn 5 正文随后写帕兹把相机放在地上，等夹克男去拿时“你动了”，并击倒夹克男和另一名黑帮成员。",
+    "conflictingEvidence": "Turn 4 给出的另一个未选择选项才是“趁着他们还在错愕，一拳打向夹克男的腹部”；玩家实际选择的是递交物品的交涉路线。",
+    "conflictingTurns": [4],
+    "source": "model-output",
+    "reason": "正文把未选择的攻击路线写成事实，覆盖了玩家选择的递交和交涉动作，导致玩家意图承接断裂。"
+  }
+]

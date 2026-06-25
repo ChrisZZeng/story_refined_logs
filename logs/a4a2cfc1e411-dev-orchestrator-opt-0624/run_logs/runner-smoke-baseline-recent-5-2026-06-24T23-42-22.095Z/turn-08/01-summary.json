@@ -1,0 +1,87 @@
+{
+  "turn": 8,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "progress",
+  "selectedFromPreviousTurn": {
+    "text": "压低身形，沿着墙根朝两人消失的方向摸过去"
+  },
+  "submittedSelectedAction": {
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 5
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 5
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 6
+  },
+  "selectedForNext": {
+    "text": "继续蹲守，观察进出规律和换岗时间"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:反抗",
+      "id": "反抗",
+      "text": "尽力平复呼吸——你知道怎么应付这种人"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:战斗",
+      "id": "战斗",
+      "text": "准备战斗"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "继续蹲守，观察进出规律和换岗时间"
+      },
+      {
+        "text": "沿外墙绕到屋后，检查是否有后门或可攀爬处"
+      },
+      {
+        "text": "趁守门人走神，快速贴近铁门侧面寻找潜入机会"
+      },
+      {
+        "text": "先撤回暗街更深处，搜集其他情报再回来"
+      }
+    ]
+  },
+  "visibleChars": 1617,
+  "durationMs": 52875.29,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

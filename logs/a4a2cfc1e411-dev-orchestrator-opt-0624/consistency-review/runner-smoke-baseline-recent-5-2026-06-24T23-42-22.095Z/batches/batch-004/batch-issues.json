@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 21, "end": 38 },
+    "evalRange": { "start": 31, "end": 38 },
+    "turn": 32,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 32 开头写“你没有从门边移动”，随后又写“你坐在墙边，手指搭在膝盖上”，结尾再次写“你坐在墙边”。",
+    "conflictingEvidence": "turn 31 中帕兹关门后仍“站在门边，手已经从门把手上移开”；turn 32 开头也确认他没有从门边移动。",
+    "conflictingTurns": [31, 32],
+    "source": "model-output",
+    "reason": "正文没有描写从门边站立回到墙边坐下的过程，却直接切换地点和姿态，破坏了空间与动作连续性。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 38 },
+    "evalRange": { "start": 31, "end": 38 },
+    "turn": 35,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 35 中卡琳娜说“你今晚拍下的那些——”，并且“她的目光在你胸前的相机上停了一瞬”。",
+    "conflictingEvidence": "turn 20 写帕兹把相机包从肩上取下来放在脚边；turn 23、27、32、33 仍持续以脚边或手边的相机包承接。此前可见内容没有展示他在今晚取出并挂上相机，也没有展示他今晚拍下多张照片；较早的 turn 6 只是在清晨离开时轻按过一次快门。",
+    "conflictingTurns": [6, 20, 23, 27, 32, 33],
+    "source": "model-output",
+    "reason": "正文把相机状态改成胸前悬挂，并把未展示过的“今晚拍下的那些”当成既成事实，造成物件状态和已发生行动的冲突。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 38 },
+    "evalRange": { "start": 31, "end": 38 },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "turn 36 的玩家输入是“拿起相机，站起来准备离开”，但正文直接写“相机挂带还绕在你颈间”，并在后文继续写“胸前相机挂带在脖子上压着”。",
+    "conflictingEvidence": "turn 20、23、27、32、33 都把相机承接为脚边或手边的相机包；turn 35 的选项也要求“拿起相机”。",
+    "conflictingTurns": [20, 23, 27, 32, 33, 35],
+    "source": "model-output",
+    "reason": "正文没有承接玩家选择中的拿起相机动作，反而把相机当成早已挂在脖子上，延续并放大了物件状态冲突。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 38 },
+    "evalRange": { "start": 31, "end": 38 },
+    "turn": 38,
+    "scope": "mixed",
+    "type": "quality-regression",
+    "severity": "high",
+    "currentEvidence": "turn 38 的玩家可见记录为 playerInput=null、preLlmEvents=[]、visibleText=\"\"、choices=[]。",
+    "conflictingEvidence": "turn 37 以三个可选行动收束：“朝风来的方向走，进入暗街深处”“转身朝路灯照不到的暗处走去”“举起相机，透过取景器框住那条裂纹的灯罩”。",
+    "conflictingTurns": [37],
+    "source": "uncertain",
+    "reason": "时间线出现一个没有正文、没有选项、也没有生成前事件的空 turn，会让玩家看到一次无内容且无法继续交互的断点；仅凭玩家可见证据无法可靠判断来源。"
+  }
+]
