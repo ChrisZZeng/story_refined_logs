@@ -39,6 +39,8 @@ logs/<branch-version>/
 - 不把 patch 写回 `oreturn` 源码。
 - 不在 `story_refined_logs` 中重写 `Director`、`Narrator`、`Choice` prompt assembly 逻辑。
 
+这里的“不拉取、启动或编排完整外部小说系统”不表示可以忽略小说系统源码版本。Replay 仍然必须使用 badcase 原始 run 对应的 `oreturn` commit 来执行 prompt assembly 和 worker 调用链，只是不启动完整服务、不跑完整端到端生成。
+
 ## 术语
 
 ### Prompt Patch Bundle
@@ -110,6 +112,49 @@ story_refined_logs CLI
 - `packages/core/src/orchestrator/controller.mts`
 - `packages/core/src/orchestrator/adapters/ai-sdk-llm.mts`
 - `packages/core/scripts/_model.mts`
+
+## Oreturn 版本锁定
+
+Replay 的可信度依赖于一个前置条件：执行 replay 的 `oreturn` prompt assembly 和 worker 代码，必须与原始 badcase run 生成时使用的小说系统版本一致。否则 patch replay 会混入新旧代码差异，无法判断变化来自 prompt patch 还是来自 `oreturn` 代码。
+
+### 版本来源
+
+第一版按下面优先级解析原始 run 对应的 `oreturn` commit：
+
+1. 优先读取 `run_logs/<run-id>/00-run-config.json` 中显式记录的 commit 字段。如果未来导出日志时能写入 `oreturnCommit`、`sourceCommit` 或类似字段，应以该字段为准。
+2. 如果 run config 没有显式字段，从 `logs/<branch-version>` 目录名解析前缀 commit。例如 `logs/a4a2cfc1e411-dev-orchestrator-opt-0624` 的 commit 前缀是 `a4a2cfc1e411`。
+3. 如果目录名也无法解析 commit，要求用户在 replay config 中显式填写 `source.oreturnCommit`。
+
+解析出的 commit 应写入 replay 输出的 `resolved-source-version.json`。
+
+### 前置校验
+
+运行 replay 前必须校验：
+
+- `oreturnRepo` 是一个 git 仓库。
+- 解析出的 commit 在该仓库中存在。
+- 实际用于执行 replay 的 `oreturn` 工作区 commit 与解析出的 commit 一致，或者 replay 明确使用了该 commit 对应的隔离 worktree。
+
+默认策略建议为 `require-matching-worktree`：
+
+- 如果用户提供的 `oreturnRepo` 当前 checkout 正好在目标 commit，直接使用。
+- 如果当前 checkout 不在目标 commit，但仓库中存在目标 commit，则系统可以在本项目输出目录下记录需要的 commit，并调用一个显式的 prepare step 创建隔离 worktree。
+- 如果第一版暂不自动创建 worktree，则直接 fail，并提示用户把 `oreturnRepo` 切到目标 commit 后重试。
+
+自动创建 worktree 不等于“启动或编排完整外部小说系统”。它只是为 replay engine 提供与原始 badcase 匹配的源码版本。实现时必须避免改动用户正在开发的 `oreturn` 工作区。
+
+### 输出记录
+
+每次 replay run 必须记录：
+
+- `story_refined_logs` 当前 commit。
+- 原始 run 解析出的 `sourceOreturnCommit`。
+- 实际执行 replay 的 `replayEngineOreturnCommit`。
+- `oreturnRepo` 路径。
+- 如果使用 worktree，记录 worktree 路径。
+- 是否存在 uncommitted changes。若有，默认 fail，除非用户显式允许 dirty engine。
+
+如果 `sourceOreturnCommit` 与 `replayEngineOreturnCommit` 不一致，第一版必须 fail，不能生成成功的 judge 结论。
 
 ## Prompt Patch 应用规则
 
@@ -229,7 +274,11 @@ Replay config 示例：
   "runId": "runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random",
   "turns": [6, 9, 24, 34],
   "patchBundlePath": "prompt-patches/narrator-continuity-v1.json",
-  "oreturnRepo": "/Users/lidong/Projects/MemoraXAI/codebase/oreturn",
+  "source": {
+    "oreturnRepo": "/Users/lidong/Projects/MemoraXAI/codebase/oreturn",
+    "oreturnCommit": "e438827269de",
+    "versionPolicy": "require-matching-worktree"
+  },
   "models": {
     "replay": {
       "provider": "openai-compatible",
@@ -255,6 +304,7 @@ Replay config 示例：
 logs/<branch-version>/prompt-patch-replay/<replay-id>/
   replay-config.json
   patch-bundle.json
+  resolved-source-version.json
   cases/
     turn-024/
       turn-replay-context.json
@@ -281,7 +331,8 @@ logs/<branch-version>/prompt-patch-replay/<replay-id>/
 - patch bundle id。
 - patch 文件路径和 hash。
 - `story_refined_logs` git commit。
-- `oreturn` git commit。
+- 原始 run 解析出的 `sourceOreturnCommit`。
+- 实际执行 replay 的 `replayEngineOreturnCommit`。
 - run id。
 - turn 数。
 - issue 数。
@@ -308,6 +359,9 @@ logs/<branch-version>/prompt-patch-replay/<replay-id>/
 
 - patch bundle 文件不存在或 schema 不合法。
 - `oreturnRepo` 不存在。
+- 无法解析或校验原始 run 对应的 `oreturn` commit。
+- 实际 replay engine commit 与原始 run commit 不一致。
+- `oreturnRepo` 存在未提交改动，且用户未显式允许 dirty engine。
 - replay model 或 judge model 配置缺失。
 - review dir 或 run dir 无法推断。
 
@@ -369,6 +423,7 @@ Replay Context
 ## 风险与约束
 
 - `oreturn` 的 novel-creator strategy 是跨仓库依赖，接口变更会影响 replay。需要在输出中记录 `oreturn` git commit。
+- 必须使用原始 badcase run 对应的 `oreturn` commit 做 replay。只记录当前 commit 不足以保证可信度；需要在运行前校验 source commit 和 engine commit 一致。
 - Patch 在最终 assembled prompt 上应用，因此它验证的是实际 LLM 输入层面的修改，不等同于源码模板已经被修改。
 - 第一版固定使用原始 `03-story-state.json`，不会反映新的长期记忆检索结果。
 - 第一版只验证 target turn 的输出，不验证后续状态写回和多轮传播。
