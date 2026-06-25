@@ -1,28 +1,58 @@
 {
-  "generatedAt": "2026-06-23T15:36:20.149Z",
+  "generatedAt": "2026-06-24T03:09:56.088Z",
   "runDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random",
   "reviewDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random",
-  "issueFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/batch-issues.json",
+  "issueFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/issues.json",
   "selectedIssueIndex": 3,
   "targetTurn": 9,
   "selectedIssue": {
-    "issueIndex": 3,
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
     "turn": 9,
-    "severity": "medium",
-    "type": "identity-drift",
     "scope": "visibleText",
-    "summary": "The same previously female-coded vendor is suddenly recast as an old man without any visible explanation."
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "Turn 9 has Karina refer to the Central District vendor as \"那个老头啊\".",
+    "conflictingEvidence": "Turns 1-3 consistently present that stallkeeper as female-coded: the narration uses \"她\" repeatedly, including \"她把胳膊肘撑在摊子上\" and \"她低下头去整理摊子上的零碎物件\".",
+    "conflictingTurns": [
+      1,
+      2,
+      3
+    ],
+    "source": "model-output",
+    "reason": "The same previously female-coded vendor is suddenly recast as an old man without any visible explanation."
   },
   "issuesForTurn": [
     {
       "index": 3,
       "issue": {
-        "issueIndex": 3,
+        "windowRange": {
+          "start": 1,
+          "end": 10
+        },
+        "evalRange": {
+          "start": 1,
+          "end": 10
+        },
         "turn": 9,
-        "severity": "medium",
-        "type": "identity-drift",
         "scope": "visibleText",
-        "summary": "The same previously female-coded vendor is suddenly recast as an old man without any visible explanation."
+        "type": "identity-drift",
+        "severity": "medium",
+        "currentEvidence": "Turn 9 has Karina refer to the Central District vendor as \"那个老头啊\".",
+        "conflictingEvidence": "Turns 1-3 consistently present that stallkeeper as female-coded: the narration uses \"她\" repeatedly, including \"她把胳膊肘撑在摊子上\" and \"她低下头去整理摊子上的零碎物件\".",
+        "conflictingTurns": [
+          1,
+          2,
+          3
+        ],
+        "source": "model-output",
+        "reason": "The same previously female-coded vendor is suddenly recast as an old man without any visible explanation."
       }
     }
   ],

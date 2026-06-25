@@ -1,107 +1,102 @@
 {
   "issueId": "issue-9-turn-27",
-  "issueIndex": 9,
   "turn": 27,
-  "severity": "medium",
-  "type": "repeated-scene",
-  "scope": "visibleText",
   "issueValidity": "valid",
-  "problemSummary": "第 27 轮在玩家选择“确认她见过敏特”后，正文先重复第 26 轮已经完整给出的短发回答，再追加“我见过她 / 就在新西西里”，并且卡琳娜对白失去引号，形成玩家可见的重复演出和格式退化。",
+  "problemSummary": "玩家选择“确认她见过敏特”后，正文没有只推进到新的承认，而是先重复上一轮关于短发与“长头发容易被人抓住”的回答，并且对话帧的可见引号退化。",
   "validityAssessment": {
-    "verdictReason": "valid。玩家可见时间线中，第 26 轮已经回答“不是”“我知道她的时候——她已经是短发了”“她说长头发容易被人抓住”；第 27 轮又近乎逐句复述这些句子。玩家本轮动作只是确认推论，不需要重演上一轮答案。",
-    "playerVisibleSupport": "visible-timeline.jsonl 中 turn 26 的短发解释与 turn 27 开头三段高度重合；turn 27 的对白可见为无引号文本，例如“不是。”、“我知道她的时候——她已经是短发了”。",
+    "verdictReason": "该问题在玩家可见层面成立。turn-26 已经完整回答“不是”、短发和长发危险的原因；turn-27 的玩家输入只是确认她见过敏特，正文开头却近乎逐句重演这些内容。",
+    "playerVisibleSupport": "visible-timeline.jsonl 中 turn-26 已显示卡琳娜说“不是”“我知道她的时候——她已经是短发了。剪得很短。比照片上还要短。”“她说长头发容易被人抓住。在暗处不方便。”；turn-27 又以“不是。/我知道她的时候——她已经是短发了。比这张照片上还要短。/她说长头发容易被人抓住。在暗处不方便。”开场。",
     "caveats": [
-      "“确认她见过敏特”不是完整台词，存在少量解释空间；但即使理解为追问确认，也只需要直接确认，不需要重复上一轮已经完成的回答。"
+      "turn-27 后半段“我见过她。就在新西西里。几个月前。”确实推进了新确认；问题集中在开头重复演出和对白标点退化。"
     ]
   },
   "contextAssessment": {
-    "actualStateBeforeIssue": "问题发生前，卡琳娜正拿着敏特照片。第 26 轮她已经说明自己知道敏特时敏特是短发，并给出长发容易被抓住的原因；这已经让玩家能推断“她见过敏特”。第 27 轮玩家选择确认这个推断。",
+    "actualStateBeforeIssue": "turn-26 结束时，卡琳娜已经回答过发型问题，并用短发原因强烈暗示她亲眼见过敏特；玩家可选择进一步确认、追问相识过程、追问目的或收回照片。",
     "relevantFacts": [
       {
-        "claim": "短发解释在上一轮已经呈现，属于已消费的玩家可见内容。",
+        "claim": "短发与“长头发容易被人抓住”的解释已经在上一轮说完。",
         "availability": "present-clear",
         "artifacts": [
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06a-director-prompt.md",
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/03-story-state.json"
+          "visible-timeline.jsonl turn-26",
+          "turn-27/06a-director-prompt.md 最近几轮玩家经历",
+          "turn-27/06b-narrator-prompt.md 上下文"
         ],
-        "notes": "Director prompt 的最近几轮玩家经历逐字包含 turn 26 的“不是”“短发”“长头发容易被人抓住”。"
+        "notes": "完整原文在最近一轮玩家经历中出现，属于强可见上下文。"
       },
       {
-        "claim": "本轮玩家动作是确认见过敏特，而不是要求重述发型答案。",
+        "claim": "本轮玩家动作是确认她见过敏特，而不是重新询问发型。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn-27 playerInput",
+          "turn-27/06a-director-prompt.md 玩家输入"
+        ],
+        "notes": "输入只有“确认她见过敏特”，没有要求重述前一轮解释。"
+      },
+      {
+        "claim": "导演需要把“确认她见过”绑定成增量推进，而非复用已消费证据。",
         "availability": "present-ambiguous",
         "artifacts": [
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl",
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06a-director-prompt.md",
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-26/06c-choice-prompt.md"
+          "turn-26/06-llm-calls.json choiceGenerator object",
+          "turn-27/06-llm-calls.json director object"
         ],
-        "notes": "choice text 只有“确认她见过敏特”，没有明确 speechAct 或要说出口的台词，给 Director 留下了“让 NPC 再确认”的解释空间。"
+        "notes": "turn-26 选项/actionId 为 `choice:confirm_met`，但没有编码“只新增明确承认、不要复述短发答案”的约束。"
       },
       {
-        "claim": "Director/Narrator 有通用的不要重复要求。",
-        "availability": "present-buried",
-        "artifacts": [
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06a-director-prompt.md",
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06b-narrator-prompt.md"
-        ],
-        "notes": "system prompt 明确“不要重复、重演”，但它是通用原则，未绑定到本轮已经消费的短发证据。"
-      },
-      {
-        "claim": "当前故事线已经提前推进到宴会/康纳节点，与照片对话现场冲突。",
-        "availability": "contradicted",
-        "artifacts": [
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/03-story-state.json",
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/05-runtime-after.json"
-        ],
-        "notes": "turn 27 prompt 的 currentStoryline 是 5-02 康纳出场，但 recentTurns 仍在公寓照片对话；这是背景压力，不是本条重复的唯一直接原因。"
-      },
-      {
-        "claim": "对白帧协议要求 data-speaker 台词带引号。",
+        "claim": "不要重复已发生情节的通用规则存在。",
         "availability": "present-clear",
         "artifacts": [
-          "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06b-narrator-prompt.md"
+          "turn-27/06a-director-prompt.md system",
+          "turn-27/06b-narrator-prompt.md user"
         ],
-        "notes": "Narrator prompt 末尾要求 `<p data-speaker=...>\"台词\"</p>`，但输出中卡琳娜台词没有引号。"
+        "notes": "规则是通用原则，未转化为本轮已消费对白的硬性 guard。"
+      },
+      {
+        "claim": "对话帧必须包含可见引号。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-27/06b-narrator-prompt.md v3-html 输出协议"
+        ],
+        "notes": "协议写明 `<p data-speaker=...>\"台词\"</p>`，但 Narrator 输出省略了引号。"
       }
     ],
     "competingPressures": [
-      "低特异性的 choice text",
-      "上一轮短发解释是确认推论的最近证据",
-      "Director 慢铺/凝重语气",
-      "通用 anti-repeat 原则缺少本轮已消费事实标记",
-      "v3-html 引号要求只靠 prompt 约束"
+      "玩家选项“确认她见过敏特”语义偏抽象，容易让 Director 用上一轮的证据来“证明确认”。",
+      "最近上下文中上一轮短发对白非常近、非常完整，且与“她见过敏特”的推论直接相关。",
+      "当前故事线/历史摘要把上一轮写成“暗示她们见过面”，使本轮需要“确认”的增量目标存在但边界不清。",
+      "Narrator 被要求遵循 Director 的 beats，而 Director 已把“说明敏特短发的原因”列入本轮 beats。"
     ]
   },
   "causalChain": {
-    "firstDivergenceArtifact": "story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/06-llm-calls.json call[0] / story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-27/04-output.json",
-    "triggeringPressure": "turn 26 的 Choice 输出“确认她见过敏特”是一个推论式意图，而不是明确玩家动作或台词；Director 看到上一轮短发证据后，把“确认”安排为“卡琳娜确认她见过敏特，并回忆起敏特短发的原因”。",
-    "missingGuard": "缺少 choice-action-binding 级别的 speechAct/consumedEvidence 约束：没有告诉 Director 该选项只应推进到“直接承认见过”，并禁止复述上一轮已经消费的短发原因；Narrator 也缺少输出后格式校验来强制对白引号。",
-    "mechanismStatement": "当推论式短选项没有绑定为明确可执行动作时，Director 会用最近的推论证据来填充“确认”动作；由于已消费证据没有成为硬约束，Narrator 按这个 handoff 重演了上一轮答案，并在生成中丢失了对白引号。",
-    "directCause": "Director handoff 把本轮 beats 写成“卡琳娜承认见过敏特 / 说明敏特短发的原因”，直接要求 Narrator 再说明短发原因。",
-    "propagation": "Narrator 在 turn-27/06-llm-calls.json call[1] 中把 Director beats 落成正文；07-events.json 的 narrator worker-done 和 04-output.json 均保留重复文本，最终写入 visible-timeline。",
+    "firstDivergenceArtifact": "turn-27/06-llm-calls.json call[0].object（Director plotPoint）",
+    "triggeringPressure": "Director 面对 `choice:confirm_met`/“确认她见过敏特”时，把上一轮已经说过的短发解释当成本轮确认的组成部分，输出 beats: “卡琳娜承认见过敏特”“说明敏特短发的原因”。",
+    "missingGuard": "选项/actionId 与 Director handoff 没有把核心动作绑定为“增量确认：只承认见过与时间地点，不复述已消费的发型回答”；通用“不要重复”规则没有转成针对上一轮对白的可执行排除项。",
+    "mechanismStatement": "抽象确认类选项缺少增量语义绑定，Director 在近因上下文压力下复用了上一轮已消费的短发证据，Narrator 再按该 handoff 重演对白，并叠加本地 v3-html 引号格式 slip，最终形成玩家可见重复演出。",
+    "directCause": "Director 的本轮剧情安排错误包含“说明敏特短发的原因”；Narrator 忠实展开后把上一轮回答开头重新写了一遍。",
+    "propagation": "Narrator 在 turn-27/06-llm-calls.json call[1].text 中生成重复段落；turn-27/04-output.json 将其写入 `turnContent`；choices 又基于重复后的“我见过她”继续追问。",
     "nonCauses": [
-      "不是玩家要求逐字复述；玩家只选择确认推论。",
-      "不是长程记忆缺失；上一轮文本在 recentTurns 和 prompt 中 present-clear。",
-      "不是 currentStoryline 中康纳节点的直接内容复用；本轮实际重复的是上一轮照片对话内容。"
+      "不是长期记忆遗忘：上一轮内容在 recent turns 中清晰可见。",
+      "不是角色设定缺失：卡琳娜是否见过敏特的边界在上下文中可推断。",
+      "对话引号退化是同轮 Narrator 格式 slip，不是重复问题的主因。"
     ]
   },
   "rootCause": {
     "label": "choice-action-binding",
     "family": "agent-system",
     "secondaryFamilies": [
-      "recent-context"
+      "recent-context",
+      "llm-self"
     ],
-    "description": "低特异性的推论式选项没有绑定明确 speechAct、目标回复和已消费证据；Director 在最近上下文压力下用上一轮短发解释来完成“确认”，而系统没有 hard guard 阻止重复或要求只输出新的承认信息。",
+    "description": "触发压力是“确认她见过敏特”这种抽象选项与近因中完整的短发回答；缺失防线是选项/actionId 和 Director prompt 没有把“确认”约束为新增承认、并排除已消费对白；失败运动是 Director 将已消费证据重新列为本轮 beat，Narrator 复述并发生引号格式 slip。",
     "fixSurface": [
-      "Choice option schema/prompt: 为推论型选项增加 actionKind/speechAct/targetFact，避免只输出“确认 X”",
-      "Director prompt/intent resolver: 将 selected choice 转成 must-satisfy contract，并附带 consumedEvidence 禁止复述",
-      "Narrator/output validator: 检查 data-speaker 台词引号和跨 turn 重复片段"
+      "choice/action schema：为确认类选项保存 `mustAdvanceFrom`、`alreadySatisfiedFacts`、`doNotRestate`。",
+      "Director prompt assembly：把上一轮已完成对白转成 hard negative constraints，而不是只放在 long recent context。",
+      "Narrator/v3-html validator：检查 data-speaker 帧是否保留可见引号或由渲染层统一处理对白标点。"
     ]
   },
   "evidence": {
-    "playerVisible": "turn 26 已出现“不是 / 我知道她的时候已经是短发 / 她说长头发容易被人抓住”；turn 27 又以同一信息开场，并且卡琳娜对白没有引号。",
-    "internalTrace": "turn-26/06c-choice-prompt.md 产生“确认她见过敏特”；turn-27/06a-director-prompt.md recentTurns 清楚包含上一轮回答；turn-27/06-llm-calls.json call[0] 的 beats 包含“说明敏特短发的原因”；call[1] 输出重复正文；turn-27/07-events.json worker-done 与 04-output.json 固化该文本。"
+    "playerVisible": "turn-26 已完成短发解释；turn-27 玩家只选择“确认她见过敏特”，但正文开头再次出现“不是”“我知道她的时候——她已经是短发了”“她说长头发容易被人抓住”。",
+    "internalTrace": "turn-27 Director object 的 summary 为“卡琳娜确认她见过敏特，并回忆起敏特短发的原因”，beats 包含“说明敏特短发的原因”；turn-27 Narrator prompt 明确要求对白帧带引号，但输出的 data-speaker 帧没有可见引号。"
   },
-  "recommendedFixArea": "优先修复 Choice→Director 的 selected choice handoff：让选项携带明确 speechAct、targetFact 和已消费证据，并在 Director 组装时加入本轮 anti-repeat 检查；同时加 v3-html 对白引号校验。",
-  "confidence": "medium"
+  "recommendedFixArea": "优先修复 Choice→Director 的 action binding 与 consumed-content guard；同时给 Narrator 输出加 v3-html 对话标点校验。",
+  "confidence": "high"
 }

@@ -24,6 +24,7 @@
         "secondaryFamilies": [
           "recent-context"
         ],
+        "description": "触发压力是玩家输入和剧情摘要共同强调“继续保持蹲姿/温馨接触”；缺失防线是系统没有把最近玩家可见正文的最后一帧抽取为可执行的 current-scene anchor，也没有让该锚点高于情绪摘要和 Director 自行补全；失败运动是 Director 复活上轮中段状态，Narrator 按错误 handoff 在本轮重复同一退回动作。",
         "fixSurface": [
           "statefold/current scene entity pose extraction",
           "Director prompt context priority rules",
@@ -33,8 +34,8 @@
       },
       "confidence": "high",
       "recommendedFixArea": "在 Director 前增加“上一轮玩家可见最后一帧”的实体/位置/姿态锚点，并在 prompt 中声明它高于 storyline summary、情绪摘要和候选动作；Narrator 输出前检查第一段是否回滚该锚点。",
-      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-013-turn-43/root-cause-result.json",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-013-turn-43/root-cause-report.md",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-13-turn-43/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-13-turn-43/root-cause-report.md",
       "result": {
         "issueId": "issue-13-turn-43",
         "turn": 43,
@@ -142,6 +143,7 @@
         "secondaryFamilies": [
           "recent-context"
         ],
+        "description": "触发压力是 turn-45 选项把“伸手摸黑猫头”包装成即时可执行动作；缺失防线是 Choice/Director handoff 没有把当前实体位置作为动作前置条件，也没有要求不可达动作必须桥接移动；失败运动是 Narrator 为满足触摸动作而选择更早、更方便的“椅子腿旁”位置，覆盖了上一轮最后一帧的书堆位置。",
         "fixSurface": [
           "choice generator affordance check",
           "choice schema action preconditions",
@@ -151,8 +153,8 @@
       },
       "confidence": "high",
       "recommendedFixArea": "让 ChoiceGenerator 在生成涉及实体接触/拿取/靠近的选项时检查 current entity location；如果动作不可直接发生，选项必须写成“起身走到书堆前，再……”或标记 action precondition，由 Director 在下一轮显式桥接。",
-      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-014-turn-46/root-cause-result.json",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-014-turn-46/root-cause-report.md",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-14-turn-46/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-14-turn-46/root-cause-report.md",
       "result": {
         "issueId": "issue-14-turn-46",
         "turn": 46,
@@ -260,6 +262,7 @@
         "secondaryFamilies": [
           "llm-self"
         ],
+        "description": "触发压力是短选项生成沿用“问她/说她”的第三人称动作模板；缺失防线是 Choice schema/prompt 没有把玩家说话主体和对话内容分离，也没有对第一人称 utterance 做校验；失败运动是模型把“对她说：我也想”压缩成“说她也想”，使 option semantics 与实际玩家行动不一致。",
         "fixSurface": [
           "choice schema speaker/utterance fields",
           "Choice prompt pronoun rules for player utterances",
@@ -268,8 +271,8 @@
       },
       "confidence": "high",
       "recommendedFixArea": "将 dialogue choice 拆成结构化字段，例如 actionTarget、speaker=player、utteranceText；或至少增加 linter：当选项以“说她/他说也想/觉得”等表达玩家自身态度时，改写为“说自己也想”或“说：我也想……”。",
-      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-015-turn-47/root-cause-result.json",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-015-turn-47/root-cause-report.md",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-15-turn-47/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-15-turn-47/root-cause-report.md",
       "result": {
         "issueId": "issue-15-turn-47",
         "turn": 47,
@@ -368,6 +371,7 @@
         "secondaryFamilies": [
           "agent-system"
         ],
+        "description": "触发压力是 Narrator 要把“最常读哪本书”的玩家动作自然化为对白；缺失防线是没有针对玩家对白中“你说过/最…”这类前提事实的 source-grounding 校验；失败运动是模型把“地图册够我用”和“每本读过不止一遍”错误合成为“地图册读得最多”，并以既有事实形式写入正文。",
         "fixSurface": [
           "Narrator prompt presupposition grounding rule",
           "structured known-facts list for local objects",
@@ -376,8 +380,8 @@
       },
       "confidence": "medium",
       "recommendedFixArea": "在 Narrator 阶段加入“玩家对白前提”检查：凡出现“你说过/最常/已经/当然”等断言式或比较式说法，必须能在 recent visible text 或 structured facts 中找到来源；否则改写成开放问题，例如“你更常翻哪一本？”",
-      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-016-turn-47/root-cause-result.json",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-016-turn-47/root-cause-report.md",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-16-turn-47/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-004/issues/issue-16-turn-47/root-cause-report.md",
       "result": {
         "issueId": "issue-16-turn-47",
         "turn": 47,

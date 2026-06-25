@@ -1,65 +1,63 @@
 # Root Cause Report: issue-11-turn-37
-
 ## Problem
 - issueIndex: 11
 - turn: 37
-- severity: `low`
-- type: `quality-regression`
-- scope: `choices`
-- summary: 第 37 轮选项从短、具体的可执行动作漂移成较长的元叙事/意图说明，例如“她问我有什么值得去的理由——也许我想先知道……”，降低了可点击选项的清晰度。
+- type: quality-regression
+- severity: low
+- problemSummary: turn-37 的选项从简短可执行动作漂移成长句式元叙事意图，如“她问我有什么值得去的理由——也许我想先知道……”。
 
 ## Validity
-- issueValidity: `valid`
-- verdictReason: valid。玩家可见选项 1-3 明显不是稳定的动作格式，而是复述 NPC 问题和玩家可能心理动机；这与前后轮常见的“问她…… / 回答她……”格式不一致。
-- playerVisibleSupport: turn 37 choices 中前两项以“她问我有什么值得去的理由——也许我……”开头，第三项是“她向我坦白了感受——轮到我说出……”，都偏元叙事意图而非直接行动。
-- caveats:
-- 选项仍大致表达了后续可说的话题，所以是低严重度格式/清晰度问题，而不是剧情不可继续。
+- issueValidity: valid
+- verdictReason: 该问题成立但严重度低。玩家仍能理解大致方向，但选项显著长于相邻轮次，且以“她问我/也许我/轮到我”描述内心和叙事位置，而不是直接可点击动作。
+- playerVisibleSupport: turn-36 选项是“表达自己对这场宴会的疑虑”“反问她对宴会有什么看法”“直接评价：‘一场正式的试探’”等清晰动作；turn-37 选项变为“她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的”等长句。
+- caveats: 这些选项并非不可理解，也没有直接破坏剧情事实；问题是格式稳定性和互动清晰度下降。
 
 ## Context Assessment
-- actualStateBeforeIssue: 卡琳娜刚在公园里回答了自己对晚宴的看法，并把问题抛回给玩家：“你觉得那场晚宴有什么值得我去的理由？”此时合理选项应是直接回答、反问、坦白或沉默等可执行话语动作。
-- relevantFacts:
-- `present-clear` 可见正文结尾提供的是一个直接问题，需要玩家选择下一步说法/行动。
-  artifacts: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/visible-timeline.jsonl`, `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06c-choice-prompt.md`
-  notes: Choice prompt 的“本轮玩家已经看到的正文”以卡琳娜的问题收束。
-- `present-clear` Choice prompt 要求选项短、具体、可点击，并不要长段心理独白。
-  artifacts: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06c-choice-prompt.md`
-  notes: prompt 开头和输出要求均强调“主动选择的行动”“短、具体、可点击”“不要替玩家做长段心理独白”。
-- `absent` Choice output 缺少格式/长度/actionability 硬约束。
-  artifacts: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06-llm-calls.json`, `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/04-output.json`
-  notes: schema 只要求 options[].text，可选 actionId；没有 actionVerb、speechAct、maxLength 或 meta-narrative 禁止字段。
-- `over-constraining` Director 对本轮的情感铺垫和抽象问题给了反思式语言压力。
-  artifacts: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06c-choice-prompt.md`, `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06-llm-calls.json`
-  notes: 本轮摘要和约束强调晚宴复杂性、安心感、开放状态；可见问题本身是抽象的“理由”。
-- competingPressures: 抽象话题：晚宴价值与角色理由, 温馨/安心情绪弧线, Choice prompt 的软性短选项要求, schema 只校验 text 存在, 缺少后处理改写为玩家动作
+- actualStateBeforeIssue: turn-37 正文结尾是卡琳娜反问玩家“你觉得那场晚宴有什么值得我去的理由？”，此时玩家合理动作应是回答、追问交易价值、坦白动机、表达实用看法等。
+
+| claim | availability | artifacts | notes |
+| --- | --- | --- | --- |
+| 选项应短、具体、可点击、像玩家主动行动。 | `present-clear` | turn-37/06c-choice-prompt.md system/user | choice prompt 开头和输出要求都强调短、具体、不要长段心理独白。 |
+| 当前可见问题本身偏抽象，容易诱发观点/意图型选项。 | `present-clear` | turn-37/04-output.json<br>visible-timeline.jsonl turn-37 | 正文结尾是“你觉得那场晚宴有什么值得我去的理由？”，需要把抽象回答压缩成行动选项。 |
+| 本轮没有可供复制的明确 candidate action 列表。 | `absent` | turn-37/06c-choice-prompt.md<br>turn-37/02-script-state.json | prompt 只描述判断流程和当前处境；script-state 中也未出现 choice/action candidate。 |
+| 输出 schema 没有长度、动词开头、禁用“也许/轮到我/她问我”的硬校验。 | `absent` | turn-37/06c-choice-prompt.md 输出要求<br>turn-37/04-output.json choices | 提示是自然语言要求，不是可执行 validator。 |
+| Choice 还生成了未在 prompt 中给出的 actionId。 | `present-clear` | turn-37/06-llm-calls.json call[2].object | 内部 object 含 `choice:ask_about_deal`、`choice:confess_other_motive`、`choice:share_own_view`，但可见 timeline 只保留 text。 |
+
+- competingPressures:
+  - 正文最后的问题是抽象价值判断，不是物理行动。
+  - 当前 storyline 要“围绕卡琳娜询问玩家对宴会的看法展开讨论”，推动观点型选择。
+  - choice prompt 虽要求短选项，但缺少硬长度和格式校验。
+  - 没有候选动作列表可直接锚定，模型需要自行从对话中抽象选项。
 
 ## Causal Chain
-- firstDivergenceArtifact: `story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/06-llm-calls.json call[2] / story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/turn-37/04-output.json`
-- triggeringPressure: 可见正文末尾是一个需要阐述理由的抽象问题，Choice generator 在没有候选动作硬模板时沿用叙事语气，把选项写成“她问我……也许我……”的内心意图句。
-- missingGuard: Choice schema/prompt 没有 enforceable actionability contract：没有最大长度、禁止“也许/轮到我/她问我”这类元叙事开头，也没有要求每项映射到 speak/ask/act 的 actionKind。
-- mechanismStatement: 当玩家面临抽象对话题，而 Choice 输出只受 text 字段校验时，生成器会把可点击动作扩写成叙事化意图说明；缺少选项形状验证让这些长句直接进入玩家可见 choices。
-- directCause: Choice LLM call 直接返回四个长文本选项，前三个尤其偏元叙事；04-output.json 与 07-events.json 原样记录并提交。
-- propagation: 后续 turn 38 玩家选择第三项后，系统能够继续剧情，但该选择文本也作为 playerInput 进入下一轮，加重了选项/输入风格漂移。
+- firstDivergenceArtifact: turn-37/06-llm-calls.json call[2].object（Choice generator output）
+- triggeringPressure: Choice generator 面对抽象的“有什么值得去的理由”结尾和“宴会看法讨论”约束，把玩家下一步写成完整意图说明，而不是压缩为“追问交易价值/坦白另有目的/说出看法”等动作。
+- missingGuard: 选项生成 contract 没有结构化字段或后处理来强制短动作格式、最大长度、动词开头、禁止元叙事短语；缺少候选动作锚点时也没有 fallback 模板。
+- mechanismStatement: 抽象对话结尾缺少可执行 action binding，Choice generator 在无候选动作锚点和无长度 validator 的情况下把叙事意图原样展开成长选项，导致可见 choices 漂移成元叙事说明。
+- directCause: Choice generator 直接输出四个长文本选项，其中前三个以“她问我/她向我坦白”开头并夹带“也许我/轮到我”等叙事意图。
+- propagation: turn-37/04-output.json 写入这些 choices；visible-timeline.jsonl turn-37 对玩家展示同样文本；turn-38 选择第三项后，玩家输入也继承了元叙事句式。
 - nonCauses:
-- 不是玩家自定义输入造成；这些文本由 choiceGenerator 生成。
-- 不是缺少上下文；可见正文和问题在 prompt 中 present-clear。
-- 不是 storyline 根因；公园/晚宴上下文影响话题，但不要求选项采用元叙事长句。
+  - 不是 Narrator 正文质量问题：turn-37 正文能自然承接玩家反问。
+  - 不是隐藏剧情泄露：选项内容没有明显泄露未见事实。
+  - 不是记忆缺失：相邻轮次上下文足以生成简短动作。
 
 ## Root Cause
 - label: `choice-action-binding`
 - family: `agent-system`
 - secondaryFamilies: `llm-self`
-- description: Choice 输出缺少强制的动作绑定和形状校验：抽象对话压力下，模型把“下一步可执行话语动作”扩写成玩家内心意图说明，而系统只校验 text 字段，未阻止长句、元叙事和非动作格式。
+- description: 触发压力是抽象观点型对话和 storyline 对“宴会看法讨论”的强调；缺失防线是 Choice contract 没有把抽象意图绑定成简短行动，也没有长度/格式 validator；失败运动是模型把“为什么值得去”的思考链条写进选项文本。
 - fixSurface:
-- `Choice schema: 增加 actionKind/speechAct/maxLength，并要求 text 为命令式或第一人称行动`
-- `Choice prompt: 加硬性 negative examples，禁止“也许”“轮到我”“她问我……”式选项`
-- `Choice post-validator/rewrite: 超长或无动作动词的选项自动改写为短动作`
+  - Choice generator schema：增加 `intent` 与 `displayText` 分离，displayText 设置最大长度和动词/发问模板。
+  - Choice prompt：当结尾是抽象提问时使用固定 fallback：“回答…/追问…/坦白…/转移话题…”。
+  - Choice post-validator：拒绝含“也许我”“轮到我”“她问我”等元叙事短语或超过阈值的选项，并重试。
+  - actionId validator：禁止生成未由候选动作源提供的 `choice:*`。
 
 ## Evidence
-- playerVisible: turn 37 的 choices: “她问我有什么值得去的理由——也许我想先知道……”“她向我坦白了感受——轮到我说出……”，明显比相邻轮选项更长且更像叙事说明。
-- internalTrace: turn-37/06c-choice-prompt.md 明确要求“短、具体、可点击”和“不要替玩家做长段心理独白”；turn-37/06-llm-calls.json call[2] 返回长选项；turn-37/07-events.json worker-done 与 04-output.json 原样提交。
+- playerVisible: turn-37 choices 包括“她问我有什么值得去的理由——也许我想先知道她是怎么看待这场交易的实际价值的”“她向我坦白了感受——轮到我说出我眼中的那个晚宴是什么”。
+- internalTrace: turn-37 choice prompt 明确要求“选项要短、具体、可点击”以及“不要替玩家做长段心理独白”，但 output object 仍生成长句，并包含未见候选来源的 actionId。
 
 ## Recommended Fix Area
-优先修复 Choice generator 的 schema 和 post-validation，把选项从自由文本变成带 actionKind/speechAct 的短动作；对超长、元叙事、无动作动词选项执行自动重写或重采样。
+修复 Choice 生成 schema、fallback 模板和 post-validation；把抽象讨论选项压缩为可执行玩家动作，并验证 actionId 来源。
 
 ## Confidence
-`high`
+medium

@@ -2,7 +2,7 @@
 
 Run: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
 Review: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
-Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/batch-issues.json`
+Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/issues.json`
 Target turn: 3
 
 ## Selected Issue
@@ -13,11 +13,11 @@ Scope: choices
 Type: quality-regression
 Severity: low
 
-Current evidence: 
+Current evidence: Turn 3 offers the choice "直接去暗街，往日总是如影随形".
 
-Conflicting evidence: 
+Conflicting evidence: The surrounding turn 3 context is a concrete routing decision about going to Dark Street, and the other visible choice is the similarly concrete "你注意到了不寻常的目光——你被盯上了？". The appended clause "往日总是如影随形" has no established referent or actionable meaning in the scene.
 
-Reason: 
+Reason: The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity.
 
 ## Timeline Window
 

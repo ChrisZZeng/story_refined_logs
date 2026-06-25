@@ -2,7 +2,7 @@
 
 Run: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
 Review: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
-Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/batch-issues.json`
+Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/issues.json`
 Target turn: 6
 
 ## Selected Issue
@@ -13,11 +13,11 @@ Scope: visibleText
 Type: repeated-scene
 Severity: low
 
-Current evidence: 
+Current evidence: Turn 6 reopens with the same beat already shown at the end of turn 5: "巷子里安静了两秒。你没有抬头……‘战友的遗产？’……你等着他的反应。" before continuing the fight.
 
-Conflicting evidence: 
+Conflicting evidence: Turn 5 had already fully presented that exact pause, line, and internal setup as its closing scene, ending on the same "你等着他的反应。"
 
-Reason: 
+Reason: The next turn repeats a substantial chunk of already-shown scene text instead of cleanly advancing from the previous state.
 
 ## Timeline Window
 

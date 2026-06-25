@@ -2,7 +2,7 @@
 
 Run: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
 Review: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
-Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/batch-issues.json`
+Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/issues.json`
 Target turn: 9
 
 ## Selected Issue
@@ -13,11 +13,11 @@ Scope: visibleText
 Type: identity-drift
 Severity: medium
 
-Current evidence: 
+Current evidence: Turn 9 has Karina refer to the Central District vendor as "那个老头啊".
 
-Conflicting evidence: 
+Conflicting evidence: Turns 1-3 consistently present that stallkeeper as female-coded: the narration uses "她" repeatedly, including "她把胳膊肘撑在摊子上" and "她低下头去整理摊子上的零碎物件".
 
-Reason: 
+Reason: The same previously female-coded vendor is suddenly recast as an old man without any visible explanation.
 
 ## Timeline Window
 

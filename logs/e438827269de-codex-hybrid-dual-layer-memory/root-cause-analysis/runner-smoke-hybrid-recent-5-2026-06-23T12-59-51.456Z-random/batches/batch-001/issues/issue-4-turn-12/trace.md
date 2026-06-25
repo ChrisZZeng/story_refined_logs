@@ -2,7 +2,7 @@
 
 Run: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
 Review: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random`
-Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/batch-issues.json`
+Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/issues.json`
 Target turn: 12
 
 ## Selected Issue
@@ -13,11 +13,11 @@ Scope: visibleText
 Type: quality-regression
 Severity: low
 
-Current evidence: 
+Current evidence: 卡琳娜说："一张死人照片。一封匿名信。一趟自己走进火药的船。"
 
-Conflicting evidence: 
+Conflicting evidence: 上一轮同一推断使用的是可理解的危险隐喻："让你自己走进火药桶。" 当前的 "火药的船" 语义不通顺，像是把 "一趟船" 和 "火药桶" 错拼在一起。
 
-Reason: 
+Reason: 该句在关键情报分析对白中出现明显错拼式隐喻，短暂破坏正文可读性和语义稳定性。
 
 ## Timeline Window
 

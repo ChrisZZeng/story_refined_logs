@@ -1,28 +1,54 @@
 {
-  "generatedAt": "2026-06-23T15:36:20.039Z",
+  "generatedAt": "2026-06-24T03:09:55.970Z",
   "runDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random",
   "reviewDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random",
-  "issueFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/batches/batch-001/batch-issues.json",
+  "issueFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/e438827269de-codex-hybrid-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-23T12-59-51.456Z-random/issues.json",
   "selectedIssueIndex": 1,
   "targetTurn": 3,
   "selectedIssue": {
-    "issueIndex": 1,
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
     "turn": 3,
-    "severity": "low",
-    "type": "quality-regression",
     "scope": "choices",
-    "summary": "The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity."
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 3 offers the choice \"直接去暗街，往日总是如影随形\".",
+    "conflictingEvidence": "The surrounding turn 3 context is a concrete routing decision about going to Dark Street, and the other visible choice is the similarly concrete \"你注意到了不寻常的目光——你被盯上了？\". The appended clause \"往日总是如影随形\" has no established referent or actionable meaning in the scene.",
+    "conflictingTurns": [
+      3
+    ],
+    "source": "model-output",
+    "reason": "The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity."
   },
   "issuesForTurn": [
     {
       "index": 1,
       "issue": {
-        "issueIndex": 1,
+        "windowRange": {
+          "start": 1,
+          "end": 10
+        },
+        "evalRange": {
+          "start": 1,
+          "end": 10
+        },
         "turn": 3,
-        "severity": "low",
-        "type": "quality-regression",
         "scope": "choices",
-        "summary": "The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity."
+        "type": "quality-regression",
+        "severity": "low",
+        "currentEvidence": "Turn 3 offers the choice \"直接去暗街，往日总是如影随形\".",
+        "conflictingEvidence": "The surrounding turn 3 context is a concrete routing decision about going to Dark Street, and the other visible choice is the similarly concrete \"你注意到了不寻常的目光——你被盯上了？\". The appended clause \"往日总是如影随形\" has no established referent or actionable meaning in the scene.",
+        "conflictingTurns": [
+          3
+        ],
+        "source": "model-output",
+        "reason": "The choice text appears to splice in an unrelated lyrical fragment, reducing player-facing choice clarity."
       }
     }
   ],
