@@ -1,0 +1,490 @@
+{
+  "batchId": "batch-018",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 57,
+      "turn": 131,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "同一段门口石板先被确认为干透、没有水汽，随后又能在晨露微湿的石面上留下足迹，表面状态自相矛盾。",
+      "batchId": "batch-018",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Narrator prompt context assembly",
+          "current scene physical-state schema",
+          "post-generation consistency check for local physical states"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "给当前场景加入结构化 surfaceState/currentPhysicalFacts，并在 Narrator 前后检查同一物体或表面状态是否被互斥改写。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-057-turn-131/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-057-turn-131/root-cause-report.md",
+      "result": {
+        "issueIndex": 57,
+        "issueId": "issue-57-turn-131",
+        "turn": 131,
+        "issueValidity": "valid",
+        "problemSummary": "门口石板在 turn 130 和 turn 131 开头被写成干透、没有水汽，但 turn 131 末尾又写成晨露微湿并留下足迹。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。玩家可见文本在同一连续场景中给出了互斥的石板表面状态：先确认没有水汽，随后又需要微湿表面来承载足迹。",
+          "playerVisibleSupport": "turn 130 写“昨夜雨水的痕迹已经彻底干透”；turn 131 开头写“干燥的石面和鞋底之间没有水汽”；turn 131 末尾写“足迹还浅浅地留在晨露微湿的石面上”。",
+          "caveats": [
+            "冲突只影响局部环境细节，不改变主线行动；如果解释为不同石板区域，文本本身没有给出这种区分。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角已经站在卡尔小屋门外，门已锁好，石板路在晨光下被明确写成干透，只剩颜色较深的旧雨痕；本轮玩家只是想在门口附近走几步活动腿脚并继续等待。",
+          "relevantFacts": [
+            {
+              "claim": "门口石板路面当前是干燥的，没有水汽。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-131/06b-narrator-prompt.md",
+                "turn-131/04-output.json"
+              ],
+              "notes": "turn 130 是最近一轮可见事实；turn 131 输出内部也先写“干燥的石面和鞋底之间没有水汽”。"
+            },
+            {
+              "claim": "旧雨只留下深色印迹，不等于可留下湿足迹的表面水分。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-130/04-output.json",
+                "turn-131/06b-narrator-prompt.md"
+              ],
+              "notes": "近期上下文把雨后痕迹从潮湿水痕逐步更新为干透后的颜色痕迹。"
+            },
+            {
+              "claim": "Prompt 中仍保留较早的潮湿氛围和“潮湿石板路的土腥味”等环境描写。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-131/06b-narrator-prompt.md",
+                "turn-131/03-story-state.json"
+              ],
+              "notes": "这些是氛围或旧状态，和最新干燥事实并列出现，容易拉动感官描写。"
+            },
+            {
+              "claim": "当前场景没有结构化 surfaceState 锚点来声明“路面干燥”。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-131/03-story-state.json",
+                "turn-131/06b-narrator-prompt.md"
+              ],
+              "notes": "干燥事实只在长段 recentTurns prose 中出现；Director 输出没有把它转成 Narrator 必须遵守的约束。"
+            }
+          ],
+          "competingPressures": [
+            "Narrator 需要慢铺感官细节",
+            "早晨/旧雨/潮湿气味的氛围词仍在上下文中",
+            "Director 只要求走动和确认安静，没有约束石板湿度",
+            "通用一致性规则存在但不指向本轮物理状态"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-131/04-output.json narrative（同样可见于 turn-131/06-llm-calls.json narrator text）",
+          "triggeringPressure": "Narrator prompt 中较早的湿痕、潮湿气味、晨光感官描写与“走路后留下足迹”的常见细节模板并存，且本轮要求慢铺环境细节。",
+          "missingGuard": "没有显式 current-scene surfaceState 或 hard constraint 告诉 Narrator：门口石板已干，不能写晨露微湿、湿足迹；通用“优先相信最近几轮”规则没有被转成可执行检查。",
+          "mechanismStatement": "在感官细节生成时，旧雨/晨露氛围被当成可用物理状态，而最新“干燥无水汽”只埋在长 recent prose 中，缺少 surfaceState 优先级锚点，导致 Narrator 同轮先写干燥再写湿足迹。",
+          "directCause": "Narrator 在补充足迹细节时无依据地把石面恢复为“晨露微湿”。",
+          "propagation": "错误直接进入 turnContent 和 visibleText；后续 turn 132 又继承了“晨露微湿的石面”足迹表述，加重局部状态混乱。",
+          "nonCauses": [
+            "Director 没有直接要求写湿足迹",
+            "不是长程 meta-memory 遗忘，冲突事实就在最近上下文内",
+            "不是隐藏设定导致的差异"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "当前物理状态只作为长篇 recentTurns 文本存在，而较早潮湿氛围和感官写作压力同样保留；系统缺少 surfaceState 优先级锚点和同轮物理冲突校验，使 Narrator 可以把已干的石板重新写成晨露微湿。",
+          "fixSurface": [
+            "Narrator prompt context assembly",
+            "current scene physical-state schema",
+            "post-generation consistency check for local physical states"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 130/131 的玩家可见文本已经足以确认冲突：干透、没有水汽 vs 晨露微湿并留下足迹。",
+          "internalTrace": "turn-131 Director 只要求门口走动和确认安静；turn-131 Narrator prompt 同时包含最新干燥事实和旧潮湿氛围；错误首次出现在 Narrator 输出。"
+        },
+        "recommendedFixArea": "给当前场景加入结构化 surfaceState/currentPhysicalFacts，并在 Narrator 前后检查同一物体或表面状态是否被互斥改写。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 58,
+      "turn": 132,
+      "severity": "medium",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "玩家选择了相近动作后，正文几乎把上一轮已经完成的走动和动机重新演出，且忽略了角色刚刚已经在屋外活动过。",
+      "batchId": "batch-018",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice generator option novelty scoring",
+          "selected action schema with consumed/continuation metadata",
+          "Director duplicate-action handling prompt"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 Choice 增加已消费动作过滤和相似度去重；为 Director 增加 duplicate selected action 的 continuation/variation contract。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-058-turn-132/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-058-turn-132/root-cause-report.md",
+      "result": {
+        "issueIndex": 58,
+        "issueId": "issue-58-turn-132",
+        "turn": 132,
+        "issueValidity": "valid",
+        "problemSummary": "turn 132 在玩家选择相近动作后，把 turn 131 已经完成的走下台阶、门口来回走、走到巷口又折返几乎重新演出。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。玩家确实选择了相似动作，因此可以继续踱步，但正文没有写成“继续”或变化，而是从台阶重新下来并重复同一路径和同一动机，忽略了上一轮已经在屋外完成过这些动作。",
+          "playerVisibleSupport": "turn 131 已写“在门口来回走了几步”“走到巷口又折返”“回到门口，站定”；turn 132 又写“从台阶上走下来”“在门口来回走了几步”“走到巷口又折返”，并再次解释为活动在屋里蹲坐太久的腿脚。",
+          "caveats": [
+            "因为玩家选择了近似选项，适度继续踱步本身合理；问题在于系统把上一轮完成的起点、路径和动机重演，而不是承接。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 131 末尾主角已经走过门口、到巷口折返并回到门槛边等待；玩家随后选择“在门口来回踱步，活动活动腿脚”，应被处理为继续等待中的小幅延续或变化。",
+          "relevantFacts": [
+            {
+              "claim": "上一轮已经完成门口来回走动并到巷口折返。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-132/06a-director-prompt.md",
+                "turn-132/06b-narrator-prompt.md"
+              ],
+              "notes": "turn 132 prompt 的 recentTurns 明确包含 turn 131 完整走动过程。"
+            },
+            {
+              "claim": "turn 131 Choice 输出提供了与刚完成动作高度相似的选项。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-131/04-output.json",
+                "turn-131/06c-choice-prompt.md",
+                "turn-131/06-llm-calls.json"
+              ],
+              "notes": "“在门口来回踱步，活动活动腿脚”把已完成动作包装成下一步可选行动。"
+            },
+            {
+              "claim": "Director 系统提示有“不要重复、重演已发生情节”的通用规则。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-132/06a-director-prompt.md"
+              ],
+              "notes": "该规则没有具体说明如何处理玩家选择了刚完成动作的近义选项。"
+            },
+            {
+              "claim": "选项和动作绑定缺少 consumed/duplicate 标记。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-131/04-output.json",
+                "turn-132/01-summary.json"
+              ],
+              "notes": "selectedFromPreviousTurn 只保留文本；Director 无法区分这是新动作、继续踱步还是重复点击。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择本身与上一轮动作相近",
+            "Choice 阶段刚给出重复选项，强化了它的可执行性",
+            "Director 输出的 beats 明确要求走下台阶、来回走动、回到门口",
+            "Narrator 按 Director 骨架慢铺感官细节"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-131/04-output.json choices",
+          "triggeringPressure": "Choice generator 在 turn 131 结束时没有过滤刚刚消费过的“门口走动”活动，给了玩家一个近义重复选项；turn 132 Director 又把该文本当成全新行动来安排。",
+          "missingGuard": "缺少 next-choice novelty/consumed-action guard，也缺少 Director 对重复选项的 continuation binding 规则：若玩家选择刚完成动作，应写“继续踱步/换个节奏/短暂延续”，而不是重置到动作起点。",
+          "mechanismStatement": "已消费的低成本场景动作没有被标记为 consumed，Choice 把它重新暴露为下一步，Director 再把近义选择绑定成 fresh action，导致 Narrator 复演上一轮场景。",
+          "directCause": "turn 132 Director 输出重复 beats：走下台阶、来回走动、倾听、回到门口；Narrator 按这些 beats 写出几乎相同正文。",
+          "propagation": "重复动作进入 visibleText，并通过 currentStoryline update 汇总为“来回踱步活动身体”，后续继续停留在等待循环。",
+          "nonCauses": [
+            "不是玩家脱轨；玩家只是在系统给出的选项中选择",
+            "不是长程记忆缺失；上一轮就在 prompt 中",
+            "Narrator 不是唯一源头，它是在执行重复的 Director/choice 绑定"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Choice 阶段缺少对刚完成动作的去重和 consumed 状态，Director 阶段缺少把重复选项解释为延续而非重演的绑定规则；两者叠加使相近玩家选择被重新演出为完整旧场景。",
+          "fixSurface": [
+            "Choice generator option novelty scoring",
+            "selected action schema with consumed/continuation metadata",
+            "Director duplicate-action handling prompt"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 131 与 turn 132 的正文在动作起点、路径、动机和等待落点上高度重合。",
+          "internalTrace": "turn-131 choices 暴露近义重复选项；turn-132 Director beats 明确重复上一轮动作；turn-132 Narrator 输出只是按该骨架落文。"
+        },
+        "recommendedFixArea": "为 Choice 增加已消费动作过滤和相似度去重；为 Director 增加 duplicate selected action 的 continuation/variation contract。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 59,
+      "turn": 134,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "choices",
+      "summary": "已建立为底片胶卷相机后，选项却暗示可以立刻查看刚拍照片的效果，和设备规则不一致。",
+      "batchId": "batch-018",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "Choice generator affordance validation",
+          "object/device capability schema",
+          "impossible-action option filter"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Choice 阶段引入 object affordance 约束：选项必须通过设备规则校验，尤其过滤“底片相机即时查看照片”这类不可行动作。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-059-turn-134/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-059-turn-134/root-cause-report.md",
+      "result": {
+        "issueIndex": 59,
+        "issueId": "issue-59-turn-134",
+        "turn": 134,
+        "issueValidity": "valid",
+        "problemSummary": "turn 134 的选项“检查一下相机刚才拍的那一帧效果如何”把底片相机刚拍照片包装成可立即查看的对象。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立但严重度低。玩家可见信息已反复建立这是一台胶卷/底片相机，选项作为可点击行动却暗示可以检查刚拍一帧的成片效果。turn 135 对该选择做了补救解释，但不能消除 turn 134 选项本身的错误 affordance。",
+          "playerVisibleSupport": "turn 128 写“胶卷还在里面”；turn 134 正文写“机械快门帘”“过片扳手”“胶卷还剩大半卷”；同轮选项却写“检查一下相机刚才拍的那一帧效果如何”。",
+          "caveats": [
+            "“效果如何”也可被宽泛理解为回想构图或确认机械状态；不过作为玩家选项，它通常表示可检查结果，因此仍是低严重度有效问题。",
+            "turn 135 后续正文正确说明底片不能即时查看，属于后续缓解而非 turn 134 选项无错。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角在石阶上检查一台胶卷机械相机，按下一次快门，过片扳手推进到下一帧，计数器显示胶卷还剩大半卷，然后把相机挂回胸前继续等待。",
+          "relevantFacts": [
+            {
+              "claim": "相机是胶卷/底片机械相机，不能像数码设备一样即时查看照片成片。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-134/06c-choice-prompt.md",
+                "turn-128/04-output.json",
+                "turn-134/04-output.json"
+              ],
+              "notes": "Choice prompt 最近经历与本轮正文都包含胶卷、机械快门、过片扳手、计数器等事实。"
+            },
+            {
+              "claim": "Choice generator 被要求判断玩家“能合理做什么”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-134/06c-choice-prompt.md"
+              ],
+              "notes": "规则存在，但没有物品 affordance 校验或底片相机特例。"
+            },
+            {
+              "claim": "刚拍一帧是当前最显眼的新事件，容易被转换成后续选项。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-134/04-output.json",
+                "turn-134/06c-choice-prompt.md"
+              ],
+              "notes": "本轮正文末端刚写快门、过片和胶卷剩余，Choice 阶段自然围绕相机生成选项。"
+            },
+            {
+              "claim": "没有结构化设备能力/不可选动作约束。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-134/03-story-state.json",
+                "turn-134/06c-choice-prompt.md"
+              ],
+              "notes": "Prompt 没有把“不能即时查看底片成片”转成硬性 option filter。"
+            }
+          ],
+          "competingPressures": [
+            "Choice 需要生成贴近当前处境的普通行动",
+            "刚拍快门是本轮最新、最可延展的动作",
+            "摄影/检查相机是主角核心特质",
+            "缺少设备规则到选项 affordance 的显式映射"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-134/04-output.json choices（choiceGenerator output in turn-134/06-llm-calls.json）",
+          "triggeringPressure": "本轮正文刚突出按快门、过片、胶卷计数，Choice generator 按“围绕最新可见事件生成后续行动”的启发式，把“刚拍一帧”转成“检查效果”。",
+          "missingGuard": "没有设备 affordance validator 或 prompt 规则禁止生成与胶卷相机物理规则冲突的即时预览选项；“能合理做什么”只是通用要求。",
+          "mechanismStatement": "Choice 阶段把显著的相机事件直接转译成后续可点击动作，但缺少物品能力校验，因而生成了与底片相机规则不匹配的“检查刚拍效果”选项。",
+          "directCause": "choiceGenerator 输出第三个选项“检查一下相机刚才拍的那一帧效果如何”。",
+          "propagation": "该选项成为 turn 135 的 selectedFromPreviousTurn；Narrator 在 turn 135 用“不能从取景器看到已经拍好的那一帧”修正了它，但玩家在 turn 134 已看到不合规则的选项。",
+          "nonCauses": [
+            "不是 Narrator 在 turn 134 写错设备规则；正文设备描写正确",
+            "不是 long-term memory 缺失；胶卷事实在 Choice prompt 当前正文中",
+            "不是玩家自由输入造成，选项由系统生成"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "Choice 生成只把最新事件绑定成可点击动作，没有校验该动作是否被已建立的物品规则允许；底片相机的“不能即时查看成片”没有作为 option-level hard constraint 参与过滤。",
+          "fixSurface": [
+            "Choice generator affordance validation",
+            "object/device capability schema",
+            "impossible-action option filter"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "胶卷、机械快门、过片扳手和剩余胶卷均为玩家可见事实；同轮选项却暗示即时检查刚拍效果。",
+          "internalTrace": "turn-134 Director/Narrator 都正确围绕胶卷相机写作；错误首次出现在 Choice output；turn-135 Narrator 后续补救说明底片特性。"
+        },
+        "recommendedFixArea": "在 Choice 阶段引入 object affordance 约束：选项必须通过设备规则校验，尤其过滤“底片相机即时查看照片”这类不可行动作。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 60,
+      "turn": 136,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "相机在连续动作中无交代地从胸前挂着漂移到腰间身侧，随后又回到胸前。",
+      "batchId": "batch-018",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-object-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "carried item position state/writeback",
+          "Narrator prompt current-object facts block",
+          "same-turn entity position consistency checker"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "把随身物品位置写入 current-object facts，并要求 Narrator 若改变位置必须显式描写移动原因；增加同轮实体位置冲突检测。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-060-turn-136/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-018/issues/issue-060-turn-136/root-cause-report.md",
+      "result": {
+        "issueIndex": 60,
+        "issueId": "issue-60-turn-136",
+        "turn": 136,
+        "issueValidity": "valid",
+        "problemSummary": "turn 135 已把相机放回胸前，turn 136 却先写相机在腰间身侧，随后同轮又写胸前相机。",
+        "validityAssessment": {
+          "verdictReason": "该问题基本成立。相机由胸前变到腰间身侧没有过渡交代，同轮后文又回到胸前，形成局部物件位置漂移。",
+          "playerVisibleSupport": "turn 135 写“让它重新贴着胸口挂着”；turn 136 写“露出腰间那台相机的轮廓——黑色金属机身贴在你身侧”；同轮后文又写“胸前的相机金属外壳”。",
+          "caveats": [
+            "相机挂带在伸展时可能轻微摆到身侧，因此“腰间”可作低强度合理化；但文本没有写摆动或滑落，且后文立即回到胸前，所以仍是低严重度连续性问题。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 135 末尾主角把底片相机放下，让它重新贴着胸口挂着，之后坐在石阶上等待；turn 136 玩家选择站起伸展身体。",
+          "relevantFacts": [
+            {
+              "claim": "相机当前贴着胸口挂着。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-136/06b-narrator-prompt.md",
+                "turn-135/04-output.json"
+              ],
+              "notes": "该事实在 turn 135 末尾和 turn 136 recentTurns 中非常近。"
+            },
+            {
+              "claim": "伸展身体可能导致外套和挂件轻微移动，但需要文本交代。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-136/01-summary.json",
+                "turn-136/06a-director-prompt.md"
+              ],
+              "notes": "玩家动作是伸展，给了“外套下摆扬起”等身体描写压力，但没有要求移动相机位置。"
+            },
+            {
+              "claim": "当前 carried item position 没有结构化状态锚点。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-136/03-story-state.json",
+                "turn-136/06b-narrator-prompt.md"
+              ],
+              "notes": "故事状态记录了角色卡和故事线摘要，没有把“相机=胸前”作为可检索实体位置字段。"
+            },
+            {
+              "claim": "同轮 Narrator 自身又恢复了胸前相机。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-136/04-output.json",
+                "turn-136/06-llm-calls.json"
+              ],
+              "notes": "说明模型并非完全不知道胸前事实，而是在局部动作描写中切换了不兼容位置。"
+            }
+          ],
+          "competingPressures": [
+            "伸展动作需要身体与衣物细节",
+            "摄影机原则鼓励用可见物理细节呈现状态",
+            "近期上下文里相机、袋子、铃铛等随身物件位置多次以 prose 出现",
+            "缺少结构化 carried-item anchor 和局部生成后的位置一致性检查"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-136/04-output.json narrative（Narrator output）",
+          "triggeringPressure": "玩家选择伸展身体，Narrator 为了写外套下摆和身体轮廓，套用了“腰间/身侧物件随动作起伏”的动作细节；同时 recent prose 中还有胸前相机事实。",
+          "missingGuard": "没有 current object position anchor 或 same-turn entity-position consistency check 要求相机保持胸前，除非明确写出滑动/摆动/移位。",
+          "mechanismStatement": "随身物件位置只埋在 recent prose 中，伸展动作的身体描写触发了腰侧物件模板，缺少当前物件位置锚点和同轮校验，使 Narrator 在同一轮内把相机写成腰间身侧又写回胸前。",
+          "directCause": "Narrator 在第三段生成“腰间那台相机”，后文又依据近期事实生成“胸前的相机”。",
+          "propagation": "错误进入 turnContent；没有明显写入后续结构化状态，主要是本轮 visibleText 的局部漂移。",
+          "nonCauses": [
+            "Director 没有要求相机移到腰间",
+            "不是玩家输入导致的明确移位",
+            "不是 meta-memory；胸前事实就在最近一轮和同轮后文"
+          ]
+        },
+        "rootCause": {
+          "label": "current-object-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "随身物件的当前位置没有被结构化锚定或在 Narrator 输出前后校验；当伸展动作触发衣物/腰侧细节模板时，模型可以临时改写相机位置，随后又回到 recent prose 中的胸前位置。",
+          "fixSurface": [
+            "carried item position state/writeback",
+            "Narrator prompt current-object facts block",
+            "same-turn entity position consistency checker"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 135 胸前挂着、turn 136 腰间身侧、turn 136 后文胸前三处玩家可见文本构成位置漂移。",
+          "internalTrace": "turn-136 Director 只安排伸展身体；turn-136 Narrator prompt 含有 turn 135 胸前事实；错误首次出现在 Narrator 输出。"
+        },
+        "recommendedFixArea": "把随身物品位置写入 current-object facts，并要求 Narrator 若改变位置必须显式描写移动原因；增加同轮实体位置冲突检测。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

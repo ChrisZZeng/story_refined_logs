@@ -1,0 +1,90 @@
+{
+  "issueValidity": "valid",
+  "problemSummary": "turn 31 将女性罗英介绍为偏好被称作“小贩”，但玩家此前已把“小贩”理解为中央区男性摊贩兼情报提供者，正文没有解释称号重名或身份关系。",
+  "validityAssessment": {
+    "verdictReason": "玩家可见历史中 turn 1-5 的“小贩”是同一位男性摊贩，文本持续用“他”指代并让他在摊子后提供情报。turn 31 突然让卡琳娜称一名女性罗英为“小贩”，并说她更喜欢这个称呼，没有提供“这是另一个小贩/绰号重名/身份伪装”的桥接说明，构成可见身份漂移。",
+    "playerVisibleSupport": "turn 1-5：小贩“他”在摊子后与玩家对话、取烟盒、提供卡琳娜和暗街线索；turn 31：卡琳娜对女性说“小贩”，介绍“这位是罗英……她更喜欢别人叫她‘小贩’”，罗英自称“卖消息的小贩”。",
+    "caveats": [
+      "“小贩”可以作为泛称或职业绰号重复使用；但 turn 31 以引号式偏好称号和熟人称呼呈现，且没有显式说明这不是早前男性摊贩，玩家可见层面仍易混淆。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家已随卡琳娜进入凯旋门晚宴，选择去角落小桌喝热饮并观察人群。此前长期远离早期中央区摊位，但“小贩”作为男性情报源已在开局建立。",
+    "relevantFacts": [
+      {
+        "claim": "早期“小贩”是男性摊贩/情报提供者。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+        ],
+        "notes": "turn 1-5 可见文本多次使用“他/小贩”，并锚定为摊子后的街头人物。"
+      },
+      {
+        "claim": "turn 31 当前 storyline 把“‘小贩’”设定为宴会厅中的罗英。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/06a-director-prompt.md"
+        ],
+        "notes": "currentStoryline 明确写“‘小贩’也在宴会厅中，她主动上前”“真实身份——黄昏会的代首领，罗英”。"
+      },
+      {
+        "claim": "Prompt 中旧小贩信息弱化为“无名小贩/街头小贩”，没有性别和别名保护。",
+        "availability": "present-buried",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/06a-director-prompt.md"
+        ],
+        "notes": "人物总结只在卡琳娜/敏特关系里提到“无名小贩”提供线索，没有作为 active entity 的 alias conflict 进入当前 beat。"
+      },
+      {
+        "claim": "内部角色状态同时存在“罗英”和空白的“‘小贩’”角色，缺少二者与早期小贩的 disambiguation。",
+        "availability": "contradicted",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json"
+        ],
+        "notes": "curStates.characterStates 有“罗英”和“‘小贩’”，后者无补充；这使别名/实体绑定不清。"
+      }
+    ],
+    "competingPressures": [
+      "固定 storyline 要在宴会厅引入罗英并让她自称小贩",
+      "角色/立绘约束使用 characters【“小贩”/默认】",
+      "早期男性小贩不在最近几轮上下文，只在总结中弱存在",
+      "罗英“卖消息”的设定与“小贩”称号语义相近，诱发别名复用"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json currentStoryline",
+    "triggeringPressure": "当前 storyline/fixed beat 明确要求“‘小贩’也在宴会厅中”“真实身份——罗英”“罗英会坚称自己只是个小贩”，并将该别名放入角色约束。",
+    "missingGuard": "没有全局可见 alias 唯一性检查，也没有把早期男性“小贩”作为已占用称呼提供给 storyline/Director；若要复用，缺少“另一个也被称作小贩”的桥接说明。",
+    "mechanismStatement": "固定 beat 在引入罗英时复用了已被玩家绑定到男性摊贩的可见称呼“小贩”，而实体/别名系统没有检测冲突或要求 disambiguation，导致 Director 和 Narrator 按新 beat 把同一称呼绑定到女性罗英。",
+    "directCause": "Director 输出 beats/requiredContent 要求“小贩（罗英）主动上前”“罗英自称小贩”；Narrator 依此写出卡琳娜称她“小贩”并介绍她偏好该称号。",
+    "propagation": "turn 31 choices 出现“跟着罗英离开的方向”，turn 32 又写“那个自称‘小贩’的女人”，进一步固化“小贩=罗英”的新绑定。",
+    "nonCauses": [
+      "不是评测依赖隐藏身份，冲突来自玩家可见称呼复用",
+      "不是单纯角色性别记忆错误，内部 beat 主动指定了新别名",
+      "不是早期小贩必须在场，而是称呼复用缺少解释"
+    ]
+  },
+  "rootCause": {
+    "label": "entity-alias-collision",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "detail-memory"
+    ],
+    "description": "storyline/实体装配允许新角色罗英占用已被玩家可见文本绑定给早期男性摊贩的 alias “小贩”；早期 alias 的性别和实体归属没有以强约束持久化，也没有在固定 beat 引入同名称号时触发 disambiguation。",
+    "fixSurface": [
+      "entity alias registry",
+      "storyline authoring validator",
+      "prompt assembly disambiguation",
+      "pre-generation visible-name conflict check"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 1-5 早期“小贩”以男性“他”在摊子后提供情报；turn 31 女性罗英被称为“小贩”并自称卖消息的小贩。",
+    "internalTrace": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json currentStoryline 直接指定“‘小贩’=罗英”；/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/06-llm-calls.json Director requiredContent 继续要求“小贩（罗英）”；prompt 中早期小贩仅弱化为“无名小贩”。"
+  },
+  "recommendedFixArea": "建立 visible alias registry：任何新角色使用已出现称呼前必须检查冲突；若允许重名，Director 必须生成桥接句（例如“她不是中央区那个摊贩，只是同样自称卖消息的人”）或改用唯一称号。",
+  "confidence": "high",
+  "issueId": "issue-8-turn-31",
+  "turn": 31
+}

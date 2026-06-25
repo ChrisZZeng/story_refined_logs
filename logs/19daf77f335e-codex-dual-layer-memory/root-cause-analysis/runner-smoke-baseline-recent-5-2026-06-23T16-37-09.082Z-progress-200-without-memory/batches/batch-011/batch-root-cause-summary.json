@@ -1,58 +1,507 @@
 {
   "batchId": "batch-011",
-  "runId": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
       "issueIndex": 30,
-      "issueId": "issue-30-turn-63",
       "turn": 63,
-      "validity": "valid",
+      "severity": "low",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "正文把玩家刚说的话短暂归给第三人称女性，造成叙述主体和称谓漂移。",
+      "batchId": "batch-011",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "model-local",
-        "family": "llm-self"
+        "family": "llm-self",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "Narrator prompt 的引用/归因一致性规则",
+          "turnContent 后处理或 evaluator-style lint：检测“你刚才那句话/你刚才说”后接“她/他/TA说得对”的冲突",
+          "可选：为本轮 player utterance 建立 speaker/addressee 标注供 Narrator 使用"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-30-turn-63/root-cause-report.md",
-      "resultPath": "issues/issue-30-turn-63/root-cause-result.json"
+      "recommendedFixArea": "优先在 Narrator 输出前后增加 quote attribution / pronoun consistency guard，尤其检查当前玩家输入被复述时的指代。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-030-turn-63/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-030-turn-63/root-cause-report.md",
+      "result": {
+        "issueIndex": 30,
+        "issueId": "issue-30-turn-63",
+        "turn": 63,
+        "issueValidity": "valid",
+        "problemSummary": "第63轮中，卡琳娜先明确承接玩家刚说的提醒，却在同一句回应里把这句话说成“她说得没错”，短暂把玩家的话归给第三人称女性。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。玩家输入和正文开头均显示“有些话不说出来的话，那个人可能永远不知道”是帕兹/玩家本轮对卡琳娜说出的提醒；卡琳娜随后复述“你刚才那句话”后却说“她说得没错”，与同轮可见指代冲突。",
+          "playerVisibleSupport": "turn-63 的玩家输入是“告诉她——有些话不说出来的话，那个人可能永远不知道”；正文写“你的话落在雨后湿润的空气里”，并写“但你刚才那句话——……——她说得没错”。",
+          "caveats": [
+            "错误只发生在一个短语中，前文已有“你说得对”，因此是低严重度的局部 identity-drift，而不是整轮主体错置。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜已在 turn-62 坦白自己知道那句话是写给卡尔的；turn-63 玩家以自己的战场经验鼓励她不要把话留到以后，卡琳娜应当回应玩家的提醒，并决定今晚告诉卡尔。",
+          "relevantFacts": [
+            {
+              "claim": "被复述的“有些话不说出来……”是玩家/帕兹本轮刚说的话。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-63",
+                "turn-63/06a-director-prompt.md",
+                "turn-63/06b-narrator-prompt.md"
+              ],
+              "notes": "玩家输入和 Narrator prompt 的最近上下文都直接包含该句；Director 也将 playerIntent 写为“表达”。"
+            },
+            {
+              "claim": "本轮对话的回应对象是玩家，正文中玩家应以“你/帕兹”承接。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-63/06b-narrator-prompt.md",
+                "turn-63/06-llm-calls.json"
+              ],
+              "notes": "底层写作规范写明“你=帕兹=玩家=主角”，Director involvedCharacters 为帕兹和卡琳娜。"
+            },
+            {
+              "claim": "卡尔/那个人是这句话的收信对象，局部文本中存在大量女性第三人称“她”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-62",
+                "turn-63/04-output.json"
+              ],
+              "notes": "卡琳娜在同段里说“我觉得她不会太累”“今晚回去，我告诉她”，这些“她”应指卡尔，不应回指玩家。"
+            },
+            {
+              "claim": "角色资料中另有“卡琳娜只会轻描淡写地承认她说得对”的女性代词模板。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-63/06b-narrator-prompt.md"
+              ],
+              "notes": "该信息属于卡琳娜/敏特资料的长背景，不是本轮事实，但可能增加“她说得对/没错”的语言惯性。"
+            }
+          ],
+          "competingPressures": [
+            "同段里卡尔作为女性收信对象被反复用“她”指代",
+            "情感告白主题长期围绕“那句话”“那个人”展开",
+            "Narrator 需要把玩家简短选择扩写成完整劝说段落",
+            "缺少输出后对引用来源和称谓的局部校验"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-63/06-llm-calls.json call[1] (Narrator streamText)，同内容落入 turn-63/04-output.json narrative。",
+          "triggeringPressure": "Narrator 在一段充满女性第三人称的告白对象语境中续写卡琳娜回应；同段前后“她不会太累”“我告诉她”均指卡尔，长背景还埋有“她说得对”的表达范式。",
+          "missingGuard": "没有可执行的局部约束要求：当正文复述本轮玩家话语时，承认正确的一方必须回指玩家/“你”，不能被附近的女性对象代词吸走；也没有后处理检查“你刚才那句话”后的称谓一致性。",
+          "mechanismStatement": "在多女性 referent 和长期“那句话”主题的局部语言压力下，Narrator 虽然拥有清晰玩家输入，却缺少引用来源/称谓一致性 guard，于是把本轮玩家提醒临时滑写成第三人称女性意见。",
+          "directCause": "Narrator 局部生成了“——她说得没错”，而不是“你说得没错/你说的没错”。",
+          "propagation": "错误只进入 turn-63 的玩家可见正文；Director plotPoint、后续选项和 runtime 状态没有把“她说得没错”进一步固化为剧情事实。",
+          "nonCauses": [
+            "不是 Director 剧情判断错误：Director 只要求帕兹建议、卡琳娜决定，没有要求第三人称归因。",
+            "不是 memory-persistence：需要的信息就在本轮玩家输入和 Narrator prompt 中。",
+            "不是 Choice 问题：错误发生在正文生成阶段之前选项尚未参与。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [],
+          "description": "在本轮玩家输入和 Director contract 都清楚的情况下，Narrator 受附近多个“她”以及长背景表达模板牵引，发生局部指代滑移；系统缺少针对“复述玩家话语时称谓必须回指玩家”的可执行校验，所以一个短语变成玩家可见 identity-drift。",
+          "fixSurface": [
+            "Narrator prompt 的引用/归因一致性规则",
+            "turnContent 后处理或 evaluator-style lint：检测“你刚才那句话/你刚才说”后接“她/他/TA说得对”的冲突",
+            "可选：为本轮 player utterance 建立 speaker/addressee 标注供 Narrator 使用"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-63 玩家输入和正文均把提醒归给玩家；同轮正文的“她说得没错”与“你的话”“你刚才那句话”冲突。",
+          "internalTrace": "turn-63 Director output 为“帕兹鼓励卡琳娜……卡琳娜被触动”，无第三人称归因；turn-63 Narrator LLM call 首次生成“她说得没错”。"
+        },
+        "recommendedFixArea": "优先在 Narrator 输出前后增加 quote attribution / pronoun consistency guard，尤其检查当前玩家输入被复述时的指代。",
+        "confidence": "high"
+      }
     },
     {
       "issueIndex": 31,
-      "issueId": "issue-31-turn-68",
       "turn": 68,
-      "validity": "valid",
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "正文把玩家离开时在卡琳娜怀里的卡尔回写成当时就趴在靠垫上，轻微破坏角色姿态连续性。",
+      "batchId": "batch-011",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "context-priority",
-        "family": "recent-context"
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "current-scene entity pose/time-anchor schema",
+          "Narrator prompt 中对“仍然/还/和离开时一样”等连续性比较的核对规则",
+          "post-generation consistency lint：比较词涉及上一离场/入场时间点时回查最近 visibleText"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-31-turn-68/root-cause-report.md",
-      "resultPath": "issues/issue-31-turn-68/root-cause-result.json"
+      "recommendedFixArea": "为当前场景中的角色姿态增加 lastSeenPose/atPlayerExit/currentPose 区分，并在 Narrator 生成时间比较短语时执行显式回查。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-031-turn-68/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-031-turn-68/root-cause-report.md",
+      "result": {
+        "issueIndex": 31,
+        "issueId": "issue-31-turn-68",
+        "turn": 68,
+        "issueValidity": "valid",
+        "problemSummary": "第68轮写卡尔“姿态和你离开时几乎一样”仍趴在靠垫上，但玩家离开小屋时的可见状态是卡尔在卡琳娜怀里；卡尔回到靠垫是在玩家离开后的等待期间才发生。",
+        "validityAssessment": {
+          "verdictReason": "问题成立但轻微。turn-65 明确玩家离开前卡琳娜抱着卡尔，卡尔从怀里探头；turn-67 才写玩家听到猫落地并看到“卡尔已经回到了靠垫上”。turn-68 的“和你离开时几乎一样”把当前靠垫姿态错误回写到离开时。",
+          "playerVisibleSupport": "turn-65: “卡琳娜还抱着卡尔”“卡尔从卡琳娜怀里探出头来”；turn-67: “像猫从高处跳落到地板上”“卡尔已经回到了靠垫上”；turn-68: “卡尔还趴在那里，姿态和你离开时几乎一样”。",
+          "caveats": [
+            "turn-67 已经把卡尔放回靠垫，所以 turn-68 的当前姿态本身合理；错误集中在“离开时几乎一样”这个时间比较。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家在 turn-65 借故离开，把卡琳娜和卡尔留在屋内；当时卡尔在卡琳娜怀里。turn-67 等待后，玩家回到门前，听到猫落地，推门看到卡尔已经回到靠垫。turn-68 玩家走近查看卡尔状态。",
+          "relevantFacts": [
+            {
+              "claim": "玩家离开屋内时，卡尔在卡琳娜怀里而不是靠垫上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-65",
+                "turn-68/06a-director-prompt.md",
+                "turn-68/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实出现在最近几轮玩家经历中，虽然不是最后一轮。"
+            },
+            {
+              "claim": "玩家回来前，卡尔已经回到靠垫上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-67",
+                "turn-68/06a-director-prompt.md"
+              ],
+              "notes": "turn-67 明确写“卡尔已经回到了靠垫上”，因此 turn-68 观察靠垫姿态是合理的。"
+            },
+            {
+              "claim": "本轮任务只需要观察卡尔当前状态，不需要比较离开时姿态。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-68/06-llm-calls.json call[0]",
+                "turn-68/04-output.json"
+              ],
+              "notes": "Director requiredContent 是描写卡尔状态细节；没有要求“和离开时一样”的时间比较。"
+            },
+            {
+              "claim": "结构化 curStates 没有保存卡尔具体姿态/位置随时间的状态槽。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-68/03-story-state.json",
+                "turn-68/05-runtime-after.json"
+              ],
+              "notes": "卡尔的姿态只能从最近正文长段中恢复，缺少显式 currentScene / lastSeenPose anchor。"
+            },
+            {
+              "claim": "turn-67 中有“想象着那只黑色母猫的尾巴在垫子边缘轻轻摆动”的心理画面。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-68/06a-director-prompt.md"
+              ],
+              "notes": "这是玩家想象，不是离开时事实，但容易与随后“卡尔已经回到了靠垫上”合并成连续姿态。"
+            }
+          ],
+          "competingPressures": [
+            "Director actionHint 写“在靠垫上保持放松姿态”",
+            "最近一轮 turn-67 的当前状态确实是靠垫",
+            "turn-65 的怀抱状态被夹在较长 prose 中",
+            "Narrator 常用“还/和之前一样”制造温馨连续感"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-68/06-llm-calls.json call[1] (Narrator streamText)，同内容进入 turn-68/04-output.json。",
+          "triggeringPressure": "本轮 Director 要求观察卡尔当前状态，并提示卡尔在靠垫上保持放松；最近 turn-67 也说卡尔已经回到靠垫上，使“还趴在那里”很自然。",
+          "missingGuard": "系统没有显式区分“玩家离开时的最后可见姿态”和“玩家回来前/回来时的当前姿态”；也没有约束 Narrator 在使用“和你离开时一样”这类 temporal comparative 前必须核对对应时间点。",
+          "mechanismStatement": "靠垫姿态作为当前事实被强 foreground，但离开时怀抱姿态只埋在较早 prose 中且没有结构化 pose anchor，Narrator 为连续感添加时间比较时优先采用当前姿态，导致离开时状态被错误重写。",
+          "directCause": "Narrator 在合理描写当前靠垫姿态时，额外生成了未受支持的“姿态和你离开时几乎一样”。",
+          "propagation": "错误是 turn-68 的可见文本轻微连续性瑕疵；后续 turn-69/70 从卡尔在靠垫上的当前状态继续，未继续强调错误的离开时姿态。",
+          "nonCauses": [
+            "不是当前场景位置错误：卡尔回到靠垫在 turn-67 已经可见。",
+            "不是长期 detail-memory 缺失：需要的 turn-65/67 信息都在 recentTurns 中。",
+            "不是 Choice 绑定错误：玩家选择“看看卡尔状态”被正确执行。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "最近上下文中同时存在“离开时在怀里”和“回来前已回靠垫”两个相邻姿态，但 prompt 没有把它们结构化为不同时间锚点；在 Director foreground 当前靠垫姿态后，Narrator 添加时间比较时没有被强制回查离开时事实，于是把当前状态错误投射回离开时。",
+          "fixSurface": [
+            "current-scene entity pose/time-anchor schema",
+            "Narrator prompt 中对“仍然/还/和离开时一样”等连续性比较的核对规则",
+            "post-generation consistency lint：比较词涉及上一离场/入场时间点时回查最近 visibleText"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-65 离开时卡尔在卡琳娜怀里；turn-67 等待后才回靠垫；turn-68 把靠垫姿态称作和离开时几乎一样。",
+          "internalTrace": "turn-68 Director 只要求观察当前状态，characterBeats 将卡尔 foreground 为靠垫上放松；Narrator 首次加入“和你离开时几乎一样”的时间比较。"
+        },
+        "recommendedFixArea": "为当前场景中的角色姿态增加 lastSeenPose/atPlayerExit/currentPose 区分，并在 Narrator 生成时间比较短语时执行显式回查。",
+        "confidence": "high"
+      }
     },
     {
       "issueIndex": 32,
-      "issueId": "issue-32-turn-70",
       "turn": 70,
-      "validity": "valid",
+      "severity": "medium",
+      "type": "user-input-ignored",
+      "scope": "visibleText",
+      "summary": "正文把“那句话”解析到较早的告白主题，未回应上一轮刚出现的卡尔提醒，导致对话承接偏移。",
+      "batchId": "batch-011",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice option schema 增加 antecedent/targetUtterance/targetSpeaker 字段",
+          "selected choice -> Director handoff 中保留上一轮结尾引用片段",
+          "Director 消歧规则：代词类选项优先检查最近未解释 utterance，并在歧义时保持提问而非替玩家指定旧主题"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "issues/issue-32-turn-70/root-cause-report.md",
-      "resultPath": "issues/issue-32-turn-70/root-cause-result.json"
+      "recommendedFixArea": "修复 selected-choice 语义绑定：对“这句话/那句话/刚才那件事”等 deictic 选项保存引用目标，并要求 Director 不得丢弃该目标。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-032-turn-70/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-032-turn-70/root-cause-report.md",
+      "result": {
+        "issueIndex": 32,
+        "issueId": "issue-32-turn-70",
+        "turn": 70,
+        "issueValidity": "valid",
+        "problemSummary": "第70轮选择“问卡琳娜那句话是什么意思”后，正文让卡琳娜解释较早的告白/说出口主题，而没有承接上一轮卡尔刚说的“你知道该怎么做，是另一码事”这一即时提醒。",
+        "validityAssessment": {
+          "verdictReason": "基本成立。turn-69 的可见结尾是卡尔给出新的提醒“不过这是一码事。你知道该怎么做，是另一码事”，随后出现“问卡琳娜那句话是什么意思”。在这个位置，玩家合理期待追问刚出现的提醒；turn-70 却把问题绑定到更早的“有些话不说/我今天说了”的告白主题。",
+          "playerVisibleSupport": "turn-69 末尾卡尔说“你知道该怎么做，是另一码事”，卡琳娜对此有反应；下一步选项是“问卡琳娜那句话是什么意思”。turn-70 的回答为“有些话不说……对方可能永远都不会知道”“我今天说了”“就是那句话的意思”。",
+          "caveats": [
+            "“那句话”在该支线中是长期反复使用的主题词，且选项明确写“问卡琳娜”，所以也存在追问卡琳娜早先告白含义的可读空间；因此 confidence 不是 high。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡尔刚评价卡琳娜的表达，说“我等了几年的话，让你一天就等到了”，并补充“你知道该怎么做，是另一码事”；卡琳娜在一旁听到后有微小反应。玩家随后选择询问“那句话”的意思。",
+          "relevantFacts": [
+            {
+              "claim": "turn-69 的最近新信息是卡尔的提醒“你知道该怎么做，是另一码事”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-69",
+                "turn-70/06a-director-prompt.md"
+              ],
+              "notes": "该句位于上一轮正文接近结尾，显著高于更早的告白主题。"
+            },
+            {
+              "claim": "玩家选择/输入只写“那句话”，没有显式绑定到卡尔提醒或卡琳娜告白。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-69/04-output.json",
+                "turn-70/06a-director-prompt.md"
+              ],
+              "notes": "这是问题发生的歧义入口。"
+            },
+            {
+              "claim": "turn-69 Choice 输出为 generic actionId choice:ask_what_she_means，没有携带 antecedent。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-69/06-llm-calls.json call[2]"
+              ],
+              "notes": "actionId 只能表示“问她什么意思”，无法告诉下一轮 Director 应追问哪句话。"
+            },
+            {
+              "claim": "长期 storyline 和 recentTurns 反复把“那句话”用于卡琳娜对卡尔的未说出口之话。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-70/03-story-state.json",
+                "turn-70/06a-director-prompt.md"
+              ],
+              "notes": "该主题比即时卡尔提醒更早，但在故事状态摘要中很显眼。"
+            },
+            {
+              "claim": "Director 在 turn-70 将输入解释为“卡琳娜刚才对卡尔说的那句话”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-70/06-llm-calls.json call[0]",
+                "turn-70/04-output.json"
+              ],
+              "notes": "这是链路中首次把歧义锁定到旧主题的 artifact。"
+            }
+          ],
+          "competingPressures": [
+            "即时上下文：卡尔刚给出一句新的、含义未解释的提醒",
+            "长期主题：卡琳娜未说出口的“那句话”贯穿多轮",
+            "选项文本面向卡琳娜而不是卡尔",
+            "Choice actionId 未提供语义槽位，Director 需自行消歧"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-70/06-llm-calls.json call[0] (Director plotPoint)，其 summary 将输入绑定为“卡琳娜刚才对卡尔说的那句话”。",
+          "triggeringPressure": "turn-69 Choice 生成了“问卡琳娜那句话是什么意思”并绑定 generic actionId choice:ask_what_she_means；同时 story state 中“那句话=卡琳娜对卡尔的未说之话”长期高频出现。",
+          "missingGuard": "选项/selected action handoff 没有保存当前指代对象（例如 Carl 的“你知道该怎么做”）；Director prompt 也没有规则要求代词短语优先绑定到上一轮结尾的最新未解释话语。",
+          "mechanismStatement": "Choice 把一个依赖即时语境的代词动作交给下一轮时没有携带 antecedent，Director 在长期 storyline 的“那句话”压力下自行消歧为旧告白主题，Narrator 随后完整执行该错误绑定，造成玩家可见承接偏移。",
+          "directCause": "Director 把玩家问题解释成追问卡琳娜对卡尔说出的那句“你对我很重要/有些话不说”的含义，而不是追问卡尔最新提醒的含义。",
+          "propagation": "Narrator 按 Director 安排让卡琳娜解释“有些话不说……对方可能永远都不会知道”，Choice 又继续提供情感回应/转向安排，未回到卡尔提醒。",
+          "nonCauses": [
+            "不是 Narrator 擅自改剧情：Narrator 遵循了 Director 已经错误绑定的 summary。",
+            "不是长期记忆缺失：问题来自旧主题过强，而不是旧主题不可用。",
+            "不是玩家输入完全无效：玩家确实选择了系统给出的追问选项，核心 intent 是追问“那句话”的含义。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Choice 生成了依赖上一轮结尾语境的代词选项，却只交付 generic text/actionId，没有把“那句话”应指向的具体 utterance 作为 must-satisfy contract 传给 Director；在长期“那句话”主题的竞争压力下，Director 锁定了较早告白主题，导致本轮没有回应卡尔最新提醒。",
+          "fixSurface": [
+            "Choice option schema 增加 antecedent/targetUtterance/targetSpeaker 字段",
+            "selected choice -> Director handoff 中保留上一轮结尾引用片段",
+            "Director 消歧规则：代词类选项优先检查最近未解释 utterance，并在歧义时保持提问而非替玩家指定旧主题"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-69 结尾是卡尔“你知道该怎么做，是另一码事”；turn-70 没解释这句，而解释早先“有些话不说”。",
+          "internalTrace": "turn-69 Choice output 为“问卡琳娜那句话是什么意思”/choice:ask_what_she_means；turn-70 Director summary 首次写“卡琳娜刚才对卡尔说的那句话”，Narrator据此生成旧主题回答。"
+        },
+        "recommendedFixArea": "修复 selected-choice 语义绑定：对“这句话/那句话/刚才那件事”等 deictic 选项保存引用目标，并要求 Director 不得丢弃该目标。",
+        "confidence": "medium"
+      }
     },
     {
       "issueIndex": 33,
-      "issueId": "issue-33-turn-72",
       "turn": 72,
-      "validity": "valid",
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "The turn invents a concrete past observation of Connor serving wine and turning a ring, then makes it plot-relevant, although the visible timeline does not support the player having that interaction.",
+      "batchId": "batch-011",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "state-writeback",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "quest/runtime anchor writeback：区分 beat visited、beat skipped、visible completed",
+          "storyline summary 生成：不要把未可见固定 beat 写成已发生进展",
+          "Choice affordance validator：具体观察类选项必须绑定 visible evidence",
+          "Director requiredContent：禁止要求玩家描绘未在 visible timeline 中出现的具体事实"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-33-turn-72/root-cause-report.md",
-      "resultPath": "issues/issue-33-turn-72/root-cause-result.json"
+      "recommendedFixArea": "优先修复 fixed beat / anchor writeback 与 visible timeline 的一致性，并在 Choice/Director 对观察类行动进行 visible-evidence gating。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-033-turn-72/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-011/issues/issue-033-turn-72/root-cause-report.md",
+      "result": {
+        "issueIndex": 33,
+        "issueId": "issue-33-turn-72",
+        "turn": 72,
+        "issueValidity": "valid",
+        "problemSummary": "第72轮凭空写出玩家在宴会上观察到康纳递酒、戴银戒并翻转戒指，随后让卡琳娜和卡尔把该观察当成真实权力信号推进；但玩家可见时间线没有发生过这段互动。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。玩家可见的 turn-27 只是卡琳娜介绍康纳并建议玩家见她，turn-28 玩家选择告辞并离开宴会厅；没有康纳递酒、戒指、翻转手势或玩家近距离观察。turn-72 将该不存在的观察写成玩家说出口的事实并让 NPC 验证，属于 unsupported-jump。",
+          "playerVisibleSupport": "turn-27: 卡琳娜说康纳是晚宴主人并建议玩家见她；turn-28: 玩家选择“仍然决定告辞，改日再说”，正文写玩家走向大门、走进雨里并回到暗街。turn-72: 玩家台词声称“康纳递酒给你的时候……银戒……翻转了一下”。",
+          "caveats": []
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家早已离开宴会，当前在卡尔小屋壁炉边。可见经历只支持玩家知道康纳名字、身份以及卡琳娜建议以后会见到康纳；不支持玩家曾看到康纳和卡琳娜在宴会上进行递酒/戒指互动。",
+          "relevantFacts": [
+            {
+              "claim": "玩家没有可见地见到康纳递酒或翻转戒指。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-27",
+                "visible-timeline.jsonl:turn-28"
+              ],
+              "notes": "玩家在康纳真正出场/交互前选择告辞并离开。"
+            },
+            {
+              "claim": "turn-71 Choice 提供“提起宴会上看到的某个细节”但没有绑定具体可见细节。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-71/04-output.json",
+                "turn-71/06-llm-calls.json call[2]"
+              ],
+              "notes": "该选项暗示存在可提及的宴会细节，却没有要求从 visible timeline 选择已出现事实。"
+            },
+            {
+              "claim": "runtime anchors 将未可见发生的康纳交互/试探/交锋标记为 true。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-28/05-runtime-after.json",
+                "turn-72/05-runtime-after.json"
+              ],
+              "notes": "turn-28 后 anchors 已有“康纳的试探”“康纳和卡琳娜的交锋”true，与玩家离开宴会的可见事实不一致。"
+            },
+            {
+              "claim": "turn-72 Director 要求玩家必须描绘一个具体宴会细节。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-72/06-llm-calls.json call[0]",
+                "turn-72/04-output.json"
+              ],
+              "notes": "requiredContent 写“主角必须描绘一个具体的宴会细节”，示例包含康纳眼神/手势/对话片段，迫使 Narrator 填充具体事实。"
+            },
+            {
+              "claim": "Choice prompt 本身要求不要展示未被正文铺垫的候选动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-71/06c-choice-prompt.md"
+              ],
+              "notes": "该 guard 存在但未阻止未绑定的“宴会上看到的某个细节”选项。"
+            }
+          ],
+          "competingPressures": [
+            "阶段五剧本/历史摘要长期保留“康纳与卡琳娜的权力试探”",
+            "runtime anchors 把未可见交锋标为已发生",
+            "当前情节仍要求围绕宴会看法/权力关系展开",
+            "Choice 提供了未指定细节的试探行动",
+            "Director requiredContent 要求具体化该细节"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "内部最早可见于 turn-28/05-runtime-after.json：玩家离开宴会后仍写入“康纳的试探”“康纳和卡琳娜的交锋”等 anchors；目标回合的首个玩家可见前分歧是 turn-71/06-llm-calls.json call[2] 的未绑定“宴会细节”选项。",
+          "triggeringPressure": "剧情节点 05-03 的固定权力试探被 runtime/storyline 视为已访问/已发生，后续 prompt 的历史概览也保留康纳交锋走向；turn-71 Choice 因此允许“提起宴会上看到的某个细节”，turn-72 Director 又把它升级为“必须描绘具体宴会细节”。",
+          "missingGuard": "系统没有区分 fixed beat 被跳过/访问/实际玩家可见完成，也没有把 runtime anchors 与 visible timeline 对齐；Choice/Director 缺少“具体细节必须来自玩家已见文本”的约束和检索槽。",
+          "mechanismStatement": "被玩家可见选择跳过的康纳交锋 beat 仍被写入已发生 anchors，后续 Choice 和 Director 把这些隐藏/脚本事实当成玩家可用 affordance，并在没有可见细节的情况下要求 Narrator 具体化，最终生成了戒指信号这一 unsupported factual clue。",
+          "directCause": "turn-72 Director 的 requiredContent 要求主角说出具体宴会细节；Narrator 选择了“康纳递酒、银戒朝内翻转”并让卡琳娜/卡尔确认其意义。",
+          "propagation": "错误不仅在 turn-72 正文出现，还进入 turn-72 的后续选项“问卡琳娜，她对刚才那枚戒指的事还有什么想说的”，并在 turn-73/74 继续扩展为骷髅会身份线索。",
+          "nonCauses": [
+            "不是玩家真的观察到了但评测遗漏：visible timeline 中 turn-28 明确离开宴会。",
+            "不是单纯 Narrator 幻觉：Director 已经要求具体宴会细节，Choice 已经提供未绑定 affordance。",
+            "不是 meta-memory 缺失：根因是隐藏 state/beat lifecycle 与玩家可见路径不一致。"
+          ]
+        },
+        "rootCause": {
+          "label": "state-writeback",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "玩家可见路径跳过了康纳交锋，但 runtime-after/storyline writeback 仍将康纳试探和交锋标记为已发生；这个错误状态让后续 Choice/Director 认为玩家拥有宴会权力细节可供提起，并在缺少 visible support 时强制 Narrator 填充具体细节，形成玩家可见 unsupported-jump。",
+          "fixSurface": [
+            "quest/runtime anchor writeback：区分 beat visited、beat skipped、visible completed",
+            "storyline summary 生成：不要把未可见固定 beat 写成已发生进展",
+            "Choice affordance validator：具体观察类选项必须绑定 visible evidence",
+            "Director requiredContent：禁止要求玩家描绘未在 visible timeline 中出现的具体事实"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-27/28 显示玩家没有见到康纳递酒或戒指；turn-72 直接把该观察作为玩家台词并让 NPC 认证。",
+          "internalTrace": "turn-28 runtime-after anchors 已把“康纳的试探”“康纳和卡琳娜的交锋”置 true；turn-71 Choice 给出未绑定宴会细节选项；turn-72 Director requiredContent 强制具体化，Narrator 生成戒指细节。"
+        },
+        "recommendedFixArea": "优先修复 fixed beat / anchor writeback 与 visible timeline 的一致性，并在 Choice/Director 对观察类行动进行 visible-evidence gating。",
+        "confidence": "high"
+      }
     }
   ]
 }

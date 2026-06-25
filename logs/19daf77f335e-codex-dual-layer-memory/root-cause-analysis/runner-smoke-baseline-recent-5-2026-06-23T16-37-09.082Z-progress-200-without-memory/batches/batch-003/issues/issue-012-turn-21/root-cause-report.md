@@ -1,0 +1,58 @@
+# Root Cause Report - issue-12-turn-21
+
+## Problem
+
+第 21 轮延续第 20 轮的错误，把信封写成仍在主角手中并可放回茶几。
+
+## Validity
+
+- issueValidity: `valid`
+- verdictReason: 第 21 轮的信封持有状态继承了第 20 轮错误，并继续违背第 19 轮德索洛带走信封的玩家可见事实。
+- playerVisibleSupport: 第 19 轮正文写德索洛握着信封离开；第 21 轮正文写“你拿着信封的手停在半空”和“你把信封放回茶几上”。
+- caveats: 第 20 轮已经制造了一个新的错误可见事实；第 21 轮的问题是系统继续优先采纳这个最新错误，而不是纠正与第 19 轮的冲突。
+
+## Context Assessment
+
+若按第 19 轮的物理事件，信封应随德索洛离开公寓；但第 20 轮已经错误写成主角从茶几拿起并阅读信封。第 21 轮开始时系统上下文同时包含第 19 轮正确事实和第 20 轮错误事实，二者冲突。
+
+Relevant facts:
+- `present-buried` 第 19 轮确立的正确信封状态是随德索洛离场。 Artifacts: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json, logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/06a-director-prompt.md. Notes: 该事实在 turn-21 的 recentTurns 中仍存在，但被第 20 轮最近错误状态压过。
+- `present-clear` 第 20 轮错误状态被写入最近上下文：主角拿起、打开、合上信封。 Artifacts: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/04-output.json, logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json. Notes: 它是第 21 轮最近一轮 visibleText，也是当前叙述最直接的物理连续性来源。
+- `stale` 第 20 轮 writeback 将错误概括为“主角拿过信封查看”。 Artifacts: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/04-output.json, logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json. Notes: 错误被写入 currentStoryline update，并随最近历史进入下一轮。
+- `absent` 系统没有结构化 envelope holder/location，因此无法在第 21 轮解析两条 recentTurns 的冲突。 Artifacts: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/05-runtime-after.json, logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/05-runtime-after.json. Notes: runtime-after 中没有信封实体；charactersOnStage 还保留德索洛，显示场景状态写回也不精确。
+
+Competing pressures:
+- prompt/叙事习惯倾向优先承接最近一轮可见正文以保持表面连续。
+- 第 21 轮玩家选择只是反问信任标准，并未处理信封放下问题，Narrator 自然补齐“把信封放回茶几”。
+- 没有跨轮 contradiction resolver 去比较第 19 轮物件离场和第 20 轮物件重现。
+
+## Causal Chain
+
+- firstDivergenceArtifact: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/04-output.json writeback and logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json recentTurns`
+- triggeringPressure: 第 20 轮错误 visibleText/writeback 变成第 21 轮最邻近上下文，Narrator 为了动作连续性承接“主角仍拿着信封”。
+- missingGuard: 缺少 state writeback 的冲突检查和恢复策略：错误的物件位置被写入后，没有与更早但仍清晰的离场事实对账，也没有稳定 object state 阻止错误继续传播。
+- mechanismStatement: 上一轮的错误物件状态被写回为最近上下文，系统又按“最近正文优先”继续承接；由于没有结构化对象状态和跨轮冲突恢复，信封从一次错误选项扩散成后续轮次的默认现场事实。
+- directCause: turn-21 Narrator 写出“你拿着信封的手停在半空”和“你把信封放回茶几上”，直接承接 turn-20 的错误持有状态。
+- propagation: 错误继续进入 turn-21/04-output.json 的 visibleText 和后续选择上下文，使信封在玩家感知中被进一步固化为公寓内物件。
+- nonCauses: 不是新的独立 hallucination；它主要承接第 20 轮已写入的错误状态。；不是 meta-memory；冲突只跨两轮，属于近场状态和写回处理。；第 21 轮当前 storyline 本身不要求信封在场，信封出现是状态传播而非剧情必需。
+
+## Root Cause
+
+- label: `state-writeback`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: 具体机制是错误可见状态缺少写回/恢复校验：第 20 轮把不可能的信封持有写入 visibleText 和 storyline summary 后，第 21 轮 prompt 把它作为最新事实承接；缺失的防线是结构化物件状态与跨轮冲突检测，导致较早的“德索洛带走信封”被压过。
+- fixSurface: `state writeback validator for movable objects`, `recent-turn contradiction resolver`, `runtime object holder/location persistence`
+
+## Evidence
+
+- playerVisible: turn-19 显示德索洛带走信封；turn-21 显示主角仍拿着信封并放回茶几。
+- internalTrace: turn-20/04-output.json writes 将错误状态写入正文和 currentStoryline；turn-21/03-story-state.json 的最近历史把 turn-20 错误状态放在最新位置；turn-21/05-runtime-after.json 没有 envelope object state 可纠正。
+
+## Recommended Fix Area
+
+为 runtime-after/story state 增加物件 holder/location 写回，并在新一轮构建 prompt 时对 recentTurns 中的物理冲突进行仲裁；发现上一轮错误时优先桥接修正，而不是继续承接。
+
+## Confidence
+
+`high`

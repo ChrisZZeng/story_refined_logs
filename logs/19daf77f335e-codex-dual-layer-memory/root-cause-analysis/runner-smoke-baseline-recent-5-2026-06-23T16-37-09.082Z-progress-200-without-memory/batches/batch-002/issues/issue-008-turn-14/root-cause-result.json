@@ -1,0 +1,96 @@
+{
+  "issueId": "issue-8-turn-14",
+  "issueIndex": 8,
+  "turn": 14,
+  "issueValidity": "valid",
+  "problemSummary": "第 13 轮选项允许玩家说“不知道她怎么死的”，第 14 轮正文又扩展为“那时候我在另一个地方”，把此前敏特死在帕兹怀里/帕兹亲眼看着她闭眼的核心记忆改写成帕兹不在现场。",
+  "validityAssessment": {
+    "verdictReason": "该问题成立。单独选择“不知道她怎么死的”还能解释为回避、记忆不可靠或不确定死亡真相；但正文追加“那时候我在另一个地方”后，变成明确的在场事实改写，与第 1 轮和第 13 轮选项中的玩家可见记忆冲突。",
+    "playerVisibleSupport": "turn-01 visibleText 的梦醒叙述里，帕兹抱着敏特，看着她失去温度，并在现实中说明她是“那个你亲眼看着闭上眼睛的人”。turn-13 choice 包含“她死在我怀里。但那是真的还是我以为的？”承接该记忆。turn-14 visibleText 则说“那时候我在另一个地方。等我知道消息的时候，已经来不及了”。",
+    "caveats": [
+      "故事存在记忆不可靠和复活秘密，因此“是否真的死亡”可以保持悬疑；但“帕兹当时是否在场”是玩家已经看到的核心记忆，不能无过渡改成另一个地点。",
+      "问题链条包含系统生成的选项和玩家选择，不应把全部责任归为玩家输入。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 14 轮前，卡琳娜要求主角继续讲敏特的事，并精准追问“她后来怎么死的？——还是说，你以为她死了。”玩家选择回答不知道她怎么死、只知道她没回来。玩家可见大背景仍是帕兹曾亲眼看见敏特在怀中闭眼，但真实死亡与复活秘密尚未揭示。",
+    "relevantFacts": [
+      {
+        "claim": "玩家可见核心记忆：帕兹曾抱着敏特并亲眼看着她闭上眼睛。",
+        "availability": "absent",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-14/06a-director-prompt.md"
+        ],
+        "notes": "该事实在完整可见时间线中明确，但没有作为玩家可见 memory/summary 进入 turn-14 最近上下文；只以隐藏角色卡“死在帕兹怀里”的形式存在。"
+      },
+      {
+        "claim": "角色卡隐藏资料也写着敏特身受重伤死在帕兹怀里。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-14/06a-director-prompt.md",
+          "turn-13/06c-choice-prompt.md"
+        ],
+        "notes": "该事实存在，但未被转成选择生成和正文生成的硬约束。"
+      },
+      {
+        "claim": "turn-13 选项已经给出“她死在我怀里。但那是真的还是我以为的？”这一一致性较强的表达。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-13/04-output.json",
+          "visible-timeline.jsonl"
+        ],
+        "notes": "同一组选项中同时出现一致选项与矛盾选项，说明 Choice 没有筛除核心记忆冲突。"
+      },
+      {
+        "claim": "玩家选择的“不知道她怎么死的”可以被解释为回避或对真相不确定，而不必改写为不在现场。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "turn-14/06a-director-prompt.md",
+          "turn-14/06b-narrator-prompt.md"
+        ],
+        "notes": "Director 把 intent 写成“诚实回答，但回避具体细节”，却没有约束 Narrator 不要把回避扩展成新的事实背景。"
+      }
+    ],
+    "competingPressures": [
+      "玩家选择中的矛盾措辞",
+      "卡琳娜关于死亡/以为死亡的精准追问",
+      "隐藏复活秘密不可揭示",
+      "最近上下文缺少 turn-01 玩家可见死亡场景",
+      "主角创伤叙述的戏剧压力"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-13/06c-choice-prompt.md 的 Choice 输出提供矛盾选项；turn-14/06-llm-calls.json call[1] 将其固化为不在现场事实",
+    "triggeringPressure": "Choice prompt 以当前正文结尾“她后来怎么死的？——还是说，你以为她死了”为局部锚点，最近可见上下文只说“我以为她死了/没能回来”，缺少 turn-01 的玩家可见死亡场景；turn-14 又把玩家选项当作必须说出的事实性回答。",
+    "missingGuard": "缺少核心记忆 choice-action-binding guard：选项生成应验证玩家选项不改写已建立的主角核心记忆；正文生成应把矛盾选择解释为回避、记忆不确定或关于死亡真相的不确定，而不是创造“我在另一个地方”的新事实。",
+    "mechanismStatement": "选择生成没有把“敏特死在怀里/亲眼看见闭眼”作为不可改写的玩家记忆约束，导致一个局部看似可回答卡琳娜追问、但会改写在场事实的选项出现；Narrator 随后按字面补强该选项，扩展出“那时候我在另一个地方”，把可疑措辞固化成核心记忆冲突。",
+    "directCause": "turn-14 Narrator 为了让“不知道她怎么死”显得完整，自行补充了帕兹当时在别处、事后才知道的解释。",
+    "propagation": "turn-14/04-output.json 把该解释写入可见正文；后续 choices 包含“点头承认，顺着她的话讲下去”，有继续锁定新解释的风险。",
+    "nonCauses": [
+      "不能用隐藏真相“真正死的是主角”来判定玩家可见输出正确；玩家可见层仍需维护帕兹的既有记忆。",
+      "不是玩家自由选择就自动合理：选项由系统生成，且正文把它扩展为更强事实。",
+      "不是单纯 recent-context 遗忘：角色卡和同组选项都暴露了正确记忆，但未被约束化。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "meta-memory"
+    ],
+    "description": "系统没有把核心人物记忆转成选择生成和选项执行的 must-preserve contract；当玩家选择含矛盾措辞的系统选项时，Director/Narrator 没有进行语义修正，而是按字面补足为新的事实背景。",
+    "fixSurface": [
+      "Choice generator: validate options against immutable/player-visible core memories",
+      "Director schema: add selectedChoiceInterpretation with preserveFacts list",
+      "Narrator prompt: when selected text conflicts with core memory, frame as uncertainty/evasion rather than factual rewrite",
+      "memory/state model: persist player-visible core memories separately from hidden truth"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-01 显示帕兹抱着敏特、亲眼看着她闭眼；turn-13 option 也承接“死在我怀里”；turn-14 说“那时候我在另一个地方”。",
+    "internalTrace": "turn-13/06c-choice-prompt.md 的 Choice 输出同时生成“不知道她怎么死”和“她死在我怀里”两个互相张力很强的选项；turn-14/06b-narrator-prompt.md 的 Director handoff 要求写出“不知道她怎么死”，但没有 preserveFacts guard；turn-14/06-llm-calls.json call[1] 首次添加“那时候我在另一个地方”。"
+  },
+  "recommendedFixArea": "优先修复 Choice 与 selected-choice execution 的核心记忆约束：对主角身份、重大死亡记忆、亲历/未亲历这类事实建立不可被普通选项改写的 player-visible memory contract。",
+  "confidence": "medium"
+}

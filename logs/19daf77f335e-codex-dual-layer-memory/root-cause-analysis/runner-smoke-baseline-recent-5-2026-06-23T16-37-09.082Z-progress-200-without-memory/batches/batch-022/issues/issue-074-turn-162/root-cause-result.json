@@ -1,0 +1,93 @@
+{
+  "issueId": "issue-74-turn-162",
+  "issueIndex": 74,
+  "turn": 162,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 161 已在屋内窗边等待，选项却写“回到屋里”，Turn 162 又写推门跨进屋内，造成从屋内无承接变成屋外/门外再入屋的空间断裂。",
+  "validityAssessment": {
+    "verdictReason": "问题成立。Turn 160 明确回到屋内、带上门、坐回窗边椅子；Turn 161 只是用相机取景和拍巷口，没有可见开门或离屋动作。Turn 161 选项与 Turn 162 正文都把当前位置当成屋外/门外。",
+    "playerVisibleSupport": "玩家可见链路是：Turn 160 回屋并坐在窗边；Turn 161 拍摄巷口后相机挂胸前/搁手心等待；Turn 161 选项“回到屋里”；Turn 162 正文“推开木门，跨进屋内”。",
+    "caveats": [
+      "Turn 161 的“肩膀抵住门框”让位置有轻微歧义，但它没有写开门、出屋或站到门外，无法支撑“推开木门跨进屋内”。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "Turn 160 末尾主角在屋内窗边椅子坐下，手边放着包。Turn 161 主角举相机观察巷口并按快门，文本最多把他带到门框/窗边附近，未发生离屋。",
+    "relevantFacts": [
+      {
+        "claim": "目标前玩家位置在屋内，且没有可见离屋动作。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/06a-director-prompt.md"
+        ],
+        "notes": "最近几轮正文在 prompt 中清楚列出 Turn 160 回屋坐下和 Turn 161 拍照等待。"
+      },
+      {
+        "claim": "Turn 161 选项把下一步写成“回到屋里”。",
+        "availability": "contradicted",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/04-output.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json"
+        ],
+        "notes": "该选项和最新位置冲突，是玩家可见链路的第一处明显偏离。"
+      },
+      {
+        "claim": "Director 应修复或桥接不可能的 selected choice。",
+        "availability": "absent",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/06a-director-prompt.md",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/06-llm-calls.json"
+        ],
+        "notes": "Director 直接把玩家输入解释为“回到屋内”，没有把它改写为‘移到门边’或补出合理桥接。"
+      },
+      {
+        "claim": "当前位置没有结构化 scene anchor。",
+        "availability": "absent",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/05-runtime-after.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/05-runtime-after.json"
+        ],
+        "notes": "runtime-after 只有粗略 worldState/entityStates，没有屋内/屋外/窗边/门边的可机读位置。"
+      }
+    ],
+    "competingPressures": [
+      "历史摘要和最近几轮包含多次门口/石阶等待",
+      "Turn 161 正文的“肩膀抵住门框”增加门口歧义",
+      "Choice worker 需要生成移动/休息类选项",
+      "selected choice 文本被后续 Director 当作强事实"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json call[2] / choices",
+    "triggeringPressure": "Choice worker 从门框、巷口、等待和可移动到更舒服位置等语义中生成后续行动，且历史上下文中有多轮门口/石阶活动。",
+    "missingGuard": "缺少 current-scene anchor 和选项动作可达性检查；后续 Director 也缺少对系统生成 selected choice 的空间可行性修复合同。",
+    "mechanismStatement": "当最近正文包含门框/巷口等空间词而结构化当前位置缺失时，Choice worker 把‘在屋内换位置’误写成‘回到屋里’，Director 又把该选项当作事实入口，Narrator 因此写出再次推门进屋。",
+    "directCause": "Turn 161 的 Choice 输出给出不可能的“回到屋里”选项；Turn 162 Director 将玩家输入概括为“回到屋内”。",
+    "propagation": "Turn 162 Narrator 按 Director 安排写“推开木门，跨进屋内”，把选项中的空间误判固化为正文，并影响后续门边/屋内等待位置。",
+    "nonCauses": [
+      "不是玩家自由输入导致的脱轨；玩家选择的是系统提供的选项。",
+      "不是 runtime 事件强制移动；本轮生成前事件为空。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是最近文本有门框/巷口词和历史门口活动，选项生成需要补移动选项；缺失防线是没有结构化当前位置锚点和 selected-choice 可达性校验；失败运动是 Choice 先生成与当前位置冲突的“回到屋里”，Director/Narrator 再把这个系统选项当作真实空间转移。",
+    "fixSurface": [
+      "choice current-scene anchor validation",
+      "selected choice repair/bridge contract",
+      "runtime location state writeback"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 160 写回到屋内、门闩落回、坐回窗边椅子；Turn 161 只写举相机取景、按快门和等待；Turn 161 选项与 Turn 162 正文却都表现为从外面回屋。",
+    "internalTrace": "Turn 162 prompts 的最近几轮明示屋内状态，但 Director call[0] 输出 summary/beats 均为“回到屋内”；Narrator call[1] 写“推开木门，跨进屋内”。runtime-after 没有细粒度位置状态。"
+  },
+  "recommendedFixArea": "在选项生成和 selected choice 消费之间增加 scene-location invariant：若当前位置为屋内，禁止/修复“回到屋里”类选项；若已暴露给玩家，则下一轮必须桥接为“往门边挪”而非重新进屋。",
+  "confidence": "high"
+}

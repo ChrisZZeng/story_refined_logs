@@ -1,0 +1,160 @@
+{
+  "batchId": "batch-011",
+  "issueCount": 1,
+  "completedCount": 1,
+  "validityCounts": {
+    "valid": 1,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 34,
+      "turn": 120,
+      "severity": "high",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "The scene replays discovery of the true home as if it has not already happened, instead of treating this as returning to a place the player has already visited earlier that night.",
+      "batchId": "batch-011",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "fixed-beat-consumption",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline beat lifecycle / interactionFollowup consumption tracking",
+          "Director prompt assembly 的 consumed-beat / return-state priority guard",
+          "runtime state writeback for currentLocationId、visitedLocation、revealedLocation、returningToLocation anchors",
+          "Director validation: 当 requiredContent 涉及已完成路线/门槛/首次揭示时，必须改写为 return/known-route 或要求桥接"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 currentStoryline.interactionFollowup 的生命周期消费与 runtime 位置/地点访问写回：当地点 reveal + travel + threshold 已完成后，后续再出现同名目的地必须被标记为 returningToKnownLocation，并在 Director prompt 中以硬约束压过未消费的固定承接。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-011/issues/issue-034-turn-120/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-011/issues/issue-034-turn-120/root-cause-report.md",
+      "result": {
+        "issueId": "issue-34",
+        "issueIndex": 34,
+        "turn": 120,
+        "severity": "high",
+        "type": "repeated-scene",
+        "scope": "visibleText",
+        "issueValidity": "valid",
+        "problemSummary": "turn 120 把卡琳娜带主角去“真正的家”的路程和门槛呈现成首次发现/首次进入，而玩家此前已经在同一晚去过、进入过、观察过该空间，并在之后离开到公园；本轮应写成回到熟悉地点。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。玩家可见文本已经证明“真正的家”不是新地点：turn 38-40 完成邀请、带路、开铁门、跨门槛和进入暖光房间；turn 89-90 又显示二人从室内出来走回公园。turn 118-119 的“回去”“之前说过的‘真正的家’”把当前目标定义为返回。turn 120 却写成“朝一条你之前没有注意到的岔路走去”、重新描写旧铁门、钥匙、短通道和门槛，并让卡琳娜在门内等玩家跨入，构成玩家可见重复场景。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中 turn 38 卡琳娜说明不是暗街铁门后的房间而是“真正的家”；turn 39 她带主角经暗路到老旧铁门并用钥匙开门；turn 40 玩家跨过门槛进入暖光房间。turn 89-90 显示两人从室内离开并回到公园。turn 118-119 当前长椅场景中玩家询问“回去”是否指“之前说过的‘真正的家’”，卡琳娜答复“真正的家”并说“带你去看”。turn 120 重新执行发现路线和门槛邀请。",
+          "caveats": [
+            "turn 119 的“带你去看”单独看可被解释为再次带去看，但 turn 120 的“你之前没有注意到的岔路”和完整首次门槛仪式消除了这种解释空间。",
+            "本判断不依赖隐藏设定；隐藏 artifact 仅用于确认根因链路。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家与卡琳娜已在她真正的家中长时间共处，之后从室内走到公园长椅。turn 118-119 的当前可见情境是公园长椅上的亲密沉默后，玩家确认“回去”指向先前说过且已经去过的“真正的家”，卡琳娜起身准备带路。因此 turn 120 应该承接为返回已知住所，而不是首次发现路线和首次允许进入。",
+          "relevantFacts": [
+            {
+              "claim": "玩家此前已经到过并进入过“真正的家”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 38-40",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/03-story-state.json currentStoryline.summary",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/06a-director-prompt.md:636"
+              ],
+              "notes": "玩家可见证据非常清楚；在 Director prompt 中也进入了“本段已完成的进展”，但被埋在长篇 summary 中。"
+            },
+            {
+              "claim": "玩家后来从真正的家离开，当前人在公园长椅，目标是回去。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 89-90",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/03-story-state.json currentStoryline.summary",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/06a-director-prompt.md:692"
+              ],
+              "notes": "可见时间线说明二人从室内跨出并走到公园；storyline summary 也记录“离开室内前往公园”。"
+            },
+            {
+              "claim": "turn 120 的玩家行动“站起来，跟她走”应绑定到返回已知地点。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/03-story-state.json recentTurns",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/06a-director-prompt.md:924"
+              ],
+              "notes": "最近几轮包含“回去”和“之前说过的‘真正的家’”，但没有把“已经去过/正在返回”提升为本轮硬约束；若只看最近文本，仍可能被误读为一次新的带路。"
+            },
+            {
+              "claim": "当前故事线的 followup 仍把“邀请主角前去真正的家”作为可执行承接。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/03-story-state.json currentStoryline.interactionFollowup",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/06a-director-prompt.md:733"
+              ],
+              "notes": "该 followup 在邀请、带路、进入和室内共处均已发生后仍未被消费，继续向 Director 施压，让它把当前动作解释为前去/进入真正的家。"
+            },
+            {
+              "claim": "系统存在通用不重复提示，但没有对已消费的 home-reveal/travel beat 做可执行的禁止条件。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/06a-director-prompt.md:16",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/06a-director-prompt.md:816"
+              ],
+              "notes": "提示说不要重复已完成进展、优先最近可见正文，但没有把“真正的家已访问”变成本轮必须满足的 return-state contract。"
+            },
+            {
+              "claim": "runtime state 没有稳定记录当前位置与 true-home 已访问/已揭示/已离开/正在返回等细粒度锚点。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/02-script-state.json facts.stateView",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/05-runtime-after.json internal.anchors"
+              ],
+              "notes": "runtime 只有“卡琳娜已发出邀请”等粗锚点，currentLocationId 仍是“夜晚的街道”，没有可供 Director 优先采用的 consumed/returning 标志。"
+            }
+          ],
+          "competingPressures": [
+            "active beat 的 interactionFollowup 继续要求“卡琳娜邀请主角前去她真正的家”。",
+            "recentTurns 只覆盖 turn 115-119，没有包含 turn 38-40 的首次到达和 turn 89-90 的离开。",
+            "currentStoryline.summary 很长，已访问信息存在但低显著性；近期“带你去看”和当前选择“跟她走”更靠近输出指令。",
+            "Director 的 requiredContent 偏向可视化转场和开门动作，Narrator 随后按慢铺感官细节扩写。",
+            "通用一致性提示不具备针对该 fixed beat 的硬性优先级。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/06-llm-calls.json call[0].object / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-120/04-output.json plotPoint",
+          "triggeringPressure": "Director prompt 中 active storyline 的 interactionFollowup 仍写着当态度值>=2时“卡琳娜邀请主角前去她真正的家”，同时最近一轮选择是“站起来，跟她走”。这些近端信息把本轮拉向执行一次 travel-to-home beat。",
+          "missingGuard": "缺少已消费的 home-reveal/travel beat 生命周期状态；缺少“真正的家已访问，当前只能写 returning/known route”的硬约束；runtime anchor 与 currentLocationId 没有记录已进入、已离开、正在返回；通用“不要重复”提示没有可执行优先级。",
+          "mechanismStatement": "已消费的“邀请前去真正的家”固定承接仍作为 active followup 进入 Director prompt，而已访问事实只埋在长 summary 和地点记忆里；在没有 consumed/returning guard 的情况下，Director 把“站起来，跟她走”重新绑定到首次前往与开门 beat，Narrator 再将其扩写成玩家可见的重复发现。",
+          "directCause": "turn 120 Director 输出“主角跟随卡琳娜离开公园，前往她真正的家”，并把“路径从公园转入更隐蔽的巷道”“卡琳娜在铁门前停下，掏出钥匙打开门”列为 requiredContent。",
+          "propagation": "Narrator 依据该 Director JSON 生成完整路线、铁门、钥匙、短通道和门槛邀请，还加入“你之前没有注意到的岔路”等首次发现措辞；Choice 继续给出“跨过门槛，走进门内的暖光中”等选项；events 将该内容 committed；runtime-after 仍没有写入可阻断后续重复的 true-home consumed/returning anchor，turn 121 又继续重复进入房间和陈设介绍。",
+          "nonCauses": [
+            "不是 evaluator 把隐藏事实误判为可见错误；玩家可见时间线本身已经证明重复。",
+            "不是单纯 Narrator 自行偏离；Narrator 的主要错误形状来自 Director requiredContent。",
+            "不是 Choice 组件的首因；Choice 只根据已生成的门槛场景继续提供进入选项。",
+            "不是纯 detail-memory 缺失；旧路线、房间陈设和已完成进展在 story state/prompt 中存在，只是没有被消费状态和优先级约束转化为行动合同。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-consumption",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "“邀请/带路/进入真正的家”这一固定承接在 turn 38-40 已消费，并在后续室内段落与离开公园段落后变成 returning 状态；但 story state 仍把同一 interactionFollowup 保持为 active，runtime 又没有记录 true-home reveal/travel 的 consumed/returning anchor。结果是近端玩家动作触发了已消费 beat 的字面重放，埋在 summary 中的已访问信息无法压过 active followup 与 Director requiredContent。",
+          "fixSurface": [
+            "storyline beat lifecycle / interactionFollowup consumption tracking",
+            "Director prompt assembly 的 consumed-beat / return-state priority guard",
+            "runtime state writeback for currentLocationId、visitedLocation、revealedLocation、returningToLocation anchors",
+            "Director validation: 当 requiredContent 涉及已完成路线/门槛/首次揭示时，必须改写为 return/known-route 或要求桥接"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 38-40：首次“真正的家”邀请、带路、开铁门、跨门槛和室内陈设已经出现；turn 89-90：二人离开室内并回到公园；turn 118-119：玩家把“回去”明确问成是否回“之前说过的‘真正的家’”；turn 120：文本重新写“之前没有注意到的岔路”、老旧铁门、钥匙、短通道、暖光和等待跨门槛。",
+          "internalTrace": "turn-120/03-story-state.json 和 06a-director-prompt.md 的 currentStoryline.summary 记录了此前访问和离开，但 interactionFollowup 仍保留“邀请主角前去她真正的家”；turn-120/06-llm-calls.json call[0].object 把本轮规划为前往真正的家并要求开铁门；turn-120/04-output.json 与 07-events.json 显示 Narrator/Choice 将该规划落成可见重复并 committed；turn-120/05-runtime-after.json 的 anchors 仍只有粗粒度邀请状态，没有 consumed/returning 标志。"
+        },
+        "recommendedFixArea": "优先修复 currentStoryline.interactionFollowup 的生命周期消费与 runtime 位置/地点访问写回：当地点 reveal + travel + threshold 已完成后，后续再出现同名目的地必须被标记为 returningToKnownLocation，并在 Director prompt 中以硬约束压过未消费的固定承接。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+# Root Cause Report - issue-61 turn 139
+## Problem
+turn 129 已把壁炉灰烬写成彻底冷透，turn 139 却写成屋里仍有壁炉余烬热气、灰白色炭会崩裂作响，恢复了已结束的燃烧状态。
+## Validity
+- issueValidity: `valid`
+- verdictReason: 玩家可见文本中没有重新添柴、点火或其他让灰烬回温的动作；从‘彻底冷透’到‘余烬的热气/炭又崩了一声’是同一物件状态的直接反转。
+- playerVisibleSupport: `visible-timeline.jsonl` turn 129 写‘壁炉里的灰烬已经彻底冷透，表面覆盖着一层细密的白色尘末’；turn 139 写‘屋里还留着壁炉余烬的热气’、‘炉膛里的木柴已经烧成了灰白色的炭，偶尔发出……崩裂声’以及‘炉膛里的炭又崩了一声’。
+- caveats:
+  - 如果中间存在未显示的添柴/复燃事件可解释，但玩家可见时间线和 preLlmEvents 均没有这种承接。
+
+## Context Assessment
+玩家在卡尔小屋外等待卡琳娜消息，刚沿街走到巷口确认无异常后返回。更早 turn 129 的室内状态已经明确为壁炉灰烬冷透、房间被晨光照亮；后续没有改变壁炉状态的玩家可见动作。
+
+### Relevant Facts
+- `absent` 壁炉灰烬已经彻底冷透，属于终止态物件状态。
+  - artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl turn 129`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/03-story-state.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/06b-narrator-prompt.md`
+  - notes: 该事实在玩家可见时间线中 present-clear，但在 turn 139 的 story state、Director/Narrator prompt 中没有以当前场景状态出现；`turn-139/03-story-state.json` 的 recentTurns 只覆盖后续等待/外出几轮。
+- `present-clear` 本轮玩家动作只是‘回屋里喝点水，继续等’，没有处理壁炉。
+  - artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/01-summary.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/06a-director-prompt.md`
+  - notes: Director 将本轮概括为返回屋内喝水、继续等待，并没有要求壁炉发生变化。
+- `over-constraining` 当前生成强调温馨安心、感官细节慢铺，容易调用‘炉火余温’作为氛围素材。
+  - artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/06a-director-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/06b-narrator-prompt.md`
+  - notes: Director 输出 `tone=温馨、安心、等待中的静谧`、`pacing=感官细节优先，慢铺`，但没有配套的物件终止态约束。
+
+### Competing Pressures
+- 等待卡琳娜消息的慢节奏过渡轮次，需要用环境细节填充正文。
+- 当前故事线长期处于温馨安心基调，容易把壁炉写成仍有余热。
+- run 配置为 `memoryMode=baseline`、`recentTurnLimit=5`，turn 129 的冷灰事实已经不在 turn 139 最近轮正文中。
+- runtime/state 中没有 `fireplace` 或室内物件状态字段来约束 Narrator。
+
+## Causal Chain
+- firstDivergenceArtifact: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/06-llm-calls.json call[1] / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-139/04-output.json
+- triggeringPressure: Narrator 收到的导演安排强调‘温馨、安心、等待中的静谧’和‘感官细节优先’，而输入上下文只保留了泛化的‘在壁炉边倒水/继续等待’摘要，没有保留‘灰烬已彻底冷透’。
+- missingGuard: 缺少当前场景物件状态锚点，如 `fireplace.ashState=cold_extinguished`；也缺少‘终止态物件不得因氛围描写恢复活性’的 Narrator 约束。
+- mechanismStatement: 当终止态物件事实只存在于已过 recentTurnLimit 的可见正文、没有被 state-writeback 写入当前场景锚点时，温馨慢铺的生成压力会让 Narrator 用常见炉火余温细节填补室内氛围，从而把冷灰恢复成有热气和崩裂声的炭。
+- directCause: Narrator 在 turn 139 本地生成中把壁炉当作仍有余热的环境声源和热源。
+- propagation: 错误进入 `turn-139/04-output.json` 和 visible timeline；后续 turn 141、145、146 继续出现炭灰/余烬崩裂，说明该错误又成为后续 recent context 的一部分。
+- nonCauses:
+  - Director 没有显式要求壁炉复燃；它只是没有保留冷灰约束。
+  - 玩家输入没有触发添柴或点火。
+  - 不能用隐藏设定解释该错误，因为玩家可见层已经足以确认冲突。
+
+## Root Cause
+- label: `state-writeback`
+- family: `agent-system`
+- secondaryFamilies: `detail-memory`
+- description: turn 129 的‘壁炉灰烬彻底冷透’没有被写入可持续的当前场景/物件状态，只在长篇可见文本中存在；到 turn 139 它已退出最近上下文，而 Director/Narrator handoff 又给出温馨慢铺的氛围压力，没有终止态物件保护，导致 Narrator 恢复炉火余温。
+- fixSurface:
+  - `statefold/current-scene object-state writeback`
+  - `Narrator prompt 的 currentSceneAnchors 区块`
+  - `post-generation consistency check for terminal object states`
+
+## Evidence
+- playerVisible: turn 129 冷灰事实与 turn 139 余热/崩裂炭火直接冲突；两者之间没有玩家可见复燃事件。
+- internalTrace: `turn-139/03-story-state.json` 和 `turn-139/06b-narrator-prompt.md` 没有 `冷透`/`壁炉里的灰烬` 等约束；`turn-139/06-llm-calls.json` call[1] 首次写出余烬热气。
+
+## Recommended Fix Area
+为场景物件终止态增加 durable writeback，并在 Narrator prompt 中把这些状态作为高优先级当前场景锚点。
+
+## Confidence
+`high`

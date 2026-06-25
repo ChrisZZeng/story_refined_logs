@@ -1,68 +1,515 @@
 {
   "batchId": "batch-010",
-  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
   "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
-      "issueId": "issue-26-turn-48",
       "issueIndex": 26,
       "turn": 48,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "The account labels the morning after the first meeting as both the second day and the first day of Karina's tenure, blurring the sequence of Carl choosing her.",
+      "batchId": "batch-010",
       "issueValidity": "valid",
       "rootCause": {
         "label": "temporal-anchor-contract",
         "family": "agent-system",
         "secondaryFamilies": [
           "recent-context"
+        ],
+        "fixSurface": [
+          "Director plotPoint schema: 增加 currentSceneTimeline / temporalAnchors 字段，列出最近事件顺序。",
+          "Narrator prompt assembly: 将最近两轮的时间关系摘要放在最终写作指令附近。",
+          "post-generation consistency check: 针对同段 first day / second day / 那天 等时间标签做局部冲突检测。"
         ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-26-turn-48/root-cause-report.md",
-      "resultPath": "issues/issue-26-turn-48/root-cause-result.json"
+      "recommendedFixArea": "优先修复 Director→Narrator 的 temporal anchor handoff，并增加输出后时间标签冲突 lint。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-026-turn-48/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-026-turn-48/root-cause-report.md",
+      "result": {
+        "issueId": "issue-26-turn-48",
+        "turn": 48,
+        "issueValidity": "valid",
+        "problemSummary": "第 48 轮把卡琳娜与卡尔第一次见面后的清晨同时称为“第一次见面之后的第二天”和“就任申诉人的第一天”，与第 46-47 轮已经建立的夜晚到天亮顺序冲突。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见文本已经明确给出：第 46 轮说第一次见卡尔是在“刚成为申诉人的第一天”的晚上，第 47 轮说卡尔陪她坐了一整晚并在天亮时说“你坐得够稳了”后跳走；第 48 轮又把这一天称为“第一次见面之后的第二天”，但同段稍后称“那天是我就任申诉人的第一天”。这不是隐藏设定推断，而是可见叙述内部的轻微时间标签冲突。",
+          "playerVisibleSupport": "turn-46 visibleText: “我第一次见到她的时候——是七年前。我刚成为申诉人的第一天。那天晚上……”。turn-47 visibleText: “我就那样坐着……坐了整整一个晚上”“天亮的时候她醒了……‘你坐得够稳了。’——然后就跳出去了”。turn-48 visibleText: “第一次见面之后的第二天。就是她说了……就跳走的那天”以及“那天是我就任申诉人的第一天”。",
+          "caveats": [
+            "如果把“就任申诉人的第一天”解释成正式履职周期而非日历日期，冲突可被弱化；但前文“那天晚上”与“天亮”让玩家自然按日历顺序理解，因此仍构成 low 级别的空间/时间连续性问题。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家看到卡琳娜在公园长椅上连续回忆卡尔：她第一次见卡尔是在刚成为申诉人的第一天夜里，卡尔跳下窗台并在她膝上睡了一整晚；天亮后卡尔说“你坐得够稳了”并跳走。第 48 轮玩家追问的是“卡尔为什么选中了你”，需要承接这条刚刚建立的短时间线。",
+          "relevantFacts": [
+            {
+              "claim": "第一次见卡尔发生在卡琳娜刚成为申诉人的第一天晚上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn-46",
+                "turn-48/03-story-state.json recentTurns",
+                "turn-48/06a-director-prompt.md",
+                "turn-48/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实在 recentTurns 中以完整可见正文出现，但不是结构化的 timeline fact。"
+            },
+            {
+              "claim": "“你坐得够稳了”发生在坐了一整晚之后的天亮时刻。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn-47",
+                "turn-48/03-story-state.json recentTurns",
+                "turn-48/06a-director-prompt.md",
+                "turn-48/06b-narrator-prompt.md"
+              ],
+              "notes": "这条事实紧邻目标轮次，信息可用；但同样埋在长段散文式 recentTurns 中。"
+            },
+            {
+              "claim": "第 48 轮玩家问的是卡尔为何选中卡琳娜，而不是要求重新定义具体日期。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-48/01-summary.json",
+                "turn-48/06a-director-prompt.md"
+              ],
+              "notes": "Director 正确识别为探索/追问原因。"
+            },
+            {
+              "claim": "Director handoff 没有把“第一天夜里→整夜→次日清晨”的顺序整理成本轮必须保持的时间锚点。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-48/04-output.json plotPoint",
+                "turn-48/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 只给出“回答为何被选中、基于自身感受”的剧情骨架，没有要求 Narrator 校验日期标签。"
+            },
+            {
+              "claim": "底层写作规范甚至提示应避免用“第一天”“第二天”等生硬时间标签。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-48/06a-director-prompt.md",
+                "turn-48/06b-narrator-prompt.md"
+              ],
+              "notes": "该规范位于长提示中的风格段落，未转化为本轮硬约束。"
+            }
+          ],
+          "competingPressures": [
+            "玩家追问“为什么选中”推动模型补出因果解释和关键旧日场景。",
+            "recentTurns 保留了完整长段回忆，时间线事实存在但没有被结构化。",
+            "storyline 摘要强调卡尔在关键时刻引导卡琳娜认识使命，促使生成把“被选中”和“就任第一天/第一次做选择”合并呈现。",
+            "慢铺、温情回忆的写作压力高于精确日期校验。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-48/06-llm-calls.json call 1 / turn-48/04-output.json narrative",
+          "triggeringPressure": "Narrator 需要把“卡尔为什么选中我”的问题落成一段旧日回忆；prompt 中 recentTurns 有“第一天晚上”“坐了一整晚”“天亮跳走”，Director 又要求回答选中原因并暗示卡尔看到了卡琳娜的潜质，模型把“次日清晨追问”与“就任第一天做出选择”压缩进同一个“那天”。",
+          "missingGuard": "缺少一个靠近 Narrator 最终指令的结构化 temporal anchor 或硬约束，要求保留“第一天夜里→整夜→次日清晨”的顺序，并避免重新引入“第二天/第一天”互相覆盖的日期标签。",
+          "mechanismStatement": "当近期时间线只以长篇可见散文进入 prompt、Director handoff 又只强调情感/因果回答而不输出可执行的时间锚点时，Narrator 在补全旧日因果时会把相邻日历事件压缩成同一个“那天”，导致玩家可见的 first/second-day 标签冲突。",
+          "directCause": "Narrator 本地生成了“第一次见面之后的第二天……那天是我就任申诉人的第一天”这一组互相牵扯的时间标签。",
+          "propagation": "该文本进入 turn-48/04-output.json 的 narrative 与 normalizedContent.visibleText，并被 visible-timeline.jsonl 记录；Choice 输出没有继续扩大该日期冲突，runtime-after 也未显示新的结构化日期写回。",
+          "nonCauses": [
+            "不是长期 memory-persistence 缺失：相关事实就在最近两轮和 turn-48 prompt 中。",
+            "不是 Choice 问题：选项没有制造时间冲突。",
+            "不是隐藏设定导致：玩家可见正文已经足以确认问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "temporal-anchor-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 Narrator 在回答“为什么被选中”时需要把多个近期回忆片段压缩成一段因果叙述；缺失防线是 Director/Narrator handoff 没有把最近两轮的日历顺序提升为可执行 temporal anchor，也没有把“避免第一天/第二天标签”作为本轮硬约束；失败运动是模型在可见事实都存在但未结构化的情况下，将次日清晨与就任第一天合并为同一“那天”。",
+          "fixSurface": [
+            "Director plotPoint schema: 增加 currentSceneTimeline / temporalAnchors 字段，列出最近事件顺序。",
+            "Narrator prompt assembly: 将最近两轮的时间关系摘要放在最终写作指令附近。",
+            "post-generation consistency check: 针对同段 first day / second day / 那天 等时间标签做局部冲突检测。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-46、turn-47、turn-48 的 visibleText 构成完整证据链：第一天晚上初见、坐整晚、天亮离开；目标轮又称同一清晨为第二天和第一天。",
+          "internalTrace": "turn-48/04-output.json plotPoint 只要求“回答为何被卡尔选中”；turn-48/06b-narrator-prompt.md 中 recentTurns 包含正确顺序，但没有独立时间锚点；turn-48/06-llm-calls.json call 1 首次生成冲突句。"
+        },
+        "recommendedFixArea": "优先修复 Director→Narrator 的 temporal anchor handoff，并增加输出后时间标签冲突 lint。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-27-turn-54",
       "issueIndex": 27,
       "turn": 54,
+      "severity": "low",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "正文把玩家正在说出的名字错误归给“她”，造成叙述主体短暂漂移。",
+      "batchId": "batch-010",
       "issueValidity": "valid",
       "rootCause": {
         "label": "speaker-pronoun-alignment",
-        "family": "llm-self"
+        "family": "llm-self",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "Narrator post-generation linter: 检查 `data-speaker=帕兹` 后紧邻叙述中的“他说/她说出/她开口”等主体是否冲突。",
+          "Narrator prompt: 将“描述主角说话方式时必须用‘你/帕兹’，不要用第三人称代词”放入最终输出提醒。",
+          "visibleText normalizer QA: 对 speaker-tag 与相邻叙述句做轻量规则校验。"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-27-turn-54/root-cause-report.md",
-      "resultPath": "issues/issue-27-turn-54/root-cause-result.json"
+      "recommendedFixArea": "优先加 Narrator speaker-pronoun alignment lint，覆盖主角台词后紧邻叙述句的代词主体。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-027-turn-54/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-027-turn-54/root-cause-report.md",
+      "result": {
+        "issueId": "issue-27-turn-54",
+        "turn": 54,
+        "issueValidity": "valid",
+        "problemSummary": "第 54 轮玩家正在讲述敏特，正文却在玩家说出“她叫敏特”后写“她说出这个名字时”，把说话主体短暂错归给第三人称女性。",
+        "validityAssessment": {
+          "verdictReason": "valid。目标段落前后都在呈现玩家/帕兹讲述：卡琳娜“等你开口”，随后 `data-speaker=帕兹` 的台词说“她叫敏特”；下一句却写“她说出这个名字时”，而后半句又回到“你的手指在膝盖上蜷了一下”。玩家可见层面中，说出名字的人应是“你/帕兹”，不是“她”。",
+          "playerVisibleSupport": "turn-54 visibleText: “等你开口”“你靠在长椅的靠背上”“她叫敏特。我认识她的时候——还在战区。”“她说出这个名字时……但你的手指在膝盖上蜷了一下”。",
+          "caveats": [
+            "该错误只持续一句，后文迅速回到“你”的视角，因此是 low 级主体漂移，而非剧情事实被长期改写。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 53 轮卡琳娜问玩家“确认一件什么事——方便说吗？”第 54 轮玩家选择“说来话长。不过既然你问了——可以告诉你”，随后应由帕兹开始讲述寻找敏特的原因。",
+          "relevantFacts": [
+            {
+              "claim": "本轮要由帕兹/玩家开口讲述敏特。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn-53/54",
+                "turn-54/01-summary.json",
+                "turn-54/04-output.json plotPoint"
+              ],
+              "notes": "Director summary 明确写“帕兹回应卡琳娜的好奇，表示愿意讲述”。"
+            },
+            {
+              "claim": "Narrator 已正确用 `data-speaker=\"帕兹\"` 输出“她叫敏特”这句台词。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-54/06-llm-calls.json call 1",
+                "turn-54/04-output.json narrative"
+              ],
+              "notes": "结构化说话人标签本身正确，说明 speaker context 清楚。"
+            },
+            {
+              "claim": "下一句叙述应继续以“你/帕兹”为主体，而非“她”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-54/06b-narrator-prompt.md",
+                "turn-54/04-output.json normalizedContent"
+              ],
+              "notes": "底层规范要求旁白中“你=帕兹=玩家=主角”；同段后文也写“你的手指”。"
+            },
+            {
+              "claim": "周围有多个女性实体或女性代词（卡琳娜、敏特、台词中的“她”），增加了局部代词吸附压力。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-54/06b-narrator-prompt.md",
+                "turn-54/04-output.json narrative"
+              ],
+              "notes": "这是局部生成压力，但不构成合理解释，因为 speaker tag 已清楚。"
+            },
+            {
+              "claim": "没有后处理检查“叙述句主语是否与前一条 data-speaker 台词一致”。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-54/04-output.json",
+                "turn-54/07-events.json"
+              ],
+              "notes": "错误文本被正常 normalized 并 committed。"
+            }
+          ],
+          "competingPressures": [
+            "台词内容以“她叫敏特”开头，紧邻女性代词。",
+            "场上卡琳娜也是女性，旁白频繁用“她”描写卡琳娜。",
+            "Narrator 的风格倾向是动作/神态承接，容易在一句承接语中沿用最近的女性代词。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-54/06-llm-calls.json call 1 / turn-54/04-output.json narrative",
+          "triggeringPressure": "Narrator 在 `data-speaker=帕兹` 的“她叫敏特”台词后，需要写一句描述说话方式的承接句；局部文本中“她叫敏特/我认识她”提供了连续女性代词，场景中卡琳娜也长期由“她”指代。",
+          "missingGuard": "缺少对 Narrator 的句级 speaker-pronoun alignment 约束或后处理检查，未要求前一帧说话人为帕兹时，下一句描述其语气必须用“你/帕兹”而不是自由代词。",
+          "mechanismStatement": "在 speaker tag 已正确但相邻文本充满女性代词时，Narrator 的局部代词续写没有被 speaker-alignment guard 校验，导致承接句把玩家刚说出的名字错归给“她”。",
+          "directCause": "Narrator 本地生成“她说出这个名字时”这一句，与前一帧 `data-speaker=帕兹` 冲突。",
+          "propagation": "错误进入 `turn-54/04-output.json normalizedContent.visibleText` 与 visible timeline；Choice 输出未承接该主体错误，runtime-after 未显示持久化写回。",
+          "nonCauses": [
+            "不是 Director 误判：Director 明确要求帕兹开始讲述。",
+            "不是 Choice 或 action binding 问题。",
+            "不是记忆不可用：说话人就在同一段结构化标签中。"
+          ]
+        },
+        "rootCause": {
+          "label": "speaker-pronoun-alignment",
+          "family": "llm-self",
+          "secondaryFamilies": [],
+          "description": "触发压力是前一帧台词中连续出现女性代词且场景中卡琳娜/敏特均为女性；缺失防线是 Narrator 没有句级检查前一帧 `data-speaker` 与下一句叙述主语是否一致；失败运动是模型在清楚 speaker tag 的情况下局部代词滑移，把玩家说话误写成“她说出”。",
+          "fixSurface": [
+            "Narrator post-generation linter: 检查 `data-speaker=帕兹` 后紧邻叙述中的“他说/她说出/她开口”等主体是否冲突。",
+            "Narrator prompt: 将“描述主角说话方式时必须用‘你/帕兹’，不要用第三人称代词”放入最终输出提醒。",
+            "visibleText normalizer QA: 对 speaker-tag 与相邻叙述句做轻量规则校验。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 54 轮 visibleText 中，玩家先说“她叫敏特”，后文同段又写“你的手指……”，夹在中间的“她说出这个名字时”明显错指。",
+          "internalTrace": "turn-54/04-output.json plotPoint 要求“帕兹开始讲述”；turn-54/06-llm-calls.json call 1 的 raw text 中 speaker tag 为 `帕兹`，但紧随其后的叙述句为“她说出这个名字时”。"
+        },
+        "recommendedFixArea": "优先加 Narrator speaker-pronoun alignment lint，覆盖主角台词后紧邻叙述句的代词主体。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-28-turn-57",
       "issueIndex": 28,
       "turn": 57,
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "mixed",
+      "summary": "正文和选项把已建立为“她”的卡尔临时写成“他”，并在选项中直接把“他”和卡尔绑定，造成角色称谓/身份连续性漂移。",
+      "batchId": "batch-010",
       "issueValidity": "valid",
       "rootCause": {
         "label": "hidden-referent-pronoun-contract",
         "family": "agent-system",
         "secondaryFamilies": [
           "recent-context"
+        ],
+        "fixSurface": [
+          "Director schema: 为 hidden referent 增加 `referentPronounPolicy` / `allowedSurfaceRefs`，明确“只用那个人/对方，不用他/她”或继承候选实体 pronoun。",
+          "Narrator prompt: 对不点名对象增加“不要用会暴露或冲突的 gendered pronoun”硬约束。",
+          "Choice generator: 在选项生成前对已知实体的 pronoun/gender facts 做一致性检查，禁止“他=卡尔”这类绑定。",
+          "entity state: 将卡尔的 displayPronoun / species / gender 放入高优先级可见 entity facts。"
         ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-28-turn-57/root-cause-report.md",
-      "resultPath": "issues/issue-28-turn-57/root-cause-result.json"
+      "recommendedFixArea": "优先修复 hidden referent 的 handoff contract：Director 输出可见称谓策略，Narrator 和 Choice 都必须继承并校验实体 pronoun。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-028-turn-57/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-028-turn-57/root-cause-report.md",
+      "result": {
+        "issueId": "issue-28-turn-57",
+        "turn": 57,
+        "issueValidity": "valid",
+        "problemSummary": "第 57 轮卡琳娜用“他/他说/他那种人”描述一个后来被玩家可见文本确认为卡尔的对象，同轮选项还写“『他』——是卡尔吗？”，与此前稳定建立的卡尔为“她/母猫”冲突。",
+        "validityAssessment": {
+          "verdictReason": "valid。即使第 57 轮正文尚未点名“那个人”，同轮选项已经把“他”和卡尔直接绑定为玩家可选理解；而玩家此前多次看到卡尔被称为“她”且是黑色母猫。第 59 轮可见文本确认“那个人……是卡尔”并恢复“她教会了我很多事”，进一步证明第 57 轮的男性代词不是合理的新角色指代，而是称谓漂移。",
+          "playerVisibleSupport": "turn-44: “卡尔……她会说”。turn-46: “她出现在暗街的那一天”“她只是甩了甩尾巴”。turn-57: “但我从来没对他说过——他对我有多重要”“他那种人——大概早就知道了吧”，choices: “『他』——是卡尔吗？”。turn-59: “……是卡尔。”“她教会了我很多事”。",
+          "caveats": [
+            "第 57 轮正文单独看时，“那个人”仍有可能是未揭示男性对象；但同轮选项直接把“他”和卡尔绑定，且后续第 59 轮可见确认对象为卡尔，因此 issue 成立。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 56 轮卡琳娜承认自己有一句欠下的话，但“不太确定——那句话是写给谁的”。第 57 轮玩家追问“写给谁”是什么意思。玩家此前已稳定知道卡尔是用女性代词称呼的黑色母猫；当前剧情要求卡琳娜部分坦白但不点名对象。",
+          "relevantFacts": [
+            {
+              "claim": "卡尔在玩家可见文本中一直以女性/雌性代词出现。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turn-44",
+                "visible-timeline.jsonl turn-46",
+                "visible-timeline.jsonl turn-59"
+              ],
+              "notes": "玩家可见层面已经建立“卡尔=她”。"
+            },
+            {
+              "claim": "内部角色卡也明确卡尔是“黑色短毛母猫，声音像年长的女性”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-57/03-story-state.json curStates",
+                "turn-57/06a-director-prompt.md",
+                "turn-57/06b-narrator-prompt.md",
+                "turn-57/06c-choice-prompt.md"
+              ],
+              "notes": "信息不缺失，但没有成为本轮 hidden referent 的 pronoun contract。"
+            },
+            {
+              "claim": "Director 要求“不揭示具体对象”，且“不提前暴露卡琳娜与康纳或卡尔的深层关系”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-57/04-output.json plotPoint",
+                "turn-57/06b-narrator-prompt.md"
+              ],
+              "notes": "该约束推动 Narrator 使用“那个人/某个人”维持模糊，但没有说明在候选对象含卡尔时如何保持代词中性或一致。"
+            },
+            {
+              "claim": "Narrator 生成了男性代词，把模糊对象写成“他”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-57/06-llm-calls.json call 1",
+                "turn-57/04-output.json narrative"
+              ],
+              "notes": "这是第一个玩家可见错误点。"
+            },
+            {
+              "claim": "Choice generator 以本轮正文为最终依据，继续生成“『他』——是卡尔吗？”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-57/06c-choice-prompt.md",
+                "turn-57/04-output.json choices"
+              ],
+              "notes": "Choice 将 Narrator 的错误代词与卡尔显式绑定，扩大可见问题。"
+            }
+          ],
+          "competingPressures": [
+            "保持谜面：不揭示卡琳娜指向的具体对象。",
+            "Director 同时把可能关系写成“康纳或卡尔”，候选含不同性别/物种称谓。",
+            "中文“某个人/那个人”在模型续写中容易默认成男性“他”。",
+            "Choice generator 以已生成正文为依据，倾向复用正文中的“他”。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-57/06-llm-calls.json call 1 / turn-57/04-output.json narrative",
+          "triggeringPressure": "Director 为维持悬疑要求“某个具体的人或逝去的人”“不揭示具体对象”，并特别禁止提前暴露“康纳或卡尔”的深层关系；这把本轮表达推向泛称“那个人”，但没有给出代词策略。",
+          "missingGuard": "缺少 hidden-referent pronoun contract：当隐藏对象的候选包含已知女性代词实体卡尔时，应使用“那个人/对方/那句话的对象”等中性写法，或至少禁止把“他”与卡尔绑定。Choice prompt 也缺少复核“选项中的代词是否与已知实体卡一致”的 guard。",
+          "mechanismStatement": "在秘密边界要求隐藏对象、候选对象又包含已知女性代词实体时，handoff 只规定“不要点名”而没有规定 pronoun-neutral handling，Narrator 默认男性化“那个人”，Choice 再把该男性代词显式绑定到卡尔，形成玩家可见的身份/称谓漂移。",
+          "directCause": "Narrator 将卡琳娜欠话的对象写成“他”；Choice generator 依据该正文生成“『他』——是卡尔吗？”。",
+          "propagation": "错误从 `turn-57/04-output.json narrative` 传播到同轮 `choices`，并被 visible timeline 记录。第 58 轮玩家选择了不含“他”的 timing 选项，未继续扩大；第 59 轮确认对象为卡尔并恢复“她”，使第 57 轮漂移更加明显。",
+          "nonCauses": [
+            "不是卡尔性别/称谓事实缺失：角色卡和近期可见文本都清楚。",
+            "不是单纯 Choice 问题：Narrator 正文已先引入“他”。",
+            "不是隐藏信息倒推：同轮选项已公开把“他”和卡尔绑定，后续 turn-59 也是玩家可见证据。"
+          ]
+        },
+        "rootCause": {
+          "label": "hidden-referent-pronoun-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 Director 为保密要求使用不点名的“某个人/那个人”，并把候选关系写成“康纳或卡尔”；缺失防线是 handoff 没有规定隐藏对象的代词中性策略，也没有让 Choice 校验选项代词与已知实体卡；失败运动是 Narrator 默认男性化该对象，Choice 又复用并绑定到卡尔。",
+          "fixSurface": [
+            "Director schema: 为 hidden referent 增加 `referentPronounPolicy` / `allowedSurfaceRefs`，明确“只用那个人/对方，不用他/她”或继承候选实体 pronoun。",
+            "Narrator prompt: 对不点名对象增加“不要用会暴露或冲突的 gendered pronoun”硬约束。",
+            "Choice generator: 在选项生成前对已知实体的 pronoun/gender facts 做一致性检查，禁止“他=卡尔”这类绑定。",
+            "entity state: 将卡尔的 displayPronoun / species / gender 放入高优先级可见 entity facts。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-44、turn-46 明确卡尔为“她”；turn-57 正文和选项使用“他”并把“他”询问为卡尔；turn-59 公开确认对象是卡尔且用“她教会了我很多事”。",
+          "internalTrace": "turn-57/06b-narrator-prompt.md 的 Director 输出只要求不点名对象；同 prompt 和 `03-story-state.json` 同时含卡尔“黑色短毛母猫”事实；turn-57/06-llm-calls.json call 1 首次生成“他”；turn-57/04-output.json choices 继续生成“『他』——是卡尔吗？”。"
+        },
+        "recommendedFixArea": "优先修复 hidden referent 的 handoff contract：Director 输出可见称谓策略，Narrator 和 Choice 都必须继承并校验实体 pronoun。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-29-turn-58",
       "issueIndex": 29,
       "turn": 58,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "对白标点格式明显异常，虽不改变剧情事实，但会造成阅读卡顿。",
+      "batchId": "batch-010",
       "issueValidity": "valid",
       "rootCause": {
         "label": "model-local",
         "family": "llm-self",
         "secondaryFamilies": [
           "agent-system"
+        ],
+        "fixSurface": [
+          "Narrator prompt: 明确禁止同一对白中出现无叙述分隔的相邻 `”“`。",
+          "post-generation typography linter: 检查中文引号配对、相邻闭合/开启引号、dialogue frame 内 quote balance。",
+          "auto-repair normalizer: 对 `“A”“B”` 这类同 speaker 同 frame 文本合并为 `“A B”` 或要求重采样。"
         ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-29-turn-58/root-cause-report.md",
-      "resultPath": "issues/issue-29-turn-58/root-cause-result.json"
+      "recommendedFixArea": "优先增加 Narrator 输出后的 typography lint/repair，覆盖中文引号配对与同 frame 相邻 quote breaks。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-029-turn-58/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-010/issues/issue-029-turn-58/root-cause-report.md",
+      "result": {
+        "issueId": "issue-29-turn-58",
+        "turn": 58,
+        "issueValidity": "valid",
+        "problemSummary": "第 58 轮卡琳娜连续发言中出现“而且——”“时机这件事，不是光靠等就能等来的。”，同一 dialogue frame 内相邻闭合/开启引号切断一句自然对白，造成明显阅读卡顿。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见文本中“而且——”“时机这件事……”之间没有叙述插入，也没有换说话人；它应是一句连续对白。多出的闭合和开启引号是可见格式异常，虽不改变剧情事实，但属于 quality-regression。",
+          "playerVisibleSupport": "turn-58 visibleText: “而且——”“时机这件事，不是光靠等就能等来的。”，前后均为卡琳娜同一段回应。",
+          "caveats": [
+            "该问题不改变角色身份、事件或选项语义，因此影响主要是阅读流畅度。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 57 轮卡琳娜说自己还不确定那句话写给谁。第 58 轮玩家追问她打算什么时候说。卡琳娜应以保留态度回答“合适时机”问题，继续保持模糊。",
+          "relevantFacts": [
+            {
+              "claim": "本轮 Director 要求卡琳娜回应时机问题，保留具体条件。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-58/04-output.json plotPoint",
+                "turn-58/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 的剧情意图没有要求任何特殊断裂标点。"
+            },
+            {
+              "claim": "Narrator 输出在同一 `data-speaker=卡琳娜` frame 中产生相邻中文引号 `——”“时机`。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-58/06-llm-calls.json call 1",
+                "turn-58/04-output.json narrative"
+              ],
+              "notes": "这是首个错误 artifact。"
+            },
+            {
+              "claim": "v3-html 结构本身可解析，因此 normalizer 未拦截内部可见标点异常。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-58/04-output.json normalizedContent",
+                "turn-58/07-events.json"
+              ],
+              "notes": "rawHtml 和 visibleText 都保留异常引号，说明只校验了标签层面的结构。"
+            },
+            {
+              "claim": "Choice 输出正常，不依赖该标点异常。",
+              "availability": "not-needed",
+              "artifacts": [
+                "turn-58/04-output.json choices"
+              ],
+              "notes": "问题没有传播到选项语义。"
+            }
+          ],
+          "competingPressures": [
+            "Narrator 使用中文对白引号和破折号表现迟疑/补充。",
+            "v3-html 协议要求每句玩家可见文本在 p frame 内，但不检查 frame 内中文引号配对质量。",
+            "慢铺情感细节和停顿感的风格压力提高了破折号/引号组合出错概率。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-58/06-llm-calls.json call 1 / turn-58/04-output.json narrative",
+          "triggeringPressure": "卡琳娜需要表现迟疑和补充说明，Narrator 使用“而且——”这种半句停顿后继续同一句对白；中文引号与破折号组合让局部格式生成更脆弱。",
+          "missingGuard": "缺少 dialogue punctuation / quote-balance guard：v3-html 校验只保证 p 标签和 speaker 属性可解析，没有检查同一 dialogue frame 内是否存在无叙述分隔的 `”“` 相邻断裂。",
+          "mechanismStatement": "当 Narrator 用引号包裹整句对白并在句中加入破折号停顿时，局部生成产生了相邻闭合/开启引号；由于输出管线没有 frame 内可见标点 lint，这个 malformed dialogue 被直接提交给玩家。",
+          "directCause": "Narrator 本地生成 `“而且——”“时机这件事，不是光靠等就能等来的。”`。",
+          "propagation": "异常保留在 `turn-58/04-output.json rawHtml`、`normalizedContent.visibleText` 和 visible timeline；Choice 输出未进一步传播，runtime-after 未将标点问题写成剧情状态。",
+          "nonCauses": [
+            "不是 Director 剧情安排问题：plotPoint 只要求回应时机并保留条件。",
+            "不是记忆或上下文连续性问题。",
+            "不是 Choice 问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "触发压力是同一句对白中的迟疑破折号和继续补充；缺失防线是没有 frame 内中文引号/标点平衡检查；失败运动是 Narrator 在清楚的 v3-html 协议下仍产生 malformed dialogue，normalizer 只校验标签结构而未修复可见标点。",
+          "fixSurface": [
+            "Narrator prompt: 明确禁止同一对白中出现无叙述分隔的相邻 `”“`。",
+            "post-generation typography linter: 检查中文引号配对、相邻闭合/开启引号、dialogue frame 内 quote balance。",
+            "auto-repair normalizer: 对 `“A”“B”` 这类同 speaker 同 frame 文本合并为 `“A B”` 或要求重采样。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 58 轮 visibleText 中同一段卡琳娜回应出现“而且——”“时机这件事……”，中间没有任何叙述或换说话人。",
+          "internalTrace": "turn-58/04-output.json plotPoint 没有异常标点要求；turn-58/06-llm-calls.json call 1 首次生成异常；turn-58/04-output.json normalizedContent.visibleText 原样保留。"
+        },
+        "recommendedFixArea": "优先增加 Narrator 输出后的 typography lint/repair，覆盖中文引号配对与同 frame 相邻 quote breaks。",
+        "confidence": "high"
+      }
     }
   ]
 }

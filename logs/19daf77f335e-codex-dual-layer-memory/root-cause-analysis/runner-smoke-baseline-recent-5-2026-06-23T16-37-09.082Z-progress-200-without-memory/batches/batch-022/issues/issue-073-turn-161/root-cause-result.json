@@ -1,0 +1,90 @@
+{
+  "issueId": "issue-73-turn-161",
+  "issueIndex": 73,
+  "turn": 161,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 161 的选项把刚用胶卷相机拍下的巷口照片写成可以低头即时检查满意度，和已建立的胶卷/银盐/定影规则冲突。",
+  "validityAssessment": {
+    "verdictReason": "问题成立。玩家可见正文在 Turn 160 说明有三卷备用胶卷，Turn 161 正文又写快门后图像留在银盐粒子里、需在定影液里显影；同轮选项却要求低头检查刚拍的照片是否满意，默认存在即时预览能力。",
+    "playerVisibleSupport": "Turn 161 可见正文：按下快门后卷片，影像留在银盐粒子并等待定影液显影；同轮选项：低头检查拍下照片是否满意。Turn 160 可见正文：备用胶卷为三卷黑色小筒，说明这是胶卷流程。",
+    "caveats": [
+      "如果选项明确写成检查取景/构图记忆而非检查成片，则可成立；但原文是检查拍下的那张照片是否满意，玩家会理解为即时看照片。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "主角在屋内窗边等待，刚把相机举起对准巷口并按下快门。可见叙述强调快门、卷片、银盐粒子和定影液，照片尚未显影。",
+    "relevantFacts": [
+      {
+        "claim": "相机是胶卷工作流，不支持拍后即时回看成片。",
+        "availability": "present-clear",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/04-output.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/04-output.json"
+        ],
+        "notes": "Turn 160 的备用胶卷和 Turn 161 的银盐/定影液使规则对玩家清楚成立。"
+      },
+      {
+        "claim": "Choice worker 需要把选项约束在当前物件可用 affordance 内。",
+        "availability": "absent",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json"
+        ],
+        "notes": "choice prompt 只有贴近当前处境/不要泄露等通用要求，没有胶卷相机不可即时检查的硬性约束或后处理校验。"
+      },
+      {
+        "claim": "本轮正文已经给出胶卷显影提示。",
+        "availability": "present-buried",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md"
+        ],
+        "notes": "该事实在 choice prompt 的长篇最近正文中出现，但不是结构化物件规则，也没有靠近最终输出要求。"
+      },
+      {
+        "claim": "当前故事线摘要里存在“检查相机刚才拍摄的那一帧效果如何”的旧句。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/03-story-state.json",
+          "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md"
+        ],
+        "notes": "该摘要把拍后检查效果当作可复用行动方向，和胶卷规则形成隐性冲突。"
+      }
+    ],
+    "competingPressures": [
+      "等待期间需要生成普通后续行动选项",
+      "主角职业特质强调观察取证/相机",
+      "currentStoryline.summary 中残留拍后检查效果的旧行动",
+      "胶卷规则只在正文长段里出现，没有结构化 affordance"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json call[2] / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/04-output.json choices",
+    "triggeringPressure": "Choice worker 面对刚拍照的场景，需要补足 2-4 个普通行动；prompt 中有主角相机/照片相关长期摘要，且 currentStoryline.summary 残留“检查相机刚才拍摄的那一帧效果如何”的旧方向。",
+    "missingGuard": "缺少把物件类型转成选项级 affordance 的硬约束；胶卷相机、银盐和定影液只作为长篇正文事实出现，没有被提炼为‘不能即时查看成片’的选项校验。",
+    "mechanismStatement": "在相机行为被强 foreground、旧摘要又把“检查拍摄效果”作为可用动作的情况下，Choice worker 没有物件 affordance 守卫，便把胶卷拍摄误绑定成数码相机式即时回看选项。",
+    "directCause": "Turn 161 的 Choice 输出生成了“低头检查一下拍下的那张照片是否满意”。",
+    "propagation": "该错误直接暴露在玩家可见选项中；本批目标未选择该选项，因此没有进一步写入正文，但已破坏可选行动的物件规则连续性。",
+    "nonCauses": [
+      "Narrator 在 Turn 161 正文中反而明确写出银盐/定影液，不是正文生成阶段遗忘胶卷规则。",
+      "runtime-after 没有提供可反驳或确认相机 affordance 的结构化物件状态。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [],
+    "description": "触发压力是 Choice worker 需要围绕刚拍照生成行动，且故事线摘要里有旧的“检查拍摄效果”方向；缺失防线是选项层没有物件 affordance/相机类型校验，未把正文中的胶卷显影规则转成不可即时回看的约束；失败运动是选项把“拍照后可检查照片满意度”绑定为玩家下一步行动。",
+    "fixSurface": [
+      "choice prompt 的 object affordance contract",
+      "choice post-generation consistency validator",
+      "story state/currentStoryline summary 中物件规则的结构化写入"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "Turn 160 玩家看到备用胶卷三卷；Turn 161 玩家看到按快门、卷片、银盐粒子和定影液，随后看到“低头检查一下拍下的那张照片是否满意”的选项。",
+    "internalTrace": "Turn 161 Director/Narrator 输出没有要求即时回看；Choice prompt 包含本轮正文但也包含长期摘要里的拍后检查效果旧句。Turn 161 llm call[2] 首次产生矛盾选项。"
+  },
+  "recommendedFixArea": "为 Choice worker 增加物件 affordance 提取与校验：从最近正文/结构化 state 中识别 film camera，禁止生成即时预览、删除或改写与物件规则冲突的普通选项。",
+  "confidence": "high"
+}

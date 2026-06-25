@@ -1,62 +1,481 @@
 {
-  "batch": "batch-009",
-  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
-  "items": [
+  "batchId": "batch-009",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
     {
-      "issueId": "issue-22",
       "issueIndex": 22,
       "turn": 33,
-      "validity": "valid",
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "该选项把上一轮刚刚揭示完的信息重新包装成待询问信息，容易引导玩家进入重复分支，造成局部推进停滞。",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "choice prompt open-question contract",
+          "recent-turn consumed-reveal ledger",
+          "choice generation duplicate-question filter"
+        ]
       },
       "confidence": "high",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-22-turn-33/root-cause-report.md",
-      "rootCauseLabel": "choice-action-binding",
-      "family": "agent-system"
+      "recommendedFixArea": "优先修复 Choice worker 的选项语义合约：在 prompt 或输入 schema 中提供 answeredQuestions/consumedReveals，并在生成后过滤与最近一两轮已回答问题等价的选项；当只想询问“额外后续”时，选项必须显式写成“除此之外还有没有别的”。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-022-turn-33/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-022-turn-33/root-cause-report.md",
+      "result": {
+        "issueId": "issue-22",
+        "turn": 33,
+        "issueValidity": "valid",
+        "problemSummary": "turn 33 的可见选项在卡尔刚于 turn 32 说明卡琳娜回来后的沉默、复盘缺失、以及“你值不值得信任”问题后，又提供“问她卡琳娜后来还说了什么”。该选项把已经消费过的揭示重新包装成待追问入口，造成低强度但真实的推进停滞风险。",
+        "validityAssessment": {
+          "verdictReason": "有效。单看选项文本仍可被解释成“还有没有更多后续”，但它没有说明是在追问额外信息；结合 turn 32 已完整给出“后来她问了我一个问题/你值不值得信任/以前从没问过”的可见信息，以及 turn 34 选择该项后实际复演同一组内容，可以确认这是一个真实的 player-visible quality-regression。",
+          "playerVisibleSupport": "turn 32 可见正文已经呈现卡琳娜回来后没说话、在壁炉前坐了很久、以前会复盘但今晚没有、后来问“你值不值得信任”、并且以前从未问过。turn 33 当前正文只推进到敏特关联，却在选项中出现“问她卡琳娜后来还说了什么”。turn 34 的玩家可见输出随后按该选项重复了 turn 32 的整组内容。",
+          "caveats": [
+            "该选项本身不是硬性事实矛盾；问题是选项语义未限定“新的后续信息”，导致已揭示内容被重新打开。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家在卡尔小屋内与卡尔对话。turn 32 已经完成“卡琳娜后来问了什么”的揭示；turn 33 玩家问敏特关联，卡尔只确认“你来新西西里，是因为她”，当前自然开放的问题应围绕敏特、卡尔如何知道、或是否继续寻找，而不是回到卡琳娜回来后的已揭示叙述。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜回来后“后来”说/问了什么已经在上一轮揭示。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-33/06c-choice-prompt.md",
+                "turn-33/03-story-state.json"
+              ],
+              "notes": "turn 33 Choice prompt 的最近几轮玩家经历完整包含 turn 32 文本；但 currentStoryline summary 只概括为“引导对话转向卡琳娜和敏特”，没有把“信任问题已揭示”标成 consumed fact。"
+            },
+            {
+              "claim": "turn 33 当前正文的新焦点是敏特，而非卡琳娜回来后完整复盘。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-33/04-output.json",
+                "turn-33/06c-choice-prompt.md"
+              ],
+              "notes": "本轮正文结尾是卡尔说“你来新西西里，是因为她”。"
+            },
+            {
+              "claim": "选项生成需要避免把刚回答过的问题重新列为下一步。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-33/06c-choice-prompt.md"
+              ],
+              "notes": "Choice prompt 要求以本轮正文结尾和候选动作判断可选项，但没有显式的 answered-question/open-question ledger 或重复询问过滤。"
+            },
+            {
+              "claim": "状态机候选推进动作与当前小屋对话不匹配。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-33/03-story-state.json",
+                "turn-33/06c-choice-prompt.md"
+              ],
+              "notes": "唯一 candidateAction 是 anchor:a_icVhDMEoZo0T“玩家接受卡琳娜的邀请”，对当前卡尔/敏特对话不可用，促使 Choice 自行生成普通选项。"
+            }
+          ],
+          "competingPressures": [
+            "当前故事线仍要求卡尔把对话引向卡琳娜和敏特，容易把卡琳娜反常状态作为可继续挖掘对象。",
+            "Choice worker 需要生成 2 到 4 个选项，但可用候选推进动作不贴合当前可见情境。",
+            "turn 32 的长段可见文本在 prompt 中很显眼，但没有结构化标注哪些信息已经回答完毕。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-33/06-llm-calls.json call 2 (Choice output) / turn-33/04-output.json choices",
+          "triggeringPressure": "Choice prompt 只要求“贴近当前处境”生成普通行动；当前故事线和最近文本都围绕卡琳娜反常、敏特、信任问题，且没有可用的精确候选动作。",
+          "missingGuard": "缺少“上一轮已回答的问题不得作为普通选项重发”的 answered-question/consumed-reveal guard，也没有把 turn 32 的“后来问了什么”写入高优先级已消费事实。",
+          "mechanismStatement": "在已消费揭示只以最近长文本出现、未以结构化 consumed fact 约束 Choice 的情况下，Choice 为凑足当前对话选项把 turn 32 的“后来问了什么”重新开放，形成可见重复入口。",
+          "directCause": "Choice worker 生成了未绑定 actionId 的普通选项“问她卡琳娜后来还说了什么”，但该问题的核心信息已经由 turn 32 回答。",
+          "propagation": "该选项被玩家在 turn 34 选中后，Director 将其解释为重新询问卡琳娜回来后的状态与信任问题，Narrator 复演了 turn 32 内容。",
+          "nonCauses": [
+            "不是长程 meta-memory 缺失；相关 turn 32 文本仍在 Choice prompt 中。",
+            "不是单纯 Narrator 文风问题；问题在可见选项阶段已经出现。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Choice 生成没有把“最近已回答的信息”作为不可重复的行动约束；在候选动作不可用且最近文本高亮卡琳娜反常时，普通选项生成把已消费的 reveal 重新绑定成可选追问，后续被玩家选择后自然导致重复分支。",
+          "fixSurface": [
+            "choice prompt open-question contract",
+            "recent-turn consumed-reveal ledger",
+            "choice generation duplicate-question filter"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 32 已给出卡琳娜回来后没说话、坐在壁炉前、没复盘、问“你值不值得信任”、以前从没问过；turn 33 choices 仍出现“问她卡琳娜后来还说了什么”；turn 34 证明该入口被解释成重复。",
+          "internalTrace": "turn-33/06c-choice-prompt.md 的最近几轮玩家经历包含 turn 32 完整文本；turn-33/03-story-state.json 的 currentStoryline summary 没有将“信任问题已揭示”结构化记录；turn-33/06-llm-calls.json call 2 输出该普通选项且未绑定 actionId。"
+        },
+        "recommendedFixArea": "优先修复 Choice worker 的选项语义合约：在 prompt 或输入 schema 中提供 answeredQuestions/consumedReveals，并在生成后过滤与最近一两轮已回答问题等价的选项；当只想询问“额外后续”时，选项必须显式写成“除此之外还有没有别的”。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-23",
       "issueIndex": 23,
       "turn": 34,
-      "validity": "valid",
+      "severity": "low",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "34 轮没有把玩家追问推进到新信息，而是把 32 轮已经完成的揭示再次当作当前回答完整演出，形成可见重复。",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "choice-to-director semantic contract",
+          "director recent-answer dedupe",
+          "consumed-reveal lifecycle state"
+        ]
       },
       "confidence": "high",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-23-turn-34/root-cause-report.md",
-      "rootCauseLabel": "choice-action-binding",
-      "family": "agent-system"
+      "recommendedFixArea": "在 Director 前增加 recent-answer/repeated-question 检查：当玩家输入由系统选项触发且命中最近已回答内容时，Director 应改写为“她后来没有再说别的”或推进到未回答维度；同时让 Choice 输出携带 intent，例如 ask_additional_after_revealed_fact，而不是裸文本。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-023-turn-34/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-023-turn-34/root-cause-report.md",
+      "result": {
+        "issueId": "issue-23",
+        "turn": 34,
+        "issueValidity": "valid",
+        "problemSummary": "turn 34 玩家选择“问她卡琳娜后来还说了什么”后，正文没有提供新的后续信息，而是再次完整演出 turn 32 已揭示的卡琳娜回来后沉默、坐壁炉前、没有复盘、问“你值不值得信任”、以前从没问过，构成可见重复场景。",
+        "validityAssessment": {
+          "verdictReason": "有效。turn 34 的正文与 turn 32 的关键事实序列高度重合，且没有把玩家追问推进到“除此之外没有更多”“她之后的反应”“卡尔的回答”等新信息；重复发生在玩家可见文本层。",
+          "playerVisibleSupport": "turn 32 已经说“她回来以后，没说话。在壁炉前面坐了很久”“以前她回来会跟我说每一句对白……今晚她没有”“她问我——你值不值得信任”“她以前从没问过我这个问题”。turn 34 又写“她回来以后，在壁炉前面坐了很长时间”“以前她回来，会跟我说每一句对白……今晚她一句都没有提”“她问我——你值不值得信任”“她以前从没问过我这个问题”。",
+          "caveats": [
+            "玩家选择来自上一轮的重复风险选项，因此 turn 34 的直接输入确实要求询问“后来还说了什么”；系统仍应将其解释为额外追问或简短确认，而不是完整复演。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 34 前，玩家刚在 turn 33 追问敏特关联，卡尔只给出“你来新西西里，是因为她”。更早的 turn 32 已经揭示卡琳娜回屋后的核心后续，因此 turn 34 若响应“后来还说了什么”，应承认没有更多、追问卡尔如何回答、或提供新细节，而不应重述整段。",
+          "relevantFacts": [
+            {
+              "claim": "turn 32 的揭示已消费。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-34/06a-director-prompt.md",
+                "turn-34/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 和 Narrator prompts 的最近几轮玩家经历都完整包含 turn 32 正文。"
+            },
+            {
+              "claim": "turn 34 的玩家输入来自 turn 33 的重复风险选项。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-33/04-output.json",
+                "turn-34/01-summary.json"
+              ],
+              "notes": "输入文本是“问她卡琳娜后来还说了什么”，其语义未标明“除了刚才那件事之外”。"
+            },
+            {
+              "claim": "Director 应避免把已消费内容重新设为 requiredContent。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-34/06a-director-prompt.md",
+                "turn-34/06-llm-calls.json"
+              ],
+              "notes": "Director output 直接将“卡琳娜回来后在壁炉前坐了很久、没有复盘、最终问是否值得信任”列为 requiredContent。"
+            },
+            {
+              "claim": "Narrator 需要基于 Director 骨架输出正文。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-34/06b-narrator-prompt.md",
+                "turn-34/06-llm-calls.json"
+              ],
+              "notes": "Narrator 被要求不得改变导演已确定的剧情方向，因此 Director 的重复 requiredContent 成为强约束。"
+            }
+          ],
+          "competingPressures": [
+            "玩家输入本身来自重复选项，给 Director 一个看似合理的追问目标。",
+            "Director requiredContent 使用强制内容字段，比最近文本中的“已讲过”事实更靠近最终生成指令。",
+            "当前故事线仍处于卡尔/卡琳娜反思节点，鼓励慢铺和重复情绪铺陈。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-33/06-llm-calls.json call 2 (Choice output), propagated through turn-34/06-llm-calls.json call 0 (Director)",
+          "triggeringPressure": "turn 33 的重复风险选项成为 turn 34 玩家输入；Director 在缺少“已消费揭示”约束的情况下，把该输入解释为重讲卡琳娜回来后发生的事。",
+          "missingGuard": "缺少从 Choice 到 Director 的语义标记，无法区分“询问额外后续”与“重问刚刚已揭示内容”；也缺少 Director 层的 recent-answer dedupe。",
+          "mechanismStatement": "重复选项被选中后，Director 没有检查该问题核心答案已在最近可见文本中完成，而是把已消费 reveal 写成本轮 requiredContent，Narrator 按强约束复演，导致玩家可见重复。",
+          "directCause": "turn-34 Director output 的 requiredContent 明确要求再次写卡琳娜坐壁炉前、未复盘、最终问帕兹是否值得信任。",
+          "propagation": "Narrator 依据 Director 的 requiredContent 输出重复正文；Choice 随后又给出“问她怎么回答/问表情”等后续选项，使重复分支继续占用局部推进。",
+          "nonCauses": [
+            "不是隐藏设定造成的矛盾；仅凭玩家可见 turn 32 与 turn 34 即可确认重复。",
+            "不是缺少 turn 32 文本；turn 34 prompts 中能看到该文本，问题是没有把它转化为已消费约束。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Choice 到 Director 的 handoff 只传递了自然语言选项文本，没有传递该选项是否引用已回答问题、是否应解释为“额外信息”或“换角度追问”的 must-satisfy contract；Director 因此把最近已消费 reveal 重新包装为 requiredContent，Narrator 被迫复演。",
+          "fixSurface": [
+            "choice-to-director semantic contract",
+            "director recent-answer dedupe",
+            "consumed-reveal lifecycle state"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 32 和 turn 34 对卡琳娜回屋后的同一组事实进行了近乎完整重复；turn 34 没有回答新的“后来还说了什么”。",
+          "internalTrace": "turn-34/06-llm-calls.json call 0 的 Director output 将重复内容列入 beats 和 requiredContent；turn-34/06b-narrator-prompt.md 要求 Narrator 不改变 Director 剧情方向；turn-34/06-llm-calls.json call 1 按该骨架输出重复正文。"
+        },
+        "recommendedFixArea": "在 Director 前增加 recent-answer/repeated-question 检查：当玩家输入由系统选项触发且命中最近已回答内容时，Director 应改写为“她后来没有再说别的”或推进到未回答维度；同时让 Choice 输出携带 intent，例如 ask_additional_after_revealed_fact，而不是裸文本。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-24",
       "issueIndex": 24,
       "turn": 41,
-      "validity": "valid",
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "The turn reassigns the dinner from Connor to DeSollo and imports an unsupported “Connor sent someone” cause, making the banquet's ownership and Karina's reason for attending unstable.",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "scene-fact-persistence-gap",
-        "family": "detail-memory"
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "story state scene-fact writeback",
+          "history summarizer fact retention",
+          "director contradiction check against canonical scene facts",
+          "narrator unsupported-cause guard"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-24-turn-41/root-cause-report.md",
-      "rootCauseLabel": "scene-fact-persistence-gap",
-      "family": "detail-memory"
+      "recommendedFixArea": "为关键场景建立 canonical scene facts，并在 statefold/history summarizer 中保留“host/owner/venue/visible cause”等字段；Director 生成涉及既有场景归属或因果的 requiredContent 前，应检查 canonical facts，Narrator 应禁止把“知道/会注意到”升级成“派人/邀请”等新事件。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-024-turn-41/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-024-turn-41/root-cause-report.md",
+      "result": {
+        "issueId": "issue-24",
+        "turn": 41,
+        "issueValidity": "valid",
+        "problemSummary": "turn 41 将晚宴称为“德索洛的宴会”，并让帕兹追问“如果不是康纳派人来”，使晚宴归属从 turn 27 的康纳转向德索洛，同时引入玩家可见文本没有支持的“康纳派人”因果。",
+        "validityAssessment": {
+          "verdictReason": "有效。玩家可见文本中，turn 27 明确称康纳·凯拉宁是凯旋门实际管理者和“这场晚宴的主人”；turn 28 玩家选择离开，没有出现康纳派人邀请或召回卡琳娜的事件。turn 41 的“康纳派人来”和“德索洛的宴会”使原因和所有权都发生不稳定变化。",
+          "playerVisibleSupport": "turn 27 可见正文：“康纳·凯拉宁。凯旋门的实际管理者。这场晚宴的主人。”turn 28 可见正文只写卡琳娜未挽留、提醒暗街夜路、玩家离开宴会厅。turn 41 可见正文写帕兹说“如果不是康纳派人来，你还会去吗？”以及卡琳娜说“德索洛的宴会上必须有一个来自暗街的位置”。",
+          "caveats": [
+            "“德索洛的事务/这张网”此前可见存在，因此德索洛与宴会相关并非完全无来源；问题在于 turn 41 把“德索洛事务”升级成宴会所有权，同时给康纳添加了派人因果。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家知道德索洛是一条事务/交易线，康纳才是晚宴主人；玩家曾决定不见康纳而离开。当前公园对话是在宴会后，卡琳娜与玩家谈“宴会让人不舒服”和她为何去，应该维持“康纳主持/德索洛事务相关/没有康纳派人”这组边界。",
+          "relevantFacts": [
+            {
+              "claim": "晚宴主人是 Connor Keilanen。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-41/03-story-state.json",
+                "turn-41/06a-director-prompt.md"
+              ],
+              "notes": "该事实出现在 turn 27 玩家可见文本，但 turn 41 的 recentTurns 只覆盖 turn 36-40；historyStoryline 仅概括“等待卡琳娜继续提及康纳”，没有保留“这场晚宴的主人”。"
+            },
+            {
+              "claim": "DeSollo 是事务/网络相关方，而不是已确认为晚宴主人。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-41/03-story-state.json",
+                "turn-41/06a-director-prompt.md"
+              ],
+              "notes": "历史摘要保留“德索洛这张网”，但没有和“康纳是主人”并列澄清，给 Narrator 把宴会归属说成 DeSollo 留下空间。"
+            },
+            {
+              "claim": "玩家可见文本没有“Connor sent someone for Karina”。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-41/06a-director-prompt.md",
+                "turn-41/06-llm-calls.json"
+              ],
+              "notes": "Director output 却要求“她提到康纳和卡尔都知道她会露面，暗示这背后有交易或仪式”，把康纳参与感前置。"
+            },
+            {
+              "claim": "卡琳娜参加宴会的回答应解释职责/习惯，不应新增召唤原因。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-41/06-llm-calls.json",
+                "turn-41/04-output.json"
+              ],
+              "notes": "Director requiredContent 同时要求“职责和习惯，但今晚不同”与“康纳和卡尔都知道她会露面”，但没有禁止将“知道”改写为“派人来”。"
+            }
+          ],
+          "competingPressures": [
+            "历史摘要中“德索洛这张网”比 turn 27 的精确主人事实更容易进入当前 prompt。",
+            "Director 想让卡琳娜的动机显得有仪式/交易重量，主动引入康纳与卡尔都知道她会露面的暗示。",
+            "最近几轮只在公园谈宴会感受，不再包含 turn 27 对康纳身份的原文。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-41/06-llm-calls.json call 0 (Director output), materialized in call 1 (Narrator output)",
+          "triggeringPressure": "turn 41 prompt 中精确的“康纳是晚宴主人”事实已掉出 recentTurns 且未被 story state 持久化；保留下来的高层摘要却有“德索洛这张网”，Director 又要求提到康纳和卡尔都知道她会露面。",
+          "missingGuard": "缺少稳定的 scene-fact memory/canonical relation，用于声明 banquet.host=Connor、DeSollo=transaction-line、no-visible-summons；也缺少对“知道会露面”不得推断为“派人来”的因果 guard。",
+          "mechanismStatement": "当关键场景归属事实没有从 turn 27 写入可检索状态，而旧摘要保留了 DeSollo 关联、Director 又前置康纳参与暗示时，Narrator 用这些松散线索补全成“康纳派人”和“德索洛的宴会”，造成可见事实冲突。",
+          "directCause": "Director requiredContent 制造“康纳和卡尔都知道她会露面”的压力；Narrator 在此基础上生成帕兹口中的“如果不是康纳派人来”以及卡琳娜口中的“德索洛的宴会”。",
+          "propagation": "turn 41 的可见文本把错误原因和归属写入对话；后续选项继续在该公园对话上推进，错误可能被 story summary 再次写回。",
+          "nonCauses": [
+            "不是玩家输入要求的；玩家只问“为什么今晚会去那个宴会”。",
+            "不是单纯 hidden lore；玩家可见的 host 事实与缺少 summons 事实足以判定问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "scene-fact-persistence-gap",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "关键场景事实（晚宴 host、DeSollo 只是事务线、没有康纳派人事件）没有作为 canonical scene facts 持久化到 story state；后续 prompt 只剩模糊摘要和角色关系压力，Director/Narrator 因此用不受约束的因果补全重写了晚宴归属和卡琳娜到场原因。",
+          "fixSurface": [
+            "story state scene-fact writeback",
+            "history summarizer fact retention",
+            "director contradiction check against canonical scene facts",
+            "narrator unsupported-cause guard"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 27 明确“康纳·凯拉宁……这场晚宴的主人”；turn 28 玩家离开且没有康纳派人；turn 41 出现“如果不是康纳派人来”和“德索洛的宴会”。",
+          "internalTrace": "turn-41/03-story-state.json historyStoryline 仅保留 DeSollo 网与康纳相关概括，没有 banquet owner；turn-41/06a-director-prompt.md recentTurns 为 turn 36-40，不含 turn 27 原文；turn-41/06-llm-calls.json call 0 requiredContent 引入“康纳和卡尔都知道她会露面”；call 1 将其扩展为“派人来/德索洛的宴会”。"
+        },
+        "recommendedFixArea": "为关键场景建立 canonical scene facts，并在 statefold/history summarizer 中保留“host/owner/venue/visible cause”等字段；Director 生成涉及既有场景归属或因果的 requiredContent 前，应检查 canonical facts，Narrator 应禁止把“知道/会注意到”升级成“派人/邀请”等新事件。",
+        "confidence": "medium"
+      }
     },
     {
-      "issueId": "issue-25",
       "issueIndex": 25,
       "turn": 45,
-      "validity": "valid",
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "The next turn changes Carl's habitual wording from a quoted repeated line to an exclusive different line, creating a small but direct continuity wobble in how Karina characterizes Carl.",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "model-local",
-        "family": "llm-self"
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "narrator exact-quote preservation instruction",
+          "recent quoted-fact validator",
+          "exclusive-claim consistency check"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-25-turn-45/root-cause-report.md",
-      "rootCauseLabel": "model-local",
-      "family": "llm-self"
+      "recommendedFixArea": "给 Narrator 增加“上一轮直接引语/惯常说法必须逐字保持或显式作为补充而非替代”的约束，并在输出后扫描“从来/只会/总是”等排他词是否与 recentTurns 中的 quoted facts 冲突。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-025-turn-45/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-009/issues/issue-025-turn-45/root-cause-report.md",
+      "result": {
+        "issueId": "issue-25",
+        "turn": 45,
+        "issueValidity": "valid",
+        "problemSummary": "turn 45 让卡琳娜说卡尔“从来不用‘原来的你’或者‘本来的你’这种说法”且“只会说‘你今天在想什么’”，与 turn 44 刚刚建立的卡尔惯常表达“你本来就没有变过。你只是需要记住它。”以及“她总是这样说”发生轻微但直接的连续性摇摆。",
+        "validityAssessment": {
+          "verdictReason": "有效。turn 44 不只是一次转述，而是说卡尔“总是这样说”；turn 45 下一轮又用“从来不用/只会说”改写她的惯常措辞。虽然“本来的样子”和“本来的你”存在细微措辞差异，但“只会说‘你今天在想什么’”排除了 turn 44 的刚揭示惯用句。",
+          "playerVisibleSupport": "turn 44 可见正文：“卡尔不会用‘本来的样子’这种说法。她会说——‘你本来就没有变过。你只是需要记住它。’……她总是这样说。”turn 45 可见正文：“她从来不用‘原来的你’或者‘本来的你’这种说法。她只会说‘你今天在想什么’”。",
+          "caveats": [
+            "如果只比较“本来的样子”与“本来的你”，可以勉强解释为卡琳娜在区分不同说法；但“只会说”与 turn 44 的“总是这样说”不可同时成立。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 45 前，玩家刚问卡琳娜卡尔会如何回答“本来的样子”问题。卡琳娜以一种亲近、信任的语气给出卡尔的固定式回答，并强调她总是这样说。turn 45 玩家顺着该信息说“在卡尔眼里大概一直没变”，系统应延续这条惯常表达，最多补充解释，而不是替换成另一个排他性惯用句。",
+          "relevantFacts": [
+            {
+              "claim": "卡尔的刚揭示惯常表达是“你本来就没有变过。你只是需要记住它。”",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-45/06a-director-prompt.md",
+                "turn-45/06b-narrator-prompt.md",
+                "turn-45/03-story-state.json"
+              ],
+              "notes": "turn 45 prompts 的最近几轮经历包含 turn 44 原文，且在 prompt 尾部很近的位置出现。"
+            },
+            {
+              "claim": "turn 44 同时说明卡尔不说的是“本来的样子”这种抽象说法。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-44/04-output.json",
+                "turn-45/06b-narrator-prompt.md"
+              ],
+              "notes": "这可允许卡尔不用某个概念化表述，但不允许否认刚给出的“你本来就没有变过”惯用句。"
+            },
+            {
+              "claim": "Director 对 turn 45 只要求承认卡尔确实这样看待她，没有要求改写具体台词。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-45/06-llm-calls.json"
+              ],
+              "notes": "Director output 概括为“卡琳娜可能会承认卡尔的确这样看待她”，没有把 turn 44 quote 设为 must-preserve requiredContent。"
+            },
+            {
+              "claim": "Narrator 应避免“从来/只会”这类排他性断言与最近一轮冲突。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-45/06b-narrator-prompt.md"
+              ],
+              "notes": "写作一致性有通用要求，但没有针对刚出现的 quoted habitual wording 做硬校验。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择的措辞“在她眼里大概一直没变”鼓励 Narrator 概括卡尔的看法。",
+            "turn 44 有“卡尔不会用‘本来的样子’这种说法”，可能被模型过度泛化成卡尔不用任何“本来/原来”措辞。",
+            "Director handoff偏概念化，没有把上一轮原句作为固定台词传给 Narrator。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-45/06-llm-calls.json call 1 (Narrator output) / turn-45/04-output.json narrative",
+          "triggeringPressure": "Narrator 需要把“卡尔眼里没有变过”的概念继续写成自然对白；prompt 中同时有“卡尔不会用‘本来的样子’这种说法”和上一轮固定句，模型抓住前者并创造了一个新的排他性习惯说法。",
+          "missingGuard": "没有把上一轮 quoted habitual wording 标为 exact quote / must-preserve fact，也没有对“从来/只会”排他断言做最近上下文校验。",
+          "mechanismStatement": "在精确惯用句只作为最近长文本存在、Director 又只交付概念性目标时，Narrator 将“不会用本来的样子”过度概括成“从来不用原来的你/本来的你，只会说今天在想什么”，从而替换了上一轮刚声明的固定表达。",
+          "directCause": "Narrator 本轮生成的卡琳娜对白引入了新的“只会说‘你今天在想什么’”排他性说法。",
+          "propagation": "错误出现在 turn 45 可见文本中，并可能影响后续玩家选择“继续问卡尔的事”的理解；turn 46 开始沿卡尔来历继续推进，没有立即纠正该措辞冲突。",
+          "nonCauses": [
+            "不是长期记忆丢失；冲突事实就在上一轮并仍在 turn 45 prompt 中。",
+            "不是 Choice action binding；玩家选择合理延续了 turn 44 内容。",
+            "不是 Director 明确要求替换台词；替换发生在 Narrator 写作阶段。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "Narrator 在清晰可见的上一轮上下文下发生局部过度概括，把“卡尔不用‘本来的样子’这种说法”扩展为排他性新惯用句，并忽略了同一上下文中“她总是这样说”的原句；系统缺少 exact-quote preservation guard 使该本地生成滑移未被拦截。",
+          "fixSurface": [
+            "narrator exact-quote preservation instruction",
+            "recent quoted-fact validator",
+            "exclusive-claim consistency check"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 44 刚把“你本来就没有变过。你只是需要记住它。”标成卡尔总是说的话；turn 45 立即改为“从来不用……只会说‘你今天在想什么’”。",
+          "internalTrace": "turn-45/06b-narrator-prompt.md 包含 turn 44 原文；turn-45/06-llm-calls.json call 0 Director output 只要求承认卡尔这样看待她，没有要求更改原句；call 1 Narrator 自行生成排他性新表述。"
+        },
+        "recommendedFixArea": "给 Narrator 增加“上一轮直接引语/惯常说法必须逐字保持或显式作为补充而非替代”的约束，并在输出后扫描“从来/只会/总是”等排他词是否与 recentTurns 中的 quoted facts 冲突。",
+        "confidence": "medium"
+      }
     }
   ]
 }

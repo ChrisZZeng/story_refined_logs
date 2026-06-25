@@ -1,0 +1,83 @@
+{
+  "issueId": "issue-31",
+  "turn": 109,
+  "issueValidity": "valid",
+  "problemSummary": "第109轮玩家刚问“手空出来了，打算做什么”，卡琳娜回答“还没想好”“我不知道”“不急着知道”；同轮选项又提供“问她空下来的手，想试试做什么”，把已回答的问题作为下一步重复。",
+  "validityAssessment": {
+    "verdictReason": "valid。选项不是自然深化到新信息，而是将同一问题换成“想试试做什么”的近义问法；后续 turn-110 的重复回答也证明该选项会把交互带回原地。",
+    "playerVisibleSupport": "turn-109 玩家输入是“那现在呢——手空出来了，打算做什么？”；正文回答“还没想好”“你问我打算做什么——我不知道”“但是……不急着知道”；同轮 choices 第一项是“问她空下来的手，想试试做什么”。",
+    "caveats": [
+      "“想试试做什么”可以被宽读为更具体的追问，所以严重度低；但它仍复用同一语义槽，且没有承接“不急着知道”的回答。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第109轮正文已完成对“空出来的手接下来做什么”的回答：卡琳娜不知道，也不急着知道，重点落在慢慢习惯空着手。玩家下一步应能选择陪伴、换话题、分享自身经验或推进到更细的新维度，而不是再次问她想做什么。",
+    "relevantFacts": [
+      {
+        "claim": "当前玩家问题已经得到直接回答。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/06c-choice-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+        ],
+        "notes": "Choice prompt 的“本轮玩家已经看到的正文”完整包含“还没想好”“我不知道”“不急着知道”。"
+      },
+      {
+        "claim": "选项生成器有“以本轮正文结尾为准”的流程，但没有检测玩家刚问的问题是否已被回答。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/06c-choice-prompt.md"
+        ],
+        "notes": "流程要求判断能做什么和候选动作是否自然，但缺少 answered-question de-duplication 或 topic-slot 状态。"
+      },
+      {
+        "claim": "“空出来的手”作为未定方向仍是显著话题。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/06c-choice-prompt.md"
+        ],
+        "notes": "正文结尾“慢慢习惯空着手”使该意象高显著，容易诱导生成相邻追问。"
+      }
+    ],
+    "competingPressures": [
+      "Choice 需要给出主动行动",
+      "当前场景没有强剧情出口",
+      "“空手”意象显著但答案是不确定",
+      "缺少已回答问题的语义槽记录"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json#choices",
+    "triggeringPressure": "正文结尾保留“空出来的手”意象，Choice 需要生成可点击行动；在没有强候选出口时，它把未定状态转成近义追问“想试试做什么”。",
+    "missingGuard": "Choice prompt 没有将本轮 playerInput 的核心问题和正文回答绑定为 answered slot，也没有禁止生成与刚回答问题语义重复的选项。",
+    "mechanismStatement": "选项生成缺少“当前回合已回答问题”的语义去重和 action binding 检查，导致高显著但已被回答的“手空出来要做什么”被重新包装成下一步行动。",
+    "directCause": "Choice 输出第一项“问她空下来的手，想试试做什么”。",
+    "propagation": "该选项被玩家在 turn-110 选中后，直接触发下一轮重复回答。",
+    "nonCauses": [
+      "不是玩家主动脱轨；重复选项由系统提供。",
+      "不是卡琳娜没有回答；同轮正文已经明确回答“不知道/不急”。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "Choice 阶段没有把玩家刚提出并得到回答的问题绑定为已满足意图，也没有对候选选项做语义去重；当“空出来的手”仍作为高显著意象存在时，选项把同一询问重新暴露为可点击行动。",
+    "fixSurface": [
+      "Choice prompt answered-intent guard",
+      "choice semantic de-duplication against playerInput and current visible answer",
+      "per-turn topic slot status",
+      "post-choice repetition validator"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-109 输入问“手空出来了，打算做什么”；正文答“还没想好”“我不知道”“不急着知道”；同轮 choices 又给“问她空下来的手，想试试做什么”。",
+    "internalTrace": "turn-109 06c-choice-prompt.md 的当前正文包含完整回答，但输出仍生成重复选项；turn-109 04-output.json 记录该 choices。"
+  },
+  "recommendedFixArea": "Choice 生成前抽取本轮 playerInput 的 core intent 与正文回答，若选项与已回答 intent 语义等价则过滤或改写为真正的深化方向。",
+  "confidence": "high"
+}

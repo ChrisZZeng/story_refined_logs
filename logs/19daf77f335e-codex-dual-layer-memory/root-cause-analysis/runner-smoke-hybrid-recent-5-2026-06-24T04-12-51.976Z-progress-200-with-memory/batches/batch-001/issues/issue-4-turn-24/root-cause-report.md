@@ -1,0 +1,65 @@
+# issue-4-turn-24 Root Cause Report
+
+## Problem
+
+- issueId: `issue-4-turn-24`
+- turn: `24`
+- problemSummary: 第 24 轮选项“换话题：名片上的事现在方便兑现吗？”围绕玩家尚未见过的“名片”行动，缺少玩家可见支撑。
+
+## Validity
+
+- issueValidity: `valid`
+- verdictReason: valid。检索第 1-24 轮玩家可见正文和选项，除该选项外没有“名片”；本轮可见关键物件是卡琳娜交给德索洛的信封。选项把一个未建立物件当成已知交易凭据，属于 unsupported jump。
+- playerVisibleSupport: visible-timeline.jsonl turn 24 的正文只出现信封、铁门、锁、交易收尾；choices 中第三项突然出现“名片上的事”。第 1-24 轮可见文本中没有其他“名片”。
+- caveats:
+  - 若内部剧本未来确有名片，也未在玩家可见层建立，不能作为玩家选项依据。
+
+## Context Assessment
+
+- actualStateBeforeIssue: 德索洛完成低头称“卡琳娜阁下”的交易后拿着信封离开；卡琳娜关门转身，问玩家“这一行你看懂了多少？”。玩家此刻可自然评论亏欠/尊严交易、询问信封，或沉默等待。
+- relevantFacts:
+  - `present-clear` 玩家可见当前物件是信封，而不是名片。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 24`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-24/04-output.json`. notes: 卡琳娜明确说“名字在这个信封里”，并把信封交给德索洛。
+  - `absent` “名片”在第 1-24 轮玩家可见内容中未建立。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl`. notes: 本次检索只在第 24 轮该选项中命中“名片”。
+  - `absent` Choice prompt 没有候选动作，也没有内部 prompt 文本提到“名片”。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-24/06c-choice-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-24/01-summary.json`. notes: candidateActions 为空；`rg 名片 turn-24` 只命中 choice 输出、events 和 eval messages，不命中 Director/Narrator/Choice prompt 正文。
+  - `present-clear` Choice LLM 在自由生成选项时首次引入“名片”。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-24/06-llm-calls.json call 2`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-24/04-output.json`. notes: call 2 raw object 的第三个 option 即“换话题：名片上的事现在方便兑现吗？”。
+- competingPressures:
+  - 当前正文以“这一行你看懂了多少？”邀请玩家回应交易含义。
+  - Choice worker 需要生成 2-4 个可点击选项，且没有 candidateActions 约束。
+  - 本轮刚出现信封，模型可能在“交易凭据/可兑现物”方向做了未经支撑的物件联想。
+
+## Causal Chain
+
+- firstDivergenceArtifact: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-24/06-llm-calls.json call 2
+- triggeringPressure: Choice worker 在没有候选动作的情况下需要补足多样化选项；当前场景又充满交易、信封、兑现和“看懂这一行”的语义压力，模型尝试生成一个“换话题/兑现凭据”的选项。
+- missingGuard: 缺少选项物件 grounding 校验：未要求选项中的具体名词必须出现在玩家可见正文、recentTurns 或明确已揭示状态中；prompt 的“不要泄露/不要违反边界”只是通用原则，没有可执行拦截。
+- mechanismStatement: 在自由选项生成且无候选动作约束时，Choice LLM 把交易场景中的抽象“兑现/凭据”联想落成未出现过的具体物件“名片”，而系统没有 noun grounding validator 将该未揭示物件过滤掉。
+- directCause: Choice LLM raw option 直接生成“换话题：名片上的事现在方便兑现吗？”。
+- propagation: 该 raw option 被原样写入 `turn-24/04-output.json` choices、`turn-24/01-summary.json` 和 visible timeline；没有后处理删除或改写。
+- nonCauses:
+  - Narrator 正文不是主因；正文只写信封，没有写名片。
+  - 候选动作绑定不是主因；本轮 candidateActions 为空。
+  - 玩家输入不是主因；玩家只是旁观卡琳娜接下来的举动。
+
+## Root Cause
+
+- label: `unsupported-detail-inference`
+- family: `llm-self`
+- secondaryFamilies: `agent-system`
+- description: Choice LLM 在清楚的可见上下文中自行把交易/兑现语义具体化为未出现的“名片”；系统缺少基于玩家可见 timeline 的选项名词 grounding 校验，导致 unsupported object 进入玩家选项。
+- fixSurface:
+  - `choiceGenerator prompt grounding rules`
+  - `choice option noun/entity grounding validator`
+  - `visible-timeline based unsupported-object filter`
+
+## Evidence
+
+- playerVisible: 第 24 轮正文只有“信封”作为交易物件，卡琳娜问玩家“这一行你看懂了多少？”；第三个选项突然要求谈“名片上的事”。
+- internalTrace: `turn-24/06c-choice-prompt.md` 未出现“名片”，`turn-24/01-summary.json` candidateActions 为空；`turn-24/06-llm-calls.json` call 2 首次生成“名片”选项，并进入 `turn-24/04-output.json`。
+
+## Recommended Fix Area
+
+为 Choice worker 加入 visible-grounded option 约束：选项中的具体物件、人物、承诺、凭据必须能在玩家可见窗口或已揭示 state 中命中，否则改写为泛化问法或删除。
+
+## Confidence
+
+`high`

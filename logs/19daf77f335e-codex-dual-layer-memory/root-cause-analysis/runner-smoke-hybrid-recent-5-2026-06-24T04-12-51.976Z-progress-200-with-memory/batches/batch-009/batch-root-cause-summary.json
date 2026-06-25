@@ -1,0 +1,461 @@
+{
+  "batchId": "batch-009",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 29,
+      "turn": 92,
+      "severity": "medium",
+      "type": "repeated-scene",
+      "scope": "mixed",
+      "summary": "The turn asks the player to rediscover a central banquet metaphor that had already been stated, accepted, and developed in the visible conversation, making the interaction feel reset rather than continued.",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "fixed-beat-consumption",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline node lifecycle / consumed beat registry",
+          "Director context assembly priority",
+          "currentStoryline.summary compaction and completed-progress separation",
+          "Choice prompt de-duplication against consumed beats"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 storyline/fixed beat 增加 consumed/resolved 状态，并在 Director 前置检查“本 beat 的核心问题是否已在玩家可见文本中得到回答”；若已完成，只允许深化、对照或转场，不允许重新提问。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-029-turn-92/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-029-turn-92/root-cause-report.md",
+      "result": {
+        "issueId": "issue-29",
+        "turn": 92,
+        "issueValidity": "valid",
+        "problemSummary": "第92轮让玩家重新概括宴会“像什么”，并给出“精心排练的舞台剧”等选项；但宴会作为剧场/橱窗的核心隐喻已在第81轮被玩家提出、被卡琳娜接受，并在第83-89轮发展成橱窗、展示架、门和房间的连续隐喻。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见文本中，第81轮已经完成“宴会像剧场/橱窗”的发现与确认；第92轮却把同一发现重新作为开放问题交给玩家选择，造成对话回到起点。",
+          "playerVisibleSupport": "turn-81 中玩家说“宴会像是一个精心布置的剧场”，卡琳娜回答“那不是一场宴会——那是一个展示橱窗”；随后 turn-83 至 turn-89 继续围绕“没在橱窗里看到自己”“卡琳娜站在康纳背后”“离开那个房间/推开门/房间里带进了什么”推进。turn-92 又问“那些吊灯、那些礼服、那些——恰到好处的笑容。你觉得……像什么？”并提供“像一场精心排练的舞台剧”。",
+          "caveats": [
+            "第92轮发生在公园长椅，场景已经转换；如果只是回顾宴会本可成立。但文本和选项不是要求深化或对照，而是要求重新命名已经确认的隐喻，因此仍构成重复。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第91轮前，玩家与卡琳娜已经从室内谈到宴会的橱窗结构、卡琳娜不在展示架上、她曾站在康纳调光背后、她已经离开那个房间，并由此走到公园长椅安静共处。第92轮玩家选择等待她自己开口，合理后续应从这段共识之后深化，而不是重新要求玩家发现宴会的基本隐喻。",
+          "relevantFacts": [
+            {
+              "claim": "宴会像剧场/橱窗这一核心解释已经被玩家提出并被卡琳娜接受。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06a-director-prompt.md"
+              ],
+              "notes": "玩家可见证据在 turn-81 明确；内部 story state 也有“主角回应卡琳娜关于宴会见闻”“局外人”“橱窗”等摘要，但被埋在很长的 currentStoryline.summary 中，且不在 turn-92 最近5轮窗口内。"
+            },
+            {
+              "claim": "第92轮当前 storyline 仍把“卡琳娜询问玩家对宴会的看法”作为必须围绕的节点约束。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06c-choice-prompt.md"
+              ],
+              "notes": "currentStoryline.content/constraints 包含“她会问玩家对宴会的看法，展开讨论”“必须围绕卡琳娜询问玩家对宴会的看法展开讨论”，但没有标记该 beat 已被消费。"
+            },
+            {
+              "claim": "最近几轮的玩家可见状态已经转向卡琳娜离开康纳橱窗后的门/房间隐喻和公园静坐。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "turn-87 至 turn-91 作为最近轮次完整进入 prompt，显示话题已经从“宴会像什么”推进到“门后是什么/带进去了什么/一起走到公园”。"
+            }
+          ],
+          "competingPressures": [
+            "未消费的 fixed storyline beat",
+            "currentStoryline 的硬约束比 buried 已完成摘要更显眼",
+            "recentTurns 窗口没有包含 turn-81 的原始确认",
+            "阶段六要求温馨沉淀且避免核心秘密，容易回退到安全的宴会比喻讨论"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/04-output.json#plotPoint",
+          "triggeringPressure": "Director 看到当前节点仍要求“卡琳娜询问玩家对宴会的看法”，并把本轮 beats 写成“卡琳娜最终主动开口，询问主角对宴会的看法”；这个固定 beat 比长篇已完成摘要更靠近本轮决策。",
+          "missingGuard": "storyline 没有将“询问玩家对宴会的看法”标记为 consumed/resolved；Director prompt 也没有强制在 fixed beat 与已完成摘要冲突时跳过或改写为深化/承接。",
+          "mechanismStatement": "已消费的 storyline beat 以硬约束形式继续留在当前节点，而已完成证据只作为长摘要低显著度存在，Director 因此把“询问宴会像什么”重新当成可执行下一步，Narrator 和 Choice 又把它落成玩家可见的重复发现。",
+          "directCause": "Director 将本应已完成的“询问宴会看法”重新规划为第92轮核心动作。",
+          "propagation": "Narrator 按 Director 输出写出“宴会上……你觉得……像什么？”，Choice 再给出“像一场精心排练的舞台剧”等选项，重复被玩家可见地固化。",
+          "nonCauses": [
+            "不是隐藏秘密提前泄露导致的问题；玩家可见证据已经足够确认重复。",
+            "不是单纯长期记忆缺失；内部 story state 中有相关已完成摘要，只是低显著且缺少 consumed 生命周期。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-consumption",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "当前 storyline 的固定 beat“卡琳娜询问玩家对宴会的看法”已在可见对话中完成，却仍以硬约束形式参与 turn-92 决策；系统缺少 consumed/resolved 生命周期和优先级规则，导致 Director 在最近上下文未包含 turn-81 的情况下复用该 beat，把已完成的隐喻重新呈现为待发现问题。",
+          "fixSurface": [
+            "storyline node lifecycle / consumed beat registry",
+            "Director context assembly priority",
+            "currentStoryline.summary compaction and completed-progress separation",
+            "Choice prompt de-duplication against consumed beats"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-81 的“剧场/展示橱窗”已经被双方确认；turn-83 至 turn-89 已把该隐喻发展为玩家和卡琳娜各自的位置、门与房间；turn-92 又询问“像什么”并提供舞台剧选项。",
+          "internalTrace": "turn-92 03-story-state.json 的 currentStoryline.constraints 仍要求围绕“询问玩家对宴会的看法”；turn-92 04-output.json 的 plotPoint.beats 明确规划“卡琳娜最终主动开口，询问主角对宴会的看法”；07-events.json 记录同一 Director 输出。"
+        },
+        "recommendedFixArea": "为 storyline/fixed beat 增加 consumed/resolved 状态，并在 Director 前置检查“本 beat 的核心问题是否已在玩家可见文本中得到回答”；若已完成，只允许深化、对照或转场，不允许重新提问。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 30,
+      "turn": 99,
+      "severity": "medium",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "The player chose to keep sitting, which can extend the silence, but the model replayed a near-identical descriptive block and repeated the cat crossing as if it were happening for the first time.",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "sensory-beat-consumption",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Narrator prompt delta contract",
+          "runtime sensory/event writeback for consumed one-shot beats",
+          "recent-turn repetition checker",
+          "Choice prompt current-object validation"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "给 Narrator 增加“本轮必须产生相对上一轮的最小增量，不得重放上一轮一次性动作”的硬约束；将环境动态事件写入 consumed sensory beats，并在选择生成前过滤由重复事件产生的选项。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-030-turn-99/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-030-turn-99/root-cause-report.md",
+      "result": {
+        "issueId": "issue-30",
+        "turn": 99,
+        "issueValidity": "valid",
+        "problemSummary": "第99轮在玩家继续安静坐着时，几乎复写第98轮的静坐段落，并再次写“远处有一只猫的影子沿着墙根走过去”和卡琳娜目光跟随黑猫，像同一只猫第一次穿过光区一样。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家选择继续沉默可以延长氛围，但不能让一个刚发生的一次性环境事件原样重演；turn-98 与 turn-99 的猫穿过光区和卡琳娜视线跟随几乎相同。",
+          "playerVisibleSupport": "turn-98 写“远处有一只猫的影子沿着墙根走过去”“那只黑猫走过路灯下的光区时，她的目光似乎跟着动了一下”；turn-99 再次写同一只猫影沿墙根走过、穿过路灯光区、她的目光跟动。",
+          "caveats": [
+            "沉默和环境描写本身可以重复铺陈；本 issue 成立的关键不是继续静坐，而是同一猫穿过光区这个一次性动态被重新播放。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第98轮玩家已选择继续坐着，正文完成了一段沉默氛围，并让一只黑猫从远处沿墙根走过、穿过路灯光区，引发卡琳娜一瞬的视线反应。第99轮玩家继续选择安静坐着，合理输出应体现时间继续、静默加深或对已出现猫的后续状态，而不是重置猫的经过。",
+          "relevantFacts": [
+            {
+              "claim": "黑猫沿墙根走过并穿过路灯光区已经在上一轮发生。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06c-choice-prompt.md"
+              ],
+              "notes": "turn-99 的 prompt 最近几轮包含 turn-98 正文，选择器 prompt 也完整呈现了上一轮和本轮重复文本。"
+            },
+            {
+              "claim": "第99轮 Director 只要求保持沉默、感官细节和氛围沉淀，没有要求卡尔/黑猫再次经过。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/07-events.json"
+              ],
+              "notes": "plotPoint.currentTurnConstraints 包含“不推进剧情事件，仅深化情感氛围”；characterBeats 只提到卡琳娜继续放松。"
+            },
+            {
+              "claim": "系统没有把一次性环境动作作为 consumed sensory beat 写入可执行状态。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-98/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/05-runtime-after.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06b-narrator-prompt.md"
+              ],
+              "notes": "猫经过只存在于上一轮正文和 recentTurns 中，没有一个高显著的“已发生/不要重放”字段约束 Narrator。"
+            }
+          ],
+          "competingPressures": [
+            "玩家输入连续选择静坐",
+            "Director 要求慢铺、感官细节优先、不推进事件",
+            "上一轮静坐段落在 prompt 中高度相似且可直接仿写",
+            "阶段六对“卡尔对话可能性”的暗示约束让猫相关意象保持显著"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/04-output.json#narrative",
+          "triggeringPressure": "Narrator 收到的 Director 安排要求“不开启新对话”“不推进剧情事件”“慢铺，感官细节优先”，同时 prompt 中紧邻可见的上一轮静坐文本包含完整猫经过段落。",
+          "missingGuard": "Narrator contract 没有要求输出相对上一轮的 scene delta，也没有把“猫已经穿过光区”标为 consumed one-shot sensory beat；“不要重复”只是通用原则，未转化成可执行检查。",
+          "mechanismStatement": "在连续静坐场景中，系统只给 Narrator 慢速感官铺陈目标，却没有当前场景增量/一次性环境动作消费防线，导致模型从上一轮可见文本中复用同一猫经过段落，形成玩家可见的重放。",
+          "directCause": "Narrator 在第99轮正文中复用了 turn-98 的静坐段落和猫穿过光区事件。",
+          "propagation": "第99轮 Choice 又生成“留意那只黑猫的方向”，把被重复的猫事件变成当前可继续互动的对象。",
+          "nonCauses": [
+            "不是玩家输入本身要求猫再次出现；玩家只是继续安静坐着。",
+            "不是长期记忆缺失；上一轮原文就在 prompt 中。",
+            "Director 不是第一处可见重复；它没有要求黑猫事件。"
+          ]
+        },
+        "rootCause": {
+          "label": "sensory-beat-consumption",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "连续沉默场景缺少 scene delta 和 one-shot sensory beat consumption 机制；当 Director 只要求“感官细节优先、不推进事件”时，Narrator 没有被强制区分上一轮已发生的动态细节与本轮可复用的氛围素材，于是重放了黑猫穿过路灯光区。",
+          "fixSurface": [
+            "Narrator prompt delta contract",
+            "runtime sensory/event writeback for consumed one-shot beats",
+            "recent-turn repetition checker",
+            "Choice prompt current-object validation"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-98 与 turn-99 都出现“远处有一只猫的影子沿着墙根走过去”以及“黑猫走过路灯下的光区时，她的目光似乎跟着动了一下”。",
+          "internalTrace": "turn-99 04-output.json 的 plotPoint 只要求沉默深化；06b-narrator-prompt.md 包含 turn-98 原文和 Director JSON；04-output.json 的 narrative 重放猫经过；06c-choice-prompt.md 将重复后的黑猫作为可选方向。"
+        },
+        "recommendedFixArea": "给 Narrator 增加“本轮必须产生相对上一轮的最小增量，不得重放上一轮一次性动作”的硬约束；将环境动态事件写入 consumed sensory beats，并在选择生成前过滤由重复事件产生的选项。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 31,
+      "turn": 109,
+      "severity": "low",
+      "type": "repeated-scene",
+      "scope": "choices",
+      "summary": "选项把同一问题作为下一步再次提供，导致玩家可见交互在已经得到回答后回到原地。",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice prompt answered-intent guard",
+          "choice semantic de-duplication against playerInput and current visible answer",
+          "per-turn topic slot status",
+          "post-choice repetition validator"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "Choice 生成前抽取本轮 playerInput 的 core intent 与正文回答，若选项与已回答 intent 语义等价则过滤或改写为真正的深化方向。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-031-turn-109/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-031-turn-109/root-cause-report.md",
+      "result": {
+        "issueId": "issue-31",
+        "turn": 109,
+        "issueValidity": "valid",
+        "problemSummary": "第109轮玩家刚问“手空出来了，打算做什么”，卡琳娜回答“还没想好”“我不知道”“不急着知道”；同轮选项又提供“问她空下来的手，想试试做什么”，把已回答的问题作为下一步重复。",
+        "validityAssessment": {
+          "verdictReason": "valid。选项不是自然深化到新信息，而是将同一问题换成“想试试做什么”的近义问法；后续 turn-110 的重复回答也证明该选项会把交互带回原地。",
+          "playerVisibleSupport": "turn-109 玩家输入是“那现在呢——手空出来了，打算做什么？”；正文回答“还没想好”“你问我打算做什么——我不知道”“但是……不急着知道”；同轮 choices 第一项是“问她空下来的手，想试试做什么”。",
+          "caveats": [
+            "“想试试做什么”可以被宽读为更具体的追问，所以严重度低；但它仍复用同一语义槽，且没有承接“不急着知道”的回答。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第109轮正文已完成对“空出来的手接下来做什么”的回答：卡琳娜不知道，也不急着知道，重点落在慢慢习惯空着手。玩家下一步应能选择陪伴、换话题、分享自身经验或推进到更细的新维度，而不是再次问她想做什么。",
+          "relevantFacts": [
+            {
+              "claim": "当前玩家问题已经得到直接回答。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/06c-choice-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "Choice prompt 的“本轮玩家已经看到的正文”完整包含“还没想好”“我不知道”“不急着知道”。"
+            },
+            {
+              "claim": "选项生成器有“以本轮正文结尾为准”的流程，但没有检测玩家刚问的问题是否已被回答。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/06c-choice-prompt.md"
+              ],
+              "notes": "流程要求判断能做什么和候选动作是否自然，但缺少 answered-question de-duplication 或 topic-slot 状态。"
+            },
+            {
+              "claim": "“空出来的手”作为未定方向仍是显著话题。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/06c-choice-prompt.md"
+              ],
+              "notes": "正文结尾“慢慢习惯空着手”使该意象高显著，容易诱导生成相邻追问。"
+            }
+          ],
+          "competingPressures": [
+            "Choice 需要给出主动行动",
+            "当前场景没有强剧情出口",
+            "“空手”意象显著但答案是不确定",
+            "缺少已回答问题的语义槽记录"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json#choices",
+          "triggeringPressure": "正文结尾保留“空出来的手”意象，Choice 需要生成可点击行动；在没有强候选出口时，它把未定状态转成近义追问“想试试做什么”。",
+          "missingGuard": "Choice prompt 没有将本轮 playerInput 的核心问题和正文回答绑定为 answered slot，也没有禁止生成与刚回答问题语义重复的选项。",
+          "mechanismStatement": "选项生成缺少“当前回合已回答问题”的语义去重和 action binding 检查，导致高显著但已被回答的“手空出来要做什么”被重新包装成下一步行动。",
+          "directCause": "Choice 输出第一项“问她空下来的手，想试试做什么”。",
+          "propagation": "该选项被玩家在 turn-110 选中后，直接触发下一轮重复回答。",
+          "nonCauses": [
+            "不是玩家主动脱轨；重复选项由系统提供。",
+            "不是卡琳娜没有回答；同轮正文已经明确回答“不知道/不急”。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Choice 阶段没有把玩家刚提出并得到回答的问题绑定为已满足意图，也没有对候选选项做语义去重；当“空出来的手”仍作为高显著意象存在时，选项把同一询问重新暴露为可点击行动。",
+          "fixSurface": [
+            "Choice prompt answered-intent guard",
+            "choice semantic de-duplication against playerInput and current visible answer",
+            "per-turn topic slot status",
+            "post-choice repetition validator"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-109 输入问“手空出来了，打算做什么”；正文答“还没想好”“我不知道”“不急着知道”；同轮 choices 又给“问她空下来的手，想试试做什么”。",
+          "internalTrace": "turn-109 06c-choice-prompt.md 的当前正文包含完整回答，但输出仍生成重复选项；turn-109 04-output.json 记录该 choices。"
+        },
+        "recommendedFixArea": "Choice 生成前抽取本轮 playerInput 的 core intent 与正文回答，若选项与已回答 intent 语义等价则过滤或改写为真正的深化方向。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 32,
+      "turn": 110,
+      "severity": "low",
+      "type": "repeated-scene",
+      "scope": "mixed",
+      "summary": "当前玩家输入来自上一轮重复选项，正文又将同一心理动作和答案重新演出，形成连续两轮的重复场景。",
+      "batchId": "batch-009",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice action semantic validation",
+          "Director duplicate-intent collapse",
+          "selected-choice provenance metadata",
+          "recent answer topic-slot tracking"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为系统生成选项附加 provenance 和 semanticIntent；Director 收到由系统选项产生的输入时，与上一轮 answeredIntent 比对，若重复则改为简短承认、推进到新维度或提供非重复选择。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-032-turn-110/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-009/issues/issue-032-turn-110/root-cause-report.md",
+      "result": {
+        "issueId": "issue-32",
+        "turn": 110,
+        "issueValidity": "valid",
+        "problemSummary": "第110轮玩家输入来自上一轮重复选项，正文再次回答“还没想过/不急着知道”，并重新解释扶梯子、接东西、拉线、手放进口袋等心理动作，连续两轮把同一问题和答案演出了一遍。",
+        "validityAssessment": {
+          "verdictReason": "valid。虽然 turn-110 的直接玩家输入确实再次询问，但该输入是系统上一轮提供的重复选项；系统随后没有识别重复意图并压缩/转进，而是完整重演 turn-109 已回答的内容。",
+          "playerVisibleSupport": "turn-109 已回答“还没想好”“扶着梯子/螺丝刀/拉线”“我不知道”“不急着知道”；turn-110 又回答“还没想过”“扶着梯子，接东西，拉线”“不急着知道”“总会找到想抓的东西”。",
+          "caveats": [
+            "turn-110 的末尾“总会找到想抓的东西”比 turn-109 略有推进，因此不是完全逐字重复；但主体问答和心理动作重复足以成立低严重度重复场景。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第109轮已经确定卡琳娜不知道空出来的手要做什么，也不急着知道；她正在习惯空手。第110轮的输入只是把同一问题改成“想试试做什么”。合理系统应识别为重复追问，简短承接“不急着知道”并向更具体的新维度或沉默陪伴转进。",
+          "relevantFacts": [
+            {
+              "claim": "第109轮已回答空出来的手要做什么。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-110/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-110/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "turn-110 prompt 最近几轮包含 turn-109 完整正文；storyline summary 也写入“主角追问……未透露具体方向”。"
+            },
+            {
+              "claim": "turn-110 输入源自 turn-109 的重复 choice。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "turn-109 choices 第一项与 turn-110 playerInput 完全对应。"
+            },
+            {
+              "claim": "Director 将重复输入当作新鲜探索来规划。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-110/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-110/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-110/07-events.json"
+              ],
+              "notes": "plotPoint.summary 为“回应主角关于空下来的手想做什么的提问，表示还没想好但也不急着知道”，beats 也重复“回答还没想好/以前手总有事做”。"
+            }
+          ],
+          "competingPressures": [
+            "系统提供的重复选项让玩家输入看似合法",
+            "Director 遵循玩家输入的字面探索",
+            "慢铺和温馨氛围鼓励重新展开同一心理比喻",
+            "缺少 duplicate-intent collapse 规则"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-109/04-output.json#choices -> logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-110/04-output.json#plotPoint",
+          "triggeringPressure": "上一轮 Choice 把已回答问题重新暴露为选项；turn-110 Director 又把玩家选择的重复问题当作新的表达与探索，规划相同回答。",
+          "missingGuard": "系统没有跨 Choice→Director 的语义重复拦截：没有识别“本轮输入来自系统选项且与上一轮已回答 intent 等价”，也没有要求重复输入时压缩承接、避免重演。",
+          "mechanismStatement": "Choice-action binding 未记录选项是否重复已满足意图，Director 也缺少 duplicate-intent collapse 防线，导致系统生成的重复选项在下一轮被当作新玩家意图执行，并由 Narrator 重演同一心理动作和答案。",
+          "directCause": "turn-110 Director 输出重复规划：“还没想好”“以前手总有事做”“现在空着需要习惯”。",
+          "propagation": "Narrator 按该规划写出“还没想过”“扶着梯子，接东西，拉线”“不急着知道”等近似段落；Choice 随后才开始推进到“想抓的东西会是什么样子”。",
+          "nonCauses": [
+            "不能把责任完全归于玩家，因为重复输入由上一轮系统选项提供。",
+            "不是信息缺失；turn-109 的回答在 turn-110 prompt 中清楚可见。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统没有把 Choice 输出与上一轮已回答的玩家意图绑定校验，也没有在 Director 入口识别重复选项输入；因此一个与已回答问题等价的系统选项被执行为新动作，造成 Narrator 连续两轮重演相同心理动作和答案。",
+          "fixSurface": [
+            "Choice action semantic validation",
+            "Director duplicate-intent collapse",
+            "selected-choice provenance metadata",
+            "recent answer topic-slot tracking"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-109 已回答“打算做什么”；turn-109 choices 提供“问她空下来的手，想试试做什么”；turn-110 输入该选项后正文重复“还没想过/不急着知道”和扶梯子、接东西、拉线的解释。",
+          "internalTrace": "turn-110 06b-narrator-prompt.md 中 Director JSON 明确重复规划；turn-110 04-output.json 的 narrative 和 plotPoint 体现同一重复；turn-110 07-events.json 记录 Director 输出。"
+        },
+        "recommendedFixArea": "为系统生成选项附加 provenance 和 semanticIntent；Director 收到由系统选项产生的输入时，与上一轮 answeredIntent 比对，若重复则改为简短承认、推进到新维度或提供非重复选择。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "issueId": "issue-68-turn-158",
+  "turn": 158,
+  "issueValidity": "questionable",
+  "problemSummary": "第 158 轮玩家选择文本指定“从相机包里拿出烟”，正文改成“从外套内袋里摸出烟盒”；但核心动作“拿烟点上以稳定呼吸”被完整保留，且前一轮相机包来源本身不可达。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 可疑而非明确有效。字面来源确实被替换，玩家可见上没有解释；但按照 player-input 评判规则，核心 actionable intent 是抽烟稳定呼吸，正文完整执行了该核心意图。由于第 157 轮选项“从相机包”已经是空间上不可执行的系统错误，Narrator 改成外套内袋可理解为对错误选项的隐性修正。",
+    "playerVisibleSupport": "第 157 轮选项写“从相机包里拿出烟点上，让呼吸更稳一些”；第 158 轮玩家输入重复该选项；正文开头写“你从外套内袋里摸出烟盒”，随后点烟、吸烟并稳定呼吸。",
+    "caveats": [
+      "如果严格要求保留选择文本的每个来源词，该 mismatch 会成立；但互动叙事通常允许在不阻断核心意图时做合理场景修正。",
+      "问题观感主要继承自 issue 67 的不可执行选项；第 158 轮正文是在修复空间错误，而不是无端拒绝玩家动作。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家坐在门外石阶上。上一轮选项要求从相机包取烟，但相机包按可见上下文仍应在屋内；第 158 轮正文选择从外套内袋摸出烟盒，使抽烟动作在当前坐姿下可执行。",
+    "relevantFacts": [
+      {
+        "claim": "玩家选择文本指定“从相机包里拿出烟”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-157",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-158/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-158/06b-narrator-prompt.md"
+        ],
+        "notes": "这是字面 mismatch 的来源。"
+      },
+      {
+        "claim": "玩家当前坐在室外石阶上，相机包不可达。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-157",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-158/06b-narrator-prompt.md"
+        ],
+        "notes": "第 157 轮 issue 已确认；Narrator 可能因此改用随身外套内袋。"
+      },
+      {
+        "claim": "核心意图是拿烟点上，让呼吸更稳。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-158/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-158/07-events.json"
+        ],
+        "notes": "正文完整执行点烟、吸烟、呼吸稳定；Director summary 也概括为“拿出香烟点燃，通过吸烟稳定呼吸”。"
+      },
+      {
+        "claim": "外套内袋有烟盒此前没有稳定玩家可见铺垫。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-158/04-output.json"
+        ],
+        "notes": "外套内袋作为烟盒来源是新细节；但相比从不可达相机包取物，它更符合当前动作可执行性。"
+      }
+    ],
+    "competingPressures": [
+      "需要保留玩家核心动作：点烟并稳定呼吸。",
+      "需要修复第 157 轮不可达的相机包来源。",
+      "缺少显式 repair/bridge 文案约定，导致修正看起来像替换玩家来源。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "evaluator / literal source comparison; visible mismatch appears in turn-158/04-output.json narrator text",
+    "triggeringPressure": "第 157 轮 Choice 已提供不可执行的“从相机包取烟”；第 158 轮 Narrator 面对玩家选择，需要让抽烟动作在门外石阶场景中成立。",
+    "missingGuard": "系统没有在 selected choice 不可执行时要求显式桥接，例如“相机包在屋里，你转而摸向外套内袋”；也没有把修复动作反馈给 Choice/Director 做一致性说明。",
+    "mechanismStatement": "该轮的可疑 mismatch 来自 Narrator 对前一轮不可执行选项的隐性修复：它保留抽烟核心动作，改写取物来源，却没有解释为什么放弃“相机包”。",
+    "directCause": "字面来源被改写，但核心动作未被忽略。",
+    "propagation": "第 158 轮正文和后续选项都围绕“已经点烟”继续，没有继续声称相机包在手边。",
+    "nonCauses": [
+      "不是完整的 user-input ignored：点烟、吸烟、稳定呼吸均被执行。",
+      "不是隐藏信息导致；玩家可见上下文即可看到这是对 issue 67 的空间修正。",
+      "不应把第 158 轮单独归因到记忆缺失，因为相机包不可达已经由第 157 轮 Choice 引入。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 157 轮选项/第 158 轮输入写相机包；第 158 轮正文写外套内袋，但完整执行点烟和稳定呼吸。",
+    "internalTrace": "第 158 轮 Director summary 抽象为“拿出香烟点燃，通过吸烟稳定呼吸”，未保留“相机包”来源；Narrator 输出外套内袋；events 显示无额外 pre-LLM 事件解释来源修正。"
+  },
+  "recommendedFixArea": "如果要消除该观感，应在 selected choice 与场景 affordance 冲突时显式桥接修正；根本修复仍是 issue 67 的 Choice 可达性校验，避免产生不可执行选项。",
+  "confidence": "medium"
+}

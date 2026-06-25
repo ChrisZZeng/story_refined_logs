@@ -1,0 +1,276 @@
+{
+  "batchId": "batch-004",
+  "issueCount": 2,
+  "completedCount": 2,
+  "validityCounts": {
+    "valid": 2,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 13,
+      "turn": 50,
+      "severity": "low",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "正文让玩家“站起来”，但此前可见行动没有建立玩家已经坐下，属于轻微姿态连续性跳跃。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "director-to-narrator handoff schema: 增加 currentPlayerPosture、currentHeldObjects、currentLocationAnchor",
+          "prompt assembly priority rules: recent visible posture > storyline/location memory；历史/未来地点摘要必须标注 non-current",
+          "Narrator prompt guard: posture-changing verbs require recent visible support",
+          "statefold/location memory: 避免把已发生/未来概览当作当前现场事实注入"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "优先修复 prompt assembly 与 Director→Narrator handoff：把玩家当前姿态和手持物作为显式状态传递，并在 Narrator 侧加入无依据姿态变更检查。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-004/issues/issue-013-turn-50/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-004/issues/issue-013-turn-50/root-cause-report.md",
+      "result": {
+        "issueId": "issue-13",
+        "issueIndex": 13,
+        "turn": 50,
+        "issueValidity": "valid",
+        "problemSummary": "turn 50 结尾在没有玩家可见坐下动作的前提下写“你把杯子放到桌面上，站起来”，造成轻微姿态连续性跳跃。",
+        "validityAssessment": {
+          "verdictReason": "valid：玩家可见上下文没有建立主角已坐下；“站起来”在该语境中自然预设此前处于坐姿或低姿态，因此与最近几轮姿态连续性不符。",
+          "playerVisibleSupport": "turn 43 只写主角从辨认笔记本后“直起身”，没有坐下；turn 45 写卡琳娜“站在你面前”，主角接过茶并握在手中；turn 46-49 连续写主角手中握着搪瓷杯听卡琳娜说话，未出现坐下动作；turn 50 末尾突然写“站起来”。",
+          "caveats": [
+            "“站起来”有时可被宽泛理解为准备行动，但本段已在室内离场语境中使用“把杯子放到桌面上，站起来”，更像从坐姿起身。",
+            "该问题不改变后续剧情走向，因此 severity=low 合理。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家可见状态是：主角在卡琳娜真正的家/房间内与卡琳娜对话，手里握着搪瓷杯；卡琳娜在桌沿/房间内活动，黑猫在暖光边缘。最近可见文本没有让主角坐到沙发、椅子或地面上。",
+          "relevantFacts": [
+            {
+              "claim": "主角在 turn 43 之后没有玩家可见的坐下动作；turn 43 的“在沙发上坐下来”只是未选择选项。",
+              "availability": "present-clear",
+              "artifacts": [
+                "consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-43/04-output.json",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-45/04-output.json"
+              ],
+              "notes": "这是 validity 的核心玩家可见证据。"
+            },
+            {
+              "claim": "最近几轮只稳定呈现主角手持搪瓷杯、与卡琳娜站/靠桌沿对话，没有坐姿锚点。",
+              "availability": "present-clear",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06a-director-prompt.md",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06b-narrator-prompt.md"
+              ],
+              "notes": "recentTurns 中包含这些正文，但它们只是长文本上下文，没有被抽成 currentPlayerPosture。"
+            },
+            {
+              "claim": "Director 对 turn 50 的安排是回应、卡琳娜提议出门、黑猫先行、卡琳娜跟上；没有要求主角从坐姿起身。",
+              "availability": "present-clear",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06-llm-calls.json",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/04-output.json"
+              ],
+              "notes": "first divergence 不在 Director 结构化输出，而在 Narrator 正文补写。"
+            },
+            {
+              "claim": "Prompt 中混有非当前姿态压力：currentStoryline 已含公园长椅段落，地点记忆含旧沙发起身/公园长椅等历史或未来片段。",
+              "availability": "contradicted",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/03-story-state.json",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06b-narrator-prompt.md"
+              ],
+              "notes": "这些内容与最近可见现场不在同一时间点，且没有被显式标为“非当前姿态”。"
+            },
+            {
+              "claim": "当前玩家姿态缺少专门、可执行的 handoff 字段。",
+              "availability": "absent",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/03-story-state.json",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06-llm-calls.json"
+              ],
+              "notes": "Narrator 需要自行从长上下文推断主角姿态，缺少禁止无依据姿态变更的硬约束。"
+            }
+          ],
+          "competingPressures": [
+            "场景转换压力：本轮要从室内安静对话转入外出。",
+            "Director beats 强调黑猫“站起”并走向铁门、卡琳娜等待主角，Narrator 需要给玩家补一个加入离场的动作。",
+            "currentStoryline/content 和地点记忆中含公园长椅、旧沙发起身、CG 资源等非当前姿态内容；turn 50 输出中甚至把公园 CG/bg 提前挂到仍在室内的黑猫段落。",
+            "最近可见正文虽然清楚显示主角未坐下，但被埋在较长 prose 中，没有被提升为更高优先级约束。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06-llm-calls.json call[1] Narrator text；随后规范化到 turn-50/04-output.json。",
+          "triggeringPressure": "Director 要求结束室内对话、卡琳娜带主角出门，且 prompt 中混入公园长椅/旧沙发起身等非当前姿态片段；叙述风格又需要把“放下杯子、准备跟上”写成一个完整动作。",
+          "missingGuard": "缺少 current-scene posture anchor 和姿态变更守卫：如果最近可见文本没有建立坐下，就不能写“站起来”；Director handoff 也没有把“主角当前未坐下/正手持杯子”作为 must-satisfy contract 交给 Narrator。",
+          "mechanismStatement": "场景转换 handoff 没有把最近可见的玩家姿态提升为最高优先级锚点，混杂的长椅/沙发历史与离场节奏促使 Narrator 用“放杯—站起来”补齐动作，从而把一个无依据的姿态变化写进玩家可见正文。",
+          "directCause": "Narrator 为离开房间补写了从坐姿起身的动作。",
+          "propagation": "错误在 turn 50 正文末尾直接暴露给玩家，并作为下一轮“跟上她”的起点；后续没有明显继续固化坐姿，但当轮可见连续性已经受损。",
+          "nonCauses": [
+            "不是玩家输入导致：玩家只选择/输入了安慰卡琳娜的话。",
+            "不是长期记忆缺失：所需姿态事实就在最近可见窗口内。",
+            "不是固定剧情硬性要求：Director beats 和 requiredContent 没有要求主角“站起来”。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统在场景转换时没有把 current visible posture 作为高优先级、可执行锚点交给 Narrator。触发压力是“出门”beat 与混入的公园/沙发非当前记忆；缺失防线是姿态变更必须由最近可见动作支持的约束；失败运动是 Narrator 用常见离场模板补写“站起来”，覆盖了最近几轮实际未坐下的可见状态。",
+          "fixSurface": [
+            "director-to-narrator handoff schema: 增加 currentPlayerPosture、currentHeldObjects、currentLocationAnchor",
+            "prompt assembly priority rules: recent visible posture > storyline/location memory；历史/未来地点摘要必须标注 non-current",
+            "Narrator prompt guard: posture-changing verbs require recent visible support",
+            "statefold/location memory: 避免把已发生/未来概览当作当前现场事实注入"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 45 写主角接过搪瓷杯并站在卡琳娜面前；turn 46-49 持续写手中杯子和对话，没有坐下；turn 50 末尾突然写“你把杯子放到桌面上，站起来”。",
+          "internalTrace": "turn-50/06-llm-calls.json call[0] 的 Director output 只有“主角回答”“卡琳娜说走吧”“黑猫起身”“卡琳娜拿起外套”等 beats；call[1] Narrator 首次生成“站起来”。turn-50/06b-narrator-prompt.md 同时包含最近可见正文和混杂的 currentStoryline/地点记忆，其中有公园长椅、旧沙发起身等非当前姿态压力。"
+        },
+        "recommendedFixArea": "优先修复 prompt assembly 与 Director→Narrator handoff：把玩家当前姿态和手持物作为显式状态传递，并在 Narrator 侧加入无依据姿态变更检查。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 14,
+      "turn": 53,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "如果是同一把钥匙，齿痕不应不同；如果是另一把钥匙，正文不应称为此前见过的“那把”。",
+      "batchId": "batch-004",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "unsupported-detail-inference",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "object identity registry: keyId、knownDescription、knownProperties、lastSeenTurn",
+          "Narrator prompt guard: object properties not in visible/state evidence cannot be newly contrasted as facts",
+          "post-generation consistency check: same-object reference + changed physical attribute triggers rewrite",
+          "state/prompt assembly: distinguish prior key memory from current door affordance，避免只用泛称“旧钥匙”"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先建立物件身份与属性一致性层：对钥匙、门、照片等可复用道具在 state/prompt 中携带稳定 ID 和已知属性，并在 Narrator 输出后检查同一对象属性变更。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-004/issues/issue-014-turn-53/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-004/issues/issue-014-turn-53/root-cause-report.md",
+      "result": {
+        "issueId": "issue-14",
+        "issueIndex": 14,
+        "turn": 53,
+        "issueValidity": "valid",
+        "problemSummary": "turn 53 同一句写“那把旧铜钥匙你在暗街铁门上见过的那把”，又写“但它的齿痕不同”，造成同一物件身份与属性自相矛盾。",
+        "validityAssessment": {
+          "verdictReason": "valid：玩家可见文本若指同一把钥匙，就不应出现齿痕不同；若是另一把钥匙，就不应称为“那把”。该矛盾不依赖隐藏设定即可成立。",
+          "playerVisibleSupport": "turn 9 只建立卡琳娜曾用“一把钥匙——老式的长柄铜钥匙”打开暗街铁门；turn 52 建立她真正的家不是暗街铁门后的房间，而是另一个地方；turn 53 到达另一扇铁门时写“那把旧铜钥匙……但它的齿痕不同”。",
+          "caveats": [
+            "如果文本写成“另一把旧铜钥匙，齿痕不同”，就只是新物件描写；问题来自“那把”与“齿痕不同”的同句绑定。",
+            "该矛盾局限在一处物件细节，没有立即影响剧情推进，因此 severity=low 合理。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，主角在公园接受卡琳娜邀请，跟她离开长椅，前往她真正的家。玩家知道这不是暗街铁门后的房间，而是另一处与卡尔、暗街过去有关的隐秘地点；玩家也只见过此前暗街铁门上的老式长柄铜钥匙。",
+          "relevantFacts": [
+            {
+              "claim": "此前玩家可见的钥匙事实是 turn 9：卡琳娜用老式长柄铜钥匙打开暗街铁门；没有描述齿痕。",
+              "availability": "present-clear",
+              "artifacts": [
+                "consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/06b-narrator-prompt.md"
+              ],
+              "notes": "event memory 也只概括为“老式铜钥匙打开一扇铁门”。"
+            },
+            {
+              "claim": "turn 52 玩家可见文本明确真正的家不是暗街那间铁门后的房间，而是另一处。",
+              "availability": "present-clear",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-52/04-output.json",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/06a-director-prompt.md"
+              ],
+              "notes": "因此 turn 53 可以出现另一把钥匙，但必须清楚标成另一把；也可以复用同一把，但不能说齿痕不同。"
+            },
+            {
+              "claim": "Director turn 53 只要求接受邀请、走夜路、抵达真正的家；没有要求钥匙齿痕或同一把钥匙。",
+              "availability": "present-clear",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/06-llm-calls.json"
+              ],
+              "notes": "first divergence 不在 Director 输出。"
+            },
+            {
+              "claim": "Narrator prompt 含多个铁门/住所相关状态：旧铜钥匙记忆、真正的家、铁门后的短通道与内室等，但没有 key object identity 或齿痕属性表。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/03-story-state.json",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/06b-narrator-prompt.md"
+              ],
+              "notes": "上下文给了“旧铜钥匙”和“另一处铁门”的材料，但没有可执行的同一/不同钥匙判定。"
+            },
+            {
+              "claim": "“齿痕不同”这个具体物件属性在玩家可见历史、Director 输出和 Narrator prompt 中均未建立。",
+              "availability": "absent",
+              "artifacts": [
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/06b-narrator-prompt.md",
+                "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/06-llm-calls.json"
+              ],
+              "notes": "该细节是 Narrator 在生成正文时新增的 object property。"
+            }
+          ],
+          "competingPressures": [
+            "两处相似空间都以铁门为入口，叙述需要让“真正的家”与暗街铁门居所区分开。",
+            "早期事件记忆突出“老式铜钥匙打开铁门”，当前场景也需要开另一扇铁门。",
+            "写作风格偏向以触觉/物件细节制造神秘感，容易把钥匙齿痕写成线索。",
+            "缺少 object identity/property registry，无法强制 Narrator 在“同一把钥匙”和“另一把钥匙”之间选择一致表达。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-53/06-llm-calls.json call[1] Narrator text；随后规范化到 turn-53/04-output.json。",
+          "triggeringPressure": "Narrator prompt 同时给出此前“老式铜钥匙”记忆与当前“真正的家/另一扇铁门”的场景目标，文本又倾向用物件差异制造隐秘感。",
+          "missingGuard": "缺少钥匙 object identity 和属性一致性约束：如果引用“那把”旧铜钥匙，就必须保持同一对象属性；如果要写齿痕不同，就必须显式写成另一把钥匙或删去比较。通用“不要编造”没有变成物件级校验。",
+          "mechanismStatement": "在多个相似铁门和一个松散的“老式铜钥匙”记忆之间，系统没有提供可执行的 key identity contract，Narrator 将区分新地点的压力转化为无依据的“齿痕不同”物件线索，同时又用“那把”绑定到旧钥匙，形成同句事实冲突。",
+          "directCause": "Narrator 新增了未建立的 object property（齿痕不同），并把它错误地附着到此前见过的同一把钥匙上。",
+          "propagation": "矛盾直接出现在 turn 53 玩家可见正文；turn 54 之后未继续提钥匙，因此本批次内没有进一步固化到选择或状态，但物件一致性已经被破坏。",
+          "nonCauses": [
+            "不是玩家输入造成：玩家只接受邀请并跟随。",
+            "不是评测误判：同一句内部已经足以构成冲突。",
+            "不是隐藏设定可解释的问题：即使隐藏世界里存在多把钥匙，玩家可见表达仍应避免把“那把”和“齿痕不同”绑定。",
+            "不是 Director 决策错误：Director 没有要求钥匙齿痕或同一钥匙。"
+          ]
+        },
+        "rootCause": {
+          "label": "unsupported-detail-inference",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "系统没有为跨场景复用道具提供 object identity/property grounding。触发压力是旧铜钥匙记忆与另一扇铁门并存；缺失防线是“同一对象不得变更齿痕、不同对象不得称为那把”的物件级约束；失败运动是 Narrator 把普通开门动作扩写成一个 unsupported clue，并在同句中自相矛盾。",
+          "fixSurface": [
+            "object identity registry: keyId、knownDescription、knownProperties、lastSeenTurn",
+            "Narrator prompt guard: object properties not in visible/state evidence cannot be newly contrasted as facts",
+            "post-generation consistency check: same-object reference + changed physical attribute triggers rewrite",
+            "state/prompt assembly: distinguish prior key memory from current door affordance，避免只用泛称“旧钥匙”"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 9 只有“一把钥匙——老式的长柄铜钥匙”打开暗街铁门；turn 53 写“那把旧铜钥匙你在暗街铁门上见过的那把，但它的齿痕不同”。",
+          "internalTrace": "turn-53/06-llm-calls.json call[0] Director output 没有钥匙齿痕；call[1] Narrator 首次生成矛盾句。turn-53/06b-narrator-prompt.md 中能找到旧铜钥匙记忆和多个铁门/真正的家状态，但没有“齿痕不同”依据或 key identity schema。"
+        },
+        "recommendedFixArea": "优先建立物件身份与属性一致性层：对钥匙、门、照片等可复用道具在 state/prompt 中携带稳定 ID 和已知属性，并在 Narrator 输出后检查同一对象属性变更。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

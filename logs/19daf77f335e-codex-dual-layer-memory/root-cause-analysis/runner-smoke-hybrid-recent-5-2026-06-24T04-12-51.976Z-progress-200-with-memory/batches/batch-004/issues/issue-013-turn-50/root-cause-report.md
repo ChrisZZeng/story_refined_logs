@@ -1,0 +1,70 @@
+# Root Cause Report: issue-13 / turn 50
+
+## Problem
+turn 50 结尾在没有玩家可见坐下动作的前提下写“你把杯子放到桌面上，站起来”，造成轻微姿态连续性跳跃。
+
+- issueIndex: 13
+- issueValidity: `valid`
+- rootCause.label: `context-priority`
+- family: `agent-system`
+
+## Validity
+valid：玩家可见上下文没有建立主角已坐下；“站起来”在该语境中自然预设此前处于坐姿或低姿态，因此与最近几轮姿态连续性不符。
+
+玩家可见证据：turn 43 只写主角从辨认笔记本后“直起身”，没有坐下；turn 45 写卡琳娜“站在你面前”，主角接过茶并握在手中；turn 46-49 连续写主角手中握着搪瓷杯听卡琳娜说话，未出现坐下动作；turn 50 末尾突然写“站起来”。
+
+注意事项：
+- “站起来”有时可被宽泛理解为准备行动，但本段已在室内离场语境中使用“把杯子放到桌面上，站起来”，更像从坐姿起身。
+- 该问题不改变后续剧情走向，因此 severity=low 合理。
+
+## Context Assessment
+问题发生前的实际状态：问题发生前，玩家可见状态是：主角在卡琳娜真正的家/房间内与卡琳娜对话，手里握着搪瓷杯；卡琳娜在桌沿/房间内活动，黑猫在暖光边缘。最近可见文本没有让主角坐到沙发、椅子或地面上。
+
+相关事实与可用性：
+- `present-clear` 主角在 turn 43 之后没有玩家可见的坐下动作；turn 43 的“在沙发上坐下来”只是未选择选项。 证据：`consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl`；`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-43/04-output.json`；`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-45/04-output.json`。说明：这是 validity 的核心玩家可见证据。
+- `present-clear` 最近几轮只稳定呈现主角手持搪瓷杯、与卡琳娜站/靠桌沿对话，没有坐姿锚点。 证据：`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06a-director-prompt.md`；`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06b-narrator-prompt.md`。说明：recentTurns 中包含这些正文，但它们只是长文本上下文，没有被抽成 currentPlayerPosture。
+- `present-clear` Director 对 turn 50 的安排是回应、卡琳娜提议出门、黑猫先行、卡琳娜跟上；没有要求主角从坐姿起身。 证据：`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06-llm-calls.json`；`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/04-output.json`。说明：first divergence 不在 Director 结构化输出，而在 Narrator 正文补写。
+- `contradicted` Prompt 中混有非当前姿态压力：currentStoryline 已含公园长椅段落，地点记忆含旧沙发起身/公园长椅等历史或未来片段。 证据：`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/03-story-state.json`；`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06b-narrator-prompt.md`。说明：这些内容与最近可见现场不在同一时间点，且没有被显式标为“非当前姿态”。
+- `absent` 当前玩家姿态缺少专门、可执行的 handoff 字段。 证据：`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/03-story-state.json`；`run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06-llm-calls.json`。说明：Narrator 需要自行从长上下文推断主角姿态，缺少禁止无依据姿态变更的硬约束。
+
+竞争压力：
+- 场景转换压力：本轮要从室内安静对话转入外出。
+- Director beats 强调黑猫“站起”并走向铁门、卡琳娜等待主角，Narrator 需要给玩家补一个加入离场的动作。
+- currentStoryline/content 和地点记忆中含公园长椅、旧沙发起身、CG 资源等非当前姿态内容；turn 50 输出中甚至把公园 CG/bg 提前挂到仍在室内的黑猫段落。
+- 最近可见正文虽然清楚显示主角未坐下，但被埋在较长 prose 中，没有被提升为更高优先级约束。
+
+## Causal Chain
+- firstDivergenceArtifact: `run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-50/06-llm-calls.json call[1] Narrator text；随后规范化到 turn-50/04-output.json。`
+- triggeringPressure: Director 要求结束室内对话、卡琳娜带主角出门，且 prompt 中混入公园长椅/旧沙发起身等非当前姿态片段；叙述风格又需要把“放下杯子、准备跟上”写成一个完整动作。
+- missingGuard: 缺少 current-scene posture anchor 和姿态变更守卫：如果最近可见文本没有建立坐下，就不能写“站起来”；Director handoff 也没有把“主角当前未坐下/正手持杯子”作为 must-satisfy contract 交给 Narrator。
+- mechanismStatement: 场景转换 handoff 没有把最近可见的玩家姿态提升为最高优先级锚点，混杂的长椅/沙发历史与离场节奏促使 Narrator 用“放杯—站起来”补齐动作，从而把一个无依据的姿态变化写进玩家可见正文。
+- directCause: Narrator 为离开房间补写了从坐姿起身的动作。
+- propagation: 错误在 turn 50 正文末尾直接暴露给玩家，并作为下一轮“跟上她”的起点；后续没有明显继续固化坐姿，但当轮可见连续性已经受损。
+
+nonCauses:
+- 不是玩家输入导致：玩家只选择/输入了安慰卡琳娜的话。
+- 不是长期记忆缺失：所需姿态事实就在最近可见窗口内。
+- 不是固定剧情硬性要求：Director beats 和 requiredContent 没有要求主角“站起来”。
+
+## Root Cause
+- label: `context-priority`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: 系统在场景转换时没有把 current visible posture 作为高优先级、可执行锚点交给 Narrator。触发压力是“出门”beat 与混入的公园/沙发非当前记忆；缺失防线是姿态变更必须由最近可见动作支持的约束；失败运动是 Narrator 用常见离场模板补写“站起来”，覆盖了最近几轮实际未坐下的可见状态。
+
+fixSurface:
+- director-to-narrator handoff schema: 增加 currentPlayerPosture、currentHeldObjects、currentLocationAnchor
+- prompt assembly priority rules: recent visible posture > storyline/location memory；历史/未来地点摘要必须标注 non-current
+- Narrator prompt guard: posture-changing verbs require recent visible support
+- statefold/location memory: 避免把已发生/未来概览当作当前现场事实注入
+
+## Evidence
+玩家可见证据：turn 45 写主角接过搪瓷杯并站在卡琳娜面前；turn 46-49 持续写手中杯子和对话，没有坐下；turn 50 末尾突然写“你把杯子放到桌面上，站起来”。
+
+内部链路证据：turn-50/06-llm-calls.json call[0] 的 Director output 只有“主角回答”“卡琳娜说走吧”“黑猫起身”“卡琳娜拿起外套”等 beats；call[1] Narrator 首次生成“站起来”。turn-50/06b-narrator-prompt.md 同时包含最近可见正文和混杂的 currentStoryline/地点记忆，其中有公园长椅、旧沙发起身等非当前姿态压力。
+
+## Recommended Fix Area
+优先修复 prompt assembly 与 Director→Narrator handoff：把玩家当前姿态和手持物作为显式状态传递，并在 Narrator 侧加入无依据姿态变更检查。
+
+## Confidence
+`medium`

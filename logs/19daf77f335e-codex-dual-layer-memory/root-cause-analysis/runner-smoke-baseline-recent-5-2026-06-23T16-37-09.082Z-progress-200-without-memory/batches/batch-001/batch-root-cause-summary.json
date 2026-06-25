@@ -1,58 +1,481 @@
 {
   "batchId": "batch-001",
-  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
-      "issueId": "issue-1-turn-1",
       "issueIndex": 1,
       "turn": 1,
-      "validity": "valid",
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "同一场景内小贩的性别/代词无解释漂移，会让玩家难以确认正在交谈的是同一个人还是另一个角色。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "alias-pronoun-contract",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "entity/alias schema: 为 visibleAlias 增加 visiblePronoun 或 genderPresentation",
+          "prompt assembly: 将隐藏真实身份与玩家可见 persona 分区并说明不可影响表层称谓",
+          "post-generation validator: 同一 named entity/alias 单回合 pronoun drift 检查"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-1-turn-1/root-cause-report.md",
-      "resultPath": "issues/issue-1-turn-1/root-cause-result.json"
+      "recommendedFixArea": "优先修复角色 alias/persona 的 prompt contract：公开称呼、隐藏身份、可见 pronoun 分离，并在 Narrator 输出后做同场景实体代词一致性校验。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-001-turn-01/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-001-turn-01/root-cause-report.md",
+      "result": {
+        "issueId": "issue-1-turn-1",
+        "issueIndex": 1,
+        "turn": 1,
+        "issueValidity": "valid",
+        "problemSummary": "同一名小贩在 turn-1 内先被叙述为“他看着你”，随后又被叙述为“她没有直接回答/她的目光”，玩家可见层面没有交代这是换人或伪装变化。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。玩家只看到一个摊车后的“小贩”持续与帕兹对话，正文没有引入第二名小贩，也没有解释代词变化；同一可见实体的性别/代词在同一场景内漂移。",
+          "playerVisibleSupport": "turn-1 visibleText 先写“小贩一边擦着杯子……他看着你”，后文仍是玩家把敏特照片递给同一小贩，却写“她没有直接回答。她的目光在你脸上停了停”。",
+          "caveats": [
+            "“小贩”真实身份属于内部信息，不能用于证明玩家可见问题；这里只以同轮 visibleText 的连续对话和单一摊位人物为有效性依据。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn-1 开场中，卡琳娜离开后，玩家仍坐在中央区庆典附近长椅旁，与同一辆推车后的“小贩”继续交谈并出示敏特照片。",
+          "relevantFacts": [
+            {
+              "claim": "玩家可见层面只有一名摊车后的“小贩”在和帕兹连续对话。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-01/04-output.json"
+              ],
+              "notes": "正文以同一称呼、小贩摊位和连续动作承接，没有新角色入场。"
+            },
+            {
+              "claim": "Narrator prompt 中“小贩”作为角色出现，但没有公开角色卡、性别或 pronoun 字段。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-01/06b-narrator-prompt.md"
+              ],
+              "notes": "提示里只有“【角色：“小贩”】”以及地点，choice prompt 也显示“角色 “小贩”：（无补充）”。"
+            },
+            {
+              "claim": "故事线把“小贩”的真实身份设为罗英并要求不得揭示。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-01/03-story-state.json",
+                "turn-01/06b-narrator-prompt.md"
+              ],
+              "notes": "这是内部约束，不应直接进入玩家可见判断；它在根因层面提供了与公开别名相冲突的隐藏身份压力。"
+            },
+            {
+              "claim": "全局写作一致性规则要求已出现事实和称呼后续保持一致。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-01/06b-narrator-prompt.md"
+              ],
+              "notes": "规则存在，但没有针对单个临时 NPC 的 pronoun 锁定或自动校验。"
+            }
+          ],
+          "competingPressures": [
+            "临时身份“小贩”缺少显性性别信息",
+            "隐藏真实身份“罗英”不能揭示但会暗示女性代词",
+            "开场固定演出很长，叙述焦点在卡琳娜、照片和主角身份上",
+            "“小贩模样的人”容易触发默认男性路人写法"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-01/06-llm-calls.json call[1] Narrator output；同样内容落入 turn-01/04-output.json",
+          "triggeringPressure": "Prompt 只给了公开别名“小贩”和隐藏约束“真实身份是罗英、不得展示罗英 ID”，没有给可见 persona 的稳定性别/pronoun；叙述又先把小贩写成泛称“一个……的人”。",
+          "missingGuard": "缺少 alias persona 的 visiblePronoun/gender 字段、缺少“同一 alias 在同一场景内代词必须一致”的硬约束和输出校验；隐藏身份也没有被隔离成不能影响表层代词的资料。",
+          "mechanismStatement": "临时 NPC 的公开 alias 没有稳定 pronoun 合约，同时隐藏真实身份提供了女性化压力，Narrator 在长固定开场里先按普通“小贩”默认成“他”，后又受隐藏/后续语境牵引改用“她”，从而让玩家看到同一角色代词漂移。",
+          "directCause": "Narrator 在同一段 visibleText 内生成了“他看着你”和“她没有直接回答”。",
+          "propagation": "该漂移被写入 turn-01/04-output.json 和 visible-timeline.jsonl；后续 turn-2/turn-3 继续使用女性代词，等于把后半段选择固定下来，但没有修复 turn-1 内部冲突。",
+          "nonCauses": [
+            "不是长期记忆缺失，问题发生在初始回合内部。",
+            "不是 evaluator 误判，玩家可见正文有直接冲突。",
+            "不是单纯 Director 标签错误；Director 只列“小贩”，真正代词漂移发生在 Narrator 可见正文。"
+          ]
+        },
+        "rootCause": {
+          "label": "alias-pronoun-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "系统为伪装/临时角色只传递了别名和隐藏真实身份，没有传递可见 persona 的稳定 pronoun 合约，也没有输出一致性校验；在隐藏女性身份与“小贩”默认路人写法的压力下，局部生成先后采用不同代词。",
+          "fixSurface": [
+            "entity/alias schema: 为 visibleAlias 增加 visiblePronoun 或 genderPresentation",
+            "prompt assembly: 将隐藏真实身份与玩家可见 persona 分区并说明不可影响表层称谓",
+            "post-generation validator: 同一 named entity/alias 单回合 pronoun drift 检查"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-1 visibleText：“他看着你，眼里带着点好奇”与稍后“她没有直接回答。她的目光在你脸上停了停”指向同一小贩。",
+          "internalTrace": "turn-01/06b-narrator-prompt.md 中“小贩”无补充角色卡；同 prompt/story state 又包含“真实身份是黄昏会的罗英，禁止直接展示”的隐藏约束。Director output 只列“小贩”行动，没有指定 pronoun。"
+        },
+        "recommendedFixArea": "优先修复角色 alias/persona 的 prompt contract：公开称呼、隐藏身份、可见 pronoun 分离，并在 Narrator 输出后做同场景实体代词一致性校验。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-2-turn-3",
       "issueIndex": 2,
       "turn": 3,
-      "validity": "valid",
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "该选项把可执行行动和不相干的抽象短语拼在一起，影响玩家判断自己将采取什么行动。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "choiceGenerator: key candidateActions 也必须通过可见文本改写或 lint",
+          "candidate action schema: 分离 machineLabel/actionId 与 playerFacingText",
+          "choice output validator: 禁止逗号拼接的抽象短语或非动作尾巴"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-2-turn-3/root-cause-report.md",
-      "resultPath": "issues/issue-2-turn-3/root-cause-result.json"
+      "recommendedFixArea": "优先修复 choice pipeline：所有 key choice 的 player-facing text 都经过同一套短、具体、动作化的改写和 lint，不允许状态机 text 直接覆盖最终 choices。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-002-turn-03/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-002-turn-03/root-cause-report.md",
+      "result": {
+        "issueId": "issue-2-turn-3",
+        "issueIndex": 2,
+        "turn": 3,
+        "issueValidity": "valid",
+        "problemSummary": "turn-3 选项“直接去暗街，往日总是如影随形”把明确行动和抽象短语硬拼，玩家难以判断后半句是否也是行动内容或情绪承诺。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。turn-3 正文只建立了“去暗街找卡琳娜/注意外来者被盯上”的行动场景，选项前半句可执行，后半句“往日总是如影随形”既不是动作，也没有在本轮正文中被建立为可点击意图。",
+          "playerVisibleSupport": "turn-3 visibleText 结尾是“暗街。申诉人。情报有价。”和“这个地方不会白白告诉你任何事。”，随后 choices 显示“直接去暗街，往日总是如影随形”。",
+          "caveats": [
+            "后半句可以被理解为主题化文案，但作为可点击选择缺少动作边界，因此仍是 choices scope 的质量退化。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家刚进一步打听卡琳娜，小贩说明卡琳娜住在暗街、情报有价，并提醒外来记者可能被盯上；此时自然选择应是去暗街或观察异常目光。",
+          "relevantFacts": [
+            {
+              "claim": "本轮可执行目标是前往暗街或留意被盯上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-03/04-output.json"
+              ],
+              "notes": "正文和第二个选项都围绕这两个动作。"
+            },
+            {
+              "claim": "story state 的 candidateActions 已经包含问题文案。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-03/03-story-state.json"
+              ],
+              "notes": "candidateActions[0].text 为“直接去暗街，往日总是如影随形”，且 key=true。"
+            },
+            {
+              "claim": "Choice prompt 本身要求选项短、具体、可点击，并以正文结尾判断玩家能合理做什么。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-03/06c-choice-prompt.md"
+              ],
+              "notes": "该质量约束存在，但没有约束最终可见选项覆盖逻辑。"
+            },
+            {
+              "claim": "raw Choice LLM call 曾给出较清晰选项。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-03/06-llm-calls.json"
+              ],
+              "notes": "call[2].object 中有“按小贩的指点，起身前往暗街”，但运行事件和 04-output 最终采用了 candidateActions 文案。"
+            }
+          ],
+          "competingPressures": [
+            "key choice/actionId 需要暴露剧情出口",
+            "candidateActions 被视为强绑定选项",
+            "choiceGenerator 的文本质量要求没有覆盖状态机候选动作的 display text",
+            "lockInput=true 使玩家只能在这些关键出口中选择"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-03/03-story-state.json candidateActions[0].text；传播到 turn-03/07-events.json choiceGenerator worker-done 和 turn-03/04-output.json choices",
+          "triggeringPressure": "状态机候选动作把 key action 的展示文案直接写成“直接去暗街，往日总是如影随形”，并带 actionId=choice:前往暗街/key=true；choiceGenerator 最终以 lockInput 输出该候选动作。",
+          "missingGuard": "缺少 candidateAction.displayText 的可点击性校验，也缺少“actionId/anchor label 可绑定，但最终玩家可见文本必须由 Choice prompt 改写或审核”的合约。",
+          "mechanismStatement": "关键剧情出口的 candidateAction 文案被直接当作玩家可见 choice 使用，且 lockInput 强化了该绑定；由于没有把机器动作语义与可见按钮文本分离，抽象主题短语绕过 Choice prompt 的清晰行动要求进入了最终选项。",
+          "directCause": "choiceGenerator worker-done 输出了 candidateActions 中的原始 text，而不是 raw Choice LLM call 中更清晰的“按小贩的指点，起身前往暗街”。",
+          "propagation": "问题选项进入 turn-03/04-output.json，turn-04 的 playerInput 也变成“直接去暗街，往日总是如影随形”，继续污染下一轮输入语义。",
+          "nonCauses": [
+            "不是玩家输入导致，问题出现在玩家选择前的 options。",
+            "不是 Narrator 正文问题，正文目标足够清楚。",
+            "不是纯 LLM 选择生成失败，因为 raw choice call 中存在清晰改写；最终可见文本来自状态机候选动作覆盖。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "状态机 key action 的 display text 与 actionId 绑定过紧，候选动作文案未经 Choice worker 的可点击性改写/校验就被 lockInput 输出；触发压力是关键剧情出口必须暴露，缺失防线是 display text 质量 gate，失败运动是候选动作文本绕过清晰选项合约进入 UI。",
+          "fixSurface": [
+            "choiceGenerator: key candidateActions 也必须通过可见文本改写或 lint",
+            "candidate action schema: 分离 machineLabel/actionId 与 playerFacingText",
+            "choice output validator: 禁止逗号拼接的抽象短语或非动作尾巴"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-3 choices 直接显示“直接去暗街，往日总是如影随形”；同轮正文只支持“去暗街”和“可能被盯上”。",
+          "internalTrace": "turn-03/03-story-state.json candidateActions[0].text 已含问题文案；turn-03/07-events.json 的 choiceGenerator worker-done 输出相同文案并 lockInput=true；turn-03/06-llm-calls.json call[2] 反而有更清晰的选项。"
+        },
+        "recommendedFixArea": "优先修复 choice pipeline：所有 key choice 的 player-facing text 都经过同一套短、具体、动作化的改写和 lint，不允许状态机 text 直接覆盖最终 choices。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-3-turn-5",
       "issueIndex": 3,
       "turn": 5,
-      "validity": "valid",
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "正文只交代相机被放回并取回，交出的两卷胶卷在冲突解决后消失，造成物件状态承接缺口。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "object-state-handoff",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "selected action parser: 抽取 handedOverItems / affectedObjects",
+          "Director/Narrator prompt: 增加 mustAccountForObjects",
+          "post-generation continuity check: 同一 turn 物件交出后必须归还/带走/损坏/遗失之一"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "issues/issue-3-turn-5/root-cause-report.md",
-      "resultPath": "issues/issue-3-turn-5/root-cause-result.json"
+      "recommendedFixArea": "优先为 selected action 到 Director/Narrator 的 handoff 增加 object-state ledger，并在固定 beat 消耗前后做同 turn 物件归宿校验。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-003-turn-05/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-003-turn-05/root-cause-report.md",
+      "result": {
+        "issueId": "issue-3-turn-5",
+        "issueIndex": 3,
+        "turn": 5,
+        "issueValidity": "valid",
+        "problemSummary": "turn-5 玩家交出相机和两卷胶卷后，黑帮退场时正文只交代放下相机、玩家捡回相机，两卷胶卷没有被归还、带走或损坏的交代。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。玩家可见文本明确“摸出两卷”胶卷并交给黑帮，之后冲突解决只处理相机；胶卷作为同一动作中交出的具体物件，状态缺口会影响玩家对财产/证据是否还在的理解。",
+          "playerVisibleSupport": "turn-5 visibleText：“把相机带从脖子上绕下来，递了出去。然后是口袋里的胶卷盒——你摸出两卷……”和“他伸手接过相机和胶卷”；后文只有“他放下相机”和“你捡起地上的相机”。",
+          "caveats": [
+            "玩家可以勉强想象胶卷也被一起放下，但正文用了单数“相机”并只检查相机，未给出足够承接，因此仍是可见物件状态缺口。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn-4 黑帮要求“把相机留下”；turn-5 玩家选择以示弱方式交出相机和胶卷，黑帮已经实际接过两类物品，卡琳娜随后介入。",
+          "relevantFacts": [
+            {
+              "claim": "玩家选项和本轮正文都明确交出“相机和胶卷/两卷胶卷”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-05/04-output.json",
+                "turn-05/06a-director-prompt.md"
+              ],
+              "notes": "玩家输入和 Narrator 前半段都保留了胶卷。"
+            },
+            {
+              "claim": "Director output 将动作摘要写成交出相机和胶卷，但后续 beat/characterBeat 只聚焦相机。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-05/06-llm-calls.json",
+                "turn-05/06b-narrator-prompt.md"
+              ],
+              "notes": "beats[0] 有“交出相机和胶卷”，beats[1] 变成“黑帮接过相机”，characterBeat 为“递出相机”。"
+            },
+            {
+              "claim": "当前固定故事线 1-03 foreground 卡琳娜介入、黑帮退场和相机是否还能用，没有要求归还全部被夺物。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-05/03-story-state.json",
+                "turn-05/06a-director-prompt.md"
+              ],
+              "notes": "固定演出和关键台词推动卡琳娜登场，物件状态不是硬约束。"
+            },
+            {
+              "claim": "runtime state 没有 inventory/object ledger 记录胶卷被交出或收回。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-05/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 只有 anchors/quest state，没有相机或胶卷状态。"
+            }
+          ],
+          "competingPressures": [
+            "上一节点黑帮原始要求主要是“把相机留下”",
+            "玩家选择把胶卷额外纳入示弱动作",
+            "当前固定 beat 需要快速完成卡琳娜介入和公寓邀请",
+            "卡琳娜后续台词专门问“你那台破相机还能用吧？”使相机更显眼"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-05/06-llm-calls.json Director output（同内容嵌入 turn-05/06b-narrator-prompt.md）：从“交出相机和胶卷”压缩为“黑帮接过相机/递出相机”",
+          "triggeringPressure": "当前固定节点 1-03 强制快速演出卡琳娜介入、黑帮退场和相机可用性，对上一回合玩家额外交出的胶卷没有状态化承接；Director 的 beat 也把后续物件焦点缩到相机。",
+          "missingGuard": "缺少 object-state handoff：玩家动作中转移的所有具体物件没有进入 must-account-for 列表，也没有在 Narrator 结束前检查“已交出物件是否被归还/带走/遗失”。",
+          "mechanismStatement": "玩家选择产生了“相机+两卷胶卷”的临时物件交易，但 handoff 只把相机作为剧情关键物件传给固定介入 beat；没有物件状态清单约束退场结算，Narrator 因而只写相机落地和被捡回，让胶卷在可见状态中悬空。",
+          "directCause": "Narrator 写出黑帮接过相机和胶卷后，只让他“放下相机”，玩家也只“捡起地上的相机”。",
+          "propagation": "turn-05/05-runtime-after.json 没有胶卷状态，后续 turn-6 已进入公寓，物件缺口未被系统修复或记录。",
+          "nonCauses": [
+            "不是长期记忆问题，胶卷事实就在同一 turn 前半段。",
+            "不是玩家输入含糊，选项明确写“相机和胶卷”。",
+            "不是 evaluator 依赖隐藏信息，缺口完全来自 visibleText。"
+          ]
+        },
+        "rootCause": {
+          "label": "object-state-handoff",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "选中动作产生的临时物件转移没有被结构化成 Narrator 必须结算的 object state；固定卡琳娜介入 beat 和 Director handoff foreground 相机而遗漏胶卷，缺少“所有转移物件必须有归宿”的 guard，导致局部正文只解决相机。",
+          "fixSurface": [
+            "selected action parser: 抽取 handedOverItems / affectedObjects",
+            "Director/Narrator prompt: 增加 mustAccountForObjects",
+            "post-generation continuity check: 同一 turn 物件交出后必须归还/带走/损坏/遗失之一"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-5 前半段交出“相机和胶卷/两卷”，后半段只“放下相机”“捡起相机”。",
+          "internalTrace": "turn-05/06b-narrator-prompt.md 的 Director JSON 同时包含“交出相机和胶卷”和只聚焦相机的 beat/actionHint；turn-05/03-story-state.json 当前固定节点没有胶卷归宿要求；turn-05/05-runtime-after.json 无物件状态。"
+        },
+        "recommendedFixArea": "优先为 selected action 到 Director/Narrator 的 handoff 增加 object-state ledger，并在固定 beat 消耗前后做同 turn 物件归宿校验。",
+        "confidence": "medium"
+      }
     },
     {
-      "issueId": "issue-4-turn-5",
       "issueIndex": 4,
       "turn": 5,
-      "validity": "valid",
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "卡琳娜介入时的位置在“巷子深处”“玩家身后”和“巷口”之间切换，导致玩家难以还原现场空间关系。",
+      "batchId": "batch-001",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "current-scene-anchor",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "scene state model: 保存 playerPosition/facing/blockers/entryPath",
+          "Director prompt: 对介入角色要求 chooseOne entryVector 并持续使用",
+          "Narrator validator: 同段落 relative-location drift 检查"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "issues/issue-4-turn-5/root-cause-report.md",
-      "resultPath": "issues/issue-4-turn-5/root-cause-result.json"
+      "recommendedFixArea": "优先修复 current-scene spatial anchoring：把最近一轮关键空间关系结构化进 Director/Narrator，并对同段新增角色的 entryVector 做一致性校验。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-004-turn-05/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-001/issues/issue-004-turn-05/root-cause-report.md",
+      "result": {
+        "issueId": "issue-4-turn-5",
+        "issueIndex": 4,
+        "turn": 5,
+        "issueValidity": "valid",
+        "problemSummary": "turn-5 卡琳娜介入时，正文先说声音来自“巷子深处”，又说黑帮目光越过玩家落在“身后”，再写她站在“巷口的阴影里”，空间锚点互相打架。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。turn-4 已建立玩家朝前方窄巷/巷口遭遇三人，turn-5 同一次介入却在深处、玩家身后、巷口三种位置之间切换，玩家难以复原卡琳娜从哪一侧出现、黑帮和玩家各自面向何处。",
+          "playerVisibleSupport": "turn-4 visibleText：“前方是一条窄巷”“巷口站着三个人”；turn-5 visibleText：“一个声音从巷子深处传来”“目光越过你，落在你身后的某个地方”“巷口的阴影里站着一个少女”。",
+          "caveats": [
+            "如果把玩家在包围中转身/后退作为未写出的动作，部分方位可被补解释；但正文没有给出该转向，因此玩家可见空间仍断裂。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn-4 末尾玩家在暗街巷口被三名黑帮逼近、左右/右后方形成包围；前一段可见空间核心是“前方窄巷”和“巷口站着三个人”。",
+          "relevantFacts": [
+            {
+              "claim": "前一轮可见空间：玩家从中央区走向前方窄巷，三名黑帮在巷口拦路。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-04/04-output.json",
+                "turn-05/06a-director-prompt.md"
+              ],
+              "notes": "turn-05 prompt 的最近几轮玩家经历中保留了该正文。"
+            },
+            {
+              "claim": "当前故事线 1-03 只要求卡琳娜声音传来、主角顺声看去、卡琳娜登场，没有指定入口/深处/玩家身后的几何关系。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-05/03-story-state.json",
+                "turn-05/06a-director-prompt.md"
+              ],
+              "notes": "固定 beat 缺少可执行空间锚点。"
+            },
+            {
+              "claim": "Director output 引入“卡琳娜的声音从身后传来”。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-05/06-llm-calls.json",
+                "turn-05/06b-narrator-prompt.md"
+              ],
+              "notes": "该方向没有和前一轮“前方/巷口/包围圈”对齐。"
+            },
+            {
+              "claim": "runtime/location state 没有保存 player、黑帮、巷口、巷子深处的相对位置。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-04/05-runtime-after.json",
+                "turn-05/05-runtime-after.json"
+              ],
+              "notes": "runtime 只有 charactersOnStage 与 anchors，无法约束空间连续性。"
+            }
+          ],
+          "competingPressures": [
+            "固定登场 CG 和 background 都标注“暗街-巷口”",
+            "戏剧化介入常用“声音从深处/身后传来”",
+            "前一轮可见文本的巷口站位只在长 recentTurns prose 中",
+            "当前 beat 要快速完成卡琳娜压制黑帮并带玩家进入更深处"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-05/06-llm-calls.json Director output 首先无锚点地写“声音从身后传来”；turn-05/04-output.json Narrator 进一步混合为“巷子深处/身后/巷口”",
+          "triggeringPressure": "当前固定 beat 只规定卡琳娜登场和暗街-巷口资源，前一轮空间关系埋在长 recent visible text 中；Director/Narrator 为了制造压迫感和配合 CG/background，自行选择多个相对方位。",
+          "missingGuard": "缺少 current-scene spatial anchor：没有结构化记录玩家朝向、黑帮位置、巷口入口、巷子深处以及卡琳娜进入路径，也没有要求新增角色只使用一个一致的相对位置。",
+          "mechanismStatement": "卡琳娜介入的固定演出没有携带当前巷口几何图，且 previous spatial facts 只以长 prose 形式存在；在“暗街-巷口”资源和戏剧化出场语言的竞争下，Director/Narrator 分别选择身后、深处和巷口作为锚点，导致玩家可见空间断裂。",
+          "directCause": "Narrator 在同一介入段落连续写“巷子深处”“你身后”“巷口的阴影”，没有解释玩家或卡琳娜移动。",
+          "propagation": "同轮后文又让卡琳娜“朝巷子更深处走去”，进一步让她的初始位置难以定位；runtime 只记录节点推进，没有修复空间状态。",
+          "nonCauses": [
+            "不是长期记忆或 meta-memory，所需空间事实在上一轮和本轮 prompt 中。",
+            "不是玩家选择导致，玩家只选择交出物品，没有改变站位。",
+            "不是单一 background 资源错误；问题在相对方位没有被合约化。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统没有把最近可见场景的空间关系转成可执行 anchor；固定卡琳娜介入 beat 只给出出场要求和“暗街-巷口”资源，缺失方位一致性 guard，生成链在戏剧化语言和资源地点压力下混用深处、身后和巷口。",
+          "fixSurface": [
+            "scene state model: 保存 playerPosition/facing/blockers/entryPath",
+            "Director prompt: 对介入角色要求 chooseOne entryVector 并持续使用",
+            "Narrator validator: 同段落 relative-location drift 检查"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-4 建立“前方窄巷/巷口站着三个人”；turn-5 同一介入段落使用“巷子深处”“身后”“巷口”三个锚点。",
+          "internalTrace": "turn-05/03-story-state.json 固定节点未指定卡琳娜相对方位；turn-05/06b-narrator-prompt.md 的 Director JSON 写“声音从身后传来”，requiredContent 只强调 CG/background 和台词；runtime-after 没有空间状态字段。"
+        },
+        "recommendedFixArea": "优先修复 current-scene spatial anchoring：把最近一轮关键空间关系结构化进 Director/Narrator，并对同段新增角色的 entryVector 做一致性校验。",
+        "confidence": "medium"
+      }
     }
   ]
 }

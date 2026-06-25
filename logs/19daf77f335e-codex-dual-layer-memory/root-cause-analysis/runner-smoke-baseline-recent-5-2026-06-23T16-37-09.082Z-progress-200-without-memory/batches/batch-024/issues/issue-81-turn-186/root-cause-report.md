@@ -1,0 +1,70 @@
+# Root Cause Report - issue-81 turn 186
+
+## Problem
+晨光在同一处公园铁艺围栏上的位置从第 181 轮的“第三根横杆移到接近顶端”退回第 186 轮的“第二道横杆”，与其间已经经过的观察和停留时间不连续。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 玩家可见文本已经建立晨光沿围栏持续爬升；第 184 轮又等了两三分钟，第 185 轮又停留将近三分钟，第 186 轮返回时却写到更低的第二道横杆，形成局部时间/光影倒退。
+- playerVisibleSupport: visible-timeline.jsonl 中第 181 轮写“从铁艺围栏的第三根横杆移到了接近顶端的位置”；第 184 轮写“大约两三分钟”；第 185 轮写“停留了将近三分钟”；第 186 轮写“晨光已经爬到了铁艺围栏的第二道横杆上”。
+- caveats:
+- “第二道/第三根”的计数方向理论上有极小解释空间，但同一叙述使用“爬到”和“接近顶端”作为上升标记，玩家自然会读成同一垂直进度。
+
+
+## Context Assessment
+actualStateBeforeIssue: 主角已离开公园长椅，在附近街道观察、躲入门洞、爬到二楼阳台俯瞰并确认安全；晨光和影子应继续向早晨更晚的状态推进，而不是回到更低的围栏位置。
+
+relevantFacts:
+- `present-buried`：第 181 轮已经把公园铁艺围栏上的晨光定位到第三根横杆并接近顶端。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md
+  - notes: 该事实完整进入了 Narrator prompt 的“最近几轮玩家经历”，但只是长篇 prose 中的一句，没有被抽取成当前场景锚点或硬约束。
+- `present-clear`：第 184 轮和第 185 轮又明确经过两三分钟和将近三分钟。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md
+  - notes: 经过时间在最近上下文中清楚，但没有和围栏光线位置形成可执行的单调推进约束。
+- `present-clear`：第 186 轮的玩家行动只是返回公园长椅，并未触发时间倒流、视角切换或特殊光学解释。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06a-director-prompt.md, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md
+  - notes: Director 只安排“主角走回公园长椅坐下、卡琳娜出现”，没有要求重置环境时间。
+- `present-clear`：写作规则鼓励用光线变化暗示时间。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md
+  - notes: 这使 Narrator 很容易生成新的光影细节；但缺少与既有坐标对齐的 guard。
+
+competingPressures:
+- Director handoff 将重点放在“返回长椅、卡琳娜出现、温馨忧郁对话”上，环境连续性不是显式任务目标。
+- Narrator prompt 的最近五轮很长，光线位置只是埋在第 181 轮正文里。
+- 底层写作规则要求用光线表现时间流动，增加了重新造一个具体光线坐标的压力。
+- 第 185 轮反复出现“横档”等金属横向构件描写，可能降低“横杆”这个细节的辨识度。
+
+
+## Causal Chain
+- firstDivergenceArtifact: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06-llm-calls.json 的 Narrator streamText / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/04-output.json
+- triggeringPressure: Narrator 被要求把“返回公园长椅、卡琳娜出现”的慢铺场景落成感官细节，同时写作规范鼓励用晨光/影子表现时间；Director 输出没有传递围栏光线已接近顶端这一具体坐标。
+- missingGuard: 缺少 current-scene anchor 来记录“公园铁艺围栏光线位置已到接近顶端，后续只能继续推进或改用模糊描写”；也缺少对环境坐标回退的自动一致性检查。
+- mechanismStatement: 最近可见正文里的微型环境坐标没有被提升为可执行的当前场景锚点，Narrator 在“用光线显示时间推进”的压力下重新生成了一个具体横杆位置，于是把已经接近顶端的晨光写回第二道横杆。
+- directCause: Narrator 在输出首段中生成“晨光已经爬到了铁艺围栏的第二道横杆上”，没有对照第 181 轮已更高的位置。
+- propagation: 错误直接进入 04-output.json 的 narrative/visibleText，并被 consistency review 的 visible-timeline.jsonl 捕获；后续选项没有修正这个环境坐标。
+- nonCauses:
+- 不是 hidden information 导致的错误；玩家可见文本本身足以证明问题。
+- 不是 Choice worker 主因；选项生成发生在可见正文之后。
+- 不是长期记忆缺失；关键事实仍在最近五轮 prompt 内，只是没有被锚定和优先化。
+
+
+## Root Cause
+- label: `current-scene-anchor`
+- family: `recent-context`
+- secondaryFamilies: `agent-system`
+- description: 当前场景的可测量环境细节只以长篇最近正文形式存在，没有被抽取为单调推进的 scene anchor；在 Director 未强调该细节、Narrator 又被要求用光影慢铺的情况下，模型重新生成了不受约束的围栏横杆位置，造成玩家可见的光影倒退。
+- fixSurface:
+  - context assembly: 为当前场景抽取可持续环境锚点，例如 lightPosition、shadowDirection、wetness、objectLocation，并标注单调/不可回退规则。
+  - Director-to-Narrator handoff: 对返回同一地点的 turn 注入“do not regress visible environmental anchors”的当前场景约束。
+  - post-generation consistency check: 对同一名词短语和序数坐标做短窗可见文本回退检测。
+
+
+## Evidence
+- playerVisible: 第 181 轮“第三根横杆→接近顶端”与第 186 轮“第二道横杆”冲突；第 184、185 轮又增加了约五六分钟的等待/观察时间。
+- internalTrace: turn-186/06b-narrator-prompt.md 已包含第 181-185 轮可见正文和玩家输入；Director output 只要求返回长椅并让卡琳娜出现，没有约束围栏光线位置；turn-186/04-output.json 首段首次出现错误的“第二道横杆”。
+
+## Recommended Fix Area
+优先修复 current scene continuity anchor 的抽取和注入；对光线、影子、水痕等可见环境细节建立短窗单调性 guard。
+
+## Confidence
+`high`

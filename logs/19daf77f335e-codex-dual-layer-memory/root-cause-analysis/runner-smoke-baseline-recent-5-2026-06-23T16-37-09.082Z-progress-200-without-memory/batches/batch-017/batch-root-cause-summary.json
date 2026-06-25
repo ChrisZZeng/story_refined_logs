@@ -1,58 +1,486 @@
 {
   "batchId": "batch-017",
-  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
-      "issueId": "issue-53-turn-128",
       "issueIndex": 53,
       "turn": 128,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "正文把已装胶卷的模拟相机当成可随意开后背检查且不会影响胶卷/计数的设备，和已建立的胶片相机状态不一致。",
+      "batchId": "batch-017",
       "issueValidity": "valid",
       "rootCause": {
         "label": "object-affordance-contract",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "detail-memory"
+        ],
+        "fixSurface": [
+          "equipment/object state schema for loaded film camera",
+          "Director-to-Narrator requiredContent guard for object affordances",
+          "Narrator prompt rule: do not invent destructive inspection steps for loaded analog film cameras",
+          "statefold/writeback of frame count and loaded-film status"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-53-turn-128/root-cause-report.md",
-      "resultPath": "issues/issue-53-turn-128/root-cause-result.json"
+      "recommendedFixArea": "为关键装备建立可检索的 object state/affordance，并让 Director 在装备检查类动作中显式传递允许/禁止的检查方式和当前帧/装卷状态。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-053-turn-128/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-053-turn-128/root-cause-report.md",
+      "result": {
+        "issueId": "issue-53-turn-128",
+        "turn": 128,
+        "issueValidity": "valid",
+        "problemSummary": "第 128 轮把已装胶卷的 Nikon FM2 写成可以在晨光中打开后背检查胶卷，并在同轮按下快门后仍用含混计数确认状态，违背胶片相机已装卷和已拍摄的玩家可见事实。",
+        "validityAssessment": {
+          "verdictReason": "问题有效。玩家此前看到 Nikon FM2 已装胶卷、反复过片/按快门，并在第 120 轮拍下清晨街景；第 128 轮却在检查相机时打开后背看胶卷且没有任何曝光/损坏后果，这是胶片相机物理规则上的可见冲突。",
+          "playerVisibleSupport": "第 111 轮写明尼康FM2、卷只拍了不到一半；第 120 轮玩家按下快门，影像变成银盐颗粒上的化学反应；第 128 轮又写按下快门后打开后背，看到胶卷还在里面并用计数器确认。",
+          "caveats": [
+            "计数器具体应显示几张会受此前空按、过片和是否实际曝光影响，最强问题不是精确数字，而是把装卷胶片机当作可安全开后背检查。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家在卡尔小屋内/窗边等待卡琳娜消息；相机挂在胸前，防水袋在身侧，银铃在外套内袋。相机此前是 Nikon FM2 胶片机，已经装卷，多次检查并在第 120 轮实际拍摄一帧。",
+          "relevantFacts": [
+            {
+              "claim": "相机是装有胶卷的 Nikon FM2 胶片相机",
+              "availability": "present-buried",
+              "artifacts": [
+                "visible-timeline.jsonl turn 111",
+                "turn-128/06a-director-prompt.md"
+              ],
+              "notes": "玩家可见事实明确；到第 128 轮 prompt 中主要以历史摘要和远距剧情记忆出现，没有结构化为当前物品状态。"
+            },
+            {
+              "claim": "第 120 轮已经对窗外实际拍下一张照片",
+              "availability": "present-buried",
+              "artifacts": [
+                "visible-timeline.jsonl turn 120",
+                "turn-128/06a-director-prompt.md:438"
+              ],
+              "notes": "当前故事线摘要只保留为‘按下快门，记录下晨光中的景色’，没有携带当前帧计数或装卷约束。"
+            },
+            {
+              "claim": "本轮玩家只要求‘检查一下相机’",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-128/01-summary.json",
+                "turn-128/06a-director-prompt.md:735"
+              ],
+              "notes": "该输入不要求开后背，也不要求新增拍摄。"
+            },
+            {
+              "claim": "Director 要求检查相机机身、镜头、快门和防水袋内备用胶卷",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-128/06-llm-calls.json call0",
+                "turn-128/06b-narrator-prompt.md:770"
+              ],
+              "notes": "这是本轮最靠近 Narrator 的强指令，但没有说明胶片机检查的禁止动作。"
+            },
+            {
+              "claim": "胶片机开后背会曝光/破坏已装胶卷",
+              "availability": "absent",
+              "artifacts": [
+                "turn-128/06b-narrator-prompt.md"
+              ],
+              "notes": "没有以物品 affordance、硬约束或当前状态字段进入 Narrator 合约。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择了装备检查",
+            "Director 的 requiredContent 要求检查快门和备用胶卷",
+            "pacing 为感官细节优先",
+            "当前故事线长期停留在等待/反复检查装备，容易诱发更具体但未校验的检查步骤"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-128/06-llm-calls.json call1 narrator text（同步落入 turn-128/04-output.json）",
+          "triggeringPressure": "Director 把玩家输入细化为‘检查相机机身、镜头、快门’和‘检查防水袋内的备用胶卷’，并要求感官细节优先；Narrator 需要把简单检查扩展成一段具体动作。",
+          "missingGuard": "当前物品状态没有把‘loaded film camera / do not open back in daylight / preserve film counter continuity’作为硬约束交给 Narrator；历史中已拍摄和装卷事实只在长摘要或更早可见文本里，缺少可执行的检查动作边界。",
+          "mechanismStatement": "在装备检查被要求写成细节化动作、但胶片相机的当前装卷状态和禁止开后背 affordance 没有结构化进入合约时，Narrator 用未经校验的相机检查套路补全为打开后背和读计数器，导致玩家可见的胶片机物理冲突。",
+          "directCause": "Narrator 在第 128 轮正文中自行加入‘打开后背——胶卷还在里面’和计数器判断。",
+          "propagation": "该错误被规范化进 turn-128/04-output.json，并在第 129 轮 recentTurns 中作为已发生事实继续出现，后续相机检查又沿用‘计数器显示胶卷还剩大半卷’的说法。",
+          "nonCauses": [
+            "不是 Choice 生成直接导致；第 127 轮选项仅是‘检查一下相机’。",
+            "不是隐藏设定冲突；玩家可见文本本身足以确认问题。",
+            "不是 runtime-after 写回了错误物品状态；runtime-after 没有相关结构化物品状态。"
+          ]
+        },
+        "rootCause": {
+          "label": "object-affordance-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "detail-memory"
+          ],
+          "description": "触发压力是 Director 要求把‘检查相机/快门/胶卷’写成感官细节；缺失防线是系统没有把当前物品的胶片机装卷状态、已拍摄帧和禁止开后背规则作为 Narrator 可执行约束。于是模型用普通装备检查套路补全出打开后背和读计数器，生成了胶片机物理规则冲突。",
+          "fixSurface": [
+            "equipment/object state schema for loaded film camera",
+            "Director-to-Narrator requiredContent guard for object affordances",
+            "Narrator prompt rule: do not invent destructive inspection steps for loaded analog film cameras",
+            "statefold/writeback of frame count and loaded-film status"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 111 轮：Nikon FM2 已装胶卷且卷只拍了不到一半；第 120 轮：实际按快门拍下清晨街景；第 128 轮：按快门后又打开后背看到胶卷且没有曝光后果。",
+          "internalTrace": "turn-128/06-llm-calls.json call0 只要求检查机身、镜头、快门和防水袋内备用胶卷；call1 首次写出打开后背、计数器和胶卷卷轴；turn-128/06a/06b prompt 没有结构化胶片机 affordance 约束。"
+        },
+        "recommendedFixArea": "为关键装备建立可检索的 object state/affordance，并让 Director 在装备检查类动作中显式传递允许/禁止的检查方式和当前帧/装卷状态。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-54-turn-128",
       "issueIndex": 54,
       "turn": 128,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "备用胶卷数量和包装状态从三卷 Tri-X 加一盒 HP5 无承接地变成五卷单独密封胶卷。",
+      "batchId": "batch-017",
       "issueValidity": "valid",
       "rootCause": {
         "label": "memory-persistence",
-        "family": "detail-memory"
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "inventory/detail fact writeback for consumables",
+          "retrieval of exact item count/brand/package when an item is inspected",
+          "Narrator prompt guard against inventing counts when state lacks exact value"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "issues/issue-54-turn-128/root-cause-report.md",
-      "resultPath": "issues/issue-54-turn-128/root-cause-result.json"
+      "recommendedFixArea": "把可消耗物品的品牌、数量、包装状态写入并检索 inventory/detail memory；在物品检查 prompt 中禁止从泛称补造精确数量。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-054-turn-128/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-054-turn-128/root-cause-report.md",
+      "result": {
+        "issueId": "issue-54-turn-128",
+        "turn": 128,
+        "issueValidity": "valid",
+        "problemSummary": "第 128 轮把备用胶卷从此前多次出现的‘三卷 Tri-X + 一盒未拆封 HP5’改成‘五卷、每卷单独塑料密封’，没有玩家可见承接。",
+        "validityAssessment": {
+          "verdictReason": "问题有效但严重度低。此前备用胶卷的数量/包装被连续写成三卷 Tri-X 加一盒未拆封 HP5；第 128 轮突然变成五卷且每卷都用塑料密封袋包扎，没有整理、拆盒或新增胶卷的可见过程。",
+          "playerVisibleSupport": "第 111 轮和第 112 轮均写‘三卷Tri-X，一盒还没拆封的HP5’，第 113 轮写‘三卷Tri-X和一盒HP5挨个捏了一遍’；第 128 轮写‘备用胶卷……五卷，每一卷都用塑料密封袋包着’。",
+          "caveats": [
+            "‘一盒 HP5’理论上可能被读成一盒内含多卷，但此前‘三卷和一盒挨个捏’更像四个独立携带单位；因此判为 valid，confidence 不是 high。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家在等待出发前多次检查防水袋。可见库存稳定为三卷 Tri-X 与一盒未拆封 HP5，防水袋封口严实，没有任何拆封或补充胶卷的叙述。",
+          "relevantFacts": [
+            {
+              "claim": "备用胶卷为三卷 Tri-X 加一盒未拆封 HP5",
+              "availability": "absent",
+              "artifacts": [
+                "turn-128/06a-director-prompt.md",
+                "turn-128/06b-narrator-prompt.md"
+              ],
+              "notes": "第 111-113 轮可见事实明确，但到第 128 轮超过 recentTurnLimit=5，未进入 recentTurns，也未以精确库存写入当前故事线或 curStates。"
+            },
+            {
+              "claim": "防水袋内有备用胶卷且应检查",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-128/06-llm-calls.json call0"
+              ],
+              "notes": "Director 只保留了泛称‘备用胶卷’，没有数量、品牌、包装状态。"
+            },
+            {
+              "claim": "本轮没有拆封、重新包装或获得额外胶卷",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl turns 124-128",
+                "turn-128/06a-director-prompt.md"
+              ],
+              "notes": "最近几轮都只是等待、喝水、观察和检查，没有库存变化事件。"
+            }
+          ],
+          "competingPressures": [
+            "装备检查动作需要具体物件细节",
+            "精确库存事实已滑出 recentTurns",
+            "当前故事线摘要只保留‘备用胶卷和防水袋’这一泛称",
+            "第 128 轮 Narrator 同时已经在相机检查中生成了具体但未经校验的数字"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-128/06-llm-calls.json call1 narrator text（同步落入 turn-128/04-output.json）",
+          "triggeringPressure": "Director 要求检查防水袋内备用胶卷，但给 Narrator 的合约中没有原先的品牌、数量和包装状态；感官细节优先促使正文枚举胶卷数量和包装。",
+          "missingGuard": "备用胶卷库存没有被持久化为结构化 inventory/detail memory，也没有在故事线摘要中保留精确值；缺少‘若未提供数量，不要重新发明数量/品牌/包装’的生成约束。",
+          "mechanismStatement": "当旧库存细节滑出 recentTurns 且没有被写入稳定 inventory，Narrator 只拿到‘备用胶卷’泛称，却被要求写具体检查动作，于是补造了‘五卷单独密封’的库存形态，造成可见数量和包装漂移。",
+          "directCause": "第 128 轮 Narrator 自行将备用胶卷具体化为五卷塑料密封胶卷。",
+          "propagation": "第 129 轮 recentTurns 已含第 128 轮错误文本，Narrator 继续沿用‘五卷备用胶卷’检查，错误成为后续局部上下文的一部分。",
+          "nonCauses": [
+            "不是玩家输入改变了库存；玩家只选择检查相机。",
+            "不是 Choice 绑定问题；选项没有提到数量。",
+            "不是评测依赖隐藏信息；全部冲突来自玩家可见文本。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "触发压力是装备检查需要展开具体物件；缺失防线是备用胶卷的精确品牌、数量和包装没有作为稳定 inventory/detail fact 持久化，Narrator prompt 只剩泛称‘备用胶卷’。模型在细节化写作中补造五卷单独密封胶卷，导致库存漂移。",
+          "fixSurface": [
+            "inventory/detail fact writeback for consumables",
+            "retrieval of exact item count/brand/package when an item is inspected",
+            "Narrator prompt guard against inventing counts when state lacks exact value"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 111、112、113 轮反复出现三卷 Tri-X 与一盒 HP5；第 128 轮无承接变成五卷单独塑料密封胶卷。",
+          "internalTrace": "turn-128/01-summary.json 显示 memory.recentTurns=5；turn-128/06a/06b prompt 中没有 Tri-X、HP5 或三卷等精确库存；turn-128/06-llm-calls.json call1 首次生成五卷说法。"
+        },
+        "recommendedFixArea": "把可消耗物品的品牌、数量、包装状态写入并检索 inventory/detail memory；在物品检查 prompt 中禁止从泛称补造精确数量。",
+        "confidence": "medium"
+      }
     },
     {
-      "issueId": "issue-55-turn-129",
       "issueIndex": 55,
       "turn": 129,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "银铃一直贴在胸口内袋且此前反复被写成温热，第 129 轮无承接地变成冰凉。",
+      "batchId": "batch-017",
       "issueValidity": "valid",
       "rootCause": {
         "label": "context-priority",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "current-object-state extraction from recent turns",
+          "Director handoff should include salient object properties when requiring item checks",
+          "Narrator prompt priority rule for last-described physical state over generic sensory defaults"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-55-turn-129/root-cause-report.md",
-      "resultPath": "issues/issue-55-turn-129/root-cause-result.json"
+      "recommendedFixArea": "在 Director/Narrator handoff 中加入当前物体状态锚点，尤其当 requiredContent 要检查某件物品时，自动提取最近一次描述的温度、位置、封装和完整性作为 must-preserve facts。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-055-turn-129/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-055-turn-129/root-cause-report.md",
+      "result": {
+        "issueId": "issue-55-turn-129",
+        "turn": 129,
+        "issueValidity": "valid",
+        "problemSummary": "第 129 轮把一直贴在胸口内袋、此前多次被写成温热/贴着体温的银色铃铛改成冰凉触感，没有可见降温过程。",
+        "validityAssessment": {
+          "verdictReason": "问题有效。第 116、123、124、126、127 轮均支持银铃在外套内袋贴着胸口温度；第 129 轮检查时仍是在开门前、室内整理装备阶段，却写成冰凉金属，缺少合理承接。",
+          "playerVisibleSupport": "第 123 轮玩家把铃铛放回内袋时感到‘那团温热重新贴上了胸口’；第 124、126、127 轮都写银铃贴着胸口的温度；第 129 轮突然写‘冰凉的金属触感’。",
+          "caveats": [
+            "金属本身可比体表显凉，但文本此前反复强调温热，且第 129 轮用‘冰凉’作强对比，超出了自然温差的合理范围。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，主角仍在卡尔小屋内整理装备准备出门；银色铃铛一直放在外套左胸内袋，贴近胸口和体温，没有被放到冷处。",
+          "relevantFacts": [
+            {
+              "claim": "银铃在外套内袋，贴着胸口温度",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-129/06a-director-prompt.md:650",
+                "turn-129/06a-director-prompt.md:686",
+                "turn-129/06a-director-prompt.md:702"
+              ],
+              "notes": "最近几轮玩家经历中多次出现，尤其第 124、126、127 轮都在 prompt 内。"
+            },
+            {
+              "claim": "第 123 轮专门检查过铃铛，放回时仍温热",
+              "availability": "present-buried",
+              "artifacts": [
+                "visible-timeline.jsonl turn 123",
+                "turn-128/06a-director-prompt.md"
+              ],
+              "notes": "到第 129 轮已滑出 recentTurns，但被当前故事线摘要保留为‘拿出银色铃铛检查’。"
+            },
+            {
+              "claim": "第 129 轮 Director 要求检查银色铃铛",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-129/06-llm-calls.json call0"
+              ],
+              "notes": "requiredContent 点名银铃，但没有把温热/贴胸口作为必须保留的物体状态。"
+            },
+            {
+              "claim": "金属常见触感可被写成凉",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-129/06-llm-calls.json call1"
+              ],
+              "notes": "不是 prompt 明示，而是模型在感官细节优先和金属描写习惯下的局部生成压力。"
+            }
+          ],
+          "competingPressures": [
+            "本轮 requiredContent 要逐项检查装备",
+            "pacing 为感官细节优先",
+            "银铃是金属物件，模型容易套用‘冰凉金属’描写",
+            "温热事实存在于长 recent prose 中，而不是当前物品状态字段或 Director JSON"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-129/06-llm-calls.json call1 narrator text（同步落入 turn-129/04-output.json）",
+          "triggeringPressure": "Director 要求检查银色铃铛，并建议感官细节优先；Narrator 需要为手指触碰铃铛补一个触觉形容。",
+          "missingGuard": "最近几轮‘贴着胸口的温度/温热’没有被提升为当前 object state 或 Director required constraint；Narrator 虽能在长上下文中读到该事实，但没有更高优先级的保留约束来压过金属=冷的局部联想。",
+          "mechanismStatement": "在感官细节优先的装备检查中，银铃温热事实只以长 prose 形式存在而未被结构化锚定，Narrator 用默认金属触感补写为‘冰凉’，使近期明确物体状态被局部描写习惯覆盖。",
+          "directCause": "第 129 轮 Narrator 在检查铃铛段落生成‘冰凉的金属触感’。",
+          "propagation": "该温度错误出现在正文中，但本轮结尾又写‘铃铛贴着心跳’，未进一步写入结构化 runtime state；主要影响停留在可见文本局部冲突。",
+          "nonCauses": [
+            "不是玩家输入要求降温或取出铃铛暴露在冷空气中。",
+            "不是卡琳娜/卡尔剧情信息影响；两者本轮不出场。",
+            "不是旧远期记忆缺失 alone；第 124、126、127 轮温度线索就在第 129 轮 prompt 中。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是感官细节优先的装备检查需要描写金属触感；缺失防线是最近明确的‘银铃贴胸口温热’没有以高优先级 object state/requiredContent 进入 Narrator 合约。于是模型用更常见的金属冰凉描写覆盖了 recent context 中的物体温度。",
+          "fixSurface": [
+            "current-object-state extraction from recent turns",
+            "Director handoff should include salient object properties when requiring item checks",
+            "Narrator prompt priority rule for last-described physical state over generic sensory defaults"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 123 轮铃铛被写成温热并放回胸口内袋；第 124、126、127 轮继续贴着胸口温度；第 129 轮在出门前摸到时却冰凉。",
+          "internalTrace": "turn-129/06a-director-prompt.md 最近几轮玩家经历包含多处‘贴着你胸口的温度’；turn-129/06-llm-calls.json call0 只写‘检查...银色铃铛’，call1 首次生成‘冰凉的金属触感’。"
+        },
+        "recommendedFixArea": "在 Director/Narrator handoff 中加入当前物体状态锚点，尤其当 requiredContent 要检查某件物品时，自动提取最近一次描述的温度、位置、封装和完整性作为 must-preserve facts。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-56-turn-130",
       "issueIndex": 56,
       "turn": 130,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "玩家已经在门外台阶上，下一轮却从屋内开门、迈出门槛重新演出出门动作，造成空间位置回退。",
+      "batchId": "batch-017",
       "issueValidity": "valid",
       "rootCause": {
         "label": "current-scene-anchor",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director output schema: currentLocation/currentPosture/doorState",
+          "choice-action binding should include source state for selected option",
+          "Narrator prompt hard rule: begin from previous visible ending state before realizing selected action",
+          "runtime structured location state validation"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-56-turn-130/root-cause-report.md",
-      "resultPath": "issues/issue-56-turn-130/root-cause-result.json"
+      "recommendedFixArea": "为每轮 Narrator 合约增加 current-scene anchor，并在 Choice/Director handoff 中绑定选项发生的源位置；对移动/门/载具等状态建立简单一致性校验。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-056-turn-130/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-017/issues/issue-056-turn-130/root-cause-report.md",
+      "result": {
+        "issueId": "issue-56-turn-130",
+        "turn": 130,
+        "issueValidity": "valid",
+        "problemSummary": "第 129 轮玩家已经跨出门槛并站在门外台阶上；第 130 轮却从握门把、听外面、拉开门、迈出门槛重新演出出门动作，形成空间位置回退。",
+        "validityAssessment": {
+          "verdictReason": "问题有效。第 129 轮结尾明确主角反手带上门并站在门外台阶上，下一轮选项也是从台阶/门外状态给出；第 130 轮正文却把主角写回门内，需要再次拉门迈出。",
+          "playerVisibleSupport": "第 129 轮：‘你跨出门槛，反手带上门……你站在门外的台阶上’；第 130 轮：‘你停住，听了听外面的动静’、‘你拉开门，迈出一步，站在门槛外’，随后又‘把门带上’。",
+          "caveats": [
+            "玩家选择‘检查一下门口的动静’可以包含查看门和周边，但不能合理解释为已经在门外后又从屋内开门出门。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，主角位于卡尔小屋门外的台阶/门口，门已被反手带上并锁合；相机贴胸口，防水袋在大腿外侧，铃铛贴心跳，等待卡琳娜消息。",
+          "relevantFacts": [
+            {
+              "claim": "主角已经在门外台阶上，门已带上/锁合",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-130/06a-director-prompt.md:722",
+                "turn-130/06a-director-prompt.md:728",
+                "turn-130/06a-director-prompt.md:729"
+              ],
+              "notes": "第 129 轮完整正文作为 recentTurns 进入第 130 轮 prompt，位置事实清晰。"
+            },
+            {
+              "claim": "第 130 轮玩家选择是从门外状态检查门口动静",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-130/01-summary.json",
+                "turn-130/06a-director-prompt.md:736"
+              ],
+              "notes": "文本‘门口的动静’本身可被误读为从室内听门外；必须依赖上一轮位置锚定。"
+            },
+            {
+              "claim": "Director 对本轮的安排没有显式 scene/currentLocation",
+              "availability": "absent",
+              "artifacts": [
+                "turn-130/06-llm-calls.json call0"
+              ],
+              "notes": "Director 只写‘检查门口动静，确认安全无异常’，requiredContent 也只要求描述门口及周边安静状态。"
+            },
+            {
+              "claim": "runtime-after 没有结构化位置状态可供覆盖",
+              "availability": "absent",
+              "artifacts": [
+                "turn-129/05-runtime-after.json",
+                "turn-130/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 未提供主角在门外/门内的可校验字段。"
+            }
+          ],
+          "competingPressures": [
+            "选项措辞‘检查门口的动静’有从门内听外面的惯用语义",
+            "Director handoff 未保留‘already outside on step’",
+            "Narrator 感官细节优先、缓慢铺陈，容易重演开门-听声-出门流程",
+            "recent visible text 清楚但埋在长正文中"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-130/06-llm-calls.json call0 director object 丢失当前位置锚点；显性错误首次出现在 call1 narrator text / turn-130/04-output.json",
+          "triggeringPressure": "玩家选择‘检查一下门口的动静，确认安全’带有门内听外面的语义，Director 又把它压缩成‘检查门口动静，确认安全无异常’，没有声明主角已在门外台阶。",
+          "missingGuard": "handoff 缺少 currentLocation/currentSceneAnchor 和 doorState，例如‘outside on the step; door already closed/locked; do not reopen or replay exit’；runtime 也没有结构化位置状态防止 Narrator 回退。",
+          "mechanismStatement": "当选项文本存在室内检查门外的歧义，而 Director handoff 没有把上一轮结尾的门外台阶位置作为必须满足的当前场景锚点，Narrator 按惯用开门检查流程重演出门动作，造成空间位置回退。",
+          "directCause": "第 130 轮 Narrator 从握门把、转锁舌、听外面、拉开门、迈出门槛开始写，而不是从门外台阶检查周边。",
+          "propagation": "正文后半段又把门带上并站到门外石板路，最终位置回到室外，但中间重复出门动作已造成玩家可见断裂；第 130 轮 Choice 继续基于门外状态生成。",
+          "nonCauses": [
+            "不是玩家主动选择回屋或开门。",
+            "不是可见时间线缺失；上一轮位置就在 recentTurns。",
+            "不是评测误判；第 130 轮文本明确使用‘听外面’和‘迈出门槛’。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是‘检查门口动静’的动作措辞可被理解为从屋内开门检查；缺失防线是 Director/Narrator handoff 没有显式携带上一轮结尾的 currentLocation=门外台阶、doorState=已带上/锁合。模型因此按默认开门检查流程重演出门，产生空间回退。",
+          "fixSurface": [
+            "Director output schema: currentLocation/currentPosture/doorState",
+            "choice-action binding should include source state for selected option",
+            "Narrator prompt hard rule: begin from previous visible ending state before realizing selected action",
+            "runtime structured location state validation"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 129 轮结尾站在门外台阶；第 130 轮开头重新握门把、听外面、拉开门、迈出门槛，再次带上门。",
+          "internalTrace": "turn-130/06a-director-prompt.md recentTurns 含第 129 轮门外台阶结尾；turn-130/06-llm-calls.json call0 没有 scene/currentLocation 字段，只泛化为检查门口动静；call1 生成重复出门动作。"
+        },
+        "recommendedFixArea": "为每轮 Narrator 合约增加 current-scene anchor，并在 Choice/Director handoff 中绑定选项发生的源位置；对移动/门/载具等状态建立简单一致性校验。",
+        "confidence": "high"
+      }
     }
   ]
 }

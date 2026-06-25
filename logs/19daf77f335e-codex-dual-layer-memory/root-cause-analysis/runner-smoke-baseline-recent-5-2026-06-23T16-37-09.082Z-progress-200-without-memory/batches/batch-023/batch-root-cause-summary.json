@@ -1,0 +1,456 @@
+{
+  "batchId": "batch-023",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 77,
+      "turn": 167,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "晨光位置在连续等待场景中回退到此前阶段，重复了已推进过的光线轨迹。",
+      "batchId": "batch-023",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "prompt/context assembly: 为可计时环境细节生成 currentSceneAnchors",
+          "Director schema: 对重复等待场景输出 latestPosition/continuityConstraints",
+          "Narrator prompt: 对 recent visible state 的最新环境锚点增加硬约束"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 context assembly/Director handoff 中为连续等待场景抽取并前置 current-scene anchor，尤其是光线、物件位置、人物姿态等会跨轮递进的局部状态。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-077-turn-167/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-077-turn-167/root-cause-report.md",
+      "result": {
+        "issueId": "issue-77-turn-167",
+        "issueIndex": 77,
+        "turn": 167,
+        "issueValidity": "valid",
+        "problemSummary": "连续等待场景中，晨光已经在 turn 166 越过灰烬槽边缘并爬上炉口上缘，但 turn 167 又回写为从窗沿往壁炉方向爬、吞没铁架下缘并停在灰烬槽边缘，造成光线轨迹回退。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见正文连续把同一束晨光当作计时线索；turn 167 的位置描述回到 turn 163-165 的阶段，而不是从 turn 166 的炉口上缘继续推进，因此是有效但轻微的空间时间连续性错误。",
+          "playerVisibleSupport": "turn 164 写晨光已从壁炉铁架边缘越过并在灰烬槽铺开；turn 165 写从铁架边沿滑落并在灰烬槽铺成亮斑；turn 166 写从灰烬槽边缘越过并沿铁架爬上炉口上缘；turn 167 又写从窗沿往壁炉爬、吞没铁架下缘并停在灰烬槽边缘。",
+          "caveats": [
+            "这是低严重度错误，因为晨光移动本身是氛围细节，不改变主线行动。",
+            "turn 168 又恢复到灰烬槽更深处，说明漂移没有长期锁死，但 turn 167 本轮仍对玩家可见。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家仍在卡尔小屋等待卡琳娜消息，刚调整好相机包并站在门廊/墙角附近。晨光作为等待时间流逝的连续视觉标尺，最新可见位置已经越过灰烬槽边缘并沿壁炉铁架爬向炉口上缘。",
+          "relevantFacts": [
+            {
+              "claim": "晨光最新位置已经越过灰烬槽边缘，正沿壁炉铁架爬上炉口上缘。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实出现在 turn 166 玩家可见正文，并被收进 turn 167 的 recentTurns/最近几轮玩家经历，但只是长段 prose 中的一句环境描写。"
+            },
+            {
+              "claim": "本轮玩家输入是继续坐一会儿观察光线变化，不要求把光线回放到早先位置。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 将意图概括为等待与观察，并要求慢铺感官细节，但没有指定从最新光线位置继续。"
+            },
+            {
+              "claim": "故事状态没有结构化保存光线当前位置或单调推进约束。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/05-runtime-after.json"
+              ],
+              "notes": "currentStoryline summary 只说等待、观察晨光渐亮；runtime-after 只有 quest/entity 粗状态，没有小屋内光线锚点。"
+            }
+          ],
+          "competingPressures": [
+            "玩家输入要求观察光线变化",
+            "Director 的 pacing 为感官细节优先",
+            "recentTurns 中多轮反复出现窗沿、壁炉、铁架、灰烬槽等相似轨迹",
+            "当前故事线长期停留在等待卡琳娜的过渡状态"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-167/06-llm-calls.json#narrator-streamText",
+          "triggeringPressure": "Narrator 被要求慢铺等待与光线细节；prompt 中虽然有 turn 166 的最新位置，但同一 recentTurns 窗口还包含 turn 162-165 多个更早的光线阶段，且 Director handoff 只说观察晨光在屋内移动。",
+          "missingGuard": "缺少当前场景环境锚点和单调时间线约束；一致性规则只是通用地要求优先最近正文，没有把“光线已越过灰烬槽并上爬”转成必须续接的硬约束。",
+          "mechanismStatement": "在重复等待场景中，多个相似光线阶段被长 prose 并列提供，而当前最新位置没有被结构化锚定或在 Director handoff 中前置，Narrator 在感官慢铺压力下复用了较早的光线轨迹，导致玩家可见的晨光位置回退。",
+          "directCause": "Narrator 生成了“又从窗沿往壁炉的方向爬”“吞没壁炉的铁架下缘”“在灰烬槽的边缘上停留”等早先阶段描述。",
+          "propagation": "错误进入 turn-167/04-output.json 的 narrative 和 turnContent write；Choice 未修正该环境事实。turn 168 的正文重新写到灰烬槽更深处，减轻但不消除 turn 167 的可见回退。",
+          "nonCauses": [
+            "不是固定剧情节点要求晨光回到窗沿；当前 storyline 只要求等待。",
+            "不是玩家输入导致的回退；玩家只要求继续观察光线。",
+            "不是隐藏设定问题；玩家可见正文已经足以证明问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "重复环境细节只有在 recentTurns 的长正文中保留，Director/Narrator handoff 没有把最新光线位置提升为 current-scene anchor，也没有给出“只能向前推进”的时间连续性 guard；感官细节压力使模型从同一窗口内较早阶段取样，形成可见回退。",
+          "fixSurface": [
+            "prompt/context assembly: 为可计时环境细节生成 currentSceneAnchors",
+            "Director schema: 对重复等待场景输出 latestPosition/continuityConstraints",
+            "Narrator prompt: 对 recent visible state 的最新环境锚点增加硬约束"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "visible-timeline.jsonl turn 164-167 的晨光轨迹形成顺序冲突；turn 167 正文重复灰烬槽边缘阶段。",
+          "internalTrace": "turn-167/03-story-state.json 和 06a/06b prompt 含 turn 166 最新位置，但只在最近几轮正文 prose 中；turn-167/04-output.json 与 07-events.json 显示 first bad text 由 narrator 产生；05-runtime-after.json 未保存光线位置锚点。"
+        },
+        "recommendedFixArea": "在 context assembly/Director handoff 中为连续等待场景抽取并前置 current-scene anchor，尤其是光线、物件位置、人物姿态等会跨轮递进的局部状态。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 78,
+      "turn": 171,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "相机从靠垫上变成靠垫旁地面上的位置变化缺少动作承接，造成轻微物件连续性漂移。",
+      "batchId": "batch-023",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "state-writeback",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "runtime state/writeback: 记录高显著物件位置和持有关系",
+          "Director/Narrator handoff: 为姿态变化附加 object-continuity checklist",
+          "Narrator prompt: 若改变物件位置必须显式写出移动动作"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "补强局部物件状态写回和 Narrator 的动作桥约束：物件位置从最近正文改变时，必须显式写出拿起、放下、挪开或保持原位。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-078-turn-171/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-078-turn-171/root-cause-report.md",
+      "result": {
+        "issueId": "issue-78-turn-171",
+        "issueIndex": 78,
+        "turn": 171,
+        "issueValidity": "valid",
+        "problemSummary": "turn 170 玩家可见正文把相机搁在靠垫上；turn 171 玩家只是收回视线回到靠垫边坐下，却直接写相机在靠垫旁地面上，缺少拿起、挪开或放下的动作承接。",
+        "validityAssessment": {
+          "verdictReason": "相机位置变化发生在连续相邻回合，且玩家输入只覆盖从窗边返回并坐下。正文可以隐含轻微整理动作，但这里直接声明新位置，缺少承接，属于有效的低严重度物件连续性漂移。",
+          "playerVisibleSupport": "turn 170: “你站起身，把相机搁在靠垫上，走到窗边。” turn 171: “相机搁在靠垫旁的地面上，取景框玻璃斜指向窗户的方向。” 玩家输入没有说移动相机。",
+          "caveats": [
+            "玩家回到靠垫边坐下时，可能会自然把相机挪开，因此严重度低。",
+            "问题主要是缺少可见动作桥，而非完全不可解释的物理矛盾。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题前一轮，主角为了探窗观察，把相机放在靠垫上，自己走到窗边并把窗户留缝。turn 171 开始时玩家选择收回视线、回到靠垫边坐下继续等待。",
+          "relevantFacts": [
+            {
+              "claim": "相机最后被明确放在靠垫上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实是 turn 170 正文第一句，进入 turn 171 recentTurns。"
+            },
+            {
+              "claim": "玩家本轮核心动作是回到靠垫边坐下并继续等待。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 只总结等待，没有要求移动相机，也没有禁止补写一个移动动作。"
+            },
+            {
+              "claim": "相机位置不是结构化 scene/entity state。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-170/05-runtime-after.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 的 entityStates 只有公园、卡琳娜等粗状态；没有相机/靠垫位置。"
+            }
+          ],
+          "competingPressures": [
+            "回到靠垫边坐下需要给身体和物件腾位置",
+            "Narrator 慢铺感官细节，倾向布置静物画面",
+            "recent prompt 同时包含相机包在脚边、相机在膝上/包中/靠垫上等多轮物件位置"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06-llm-calls.json#narrator-streamText",
+          "triggeringPressure": "本轮动作要求从窗边回到靠垫边坐下；为了写静态等待画面，Narrator 需要重新安置相机，而 Director handoff 没有保留“相机在靠垫上”或要求补写移动动作。",
+          "missingGuard": "缺少物件位置 writeback 与动作桥接 guard；相机位置只在上一轮 prose 中，未被作为需要续接的 current object location 传递。",
+          "mechanismStatement": "当玩家动作改变姿态/座位时，上一轮物件位置没有结构化进入 handoff，Narrator 便以当前静态构图重新推断相机位置，并跳过移动承接，造成物件从靠垫到地面的可见漂移。",
+          "directCause": "Narrator 在 turn 171 第二段直接写“相机搁在靠垫旁的地面上”。",
+          "propagation": "该位置进入 04-output.json 的 turnContent write；后续 turn 172 又从地面提起相机包/整理背包，没有回溯解释 turn 171 的移动。",
+          "nonCauses": [
+            "不是 Choice action binding；玩家选项本身只是返回坐下。",
+            "不是 storyline 要求相机在地面；storyline 只维持等待卡琳娜。",
+            "不是长期记忆缺失；正确事实就在上一轮。"
+          ]
+        },
+        "rootCause": {
+          "label": "state-writeback",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "上一轮的局部物件位置没有写入可执行 scene/entity state，也没有在 Director handoff 中作为 must-preserve fact；在姿态变化场景中，Narrator 以“坐下等待”的静态构图重置相机位置，却没有被要求生成动作桥。",
+          "fixSurface": [
+            "runtime state/writeback: 记录高显著物件位置和持有关系",
+            "Director/Narrator handoff: 为姿态变化附加 object-continuity checklist",
+            "Narrator prompt: 若改变物件位置必须显式写出移动动作"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 170 相机在靠垫上；turn 171 变为靠垫旁地面；两者之间没有玩家可见移动动作。",
+          "internalTrace": "turn-171/03-story-state.json 和 prompts 包含 turn 170 原句，但 currentStoryline summary 只概括观察巷口；turn-170/05-runtime-after.json 与 turn-171/05-runtime-after.json 没有相机位置；turn-171/04-output.json 和 07-events.json 显示 narrator 首次输出地面位置。"
+        },
+        "recommendedFixArea": "补强局部物件状态写回和 Narrator 的动作桥约束：物件位置从最近正文改变时，必须显式写出拿起、放下、挪开或保持原位。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 79,
+      "turn": 180,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "choices",
+      "summary": "胶片相机不能在拍摄后立即检查照片效果，选项提供了与当前可见设备规则冲突的行动。",
+      "batchId": "batch-023",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "choiceGenerator prompt/schema: 增加 negative affordance 和 world-rule checklist",
+          "post-choice validator: 检查选项是否与本轮正文中的 cannot/无法/不能 约束冲突",
+          "actionId binding: 禁止生成未在候选动作中出现的 anchor/actionId"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "修复 Choice 层的 action affordance 约束：从本轮正文提取不可做事项，并在选项生成后进行冲突校验；同时禁止未提供候选的 actionId/anchor 幻觉。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-079-turn-180/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-079-turn-180/root-cause-report.md",
+      "result": {
+        "issueId": "issue-79-turn-180",
+        "issueIndex": 79,
+        "turn": 180,
+        "issueValidity": "valid",
+        "problemSummary": "turn 180 正文刚明确胶片影像无法即时查看，Choice 却提供“检查一下刚才拍的照片效果如何”，与胶片相机的当前可见设备规则冲突。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见正文直接说“当然，你无法看到胶片上的影像”，因此下一步选项不能要求立即检查照片效果。该选项会把玩家引向当前设备不可执行的行为。",
+          "playerVisibleSupport": "turn 180 正文写过片拨杆、胶片上的影像无法看到；turn 160 已展示备用胶卷，且多轮提到卷片/过片拨杆，说明这是胶片相机而非可即时预览的数码设备。",
+          "caveats": [
+            "如果选项改写为检查相机设置或回想构图效果，就可以成立；但原文“照片效果如何”通常表示查看成片。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角在公园长椅等待，拿出胶片相机拍下晨光中的公园。拍摄后正文明确相机过片、快门归位，并说明无法看到胶片影像，只能知道影像已经被固定在胶片上。",
+          "relevantFacts": [
+            {
+              "claim": "当前设备是胶片相机，拍摄后不能即时看到影像。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-180/06c-choice-prompt.md"
+              ],
+              "notes": "Choice prompt 的“本轮玩家已经看到的正文”直接包含“当然，你无法看到胶片上的影像”。"
+            },
+            {
+              "claim": "本轮选择生成器必须以正文结尾为最终判断依据，判断合理可做动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-180/06c-choice-prompt.md"
+              ],
+              "notes": "choice prompt 的输出前确认要求先以本轮正文结尾判断玩家能合理做什么。"
+            },
+            {
+              "claim": "历史/story state 中存在“检查相机刚才拍摄的一帧效果如何”的旧摘要，弱化了胶片限制。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-180/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-180/06c-choice-prompt.md"
+              ],
+              "notes": "该历史摘要在长 currentStoryline summary 和 prompt 早段出现，可能给 choiceGenerator 一个错误先例；但它应低于本轮可见正文。"
+            }
+          ],
+          "competingPressures": [
+            "刚完成拍摄，常见后续动作是检查照片",
+            "角色画像强调观察取证与照片",
+            "长历史摘要中已有一次“检查刚拍的一帧效果”的表述",
+            "choiceGenerator 被要求生成 2-4 个贴近当前处境的行动"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-180/06-llm-calls.json#choiceGenerator-generateObject",
+          "triggeringPressure": "拍照动作刚完成，prompt 中角色/历史材料频繁出现照片与相机，且旧 storyline summary 曾把“检查刚拍的一帧效果”当成正常动作。",
+          "missingGuard": "Choice 生成阶段没有设备 affordance validator，也没有把“无法看到胶片影像”转换成硬性 negative affordance；prompt 只泛化地要求合理和不违反约束。",
+          "mechanismStatement": "在拍照后选项生成中，通用“检查照片”动作和旧摘要压力没有被当前胶片负能力覆盖，choiceGenerator 生成了与本轮可见设备规则冲突的选项，并且还在 LLM call object 中绑定了 hallucinated `anchor:check_photo`。",
+          "directCause": "ChoiceGenerator 输出“检查一下刚才拍的照片效果如何”。",
+          "propagation": "该选项进入 04-output.json 的 choices，成为玩家下一步可点击行动；events 记录 choiceGenerator worker-done 后直接 committed，没有后置校验剔除。",
+          "nonCauses": [
+            "不是 Narrator 正文错误；正文明确写了无法看到胶片影像。",
+            "不是玩家要求检查照片；玩家输入是拍下公园。",
+            "不是缺少可见世界规则；世界规则就在本轮可见正文中。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "Choice 生成缺少对当前可见负能力的硬过滤：当本轮正文声明胶片不可预览时，系统没有把该约束绑定到可选行动空间，导致模型把拍照后的通用“检查效果”动作当作可点击选项，并生成未在 prompt 中铺垫的 `anchor:check_photo`。",
+          "fixSurface": [
+            "choiceGenerator prompt/schema: 增加 negative affordance 和 world-rule checklist",
+            "post-choice validator: 检查选项是否与本轮正文中的 cannot/无法/不能 约束冲突",
+            "actionId binding: 禁止生成未在候选动作中出现的 anchor/actionId"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 180 正文：“当然，你无法看到胶片上的影像”；同轮选项：“检查一下刚才拍的照片效果如何”。turn 160 可见备用胶卷，后续多处可见过片/卷片。",
+          "internalTrace": "turn-180/06c-choice-prompt.md 将无法看到胶片影像放入最终判断依据；turn-180/06-llm-calls.json 第三个 generateObject 输出包含该选项和 `anchor:check_photo`；turn-180/07-events.json 记录 choiceGenerator worker-done 后 committed。"
+        },
+        "recommendedFixArea": "修复 Choice 层的 action affordance 约束：从本轮正文提取不可做事项，并在选项生成后进行冲突校验；同时禁止未提供候选的 actionId/anchor 幻觉。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 80,
+      "turn": 183,
+      "severity": "low",
+      "type": "language-drift",
+      "scope": "visibleText",
+      "summary": "第二人称叙事中突然出现“他内袋”造成代词和视角漂移，虽不改变剧情事实，但会破坏玩家阅读连续性。",
+      "batchId": "batch-023",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local",
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "post-generation style lint: 检测第二人称模式下的 他/她 + 主角随身物 短语",
+          "Narrator prompt: 将 perspective contract 放到输出前检查清单",
+          "normalizer/evaluator: 对低成本代词替换给出自动修复或重试"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 Narrator 输出增加 perspective/pronoun lint，尤其在第二人称叙事中拦截“他/她的/他内袋/他的手”等与主角随身物或动作绑定的第三人称片段。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-080-turn-183/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-023/issues/issue-080-turn-183/root-cause-report.md",
+      "result": {
+        "issueId": "issue-80-turn-183",
+        "issueIndex": 80,
+        "turn": 183,
+        "issueValidity": "valid",
+        "problemSummary": "第二人称叙事中，turn 183 同段从“你把手伸进外套内袋”漂移到“它安静地躺在他内袋底部”，出现不应有的第三人称代词。",
+        "validityAssessment": {
+          "verdictReason": "全文叙述稳定使用第二人称“你/你的”，且本轮玩家输入也以主角摸内袋为行动核心；“他内袋”不是剧情事实变化，而是明显的代词/视角漂移，会破坏阅读连续性。",
+          "playerVisibleSupport": "turn 183 正文第一句写“你把手伸进外套内袋”，下一段写“它安静地躺在他内袋底部”；同轮其余句子继续使用“你”。",
+          "caveats": [
+            "这是语言层面的低严重度问题，不改变银铃铛位置或剧情事实。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角离开公园后在街道上停步检查环境，下一步选择伸手摸内袋里的银铃铛确认仍在。叙事视角一直是第二人称，主角=玩家=帕兹。",
+          "relevantFacts": [
+            {
+              "claim": "正文叙述应使用第二人称，正文中你=帕兹=玩家=主角。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-183/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-183/06b-narrator-prompt.md"
+              ],
+              "notes": "角色说明和写作规则明确要求以“你”写主角经历。"
+            },
+            {
+              "claim": "本轮玩家输入和 Director requiredContent 都指向摸内袋里的银铃铛。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-183/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-183/04-output.json"
+              ],
+              "notes": "Director 输出 requiredContent：“主角伸手触摸内袋中的银铃铛，确认其存在。”"
+            },
+            {
+              "claim": "没有其他男性第三人称角色参与本轮。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-183/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-183/04-output.json"
+              ],
+              "notes": "involvedCharacters 只有主角/帕兹，卡琳娜本轮不出场。"
+            }
+          ],
+          "competingPressures": [
+            "Director JSON 使用“主角”第三人称概述动作",
+            "正文需要在短段内多次指代铃铛、内袋、肋侧",
+            "长 prompt 中角色资料大量使用第三人称“主角/帕兹”"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-183/06-llm-calls.json#narrator-streamText",
+          "triggeringPressure": "Narrator 需要把 Director 的第三人称动作摘要转成第二人称感官正文；同一局部短语“内袋底部”附近存在主角/他/你等潜在代词竞争。",
+          "missingGuard": "缺少输出后的视角一致性校验；prompt 有第二人称规则，但没有在生成后扫描“他/她 + 主角随身物”这类局部漂移。",
+          "mechanismStatement": "在第二人称正文生成中，模型局部 token 选择把“你/外套内袋”误替为“他内袋”，而流水线没有 pronoun/perspective guard 在提交前拦截，导致单处语言漂移进入玩家可见文本。",
+          "directCause": "Narrator 输出“它安静地躺在他内袋底部”。",
+          "propagation": "错误文本进入 04-output.json 的 narrative 和 turnContent write；events 中 narrator worker-done 后 Choice 继续生成选项，runtime-after 没有语言层校正。",
+          "nonCauses": [
+            "不是剧情视角切换；本轮没有引入第三人称 focalizer。",
+            "不是隐藏身份线索；玩家可见上下文和 prompt 都指向第二人称主角。",
+            "不是 Choice 或 state writeback 导致；问题已经在 narrator 文本中出现。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "在清晰的第二人称约束下，Narrator 局部生成仍出现单个第三人称代词；系统缺少提交前的视角/代词一致性 lint，因此本可机械检测的语言漂移被提交。",
+          "fixSurface": [
+            "post-generation style lint: 检测第二人称模式下的 他/她 + 主角随身物 短语",
+            "Narrator prompt: 将 perspective contract 放到输出前检查清单",
+            "normalizer/evaluator: 对低成本代词替换给出自动修复或重试"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 183 同轮文本同时出现“你把手伸进外套内袋”和“他内袋底部”，其余叙述保持“你”。",
+          "internalTrace": "turn-183/06b-narrator-prompt.md 明确第二人称规则并给出玩家输入；turn-183/06-llm-calls.json 的 narrator streamText 首次产生“他内袋”；turn-183/04-output.json 和 07-events.json 证明该文本被直接提交。"
+        },
+        "recommendedFixArea": "为 Narrator 输出增加 perspective/pronoun lint，尤其在第二人称叙事中拦截“他/她的/他内袋/他的手”等与主角随身物或动作绑定的第三人称片段。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

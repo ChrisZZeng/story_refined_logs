@@ -1,0 +1,496 @@
+{
+  "batchId": "batch-002",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 5,
+      "turn": 25,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "卡琳娜把此前自己已经明确提出的核心概念当成第一次听到，破坏了暗街规则和人物记忆的连续性。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "handoff-contract",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director output schema",
+          "Narrator prompt consistency guard",
+          "story-state/event-memory summarization",
+          "pre-output contradiction check"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Director→Narrator 交接中增加“echoedKnownConcept”或“previouslyStatedByCharacter”类约束：当玩家复述角色已讲过的核心规则时，Narrator 必须把反应写成“认可/追问理解深度”，不得写成“第一次听到/不认识该概念”。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-005-turn-25/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-005-turn-25/root-cause-report.md",
+      "result": {
+        "issueValidity": "valid",
+        "problemSummary": "卡琳娜在玩家复述“亏欠作货币”时表现得像第一次听到这种说法，和她此前亲自向玩家解释“亏欠本身就是暗街的货币”相冲突。",
+        "validityAssessment": {
+          "verdictReason": "该问题用玩家可见文本即可成立：turn 13 已由卡琳娜本人讲清“尊严、亏欠、羞耻”并说“这份亏欠本身，就是暗街的货币”，turn 25 却写成“亏欠？”、“我第一次听到有人这么形容”。这不是隐藏设定冲突，而是同一角色对已公开核心规则的可见记忆/连续性冲突。",
+          "playerVisibleSupport": "turn 13 卡琳娜本人说明暗街不收钱，亏欠本身是货币；turn 25 玩家回答“我看懂了你用‘亏欠’作货币”，卡琳娜回应“第一次听到有人这么形容”。turn 4 小贩也曾从外部说明“申诉人不收钱，收亏欠”。",
+          "caveats": [
+            "“有人这么形容”可以勉强读成“别人这样形容”，但由于她此前几乎使用同一概念自述，玩家仍会感到她把核心概念当成新发现。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "德索洛完成“尊严换公道”的交易后离开，卡琳娜关上铁门并问玩家“这一行你看懂了多少”。玩家回答看懂了“亏欠作货币”。在玩家可见历史里，暗街的交易逻辑已经由小贩和卡琳娜本人多次建立。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜本人知道并使用“尊严/亏欠/货币”作为暗街交易逻辑。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06b-narrator-prompt.md"
+              ],
+              "notes": "角色卡明确写着她“不收钱，收尊重，收亏欠”，这是角色认知边界内的核心设定。"
+            },
+            {
+              "claim": "卡琳娜此前已向玩家亲自解释“这份亏欠本身，就是暗街的货币”。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06a-director-prompt.md"
+              ],
+              "notes": "玩家可见证据在 turn 13 很清楚；turn 25 prompt 中更多以历史概览、地点总结和事件记忆形式弱化为“规矩/亏欠即货币”，没有作为本轮硬约束进入 Director handoff。"
+            },
+            {
+              "claim": "本轮只需要表现卡琳娜对玩家洞察感兴趣，而不需要表现她第一次听说该概念。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json"
+              ],
+              "notes": "Director 输出只要求“闻言后眼睛微微一亮，追问主角的看法”，没有要求“首次听到”。"
+            },
+            {
+              "claim": "“好奇/洞察”被包装成新奇反应。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json"
+              ],
+              "notes": "Director 的“洞察”“好奇”给 Narrator 一个新奇性方向，但缺少“不要否认此前自述”的边界。"
+            }
+          ],
+          "competingPressures": [
+            "当前 storyline 想把德索洛后的气氛从紧张转向轻松",
+            "Director 强调卡琳娜对主角洞察力的兴趣",
+            "turn 13 的精确自述不在最近几轮正文中，主要依赖长 prompt 中的总结和角色卡",
+            "写作风格倾向用“第一次听到/没听过”来强化好奇反应"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json call[1] narrator text",
+          "triggeringPressure": "Director 将玩家回答概括为“看懂了暗街的底层交易逻辑——亏欠作为货币”，并要求卡琳娜“表现出好奇、追问主角看法”；这鼓励 Narrator 把玩家话语写成罕见洞察。",
+          "missingGuard": "Director/Narrator handoff 没有把“卡琳娜此前已对玩家说过亏欠本身是货币”提升为 must-not-contradict 约束，也没有要求“好奇的是玩家如何理解德索洛的具体亏欠，而不是第一次听说亏欠”。",
+          "mechanismStatement": "当已建立概念只以弱摘要/角色卡存在，而本轮 handoff 强调“洞察带来的好奇”时，Narrator 用“第一次听到有人这么形容”来实现新奇反应，导致角色把自己曾公开提出的核心概念重新当成外来新说法。",
+          "directCause": "Narrator 过度发挥“好奇/新鲜”语气，在玩家可见正文中写出“亏欠？”和“第一次听到有人这么形容”。",
+          "propagation": "turn 25 选项继续让玩家“解释对亏欠的理解”，turn 26-27 又围绕德索洛的亏欠展开，使该误读被后续对话自然接住而没有即时修正。",
+          "nonCauses": [
+            "不是隐藏设定导致的评测误判",
+            "不是卡琳娜不知道“亏欠”这一设定，角色卡和历史状态中该信息存在",
+            "不是 Choice 组件首发问题，Choice 只沿用了已写出的正文状态"
+          ]
+        },
+        "rootCause": {
+          "label": "handoff-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Director→Narrator handoff 只传递“玩家有洞察、卡琳娜好奇”的表演目标，没有传递“该概念已由卡琳娜亲自讲过”的可执行连续性护栏；最近几轮又不包含 turn 13 的精确台词，导致 Narrator 把好奇写成首次听闻。",
+          "fixSurface": [
+            "Director output schema",
+            "Narrator prompt consistency guard",
+            "story-state/event-memory summarization",
+            "pre-output contradiction check"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 13：“尊严。亏欠。”、“这份亏欠本身，就是暗街的货币”；turn 25：“亏欠？”、“我第一次听到有人这么形容”。",
+          "internalTrace": "turn-25 Director object in /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json emphasizes “洞察/好奇”；turn-25 prompts contain the rule in character card but do not hand off the prior self-disclosure as a hard constraint."
+        },
+        "recommendedFixArea": "在 Director→Narrator 交接中增加“echoedKnownConcept”或“previouslyStatedByCharacter”类约束：当玩家复述角色已讲过的核心规则时，Narrator 必须把反应写成“认可/追问理解深度”，不得写成“第一次听到/不认识该概念”。",
+        "confidence": "high",
+        "issueId": "issue-5-turn-25",
+        "turn": 25
+      }
+    },
+    {
+      "issueIndex": 6,
+      "turn": 28,
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "台词用「她」指代正在追问的玩家，与此前男性称谓「记者先生」冲突；若另指他人，则该人未在当前对话中建立，仍会造成玩家可见混乱。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Director referent schema",
+          "Narrator pronoun validation",
+          "dialogue grounding prompt",
+          "post-generation entity/pronoun checker"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "为对话生成增加 referent plan：每句代词台词必须列出指代对象；当对象是玩家时优先使用“你/记者先生”，不得把玩家性别从全局角色卡中丢失。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-006-turn-28/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-006-turn-28/root-cause-report.md",
+      "result": {
+        "issueValidity": "valid",
+        "problemSummary": "黑猫在卡琳娜与玩家对话中使用“她”指代持续追问者，和玩家此前稳定的男性身份与“记者先生”称呼不一致；若“她”另指欠债对象，该对象也未在当前对话中建立。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见语境中，刚刚追问卡琳娜“你觉得你还欠谁”的是玩家帕兹；此前多次称为“记者先生”。turn 28 黑猫说“你得告诉她”“你不说，她会一直问下去”，文本上的“她”会被玩家读成女性指代，造成当前对话指向混乱。",
+          "playerVisibleSupport": "turn 24 卡琳娜称玩家“记者先生”；turn 27-28 玩家连续追问卡琳娜关于“欠谁”的问题；turn 28 黑猫看着卡琳娜说“你得告诉她”“她会一直问下去”。",
+          "caveats": [
+            "可以解释为“她”指卡琳娜所欠的某个女性，但该女性在当前玩家可见场景中没有建立，且“会一直问下去”紧接玩家追问，仍造成混乱。",
+            "中文语音中“他/她”同音，但这里是玩家可见文本，字形差异会被读到。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家先确认德索洛的亏欠不只是今晚，又反问卡琳娜“那你觉得你还欠谁”。卡琳娜沉默回避，黑猫卡尔介入，按 Director 安排应点破卡琳娜在回避问题。",
+          "relevantFacts": [
+            {
+              "claim": "玩家/主角帕兹是男性，且当前对话中常被称为“记者先生”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-28/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-28/06b-narrator-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "角色卡写“战地记者，28岁，男”；最近可见 turn 24/29 使用“记者先生”。"
+            },
+            {
+              "claim": "当前真正持续追问卡琳娜的人是玩家，而非场外女性。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-28/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-28/06-llm-calls.json"
+              ],
+              "notes": "本轮玩家输入是“点头确认，然后反问她：那你觉得你还欠谁？”。"
+            },
+            {
+              "claim": "Director 需要卡尔点破卡琳娜回避，但没有明确卡尔台词的指代对象。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-28/06-llm-calls.json"
+              ],
+              "notes": "Director 只写“卡尔插话，尖锐地指出卡琳娜在回避问题”，并把 involvedCharacters 写为卡琳娜、卡尔，未将“主角/男性追问者”作为本轮 referent 锚点。"
+            },
+            {
+              "claim": "若“她”是卡琳娜欠的人，该人没有玩家可见锚定。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "turn 28 之前没有建立“会一直问下去”的女性欠债对象；该读法依赖未公开信息或临场猜测。"
+            }
+          ],
+          "competingPressures": [
+            "当前剧情想让卡尔用短句点破卡琳娜的回避",
+            "“你欠的人”这类悬疑句式容易诱发未锚定的第三人称指代",
+            "Director 没有把玩家作为被告知/被拖延的一方写进 involvedCharacters",
+            "叙述风格偏向含混留白"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-28/06-llm-calls.json call[1] narrator text",
+          "triggeringPressure": "Director 只要求卡尔“点明卡琳娜回避”，没有给出“对玩家说/指玩家/避免性别错指”的台词约束；同时当前问题“欠谁”天然会引出一个未出现的“欠的人”。",
+          "missingGuard": "缺少 current-scene referent anchor：卡尔台词中任何第三人称都必须能在当前场景被玩家识别；如果指玩家，应保持男性/第二人称；如果指欠债对象，应先建立该对象。",
+          "mechanismStatement": "当卡尔介入的 handoff 只有“点破回避”而没有绑定被指代对象时，Narrator 用“她”制造悬疑和催促感，却没有校验该“她”在当前玩家可见场景中是否与男性玩家或已建立对象一致。",
+          "directCause": "Narrator 在卡尔台词里写出未锚定的女性代词“她”。",
+          "propagation": "正文随后让卡琳娜“抬起头看你”并转移到晚宴衣服，未澄清“她”是谁；该混乱被留在玩家可见文本中。",
+          "nonCauses": [
+            "不是玩家输入脱轨导致，玩家问题明确且在场景内可接",
+            "不是卡尔不能说含混话，而是该含混话破坏了当前可见指代",
+            "不是 Choice 组件造成，问题发生在 Narrator 正文"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "卡尔台词的生成缺少当前场景指代锚点和代词校验：Director handoff 未说明“她/他/你”应指谁，也未把玩家的男性身份作为本轮台词约束，Narrator 因局部生成习惯输出了与可见对话不匹配的“她”。",
+          "fixSurface": [
+            "Director referent schema",
+            "Narrator pronoun validation",
+            "dialogue grounding prompt",
+            "post-generation entity/pronoun checker"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 24 “记者先生”；turn 28 玩家问“那你觉得你还欠谁？”；黑猫随后说“你得告诉她”“她会一直问下去”。",
+          "internalTrace": "turn-28 Director object in /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-28/06-llm-calls.json only says 卡尔介入并点破回避，未绑定 referent；turn-28 prompt contains player male identity but not as enforceable local constraint."
+        },
+        "recommendedFixArea": "为对话生成增加 referent plan：每句代词台词必须列出指代对象；当对象是玩家时优先使用“你/记者先生”，不得把玩家性别从全局角色卡中丢失。",
+        "confidence": "medium",
+        "issueId": "issue-6-turn-28",
+        "turn": 28
+      }
+    },
+    {
+      "issueIndex": 7,
+      "turn": 30,
+      "severity": "medium",
+      "type": "user-input-ignored",
+      "scope": "mixed",
+      "summary": "模型把服装建议推进成玩家已经同意赴宴并完成场景迁移，越过了玩家本可选择是否同行的行动分支。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "storyline-lifecycle",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "choice-action-binding"
+        ],
+        "fixSurface": [
+          "quest/node transition guard",
+          "choice-action binding schema",
+          "Director selected-intent validation",
+          "runtime-after storyline advancement"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "修复 storyline lifecycle gate：04-02 到 04-03 必须由明确 accept actionId 或等价玩家自然语言触发；若玩家只评价衣服，应生成“卡琳娜穿上/再次邀请/给玩家选择”的回合，而不是迁移场景。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-007-turn-30/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-007-turn-30/root-cause-report.md",
+      "result": {
+        "issueValidity": "valid",
+        "problemSummary": "玩家只建议卡琳娜穿旧棉衣，系统却把该建议推进成玩家已同意同行，并直接完成离开暗街、进入凯旋门晚宴的场景迁移。",
+        "validityAssessment": {
+          "verdictReason": "turn 29 的选项中“建议她穿这件旧棉衣”与“直接表明：如果跟她去晚宴能避开麻烦，那我去”是两个不同选择；玩家选前者只表达服装建议。turn 30 直接写“我们走”“你跟上去”并进入宴会厅，越过了同行/不同行的行动分支。",
+          "playerVisibleSupport": "turn 29 玩家被问衣服和晚宴安全，选项明确分离“建议穿旧棉衣”和“如果跟她去晚宴能避开麻烦，那我去”；turn 30 正文直接让卡琳娜出门并写玩家跟上，随后场景已到宴会厅。",
+          "caveats": [
+            "卡琳娜可在 in-world 中邀请玩家一起走，但不能替玩家完成“跟上并入场”的核心决定；尤其因为系统刚提供过明确的同意选项。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜正在决定是否穿旧棉衣参加凯旋门晚宴，并提示留在暗街可能不安全。玩家本轮只给出服装建议“它更适合她”，尚未选择同意同行。",
+          "relevantFacts": [
+            {
+              "claim": "玩家本轮核心意图是服装建议，不是同意同行。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-30/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "玩家输入明确为“建议她穿这件旧棉衣——它更适合她”。"
+            },
+            {
+              "claim": "前一轮存在单独的“同意去晚宴”选项，玩家没有选择。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-29/04-output.json"
+              ],
+              "notes": "turn 29 choices 中有“直接表明：如果跟她去晚宴能避开麻烦，那我去”。"
+            },
+            {
+              "claim": "04-02 节点应在玩家接受邀请后进入 04-03，未接受时卡琳娜会独自前往。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-29/03-story-state.json"
+              ],
+              "notes": "currentStoryline.constraints 写明“接受邀请 → 04-03 进入宴会厅；拒绝邀请 → 卡尔线”，interactionFollowup 写“当主角未接受邀请时，卡琳娜会独自前往”。"
+            },
+            {
+              "claim": "turn 30 生成前 storyline 已经处在“04-03：进入宴会厅”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-29/05-runtime-after.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-30/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-30/06a-director-prompt.md"
+              ],
+              "notes": "turn-29 runtime-after 的 currentBeatId 已是 4-03；turn-30 prompt 当前故事线要求“正式进入宴会厅”。"
+            },
+            {
+              "claim": "Director 把服装建议改写成“穿着旧棉衣参加晚宴”，并强制场景迁移。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-30/06-llm-calls.json"
+              ],
+              "notes": "Director requiredContent 明确要求“离开铁门居所，穿过暗街通往宴会厅”“场景转换至宴会厅入口或内部”。"
+            }
+          ],
+          "competingPressures": [
+            "storyline 04-03 已被提前激活",
+            "固定节点需要展示暗街到宴会厅的场景转换",
+            "卡琳娜提出晚宴安全性带来邀请压力",
+            "Director 输出中的 requiredContent 对 Narrator 是强制项"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-29/05-runtime-after.json",
+          "triggeringPressure": "runtime-after 在 turn 29 后把 currentBeatId 推到 `4-03-第一章`，turn 30 story state/prompt 因而以“正式进入宴会厅”为当前剧情；Director 又把本轮输入解释成“穿旧棉衣参加晚宴”。",
+          "missingGuard": "storyline transition 没有校验玩家是否明确接受同行；Director 也没有保留“服装建议只处理衣服，下一步仍需玩家确认是否同去”的 must-satisfy contract。",
+          "mechanismStatement": "04-02→04-03 的节点生命周期把“晚宴邀请已提出/服装已讨论”误当成“玩家已接受邀请”，导致固定 beat 在没有玩家同意的情况下被激活，并通过 Director requiredContent 强制 Narrator 完成出门和入场。",
+          "directCause": "Director 在 turn 30 输出 requiredContent，要求离开铁门居所、穿过暗街并切到宴会厅。",
+          "propagation": "Narrator 按 requiredContent 写出“我们走”“你跟上去”与宴会厅入场；turn 30 runtime-after 随后完成 04-03 并进入 5-01，下一轮 choices 全部基于宴会厅。",
+          "nonCauses": [
+            "不是玩家输入自然包含同行同意",
+            "不是 Narrator 单独擅自推进，Director 和 storyline 已强制推进",
+            "不是合理压缩行程，因为压缩前缺少玩家对同行分支的选择"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "choice-action-binding"
+          ],
+          "description": "storyline 节点从 04-02“出门与晚宴邀请”提前进入 04-03“进入宴会厅”，没有把“玩家明确接受同行”作为转换前置条件；固定 beat 生命周期压过了玩家选择语义，把服装建议绑定成行动同意。",
+          "fixSurface": [
+            "quest/node transition guard",
+            "choice-action binding schema",
+            "Director selected-intent validation",
+            "runtime-after storyline advancement"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 29 单独提供“建议穿旧棉衣”和“那我去”的选择；turn 30 玩家选服装建议后，正文直接“我们走”“你跟上去”并进入宴会厅。",
+          "internalTrace": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-29/03-story-state.json 明确接受/拒绝分支；/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-29/05-runtime-after.json 已激活 4-03；/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-30/06-llm-calls.json requiredContent 强制进入宴会厅。"
+        },
+        "recommendedFixArea": "修复 storyline lifecycle gate：04-02 到 04-03 必须由明确 accept actionId 或等价玩家自然语言触发；若玩家只评价衣服，应生成“卡琳娜穿上/再次邀请/给玩家选择”的回合，而不是迁移场景。",
+        "confidence": "high",
+        "issueId": "issue-7-turn-30",
+        "turn": 30
+      }
+    },
+    {
+      "issueIndex": 8,
+      "turn": 31,
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "前文已经把“小贩”建立为男性摊贩兼情报提供者，turn 31 又把同一称呼作为女性罗英的偏好称号使用，且没有解释这是多人称号、绰号重名或身份伪装，容易造成玩家可见身份漂移。",
+      "batchId": "batch-002",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "entity-alias-collision",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "detail-memory"
+        ],
+        "fixSurface": [
+          "entity alias registry",
+          "storyline authoring validator",
+          "prompt assembly disambiguation",
+          "pre-generation visible-name conflict check"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "建立 visible alias registry：任何新角色使用已出现称呼前必须检查冲突；若允许重名，Director 必须生成桥接句（例如“她不是中央区那个摊贩，只是同样自称卖消息的人”）或改用唯一称号。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-008-turn-31/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-002/issues/issue-008-turn-31/root-cause-report.md",
+      "result": {
+        "issueValidity": "valid",
+        "problemSummary": "turn 31 将女性罗英介绍为偏好被称作“小贩”，但玩家此前已把“小贩”理解为中央区男性摊贩兼情报提供者，正文没有解释称号重名或身份关系。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见历史中 turn 1-5 的“小贩”是同一位男性摊贩，文本持续用“他”指代并让他在摊子后提供情报。turn 31 突然让卡琳娜称一名女性罗英为“小贩”，并说她更喜欢这个称呼，没有提供“这是另一个小贩/绰号重名/身份伪装”的桥接说明，构成可见身份漂移。",
+          "playerVisibleSupport": "turn 1-5：小贩“他”在摊子后与玩家对话、取烟盒、提供卡琳娜和暗街线索；turn 31：卡琳娜对女性说“小贩”，介绍“这位是罗英……她更喜欢别人叫她‘小贩’”，罗英自称“卖消息的小贩”。",
+          "caveats": [
+            "“小贩”可以作为泛称或职业绰号重复使用；但 turn 31 以引号式偏好称号和熟人称呼呈现，且没有显式说明这不是早前男性摊贩，玩家可见层面仍易混淆。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家已随卡琳娜进入凯旋门晚宴，选择去角落小桌喝热饮并观察人群。此前长期远离早期中央区摊位，但“小贩”作为男性情报源已在开局建立。",
+          "relevantFacts": [
+            {
+              "claim": "早期“小贩”是男性摊贩/情报提供者。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "turn 1-5 可见文本多次使用“他/小贩”，并锚定为摊子后的街头人物。"
+            },
+            {
+              "claim": "turn 31 当前 storyline 把“‘小贩’”设定为宴会厅中的罗英。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/06a-director-prompt.md"
+              ],
+              "notes": "currentStoryline 明确写“‘小贩’也在宴会厅中，她主动上前”“真实身份——黄昏会的代首领，罗英”。"
+            },
+            {
+              "claim": "Prompt 中旧小贩信息弱化为“无名小贩/街头小贩”，没有性别和别名保护。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/06a-director-prompt.md"
+              ],
+              "notes": "人物总结只在卡琳娜/敏特关系里提到“无名小贩”提供线索，没有作为 active entity 的 alias conflict 进入当前 beat。"
+            },
+            {
+              "claim": "内部角色状态同时存在“罗英”和空白的“‘小贩’”角色，缺少二者与早期小贩的 disambiguation。",
+              "availability": "contradicted",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json"
+              ],
+              "notes": "curStates.characterStates 有“罗英”和“‘小贩’”，后者无补充；这使别名/实体绑定不清。"
+            }
+          ],
+          "competingPressures": [
+            "固定 storyline 要在宴会厅引入罗英并让她自称小贩",
+            "角色/立绘约束使用 characters【“小贩”/默认】",
+            "早期男性小贩不在最近几轮上下文，只在总结中弱存在",
+            "罗英“卖消息”的设定与“小贩”称号语义相近，诱发别名复用"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json currentStoryline",
+          "triggeringPressure": "当前 storyline/fixed beat 明确要求“‘小贩’也在宴会厅中”“真实身份——罗英”“罗英会坚称自己只是个小贩”，并将该别名放入角色约束。",
+          "missingGuard": "没有全局可见 alias 唯一性检查，也没有把早期男性“小贩”作为已占用称呼提供给 storyline/Director；若要复用，缺少“另一个也被称作小贩”的桥接说明。",
+          "mechanismStatement": "固定 beat 在引入罗英时复用了已被玩家绑定到男性摊贩的可见称呼“小贩”，而实体/别名系统没有检测冲突或要求 disambiguation，导致 Director 和 Narrator 按新 beat 把同一称呼绑定到女性罗英。",
+          "directCause": "Director 输出 beats/requiredContent 要求“小贩（罗英）主动上前”“罗英自称小贩”；Narrator 依此写出卡琳娜称她“小贩”并介绍她偏好该称号。",
+          "propagation": "turn 31 choices 出现“跟着罗英离开的方向”，turn 32 又写“那个自称‘小贩’的女人”，进一步固化“小贩=罗英”的新绑定。",
+          "nonCauses": [
+            "不是评测依赖隐藏身份，冲突来自玩家可见称呼复用",
+            "不是单纯角色性别记忆错误，内部 beat 主动指定了新别名",
+            "不是早期小贩必须在场，而是称呼复用缺少解释"
+          ]
+        },
+        "rootCause": {
+          "label": "entity-alias-collision",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "detail-memory"
+          ],
+          "description": "storyline/实体装配允许新角色罗英占用已被玩家可见文本绑定给早期男性摊贩的 alias “小贩”；早期 alias 的性别和实体归属没有以强约束持久化，也没有在固定 beat 引入同名称号时触发 disambiguation。",
+          "fixSurface": [
+            "entity alias registry",
+            "storyline authoring validator",
+            "prompt assembly disambiguation",
+            "pre-generation visible-name conflict check"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 1-5 早期“小贩”以男性“他”在摊子后提供情报；turn 31 女性罗英被称为“小贩”并自称卖消息的小贩。",
+          "internalTrace": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/03-story-state.json currentStoryline 直接指定“‘小贩’=罗英”；/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-31/06-llm-calls.json Director requiredContent 继续要求“小贩（罗英）”；prompt 中早期小贩仅弱化为“无名小贩”。"
+        },
+        "recommendedFixArea": "建立 visible alias registry：任何新角色使用已出现称呼前必须检查冲突；若允许重名，Director 必须生成桥接句（例如“她不是中央区那个摊贩，只是同样自称卖消息的人”）或改用唯一称号。",
+        "confidence": "high",
+        "issueId": "issue-8-turn-31",
+        "turn": 31
+      }
+    }
+  ]
+}

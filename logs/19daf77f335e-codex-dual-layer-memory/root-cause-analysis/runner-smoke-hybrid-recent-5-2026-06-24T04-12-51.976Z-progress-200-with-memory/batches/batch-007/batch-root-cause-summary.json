@@ -1,0 +1,520 @@
+{
+  "batchId": "batch-007",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 21,
+      "turn": 70,
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "mixed",
+      "summary": "正文和选项无过渡地把此前像重要人物一样出现的“卡尔”绑定到在场黑猫，关键身份关系缺少玩家可见承接。",
+      "batchId": "batch-007",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "entity-alias-visibility-contract",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director prompt 的 player-visible knowledge boundary",
+          "entity alias/state schema：区分 canonicalIdentity、playerVisibleName、revealedAliases",
+          "Choice prompt：生成选项前校验称谓是否已玩家可见",
+          "Narrator instructions：身份首次显式绑定必须桥接或延迟"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "为角色/实体增加 player-visible alias reveal 状态，并在 Director 和 Choice 生成时强制检查：未被玩家显式确认的 canonical identity 不得直接作为玩家选项或旁白称谓；需要输出桥接句、继续使用泛称，或等待剧情正式揭示。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-021-turn-70/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-021-turn-70/root-cause-report.md",
+      "result": {
+        "issueId": "issue-21-turn-70",
+        "turn": 70,
+        "issueValidity": "valid",
+        "problemSummary": "第70轮正文和选项把此前玩家只明确见到为“黑猫”的在场动物直接称作“卡尔”，并把“卡尔”当成可等待加入对话的对象；这把先前像暗街权威/创设者的人物名与黑猫无桥接地绑定在一起。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。玩家可见文本在第2、42、60、65轮将卡尔作为暗街秩序源头、把房间交给卡琳娜或带她来这里的人物处理；第69轮仍只把在场动物称为黑猫。第70轮突然用“卡尔有时候会在这个时间醒过来”“它晚上不怎么睡”并让选项写“看向卡尔”，缺少显式揭示或过渡。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中第69轮黑猫在卡琳娜脚边合眼；第70轮黑猫跳到沙发另一头后，卡琳娜直接说“卡尔有时候会在这个时间醒过来”“它说——它在想事情”，正文再写她看向黑猫，选项也直接使用“卡尔”。早前第2轮称“卡尔大人……创建暗街秩序”，第42/60/65轮把卡尔作为影响卡琳娜过去的人物。",
+          "caveats": [
+            "第42、60、65轮多次把黑猫动作放在提及卡尔的附近，存在伏笔效果；因此问题不是绝对矛盾，而是玩家可见身份桥接不足。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第69轮结束时，玩家看到的是卡琳娜与主角在真正的家里安静共处；黑猫从沙发扶手跳下，到卡琳娜脚边坐下并合眼。玩家尚未被明确告知黑猫名叫卡尔或卡尔就是这只猫。",
+          "relevantFacts": [
+            {
+              "claim": "玩家可见层面，当前在场动物在第69轮仍主要被称为黑猫。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-69/04-output.json"
+              ],
+              "notes": "该事实在最近一轮正文中直接出现，应当是第70轮称谓转换的优先锚点。"
+            },
+            {
+              "claim": "玩家可见层面，卡尔此前被塑造成暗街秩序源头/把房间交给卡琳娜/带卡琳娜来这里的重要存在。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+              ],
+              "notes": "第2、42、60、65轮提供的是人物/权威印象，而不是猫名确认。"
+            },
+            {
+              "claim": "内部角色卡明确卡尔是黑色短毛母猫、暗街真正秩序源头。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/06c-choice-prompt.md"
+              ],
+              "notes": "这是内部设定，不等同于玩家已知事实；但它在提示中以角色资料形式强可见。"
+            },
+            {
+              "claim": "当前 storyline 推动“阶段六情感铺垫，引向后续卡尔对话”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/06a-director-prompt.md"
+              ],
+              "notes": "该压力要求把卡尔带入互动，但没有说明如何把玩家可见的黑猫与卡尔身份自然连接。"
+            },
+            {
+              "claim": "信息边界要求不从角色资料自行解锁新事实、不揭示核心秘密。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/06b-narrator-prompt.md"
+              ],
+              "notes": "原则存在，但没有把“卡尔=黑猫”作为需玩家可见揭示/桥接的身份关系来约束。"
+            }
+          ],
+          "competingPressures": [
+            "storyline 要求引向卡尔对话",
+            "角色卡把卡尔定义为黑色短毛母猫",
+            "最近可见文本仍用黑猫泛称",
+            "不揭示核心秘密的约束只覆盖秘密内容，没有覆盖别名可见性",
+            "温馨慢铺节奏鼓励用日常动作替代解释"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/06-llm-calls.json call[0] Director output",
+          "triggeringPressure": "Director prompt 中内部角色卡明确“卡尔——黑色短毛母猫”，currentStoryline 又要求“阶段六情感铺垫，引向后续卡尔对话”；Director 因此输出 involvedCharacters=卡尔，并把 requiredContent 写成“卡尔以猫形态出现并简短发言”。",
+          "missingGuard": "缺少 player-visible entity alias/identity contract：系统没有要求在玩家尚未明确知道“黑猫=卡尔”时必须先桥接、迟延称名或用卡琳娜的解释把身份关系显式落地。",
+          "mechanismStatement": "内部角色卡和 storyline 把“卡尔=黑猫”作为可用事实强推给 Director，但缺少玩家可见别名揭示边界，导致 Director/Narrator/Choice 把隐藏身份当作已建立称谓直接写进正文和选项。",
+          "directCause": "Director 把卡尔的猫形态作为本轮必须呈现内容，Narrator 据此让卡琳娜直接以卡尔称呼黑猫，Choice 继续生成“看向卡尔”等选项。",
+          "propagation": "turn-70/04-output.json 固化了正文里的称谓转换；turn-70/06-llm-calls.json call[2] Choice output 又在玩家选项中继续使用“卡尔”，使该身份绑定成为后续交互默认前提。",
+          "nonCauses": [
+            "不是缺少卡尔设定；内部设定反而过早、过强地进入生成。",
+            "不是纯 Narrator 局部幻觉；Director requiredContent 已把“卡尔以猫形态”交给 Narrator。",
+            "不是评测只依赖隐藏信息；玩家可见文本自身显示了称谓桥接不足。"
+          ]
+        },
+        "rootCause": {
+          "label": "entity-alias-visibility-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "内部角色资料中的实体别名/真实身份被上下游当作玩家已知称谓使用；触发压力是 storyline 要求进入卡尔互动且角色卡明确卡尔为黑猫，缺失防线是没有 player-visible identity/alias 状态与揭示桥接规则，失败运动是 Director 把隐藏身份写成 requiredContent，Narrator 与 Choice 再直接对玩家输出“卡尔=黑猫”的称谓。",
+          "fixSurface": [
+            "Director prompt 的 player-visible knowledge boundary",
+            "entity alias/state schema：区分 canonicalIdentity、playerVisibleName、revealedAliases",
+            "Choice prompt：生成选项前校验称谓是否已玩家可见",
+            "Narrator instructions：身份首次显式绑定必须桥接或延迟"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第70轮：“卡尔有时候会在这个时间醒过来”“它晚上不怎么睡”，随后看向“沙发那头闭着眼睛的黑猫”；选项为“顺着她的话，看向卡尔，等它加入”。第69轮仍称“黑猫”。早前第2/42/60/65轮把卡尔作为重要存在，而非明确猫名。",
+          "internalTrace": "turn-70/06a-director-prompt.md 的角色卡写“卡尔：黑色短毛母猫”；turn-70/06-llm-calls.json call[0] 输出 requiredContent: “卡尔以猫形态出现并简短发言”；call[1] 正文执行称谓绑定；call[2] 选项继续使用“卡尔”。"
+        },
+        "recommendedFixArea": "为角色/实体增加 player-visible alias reveal 状态，并在 Director 和 Choice 生成时强制检查：未被玩家显式确认的 canonical identity 不得直接作为玩家选项或旁白称谓；需要输出桥接句、继续使用泛称，或等待剧情正式揭示。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 22,
+      "turn": 71,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "上一轮黑猫的位置和尾巴接触点在沙发另一头/沙发垫上，当前轮无移动承接就变成蹲坐在扶手边缘。",
+      "batchId": "batch-007",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "recentTurns -> Director 的实体位置抽取与置顶",
+          "current scene entity state/writeback：记录黑猫 location/pose/tailContact",
+          "Director validator：若改变实体位置需生成移动承接",
+          "prompt priority：最近 visibleText 覆盖旧地点摘要"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "增加当前场景实体锚点抽取与校验：每轮从 visibleText 写回可见实体的 location/pose/contactPoint，下轮 Director 必须继承；若输出改变位置，要求显式移动桥接。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-022-turn-71/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-022-turn-71/root-cause-report.md",
+      "result": {
+        "issueId": "issue-22-turn-71",
+        "turn": 71,
+        "issueValidity": "valid",
+        "problemSummary": "第71轮把上一轮位于沙发另一头、尾巴敲在沙发垫上的黑猫改写为蹲坐在沙发扶手上、尾巴垂在扶手边缘，未给出移动承接。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效，但严重度低。第70轮的最后位置是黑猫跳上沙发另一头、前爪收进身体下、尾巴尖敲沙发垫；第71轮开头直接写它蹲坐在沙发扶手上、尾巴垂在扶手边缘。两者可空间相邻，但文本没有移动或姿态转换承接。",
+          "playerVisibleSupport": "turn 70 visibleText: “跳上沙发的另一头……前爪收进身体下面……尾巴尖在沙发垫上轻轻敲了两下”。turn 71 visibleText: “蹲坐在沙发扶手上……尾巴尖垂在扶手边缘”。",
+          "caveats": [
+            "“沙发的另一头”在物理上可能靠近扶手，因此不是大幅场景断裂；核心问题是尾巴接触点和姿态变化未被叙述承接。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第70轮结束时，黑猫已经从卡琳娜脚边跳到沙发另一头，收起前爪闭眼，尾巴尖在沙发垫上敲动。主角第71轮选择只是看向卡尔、等待它加入，没有触发猫移动。",
+          "relevantFacts": [
+            {
+              "claim": "黑猫上一轮的即时位置和尾巴接触点是沙发另一头/沙发垫。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06b-narrator-prompt.md"
+              ],
+              "notes": "最近一轮正文完整进入 prompt，且比旧记忆更近。"
+            },
+            {
+              "claim": "本轮玩家动作只是看向并等待，不包含移动黑猫或靠近扶手。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/04-output.json"
+              ],
+              "notes": "玩家输入和 Director playerIntent 都是观察与等待。"
+            },
+            {
+              "claim": "提示中存在大量旧场景/地点摘要，把黑猫惯常锚定在沙发扶手。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md"
+              ],
+              "notes": "地点摘要、旧 recentTurns、角色动作多次出现“沙发扶手”，与最近位置竞争。"
+            },
+            {
+              "claim": "Director 输出把位置改成“沙发扶手上的黑猫卡尔”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/04-output.json"
+              ],
+              "notes": "这是第一处把错误位置结构化交给 Narrator 的 artifact。"
+            },
+            {
+              "claim": "runtime/entity state 没有独立记录黑猫当前 pose/location。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/05-runtime-after.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/05-runtime-after.json"
+              ],
+              "notes": "runtime 只保留 charactersOnStage 包含黑猫，没有沙发另一头/沙发垫等实体位置。"
+            }
+          ],
+          "competingPressures": [
+            "角色/地点记忆中的惯常沙发扶手位置",
+            "最近 visibleText 的沙发另一头/沙发垫位置",
+            "Director 想突出猫的尾巴敲击作为回应",
+            "温馨慢铺节奏使动作被重复而非明确移动"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json call[0] Director output",
+          "triggeringPressure": "prompt 中旧场景摘要多次把黑猫与沙发扶手绑定，且 Director 需要安排“黑猫卡尔保持闭眼、尾巴轻敲”的小动作；这些压力把动作吸回惯常的扶手位置。",
+          "missingGuard": "缺少 current-scene entity position anchor：上一轮的精确位置没有被提升为结构化、近端、强制优先的事实；“最近可见文本优先”的规则也没有在 Director 输出字段中变成可校验约束。",
+          "mechanismStatement": "上一轮精确位置虽在 prompt 中，但未作为当前实体位置锚点进入 Director 的 must-preserve contract，旧的“沙发扶手”场景模板与猫尾动作压力覆盖了最近正文，导致位置无承接跳转。",
+          "directCause": "Director 把 beats 写成“主角的目光转向沙发扶手上的黑猫卡尔”，requiredContent 写成“尾巴尖在扶手上轻敲两下”；Narrator 依此输出蹲坐在扶手上、尾巴垂在扶手边缘。",
+          "propagation": "错误只在 visibleText 中传播；turn-71/07-events.json 记录 narrator 完成该正文，runtime-after 未写入可纠正的黑猫位置状态，后续仍可沿用扶手位置。",
+          "nonCauses": [
+            "不是玩家输入导致；玩家只选择看向并等待。",
+            "不是缺少上一轮文本；turn-71 prompt 明确包含 turn70 沙发垫事实。",
+            "不是 Choice 首发错误；Choice 只在错误正文后生成后续选项。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "最近一轮实体位置没有被维护为结构化当前场景锚点；触发压力是旧记忆/地点摘要反复把黑猫放在沙发扶手并要求尾巴动作，缺失防线是没有强制 Director 继承上一轮“沙发另一头/沙发垫”的实体 pose/location，失败运动是 Director 选择了惯常扶手模板并让 Narrator 具体化。",
+          "fixSurface": [
+            "recentTurns -> Director 的实体位置抽取与置顶",
+            "current scene entity state/writeback：记录黑猫 location/pose/tailContact",
+            "Director validator：若改变实体位置需生成移动承接",
+            "prompt priority：最近 visibleText 覆盖旧地点摘要"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第70轮黑猫“跳上沙发的另一头”，尾巴在“沙发垫”上敲；第71轮无移动句，直接成为“蹲坐在沙发扶手上”，尾巴垂在扶手边缘。",
+          "internalTrace": "turn-71/06a-director-prompt.md 包含第70轮原文；同一 prompt 也含多个旧“沙发扶手”地点摘要。turn-71/06-llm-calls.json call[0] 首次输出“沙发扶手上的黑猫卡尔”和“尾巴尖在扶手上轻敲”；call[1] 生成对应正文。runtime-after 未记录黑猫位置。"
+        },
+        "recommendedFixArea": "增加当前场景实体锚点抽取与校验：每轮从 visibleText 写回可见实体的 location/pose/contactPoint，下轮 Director 必须继承；若输出改变位置，要求显式移动桥接。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 23,
+      "turn": 71,
+      "severity": "low",
+      "type": "user-input-ignored",
+      "scope": "visibleText",
+      "summary": "正文把上一轮卡琳娜的话重新放到当前轮，并用“你说完”把未发生的发言归到玩家身上，轻微改写了玩家动作。",
+      "batchId": "batch-007",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "Choice/Director handoff：添加 playerActionMode 和 mustNotSpeak",
+          "Narrator prompt：非语言选择禁止写“你说/你问/你说完”",
+          "post-generation checker：检测未授权玩家台词或‘你说完’归因",
+          "全局写作规则消除“每轮必须包含主角台词”的歧义"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "把玩家选择的 speech/action mode 作为结构化合同传给 Narrator，并在生成后校验是否新增未授权玩家发言；尤其拦截“你说完/你问完/你刚才说”等表达。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-023-turn-71/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-023-turn-71/root-cause-report.md",
+      "result": {
+        "issueId": "issue-23-turn-71",
+        "turn": 71,
+        "issueValidity": "valid",
+        "problemSummary": "第71轮玩家只选择看向卡尔并等待，正文却重复上一轮卡琳娜的“它说——它在想事情。”，并写“在你说完那句话之后”，轻微把未发生的发言归给玩家。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。开头重复的台词本身可被解释为承接上一轮卡琳娜的话，但“在你说完那句话之后”明确指向玩家刚说完一句话，而本轮玩家输入是非语言动作。",
+          "playerVisibleSupport": "turn 70 中“它说——它在想事情。”是卡琳娜的台词；turn 71 playerInput 是“顺着她的话，看向卡尔，等它加入”。turn 71 visibleText 写“在你说完那句话之后”，与玩家本轮动作不一致。",
+          "caveats": [
+            "正文第一句带 data-speaker=卡琳娜，并未直接把该句台词标为玩家说出；错误主要集中在“你说完那句话之后”的指代。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第70轮卡琳娜刚说“它说——它在想事情。”，黑猫以耳朵和尾巴回应；玩家第71轮选择顺着这句话看向卡尔并等待，没有说话。",
+          "relevantFacts": [
+            {
+              "claim": "“它说——它在想事情。”上一轮是卡琳娜的台词。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/04-output.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06b-narrator-prompt.md"
+              ],
+              "notes": "最近正文和 narrator prompt 均保留了说话者。"
+            },
+            {
+              "claim": "本轮玩家输入是非语言观察/等待。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json"
+              ],
+              "notes": "Director playerIntent=观察与等待，requiredContent 也是视线转向。"
+            },
+            {
+              "claim": "Narrator prompt 要求不要替玩家追加决定，但也存在“正文中需要包含主角说出口的话/玩家输入不代表就是说出口的话，必须检查”的混合规则。",
+              "availability": "contradicted",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06b-narrator-prompt.md"
+              ],
+              "notes": "后者要求检查，但前者“需要包含主角说出口的话”给非语言回合造成不必要压力。"
+            },
+            {
+              "claim": "Director 没有显式输出 mustNotSpeak 或 playerActionMode=nonverbal。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/04-output.json"
+              ],
+              "notes": "Director 虽正确理解为观察等待，但 handoff 字段未把“玩家没有说话”作为硬约束传递。"
+            }
+          ],
+          "competingPressures": [
+            "上一轮以卡琳娜台词收束，Narrator 为了承接而复读该句",
+            "选择文本含“顺着她的话”，容易在局部生成中混成‘说完那句话’",
+            "全局写作规则偏向输出主角台词",
+            "Director handoff 只说视线转向，没有显式禁止添加玩家发言"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json call[1] Narrator output",
+          "triggeringPressure": "Narrator 输入中上一轮卡琳娜台词紧贴本轮玩家选择，Director requiredContent 又要求“作为对卡琳娜话语的回应”；同时通用规则对主角台词有输出压力。",
+          "missingGuard": "缺少非语言选择的硬绑定：Director 没有把 playerInput 绑定成“玩家只看向并等待，不说话”，Narrator 也没有校验“你说完”是否有玩家可见发言依据。",
+          "mechanismStatement": "非语言 choice 只被软性概括为观察与等待，而没有作为 must-not-speak contract 下传；Narrator 在复接上一轮台词时把“话语回应”滑成“你说完那句话”，轻微改写了玩家动作。",
+          "directCause": "Narrator 在正文第三段写“在你说完那句话之后”，把上一轮卡琳娜的话/本轮‘顺着她的话’误接到玩家身上。",
+          "propagation": "错误进入 turn-71/04-output.json visibleText；Choice output 没有继续强化“玩家说过话”，因此传播主要限于本轮正文。",
+          "nonCauses": [
+            "不是 Director 首先错误替玩家说话；Director 输出的 playerIntent 是“观察与等待”。",
+            "不是玩家选择含有明确台词；选择文本没有引号或说话动作。",
+            "不是 evaluator 误读隐藏状态；问题由 visibleText 的“你说完”支持。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "非语言玩家选择没有被绑定成 Narrator 必须满足且不得改写的行动合同；触发压力是上一轮台词复接、Director 的“回应话语”描述和主角台词输出偏压，缺失防线是没有 mustNotSpeak/playerActionMode 字段与正文后校验，失败运动是 Narrator 把等待动作局部改写为玩家刚说完一句话。",
+          "fixSurface": [
+            "Choice/Director handoff：添加 playerActionMode 和 mustNotSpeak",
+            "Narrator prompt：非语言选择禁止写“你说/你问/你说完”",
+            "post-generation checker：检测未授权玩家台词或‘你说完’归因",
+            "全局写作规则消除“每轮必须包含主角台词”的歧义"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第70轮卡琳娜说“它说——它在想事情。”；第71轮玩家输入“顺着她的话，看向卡尔，等它加入”；第71轮正文写“在你说完那句话之后”。",
+          "internalTrace": "turn-71/06-llm-calls.json call[0] Director 正确给出 playerIntent=观察与等待；turn-71/06b-narrator-prompt.md 把 Director JSON 和上一轮台词交给 Narrator；call[1] 首次生成错误短语。"
+        },
+        "recommendedFixArea": "把玩家选择的 speech/action mode 作为结构化合同传给 Narrator，并在生成后校验是否新增未授权玩家发言；尤其拦截“你说完/你问完/你刚才说”等表达。",
+        "confidence": "medium"
+      }
+    },
+    {
+      "issueIndex": 24,
+      "turn": 72,
+      "severity": "low",
+      "type": "repeated-scene",
+      "scope": "visibleText",
+      "summary": "正文把刚刚完成的醒来动作重新演出了一遍，造成卡尔状态承接重复。",
+      "batchId": "batch-007",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "fixed-beat-consumption",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director beat lifecycle：标记 micro-beat consumed/resolved",
+          "runtime writeback：记录卡尔 awake/openEyes/currentPose",
+          "Narrator guard：禁止重复上一轮刚完成的状态变化，除非有反向状态",
+          "storyline summary writer：保留已完成关键微状态而非只写氛围概括"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Director 与 runtime-after 之间增加 beat consumption 和实体状态写回：醒来、入座、递茶、开门等一次性/状态变化动作需要写成 currentState，并在下一轮 Director 候选动作生成前过滤已消费动作。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-024-turn-72/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-007/issues/issue-024-turn-72/root-cause-report.md",
+      "result": {
+        "issueId": "issue-24-turn-72",
+        "turn": 72,
+        "issueValidity": "valid",
+        "problemSummary": "第72轮再次写“它醒了”并让黑猫缓缓睁开眼睛，而第71轮已经写黑猫睁眼、看向主角和卡琳娜；中间没有重新闭眼。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。第71轮已完成醒来/睁眼动作并以视线回应；第72轮在玩家点头前又重演同一醒来动作，造成状态重复。",
+          "playerVisibleSupport": "turn 71 visibleText: “黑猫缓缓睁开眼睛……它看了你一眼，然后转过头，把目光落在卡琳娜身上”。turn 72 visibleText: “它醒了。”以及“然后它缓缓睁开眼睛”。第71轮结尾没有它重新合眼。",
+          "caveats": [
+            "第72轮后半段写“卡尔重新合上了眼睛”，但这是重复睁眼之后才发生，不能解释第72轮开头的重复醒来。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第71轮结束时，黑猫已经睁开眼睛，看过主角并转向卡琳娜，尾巴在扶手上敲动；玩家第72轮只是对卡尔点头打招呼。",
+          "relevantFacts": [
+            {
+              "claim": "卡尔/黑猫在第71轮已醒并睁眼。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-72/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-72/06b-narrator-prompt.md"
+              ],
+              "notes": "最近一轮正文完整进入 turn72 prompt。"
+            },
+            {
+              "claim": "第71轮没有写黑猫重新闭眼。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/04-output.json"
+              ],
+              "notes": "结尾是它看向卡琳娜、卡琳娜回看主角，非睡回去。"
+            },
+            {
+              "claim": "Director turn72 把回应候选写成“睁眼或尾巴敲击”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-72/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-72/04-output.json"
+              ],
+              "notes": "“睁眼”是已消费动作，但被作为新回应候选交给 Narrator。"
+            },
+            {
+              "claim": "runtime/entity state 没有记录卡尔 awake/openEyes 状态。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/05-runtime-after.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-72/05-runtime-after.json"
+              ],
+              "notes": "runtime 仅列 charactersOnStage 等通用信息，没有把醒来 beat 写成可阻止重复的状态。"
+            },
+            {
+              "claim": "当前 storyline summary 只概括为等待卡尔加入，没有明确“已醒来/已加入”的消耗状态。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-72/03-story-state.json"
+              ],
+              "notes": "上一轮 turnSummary 说“等待它加入对话，营造氛围”，弱化了正文中已醒来的事实。"
+            }
+          ],
+          "competingPressures": [
+            "玩家点头需要卡尔有明确回应",
+            "卡尔加入对话的 storyline 仍处于铺垫状态",
+            "Director 用“睁眼或尾巴敲击”作为通用猫回应模板",
+            "缺少已消费 wake-up beat 的结构化状态"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-72/06-llm-calls.json call[0] Director output",
+          "triggeringPressure": "玩家点头后，Director 需要给卡尔安排明确回应；在缺少 awake 状态和 consumed-beat 标记时，它把“睁眼”作为可选回应写入 beats/requiredContent。",
+          "missingGuard": "缺少 beat consumption/current-status guard：第71轮“它醒了/睁开眼睛”没有被标为已完成、不可重复的当前状态，runtime 和 storyline summary 都没有提供醒来已消费的硬约束。",
+          "mechanismStatement": "卡尔醒来作为上一轮已完成的微剧情 beat 没有进入可执行的 consumed/current-state 记录；Director 为满足“明确回应”复用“睁眼”模板，Narrator 选择该模板并重演醒来。",
+          "directCause": "Director turn72 输出“卡尔以动作回应（睁眼或尾巴敲击）”和“卡尔有明确的反应（如睁眼、尾巴动作等）”；Narrator 将其中“睁眼”具体化为“它醒了”“缓缓睁开眼睛”。",
+          "propagation": "重复醒来写入 turn-72/04-output.json；turn-72/07-events.json 记录该 narrator output 并 committed。后半段又写“重新合上眼睛”，把重复后的新状态继续带入后文。",
+          "nonCauses": [
+            "不是玩家输入要求它醒来；玩家只是点头打招呼。",
+            "不是上一轮文本缺失；turn72 prompt 明确包含第71轮睁眼段落。",
+            "不是单纯选项问题；重复发生在 Director/Narrator 正文链路。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-consumption",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "已完成的局部演出 beat 没有生命周期/消费状态；触发压力是本轮要求卡尔对点头作出明确反应，缺失防线是没有记录“醒来/睁眼已完成且未重新闭眼”的状态，失败运动是 Director 重新开放“睁眼”候选，Narrator 将其写成重复醒来。",
+          "fixSurface": [
+            "Director beat lifecycle：标记 micro-beat consumed/resolved",
+            "runtime writeback：记录卡尔 awake/openEyes/currentPose",
+            "Narrator guard：禁止重复上一轮刚完成的状态变化，除非有反向状态",
+            "storyline summary writer：保留已完成关键微状态而非只写氛围概括"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第71轮“黑猫缓缓睁开眼睛……看了你一眼”；第72轮开头又写“它醒了”“然后它缓缓睁开眼睛”。",
+          "internalTrace": "turn-72/06a-director-prompt.md 已包含第71轮睁眼正文；turn-72/06-llm-calls.json call[0] 仍输出“睁眼或尾巴敲击”；call[1] 选择重复睁眼。turn-71/05-runtime-after.json 与 turn-72/05-runtime-after.json 未记录 awake/openEyes 状态。"
+        },
+        "recommendedFixArea": "在 Director 与 runtime-after 之间增加 beat consumption 和实体状态写回：醒来、入座、递茶、开门等一次性/状态变化动作需要写成 currentState，并在下一轮 Director 候选动作生成前过滤已消费动作。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

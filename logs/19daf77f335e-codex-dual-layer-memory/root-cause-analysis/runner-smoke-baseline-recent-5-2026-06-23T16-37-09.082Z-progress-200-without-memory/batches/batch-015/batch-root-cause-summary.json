@@ -1,53 +1,476 @@
 {
   "batchId": "batch-015",
-  "items": [
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 3,
+    "questionable": 1,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
     {
-      "issueId": "issue-46-turn-115",
       "issueIndex": 46,
       "turn": 115,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "The camera jumps from hanging on the player's neck back to the windowsill without a visible transition.",
+      "batchId": "batch-015",
       "issueValidity": "valid",
       "rootCause": {
         "label": "current-scene-anchor",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "context assembly: 为当前地点、主角姿态、手持/穿戴/摆放物品生成 last-visible-state anchor",
+          "Narrator prompt: 在导演 JSON 后追加不可违背的 Current Scene Anchor，并要求旧位置必须由显式动作改写",
+          "Choice prompt/output validator: 检查选项是否假设物品位于旧位置"
+        ]
       },
       "confidence": "high",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-46-turn-115/root-cause-report.md"
+      "recommendedFixArea": "优先修复 currentSceneAnchor / object-location statefold 与 Narrator/Choice 的硬约束注入，避免 recent prose 中旧位置覆盖最新可见状态。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-046-turn-115/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-046-turn-115/root-cause-report.md",
+      "result": {
+        "issueId": "issue-46-turn-115",
+        "turn": 115,
+        "issueValidity": "valid",
+        "problemSummary": "玩家上一轮最后看到相机已经挂在脖子上，下一轮又看到相机在窗台上，没有任何拿下或放回窗台的过渡。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。turn 114 的最终可见状态明确写成“相机挂在脖子上”，turn 115 又写“窗台上的相机和防水袋”，中间没有玩家行动或叙述把相机放回窗台。",
+          "playerVisibleSupport": "turn 114 可见文本先有“你把相机从膝盖上拿起来放到窗台上”，但随后更新为“相机挂在脖子上”；turn 115 可见文本写“你低头看了一眼窗台上的相机和防水袋”。",
+          "caveats": [
+            "turn 114 内部已经有一次未交代的相机位置变化；本 issue 只以 turn 114 末尾到 turn 115 的玩家可见断裂确认问题成立。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 114 结束时，主角站在窗边，防水袋在手边或窗台附近，相机已经挂在脖子上，银色铃铛在外套内袋里，四点半快到。",
+          "relevantFacts": [
+            {
+              "claim": "相机在 turn 114 末尾已经挂在主角脖子上。",
+              "availability": "present-buried",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-114/04-output.json",
+                "turn-115/06b-narrator-prompt.md"
+              ],
+              "notes": "事实在上一轮长正文的靠后位置出现，对玩家很清楚；但在 Narrator prompt 中只是 recentTurns 长段正文的一部分，没有被抽成当前物品状态。"
+            },
+            {
+              "claim": "相机更早曾和防水袋一起在窗台上。",
+              "availability": "stale",
+              "artifacts": [
+                "turn-113/04-output.json",
+                "turn-114/04-output.json",
+                "turn-115/06b-narrator-prompt.md"
+              ],
+              "notes": "旧位置在 turn 113 和 turn 114 前半段都出现过，容易被晨光/窗台描写重新激活，但它已被 turn 114 后半段的挂脖状态覆盖。"
+            },
+            {
+              "claim": "本轮导演安排没有说明相机当前位置，只要求观察夜色与暗示四点半。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-115/04-output.json",
+                "turn-115/06-llm-calls.json"
+              ],
+              "notes": "Director 输出的 beats、requiredContent 和 actionHint 都没有把“相机在脖子上”变成 Narrator 必须遵守的硬约束。"
+            },
+            {
+              "claim": "runtime/story state 没有结构化记录相机的 last-visible location。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-115/03-story-state.json",
+                "turn-115/04-output.json",
+                "turn-115/05-runtime-after.json"
+              ],
+              "notes": "turnContent 和 currentStoryline 只写入剧情摘要；没有可供下一轮直接读取的物品位置槽位。"
+            }
+          ],
+          "competingPressures": [
+            "最近几轮反复在窗边/窗台检查装备",
+            "慢铺晨光时自然会描写窗台物件",
+            "Director 只强调感官观察和时间接近四点半",
+            "通用一致性规则存在但不够靠近最终生成任务"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-115/06-llm-calls.json call[1] (Narrator streamText)，随后写入 turn-115/04-output.json",
+          "triggeringPressure": "recentTurns 中既有旧的“相机和防水袋并排放在窗台上”，也有更新的“相机挂在脖子上”；Director handoff 没有提炼当前物品位置，而本轮晨光观察描写把注意力拉回窗台。",
+          "missingGuard": "缺少 currentSceneAnchor / object last-write summary，把上一轮末尾的“相机挂在脖子上”作为 Narrator 和 Choice 的强约束；也缺少旧位置被新位置覆盖时的显式优先级提示。",
+          "mechanismStatement": "当同一物品在 recent prose 中有旧位置和新位置，而 handoff 没有抽取“当前可见物品位置”时，Narrator 会为当前氛围描写调用更有画面感的旧窗台构图，造成相机从脖子无过渡跳回窗台。",
+          "directCause": "Narrator 使用了 stale/buried 的窗台位置描写“窗台上的相机和防水袋”，而没有遵守上一轮末尾的挂脖状态。",
+          "propagation": "turn 115 正文固化为窗台相机；同轮 Choice 又给出“拿起相机和防水袋，准备出发”，继续承认相机在窗台上。",
+          "nonCauses": [
+            "不是 Karina/Carl 的角色记忆问题，本轮她们没有参与。",
+            "不是长期 meta-memory 遗忘；正确事实就在上一轮可见文本里。",
+            "不是剧情需要的有意转场；没有任何可见动作支撑位置变化。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 recentTurns 长正文里旧窗台构图比最新挂脖状态更容易被晨光描写调用；缺失防线是没有结构化 current-scene/object anchor 与 last-write 优先级；失败运动是 Narrator 在缺少硬约束时把相机回填到旧位置，并由 Choice 继续传播。",
+          "fixSurface": [
+            "context assembly: 为当前地点、主角姿态、手持/穿戴/摆放物品生成 last-visible-state anchor",
+            "Narrator prompt: 在导演 JSON 后追加不可违背的 Current Scene Anchor，并要求旧位置必须由显式动作改写",
+            "Choice prompt/output validator: 检查选项是否假设物品位于旧位置"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 114 末尾：“相机挂在脖子上”；turn 115：“窗台上的相机和防水袋”。",
+          "internalTrace": "turn-115/04-output.json 的 plotPoint 未包含相机位置；turn-115/06-llm-calls.json call[1] 首次输出“窗台上的相机和防水袋”；turn-115/04-output.json 的 writes 只写 currentStoryline 摘要，没有物品状态写回。"
+        },
+        "recommendedFixArea": "优先修复 currentSceneAnchor / object-location statefold 与 Narrator/Choice 的硬约束注入，避免 recent prose 中旧位置覆盖最新可见状态。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-47-turn-117",
       "issueIndex": 47,
       "turn": 117,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "mixed",
+      "summary": "The posture and location reset as if the player were not already standing at the window, and the choices repeat moving to the current location.",
+      "batchId": "batch-015",
       "issueValidity": "valid",
       "rootCause": {
         "label": "current-scene-anchor",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "context assembly: 生成 playerPosture/currentLocation/currentNearbyObjects 的 concise anchor",
+          "Narrator prompt: 要求正文首段从 current anchor 起笔，不能重新设定姿态",
+          "Choice action binding: 对候选 actionId 的自然语言文本进行当前位置兼容性检查"
+        ]
       },
       "confidence": "high",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-47-turn-117/root-cause-report.md"
+      "recommendedFixArea": "优先修复 currentSceneAnchor 与 Choice option compatibility validator，确保当前地点/姿态在正文和选项阶段一致。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-047-turn-117/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-047-turn-117/root-cause-report.md",
+      "result": {
+        "issueId": "issue-47-turn-117",
+        "turn": 117,
+        "issueValidity": "valid",
+        "problemSummary": "玩家已经站在窗边，turn 117 却写出像从坐姿起身的“你站起来”，并在选项中继续提供“走到窗边”。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。turn 116 结尾明确是“你站在窗边，把呼吸调匀”，turn 117 的玩家输入只是检查防水袋封口，不包含坐下或离开窗边；turn 117 正文和选项却把当前位置/姿态当作未在窗边。",
+          "playerVisibleSupport": "turn 116 末尾：“你站在窗边，把呼吸调匀”；turn 117 正文：“你站起来”；turn 117 选项：“走到窗边，最后一次确定天色”。",
+          "caveats": [
+            "“你站起来”也可勉强解释为从弯腰检查中直起身，但文本没有写弯腰；和重复‘走到窗边’选项合在一起，足以构成低严重度的连续性断裂。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 116 结束时，主角站在窗边，防水袋在手边，胶卷和相机已检查过，目标仍是等待出发/卡琳娜相关信号。",
+          "relevantFacts": [
+            {
+              "claim": "主角在 turn 116 末尾已经站在窗边。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-116/04-output.json",
+                "turn-117/06b-narrator-prompt.md",
+                "turn-117/06c-choice-prompt.md"
+              ],
+              "notes": "该事实在上一轮正文末尾和 Choice prompt 的“本轮玩家已经看到的正文”中都很清楚。"
+            },
+            {
+              "claim": "早先几轮主角曾坐在窗边或靠在窗框夹角里。",
+              "availability": "stale",
+              "artifacts": [
+                "turn-112/04-output.json",
+                "turn-113/04-output.json",
+                "turn-117/06b-narrator-prompt.md"
+              ],
+              "notes": "旧姿态在 recentTurns 长段中仍存在，可能把“检查装备”拉向起身/坐回的动作模板。"
+            },
+            {
+              "claim": "Director 对 turn 117 只规定检查防水袋和天色渐亮，没有显式当前姿态约束。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-117/04-output.json",
+                "turn-117/06-llm-calls.json"
+              ],
+              "notes": "Director 输出缺少“already at the window / already standing”的硬约束，Narrator 需要自行从长上下文判断。"
+            },
+            {
+              "claim": "Choice prompt 要求以本轮正文结尾判断可做动作，但没有禁止 move-to-current-location 的验证器。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-117/06c-choice-prompt.md",
+                "turn-117/06-llm-calls.json"
+              ],
+              "notes": "Choice call 仍输出“走到窗边”并绑定 choice:check_the_dawn，说明规则没有形成可执行的选项过滤。"
+            }
+          ],
+          "competingPressures": [
+            "旧的坐姿/闭目等待文本仍在 recent context",
+            "检查防水袋后整理装备的动作惯性",
+            "候选动作 check_the_dawn 被自然语言化为‘走到窗边’",
+            "没有结构化 current posture/location anchor"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-117/06-llm-calls.json call[1] (Narrator) 首先输出“你站起来”；turn-117/06-llm-calls.json call[2] (Choice) 继续输出“走到窗边”",
+          "triggeringPressure": "Director handoff 把本轮压缩为“检查防水袋封口，等待卡琳娜消息”，没有保留上一轮末尾的站立窗边状态；recent prose 中更早的坐姿/休息动作和候选 check_the_dawn 又提供了移动模板。",
+          "missingGuard": "缺少同时供 Narrator 与 Choice 使用的 current posture/location anchor；Choice 阶段缺少“目的地等于当前位置时必须改写或丢弃”的 action-binding guard。",
+          "mechanismStatement": "当前姿态和当前位置只埋在长 recent prose 中，而没有作为 hard handoff 字段进入 Narrator/Choice，导致 Narrator 用旧等待姿态写出起身，Choice 又把检查天色绑定成走向已经所在的窗边。",
+          "directCause": "Narrator 与 Choice 都没有把 turn 116 末尾“站在窗边”当成不可违背的当前状态。",
+          "propagation": "turn 117 正文中姿态重置；同轮选项继续提供到当前地点的移动，下一轮玩家选择拉窗帘时仍停留在窗边等待循环。",
+          "nonCauses": [
+            "不是玩家输入造成；玩家只要求检查防水袋。",
+            "不是必须的剧情推进；检查装备完全可以在已站窗边的状态下完成。",
+            "不是长期记忆缺失；正确位置就在上一轮末尾。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是旧坐姿和候选 check_the_dawn 的移动语义；缺失防线是缺少当前姿态/位置的硬锚点以及 move-to-current-location 选项过滤；失败运动是 Narrator 与 Choice 各自从长上下文里重建场景，重建结果覆盖了上一轮末尾的站窗边状态。",
+          "fixSurface": [
+            "context assembly: 生成 playerPosture/currentLocation/currentNearbyObjects 的 concise anchor",
+            "Narrator prompt: 要求正文首段从 current anchor 起笔，不能重新设定姿态",
+            "Choice action binding: 对候选 actionId 的自然语言文本进行当前位置兼容性检查"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 116 末尾为站在窗边；turn 117 正文出现“你站起来”；turn 117 选项要求“走到窗边”。",
+          "internalTrace": "turn-117/04-output.json 的 plotPoint 没有姿态/位置 guard；turn-117/06-llm-calls.json call[1] 生成重置姿态；call[2] 生成带 actionId=choice:check_the_dawn 的重复移动选项。"
+        },
+        "recommendedFixArea": "优先修复 currentSceneAnchor 与 Choice option compatibility validator，确保当前地点/姿态在正文和选项阶段一致。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-48-turn-118",
       "issueIndex": 48,
       "turn": 118,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "mixed",
+      "summary": "After the agreed 4:30 door meeting becomes imminent, the scene advances to dawn while treating the objective as waiting indoors for Karina's message or arrival instead of acknowledging the missed rendezvous or moving to the door.",
+      "batchId": "batch-015",
       "issueValidity": "valid",
       "rootCause": {
         "label": "storyline-lifecycle",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline objective schema: 支持 active rendezvous(time, location, counterparty, deadlineStatus)",
+          "pre-LLM event scheduler: 时间达到/接近 deadline 时注入 door-meeting 或 missed-rendezvous 事件",
+          "Choice gating: deadline 临近时优先提供去门口/确认迟到，禁用无期限室内等待",
+          "statefold/currentStoryline: 不要把 exact time/location 压缩成泛化‘等待天亮出发’"
+        ]
       },
       "confidence": "high",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-48-turn-118/root-cause-report.md"
+      "recommendedFixArea": "优先修复 storyline lifecycle 和时间门限事件：把玩家可见的约定时间、地点、对象存成 active objective，并在 Choice/Narrator 前强制处理。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-048-turn-118/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-048-turn-118/root-cause-report.md",
+      "result": {
+        "issueId": "issue-48-turn-118",
+        "turn": 118,
+        "issueValidity": "valid",
+        "problemSummary": "四点半门口会合已经临近，但剧情继续把主角留在室内等待卡琳娜消息，甚至推进到天亮，没有承认门口会合或错过约定。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。turn 109 和 turn 110 明确约定“四点半，门口见”，turn 115 明确“四点半快到了”；到 turn 118 已经“天亮了”，正文仍是“等卡琳娜的消息”，选项也继续等待卡琳娜到来。",
+          "playerVisibleSupport": "turn 109：“明天天亮之前……四点半，门口见”；turn 110：“四点半。门口见”；turn 115：“四点半快到了”；turn 118：“天亮了……等卡琳娜的消息”，选项含“站在窗边继续等待卡琳娜的到来”。",
+          "caveats": [
+            "玩家在 turn 116 和 turn 117 选择继续检查装备，系统可以短暂响应这些操作；但当时间从‘四点半快到了’推进到‘天亮了’时，必须处理门口约定的到达、延误或错过。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角已准备好相机、防水袋、胶卷和铃铛；按玩家可见计划，接近四点半应去门口与卡琳娜会合，而不是无限期等消息。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜明确给出四点半门口会合。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-109/04-output.json",
+                "turn-110/04-output.json"
+              ],
+              "notes": "这是玩家可见的时间/地点目标，不依赖隐藏信息。"
+            },
+            {
+              "claim": "turn 115 已把时间推进到四点半快到。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-115/04-output.json",
+                "turn-118/03-story-state.json",
+                "turn-118/06b-narrator-prompt.md"
+              ],
+              "notes": "到 turn 118 的 recentTurns 中仍能看到 turn 115 的‘四点半快到了’，但精确的‘门口见’已不在最近几轮窗口内。"
+            },
+            {
+              "claim": "系统内部 storyline summary 没有把 exact rendezvous time/location 持续作为 active objective 保存。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-116/03-story-state.json",
+                "turn-117/03-story-state.json",
+                "turn-118/03-story-state.json"
+              ],
+              "notes": "summary 只保留‘准备/等待天亮出发’一类泛化描述，turn 117 后甚至写成‘等待卡琳娜消息’。"
+            },
+            {
+              "claim": "没有 deadline/preLlm event 在四点半临近或天亮时触发会合、迟到或错过处理。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-116/07-events.json",
+                "turn-117/07-events.json",
+                "turn-118/07-events.json"
+              ],
+              "notes": "相关 turns 的 pre-LLM events 均为空，时间推进只由叙述光线变化驱动。"
+            },
+            {
+              "claim": "从 turn 116 开始，输出把目标改写为等待卡琳娜消息。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-116/04-output.json",
+                "turn-117/04-output.json",
+                "turn-118/04-output.json"
+              ],
+              "notes": "这个目标与早先‘门口见’并不等价；它把外出会合改成室内等待。"
+            }
+          ],
+          "competingPressures": [
+            "玩家连续选择检查装备/等待相关小动作",
+            "阶段六温馨安心基调和慢铺晨光节奏",
+            "currentTurnConstraints 多次禁止提前揭示卡琳娜或出发信号",
+            "没有时间门限的硬事件或关键选择出口"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-116/06-llm-calls.json call[1] (Narrator) 首次把状态写成“只等卡琳娜的消息”；到 turn-118/04-output.json 发展为天亮后继续等待消息",
+          "triggeringPressure": "Director/Narrator 被玩家的装备检查动作和慢铺晨光节奏牵引，并受到“不提前揭示卡琳娜/出发信号”的约束；同时 exact door rendezvous 没有作为 active deadline/objective 持续进入 handoff。",
+          "missingGuard": "缺少 time-gated rendezvous lifecycle：当四点半临近时必须 bridge to door、触发 Karina/door event，或显式处理迟到/错过；Choice 也缺少在 deadline 临近时压制继续室内等待的规则。",
+          "mechanismStatement": "四点半门口会合被系统当成普通背景摘要而非 active deadline，慢速等待循环又被允许继续推进光线时间，于是 Narrator/Choice 把应触发的会合改写成室内等待消息，最终在天亮后仍不处理门口约定。",
+          "directCause": "时间约束没有进入可执行的剧情生命周期，导致 turn 116 起目标漂移为‘等消息’，turn 118 在‘天亮了’时仍继续同一等待循环。",
+          "propagation": "turn 116 正文和选项引入等待消息；turn 117 Director summary 写入‘等待卡琳娜消息’；turn 118 Director/Narrator/Choice 继续‘等卡琳娜的消息/到来’，并把时间推进到天亮。",
+          "nonCauses": [
+            "不是玩家拒绝去门口；玩家只是执行系统提供的检查/等待动作。",
+            "不是缺少玩家可见约定；约定在 turn 109/110 清楚出现。",
+            "不是单个 Narrator 句子问题；错误通过 Director summary、Choice 和 currentStoryline 连续传播。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是慢铺等待和禁止提前揭示卡琳娜/出发信号的局部约束；缺失防线是没有把‘四点半门口见’保存为 active time-gated objective 并在临界时间触发/过期；失败运动是系统让等待循环跨过 deadline，把门口会合改写为室内等消息。",
+          "fixSurface": [
+            "storyline objective schema: 支持 active rendezvous(time, location, counterparty, deadlineStatus)",
+            "pre-LLM event scheduler: 时间达到/接近 deadline 时注入 door-meeting 或 missed-rendezvous 事件",
+            "Choice gating: deadline 临近时优先提供去门口/确认迟到，禁用无期限室内等待",
+            "statefold/currentStoryline: 不要把 exact time/location 压缩成泛化‘等待天亮出发’"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 109/110 的“四点半，门口见”；turn 115 的“四点半快到了”；turn 118 的“天亮了……等卡琳娜的消息”和继续等待选项。",
+          "internalTrace": "turn-116/04-output.json 正文首次写‘只等卡琳娜的消息’；turn-117/04-output.json plotPoint summary 写‘等待卡琳娜消息’；turn-118/04-output.json plotPoint/Narrative/Choices 继续等待消息/到来；turn-116 至 turn-118 的 07-events.json 没有 deadline event。"
+        },
+        "recommendedFixArea": "优先修复 storyline lifecycle 和时间门限事件：把玩家可见的约定时间、地点、对象存成 active objective，并在 Choice/Narrator 前强制处理。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-49-turn-119",
       "issueIndex": 49,
       "turn": 119,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "The player sits on the fireplace stool previously occupied by Carl without any visible transition accounting for Carl's position.",
+      "batchId": "batch-015",
       "issueValidity": "questionable",
-      "rootCause": {
-        "label": null,
-        "family": null
-      },
+      "rootCause": null,
       "confidence": "medium",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-49-turn-119/root-cause-report.md"
+      "recommendedFixArea": "评测侧建议降低长时间 offscreen character-location 冲突的确定性；系统侧可选增强 current-scene character-position tracking，并在重要角色让出道具/座位时补一笔过渡。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-049-turn-119/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-015/issues/issue-049-turn-119/root-cause-report.md",
+      "result": {
+        "issueId": "issue-49-turn-119",
+        "turn": 119,
+        "issueValidity": "questionable",
+        "problemSummary": "评测认为主角坐到壁炉边矮凳时，没有交代此前在矮凳上的卡尔去了哪里。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有可疑风险，但证据不足以判定为真实不一致。turn 101-110 的确多次把卡尔放在壁炉旁矮凳上；然而 turn 111-118 经过了长时间的装备检查、闭目等待、天色变化和天亮，文本不再聚焦卡尔，且猫在长时间间隔中离开或换位置是合理读法。",
+          "playerVisibleSupport": "支持评测的一面：turn 110 仍写“壁炉旁矮凳上蜷着的卡尔”，turn 119 写主角“在壁炉边的矮凳上坐下”。削弱评测的一面：turn 111-118 没有说明卡尔仍在矮凳上，且时间从深夜推进到天亮。",
+          "caveats": [
+            "如果故事要求所有主要角色的离场都必须显式可见，这会是有效问题；但以普通叙事阅读，长时间未出镜的猫可以合理移动。",
+            "不能用内部“卡尔本轮不出场”约束来倒推玩家可见错误。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家最后明确看到卡尔在矮凳上是在 turn 110；之后 111-118 的可见文本主要跟随主角装备检查和等待天亮，没有明确说明卡尔仍在场、仍占据矮凳或已经离开。",
+          "relevantFacts": [
+            {
+              "claim": "卡尔曾在壁炉旁矮凳上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-101/04-output.json",
+                "turn-110/04-output.json"
+              ],
+              "notes": "这是评测提出风险的主要可见依据。"
+            },
+            {
+              "claim": "从 turn 111 到 turn 118 经历了较长等待和时间推进，卡尔没有再次被确认仍在矮凳。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-111/04-output.json",
+                "turn-118/04-output.json"
+              ],
+              "notes": "沉默既可读作遗漏，也可读作不在镜头内/已离开；玩家可见证据无法唯一确定。"
+            },
+            {
+              "claim": "turn 119 内部 Director 要求卡琳娜和卡尔本轮不出场。",
+              "availability": "not-needed",
+              "artifacts": [
+                "turn-119/04-output.json",
+                "turn-119/06-llm-calls.json"
+              ],
+              "notes": "该隐藏约束只能解释系统为何没写卡尔，不能用于证明玩家可见不一致成立。"
+            }
+          ],
+          "competingPressures": [
+            "早先稳定的卡尔-矮凳构图",
+            "长时间经过和镜头焦点转向主角装备/窗边",
+            "猫可以合理离开或换位置",
+            "turn 119 玩家输入明确要求坐到壁炉边等待"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "evaluator / issue-49；若按有效问题追踪，可能的风险点是 turn-119/06-llm-calls.json call[1] 未显式处理卡尔位置",
+          "triggeringPressure": "评测把较早的卡尔位置当作仍然强约束；turn 119 叙述则按玩家输入直接移动到壁炉边坐下。",
+          "missingGuard": "从玩家可见证据看，缺少的是显式离场/让座过渡；但由于存在长时间间隔，这个 guard 是否必要并不确定。",
+          "mechanismStatement": "证据不足：旧的角色位置事实和长时间未出镜之间存在合理解释空间，不能仅因没有可见离场就判定 turn 119 坐下必然冲突。",
+          "directCause": "评测对‘未显式移动’采取了严格延续假设，而该假设在多轮时间跳跃和猫角色上不够稳固。",
+          "propagation": "无确定系统错误可追；turn 119 后续继续把主角坐在壁炉边作为当前状态。",
+          "nonCauses": [
+            "不能把内部 stateView 或 hidden prompt 当作玩家可见冲突证据。",
+            "不能仅凭‘卡尔本轮不出场’说明卡尔仍占矮凳。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 110 的“壁炉旁矮凳上蜷着的卡尔”与 turn 119 的“在壁炉边的矮凳上坐下”之间相隔多轮等待和天色变化；没有近端文本确认卡尔仍占据矮凳。",
+          "internalTrace": "turn-119/04-output.json 的 Director/Narrator 确实没有处理卡尔；但这是在 validity 尚不足的情况下的内部风险，而非可直接定罪的根因。"
+        },
+        "recommendedFixArea": "评测侧建议降低长时间 offscreen character-location 冲突的确定性；系统侧可选增强 current-scene character-position tracking，并在重要角色让出道具/座位时补一笔过渡。",
+        "confidence": "medium"
+      }
     }
   ]
 }

@@ -1,0 +1,111 @@
+{
+  "issueId": "issue-19-turn-28",
+  "turn": 28,
+  "issueIndex": 19,
+  "issueValidity": "valid",
+  "problemSummary": "turn 28 把玩家写成从宴会厅大门离开、由女仆开门、沿来路回到暗街并抵达“卡尔的小屋”；但玩家可见长线只建立了卡琳娜在暗街铁门后的公寓/房间，未展示前往宴会厅，也未介绍“卡尔的小屋”。",
+  "validityAssessment": {
+    "verdictReason": "valid。玩家可见证据足以成立：turn 5-6 明确进入暗街深处的铁门和不大的房间，turn 19-25 仍使用公寓/沙发/茶几/书架/暖气片/黑猫等同一室内锚点；没有可见的邀请接受、出门、穿越暗街、进入宴会厅或认识“卡尔的小屋”的过程。turn 28 却把宴会厅出口、女仆、从城市另一端回暗街、卡尔的小屋当作既有事实来写。",
+    "playerVisibleSupport": "turn 6：铁门后是不大的房间，客厅和厨房无隔断，旧沙发、茶几、书架、窗台绿植和黑猫；turn 19 仍称公寓恢复安静；turn 25 仍有沙发、黑猫、窗外雨声、暖气管。turn 26-28 突然出现宴会厅、酒会、女仆和卡尔的小屋，缺少可见转场。",
+    "caveats": [
+      "turn 26-27 已经开始被错误的宴会厅语境污染；本 issue 的 turn 28 是该污染进一步显性化为离场路线和新目的地。",
+      "“暗街方向在城市另一端”本身可以是世界地理描述，但在缺少宴会厅转场的情况下不能修复该跳跃。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "按玩家可见长线，主角应仍在卡琳娜位于暗街的公寓/房间里，刚和卡琳娜谈完德索洛、莫雷蒂、信任和康纳；turn 26-27 已错误地把同一场谈话改写到宴会厅，但可见文本没有给出任何从公寓到宴会厅的桥接。",
+    "relevantFacts": [
+      {
+        "claim": "卡琳娜的谈话场景最初建立为暗街铁门后的公寓/房间，而不是宴会厅。",
+        "availability": "present-clear",
+        "artifacts": [
+          "consistency-review/.../visible-timeline.jsonl:turn-5",
+          "consistency-review/.../visible-timeline.jsonl:turn-6",
+          "consistency-review/.../visible-timeline.jsonl:turn-19",
+          "consistency-review/.../visible-timeline.jsonl:turn-25"
+        ],
+        "notes": "玩家可见文本反复使用铁门、旧沙发、茶几、书架、暖气片、黑猫、公寓等锚点。"
+      },
+      {
+        "claim": "接受晚宴邀请、出门、穿越暗街、进入宴会厅这些转场前提没有在玩家可见正文中发生。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-24/04-output.json",
+          "turn-25/04-output.json",
+          "turn-26/04-output.json"
+        ],
+        "notes": "turn 25 的 Director 甚至写明“为前往宴会厅做铺垫，但不在此轮实际推进地点变化”，正文仍停留在谈话。"
+      },
+      {
+        "claim": "storyline/runtime 已把后续宴会厅节点当作当前和已完成节点。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-24/05-runtime-after.json",
+          "turn-25/03-story-state.json",
+          "turn-28/03-story-state.json",
+          "turn-28/06a-director-prompt.md"
+        ],
+        "notes": "turn-24 runtime-after 已激活 4-03“进入宴会厅”；turn-28 currentStoryline 是 5-03，约束强制宴会厅/康纳对峙。"
+      },
+      {
+        "claim": "“卡尔的小屋”不是玩家可见已知地点。",
+        "availability": "absent",
+        "artifacts": [
+          "consistency-review/.../visible-timeline.jsonl:turn-1-27",
+          "turn-28/06-llm-calls.json"
+        ],
+        "notes": "turn 28 的 Director 首次把 scene 写成“暗街-卡尔小屋”，Narrator 和 Choice 随后把它玩家可见化并锁进选项。"
+      },
+      {
+        "claim": "当前玩家输入只是坚持告辞、改日再说，并没有选择返回某个小屋。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-28/06a-director-prompt.md",
+          "turn-28/04-output.json"
+        ],
+        "notes": "Director 将该输入标为“脱轨”，并自行补成离开宴会厅、回到暗街卡尔小屋的路线。"
+      }
+    ],
+    "competingPressures": [
+      "currentStoryline 5-03 强力要求宴会厅、康纳、卡琳娜权力试探，且在 prompt 中位置靠前。",
+      "historyStoryline 把 4-02、4-03、5-01、5-02 都写成已发生摘要，虽然这些摘要与玩家可见正文不匹配。",
+      "玩家拒绝继续康纳线，使 Director 需要给出一个退出/收束路径。",
+      "近期玩家可见文本已经被 turn 26-27 的宴会厅污染，降低了 Director 对原始公寓锚点的警觉。",
+      "隐藏世界/角色资料里“暗街是卡尔与卡琳娜的据点”等信息给了模型把目的地命名为卡尔相关地点的素材，但玩家并未可见地知道该地点。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-24/05-runtime-after.json -> turn-25/03-story-state.json 是最早可证实的 lifecycle 偏离；turn-28/06-llm-calls.json call-1 是本 issue 直接把偏离落成路线和目的地的 Director artifact。",
+    "triggeringPressure": "quest/storyline runtime 在未展示晚宴邀请和转场的情况下，把 4-03、5-01、5-02、5-03 逐步推进为 current/visited/completed；turn 28 prompt 又把 5-03 的宴会厅、康纳和已发生 storyline 摘要前置给 Director。",
+    "missingGuard": "缺少以玩家可见正文为准的 scene-anchor/precondition guard：激活或完成“进入宴会厅/康纳出场/离开宴会厅”前，应验证邀请已被接受、移动已被叙述、宴会厅已可见、康纳事件已实际发生；还缺少隐藏地点名进入可见输出前的 reveal gate。",
+    "mechanismStatement": "storyline 节点生命周期按剧本顺序推进并把未被正文呈现的转场当作已发生，prompt 又把这些 currentStoryline/historyStoryline 摘要置于强势位置，导致 Director 在玩家选择告辞时从错误的宴会厅状态出发，生成“离开宴会厅→回暗街卡尔小屋”的路线，Narrator 再把该路线写成玩家可见事实。",
+    "directCause": "turn 28 Director 输出的 summary/scene/beats 明确写入“主角离开宴会厅，回到暗街”“scene: 暗街-卡尔小屋”“主角回到暗街卡尔小屋”。",
+    "propagation": "Narrator 按 Director 骨架写出宴会厅大门、女仆、木门、暗街在城市另一端、卡尔小屋窗口灯光；Choice 再提供“径直走进卡尔的小屋”等选项；turn 28 runtime-after 把 6-01 激活，turn 29 继续在卡尔小屋外展开。",
+    "nonCauses": [
+      "不是 meta-memory：正确场景锚点在最近可见文本和 recentTurns 中仍可取得。",
+      "不是玩家选择本身：玩家只选择告辞，没有选择宴会厅路线或卡尔小屋。",
+      "不是单纯 Narrator 局部幻觉：Director 已先给出错误的 scene 和 beats。",
+      "不是评测器误判：玩家可见文本确实出现未支撑的路线和新目的地。"
+    ]
+  },
+  "rootCause": {
+    "label": "storyline-lifecycle",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "剧情节点的 activation/completion 生命周期没有绑定玩家可见前提；4-02 的邀请/选择、4-03 的进入宴会厅、5-02/5-03 的康纳事件未被正文兑现，却被 runtime 和 prompt 视作已发生。缺失的 scene-anchor 和 reveal gate 让强势 currentStoryline 压过最近可见公寓语境，并允许隐藏/未揭示的“卡尔小屋”被 Director 当作可见目的地。",
+    "fixSurface": [
+      "quest/storyline transition guard：节点完成前检查 required visible anchors 是否已在正文或事件中落地",
+      "current-scene anchor model：将 player-visible location、route、known destinations 作为高优先级结构化状态传给 Director/Narrator",
+      "prompt assembler priority：当 currentStoryline 与 recent visible text 冲突时显式标记 contradiction，并要求优先 recent visible text 或桥接",
+      "hidden-to-visible reveal gate：未在可见时间线出现的地点名/人物关系不得作为选项或目的地输出"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 6 建立铁门后的不大房间；turn 19-25 仍是公寓/沙发/茶几/书架/暖气片/黑猫语境；turn 26-28 突然写宴会厅，turn 28 又写女仆开门、从宴会厅回暗街、卡尔的小屋。",
+    "internalTrace": "turn-24/05-runtime-after.json 已激活 4-03；turn-25/03-story-state.json currentStoryline 为“进入宴会厅”；turn-28/03-story-state.json currentStoryline 为 5-03 且约束宴会厅/康纳；turn-28/06-llm-calls.json call-1 Director 输出 scene “暗街-卡尔小屋”和离开宴会厅 beats，call-2 Narrator 写成正文，call-3 Choice 锁入小屋选项。"
+  },
+  "recommendedFixArea": "优先修复 storyline runtime 的节点生命周期与可见场景锚点校验；同时调整 Director prompt 的冲突优先级和隐藏地点 reveal gate。",
+  "confidence": "high"
+}

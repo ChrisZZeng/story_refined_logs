@@ -1,0 +1,93 @@
+{
+  "issueId": "issue-3-turn-5",
+  "issueIndex": 3,
+  "turn": 5,
+  "issueValidity": "valid",
+  "problemSummary": "turn-5 玩家交出相机和两卷胶卷后，黑帮退场时正文只交代放下相机、玩家捡回相机，两卷胶卷没有被归还、带走或损坏的交代。",
+  "validityAssessment": {
+    "verdictReason": "该问题成立。玩家可见文本明确“摸出两卷”胶卷并交给黑帮，之后冲突解决只处理相机；胶卷作为同一动作中交出的具体物件，状态缺口会影响玩家对财产/证据是否还在的理解。",
+    "playerVisibleSupport": "turn-5 visibleText：“把相机带从脖子上绕下来，递了出去。然后是口袋里的胶卷盒——你摸出两卷……”和“他伸手接过相机和胶卷”；后文只有“他放下相机”和“你捡起地上的相机”。",
+    "caveats": [
+      "玩家可以勉强想象胶卷也被一起放下，但正文用了单数“相机”并只检查相机，未给出足够承接，因此仍是可见物件状态缺口。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn-4 黑帮要求“把相机留下”；turn-5 玩家选择以示弱方式交出相机和胶卷，黑帮已经实际接过两类物品，卡琳娜随后介入。",
+    "relevantFacts": [
+      {
+        "claim": "玩家选项和本轮正文都明确交出“相机和胶卷/两卷胶卷”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-05/04-output.json",
+          "turn-05/06a-director-prompt.md"
+        ],
+        "notes": "玩家输入和 Narrator 前半段都保留了胶卷。"
+      },
+      {
+        "claim": "Director output 将动作摘要写成交出相机和胶卷，但后续 beat/characterBeat 只聚焦相机。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-05/06-llm-calls.json",
+          "turn-05/06b-narrator-prompt.md"
+        ],
+        "notes": "beats[0] 有“交出相机和胶卷”，beats[1] 变成“黑帮接过相机”，characterBeat 为“递出相机”。"
+      },
+      {
+        "claim": "当前固定故事线 1-03 foreground 卡琳娜介入、黑帮退场和相机是否还能用，没有要求归还全部被夺物。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-05/03-story-state.json",
+          "turn-05/06a-director-prompt.md"
+        ],
+        "notes": "固定演出和关键台词推动卡琳娜登场，物件状态不是硬约束。"
+      },
+      {
+        "claim": "runtime state 没有 inventory/object ledger 记录胶卷被交出或收回。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-05/05-runtime-after.json"
+        ],
+        "notes": "runtime-after 只有 anchors/quest state，没有相机或胶卷状态。"
+      }
+    ],
+    "competingPressures": [
+      "上一节点黑帮原始要求主要是“把相机留下”",
+      "玩家选择把胶卷额外纳入示弱动作",
+      "当前固定 beat 需要快速完成卡琳娜介入和公寓邀请",
+      "卡琳娜后续台词专门问“你那台破相机还能用吧？”使相机更显眼"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-05/06-llm-calls.json Director output（同内容嵌入 turn-05/06b-narrator-prompt.md）：从“交出相机和胶卷”压缩为“黑帮接过相机/递出相机”",
+    "triggeringPressure": "当前固定节点 1-03 强制快速演出卡琳娜介入、黑帮退场和相机可用性，对上一回合玩家额外交出的胶卷没有状态化承接；Director 的 beat 也把后续物件焦点缩到相机。",
+    "missingGuard": "缺少 object-state handoff：玩家动作中转移的所有具体物件没有进入 must-account-for 列表，也没有在 Narrator 结束前检查“已交出物件是否被归还/带走/遗失”。",
+    "mechanismStatement": "玩家选择产生了“相机+两卷胶卷”的临时物件交易，但 handoff 只把相机作为剧情关键物件传给固定介入 beat；没有物件状态清单约束退场结算，Narrator 因而只写相机落地和被捡回，让胶卷在可见状态中悬空。",
+    "directCause": "Narrator 写出黑帮接过相机和胶卷后，只让他“放下相机”，玩家也只“捡起地上的相机”。",
+    "propagation": "turn-05/05-runtime-after.json 没有胶卷状态，后续 turn-6 已进入公寓，物件缺口未被系统修复或记录。",
+    "nonCauses": [
+      "不是长期记忆问题，胶卷事实就在同一 turn 前半段。",
+      "不是玩家输入含糊，选项明确写“相机和胶卷”。",
+      "不是 evaluator 依赖隐藏信息，缺口完全来自 visibleText。"
+    ]
+  },
+  "rootCause": {
+    "label": "object-state-handoff",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "选中动作产生的临时物件转移没有被结构化成 Narrator 必须结算的 object state；固定卡琳娜介入 beat 和 Director handoff foreground 相机而遗漏胶卷，缺少“所有转移物件必须有归宿”的 guard，导致局部正文只解决相机。",
+    "fixSurface": [
+      "selected action parser: 抽取 handedOverItems / affectedObjects",
+      "Director/Narrator prompt: 增加 mustAccountForObjects",
+      "post-generation continuity check: 同一 turn 物件交出后必须归还/带走/损坏/遗失之一"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-5 前半段交出“相机和胶卷/两卷”，后半段只“放下相机”“捡起相机”。",
+    "internalTrace": "turn-05/06b-narrator-prompt.md 的 Director JSON 同时包含“交出相机和胶卷”和只聚焦相机的 beat/actionHint；turn-05/03-story-state.json 当前固定节点没有胶卷归宿要求；turn-05/05-runtime-after.json 无物件状态。"
+  },
+  "recommendedFixArea": "优先为 selected action 到 Director/Narrator 的 handoff 增加 object-state ledger，并在固定 beat 消耗前后做同 turn 物件归宿校验。",
+  "confidence": "medium"
+}

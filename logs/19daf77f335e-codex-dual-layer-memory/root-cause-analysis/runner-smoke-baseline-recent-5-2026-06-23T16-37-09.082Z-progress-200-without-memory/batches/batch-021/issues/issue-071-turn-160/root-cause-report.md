@@ -1,0 +1,59 @@
+# issue-71-turn-160 Root Cause Report
+
+## Problem
+第160轮把备用胶卷写成“三卷黑色的小筒，用铝箔纸包着，整整齐齐地塞在侧袋里”，与之前多次可见的“五卷、每卷用塑料密封袋包着、在防水袋里”冲突。
+
+## Validity
+- issueValidity: `valid`
+- 判定理由：该 issue 有效。turn-128 明确写备用胶卷“五卷，每一卷都用塑料密封袋包着”；turn-129 再次写“那五卷备用胶卷——每卷都用塑料密封袋包着”；turn-133 也写防水袋里有“五卷备用胶卷”。到 turn-160 前没有消耗、重新包装或转移到侧袋的可见过程。
+- 玩家可见证据：turn-128/129/133 的五卷塑料密封袋事实，与 turn-160 的三卷铝箔纸小筒直接冲突。
+- 注意事项：
+- turn-111 曾出现“三卷Tri-X，一盒还没拆封的HP5”，但 turn-128、turn-129、turn-133 是更晚且重复的可见事实，应优先作为进入 turn-160 前的玩家可见状态。
+
+## Context Assessment
+实际问题前状态：进入 turn-160 前，最新稳定的玩家可见装备状态是：备用胶卷在防水袋里，共五卷，每卷用塑料密封袋包好；没有可见消耗或重新整理。
+
+相关事实与可用性：
+- `absent` 备用胶卷为五卷，塑料密封袋包装，在防水袋中。 证据：`logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-128/04-output.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-129/04-output.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-133/04-output.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md`。该事实在 turn-160 recentTurnLimit=5 的窗口外，currentStoryline 只保留“检查相机和胶卷/防水袋”的摘要，没有数量和包装。
+- `present-clear` 本轮必须检查备用胶卷。 证据：`logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/04-output.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06a-director-prompt.md`。Director requiredContent 包含“检查备用胶卷”，但没有具体数量/包装约束。
+- `present-clear` 运行配置没有外部记忆请求可补回旧装备细节。 证据：`logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/00-run-config.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/08-memorax-requests.json`。memory.mode=baseline，recentTurnLimit=5，turn-160 memorax requests 为 []。
+- `absent` curStates 没有备用胶卷实体或 inventory count。 证据：`logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/03-story-state.json`。curStates 仅有角色/地点/世界观等内容，没有道具状态。
+
+竞争压力：
+- Director 要求检查胶卷，但没有 exact fact
+- 写作风格鼓励具体感官细节，模型会补数量、颜色、包装
+- baseline recentTurnLimit=5 使 turn-128/129/133 不在当前 prompt 的近期正文中
+- 当前故事线摘要把装备检查压缩成泛称，无法保护数量
+
+## Causal Chain
+- firstDivergenceArtifact: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md assistant narrative output`
+- triggeringPressure: requiredContent 要求“检查备用胶卷”，Narrator 必须写出检查过程；但 prompt 中没有五卷/塑料密封袋/防水袋位置这些稳定事实，只有泛化的“检查备用胶卷”。
+- missingGuard: 缺少 memory-persistence：具体道具数量、包装和容器没有写入结构化 inventory/detail memory；也缺少“细节未知时不要重新发明数量和包装”的生成约束。
+- mechanismStatement: 当一个需要精确延续的装备细节掉出 recent window 且没有被持久化时，Narrator 在“检查备用胶卷”的压力下用新细节补空，生成了三卷铝箔纸小筒，覆盖了玩家此前看到的五卷塑料密封袋。
+- directCause: turn-160 Narrator 在缺少精确事实的情况下即兴生成“三卷黑色的小筒，用铝箔纸包着”。
+- propagation: turn-165 又复述“三卷用铝箔纸包裹的备用胶卷”，说明该错误细节被后续上下文继续采用。
+- nonCauses:
+- 不是玩家消耗胶卷；没有拍摄或更换胶卷导致数量减少的可见过程。
+- 不是防水袋检查本身导致；问题在具体数量/包装被重新发明。
+
+## Root Cause
+- label: `memory-persistence`
+- family: `detail-memory`
+- secondaryFamilies: `agent-system`
+- description: 触发压力是本轮 requiredContent 必须写检查备用胶卷；缺失防线是五卷、塑料密封袋、防水袋位置这些低层装备事实没有持久化到 inventory/object detail memory，且当前 prompt 没有未知细节保守生成规则；失败运动是 Narrator 为了完成检查动作补造了新的数量和包装。
+- fixSurface:
+- `inventory/detail memory schema：item=count/package/container/lastConfirmedTurn`
+- `state writeback 从装备检查正文抽取数量和包装`
+- `Narrator prompt 中“若数量/包装未给出，避免新精确数值”的约束`
+- `consistency guard 对同一物件数量/包装变更要求可见桥接`
+
+## Evidence
+- playerVisible: turn-128/129/133 反复确认五卷、塑料密封袋、防水袋；turn-160 改为三卷、铝箔纸、侧袋。
+- internalTrace: turn-160/06b-narrator-prompt.md 只含“检查备用胶卷”泛称；turn-160/03-story-state.json 无备用胶卷实体；turn-160/08-memorax-requests.json 为 []；00-run-config.json 显示 baseline recentTurnLimit=5。
+- tracePacket: `logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-71-turn-160/trace-packet.json`
+
+## Recommended Fix Area
+把装备数量、包装、容器作为 detail memory/inventory state 持久化，并在 requiredContent 要求检查装备时优先注入这些字段；对缺失字段采用保守描述，不生成新的精确数值。
+
+## Confidence
+`high`

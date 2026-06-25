@@ -1,0 +1,105 @@
+{
+  "issueId": "issue-26-turn-48",
+  "turn": 48,
+  "issueValidity": "valid",
+  "problemSummary": "第 48 轮把卡琳娜与卡尔第一次见面后的清晨同时称为“第一次见面之后的第二天”和“就任申诉人的第一天”，与第 46-47 轮已经建立的夜晚到天亮顺序冲突。",
+  "validityAssessment": {
+    "verdictReason": "valid。玩家可见文本已经明确给出：第 46 轮说第一次见卡尔是在“刚成为申诉人的第一天”的晚上，第 47 轮说卡尔陪她坐了一整晚并在天亮时说“你坐得够稳了”后跳走；第 48 轮又把这一天称为“第一次见面之后的第二天”，但同段稍后称“那天是我就任申诉人的第一天”。这不是隐藏设定推断，而是可见叙述内部的轻微时间标签冲突。",
+    "playerVisibleSupport": "turn-46 visibleText: “我第一次见到她的时候——是七年前。我刚成为申诉人的第一天。那天晚上……”。turn-47 visibleText: “我就那样坐着……坐了整整一个晚上”“天亮的时候她醒了……‘你坐得够稳了。’——然后就跳出去了”。turn-48 visibleText: “第一次见面之后的第二天。就是她说了……就跳走的那天”以及“那天是我就任申诉人的第一天”。",
+    "caveats": [
+      "如果把“就任申诉人的第一天”解释成正式履职周期而非日历日期，冲突可被弱化；但前文“那天晚上”与“天亮”让玩家自然按日历顺序理解，因此仍构成 low 级别的空间/时间连续性问题。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "问题发生前，玩家看到卡琳娜在公园长椅上连续回忆卡尔：她第一次见卡尔是在刚成为申诉人的第一天夜里，卡尔跳下窗台并在她膝上睡了一整晚；天亮后卡尔说“你坐得够稳了”并跳走。第 48 轮玩家追问的是“卡尔为什么选中了你”，需要承接这条刚刚建立的短时间线。",
+    "relevantFacts": [
+      {
+        "claim": "第一次见卡尔发生在卡琳娜刚成为申诉人的第一天晚上。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn-46",
+          "turn-48/03-story-state.json recentTurns",
+          "turn-48/06a-director-prompt.md",
+          "turn-48/06b-narrator-prompt.md"
+        ],
+        "notes": "该事实在 recentTurns 中以完整可见正文出现，但不是结构化的 timeline fact。"
+      },
+      {
+        "claim": "“你坐得够稳了”发生在坐了一整晚之后的天亮时刻。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn-47",
+          "turn-48/03-story-state.json recentTurns",
+          "turn-48/06a-director-prompt.md",
+          "turn-48/06b-narrator-prompt.md"
+        ],
+        "notes": "这条事实紧邻目标轮次，信息可用；但同样埋在长段散文式 recentTurns 中。"
+      },
+      {
+        "claim": "第 48 轮玩家问的是卡尔为何选中卡琳娜，而不是要求重新定义具体日期。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-48/01-summary.json",
+          "turn-48/06a-director-prompt.md"
+        ],
+        "notes": "Director 正确识别为探索/追问原因。"
+      },
+      {
+        "claim": "Director handoff 没有把“第一天夜里→整夜→次日清晨”的顺序整理成本轮必须保持的时间锚点。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-48/04-output.json plotPoint",
+          "turn-48/06b-narrator-prompt.md"
+        ],
+        "notes": "Director 只给出“回答为何被选中、基于自身感受”的剧情骨架，没有要求 Narrator 校验日期标签。"
+      },
+      {
+        "claim": "底层写作规范甚至提示应避免用“第一天”“第二天”等生硬时间标签。",
+        "availability": "present-buried",
+        "artifacts": [
+          "turn-48/06a-director-prompt.md",
+          "turn-48/06b-narrator-prompt.md"
+        ],
+        "notes": "该规范位于长提示中的风格段落，未转化为本轮硬约束。"
+      }
+    ],
+    "competingPressures": [
+      "玩家追问“为什么选中”推动模型补出因果解释和关键旧日场景。",
+      "recentTurns 保留了完整长段回忆，时间线事实存在但没有被结构化。",
+      "storyline 摘要强调卡尔在关键时刻引导卡琳娜认识使命，促使生成把“被选中”和“就任第一天/第一次做选择”合并呈现。",
+      "慢铺、温情回忆的写作压力高于精确日期校验。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-48/06-llm-calls.json call 1 / turn-48/04-output.json narrative",
+    "triggeringPressure": "Narrator 需要把“卡尔为什么选中我”的问题落成一段旧日回忆；prompt 中 recentTurns 有“第一天晚上”“坐了一整晚”“天亮跳走”，Director 又要求回答选中原因并暗示卡尔看到了卡琳娜的潜质，模型把“次日清晨追问”与“就任第一天做出选择”压缩进同一个“那天”。",
+    "missingGuard": "缺少一个靠近 Narrator 最终指令的结构化 temporal anchor 或硬约束，要求保留“第一天夜里→整夜→次日清晨”的顺序，并避免重新引入“第二天/第一天”互相覆盖的日期标签。",
+    "mechanismStatement": "当近期时间线只以长篇可见散文进入 prompt、Director handoff 又只强调情感/因果回答而不输出可执行的时间锚点时，Narrator 在补全旧日因果时会把相邻日历事件压缩成同一个“那天”，导致玩家可见的 first/second-day 标签冲突。",
+    "directCause": "Narrator 本地生成了“第一次见面之后的第二天……那天是我就任申诉人的第一天”这一组互相牵扯的时间标签。",
+    "propagation": "该文本进入 turn-48/04-output.json 的 narrative 与 normalizedContent.visibleText，并被 visible-timeline.jsonl 记录；Choice 输出没有继续扩大该日期冲突，runtime-after 也未显示新的结构化日期写回。",
+    "nonCauses": [
+      "不是长期 memory-persistence 缺失：相关事实就在最近两轮和 turn-48 prompt 中。",
+      "不是 Choice 问题：选项没有制造时间冲突。",
+      "不是隐藏设定导致：玩家可见正文已经足以确认问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "temporal-anchor-contract",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 Narrator 在回答“为什么被选中”时需要把多个近期回忆片段压缩成一段因果叙述；缺失防线是 Director/Narrator handoff 没有把最近两轮的日历顺序提升为可执行 temporal anchor，也没有把“避免第一天/第二天标签”作为本轮硬约束；失败运动是模型在可见事实都存在但未结构化的情况下，将次日清晨与就任第一天合并为同一“那天”。",
+    "fixSurface": [
+      "Director plotPoint schema: 增加 currentSceneTimeline / temporalAnchors 字段，列出最近事件顺序。",
+      "Narrator prompt assembly: 将最近两轮的时间关系摘要放在最终写作指令附近。",
+      "post-generation consistency check: 针对同段 first day / second day / 那天 等时间标签做局部冲突检测。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-46、turn-47、turn-48 的 visibleText 构成完整证据链：第一天晚上初见、坐整晚、天亮离开；目标轮又称同一清晨为第二天和第一天。",
+    "internalTrace": "turn-48/04-output.json plotPoint 只要求“回答为何被卡尔选中”；turn-48/06b-narrator-prompt.md 中 recentTurns 包含正确顺序，但没有独立时间锚点；turn-48/06-llm-calls.json call 1 首次生成冲突句。"
+  },
+  "recommendedFixArea": "优先修复 Director→Narrator 的 temporal anchor handoff，并增加输出后时间标签冲突 lint。",
+  "confidence": "high"
+}

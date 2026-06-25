@@ -1,0 +1,53 @@
+# Root Cause Report: issue-23-turn-71
+
+## Problem
+第71轮玩家只选择看向卡尔并等待，正文却重复上一轮卡琳娜的“它说——它在想事情。”，并写“在你说完那句话之后”，轻微把未发生的发言归给玩家。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 该 issue 有效。开头重复的台词本身可被解释为承接上一轮卡琳娜的话，但“在你说完那句话之后”明确指向玩家刚说完一句话，而本轮玩家输入是非语言动作。
+- playerVisibleSupport: turn 70 中“它说——它在想事情。”是卡琳娜的台词；turn 71 playerInput 是“顺着她的话，看向卡尔，等它加入”。turn 71 visibleText 写“在你说完那句话之后”，与玩家本轮动作不一致。
+- caveats:
+- 正文第一句带 data-speaker=卡琳娜，并未直接把该句台词标为玩家说出；错误主要集中在“你说完那句话之后”的指代。
+
+## Context Assessment
+- actualStateBeforeIssue: 第70轮卡琳娜刚说“它说——它在想事情。”，黑猫以耳朵和尾巴回应；玩家第71轮选择顺着这句话看向卡尔并等待，没有说话。
+- relevantFacts:
+- “它说——它在想事情。”上一轮是卡琳娜的台词。 availability=present-clear artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/04-output.json, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06b-narrator-prompt.md notes=最近正文和 narrator prompt 均保留了说话者。
+- 本轮玩家输入是非语言观察/等待。 availability=present-clear artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json notes=Director playerIntent=观察与等待，requiredContent 也是视线转向。
+- Narrator prompt 要求不要替玩家追加决定，但也存在“正文中需要包含主角说出口的话/玩家输入不代表就是说出口的话，必须检查”的混合规则。 availability=contradicted artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06b-narrator-prompt.md notes=后者要求检查，但前者“需要包含主角说出口的话”给非语言回合造成不必要压力。
+- Director 没有显式输出 mustNotSpeak 或 playerActionMode=nonverbal。 availability=absent artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/04-output.json notes=Director 虽正确理解为观察等待，但 handoff 字段未把“玩家没有说话”作为硬约束传递。
+- competingPressures:
+- 上一轮以卡琳娜台词收束，Narrator 为了承接而复读该句
+- 选择文本含“顺着她的话”，容易在局部生成中混成‘说完那句话’
+- 全局写作规则偏向输出主角台词
+- Director handoff 只说视线转向，没有显式禁止添加玩家发言
+
+## Causal Chain
+- firstDivergenceArtifact: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json call[1] Narrator output`
+- triggeringPressure: Narrator 输入中上一轮卡琳娜台词紧贴本轮玩家选择，Director requiredContent 又要求“作为对卡琳娜话语的回应”；同时通用规则对主角台词有输出压力。
+- missingGuard: 缺少非语言选择的硬绑定：Director 没有把 playerInput 绑定成“玩家只看向并等待，不说话”，Narrator 也没有校验“你说完”是否有玩家可见发言依据。
+- mechanismStatement: 非语言 choice 只被软性概括为观察与等待，而没有作为 must-not-speak contract 下传；Narrator 在复接上一轮台词时把“话语回应”滑成“你说完那句话”，轻微改写了玩家动作。
+- directCause: Narrator 在正文第三段写“在你说完那句话之后”，把上一轮卡琳娜的话/本轮‘顺着她的话’误接到玩家身上。
+- propagation: 错误进入 turn-71/04-output.json visibleText；Choice output 没有继续强化“玩家说过话”，因此传播主要限于本轮正文。
+- nonCauses:
+- 不是 Director 首先错误替玩家说话；Director 输出的 playerIntent 是“观察与等待”。
+- 不是玩家选择含有明确台词；选择文本没有引号或说话动作。
+- 不是 evaluator 误读隐藏状态；问题由 visibleText 的“你说完”支持。
+
+## Root Cause
+- label: `choice-action-binding`
+- family: `agent-system`
+- secondaryFamilies: ["llm-self"]
+- description: 非语言玩家选择没有被绑定成 Narrator 必须满足且不得改写的行动合同；触发压力是上一轮台词复接、Director 的“回应话语”描述和主角台词输出偏压，缺失防线是没有 mustNotSpeak/playerActionMode 字段与正文后校验，失败运动是 Narrator 把等待动作局部改写为玩家刚说完一句话。
+- fixSurface: Choice/Director handoff：添加 playerActionMode 和 mustNotSpeak, Narrator prompt：非语言选择禁止写“你说/你问/你说完”, post-generation checker：检测未授权玩家台词或‘你说完’归因, 全局写作规则消除“每轮必须包含主角台词”的歧义
+
+## Evidence
+- playerVisible: 第70轮卡琳娜说“它说——它在想事情。”；第71轮玩家输入“顺着她的话，看向卡尔，等它加入”；第71轮正文写“在你说完那句话之后”。
+- internalTrace: turn-71/06-llm-calls.json call[0] Director 正确给出 playerIntent=观察与等待；turn-71/06b-narrator-prompt.md 把 Director JSON 和上一轮台词交给 Narrator；call[1] 首次生成错误短语。
+
+## Recommended Fix Area
+把玩家选择的 speech/action mode 作为结构化合同传给 Narrator，并在生成后校验是否新增未授权玩家发言；尤其拦截“你说完/你问完/你刚才说”等表达。
+
+## Confidence
+`medium`

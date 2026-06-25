@@ -1,0 +1,87 @@
+{
+  "issueId": "issue-30",
+  "turn": 99,
+  "issueValidity": "valid",
+  "problemSummary": "第99轮在玩家继续安静坐着时，几乎复写第98轮的静坐段落，并再次写“远处有一只猫的影子沿着墙根走过去”和卡琳娜目光跟随黑猫，像同一只猫第一次穿过光区一样。",
+  "validityAssessment": {
+    "verdictReason": "valid。玩家选择继续沉默可以延长氛围，但不能让一个刚发生的一次性环境事件原样重演；turn-98 与 turn-99 的猫穿过光区和卡琳娜视线跟随几乎相同。",
+    "playerVisibleSupport": "turn-98 写“远处有一只猫的影子沿着墙根走过去”“那只黑猫走过路灯下的光区时，她的目光似乎跟着动了一下”；turn-99 再次写同一只猫影沿墙根走过、穿过路灯光区、她的目光跟动。",
+    "caveats": [
+      "沉默和环境描写本身可以重复铺陈；本 issue 成立的关键不是继续静坐，而是同一猫穿过光区这个一次性动态被重新播放。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第98轮玩家已选择继续坐着，正文完成了一段沉默氛围，并让一只黑猫从远处沿墙根走过、穿过路灯光区，引发卡琳娜一瞬的视线反应。第99轮玩家继续选择安静坐着，合理输出应体现时间继续、静默加深或对已出现猫的后续状态，而不是重置猫的经过。",
+    "relevantFacts": [
+      {
+        "claim": "黑猫沿墙根走过并穿过路灯光区已经在上一轮发生。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06b-narrator-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06c-choice-prompt.md"
+        ],
+        "notes": "turn-99 的 prompt 最近几轮包含 turn-98 正文，选择器 prompt 也完整呈现了上一轮和本轮重复文本。"
+      },
+      {
+        "claim": "第99轮 Director 只要求保持沉默、感官细节和氛围沉淀，没有要求卡尔/黑猫再次经过。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06b-narrator-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/07-events.json"
+        ],
+        "notes": "plotPoint.currentTurnConstraints 包含“不推进剧情事件，仅深化情感氛围”；characterBeats 只提到卡琳娜继续放松。"
+      },
+      {
+        "claim": "系统没有把一次性环境动作作为 consumed sensory beat 写入可执行状态。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-98/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/05-runtime-after.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/06b-narrator-prompt.md"
+        ],
+        "notes": "猫经过只存在于上一轮正文和 recentTurns 中，没有一个高显著的“已发生/不要重放”字段约束 Narrator。"
+      }
+    ],
+    "competingPressures": [
+      "玩家输入连续选择静坐",
+      "Director 要求慢铺、感官细节优先、不推进事件",
+      "上一轮静坐段落在 prompt 中高度相似且可直接仿写",
+      "阶段六对“卡尔对话可能性”的暗示约束让猫相关意象保持显著"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-99/04-output.json#narrative",
+    "triggeringPressure": "Narrator 收到的 Director 安排要求“不开启新对话”“不推进剧情事件”“慢铺，感官细节优先”，同时 prompt 中紧邻可见的上一轮静坐文本包含完整猫经过段落。",
+    "missingGuard": "Narrator contract 没有要求输出相对上一轮的 scene delta，也没有把“猫已经穿过光区”标为 consumed one-shot sensory beat；“不要重复”只是通用原则，未转化成可执行检查。",
+    "mechanismStatement": "在连续静坐场景中，系统只给 Narrator 慢速感官铺陈目标，却没有当前场景增量/一次性环境动作消费防线，导致模型从上一轮可见文本中复用同一猫经过段落，形成玩家可见的重放。",
+    "directCause": "Narrator 在第99轮正文中复用了 turn-98 的静坐段落和猫穿过光区事件。",
+    "propagation": "第99轮 Choice 又生成“留意那只黑猫的方向”，把被重复的猫事件变成当前可继续互动的对象。",
+    "nonCauses": [
+      "不是玩家输入本身要求猫再次出现；玩家只是继续安静坐着。",
+      "不是长期记忆缺失；上一轮原文就在 prompt 中。",
+      "Director 不是第一处可见重复；它没有要求黑猫事件。"
+    ]
+  },
+  "rootCause": {
+    "label": "sensory-beat-consumption",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "连续沉默场景缺少 scene delta 和 one-shot sensory beat consumption 机制；当 Director 只要求“感官细节优先、不推进事件”时，Narrator 没有被强制区分上一轮已发生的动态细节与本轮可复用的氛围素材，于是重放了黑猫穿过路灯光区。",
+    "fixSurface": [
+      "Narrator prompt delta contract",
+      "runtime sensory/event writeback for consumed one-shot beats",
+      "recent-turn repetition checker",
+      "Choice prompt current-object validation"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-98 与 turn-99 都出现“远处有一只猫的影子沿着墙根走过去”以及“黑猫走过路灯下的光区时，她的目光似乎跟着动了一下”。",
+    "internalTrace": "turn-99 04-output.json 的 plotPoint 只要求沉默深化；06b-narrator-prompt.md 包含 turn-98 原文和 Director JSON；04-output.json 的 narrative 重放猫经过；06c-choice-prompt.md 将重复后的黑猫作为可选方向。"
+  },
+  "recommendedFixArea": "给 Narrator 增加“本轮必须产生相对上一轮的最小增量，不得重放上一轮一次性动作”的硬约束；将环境动态事件写入 consumed sensory beats，并在选择生成前过滤由重复事件产生的选项。",
+  "confidence": "medium"
+}

@@ -1,0 +1,467 @@
+{
+  "batchId": "batch-003",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 3,
+    "questionable": 1,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 9,
+      "turn": 36,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "杯子在上一轮已经被放回桌面，下一轮又被写成再次落到桌面，形成轻微的物件状态和动作承接重复。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "state-writeback",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "scene-object-state/writeback",
+          "narrator-prompt/current-scene-anchor",
+          "post-generation-continuity-validator"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为当前场景小物件建立轻量 objectState/consumedAction 写回，并在 Narrator prompt 中把 last visible object state 作为高优先级锚点；生成后校验相邻 turn 的重复放置/拿取动作。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-009-turn-36/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-009-turn-36/root-cause-report.md",
+      "result": {
+        "issueId": "issue-9",
+        "turn": 36,
+        "issueValidity": "valid",
+        "problemSummary": "turn 36 在卡琳娜上一轮已经把杯子放回桌面后，又写成她松开握杯手指、杯底再次落到桌面，形成轻微的物件动作重复。",
+        "validityAssessment": {
+          "verdictReason": "该问题可由玩家可见文本直接确认。turn 35 末尾已经完成“卡琳娜把杯子放回桌面上”的动作，turn 36 开头没有任何可见动作让她重新拿起杯子，却再次写“杯底落在桌面上”。",
+          "playerVisibleSupport": "turn 35 visibleText: 卡琳娜把杯子放回桌面上；turn 36 visibleText: 她握着杯子的手指松开，杯底落在桌面上。两处相邻，且玩家输入只是回答“认真”。",
+          "caveats": [
+            "这是低严重度连续性问题：不改变剧情走向，但会让杯子状态和动作承接显得重复。",
+            "turn 36 同时写到玩家自己的杯沿停稳；该部分不构成问题，问题仅在卡琳娜的杯子。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，宴会厅对峙结束；玩家站在小桌旁，手里有空杯；卡琳娜的杯子已经被放回桌面，她正看着玩家追问刚才的话是否认真。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜的杯子在 turn 35 已经回到桌面，杯底落桌动作已经消费完。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-36/06b-narrator-prompt.md",
+                "turn-35/04-output.json"
+              ],
+              "notes": "该事实在 Narrator prompt 的最近几轮正文中出现，但埋在长段宴会描写末尾，未被结构化成当前物件状态。"
+            },
+            {
+              "claim": "turn 36 玩家只确认自己是认真的，没有让卡琳娜重新拿杯或再次放杯。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-36/03-story-state.json",
+                "turn-36/06b-narrator-prompt.md"
+              ],
+              "notes": "玩家输入清楚，Director 安排也只要求确认、离开宴会厅、去公园。"
+            },
+            {
+              "claim": "本轮应推进卡琳娜离场并在公园询问宴会观感，而不是重演上一轮的杯子动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-36/04-output.json",
+                "turn-36/06b-narrator-prompt.md"
+              ],
+              "notes": "Director requiredContent 明确了离开宴会厅和公园长椅，但没有杯子动作要求。"
+            },
+            {
+              "claim": "杯子的当前位置没有进入结构化 story state 或 runtime state。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-36/03-story-state.json",
+                "turn-36/05-runtime-after.json"
+              ],
+              "notes": "curStates 有角色/地点记忆，但没有把小桌杯子或卡琳娜杯子作为可校验状态。"
+            }
+          ],
+          "competingPressures": [
+            "宴会厅连续数轮把杯沿、杯壁、手指作为紧张对峙的物理细节反复使用。",
+            "Director 要求卡琳娜短暂观察后带玩家离开，Narrator 倾向用一个小动作作为决定落定的信号。",
+            "最近可见事实虽然清楚，但以长 prose 形式输入，没有对象状态优先级或 consumed-action 标记。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-36/06-llm-calls.json[1] / turn-36/04-output.json.narrative",
+          "triggeringPressure": "Narrator prompt 中最近数轮高频出现卡琳娜握杯、杯沿、杯壁等情绪动作，同时 Director 要求她观察后决定离开，促使模型继续使用杯子作为情绪落点。",
+          "missingGuard": "系统没有把上一轮“杯子已放回桌面”写入当前场景物件状态，也没有在 Narrator handoff 中显式要求不要重复已消费的物件动作。",
+          "mechanismStatement": "当小物件状态只以低层级长 prose 存在、缺少 consumed-action/state guard 时，Narrator 会把近期高频的杯子动作模板再次用于本轮情绪落点，从而把已完成的放杯动作重复写成新动作。",
+          "directCause": "Narrator 在 turn 36 生成正文时复用了“握杯手指松开/杯底落桌”的动作，没有遵守 turn 35 已完成的杯子状态。",
+          "propagation": "错误直接进入 turn-36 visibleText 和 04-output.json；后续立即转场去公园，未被 state 或 events 单独固化为长期事实。",
+          "nonCauses": [
+            "Director 本轮没有要求再次放杯；它只安排确认认真、离开宴会厅、前往公园。",
+            "不是长期记忆缺失；冲突事实来自上一轮，仍在 recent context 中。",
+            "不是玩家输入歧义；玩家只选择认真回答。"
+          ]
+        },
+        "rootCause": {
+          "label": "state-writeback",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "小物件的最新状态和已消费动作没有结构化写回或显式提升优先级；在杯子意象反复出现的 prompt 压力下，Narrator 缺少防线去区分“刚刚已经放下”与“本轮可再次放下”，于是把同一杯底落桌动作重复生成。",
+          "fixSurface": [
+            "scene-object-state/writeback",
+            "narrator-prompt/current-scene-anchor",
+            "post-generation-continuity-validator"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 35 末尾卡琳娜把杯子放回桌面；turn 36 又写她松开握杯手指、杯底落到桌面。",
+          "internalTrace": "turn-36/06b-narrator-prompt.md 保留了 turn 35 放杯文本，也显示 Director requiredContent 没有杯子动作；turn-36/04-output.json 的 narrative 首次出现重复动作；turn-36/03-story-state.json 未提供杯子结构化状态。"
+        },
+        "recommendedFixArea": "为当前场景小物件建立轻量 objectState/consumedAction 写回，并在 Narrator prompt 中把 last visible object state 作为高优先级锚点；生成后校验相邻 turn 的重复放置/拿取动作。",
+        "confidence": "high",
+        "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-9-turn-36/root-cause-report.md",
+        "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-9-turn-36/root-cause-result.json"
+      }
+    },
+    {
+      "issueIndex": 10,
+      "turn": 45,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "正文把开门动作归给玩家，并用“刚刚”压缩了中间多轮室内互动，造成轻微动作归属和时间承接错误。",
+      "batchId": "batch-003",
+      "issueValidity": "questionable",
+      "rootCause": null,
+      "confidence": "medium",
+      "recommendedFixArea": "若要降低此类误判和读者歧义，应在 Narrator prompt 或后处理文案规则中要求：当同一场景存在实体门时，心理/话题“门”隐喻需要加明确比喻标记，避免“看着那扇门”这类实体化表述。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-010-turn-45/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-010-turn-45/root-cause-report.md",
+      "result": {
+        "issueId": "issue-10",
+        "turn": 45,
+        "issueValidity": "questionable",
+        "problemSummary": "turn 45 的“那扇你刚刚推开的门”可能被读作玩家刚推开物理铁门，但上下文也强烈支持它是“打开谈话/回忆入口”的隐喻。",
+        "validityAssessment": {
+          "verdictReason": "可见证据不足以把它判定为确定事实冲突。若按物理门理解，确实与 turn 39 卡琳娜推门、turn 40 玩家跨门槛相冲突；但 turn 43-45 连续使用“半开的门”“打开了一扇门”等谈话隐喻，且 turn 45 玩家刚问“想聊聊这里的事吗”，因此“刚刚推开的门”有合理的比喻读法。",
+          "playerVisibleSupport": "物理读法的支持来自 turn 39-40 的铁门动作；隐喻读法的支持来自 turn 43 的“半开的门”、turn 44 的“那行字打开了一扇门”以及 turn 45 以追问打开卡琳娜回忆话题。",
+          "caveats": [
+            "这句话仍有歧义风险：黑猫“看着门”的物理动词容易把隐喻拉回实体门。",
+            "如果产品标准要求避免所有未标明的实体/隐喻双关，可将其视作低严重度文案风险，而非确定连续性错误。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家和卡琳娜已在室内进行了多轮关于笔记本、红百叶窗和母亲住处的对话；物理铁门早在 turn 39-40 完成进入动作；当前轮玩家接茶并邀请卡琳娜聊“这里的事”。",
+          "relevantFacts": [
+            {
+              "claim": "物理铁门由卡琳娜打开，玩家只是跨过门槛进入。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-45/trace.md"
+              ],
+              "notes": "这是评测把句子读作实体门时的冲突依据。"
+            },
+            {
+              "claim": "最近两轮把回忆和谈话推进反复写成“门”隐喻。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-45/06b-narrator-prompt.md",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "turn 43 写“把那扇半开的门又推开了一点”，turn 44 写“那行字打开了一扇门”。"
+            },
+            {
+              "claim": "turn 45 玩家刚刚打开的是话题入口：询问是否想聊这里的事。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-45/04-output.json",
+                "turn-45/06b-narrator-prompt.md"
+              ],
+              "notes": "“刚刚”可以指当前对话动作，不一定指进入房间。"
+            },
+            {
+              "claim": "Narrator prompt 没有强制重提物理门动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-45/06b-narrator-prompt.md",
+                "turn-45/04-output.json"
+              ],
+              "notes": "Director 安排是泡茶、接茶、提问、卡尔观察，不要求门动作。"
+            }
+          ],
+          "competingPressures": [
+            "房间本身以铁门为重要空间边界，实体门仍是场景母题。",
+            "近几轮同时使用门作为心理/回忆隐喻，且没有显式标注比喻。",
+            "黑猫被写成有象征性观察功能，能让“看着门”同时像实体动作和寓意动作。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "evaluator interpretation of turn-45 visibleText",
+          "triggeringPressure": "评测把“那扇你刚刚推开的门”优先解析成物理铁门；但生成上下文中“门”也被连续用作谈话/记忆隐喻。",
+          "missingGuard": "原文没有用“像是/仿佛/话题的门”明确标记隐喻，导致实体门读法和隐喻读法并存。",
+          "mechanismStatement": "未标注的高频隐喻与同场景实体物件同名时，评测和读者可能把心理动作误解析为物理动作，但当前证据不能排除合理隐喻读法。",
+          "directCause": "不是确定的剧情链路错误，而是一个歧义句触发的评测风险。",
+          "propagation": "该句只出现在 turn-45 visibleText 中；后续问题不依赖玩家是否真的推过物理门。",
+          "nonCauses": [
+            "不是明确的 action binding 错误；当前玩家输入确实打开了谈话话题。",
+            "不是物理门状态缺失造成的确定错误；turn 45 prompt 中更显著的是最近的“门”隐喻。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 39-40 支持物理冲突读法；turn 43-45 支持隐喻读法，因此 validity 只能判为 questionable。",
+          "internalTrace": "turn-45/06b-narrator-prompt.md 包含 turn 43-44 的门隐喻，并且 Director output 只要求泡茶、提问和卡尔观察，没有要求复述物理开门。"
+        },
+        "recommendedFixArea": "若要降低此类误判和读者歧义，应在 Narrator prompt 或后处理文案规则中要求：当同一场景存在实体门时，心理/话题“门”隐喻需要加明确比喻标记，避免“看着那扇门”这类实体化表述。",
+        "confidence": "medium",
+        "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-10-turn-45/root-cause-report.md",
+        "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-10-turn-45/root-cause-result.json"
+      }
+    },
+    {
+      "issueIndex": 11,
+      "turn": 46,
+      "severity": "medium",
+      "type": "identity-drift",
+      "scope": "visibleText",
+      "summary": "本轮突然让黑猫像是在承认“卡尔”是自己的名字，同时又用“她说”承接卡尔，混淆了卡尔大人与黑猫的身份关系。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "hidden-identity-alias-contract",
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "director-output-schema/internal-vs-visible-character-alias",
+          "secret-boundary-redaction-layer",
+          "narrator-prompt/hidden-identity-guard",
+          "storyline-beat-lifecycle-for-reveals"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为隐藏身份角色增加 playerVisibleAlias/currentRevealState 字段；Director 输出只允许使用当前 revealState 许可的可见称呼，并在 requiredContent 中禁止“对自己名字承认”等 reveal 句式，除非 storyline 节点显式标记 reveal。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-011-turn-46/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-011-turn-46/root-cause-report.md",
+      "result": {
+        "issueId": "issue-11",
+        "turn": 46,
+        "issueValidity": "valid",
+        "problemSummary": "turn 46 在玩家尚未清楚获知黑猫与卡尔关系时，让黑猫对“卡尔”作出“自己名字”的承认，并用“她说”承接卡尔，造成可见身份关系突兀暴露和混淆。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见信息此前主要把卡尔建立为“卡尔大人”、暗街秩序创建者或“卡尔的心脏”相关历史核心；黑猫虽多次在场并带有异常象征性，但可见文本没有清楚交代“黑猫就是卡尔”。turn 46 直接写黑猫像在承认自己的名字，使身份关系从暗示跳成事实。",
+          "playerVisibleSupport": "turn 2 小贩说卡尔大人是创建暗街秩序的人；turn 38 卡琳娜说真正的家是卡尔的心脏和暗街过去的影子；turn 40-45 黑猫以“黑猫”出现。turn 46 写“卡尔带我来的”后，黑猫耳朵转动“像是对自己名字的间接承认”。",
+          "caveats": [
+            "turn 42 已有“卡尔让我记下巷子”和黑猫靠近笔记本的并置，存在伏笔；因此问题不是硬性世界观矛盾，而是 reveal/alias 边界过快、过不清楚。",
+            "如果设计意图是在 turn 46 正式揭示黑猫就是卡尔，则该问题会降级；但本轮内部约束仍写着不揭示卡尔核心秘密。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家在卡琳娜真正的家里，刚接过茶并选择询问这个家住了多久。黑猫在房间内反复出现，但玩家可见称呼仍主要是“黑猫”；卡尔在玩家认知中仍是暗街历史核心/卡琳娜过去的重要人物。",
+          "relevantFacts": [
+            {
+              "claim": "玩家可见的黑猫在 runtime 中仍应是未命名舞台实体。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-46/05-runtime-after.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "runtime-after.worldState.charactersOnStage 包含“黑猫（未命名）”，说明玩家表层实体未完成命名。"
+            },
+            {
+              "claim": "内部角色卡把卡尔定义为黑色短毛母猫、暗街真正秩序源头。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-46/06a-director-prompt.md",
+                "turn-46/06b-narrator-prompt.md"
+              ],
+              "notes": "这是内部真相，不能直接用来证明玩家可见错误，但能解释链路如何泄露。"
+            },
+            {
+              "claim": "当前 storyline 强调阶段六要引向卡尔对话，但同时约束不解释卡尔核心秘密。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-46/03-story-state.json",
+                "turn-46/04-output.json"
+              ],
+              "notes": "同一轮既推动卡尔互动，又保留秘密边界，缺少可见 alias 说明。"
+            },
+            {
+              "claim": "Director handoff 明确把脚边黑猫动作写成 `卡尔` 的本轮 requiredContent。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-46/04-output.json",
+                "turn-46/06b-narrator-prompt.md"
+              ],
+              "notes": "plotPoint 中 involvedCharacters 含 `卡尔`，beats 写“卡尔在脚边出现互动”，requiredContent 写“卡尔全程在场但不说话”。"
+            }
+          ],
+          "competingPressures": [
+            "剧本节点希望进入卡尔与卡琳娜关系的情感铺垫。",
+            "内部角色卡使用稳定 ID `卡尔` 表示黑猫，而玩家可见层仍是“黑猫（未命名）”。",
+            "当前约束要求不揭示核心秘密，但没有说明如何用玩家可见别名描写卡尔动作。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-46/04-output.json.plotPoint / turn-46/06-llm-calls.json[0]",
+          "triggeringPressure": "Director 看到内部角色卡和 storyline 中的 `卡尔`，并在本轮安排里把 `卡尔` 作为在场角色和动作承担者，要求 Narrator 写“卡尔全程在场但不说话，只以动作回应”。",
+          "missingGuard": "handoff 没有区分 internalCharacterId 与 playerVisibleAlias，也没有在 secret boundary 下要求 Narrator 在揭示前只能写“黑猫”而不能写成名字承认。",
+          "mechanismStatement": "内部身份 ID 被直接下发为可执行叙事对象，而当前玩家可见 alias 仍是“黑猫（未命名）”；缺少 hidden-identity alias/redaction contract 时，Narrator 会把脚边黑猫动作解释为 `卡尔` 对名字的回应，造成身份秘密提前、模糊地暴露。",
+          "directCause": "Director 的 `卡尔在脚边出现互动` handoff 让 Narrator 把黑猫耳朵动作写成对“卡尔”名字的承认。",
+          "propagation": "错误进入 turn-46 visibleText；turn-47 choice prompt 和后续 recentTurns 继续把该段作为上下文，使黑猫/卡尔绑定更容易被后续巩固。",
+          "nonCauses": [
+            "不是单纯 Narrator 忽略设定；Narrator 是在执行 Director 已经写出的 `卡尔` 动作安排。",
+            "不是长期记忆缺失；相反是隐藏真相过强进入了当前 handoff。",
+            "不是玩家输入导致；玩家只问这个家住了多久。"
+          ]
+        },
+        "rootCause": {
+          "label": "hidden-identity-alias-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "系统把隐藏身份角色的 internal ID `卡尔` 和玩家当前可见实体“黑猫（未命名）”混在同一 handoff 中；在 storyline 推动卡尔互动、又要求不揭示核心秘密的双重压力下，缺少 alias/redaction guard，导致 Director 将内部真相作为 Narrator 的可见执行对象，Narrator 进一步写成名字承认。",
+          "fixSurface": [
+            "director-output-schema/internal-vs-visible-character-alias",
+            "secret-boundary-redaction-layer",
+            "narrator-prompt/hidden-identity-guard",
+            "storyline-beat-lifecycle-for-reveals"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 2 与 turn 38 将卡尔建立为暗街历史核心；turn 40-45 黑猫仍只是黑猫；turn 46 突然写黑猫对“卡尔”名字间接承认。",
+          "internalTrace": "turn-46/06a-director-prompt.md 内部角色卡显示卡尔=黑色短毛母猫；turn-46/05-runtime-after.json 仍有“黑猫（未命名）”；turn-46/04-output.json.plotPoint 把 `卡尔` 写入 involvedCharacters、beats 和 requiredContent；Narrator 输出由此产生名字承认。"
+        },
+        "recommendedFixArea": "为隐藏身份角色增加 playerVisibleAlias/currentRevealState 字段；Director 输出只允许使用当前 revealState 许可的可见称呼，并在 requiredContent 中禁止“对自己名字承认”等 reveal 句式，除非 storyline 节点显式标记 reveal。",
+        "confidence": "high",
+        "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-11-turn-46/root-cause-report.md",
+        "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-11-turn-46/root-cause-result.json"
+      }
+    },
+    {
+      "issueIndex": 12,
+      "turn": 47,
+      "severity": "medium",
+      "type": "quality-regression",
+      "scope": "choices",
+      "summary": "选项把早前笔记本线索硬拉回当前对话，并把可选行动写成第三人称角色动作，破坏玩家操作语义。",
+      "batchId": "batch-003",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "choice-generator-schema",
+          "choice-post-validator/player-action-subject-check",
+          "choice-prompt/current-focus-prioritization",
+          "stale-context-filter-for-choices"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "给 Choice 输出增加 actor/actionType/groundingTurn 或类似结构化校验；拒绝以 NPC 第三人称开头、不可由玩家主动执行、或引用非当前焦点且无玩家动作包装的选项。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-012-turn-47/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-012-turn-47/root-cause-report.md",
+      "result": {
+        "issueId": "issue-12",
+        "turn": 47,
+        "issueValidity": "valid",
+        "problemSummary": "turn 47 的一个选项写成“她侧过头，沉默地注视着那行褪色的小字，没有开口。”，既把早前笔记本线索拉回当前场景焦点，又把玩家选项写成第三人称 NPC 行动。",
+        "validityAssessment": {
+          "verdictReason": "该问题由玩家可见 choices 直接成立。当前正文刚围绕卡琳娜回答“刚来的时候最难的是什么”，焦点是空房间、搪瓷杯、地板光线和黑猫；选项应是玩家下一步可主动采取的行动。该选项的主语是“她”，描述卡琳娜沉默动作，玩家无法选择让卡琳娜这么做。",
+          "playerVisibleSupport": "turn 47 visibleText 结束于卡琳娜总结“空有空的用处”；choices 中却出现“她侧过头，沉默地注视着那行褪色的小字，没有开口”。“那行褪色的小字”来自 turn 42-44 的笔记本调查。",
+          "caveats": [
+            "玩家仍在同一房间，回到笔记本并非绝对不可能；真正的硬伤是选项语义不是玩家行动，并且没有把回到笔记本写成玩家可执行动作。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "卡琳娜刚回答自己初来此地最难的是“空”，并进一步说空房间能让她听见自己往哪里走；玩家手中仍有搪瓷杯，黑猫坐在卡琳娜脚边。当前可选行动应围绕追问方向感、回应她的孤独、询问黑猫或饮茶等玩家动作。",
+          "relevantFacts": [
+            {
+              "claim": "当前正文结尾的焦点是卡琳娜关于“空”的回答、搪瓷杯、地板光线和黑猫。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-47/04-output.json",
+                "turn-47/06c-choice-prompt.md"
+              ],
+              "notes": "choice prompt 的“本轮玩家已经看到的正文”把当前结尾完整放在输出前。"
+            },
+            {
+              "claim": "笔记本小字是 turn 42-44 的早前调查焦点，当前轮没有继续操作笔记本。",
+              "availability": "stale",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-47/06c-choice-prompt.md"
+              ],
+              "notes": "choice prompt 的最近几轮仍包含多处“那行褪色的小字”，但该线索已被后续泡茶和居住时间对话覆盖。"
+            },
+            {
+              "claim": "选项必须是玩家下一步可以主动选择的行动，并站在玩家视角。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-47/06c-choice-prompt.md"
+              ],
+              "notes": "prompt 开头和输出前再次确认都写明“只生成玩家下一步可以主动选择的行动”“选项必须站在玩家视角”。"
+            },
+            {
+              "claim": "本轮没有 candidateActions 可供绑定，Choice 需要生成普通行动。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-47/03-story-state.json"
+              ],
+              "notes": "candidateActions 为 null，增加了模型从长 recent context 中自行抽取可选方向的压力。"
+            }
+          ],
+          "competingPressures": [
+            "最近上下文保留了多处“那行褪色的小字”和笔记本情绪线索。",
+            "当前轮没有状态机候选动作，Choice 必须自行从上下文生成普通行动。",
+            "情感铺垫氛围鼓励安静、沉默、注视等散文化动作，容易滑成正文续写而非玩家操作。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-47/06-llm-calls.json[2].object.options[1] / turn-47/04-output.json.choices",
+          "triggeringPressure": "Choice prompt 同时包含当前正文和较长 recentTurns，其中 turn 42-44 的“那行褪色的小字”多次出现；没有候选动作时，模型从旧线索和安静氛围中抽取了一个散文化动作。",
+          "missingGuard": "choice schema 只有 text，没有 actor/actionType/groundingTurn 字段；后处理也没有拒绝第三人称 NPC 主语、非玩家可控动作或 stale-focus 引用。",
+          "mechanismStatement": "当 Choice 只能输出自由文本选项且缺少玩家动作绑定校验时，长 recent context 中的旧线索和正文式语言会被误转成可点击选项，导致选项既脱离当前结尾焦点，又把 NPC 行为当成玩家选择。",
+          "directCause": "Choice generator 生成了以“她”为主语的正文续写式选项，而不是以玩家为主体的下一步行动。",
+          "propagation": "该错误进入 turn-47 visible choices；如果玩家点击，会把交互语义锁到一个玩家无法直接执行的卡琳娜动作上。",
+          "nonCauses": [
+            "Narrator 的 turn 47 正文没有把笔记本重新带回焦点。",
+            "不是 story state 缺少当前正文；choice prompt 明确包含了当前结尾。",
+            "不是 actionId 绑定错误；该选项没有 actionId，问题在自由文本选项语义。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Choice 生成链路缺少可执行主体绑定和当前焦点校验；在无 candidateActions 且 recent context 保留旧笔记本线索的压力下，模型把旧线索和 NPC 沉默动作写成可点击选项，而系统没有 schema/validator 阻止第三人称 NPC 行动进入 choices。",
+          "fixSurface": [
+            "choice-generator-schema",
+            "choice-post-validator/player-action-subject-check",
+            "choice-prompt/current-focus-prioritization",
+            "stale-context-filter-for-choices"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 47 choices 中第二项为“她侧过头，沉默地注视着那行褪色的小字，没有开口。”；这不是玩家主动行动，且小字来自 turn 42-44。",
+          "internalTrace": "turn-47/06c-choice-prompt.md 明确要求玩家视角行动，但也保留了 turn 42-44 的小字文本；turn-47/03-story-state.json candidateActions 为 null；turn-47/06-llm-calls.json[2].object.options[1] 首次生成该错误选项。"
+        },
+        "recommendedFixArea": "给 Choice 输出增加 actor/actionType/groundingTurn 或类似结构化校验；拒绝以 NPC 第三人称开头、不可由玩家主动执行、或引用非当前焦点且无玩家动作包装的选项。",
+        "confidence": "high",
+        "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-12-turn-47/root-cause-report.md",
+        "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-003/issues/issue-12-turn-47/root-cause-result.json"
+      }
+    }
+  ]
+}

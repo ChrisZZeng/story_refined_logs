@@ -1,0 +1,101 @@
+{
+  "issueId": "issue-20-turn-69",
+  "issueIndex": 20,
+  "turn": 69,
+  "issueValidity": "valid",
+  "problemSummary": "第 69 轮正文确认玩家“留在原地，没有急着起身”，且玩家自第 56 轮坐下后没有起身；同轮 choices 却给出“坐下来，安静地待一会儿”，把已坐着的玩家重新放到需要坐下的位置。",
+  "validityAssessment": {
+    "verdictReason": "valid。玩家可见连续性足以确认玩家仍坐着：turn 56 已坐进沙发，之后没有可见起身动作；turn 69 正文还写“没有急着起身”和卡琳娜说“坐着就行”。因此“坐下来”选项造成轻微姿态断裂。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 56 写“在那道被坐压了太多次的凹陷里坐下来”；turn 69 写“你留在原地，没有急着起身”与“坐着就行”；同轮 choices 第一项为“坐下来，安静地待一会儿”。",
+    "caveats": [
+      "“坐下来”可被宽读为“继续坐着沉静下来”，但字面行动仍暗示从站立到坐下，且下一轮 turn 70 实际写成“你坐回沙发上”。",
+      "问题是低严重度姿态连续性断裂，不影响主线信息。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家在卡琳娜的屋子内已经坐在沙发上，接受留下来再坐一会儿；卡琳娜把茶杯推向玩家，黑猫从沙发扶手跳到卡琳娜脚边，卡琳娜明确表示不用费心找话题，“坐着就行”。",
+    "relevantFacts": [
+      {
+        "claim": "玩家自 turn 56 起已经坐在沙发上。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 56",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-56/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-69/03-story-state.json currentStoryline.summary"
+        ],
+        "notes": "currentStoryline.summary 也保留“主角在卡琳娜的家中坐下”。"
+      },
+      {
+        "claim": "turn 69 本轮正文确认玩家没有起身，并被邀请继续坐着。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 69",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-69/04-output.json"
+        ],
+        "notes": "正文开头“你留在原地，没有急着起身”，末尾卡琳娜说“坐着就行”。"
+      },
+      {
+        "claim": "Choice prompt 把“没有急着起身”和“坐着就行”作为最终判断依据提供给 Choice worker。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-69/06c-choice-prompt.md lines 503-515"
+        ],
+        "notes": "prompt 中这些事实距离输出要求很近，并非完全缺失。"
+      },
+      {
+        "claim": "runtime/entity state 没有结构化记录玩家当前姿态，无法用状态机过滤“坐下来”这种已不满足 precondition 的动作。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-69/05-runtime-after.json"
+        ],
+        "notes": "runtime-after 的 entityStates 只有少量卡琳娜字段，没有 player posture / location-on-furniture。"
+      },
+      {
+        "claim": "“坐下来”选项被后续选择后进一步固化为“坐回沙发上”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 70",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/04-output.json"
+        ],
+        "notes": "这说明选项文本不只是措辞问题，后续 Narrator 按字面执行了重新坐下。"
+      }
+    ],
+    "competingPressures": [
+      "turn 68/69 可见文本反复出现“不缺你坐的地方”“坐着就行”，给 Choice worker 强烈的“sit”词面诱导。",
+      "玩家输入是“留下来，和她再坐一会儿”，Choice worker 需要生成一个安静待着的普通行动。",
+      "当前系统缺少结构化 posture anchor，只能依赖长段 recent prose 自检。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-69/06-llm-calls.json call 2 / turn-69/07-events.json choiceGenerator worker-done",
+    "triggeringPressure": "Choice prompt 末尾包含卡琳娜“坐着就行”和前一轮“不缺你坐的地方”，Choice worker 将“继续安静待着”的意图词面化为“坐下来”。",
+    "missingGuard": "缺少 choice action precondition guard：生成选项前没有把“玩家已经坐着/没有起身”转成不可重复的姿态约束，也没有检测“坐下来”是否与当前 posture 冲突。",
+    "mechanismStatement": "当 Choice worker 从邀请语中的“坐”抽取普通行动、但没有 current posture precondition 校验时，它会把“继续坐着待一会儿”误写成“坐下来”，从而让已坐着的玩家重复执行坐下动作。",
+    "directCause": "Choice LLM 生成第一项 option “坐下来，安静地待一会儿”。",
+    "propagation": "该选项进入 `turn-69/04-output.json` 和 visible timeline；玩家在 turn 70 选择后，Narrator 按字面写成“你坐回沙发上”，把轻微姿态断裂延续到下一轮正文。",
+    "nonCauses": [
+      "Narrator turn 69 不是主因；正文正确写明玩家没有起身。",
+      "不是长期记忆缺失；玩家坐下事实在 currentStoryline summary、recent visible 和同轮正文中都有。",
+      "不是场景中没有座位；问题是座位动作 precondition 已经不成立。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "Choice 选项生成缺少基于 current posture 的动作前置条件校验；在“坐着就行/再坐一会儿”的词面压力下，模型把状态维持选项误绑定为重复坐下动作，并被后续回合按字面执行。",
+    "fixSurface": [
+      "choiceGenerator posture precondition validator",
+      "player current-scene anchor extraction",
+      "adjacent-turn choice-to-narration continuity check"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 56 已坐下；turn 69 正文“没有急着起身”和“坐着就行”确认玩家仍坐着；同轮 choices 却给出“坐下来”。turn 70 还将其执行为“坐回沙发上”。",
+    "internalTrace": "`turn-69/06c-choice-prompt.md` lines 503-515 将正确姿态提供给 Choice worker；`turn-69/06-llm-calls.json` call 2 / `turn-69/07-events.json` choiceGenerator worker-done 首次出现“坐下来”；`turn-69/05-runtime-after.json` 没有 player posture 状态用于过滤。"
+  },
+  "recommendedFixArea": "优先修复 Choice worker 的动作 precondition：从最近正文抽取 `playerPosture` / `isSeated` 这类 current-scene anchor，并在 option 发布前拦截“坐下/站起/走近/拿起”等与当前姿态或物件状态冲突的动作。",
+  "confidence": "high"
+}

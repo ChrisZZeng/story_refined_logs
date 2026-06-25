@@ -1,0 +1,387 @@
+# Root Cause Trace Packet
+
+Run: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory`
+Review: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory`
+Issue file: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/issues.json`
+Target turn: 21
+
+## Selected Issue
+
+Issue index: 3
+Turn: 21
+Scope: visibleText
+Type: quality-regression
+Severity: low
+
+Current evidence: 「你的声音打断了它自己。不尖锐，但像一张纸被平稳地从中间撕开。」
+
+Conflicting evidence: 同轮语境是玩家继续质问德索洛，并打断德索洛关于暗街的解释；「它自己」没有清晰指代，读成声音自我打断，造成局部病句。
+
+Reason: 正文出现明显不顺的指代/搭配错误，轻微破坏阅读流畅性。
+
+## Timeline Window
+
+### Turn 19
+
+Player input: 保持沉默，观察卡琳娜和这个德索洛的对话
+
+Visible text tail:
+
+路，又像是在门外站着的那段时间里，让紧张的情绪爬到了脸上。
+他的手仍然半举着——敲门时留下的姿势，在门开的瞬间僵在了半空中。他的目光在卡琳娜身上停了一拍，然后越过她的肩膀，落在你身上。
+那一瞬间你看到了一种明确的变化——从焦虑，到意外，再到警惕。他的瞳孔在昏暗里缩了一下。
+卡琳娜没有动。她只是站在那里，像一扇不会为不请自来的客人完全敞开的门。
+"有事就说，德索洛。你来不是时候，而且你从不干好事。"
+她的声音很平静。平静到让这句话听起来不像在询问，更像在提醒他已经欠下的账。
+德索洛的目光从你身上收回来，重新落在卡琳娜脸上。他的手放了下来——不是放松，而是那种意识到自己还举着手却不知道该放在哪里的放。
+他的嘴巴动了一下，像是要先说点什么客套话，又像是发现客套话在这个门口没有位置。
+卡琳娜没有帮他节省时间。她只是站在那里，等着。
+"卡琳娜……我是来——"
+他顿住了。喉咙里像是有什么东西卡了一下。
+"我女儿……她们骗了她。凯旋门那帮野兽，他们骗她说是正规公司，然后——"
+他的声音在末尾压低了，像是那个词他不想说出口。他没有说下去，但在沉默之后的呼吸里，你能看到他的下巴在微微发抖。
+卡琳娜的睫毛没有动。她仍然用那个表情看着他——像在听一段她已经听过太多遍的、开头就能猜到结尾的陈述。
+"所以你现在来找我。"
+她的语气里没有同情。
+卡琳娜的身体微微侧了一下——不是要让开门口，而是调整了一个更稳定的站姿，像是在让自己准备好说接下来的话。
+"你有多久没叫过我'阁下'了？德索洛。"
+德索洛的脸色在昏暗中变得更红了。不知是因为热气还是因为那句问话里的重量。他的嘴唇抿了一下，像在咀嚼什么不好的味道。
+"你……你知道的。这些年，我只是不想卷入——"
+"你不想卷入。"
+卡琳娜重复了一遍这句话。她重复的时候语气没有任何变化——不加重，不放慢，不带讽刺。只是重复。像是把这句话拿到灯光下翻看了一遍，然后发现它哪里都站不住脚。
+"当年你为了巴结凯旋门才收养我，那件事我不提。但后来——出事的时候——你做了什么？"
+她没有等回答。她的目光仍然平静地落在德索洛脸上，像在念一条写在这个门槛上的旧账。
+"你装作什么也没发生过。你连一封信都没有写。也没有叫过'阁下'。"
+德索洛的视线垂了下去。他没有反驳——那种没有反驳本身就是一个回答。
+卡琳娜没有再说话。她只是站在门口，等他消化完这段话。
+暗街的寂静从门缝里挤进来。德索洛的呼吸声在静止中变得格外清晰——粗重，不稳，像是忍耐了很久的情绪终于到了一个边缘。
+他抬起头。他的目光没有看卡琳娜——而是越过她，看向了你。
+那目光里带着一种复杂的、近乎哀求的东西——不是求助，更像是在确认在场还有第三个人，在确认这个对话不会只在他的耻辱和被数落之间结束。
+卡琳娜注意到了他的视线偏移。她仍然没有回头看你，但她的嘴角做了一个几乎不可察觉的微动——像在说：你看，他就是这样的。
+
+Choices:
+- 插话，质问德索洛现在才来找卡琳娜的意图
+- 替德索洛说话，劝卡琳娜听他讲完
+- 保持沉默，让卡琳娜自己处理
+- 分析德索洛的心理，点破他的窘迫与自私
+
+### Turn 20
+
+Player input: 插话，质问德索洛现在才来找卡琳娜的意图
+
+Visible text tail:
+
+你的声音从卡琳娜身后传来——比预想中更稳，带着一种自己都没完全意识到的锐利。
+"他女儿出事了才来找你？"
+你没有等卡琳娜回答。你往前迈了半步，让自己的视线越过她的肩膀，落在门槛外那个白西装男人身上。
+"你这些年都在哪儿？德索洛。"
+德索洛的目光从卡琳娜脸上弹开，落在你身上。他的瞳孔缩了一下——不是因为不认识你，而是因为你的介入超出了他的预期。他的嘴巴张了一下，又合上，像是在找一个回答的开头，但这个开头在脑子里滑掉了。
+卡琳娜没有动。她仍然站在门口，仍然保持着那个挡住一半门缝的姿态。她没有回头看你的介入——但她的肩膀做了那个你已经见过一次的微调，像是在她的计算里又打了一个新的标记。
+德索洛的声音从门外挤进来，带着汗渍和夜潮的气味。
+"我……我不知道她在这里。"
+"你不知道她在这里。但你知道暗街。你知道申诉人。你知道这个名字在暗街意味着什么。"
+你让自己的声音保持平稳，不让它带上情绪——但你听见了它末尾带着的、属于战地记者式的那种不依不饶。
+"你女儿被凯旋门骗了，你报了警，警局是他们的人。你走投无路了。然后你想起了她。"
+德索洛的下巴绷紧了。他的目光在你和卡琳娜之间游移了一次——像是在找一个缝隙，一个可以从这双重审视中逃出去的缝隙。但他的脚没有后退。
+"你……你是什么人？"
+他的声音里带着一丝沙哑——不是攻击性的，更像是在用一个问题来争取时间。
+卡琳娜的睫毛动了一下。
+她没有转头看你，但她的嘴角做了一个极轻的变化——不是笑，更像是对这个局面发展的确认。她仍然没有让开门口。她只是站在那里，让德索洛的问题挂在空气中，等它自己落下来。
+
+Choices:
+- 继续质问德索洛，逼问他为什么这些年疏远卡琳娜
+- 保持沉默，等卡琳娜自己处理这场对话
+- 直接告诉德索洛我是谁，表明立场
+- 后退一步，把门口让给卡琳娜操控全局
+
+### Turn 21
+
+Player input: 继续质问德索洛，逼问他为什么这些年疏远卡琳娜
+
+Visible text tail:
+
+你的声音从卡琳娜身后传来，比前一次更稳——带着那种你在战场上练出来的、不依不饶的节奏。
+"这些年你在哪儿？德索洛。"
+你没有等他回答。你往前迈了半步，让自己的身体从卡琳娜身侧的阴影中露出更多——不是威胁性的姿态，而是那种让对方无法忽略你的存在感的位移。
+德索洛的目光在你和卡琳娜之间弹跳了一次。他的喉结动了一下，像是吞下了什么不好咽的东西。
+"我……我一直在这岛上。你知道，暗街——"
+"暗街？"
+你重复了这个词。没有加重语气，没有放慢速度——只是把它放在空气里，让它自己显出形状。
+"你知道暗街。你知道她在这里。你知道她是申诉人。但你这些年一次都没有来找过她。一次都没有。"
+德索洛的下巴绷紧了。他的目光开始往下移——不是看向地面，而是那种在找不到反驳时本能地避开对方视线的往下移。
+"你不明白……那时候——凯旋门刚站稳脚跟。他们盯着每一个和暗街有关系的人。如果我——"
+"所以你选择了安全的那一边。"
+你的声音打断了它自己。不尖锐，但像一张纸被平稳地从中间撕开。
+"你选择了不卷入。你选择了不叫'阁下'。你选择了装作她不存在。直到现在——直到你需要她了。"
+德索洛的嘴巴张开了一下，又合上。他的手在半空中做了一个无意识的小动作——像是想抓住什么，但手指只握住了空气。
+卡琳娜仍然站在门槛内侧。她没有转头看你，但她的肩膀做了一个你已经见过几次的微调——不是绷紧，而是在她的计算里又打了一个标记。
+她的嘴角有一个几乎不可察觉的移动。不是笑。更像是在说：你看，他就是这样的。而这次，那个表情不是对着你——是对着门槛外的男人。
+德索洛的目光在你的脸上停了两秒，然后落在卡琳娜身上。他的呼吸声在寂静中变得粗重——不是愤怒的粗重，是那种被逼到墙角后只剩下最后几步空间的粗重。
+"卡琳娜……我来是为了我女儿。你知道我不会——"
+"你当然不会。"
+她的声音平静到几乎没有温度——像在陈述一条她早就验证过的规律。
+"你从来不会。德索洛。你不会为了我来。你不会为了任何人来。你只会为了你自己来。"
+德索洛的脸在昏暗中变得更红了一些。他的嘴唇抿成一条线，像是把什么话硬生生压回了喉咙里。
+暗街的寂静从铁门外的夜色中渗进来。远处有庆典残余的微弱低鸣——像这座岛在深夜里的呼吸声。
+卡琳娜仍然站在门口。她没有让开通道的意思。她没有催促。她只是站在那里，像一扇已经为这场对话准备好了全部耐心的门。
+你的目光没有从德索洛身上移开。你看着他站在台阶上，穿着那身被汗渍浸透的白西装，手不知道放在哪里，视线不知道落在哪里——像一个在最后一刻才发现自己把筹码押错了地方的人。
+
+Choices:
+- 后退一步，把空间留给卡琳娜，让她自己处理
+- 继续追问德索洛，逼他说出更多细节
+- 沉默观察，等德索洛自己开口
+
+### Turn 22
+
+Player input: 后退一步，把空间留给卡琳娜，让她自己处理
+
+Visible text tail:
+
+你的身体从门侧的阴影中退回了室内。
+不是那种刻意为之的退——更像是在意识到自己已经站到了一个不该继续站的位置后，做的那个自然的、让出空间的退后半步。你的肩膀从门框的光区中移开，重新落入台灯切割出的那片昏暗中。你没有坐回沙发，但你的身体姿态已经明确表示：这场对话的主导权交还给了应该持有它的人。
+卡琳娜的睫毛动了一下。
+她没有回头看你。但她的肩膀做出了那个你已经见过的微调——不是绷紧，不是放松，而是刚好够她重新校准自己站姿的、几乎不可察觉的移动。她的身体微微侧了半度，让出那扇铁门的更多开口——不是让开通道，而是在她的计算里标记了一个新的变量。
+德索洛的目光追着你的后退移动了一瞬。他从门框光区中消失的轮廓里读到了什么——一种微妙的、局面的变化。他的脸色在昏暗中变得更红了一些，嘴唇动了一下，像是在消化这个新的站位配置。
+现在只剩下卡琳娜和他了。
+暗街的寂静从门缝里渗进来，填满了台阶和门槛之间的那一小段空气。卡琳娜站在灯光的边缘，她的金色马尾在昏暗中勾勒出一条清晰的轮廓线，她的目光——那种不带温度、不带催促、只是等待的目光——落在德索洛脸上。
+她开口了。声音仍然很平静。
+"你呢，德索洛。你要不要重新来一次？"
+她的语气里没有威胁。没有压迫。只是像在陈述一个规则——一个他一直知道、但一直选择忽略的规则。
+德索洛的喉结动了一下。他的目光在你的退后和卡琳娜的站立之间游移了一次——像在确认已经没有别的出口。
+他的下巴绷紧了一瞬。然后松开了。
+
+Choices:
+- 保持沉默，继续观察卡琳娜如何完成交易
+- 看向德索洛，等他做出选择
+- 准备在交易完成后与卡琳娜私下交谈
+
+### Turn 23
+
+Player input: 保持沉默，继续观察卡琳娜如何完成交易
+
+Visible text tail:
+
+你消失的那片阴影里——他没有立刻转回去看卡琳娜。他的喉结动了一下，手在半空中做了一个无意识的抓握动作，像是想抓住一个还没想好形状的回答。
+卡琳娜没有催他。
+她只是站在那里，站在门槛内侧，站在台灯光区的边缘。她的金色马尾在昏暗中勾勒出一条清晰的轮廓线，她的目光落在德索洛脸上，带着那种她已经验证过太多次规律的、平静到接近冷漠的耐心。
+然后她开口了。
+"你知道规矩。德索洛。"
+"你知道我在暗街做什么。你知道它值什么。"
+德索洛的嘴唇抿成一条线。他的目光往下移了一寸——不是看向地面，而是那种在找不到退路时本能地寻找更低位置的下移。
+"我需要……我需要知道是谁。"
+他的声音比刚才更低，带着那种在开口之前已经知道答案的沙哑。
+"我女儿——她不肯说。她什么都不肯说。但我看到她身上的伤，我看到——"
+他的声音在末尾断开了。像一根被拉到极限的线，在即将绷断的前一刻被他自己掐住了。
+卡琳娜没有接他的话。
+她只是站在那里，让他的句子在空中自己落完。
+暗街的寂静从门外渗进来——那种旧砖墙和积水的气味混合着远处庆典残余的微弱低鸣，在台阶和门槛之间的空隙里流转。
+"你知道要怎么做。"
+卡琳娜的声音打破了静止。她的语气没有升高，没有放软——只是在陈述一个他早就知道、但一直选择忽略的规则。
+德索洛的呼吸变重了。
+他的手垂在身侧，手指微微张开又握紧——像是在做一个最后的、无声的挣扎。他的目光在你的方向停留了一瞬——不是求助，更像是确认在场还有第三个人在看着这一幕。
+然后他动了。
+他单膝跪了下去。
+白西装的裤管在台阶的石面上发出轻微的摩擦声。他的身体在昏暗的光线下放低，放低——直到他的视线低于卡琳娜的腰线，低于门槛，低于那扇锈铁门合页上最低的锈迹。
+他拉起卡琳娜的左手。
+那只手在他粗糙的掌心里显得很小。他没有立刻低头——他在最后一刻还看着她的眼睛，像在做最后的确认。
+卡琳娜没有动。她的手安静地停在他的掌心里，像一件已经为这个时刻准备了许多年的物品。
+德索洛低下头去。
+他的头颅深深埋下，低过那只白皙的手，低过他自己弯曲的膝盖——低到一个他已经许多年没有为任何人低过的位置。
+"卡琳娜阁下。"
+那四个字从喉咙里挤出来，带着沙哑、汗渍和夜潮的气味。
+卡琳娜的睫毛动了一下。
+她没有立刻回应。她让那四个字在空气中停留了一瞬——那短暂的一瞬里，暗街的寂静像被压进了一个更小的空间，连远处庆典的残余低鸣都似乎退远了几米。
+然后她的嘴角做了一个极轻的变化——不是笑。更像是确认一条已经结算过的账目，终于收到了最后一笔利息。
+"起来吧。德索洛。"
+她的声音仍然很平静，但那份平静里少了一分刚才的冷意，多了一分——不是温暖，更像是一个被拖欠了很久的账本终于被合上的那种轻松。
+德索洛没有立刻站起来。他的肩膀在那句"起来吧"之后做了几个呼吸的静止——像在消化那四个字带来的、从压迫到释放的落差。然后他缓缓地、扶着膝盖站了起来。
+
+Choices:
+- 在一旁保持安静，观察卡琳娜接下来的举动
+- 迈前一步，向德索洛表明自己也盯着这笔交易
+- 低头整理相机，给卡琳娜和德索洛一点私密空间
+- 轻声问卡琳娜：这就够了？
+
+## Required Analysis Checks
+
+1. Validity gate: decide whether the evaluated issue is valid, questionable, or invalid using only player-visible evidence.
+2. Context assessment: reconstruct the actual state before the issue and mark each relevant fact/intention/constraint as absent, present-clear, present-buried, present-ambiguous, contradicted, stale, over-constraining, or not-needed.
+3. Competing pressures: note fixed script, storyline, selected choice, player input, pacing, style, secret boundaries, current scene affordances, or world rules that could explain the output.
+4. Causal chain: identify the first artifact that diverged, then trace propagation. If the evaluator is the first bad artifact, report an invalid/questionable issue instead of forcing a root cause.
+5. Failure mechanism: name the concrete optimizable mechanism, such as storyline-lifecycle, fixed-beat-consumption, context-priority, handoff-contract, choice-action-binding, state-writeback, memory-persistence, or model-local.
+6. Root cause: classify only valid issues. Use worker names as divergence points, not root-cause classes, and do not let the coarse class hide the mechanism.
+
+## Turn 20 Artifacts
+
+Turn dir: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20`
+
+Key files:
+- summary: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/01-summary.json`
+- scriptState: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/02-script-state.json`
+- storyState: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/03-story-state.json`
+- output: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/04-output.json`
+- runtimeAfter: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/05-runtime-after.json`
+- llmCalls: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/06-llm-calls.json`
+- directorPrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/06a-director-prompt.md`
+- narratorPrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/06b-narrator-prompt.md`
+- choicePrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/06c-choice-prompt.md`
+- events: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-20/07-events.json`
+
+Current storyline:
+
+{
+  "id": "2-03-第一章",
+  "name": "推进节点 02-03：尊严换公道的交易",
+  "summary": "",
+  "constraints": [
+    "请引擎使用backgrounds【卡琳娜的公寓】，characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-不悦】。\n根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形。\n当德索洛道出‘卡琳娜阁下’时、请引擎使用cgs【卡琳娜阁下和德索洛的交易/默认】。"
+  ],
+  "notes": [],
+  "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定（少量）】\n- \"尊严换公道\"交易法则的完整呈现\n- 卡琳娜在暗街作为\"申诉人\"的地位\n\n【核心事件】\n1. 无论主角如何选择，德索洛都会向卡琳娜低头。他向卡琳娜单膝跪地，称其‘卡琳娜阁下’。\n2. 卡琳娜会满足于德索洛的低头，她会给出德索洛想要的东西。但不会直接告诉德索洛。\n3. 德索洛会担心，但卡琳娜会以自己的名义保证事情进展。\n4. 德索洛接到保证后会连连道谢，并马上离开公寓。",
+  "interactionFollowupPreview": ""
+}
+
+Director output summary:
+
+{
+  "playerIntent": "表达/质问",
+  "summary": "主角插话，质问德索洛为何现在才来找卡琳娜，质疑他在女儿出事后才来求助的动机。",
+  "beats": [],
+  "currentTurnConstraints": [
+    "不推进到德索洛跪地称‘阁下’的阶段，停留在质问环节"
+  ],
+  "currentStorylineConstraints": [
+    "保持‘尊严换公道’交易法则的铺垫，但交易本身延迟至后续回合"
+  ],
+  "revealedFacts": [],
+  "requiredContent": [
+    "主角插话质问德索洛，内容针对德索洛多年疏远卡琳娜、如今才来求助的意图",
+    "德索洛被质问后反应（辩解、回避、或低头）",
+    "卡琳娜不干预但保持观察，姿态不变"
+  ],
+  "sectionSignalSuggestion": "continue"
+}
+
+Event count: 534
+LLM call count: 3
+## Turn 21 Artifacts
+
+Turn dir: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21`
+
+Key files:
+- summary: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/01-summary.json`
+- scriptState: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/02-script-state.json`
+- storyState: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/03-story-state.json`
+- output: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/04-output.json`
+- runtimeAfter: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/05-runtime-after.json`
+- llmCalls: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/06-llm-calls.json`
+- directorPrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/06a-director-prompt.md`
+- narratorPrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/06b-narrator-prompt.md`
+- choicePrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/06c-choice-prompt.md`
+- events: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-21/07-events.json`
+
+Current storyline:
+
+{
+  "id": "2-03-第一章",
+  "name": "推进节点 02-03：尊严换公道的交易",
+  "summary": "主角插话，质问德索洛为何现在才来找卡琳娜，质疑他在女儿出事后才来求助的动机。",
+  "constraints": [
+    "请引擎使用backgrounds【卡琳娜的公寓】，characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-不悦】。\n根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形。\n当德索洛道出‘卡琳娜阁下’时、请引擎使用cgs【卡琳娜阁下和德索洛的交易/默认】。",
+    "保持‘尊严换公道’交易法则的铺垫，但交易本身延迟至后续回合"
+  ],
+  "notes": [],
+  "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定（少量）】\n- \"尊严换公道\"交易法则的完整呈现\n- 卡琳娜在暗街作为\"申诉人\"的地位\n\n【核心事件】\n1. 无论主角如何选择，德索洛都会向卡琳娜低头。他向卡琳娜单膝跪地，称其‘卡琳娜阁下’。\n2. 卡琳娜会满足于德索洛的低头，她会给出德索洛想要的东西。但不会直接告诉德索洛。\n3. 德索洛会担心，但卡琳娜会以自己的名义保证事情进展。\n4. 德索洛接到保证后会连连道谢，并马上离开公寓。",
+  "interactionFollowupPreview": ""
+}
+
+Director output summary:
+
+{
+  "playerIntent": "对抗/质问",
+  "summary": "主角继续质问德索洛为何在女儿出事后才来求助，并揭露他这些年对卡琳娜的疏远，迫使德索洛面对自己的自私。",
+  "beats": [
+    "主角指出德索洛这些年从未找过卡琳娜，只在需要时出现",
+    "德索洛试图辩解，但被主角连续质问打断",
+    "卡琳娜保持沉默，观察局面"
+  ],
+  "currentTurnConstraints": [
+    "使用background【卡琳娜的公寓】",
+    "卡琳娜使用【卡琳娜/卡琳娜-不满】或【卡琳娜/卡琳娜-不悦】变形",
+    "不要过早揭示德索洛的交易结果"
+  ],
+  "currentStorylineConstraints": [
+    "保持'尊严换公道'交易法则的铺垫",
+    "德索洛最终仍会低头向卡琳娜称'阁下'，但本轮只推进到主角逼问阶段"
+  ],
+  "revealedFacts": [],
+  "requiredContent": [
+    "主角质问德索洛为何这些年疏远卡琳娜，现在才来求援",
+    "德索洛的辩解苍白无力，最终在主角逼问下沉默",
+    "卡琳娜在对话高潮时以轻微动作（如嘴角微动）表明对主角的支持"
+  ],
+  "sectionSignalSuggestion": null
+}
+
+Event count: 892
+LLM call count: 3
+## Turn 22 Artifacts
+
+Turn dir: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22`
+
+Key files:
+- summary: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/01-summary.json`
+- scriptState: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/02-script-state.json`
+- storyState: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/03-story-state.json`
+- output: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/04-output.json`
+- runtimeAfter: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/05-runtime-after.json`
+- llmCalls: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/06-llm-calls.json`
+- directorPrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/06a-director-prompt.md`
+- narratorPrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/06b-narrator-prompt.md`
+- choicePrompt: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/06c-choice-prompt.md`
+- events: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-22/07-events.json`
+
+Current storyline:
+
+{
+  "id": "2-03-第一章",
+  "name": "推进节点 02-03：尊严换公道的交易",
+  "summary": "主角插话，质问德索洛为何现在才来找卡琳娜，质疑他在女儿出事后才来求助的动机。\n主角继续质问德索洛为何在女儿出事后才来求助，并揭露他这些年对卡琳娜的疏远，迫使德索洛面对自己的自私。",
+  "constraints": [
+    "请引擎使用backgrounds【卡琳娜的公寓】，characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-不悦】。\n根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形。\n当德索洛道出‘卡琳娜阁下’时、请引擎使用cgs【卡琳娜阁下和德索洛的交易/默认】。",
+    "保持‘尊严换公道’交易法则的铺垫，但交易本身延迟至后续回合",
+    "保持'尊严换公道'交易法则的铺垫",
+    "德索洛最终仍会低头向卡琳娜称'阁下'，但本轮只推进到主角逼问阶段"
+  ],
+  "notes": [],
+  "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定（少量）】\n- \"尊严换公道\"交易法则的完整呈现\n- 卡琳娜在暗街作为\"申诉人\"的地位\n\n【核心事件】\n1. 无论主角如何选择，德索洛都会向卡琳娜低头。他向卡琳娜单膝跪地，称其‘卡琳娜阁下’。\n2. 卡琳娜会满足于德索洛的低头，她会给出德索洛想要的东西。但不会直接告诉德索洛。\n3. 德索洛会担心，但卡琳娜会以自己的名义保证事情进展。\n4. 德索洛接到保证后会连连道谢，并马上离开公寓。",
+  "interactionFollowupPreview": ""
+}
+
+Director output summary:
+
+{
+  "playerIntent": "撤退——从对峙中退后观察，让出空间给卡琳娜处理局势",
+  "summary": "主角后退一步，把空间留给卡琳娜，让她全权处理德索洛的求助。卡琳娜接过主导权，开始与德索洛进行'尊严换公道'的交易铺垫。",
+  "beats": [],
+  "currentTurnConstraints": [
+    "卡琳娜的情绪状态从'不满'过渡到'不悦'（居高临下的权威状态）",
+    "德索洛尚未叫出'卡琳娜阁下'，本轮只铺垫到他即将屈服的时刻",
+    "保持'尊严换公道'交易法则的铺垫，但交易本身延迟至后续回合"
+  ],
+  "currentStorylineConstraints": [
+    "保持'尊严换公道'交易法则的铺垫",
+    "德索洛最终仍会低头向卡琳娜称'阁下'，但本轮只推进到主角逼问阶段后的转折"
+  ],
+  "revealedFacts": [],
+  "requiredContent": [
+    "主角的身体从门侧退回室内阴影中，明确让出空间",
+    "卡琳娜感知到主角退后后，微调站姿或视线，完全接过主导权",
+    "德索洛意识到主角退出，表情或身体语言出现一丝慌乱或松动",
+    "卡琳娜开始向德索洛索取他应叫的'阁下'称呼，启动尊严交易"
+  ],
+  "sectionSignalSuggestion": "continue"
+}
+
+Event count: 456
+LLM call count: 3
