@@ -1,0 +1,90 @@
+{
+  "issueId": "issue-29-turn-58",
+  "turn": 58,
+  "issueValidity": "valid",
+  "problemSummary": "第 58 轮卡琳娜连续发言中出现“而且——”“时机这件事，不是光靠等就能等来的。”，同一 dialogue frame 内相邻闭合/开启引号切断一句自然对白，造成明显阅读卡顿。",
+  "validityAssessment": {
+    "verdictReason": "valid。玩家可见文本中“而且——”“时机这件事……”之间没有叙述插入，也没有换说话人；它应是一句连续对白。多出的闭合和开启引号是可见格式异常，虽不改变剧情事实，但属于 quality-regression。",
+    "playerVisibleSupport": "turn-58 visibleText: “而且——”“时机这件事，不是光靠等就能等来的。”，前后均为卡琳娜同一段回应。",
+    "caveats": [
+      "该问题不改变角色身份、事件或选项语义，因此影响主要是阅读流畅度。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 57 轮卡琳娜说自己还不确定那句话写给谁。第 58 轮玩家追问她打算什么时候说。卡琳娜应以保留态度回答“合适时机”问题，继续保持模糊。",
+    "relevantFacts": [
+      {
+        "claim": "本轮 Director 要求卡琳娜回应时机问题，保留具体条件。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-58/04-output.json plotPoint",
+          "turn-58/06b-narrator-prompt.md"
+        ],
+        "notes": "Director 的剧情意图没有要求任何特殊断裂标点。"
+      },
+      {
+        "claim": "Narrator 输出在同一 `data-speaker=卡琳娜` frame 中产生相邻中文引号 `——”“时机`。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-58/06-llm-calls.json call 1",
+          "turn-58/04-output.json narrative"
+        ],
+        "notes": "这是首个错误 artifact。"
+      },
+      {
+        "claim": "v3-html 结构本身可解析，因此 normalizer 未拦截内部可见标点异常。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-58/04-output.json normalizedContent",
+          "turn-58/07-events.json"
+        ],
+        "notes": "rawHtml 和 visibleText 都保留异常引号，说明只校验了标签层面的结构。"
+      },
+      {
+        "claim": "Choice 输出正常，不依赖该标点异常。",
+        "availability": "not-needed",
+        "artifacts": [
+          "turn-58/04-output.json choices"
+        ],
+        "notes": "问题没有传播到选项语义。"
+      }
+    ],
+    "competingPressures": [
+      "Narrator 使用中文对白引号和破折号表现迟疑/补充。",
+      "v3-html 协议要求每句玩家可见文本在 p frame 内，但不检查 frame 内中文引号配对质量。",
+      "慢铺情感细节和停顿感的风格压力提高了破折号/引号组合出错概率。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-58/06-llm-calls.json call 1 / turn-58/04-output.json narrative",
+    "triggeringPressure": "卡琳娜需要表现迟疑和补充说明，Narrator 使用“而且——”这种半句停顿后继续同一句对白；中文引号与破折号组合让局部格式生成更脆弱。",
+    "missingGuard": "缺少 dialogue punctuation / quote-balance guard：v3-html 校验只保证 p 标签和 speaker 属性可解析，没有检查同一 dialogue frame 内是否存在无叙述分隔的 `”“` 相邻断裂。",
+    "mechanismStatement": "当 Narrator 用引号包裹整句对白并在句中加入破折号停顿时，局部生成产生了相邻闭合/开启引号；由于输出管线没有 frame 内可见标点 lint，这个 malformed dialogue 被直接提交给玩家。",
+    "directCause": "Narrator 本地生成 `“而且——”“时机这件事，不是光靠等就能等来的。”`。",
+    "propagation": "异常保留在 `turn-58/04-output.json rawHtml`、`normalizedContent.visibleText` 和 visible timeline；Choice 输出未进一步传播，runtime-after 未将标点问题写成剧情状态。",
+    "nonCauses": [
+      "不是 Director 剧情安排问题：plotPoint 只要求回应时机并保留条件。",
+      "不是记忆或上下文连续性问题。",
+      "不是 Choice 问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "model-local",
+    "family": "llm-self",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "触发压力是同一句对白中的迟疑破折号和继续补充；缺失防线是没有 frame 内中文引号/标点平衡检查；失败运动是 Narrator 在清楚的 v3-html 协议下仍产生 malformed dialogue，normalizer 只校验标签结构而未修复可见标点。",
+    "fixSurface": [
+      "Narrator prompt: 明确禁止同一对白中出现无叙述分隔的相邻 `”“`。",
+      "post-generation typography linter: 检查中文引号配对、相邻闭合/开启引号、dialogue frame 内 quote balance。",
+      "auto-repair normalizer: 对 `“A”“B”` 这类同 speaker 同 frame 文本合并为 `“A B”` 或要求重采样。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 58 轮 visibleText 中同一段卡琳娜回应出现“而且——”“时机这件事……”，中间没有任何叙述或换说话人。",
+    "internalTrace": "turn-58/04-output.json plotPoint 没有异常标点要求；turn-58/06-llm-calls.json call 1 首次生成异常；turn-58/04-output.json normalizedContent.visibleText 原样保留。"
+  },
+  "recommendedFixArea": "优先增加 Narrator 输出后的 typography lint/repair，覆盖中文引号配对与同 frame 相邻 quote breaks。",
+  "confidence": "high"
+}

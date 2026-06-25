@@ -1,0 +1,51 @@
+# Root Cause Report - issue-22 / turn 33
+
+## Problem
+turn 33 的可见选项在卡尔刚于 turn 32 说明卡琳娜回来后的沉默、复盘缺失、以及“你值不值得信任”问题后，又提供“问她卡琳娜后来还说了什么”。该选项把已经消费过的揭示重新包装成待追问入口，造成低强度但真实的推进停滞风险。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 有效。单看选项文本仍可被解释成“还有没有更多后续”，但它没有说明是在追问额外信息；结合 turn 32 已完整给出“后来她问了我一个问题/你值不值得信任/以前从没问过”的可见信息，以及 turn 34 选择该项后实际复演同一组内容，可以确认这是一个真实的 player-visible quality-regression。
+- playerVisibleSupport: turn 32 可见正文已经呈现卡琳娜回来后没说话、在壁炉前坐了很久、以前会复盘但今晚没有、后来问“你值不值得信任”、并且以前从未问过。turn 33 当前正文只推进到敏特关联，却在选项中出现“问她卡琳娜后来还说了什么”。turn 34 的玩家可见输出随后按该选项重复了 turn 32 的整组内容。
+- caveats: 该选项本身不是硬性事实矛盾；问题是选项语义未限定“新的后续信息”，导致已揭示内容被重新打开。
+
+## Context Assessment
+问题发生前，玩家在卡尔小屋内与卡尔对话。turn 32 已经完成“卡琳娜后来问了什么”的揭示；turn 33 玩家问敏特关联，卡尔只确认“你来新西西里，是因为她”，当前自然开放的问题应围绕敏特、卡尔如何知道、或是否继续寻找，而不是回到卡琳娜回来后的已揭示叙述。
+
+| claim | availability | artifacts | notes |
+| --- | --- | --- | --- |
+| 卡琳娜回来后“后来”说/问了什么已经在上一轮揭示。 | `present-clear` | `visible-timeline.jsonl`<br>`turn-33/06c-choice-prompt.md`<br>`turn-33/03-story-state.json` | turn 33 Choice prompt 的最近几轮玩家经历完整包含 turn 32 文本；但 currentStoryline summary 只概括为“引导对话转向卡琳娜和敏特”，没有把“信任问题已揭示”标成 consumed fact。 |
+| turn 33 当前正文的新焦点是敏特，而非卡琳娜回来后完整复盘。 | `present-clear` | `turn-33/04-output.json`<br>`turn-33/06c-choice-prompt.md` | 本轮正文结尾是卡尔说“你来新西西里，是因为她”。 |
+| 选项生成需要避免把刚回答过的问题重新列为下一步。 | `absent` | `turn-33/06c-choice-prompt.md` | Choice prompt 要求以本轮正文结尾和候选动作判断可选项，但没有显式的 answered-question/open-question ledger 或重复询问过滤。 |
+| 状态机候选推进动作与当前小屋对话不匹配。 | `present-ambiguous` | `turn-33/03-story-state.json`<br>`turn-33/06c-choice-prompt.md` | 唯一 candidateAction 是 anchor:a_icVhDMEoZo0T“玩家接受卡琳娜的邀请”，对当前卡尔/敏特对话不可用，促使 Choice 自行生成普通选项。 |
+
+Competing pressures:
+- 当前故事线仍要求卡尔把对话引向卡琳娜和敏特，容易把卡琳娜反常状态作为可继续挖掘对象。
+- Choice worker 需要生成 2 到 4 个选项，但可用候选推进动作不贴合当前可见情境。
+- turn 32 的长段可见文本在 prompt 中很显眼，但没有结构化标注哪些信息已经回答完毕。
+
+## Causal Chain
+- firstDivergenceArtifact: `turn-33/06-llm-calls.json call 2 (Choice output) / turn-33/04-output.json choices`
+- triggeringPressure: Choice prompt 只要求“贴近当前处境”生成普通行动；当前故事线和最近文本都围绕卡琳娜反常、敏特、信任问题，且没有可用的精确候选动作。
+- missingGuard: 缺少“上一轮已回答的问题不得作为普通选项重发”的 answered-question/consumed-reveal guard，也没有把 turn 32 的“后来问了什么”写入高优先级已消费事实。
+- mechanismStatement: 在已消费揭示只以最近长文本出现、未以结构化 consumed fact 约束 Choice 的情况下，Choice 为凑足当前对话选项把 turn 32 的“后来问了什么”重新开放，形成可见重复入口。
+- directCause: Choice worker 生成了未绑定 actionId 的普通选项“问她卡琳娜后来还说了什么”，但该问题的核心信息已经由 turn 32 回答。
+- propagation: 该选项被玩家在 turn 34 选中后，Director 将其解释为重新询问卡琳娜回来后的状态与信任问题，Narrator 复演了 turn 32 内容。
+- nonCauses: 不是长程 meta-memory 缺失；相关 turn 32 文本仍在 Choice prompt 中。；不是单纯 Narrator 文风问题；问题在可见选项阶段已经出现。
+
+## Root Cause
+- label: `choice-action-binding`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: Choice 生成没有把“最近已回答的信息”作为不可重复的行动约束；在候选动作不可用且最近文本高亮卡琳娜反常时，普通选项生成把已消费的 reveal 重新绑定成可选追问，后续被玩家选择后自然导致重复分支。
+- fixSurface: `choice prompt open-question contract`, `recent-turn consumed-reveal ledger`, `choice generation duplicate-question filter`
+
+## Evidence
+- playerVisible: turn 32 已给出卡琳娜回来后没说话、坐在壁炉前、没复盘、问“你值不值得信任”、以前从没问过；turn 33 choices 仍出现“问她卡琳娜后来还说了什么”；turn 34 证明该入口被解释成重复。
+- internalTrace: turn-33/06c-choice-prompt.md 的最近几轮玩家经历包含 turn 32 完整文本；turn-33/03-story-state.json 的 currentStoryline summary 没有将“信任问题已揭示”结构化记录；turn-33/06-llm-calls.json call 2 输出该普通选项且未绑定 actionId。
+
+## Recommended Fix Area
+优先修复 Choice worker 的选项语义合约：在 prompt 或输入 schema 中提供 answeredQuestions/consumedReveals，并在生成后过滤与最近一两轮已回答问题等价的选项；当只想询问“额外后续”时，选项必须显式写成“除此之外还有没有别的”。
+
+## Confidence
+`high`

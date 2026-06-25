@@ -1,0 +1,83 @@
+{
+  "issueIndex": 10,
+  "issueId": "issue-10-turn-19",
+  "turn": 19,
+  "issueValidity": "valid",
+  "problemSummary": "第 19 轮正文已经写德索洛接过信封并带着它离开，随后选项仍提供“拿过信封看看”。",
+  "validityAssessment": {
+    "verdictReason": "同一轮正文的物件归属和空间状态非常明确，选项却把不在现场的信封当作玩家可拿取对象，构成事实冲突。",
+    "playerVisibleSupport": "第 19 轮正文写“德索洛接过信封”“他握着那封信”“快步走了出去”“门……合上”；同轮 choices 包含“拿过信封看看”。",
+    "caveats": [
+      "如果只说“问关于信封”或“追问信封内容”可成立；但“拿过”要求信封仍在现场，文本不支持。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 19 轮结束时，德索洛已完成交易，手持卡琳娜给出的信封离开公寓并关门。公寓内剩下卡琳娜和主角，卡琳娜以“你看到了。我这就是我做的事。”收束场景。",
+    "relevantFacts": [
+      {
+        "claim": "信封的当前持有者是德索洛，且德索洛已经离开公寓。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06c-choice-prompt.md"
+        ],
+        "notes": "本轮可见正文和 choice prompt 的“本轮玩家已经看到的正文”都保留了接过、握着、离开的连续动作。"
+      },
+      {
+        "claim": "Choice worker 被要求以本轮正文结尾为准判断玩家能做什么。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06c-choice-prompt.md"
+        ],
+        "notes": "最终确认区再次强调正文结尾是最终判断依据。"
+      },
+      {
+        "claim": "信封作为交易核心物件在角色卡/剧本素材中很醒目，但没有结构化位置/持有者状态。",
+        "availability": "present-buried",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06c-choice-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/05-runtime-after.json"
+        ],
+        "notes": "剧本写“卡琳娜给出信封”，但 runtime-after 没有 envelope entity；charactersOnStage 还保留德索洛，场景 affordance 没有被结构化校验。"
+      }
+    ],
+    "competingPressures": [
+      "信封是本轮最显眼的新线索，容易被 Choice worker 当成玩家调查对象。",
+      "帕兹角色卡强调观察取证/靠近信息源，给“看信封”行动提供了局部吸引力。",
+      "选项生成只靠 prose 阅读，没有物件持有者 schema 或后处理 validator。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06-llm-calls.json / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json choices",
+    "triggeringPressure": "信封作为刚出现的关键线索在正文、角色卡和 storyline 中高度显著；Choice worker 需要给玩家可调查行动，而系统没有把“信封已随德索洛离开”提升为结构化不可用 affordance。",
+    "missingGuard": "缺少 choice-action target 的现场可用性检查：没有对象位置/持有者字段，也没有 post-generation 规则拦截“拿过”这类要求目标物仍在场的选项。",
+    "mechanismStatement": "Choice worker 在没有结构化 scene affordance guard 的情况下，把一个刚刚离场的显著物件绑定成玩家可执行动作；可见正文中的离场事实虽然存在，但没有被转换为硬约束或输出校验。",
+    "directCause": "turn-19 的 choiceGenerator 输出了“拿过信封看看”。",
+    "propagation": "该选项被记录到 turn-19/04-output.json，随后玩家在第 20 轮选择它，触发后续更明显的信封重现。",
+    "nonCauses": [
+      "不是 detail-memory；冲突发生在同一轮，所需事实就在 Choice prompt 末尾。",
+      "Narrator 正文在第 19 轮本身是自洽的，问题出在选项生成。",
+      "不是隐藏剧情要求玩家查看信封；剧本只要求卡琳娜给出信封并让德索洛离开。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "llm-self"
+    ],
+    "description": "具体机制是选项行动绑定缺少当前场景 affordance 校验：信封作为高显著线索吸引了“观察取证”选项，但系统没有把“德索洛握着信封离开”转为可执行的物件不可用约束，也没有拦截生成后的不可能动作。",
+    "fixSurface": [
+      "choice generator scene-affordance schema",
+      "object holder/location extraction from latest visible text",
+      "post-choice validator for impossible object interactions"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 19 轮正文明确描述德索洛接过信封、握着它离开并关门；同轮选项仍写“拿过信封看看”。",
+    "internalTrace": "turn-19/06c-choice-prompt.md 的最终正文区包含离场事实；turn-19/06-llm-calls.json 第三个调用输出该选项；turn-19/05-runtime-after.json 没有信封实体/持有者状态可供校验。"
+  },
+  "recommendedFixArea": "为 Choice worker 增加对象可用性抽取与验证：选项中的动词目标必须与 latest visible scene 中的 holder/location 一致；不一致时改写为“追问信封内容”等可行行动。",
+  "confidence": "high"
+}

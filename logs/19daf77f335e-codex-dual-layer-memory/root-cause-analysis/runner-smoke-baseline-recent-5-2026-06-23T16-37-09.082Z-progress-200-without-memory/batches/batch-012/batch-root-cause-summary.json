@@ -1,0 +1,76 @@
+{
+  "batchId": "batch-012",
+  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0
+  },
+  "issues": [
+    {
+      "issueId": "issue-34-turn-76",
+      "issueIndex": 34,
+      "turn": 76,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ]
+      },
+      "confidence": "high",
+      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-34-turn-76/root-cause-report.md",
+      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-34-turn-76/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-35-turn-78",
+      "issueIndex": 35,
+      "turn": 78,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local",
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ]
+      },
+      "confidence": "high",
+      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-35-turn-78/root-cause-report.md",
+      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-35-turn-78/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-36-turn-84",
+      "issueIndex": 36,
+      "turn": 84,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "llm-self"
+        ]
+      },
+      "confidence": "medium",
+      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-36-turn-84/root-cause-report.md",
+      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-36-turn-84/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-37-turn-86",
+      "issueIndex": 37,
+      "turn": 86,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ]
+      },
+      "confidence": "high",
+      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-37-turn-86/root-cause-report.md",
+      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-37-turn-86/root-cause-result.json"
+    }
+  ]
+}

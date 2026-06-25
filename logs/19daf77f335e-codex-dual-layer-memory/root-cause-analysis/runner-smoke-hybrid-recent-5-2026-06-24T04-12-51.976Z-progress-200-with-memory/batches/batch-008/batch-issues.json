@@ -1,0 +1,34 @@
+[
+  {
+    "issueIndex": 25,
+    "turn": 79,
+    "severity": "medium",
+    "type": "unsupported-jump",
+    "scope": "choices",
+    "summary": "选项把一个未在玩家可见上下文中铺垫过的宴会传闻写成已知话题，给玩家制造了缺失线索感。"
+  },
+  {
+    "issueIndex": 26,
+    "turn": 80,
+    "severity": "medium",
+    "type": "unsupported-jump",
+    "scope": "mixed",
+    "summary": "上一轮选项先带入未铺垫传闻，当前轮玩家选择后正文又把它固定成卡琳娜可识别的既有宴会话题，扩大了上下文跳跃。"
+  },
+  {
+    "issueIndex": 27,
+    "turn": 89,
+    "severity": "medium",
+    "type": "space-time-break",
+    "scope": "visibleText",
+    "summary": "模型在同一轮内未写出离开房间的动作，就把人物和环境从室内茶桌切到室外长椅/路灯/潮湿路面，破坏玩家对当前位置和动作顺序的感知。"
+  },
+  {
+    "issueIndex": 28,
+    "turn": 90,
+    "severity": "low",
+    "type": "space-time-break",
+    "scope": "visibleText",
+    "summary": "前一轮已经把卡琳娜放到室外路灯下等待，下一轮又从室内重新起身出门，等于回滚了刚刚可见的空间状态和动作进度。"
+  }
+]

@@ -1,0 +1,99 @@
+{
+  "issueId": "issue-27-turn-54",
+  "turn": 54,
+  "issueValidity": "valid",
+  "problemSummary": "第 54 轮玩家正在讲述敏特，正文却在玩家说出“她叫敏特”后写“她说出这个名字时”，把说话主体短暂错归给第三人称女性。",
+  "validityAssessment": {
+    "verdictReason": "valid。目标段落前后都在呈现玩家/帕兹讲述：卡琳娜“等你开口”，随后 `data-speaker=帕兹` 的台词说“她叫敏特”；下一句却写“她说出这个名字时”，而后半句又回到“你的手指在膝盖上蜷了一下”。玩家可见层面中，说出名字的人应是“你/帕兹”，不是“她”。",
+    "playerVisibleSupport": "turn-54 visibleText: “等你开口”“你靠在长椅的靠背上”“她叫敏特。我认识她的时候——还在战区。”“她说出这个名字时……但你的手指在膝盖上蜷了一下”。",
+    "caveats": [
+      "该错误只持续一句，后文迅速回到“你”的视角，因此是 low 级主体漂移，而非剧情事实被长期改写。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 53 轮卡琳娜问玩家“确认一件什么事——方便说吗？”第 54 轮玩家选择“说来话长。不过既然你问了——可以告诉你”，随后应由帕兹开始讲述寻找敏特的原因。",
+    "relevantFacts": [
+      {
+        "claim": "本轮要由帕兹/玩家开口讲述敏特。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn-53/54",
+          "turn-54/01-summary.json",
+          "turn-54/04-output.json plotPoint"
+        ],
+        "notes": "Director summary 明确写“帕兹回应卡琳娜的好奇，表示愿意讲述”。"
+      },
+      {
+        "claim": "Narrator 已正确用 `data-speaker=\"帕兹\"` 输出“她叫敏特”这句台词。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-54/06-llm-calls.json call 1",
+          "turn-54/04-output.json narrative"
+        ],
+        "notes": "结构化说话人标签本身正确，说明 speaker context 清楚。"
+      },
+      {
+        "claim": "下一句叙述应继续以“你/帕兹”为主体，而非“她”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-54/06b-narrator-prompt.md",
+          "turn-54/04-output.json normalizedContent"
+        ],
+        "notes": "底层规范要求旁白中“你=帕兹=玩家=主角”；同段后文也写“你的手指”。"
+      },
+      {
+        "claim": "周围有多个女性实体或女性代词（卡琳娜、敏特、台词中的“她”），增加了局部代词吸附压力。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-54/06b-narrator-prompt.md",
+          "turn-54/04-output.json narrative"
+        ],
+        "notes": "这是局部生成压力，但不构成合理解释，因为 speaker tag 已清楚。"
+      },
+      {
+        "claim": "没有后处理检查“叙述句主语是否与前一条 data-speaker 台词一致”。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-54/04-output.json",
+          "turn-54/07-events.json"
+        ],
+        "notes": "错误文本被正常 normalized 并 committed。"
+      }
+    ],
+    "competingPressures": [
+      "台词内容以“她叫敏特”开头，紧邻女性代词。",
+      "场上卡琳娜也是女性，旁白频繁用“她”描写卡琳娜。",
+      "Narrator 的风格倾向是动作/神态承接，容易在一句承接语中沿用最近的女性代词。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-54/06-llm-calls.json call 1 / turn-54/04-output.json narrative",
+    "triggeringPressure": "Narrator 在 `data-speaker=帕兹` 的“她叫敏特”台词后，需要写一句描述说话方式的承接句；局部文本中“她叫敏特/我认识她”提供了连续女性代词，场景中卡琳娜也长期由“她”指代。",
+    "missingGuard": "缺少对 Narrator 的句级 speaker-pronoun alignment 约束或后处理检查，未要求前一帧说话人为帕兹时，下一句描述其语气必须用“你/帕兹”而不是自由代词。",
+    "mechanismStatement": "在 speaker tag 已正确但相邻文本充满女性代词时，Narrator 的局部代词续写没有被 speaker-alignment guard 校验，导致承接句把玩家刚说出的名字错归给“她”。",
+    "directCause": "Narrator 本地生成“她说出这个名字时”这一句，与前一帧 `data-speaker=帕兹` 冲突。",
+    "propagation": "错误进入 `turn-54/04-output.json normalizedContent.visibleText` 与 visible timeline；Choice 输出未承接该主体错误，runtime-after 未显示持久化写回。",
+    "nonCauses": [
+      "不是 Director 误判：Director 明确要求帕兹开始讲述。",
+      "不是 Choice 或 action binding 问题。",
+      "不是记忆不可用：说话人就在同一段结构化标签中。"
+    ]
+  },
+  "rootCause": {
+    "label": "speaker-pronoun-alignment",
+    "family": "llm-self",
+    "secondaryFamilies": [],
+    "description": "触发压力是前一帧台词中连续出现女性代词且场景中卡琳娜/敏特均为女性；缺失防线是 Narrator 没有句级检查前一帧 `data-speaker` 与下一句叙述主语是否一致；失败运动是模型在清楚 speaker tag 的情况下局部代词滑移，把玩家说话误写成“她说出”。",
+    "fixSurface": [
+      "Narrator post-generation linter: 检查 `data-speaker=帕兹` 后紧邻叙述中的“他说/她说出/她开口”等主体是否冲突。",
+      "Narrator prompt: 将“描述主角说话方式时必须用‘你/帕兹’，不要用第三人称代词”放入最终输出提醒。",
+      "visibleText normalizer QA: 对 speaker-tag 与相邻叙述句做轻量规则校验。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 54 轮 visibleText 中，玩家先说“她叫敏特”，后文同段又写“你的手指……”，夹在中间的“她说出这个名字时”明显错指。",
+    "internalTrace": "turn-54/04-output.json plotPoint 要求“帕兹开始讲述”；turn-54/06-llm-calls.json call 1 的 raw text 中 speaker tag 为 `帕兹`，但紧随其后的叙述句为“她说出这个名字时”。"
+  },
+  "recommendedFixArea": "优先加 Narrator speaker-pronoun alignment lint，覆盖主角台词后紧邻叙述句的代词主体。",
+  "confidence": "high"
+}

@@ -1,0 +1,414 @@
+{
+  "generatedAt": "2026-06-25T04:21:23.465Z",
+  "runDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory",
+  "reviewDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory",
+  "analysisDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory",
+  "issuesFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/issues.json",
+  "timelinePath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+  "issueTracerSkill": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/skills/consistency_root_cause/skills/issue_tracer/SKILL.md",
+  "maxIssuesPerBatch": 4,
+  "issueCount": 35,
+  "batchCount": 12,
+  "batches": [
+    {
+      "batchId": "batch-001",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 5,
+        "end": 24
+      },
+      "issues": [
+        {
+          "issueIndex": 1,
+          "turn": 5,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "choices",
+          "summary": "该选项后半句像未清理的诗性残片，和可执行行动“直接去暗街”拼接后语义不清，降低了玩家选择时的可读性。"
+        },
+        {
+          "issueIndex": 2,
+          "turn": 9,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "暗街环境可以昏暗潮湿，但此前玩家可见时间仍是白天或午后，“走夜路”把同一段连续移动误标成夜间，造成轻微时间感冲突。"
+        },
+        {
+          "issueIndex": 3,
+          "turn": 21,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "正文出现明显不顺的指代/搭配错误，轻微破坏阅读流畅性。"
+        },
+        {
+          "issueIndex": 4,
+          "turn": 24,
+          "severity": "low",
+          "type": "unsupported-jump",
+          "scope": "choices",
+          "summary": "选项要求玩家围绕一个尚未玩家可见建立的「名片」行动，缺少上下文支撑。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-002",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 25,
+        "end": 31
+      },
+      "issues": [
+        {
+          "issueIndex": 5,
+          "turn": 25,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "卡琳娜把此前自己已经明确提出的核心概念当成第一次听到，破坏了暗街规则和人物记忆的连续性。"
+        },
+        {
+          "issueIndex": 6,
+          "turn": 28,
+          "severity": "medium",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "台词用「她」指代正在追问的玩家，与此前男性称谓「记者先生」冲突；若另指他人，则该人未在当前对话中建立，仍会造成玩家可见混乱。"
+        },
+        {
+          "issueIndex": 7,
+          "turn": 30,
+          "severity": "medium",
+          "type": "user-input-ignored",
+          "scope": "mixed",
+          "summary": "模型把服装建议推进成玩家已经同意赴宴并完成场景迁移，越过了玩家本可选择是否同行的行动分支。"
+        },
+        {
+          "issueIndex": 8,
+          "turn": 31,
+          "severity": "medium",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "前文已经把“小贩”建立为男性摊贩兼情报提供者，turn 31 又把同一称呼作为女性罗英的偏好称号使用，且没有解释这是多人称号、绰号重名或身份伪装，容易造成玩家可见身份漂移。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-003",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 36,
+        "end": 47
+      },
+      "issues": [
+        {
+          "issueIndex": 9,
+          "turn": 36,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "杯子在上一轮已经被放回桌面，下一轮又被写成再次落到桌面，形成轻微的物件状态和动作承接重复。"
+        },
+        {
+          "issueIndex": 10,
+          "turn": 45,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "正文把开门动作归给玩家，并用“刚刚”压缩了中间多轮室内互动，造成轻微动作归属和时间承接错误。"
+        },
+        {
+          "issueIndex": 11,
+          "turn": 46,
+          "severity": "medium",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "本轮突然让黑猫像是在承认“卡尔”是自己的名字，同时又用“她说”承接卡尔，混淆了卡尔大人与黑猫的身份关系。"
+        },
+        {
+          "issueIndex": 12,
+          "turn": 47,
+          "severity": "medium",
+          "type": "quality-regression",
+          "scope": "choices",
+          "summary": "选项把早前笔记本线索硬拉回当前对话，并把可选行动写成第三人称角色动作，破坏玩家操作语义。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-004",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 50,
+        "end": 53
+      },
+      "issues": [
+        {
+          "issueIndex": 13,
+          "turn": 50,
+          "severity": "low",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "正文让玩家“站起来”，但此前可见行动没有建立玩家已经坐下，属于轻微姿态连续性跳跃。"
+        },
+        {
+          "issueIndex": 14,
+          "turn": 53,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "如果是同一把钥匙，齿痕不应不同；如果是另一把钥匙，正文不应称为此前见过的“那把”。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-005",
+      "reason": "包含 high severity issue；同一 turn 的问题放在一起，避免重复读取同一轮证据。",
+      "turnRange": {
+        "start": 54,
+        "end": 54
+      },
+      "issues": [
+        {
+          "issueIndex": 15,
+          "turn": 54,
+          "severity": "high",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "重点评估段把玩家刚刚待过并离开的房间重新当成未知新地点进入，重置了空间进度和场景连续性。"
+        },
+        {
+          "issueIndex": 16,
+          "turn": 54,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "黑猫刚被明示留在上一扇铁门边，随后无承接地出现在另一处室内，造成角色/物件位置跳跃。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-006",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 56,
+        "end": 69
+      },
+      "issues": [
+        {
+          "issueIndex": 17,
+          "turn": 56,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "choices",
+          "summary": "该选项让玩家直接决定卡琳娜的动作和等待状态，偏离玩家可选行动/发言的交互视角，并与正文刚建立的 NPC 姿态相冲突。"
+        },
+        {
+          "issueIndex": 18,
+          "turn": 64,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "异常字符和误替换标点破坏了此前稳定的中文正文格式，属于局部可见文本质量回退。"
+        },
+        {
+          "issueIndex": 19,
+          "turn": 65,
+          "severity": "low",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "玩家选择继续听后，正文先重放上一轮已经建立的同一情绪和信息节点，再进入新内容，造成轻微重复演出。"
+        },
+        {
+          "issueIndex": 20,
+          "turn": 69,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "choices",
+          "summary": "选项把已经坐着且没有起身的玩家重新放到需要坐下的位置，造成轻微姿态连续性断裂。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-007",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 70,
+        "end": 72
+      },
+      "issues": [
+        {
+          "issueIndex": 21,
+          "turn": 70,
+          "severity": "medium",
+          "type": "identity-drift",
+          "scope": "mixed",
+          "summary": "正文和选项无过渡地把此前像重要人物一样出现的“卡尔”绑定到在场黑猫，关键身份关系缺少玩家可见承接。"
+        },
+        {
+          "issueIndex": 22,
+          "turn": 71,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "上一轮黑猫的位置和尾巴接触点在沙发另一头/沙发垫上，当前轮无移动承接就变成蹲坐在扶手边缘。"
+        },
+        {
+          "issueIndex": 23,
+          "turn": 71,
+          "severity": "low",
+          "type": "user-input-ignored",
+          "scope": "visibleText",
+          "summary": "正文把上一轮卡琳娜的话重新放到当前轮，并用“你说完”把未发生的发言归到玩家身上，轻微改写了玩家动作。"
+        },
+        {
+          "issueIndex": 24,
+          "turn": 72,
+          "severity": "low",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "正文把刚刚完成的醒来动作重新演出了一遍，造成卡尔状态承接重复。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-008",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 79,
+        "end": 90
+      },
+      "issues": [
+        {
+          "issueIndex": 25,
+          "turn": 79,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "choices",
+          "summary": "选项把一个未在玩家可见上下文中铺垫过的宴会传闻写成已知话题，给玩家制造了缺失线索感。"
+        },
+        {
+          "issueIndex": 26,
+          "turn": 80,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "mixed",
+          "summary": "上一轮选项先带入未铺垫传闻，当前轮玩家选择后正文又把它固定成卡琳娜可识别的既有宴会话题，扩大了上下文跳跃。"
+        },
+        {
+          "issueIndex": 27,
+          "turn": 89,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "模型在同一轮内未写出离开房间的动作，就把人物和环境从室内茶桌切到室外长椅/路灯/潮湿路面，破坏玩家对当前位置和动作顺序的感知。"
+        },
+        {
+          "issueIndex": 28,
+          "turn": 90,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "前一轮已经把卡琳娜放到室外路灯下等待，下一轮又从室内重新起身出门，等于回滚了刚刚可见的空间状态和动作进度。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-009",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 92,
+        "end": 110
+      },
+      "issues": [
+        {
+          "issueIndex": 29,
+          "turn": 92,
+          "severity": "medium",
+          "type": "repeated-scene",
+          "scope": "mixed",
+          "summary": "The turn asks the player to rediscover a central banquet metaphor that had already been stated, accepted, and developed in the visible conversation, making the interaction feel reset rather than continued."
+        },
+        {
+          "issueIndex": 30,
+          "turn": 99,
+          "severity": "medium",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "The player chose to keep sitting, which can extend the silence, but the model replayed a near-identical descriptive block and repeated the cat crossing as if it were happening for the first time."
+        },
+        {
+          "issueIndex": 31,
+          "turn": 109,
+          "severity": "low",
+          "type": "repeated-scene",
+          "scope": "choices",
+          "summary": "选项把同一问题作为下一步再次提供，导致玩家可见交互在已经得到回答后回到原地。"
+        },
+        {
+          "issueIndex": 32,
+          "turn": 110,
+          "severity": "low",
+          "type": "repeated-scene",
+          "scope": "mixed",
+          "summary": "当前玩家输入来自上一轮重复选项，正文又将同一心理动作和答案重新演出，形成连续两轮的重复场景。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-010",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 113,
+        "end": 113
+      },
+      "issues": [
+        {
+          "issueIndex": 33,
+          "turn": 113,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "mixed",
+          "summary": "The generated choice and subsequent narration treat a palm-up hand as if the back of the hand were exposed upward, making the focal touch posture physically inconsistent."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-011",
+      "reason": "包含 high severity issue；同一 turn 的问题放在一起，避免重复读取同一轮证据。",
+      "turnRange": {
+        "start": 120,
+        "end": 120
+      },
+      "issues": [
+        {
+          "issueIndex": 34,
+          "turn": 120,
+          "severity": "high",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "The scene replays discovery of the true home as if it has not already happened, instead of treating this as returning to a place the player has already visited earlier that night."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-012",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 168,
+        "end": 168
+      },
+      "issues": [
+        {
+          "issueIndex": 35,
+          "turn": 168,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "这是一处直接影响阅读顺滑度的断句/残句问题，玩家可见文本在语义上没有完整闭合。"
+        }
+      ]
+    }
+  ]
+}

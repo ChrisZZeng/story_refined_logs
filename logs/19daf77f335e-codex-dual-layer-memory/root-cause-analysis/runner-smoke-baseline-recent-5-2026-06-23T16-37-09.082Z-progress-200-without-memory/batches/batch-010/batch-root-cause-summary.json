@@ -1,0 +1,68 @@
+{
+  "batchId": "batch-010",
+  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueCount": 4,
+  "issues": [
+    {
+      "issueId": "issue-26-turn-48",
+      "issueIndex": 26,
+      "turn": 48,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "temporal-anchor-contract",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ]
+      },
+      "confidence": "high",
+      "reportPath": "issues/issue-26-turn-48/root-cause-report.md",
+      "resultPath": "issues/issue-26-turn-48/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-27-turn-54",
+      "issueIndex": 27,
+      "turn": 54,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "speaker-pronoun-alignment",
+        "family": "llm-self"
+      },
+      "confidence": "high",
+      "reportPath": "issues/issue-27-turn-54/root-cause-report.md",
+      "resultPath": "issues/issue-27-turn-54/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-28-turn-57",
+      "issueIndex": 28,
+      "turn": 57,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "hidden-referent-pronoun-contract",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ]
+      },
+      "confidence": "high",
+      "reportPath": "issues/issue-28-turn-57/root-cause-report.md",
+      "resultPath": "issues/issue-28-turn-57/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-29-turn-58",
+      "issueIndex": 29,
+      "turn": 58,
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local",
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ]
+      },
+      "confidence": "high",
+      "reportPath": "issues/issue-29-turn-58/root-cause-report.md",
+      "resultPath": "issues/issue-29-turn-58/root-cause-result.json"
+    }
+  ]
+}

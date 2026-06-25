@@ -1,0 +1,58 @@
+{
+  "batchId": "batch-001",
+  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issues": [
+    {
+      "issueId": "issue-1-turn-1",
+      "issueIndex": 1,
+      "turn": 1,
+      "validity": "valid",
+      "rootCause": {
+        "label": "alias-pronoun-contract",
+        "family": "agent-system"
+      },
+      "confidence": "high",
+      "reportPath": "issues/issue-1-turn-1/root-cause-report.md",
+      "resultPath": "issues/issue-1-turn-1/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-2-turn-3",
+      "issueIndex": 2,
+      "turn": 3,
+      "validity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system"
+      },
+      "confidence": "high",
+      "reportPath": "issues/issue-2-turn-3/root-cause-report.md",
+      "resultPath": "issues/issue-2-turn-3/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-3-turn-5",
+      "issueIndex": 3,
+      "turn": 5,
+      "validity": "valid",
+      "rootCause": {
+        "label": "object-state-handoff",
+        "family": "agent-system"
+      },
+      "confidence": "medium",
+      "reportPath": "issues/issue-3-turn-5/root-cause-report.md",
+      "resultPath": "issues/issue-3-turn-5/root-cause-result.json"
+    },
+    {
+      "issueId": "issue-4-turn-5",
+      "issueIndex": 4,
+      "turn": 5,
+      "validity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system"
+      },
+      "confidence": "medium",
+      "reportPath": "issues/issue-4-turn-5/root-cause-report.md",
+      "resultPath": "issues/issue-4-turn-5/root-cause-result.json"
+    }
+  ]
+}

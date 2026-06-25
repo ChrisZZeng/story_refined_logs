@@ -1,0 +1,101 @@
+{
+  "issueId": "issue-53-turn-128",
+  "turn": 128,
+  "issueValidity": "valid",
+  "problemSummary": "第 128 轮把已装胶卷的 Nikon FM2 写成可以在晨光中打开后背检查胶卷，并在同轮按下快门后仍用含混计数确认状态，违背胶片相机已装卷和已拍摄的玩家可见事实。",
+  "validityAssessment": {
+    "verdictReason": "问题有效。玩家此前看到 Nikon FM2 已装胶卷、反复过片/按快门，并在第 120 轮拍下清晨街景；第 128 轮却在检查相机时打开后背看胶卷且没有任何曝光/损坏后果，这是胶片相机物理规则上的可见冲突。",
+    "playerVisibleSupport": "第 111 轮写明尼康FM2、卷只拍了不到一半；第 120 轮玩家按下快门，影像变成银盐颗粒上的化学反应；第 128 轮又写按下快门后打开后背，看到胶卷还在里面并用计数器确认。",
+    "caveats": [
+      "计数器具体应显示几张会受此前空按、过片和是否实际曝光影响，最强问题不是精确数字，而是把装卷胶片机当作可安全开后背检查。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "问题发生前，玩家在卡尔小屋内/窗边等待卡琳娜消息；相机挂在胸前，防水袋在身侧，银铃在外套内袋。相机此前是 Nikon FM2 胶片机，已经装卷，多次检查并在第 120 轮实际拍摄一帧。",
+    "relevantFacts": [
+      {
+        "claim": "相机是装有胶卷的 Nikon FM2 胶片相机",
+        "availability": "present-buried",
+        "artifacts": [
+          "visible-timeline.jsonl turn 111",
+          "turn-128/06a-director-prompt.md"
+        ],
+        "notes": "玩家可见事实明确；到第 128 轮 prompt 中主要以历史摘要和远距剧情记忆出现，没有结构化为当前物品状态。"
+      },
+      {
+        "claim": "第 120 轮已经对窗外实际拍下一张照片",
+        "availability": "present-buried",
+        "artifacts": [
+          "visible-timeline.jsonl turn 120",
+          "turn-128/06a-director-prompt.md:438"
+        ],
+        "notes": "当前故事线摘要只保留为‘按下快门，记录下晨光中的景色’，没有携带当前帧计数或装卷约束。"
+      },
+      {
+        "claim": "本轮玩家只要求‘检查一下相机’",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-128/01-summary.json",
+          "turn-128/06a-director-prompt.md:735"
+        ],
+        "notes": "该输入不要求开后背，也不要求新增拍摄。"
+      },
+      {
+        "claim": "Director 要求检查相机机身、镜头、快门和防水袋内备用胶卷",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-128/06-llm-calls.json call0",
+          "turn-128/06b-narrator-prompt.md:770"
+        ],
+        "notes": "这是本轮最靠近 Narrator 的强指令，但没有说明胶片机检查的禁止动作。"
+      },
+      {
+        "claim": "胶片机开后背会曝光/破坏已装胶卷",
+        "availability": "absent",
+        "artifacts": [
+          "turn-128/06b-narrator-prompt.md"
+        ],
+        "notes": "没有以物品 affordance、硬约束或当前状态字段进入 Narrator 合约。"
+      }
+    ],
+    "competingPressures": [
+      "玩家选择了装备检查",
+      "Director 的 requiredContent 要求检查快门和备用胶卷",
+      "pacing 为感官细节优先",
+      "当前故事线长期停留在等待/反复检查装备，容易诱发更具体但未校验的检查步骤"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-128/06-llm-calls.json call1 narrator text（同步落入 turn-128/04-output.json）",
+    "triggeringPressure": "Director 把玩家输入细化为‘检查相机机身、镜头、快门’和‘检查防水袋内的备用胶卷’，并要求感官细节优先；Narrator 需要把简单检查扩展成一段具体动作。",
+    "missingGuard": "当前物品状态没有把‘loaded film camera / do not open back in daylight / preserve film counter continuity’作为硬约束交给 Narrator；历史中已拍摄和装卷事实只在长摘要或更早可见文本里，缺少可执行的检查动作边界。",
+    "mechanismStatement": "在装备检查被要求写成细节化动作、但胶片相机的当前装卷状态和禁止开后背 affordance 没有结构化进入合约时，Narrator 用未经校验的相机检查套路补全为打开后背和读计数器，导致玩家可见的胶片机物理冲突。",
+    "directCause": "Narrator 在第 128 轮正文中自行加入‘打开后背——胶卷还在里面’和计数器判断。",
+    "propagation": "该错误被规范化进 turn-128/04-output.json，并在第 129 轮 recentTurns 中作为已发生事实继续出现，后续相机检查又沿用‘计数器显示胶卷还剩大半卷’的说法。",
+    "nonCauses": [
+      "不是 Choice 生成直接导致；第 127 轮选项仅是‘检查一下相机’。",
+      "不是隐藏设定冲突；玩家可见文本本身足以确认问题。",
+      "不是 runtime-after 写回了错误物品状态；runtime-after 没有相关结构化物品状态。"
+    ]
+  },
+  "rootCause": {
+    "label": "object-affordance-contract",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "detail-memory"
+    ],
+    "description": "触发压力是 Director 要求把‘检查相机/快门/胶卷’写成感官细节；缺失防线是系统没有把当前物品的胶片机装卷状态、已拍摄帧和禁止开后背规则作为 Narrator 可执行约束。于是模型用普通装备检查套路补全出打开后背和读计数器，生成了胶片机物理规则冲突。",
+    "fixSurface": [
+      "equipment/object state schema for loaded film camera",
+      "Director-to-Narrator requiredContent guard for object affordances",
+      "Narrator prompt rule: do not invent destructive inspection steps for loaded analog film cameras",
+      "statefold/writeback of frame count and loaded-film status"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 111 轮：Nikon FM2 已装胶卷且卷只拍了不到一半；第 120 轮：实际按快门拍下清晨街景；第 128 轮：按快门后又打开后背看到胶卷且没有曝光后果。",
+    "internalTrace": "turn-128/06-llm-calls.json call0 只要求检查机身、镜头、快门和防水袋内备用胶卷；call1 首次写出打开后背、计数器和胶卷卷轴；turn-128/06a/06b prompt 没有结构化胶片机 affordance 约束。"
+  },
+  "recommendedFixArea": "为关键装备建立可检索的 object state/affordance，并让 Director 在装备检查类动作中显式传递允许/禁止的检查方式和当前帧/装卷状态。",
+  "confidence": "high"
+}

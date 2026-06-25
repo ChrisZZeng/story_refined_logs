@@ -1,0 +1,421 @@
+{
+  "generatedAt": "2026-06-25T04:46:26.644Z",
+  "runDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "reviewDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/issues.json",
+  "selectedIssueIndex": 27,
+  "targetTurn": 54,
+  "selectedIssue": {
+    "windowRange": {
+      "start": 41,
+      "end": 60
+    },
+    "evalRange": {
+      "start": 51,
+      "end": 60
+    },
+    "turn": 54,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第54轮正文在玩家开始讲述敏特时写道：“她叫敏特。我认识她的时候——还在战区。”紧接着叙述为：“她说出这个名字时，语气平缓得像是在念一段她已经重复过很多次的开场白。”",
+    "conflictingEvidence": "同一轮玩家输入是“说来话长。不过既然你问了——可以告诉你。”，正文前后也都在写玩家讲述：“等你开口”“你靠在长椅的靠背上”“你的手指在膝盖上蜷了一下”。说出“敏特”这个名字的人应是玩家，而不是“她”。",
+    "conflictingTurns": [
+      54
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家正在说出的名字错误归给“她”，造成叙述主体短暂漂移。"
+  },
+  "issuesForTurn": [
+    {
+      "index": 27,
+      "issue": {
+        "windowRange": {
+          "start": 41,
+          "end": 60
+        },
+        "evalRange": {
+          "start": 51,
+          "end": 60
+        },
+        "turn": 54,
+        "scope": "visibleText",
+        "type": "identity-drift",
+        "severity": "low",
+        "currentEvidence": "第54轮正文在玩家开始讲述敏特时写道：“她叫敏特。我认识她的时候——还在战区。”紧接着叙述为：“她说出这个名字时，语气平缓得像是在念一段她已经重复过很多次的开场白。”",
+        "conflictingEvidence": "同一轮玩家输入是“说来话长。不过既然你问了——可以告诉你。”，正文前后也都在写玩家讲述：“等你开口”“你靠在长椅的靠背上”“你的手指在膝盖上蜷了一下”。说出“敏特”这个名字的人应是玩家，而不是“她”。",
+        "conflictingTurns": [
+          54
+        ],
+        "source": "model-output",
+        "reason": "正文把玩家正在说出的名字错误归给“她”，造成叙述主体短暂漂移。"
+      }
+    }
+  ],
+  "timelineWindow": [
+    {
+      "turn": 52,
+      "turnDir": "turn-52",
+      "playerInput": "“不急。等你愿意说的时候再说。倒是你刚才问我的——你来新西西里要找的那个人……我还没找到。”",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "你的话落在雨后潮湿的空气里，像是往平静的水面投下一颗石子——没有急促地沉底，只是轻轻落下去，漾开一圈细碎的涟漪。\n卡琳娜的手指在膝盖上停住了。路灯的光穿过老梧桐的枝叶，在她低垂的眼睑上投下一片细碎的阴影。她没有立刻接话——她的目光落在你脸上，像是要从你的表情里确认那句话里藏的到底有多少诚意。\n“你没找到。”她重复了一遍你的措辞，声音里没有幸灾乐祸，也没有同情——更像是一个人在确认一个她已经猜到、但亲耳听到时还是会有所触动的结论。\n“……那你还打算继续找吗？”\n她的蓝瞳在路灯下映着细碎的光点。那个问题从她嘴里出来的时候没有试探的棱角——更像是一句脱口而出的、带着好奇的询问，像一片落叶刚好落在你脚边，等着你决定要不要弯腰捡起来。\n雨后的夜风拂过你们之间的空地，老梧桐的叶片轻轻晃动，洒下一片细碎的水珠。远处暗街的屋檐下传来一声极轻的声响——不知道是猫还是别的什么。\n她的指尖叩了两下椅面的木质边缘，不急不慢，像在一个短暂的停顿里给自己留出了一点整理思绪的时间。\n“我是说——你来新西西里是为了找那个人。既然到现在还没找到，那你还会继续找下去吗？还是说……你已经开始觉得，可能不该来找了？”\n她说出后半句的时候，声音比前面轻了一点——不是试探，更像是她在说这句话的同时，自己也在思考这个问题里藏着的另一层意思。路灯的光穿过她的指缝，在她掌心里投下一片明暗交织的纹路。",
+      "choices": [
+        {
+          "text": "告诉她，我会继续找下去。不管还要多久"
+        },
+        {
+          "text": "反问她——'那你呢？你觉得我该不该继续找？'"
+        },
+        {
+          "text": "沉默片刻，然后说——'也许我来这里不是为了找到她，而是为了确认一件事。'"
+        },
+        {
+          "text": "问她有没有什么建议，关于在新西西里找人的方法"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-52/01-summary.json",
+        "scriptState": "turn-52/02-script-state.json",
+        "storyState": "turn-52/03-story-state.json",
+        "output": "turn-52/04-output.json"
+      }
+    },
+    {
+      "turn": 53,
+      "turnDir": "turn-53",
+      "playerInput": "沉默片刻，然后说——'也许我来这里不是为了找到她，而是为了确认一件事。'",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "你的话落在雨后潮湿的空气里，比之前轻了一些——像是把一片叶子放回了它该在的地方。\n卡琳娜的手指在膝盖上停住了。路灯的光在她的蓝瞳里晃了一下，像一粒细小的火星在冰面上弹跳——她没有接话，只是看着你，等你把那句话走完。\n沉默持续了几秒。不是尴尬的空白，更像是一段对话在拐弯时的空隙——像一个人走到一条岔路口，停下来看了一眼两条路分别通向的方向，然后才决定怎么回应。\n“……也许你来这里不是为了找到她，而是为了确认一件事。”\n她重复了一遍你的措辞——声音很轻，但在安静下来的夜色里，每一个字都清楚地落在你们之间的空气里。她的语气里没有追问的棱角，更像是一个人在咀嚼一句她自己也曾对自己说过的话时，那种微微的停顿。\n她在长椅上侧过身来，把膝盖转向你的方向。路灯的光穿过老梧桐的枝叶，在她脸上投下一片明暗交织的纹路——那双蓝瞳在阴影里显得比刚才更深，但那里没有审视，只有一个人在看另一个人时，那种已经放下了部分防备、还在慢慢观察的专注。\n“确认一件什么事——方便说吗？”\n她的指尖轻轻叩了两下椅面的木质边缘，不急不慢。那个动作已经不再是她之前在防御时会用的节奏——更像是在问一个她真的想知道答案的问题时，给自己留出的一点等待的空间。",
+      "choices": [
+        {
+          "text": "「是为了确认一件事——确认她真的还活着。」"
+        },
+        {
+          "text": "「说来话长。不过既然你问了——可以告诉你。」"
+        },
+        {
+          "text": "先不回答，反问她自己离开暗街要去确认什么。"
+        },
+        {
+          "text": "「还没想好怎么说。下次吧。」"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-53/01-summary.json",
+        "scriptState": "turn-53/02-script-state.json",
+        "storyState": "turn-53/03-story-state.json",
+        "output": "turn-53/04-output.json"
+      }
+    },
+    {
+      "turn": 54,
+      "turnDir": "turn-54",
+      "playerInput": "「说来话长。不过既然你问了——可以告诉你。」",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "路灯的光穿过老梧桐的枝叶，在她低垂的眼睑上投下一片细碎的阴影。你的话落在雨后潮湿的空气里，像是往平静的水面投下一颗石子——她没有急着接话，只是静静看着你，等你开口。\n\"说来话长。不过既然你问了——可以告诉你。\"\n你靠在长椅的靠背上，让目光落在那片老梧桐的树冠上。夜风拂过，叶片上的水珠被抖落了几颗，滴在路灯的光柱里，一闪而过。\n\"她叫敏特。我认识她的时候——还在战区。\"\n她说出这个名字时，语气平缓得像是在念一段她已经重复过很多次的开场白。但你的手指在膝盖上蜷了一下——不是因为紧张，而是因为你很清楚，这个开场白后面跟着的路，并不平坦。\n\"我跟你提过——我在前线待过一段时间。和当地民众一起生活。教过一些年轻人怎么在那种环境里活下去。敏特是其中之一。\"\n路灯的光在你脸上投下一片明暗交织的纹路。你没有说谎——你说的每一个字都是真的。只是你还没有说出那些字后面的重量——那些照片、那场袭击、那个你最后没能留住的人。\n\"后来我离开了前线。再后来——我以为她死了。\"\n那个词从你嘴里出来的时候，你自己都感觉到了它的重量——\"以为\"。不是\"确定\"，而是\"以为\"。因为如果她真的死了，你就不会在收到那张照片的时候，认出她站在镜头前，身后是新西西里陌生的街景。\n\"——你收到她的消息？\"\n她的声音里带着一丝极淡的、试探性的好奇——不是追问，更像是一个人听到一段故事转弯时，本能地伸手扶了一下那个拐角。\n\"照片。有人寄给我一张照片——她站在新西西里的街上。拍得很清楚。\"\n\"所以我就来了。\"\n你说完这句话，沉默了几秒。雨后的空气里带着潮湿的泥土和残叶的气息，远处暗街的屋檐下传来一声极轻的声响——不知道是猫还是别的什么。\n\"至于为什么说来这里是为了确认一件事——\"\n你的目光从树冠上收回来，落在自己摊开的掌心上。路灯的光穿过指缝，在你掌心里投下一片明暗交织的纹路。\n\"在战场上的时候，我见过太多人把'寻找'当成全部。找一个人，找一条路，找一个答案——然后找到的时候才发现，自己其实是因为害怕那个答案才一直在找的。\"\n\"我不想变成那样。\"\n你说完这句话，侧过头来看她。路灯的光在她的蓝瞳里映着细碎的光点——她没有说话，但那双眼睛里没有审视，只有一个人在看另一个人时，那种已经放下了部分防备、还在慢慢观察的专注。\n\"所以——如果我说我还没完全想清楚自己要确认的是什么，这大概不算说谎。\"\n你嘴角动了一下——那是一个人在承认一件自己还没完全弄明白的事时，才会露出的那种带着自嘲的弧度。\n\"——你倒是挺诚实的。\"\n她的声音里带着一丝极淡的，像是觉得有趣的那种弧度。她的指尖轻轻叩了两下椅面的木质边缘，不急不慢——那个动作比之前更放松了，像一只猫在确认周围没有危险之后，终于把爪子收回了柔软的肉垫里。",
+      "choices": [
+        {
+          "text": "问她为什么对这件事这么在意"
+        },
+        {
+          "text": "继续讲述敏特的事——战场上的细节"
+        },
+        {
+          "text": "反问卡琳娜——她有没有什么一直想确认却还没去确认的事"
+        },
+        {
+          "text": "沉默片刻，然后说——‘其实在战场上，我还欠她一句话。’"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-54/01-summary.json",
+        "scriptState": "turn-54/02-script-state.json",
+        "storyState": "turn-54/03-story-state.json",
+        "output": "turn-54/04-output.json"
+      }
+    },
+    {
+      "turn": 55,
+      "turnDir": "turn-55",
+      "playerInput": "沉默片刻，然后说——‘其实在战场上，我还欠她一句话。’",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "你的话落在雨后潮湿的空气里，像是往平静的水面投下一颗石子——但没有漾开涟漪，而是直接沉了下去，落到了一个很深的地方。\n沉默持续了几秒。不是尴尬的空白，更像是一段对话在即将转弯时的那种安静——像一个人站在一扇门前，手已经碰上了门把手，但没有立刻推开。\n卡琳娜的手指在膝盖上停住了。路灯的光穿过老梧桐的枝叶，在她低垂的眼睑上投下一片细碎的阴影——她没有催促，也没有替你填补空白，只是那样安静地坐着，等你把那句话的下一片揭开。\n“……其实在战场上，我还欠她一句话。”\n你开口的时候，声音比你预想的要轻。不是虚弱——是一种一个人在说出某件存放了很久的事时，那种自然的、需要小心捧着才不会让它碎掉的声音。\n路灯的光透过老梧桐的叶片，在你摊开的掌心里投下一片明暗交织的纹路。你没有看卡琳娜——你的目光落在自己手心里那些光与影的缝隙上，像是在确认那些字放出来之后，它们还是完整的。\n“她死的那个晚上——我没有来得及说。”\n你的声音在那里顿了一下。不是哽咽，更像是一个人在走过一段很长的路之后，终于允许自己停下来的那一下喘息。\n“……是一句道歉。也是一句告别。但我从来没说出口。”\n风穿过老梧桐的枝叶，洒下一片细碎的水珠。几滴落在你手背上，凉的。你没有擦。\n卡琳娜的指尖在膝盖上轻轻蜷了一下，又松开。她的蓝瞳在路灯下显得比刚才更浅——像冰面底下透上来的光，不再藏着暗流，而是静静地铺在那里。她没有立刻说话——她的目光落在你侧脸上，像在看一个人刚刚揭开的那个缺口，然后判断自己应该做什么。\n“——你觉得她还活着。所以那句话，还有机会再说。”\n她说的不是疑问句。更像是一个人在听完一段故事后，把一根线头拎起来，放在你们都能看清的位置。\n你的嘴角动了一下——那是一个人在被人看穿时，露出的那种没有防备的弧度。\n“……对。我就是那个‘没找到答案才开始找’的人。”\n她轻轻哼了一声——不是嘲笑，更像是一个人听到一句她认同的判断时，从鼻腔里漏出的那个轻微的声音。她的指尖开始轻轻叩击椅面的木质边缘，不急不慢，带着一种放松的节奏。\n“那你运气不错。至少你知道自己欠的是什么。”\n她说完这句话，侧过头来看你。路灯的光在她的眼睛里映着细碎的光点——那双蓝瞳里没有同情，也没有审慎，只有一个人在看另一个人时，那种已经放下了部分防备的、安静的专注。\n夜风又起，老梧桐的叶片轻轻晃动，洒下一片细碎的水珠。远处暗街的屋檐下传来一声极轻的声响——不是猫的叫声，更像是什么柔软的东西轻轻落在了瓦片上。",
+      "choices": [
+        {
+          "text": "问她有没有觉得，有些人出现在生命里，就是为了让你还清某笔债的"
+        },
+        {
+          "text": "转移话题，问她在这条长椅上坐过多少次"
+        },
+        {
+          "text": "顺着她的话问——那你呢，你欠过什么人什么话吗"
+        },
+        {
+          "text": "不再继续这个话题，提议走走"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-55/01-summary.json",
+        "scriptState": "turn-55/02-script-state.json",
+        "storyState": "turn-55/03-story-state.json",
+        "output": "turn-55/04-output.json"
+      }
+    },
+    {
+      "turn": 56,
+      "turnDir": "turn-56",
+      "playerInput": "顺着她的话问——那你呢，你欠过什么人什么话吗",
+      "playerInputSource": "playerInput",
+      "preLlmEvents": [],
+      "visibleText": "\"那你呢？\"\n你靠在长椅的靠背上，侧过头来看她。路灯的光穿过老梧桐的枝叶，在她低垂的眼睑上投下一片细碎的阴影。你的声音放得很轻——不是试探，更像是一个人沿着同一段路走了很久之后，终于回过头来，看向那个一直走在你旁边的人。\n\"你欠过什么人——什么话吗？\"\n你的问题落在雨后潮湿的空气里。没有紧迫的追问，也没有那种借机换取坦白的暗示——更像是一片叶子在风里转了个弯，轻轻落在了她那边的地上，等着她自己决定要不要捡起来看。\n她的指尖在膝盖上停住了。路灯的光在她的蓝瞳里晃了一下——不是被问住的停顿，而是一个人听到一个问题时，脑子里同时闪过很多画面，需要一点时间让自己先落回到当前的这张长椅上。\n她的手动了一下——从膝盖上抬起来，在半空中停了一瞬，然后落在胸口的位置。她的手指轻轻碰了一下那件旧吊带裙的领口边缘——那里什么别针或挂坠都没有，但那个动作带着一种不自觉的、像在确认什么还在不在这里的习惯。\n沉默持续了几秒。不是抗拒的空白——像一段对话走到了另一个拐弯处，说话的人在路口站了一会儿，看看那扇门自己是否准备好推开。\n她的嘴唇动了一下——然后她开口了。声音比她平常说话时低一些，像一个人从很深的地方捞出一句话时，那上面还带着深水的凉意。\n\"……有。\"\n她说出那个字后，又停了一下。她的目光落在自己摊开的掌心上——路灯的光穿过她指缝，在她掌心里投下一片明暗交织的纹路，和你刚才看着自己手心时的姿势，几乎一样。\n\"但我还不太确定——那句话是写给谁的。\"\n她说完，侧过头来看你。路灯的光在她眼睛里映着细碎的光点——那双蓝瞳里没有防备用意，也没有那种等待被追问的信号。她只是说出了那句话，然后给了它一点呼吸的空间。",
+      "choices": [
+        {
+          "text": "她说的‘写给谁’是什么意思？追问下去"
+        },
+        {
+          "text": "安静地等一下，看卡琳娜会不会继续往下说"
+        },
+        {
+          "text": "说‘如果还没想明白写给谁，可以不急着说’"
+        },
+        {
+          "text": "点头，把话题引回今晚的归途上"
+        }
+      ],
+      "plotSummary": null,
+      "selectedAction": null,
+      "sourceFiles": {
+        "summary": "turn-56/01-summary.json",
+        "scriptState": "turn-56/02-script-state.json",
+        "storyState": "turn-56/03-story-state.json",
+        "output": "turn-56/04-output.json"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "turn": 53,
+      "turnDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53",
+      "files": {
+        "summary": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/01-summary.json",
+        "scriptState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/02-script-state.json",
+        "storyState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/03-story-state.json",
+        "output": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/04-output.json",
+        "runtimeAfter": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/05-runtime-after.json",
+        "llmCalls": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/06-llm-calls.json",
+        "directorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/06a-director-prompt.md",
+        "narratorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/06b-narrator-prompt.md",
+        "choicePrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/06c-choice-prompt.md",
+        "events": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-53/07-events.json"
+      },
+      "outputSummary": {
+        "playerIntent": "表达",
+        "summary": "帕兹没有直接回答是否继续寻找敏特，而是表达了寻找的真正目的——为了确认一件事，暗示寻找自身的意义大于找到目标本身。",
+        "beats": [],
+        "currentTurnConstraints": [
+          "不透露敏特的具体情报",
+          "不提前揭示卡琳娜的内心反思内容",
+          "保持卡尔神秘但友好的态度"
+        ],
+        "currentStorylineConstraints": [
+          "情感弧线：轻松→温馨→安心",
+          "阶段六情感铺垫节点，关系明显变化",
+          "注意卡琳娜态度值对应好奇/兴趣升温阶段的行为倾向"
+        ],
+        "revealedFacts": [],
+        "requiredContent": [
+          "卡琳娜需要给出对帕兹这句话的回应，可以是认同、沉默后的点头、或一句简短的话",
+          "氛围保持雨后公园的安静与潮湿感",
+          "卡琳娜的态度应体现好奇/兴趣升温阶段的特征：主动提问但仍保持一定距离"
+        ],
+        "sectionSignalSuggestion": "continue"
+      },
+      "storyStateSummary": {
+        "id": "6-02-第一章",
+        "name": "推进节点 06-02：归途反思",
+        "summary": "主角在雨夜回到卡尔小屋前，停下脚步观察周围环境，确认无异常后准备进入。\n主角向卡尔询问今晚需要注意的事项，卡尔会回应并引导对话向关键信息靠近。\n主角询问卡尔外面是否有异常，卡尔回应并引导对话转向卡琳娜和敏特的相关话题。\n主角向卡尔询问白天的事情是否与敏特有关。\n主角询问卡琳娜后来的话语，卡尔回忆并告知卡琳娜在壁炉前的状态和提问。\n卡尔描述卡琳娜问那个问题时的表情和状态。\n帕兹向卡尔透露自己来新西西里找敏特的更多细节，以及敏特与自己的关系。\n卡尔对帕兹关于敏特的故事表示理解，但未明确表态，暗示卡琳娜的信任问题才是当前焦点。\n卡尔告知帕兹卡琳娜在公园的长椅上等他，建议他去找她。\n主角在卡琳娜身边坐下，开启对话。卡琳娜可能会询问主角对宴会的看法，或展现其内心的反思。\n主角在卡琳娜身边坐下，坦诚自己对宴会的感受——不舒服，像是被装进一个不属于自己的套子里。\n主角询问卡琳娜参加宴会的原因，卡琳娜可能分享更深层的动机或个人历史。\n主角在沉默后询问卡琳娜是否还记得自己本来的样子，卡琳娜将面临一个触及核心身份的问题，需要决定如何回应。\n帕兹指出卡琳娜把问题抛回给他，自己却回避了回答。卡琳娜将面临是否坦诚的抉择。\n帕兹没有直接回答卡琳娜的反问，而是换了一个角度，询问卡尔会如何看待‘本来的样子’这个问题，试图推动对话深入。\n帕兹通过卡尔的角度回应卡琳娜关于'本来的样子'的回避，暗示卡琳娜在卡尔眼中从未改变。\n帕兹继续询问卡尔的身世，试图了解那只看穿一切的猫的来历。\n卡琳娜讲述与卡尔第一次见面后的经历，暗示卡尔在关键时刻出现并引导她认识自己的使命。\n卡琳娜被问及为何被卡尔选中，陷入沉思后给出回答，暗示卡尔在她身上看到了某种她自己当时尚未察觉的潜质。\n帕兹将话题从卡尔转向卡琳娜本人，询问她在宴会之后的打算。卡琳娜需要决定如何回应这个触及个人计划的问题。\n帕兹表示愿意倾听卡琳娜未说出口的事，卡琳娜可能决定是否分享更多关于自己计划的信息。\n帕兹反问卡琳娜关于她离开暗街要去确认的事，不作回答而是推动对话深入。\n帕兹回答了卡琳娜关于寻找敏特的问题，坦诚尚未找到，但保持了对话的开放性。",
+        "constraints": [
+          "请引擎嗲用backgrounds【夜晚的街道/默认】【背景：公园/公园】 characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-好奇 卡琳娜/卡琳娜-困惑 卡琳娜/卡琳娜-非常好奇 卡琳娜/卡琳娜-不悦 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-微笑】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）\n当卡琳娜坐在长椅上时，请引擎调用cgs【和卡琳娜在公园/夜晚】\n必须围绕卡琳娜询问玩家对宴会的看法展开讨论。\n避免一次性倾泻所有秘密。",
+          "不提前揭示卡琳娜的内心反思内容",
+          "不透露敏特的具体情报",
+          "保持卡尔神秘但友好的态度",
+          "不一次性倾泻所有秘密",
+          "避免提前揭示卡琳娜内心反思",
+          "阶段六情感铺垫节点，关系明显变化",
+          "情感弧线：轻松→温馨→安心",
+          "注意卡琳娜态度值变化对应的行为倾向",
+          "不一次性倾泻秘密",
+          "注意卡琳娜态度值对应的行为倾向（当前应为好奇/兴趣升温阶段）",
+          "卡琳娜态度值当前对应好奇/兴趣升温阶段"
+        ],
+        "notes": [],
+        "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定】\n- 卡琳娜的内心反思（由角色情绪和氛围驱动）\n- 卡尔与卡琳娜的互动\n- 一天的疲惫与沉淀\n【核心流程】\n- 卡琳娜带着主角来到了附近的公园，她会在公园的长椅上坐下，有些忧郁\n- 她会问玩家对宴会的看法，展开讨论\n- 卡尔向卡琳娜提问主角的处理，引向下一步\n- 卡琳娜会坦白她知道的敏特的情报。",
+        "interactionFollowupPreview": "当卡琳娜态度值>=2：\n- 卡琳娜邀请主角前去她真正的家。不然她无法保证主角的安全。\n- 那里是‘卡尔’的心脏，暗街过去的影子。"
+      },
+      "scriptStateKeys": [
+        "turn",
+        "userInput",
+        "facts",
+        "preLlmEvents",
+        "context"
+      ],
+      "eventCount": 378,
+      "llmCallCount": 3
+    },
+    {
+      "turn": 54,
+      "turnDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54",
+      "files": {
+        "summary": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/01-summary.json",
+        "scriptState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/02-script-state.json",
+        "storyState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/03-story-state.json",
+        "output": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/04-output.json",
+        "runtimeAfter": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/05-runtime-after.json",
+        "llmCalls": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/06-llm-calls.json",
+        "directorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/06a-director-prompt.md",
+        "narratorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/06b-narrator-prompt.md",
+        "choicePrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/06c-choice-prompt.md",
+        "events": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-54/07-events.json"
+      },
+      "outputSummary": {
+        "playerIntent": "表达",
+        "summary": "帕兹回应卡琳娜的好奇，表示愿意讲述寻找敏特的背后原因。",
+        "beats": [],
+        "currentTurnConstraints": [
+          "不透露敏特具体情报",
+          "不提前揭示核心秘密（帕兹已死）",
+          "保持对话的自然节奏，不一次性倾泻信息"
+        ],
+        "currentStorylineConstraints": [
+          "情感弧线：轻松→温馨→安心",
+          "卡琳娜处于好奇/兴趣升温阶段，行为倾向为主动提问、不轻易透露自身"
+        ],
+        "revealedFacts": [],
+        "requiredContent": [
+          "帕兹开始讲述寻找敏特背后的动机",
+          "卡琳娜保持好奇但不过度追问的姿态"
+        ],
+        "sectionSignalSuggestion": "continue"
+      },
+      "storyStateSummary": {
+        "id": "6-02-第一章",
+        "name": "推进节点 06-02：归途反思",
+        "summary": "主角在雨夜回到卡尔小屋前，停下脚步观察周围环境，确认无异常后准备进入。\n主角向卡尔询问今晚需要注意的事项，卡尔会回应并引导对话向关键信息靠近。\n主角询问卡尔外面是否有异常，卡尔回应并引导对话转向卡琳娜和敏特的相关话题。\n主角向卡尔询问白天的事情是否与敏特有关。\n主角询问卡琳娜后来的话语，卡尔回忆并告知卡琳娜在壁炉前的状态和提问。\n卡尔描述卡琳娜问那个问题时的表情和状态。\n帕兹向卡尔透露自己来新西西里找敏特的更多细节，以及敏特与自己的关系。\n卡尔对帕兹关于敏特的故事表示理解，但未明确表态，暗示卡琳娜的信任问题才是当前焦点。\n卡尔告知帕兹卡琳娜在公园的长椅上等他，建议他去找她。\n主角在卡琳娜身边坐下，开启对话。卡琳娜可能会询问主角对宴会的看法，或展现其内心的反思。\n主角在卡琳娜身边坐下，坦诚自己对宴会的感受——不舒服，像是被装进一个不属于自己的套子里。\n主角询问卡琳娜参加宴会的原因，卡琳娜可能分享更深层的动机或个人历史。\n主角在沉默后询问卡琳娜是否还记得自己本来的样子，卡琳娜将面临一个触及核心身份的问题，需要决定如何回应。\n帕兹指出卡琳娜把问题抛回给他，自己却回避了回答。卡琳娜将面临是否坦诚的抉择。\n帕兹没有直接回答卡琳娜的反问，而是换了一个角度，询问卡尔会如何看待‘本来的样子’这个问题，试图推动对话深入。\n帕兹通过卡尔的角度回应卡琳娜关于'本来的样子'的回避，暗示卡琳娜在卡尔眼中从未改变。\n帕兹继续询问卡尔的身世，试图了解那只看穿一切的猫的来历。\n卡琳娜讲述与卡尔第一次见面后的经历，暗示卡尔在关键时刻出现并引导她认识自己的使命。\n卡琳娜被问及为何被卡尔选中，陷入沉思后给出回答，暗示卡尔在她身上看到了某种她自己当时尚未察觉的潜质。\n帕兹将话题从卡尔转向卡琳娜本人，询问她在宴会之后的打算。卡琳娜需要决定如何回应这个触及个人计划的问题。\n帕兹表示愿意倾听卡琳娜未说出口的事，卡琳娜可能决定是否分享更多关于自己计划的信息。\n帕兹反问卡琳娜关于她离开暗街要去确认的事，不作回答而是推动对话深入。\n帕兹回答了卡琳娜关于寻找敏特的问题，坦诚尚未找到，但保持了对话的开放性。\n帕兹没有直接回答是否继续寻找敏特，而是表达了寻找的真正目的——为了确认一件事，暗示寻找自身的意义大于找到目标本身。",
+        "constraints": [
+          "请引擎嗲用backgrounds【夜晚的街道/默认】【背景：公园/公园】 characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-好奇 卡琳娜/卡琳娜-困惑 卡琳娜/卡琳娜-非常好奇 卡琳娜/卡琳娜-不悦 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-微笑】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）\n当卡琳娜坐在长椅上时，请引擎调用cgs【和卡琳娜在公园/夜晚】\n必须围绕卡琳娜询问玩家对宴会的看法展开讨论。\n避免一次性倾泻所有秘密。",
+          "不提前揭示卡琳娜的内心反思内容",
+          "不透露敏特的具体情报",
+          "保持卡尔神秘但友好的态度",
+          "不一次性倾泻所有秘密",
+          "避免提前揭示卡琳娜内心反思",
+          "阶段六情感铺垫节点，关系明显变化",
+          "情感弧线：轻松→温馨→安心",
+          "注意卡琳娜态度值变化对应的行为倾向",
+          "不一次性倾泻秘密",
+          "注意卡琳娜态度值对应的行为倾向（当前应为好奇/兴趣升温阶段）",
+          "卡琳娜态度值当前对应好奇/兴趣升温阶段",
+          "注意卡琳娜态度值对应好奇/兴趣升温阶段的行为倾向"
+        ],
+        "notes": [],
+        "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定】\n- 卡琳娜的内心反思（由角色情绪和氛围驱动）\n- 卡尔与卡琳娜的互动\n- 一天的疲惫与沉淀\n【核心流程】\n- 卡琳娜带着主角来到了附近的公园，她会在公园的长椅上坐下，有些忧郁\n- 她会问玩家对宴会的看法，展开讨论\n- 卡尔向卡琳娜提问主角的处理，引向下一步\n- 卡琳娜会坦白她知道的敏特的情报。",
+        "interactionFollowupPreview": "当卡琳娜态度值>=2：\n- 卡琳娜邀请主角前去她真正的家。不然她无法保证主角的安全。\n- 那里是‘卡尔’的心脏，暗街过去的影子。"
+      },
+      "scriptStateKeys": [
+        "turn",
+        "userInput",
+        "facts",
+        "preLlmEvents",
+        "context"
+      ],
+      "eventCount": 955,
+      "llmCallCount": 3
+    },
+    {
+      "turn": 55,
+      "turnDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55",
+      "files": {
+        "summary": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/01-summary.json",
+        "scriptState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/02-script-state.json",
+        "storyState": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/03-story-state.json",
+        "output": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/04-output.json",
+        "runtimeAfter": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/05-runtime-after.json",
+        "llmCalls": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/06-llm-calls.json",
+        "directorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/06a-director-prompt.md",
+        "narratorPrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/06b-narrator-prompt.md",
+        "choicePrompt": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/06c-choice-prompt.md",
+        "events": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-55/07-events.json"
+      },
+      "outputSummary": {
+        "playerIntent": "表达/情感揭示",
+        "summary": "帕兹向卡琳娜坦白在战场上还欠敏特一句话，推动对话向更深的情感层面发展。",
+        "beats": [
+          "帕兹沉默后说出欠敏特一句话",
+          "卡琳娜的反应：专注倾听，试探性追问"
+        ],
+        "currentTurnConstraints": [
+          "不透露敏特的具体情报",
+          "不提前揭示卡琳娜的内心反思内容",
+          "保持卡尔的神秘但友好态度",
+          "情感弧线：从沉重渐向温馨"
+        ],
+        "currentStorylineConstraints": [
+          "阶段六情感铺垫节点，关系明显变化",
+          "卡琳娜态度值对应好奇/兴趣升温阶段，主动提问但不轻易透露自身",
+          "不一次性倾泻所有秘密"
+        ],
+        "revealedFacts": [],
+        "requiredContent": [
+          "帕兹必须说出‘欠她一句话’这个事实",
+          "帕兹可简单描述那句话的性质（如道歉、告别等），但不暴露具体内容",
+          "卡琳娜的追问应停留在好奇而不逼迫的界限内"
+        ],
+        "sectionSignalSuggestion": "continue"
+      },
+      "storyStateSummary": {
+        "id": "6-02-第一章",
+        "name": "推进节点 06-02：归途反思",
+        "summary": "主角在雨夜回到卡尔小屋前，停下脚步观察周围环境，确认无异常后准备进入。\n主角向卡尔询问今晚需要注意的事项，卡尔会回应并引导对话向关键信息靠近。\n主角询问卡尔外面是否有异常，卡尔回应并引导对话转向卡琳娜和敏特的相关话题。\n主角向卡尔询问白天的事情是否与敏特有关。\n主角询问卡琳娜后来的话语，卡尔回忆并告知卡琳娜在壁炉前的状态和提问。\n卡尔描述卡琳娜问那个问题时的表情和状态。\n帕兹向卡尔透露自己来新西西里找敏特的更多细节，以及敏特与自己的关系。\n卡尔对帕兹关于敏特的故事表示理解，但未明确表态，暗示卡琳娜的信任问题才是当前焦点。\n卡尔告知帕兹卡琳娜在公园的长椅上等他，建议他去找她。\n主角在卡琳娜身边坐下，开启对话。卡琳娜可能会询问主角对宴会的看法，或展现其内心的反思。\n主角在卡琳娜身边坐下，坦诚自己对宴会的感受——不舒服，像是被装进一个不属于自己的套子里。\n主角询问卡琳娜参加宴会的原因，卡琳娜可能分享更深层的动机或个人历史。\n主角在沉默后询问卡琳娜是否还记得自己本来的样子，卡琳娜将面临一个触及核心身份的问题，需要决定如何回应。\n帕兹指出卡琳娜把问题抛回给他，自己却回避了回答。卡琳娜将面临是否坦诚的抉择。\n帕兹没有直接回答卡琳娜的反问，而是换了一个角度，询问卡尔会如何看待‘本来的样子’这个问题，试图推动对话深入。\n帕兹通过卡尔的角度回应卡琳娜关于'本来的样子'的回避，暗示卡琳娜在卡尔眼中从未改变。\n帕兹继续询问卡尔的身世，试图了解那只看穿一切的猫的来历。\n卡琳娜讲述与卡尔第一次见面后的经历，暗示卡尔在关键时刻出现并引导她认识自己的使命。\n卡琳娜被问及为何被卡尔选中，陷入沉思后给出回答，暗示卡尔在她身上看到了某种她自己当时尚未察觉的潜质。\n帕兹将话题从卡尔转向卡琳娜本人，询问她在宴会之后的打算。卡琳娜需要决定如何回应这个触及个人计划的问题。\n帕兹表示愿意倾听卡琳娜未说出口的事，卡琳娜可能决定是否分享更多关于自己计划的信息。\n帕兹反问卡琳娜关于她离开暗街要去确认的事，不作回答而是推动对话深入。\n帕兹回答了卡琳娜关于寻找敏特的问题，坦诚尚未找到，但保持了对话的开放性。\n帕兹没有直接回答是否继续寻找敏特，而是表达了寻找的真正目的——为了确认一件事，暗示寻找自身的意义大于找到目标本身。\n帕兹回应卡琳娜的好奇，表示愿意讲述寻找敏特的背后原因。",
+        "constraints": [
+          "请引擎嗲用backgrounds【夜晚的街道/默认】【背景：公园/公园】 characters【卡琳娜/卡琳娜-普通 卡琳娜/卡琳娜-好奇 卡琳娜/卡琳娜-困惑 卡琳娜/卡琳娜-非常好奇 卡琳娜/卡琳娜-不悦 卡琳娜/卡琳娜-不满 卡琳娜/卡琳娜-微笑】（根据卡琳娜情绪、每句卡琳娜的对话请引擎切换变形）\n当卡琳娜坐在长椅上时，请引擎调用cgs【和卡琳娜在公园/夜晚】\n必须围绕卡琳娜询问玩家对宴会的看法展开讨论。\n避免一次性倾泻所有秘密。",
+          "不提前揭示卡琳娜的内心反思内容",
+          "不透露敏特的具体情报",
+          "保持卡尔神秘但友好的态度",
+          "不一次性倾泻所有秘密",
+          "避免提前揭示卡琳娜内心反思",
+          "阶段六情感铺垫节点，关系明显变化",
+          "情感弧线：轻松→温馨→安心",
+          "注意卡琳娜态度值变化对应的行为倾向",
+          "不一次性倾泻秘密",
+          "注意卡琳娜态度值对应的行为倾向（当前应为好奇/兴趣升温阶段）",
+          "卡琳娜态度值当前对应好奇/兴趣升温阶段",
+          "注意卡琳娜态度值对应好奇/兴趣升温阶段的行为倾向",
+          "卡琳娜处于好奇/兴趣升温阶段，行为倾向为主动提问、不轻易透露自身"
+        ],
+        "notes": [],
+        "contentPreview": "【核心剧情内容】\n【本节点可呈现的设定】\n- 卡琳娜的内心反思（由角色情绪和氛围驱动）\n- 卡尔与卡琳娜的互动\n- 一天的疲惫与沉淀\n【核心流程】\n- 卡琳娜带着主角来到了附近的公园，她会在公园的长椅上坐下，有些忧郁\n- 她会问玩家对宴会的看法，展开讨论\n- 卡尔向卡琳娜提问主角的处理，引向下一步\n- 卡琳娜会坦白她知道的敏特的情报。",
+        "interactionFollowupPreview": "当卡琳娜态度值>=2：\n- 卡琳娜邀请主角前去她真正的家。不然她无法保证主角的安全。\n- 那里是‘卡尔’的心脏，暗街过去的影子。"
+      },
+      "scriptStateKeys": [
+        "turn",
+        "userInput",
+        "facts",
+        "preLlmEvents",
+        "context"
+      ],
+      "eventCount": 744,
+      "llmCallCount": 3
+    }
+  ]
+}

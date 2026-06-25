@@ -1,0 +1,952 @@
+{
+  "generatedAt": "2026-06-25T04:21:23.330Z",
+  "runDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "reviewDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "analysisDir": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issuesFile": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/issues.json",
+  "timelinePath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+  "issueTracerSkill": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/skills/consistency_root_cause/skills/issue_tracer/SKILL.md",
+  "maxIssuesPerBatch": 4,
+  "issueCount": 86,
+  "batchCount": 25,
+  "batches": [
+    {
+      "batchId": "batch-001",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 1,
+        "end": 5
+      },
+      "issues": [
+        {
+          "issueIndex": 1,
+          "turn": 1,
+          "severity": "medium",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "同一场景内小贩的性别/代词无解释漂移，会让玩家难以确认正在交谈的是同一个人还是另一个角色。"
+        },
+        {
+          "issueIndex": 2,
+          "turn": 3,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "choices",
+          "summary": "该选项把可执行行动和不相干的抽象短语拼在一起，影响玩家判断自己将采取什么行动。"
+        },
+        {
+          "issueIndex": 3,
+          "turn": 5,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "正文只交代相机被放回并取回，交出的两卷胶卷在冲突解决后消失，造成物件状态承接缺口。"
+        },
+        {
+          "issueIndex": 4,
+          "turn": 5,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "卡琳娜介入时的位置在“巷子深处”“玩家身后”和“巷口”之间切换，导致玩家难以还原现场空间关系。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-002",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 8,
+        "end": 14
+      },
+      "issues": [
+        {
+          "issueIndex": 5,
+          "turn": 8,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "卡琳娜先表示敏特没有来找她，且自己没有主动打听；后文又说自己曾向敏特提供情报，改变了两人是否有过实质接触这一关键线索。"
+        },
+        {
+          "issueIndex": 6,
+          "turn": 9,
+          "severity": "low",
+          "type": "user-input-ignored",
+          "scope": "mixed",
+          "summary": "正文把玩家选择的“用情报换取信任”改写成“不是情报”，且实际交出的信息来自对方刚说过的话，削弱了玩家行动的因果承接。"
+        },
+        {
+          "issueIndex": 7,
+          "turn": 10,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "第 10 轮把敲门声回卷到卡琳娜刚评价“信任”之后，抹掉了第 9 轮已经发生的一段交易谈判和动作。"
+        },
+        {
+          "issueIndex": 8,
+          "turn": 14,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "玩家选择先带入与既有记忆不一致的说法，正文又把它固定为帕兹当时身在别处，改写了敏特死亡或失踪这一核心记忆。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-003",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 16,
+        "end": 21
+      },
+      "issues": [
+        {
+          "issueIndex": 9,
+          "turn": 16,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "choices",
+          "summary": "选项要求玩家追问一个尚无玩家可见来源的人物关系，像是提前泄露了后续未登场角色。"
+        },
+        {
+          "issueIndex": 10,
+          "turn": 19,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "选项把已经由德索洛带走的信封当作仍在现场、可由玩家拿取的物件。"
+        },
+        {
+          "issueIndex": 11,
+          "turn": 20,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "上一轮已经被德索洛带离现场的信封无承接地重新出现在茶几上，并进一步被写成帕兹可以从谈话开始就观察完整封信。"
+        },
+        {
+          "issueIndex": 12,
+          "turn": 21,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The output treats an envelope that should have left the apartment with Desolo as still being available to the player."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-004",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 22,
+        "end": 24
+      },
+      "issues": [
+        {
+          "issueIndex": 13,
+          "turn": 22,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "Karina is described as still holding a posture that the previous turn had already ended."
+        },
+        {
+          "issueIndex": 14,
+          "turn": 23,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "Karina snaps back to the bookshelf without any visible movement or transition."
+        },
+        {
+          "issueIndex": 15,
+          "turn": 24,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "The choices continue offering interaction with an object that should no longer be in the room."
+        },
+        {
+          "issueIndex": 16,
+          "turn": 24,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The turn revives a bent, hands-on-knees posture even though the immediately prior visible state had her standing with hands in pockets."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-005",
+      "reason": "包含 high severity issue；同一 turn 的问题放在一起，避免重复读取同一轮证据。",
+      "turnRange": {
+        "start": 26,
+        "end": 26
+      },
+      "issues": [
+        {
+          "issueIndex": 17,
+          "turn": 26,
+          "severity": "high",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The scene jumps from Karina's apartment to a banquet hall without any player-visible transition."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-006",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 27,
+        "end": 27
+      },
+      "issues": [
+        {
+          "issueIndex": 18,
+          "turn": 27,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "The output builds new plot logic on an unsupported dinner-party setting that the player had not reached."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-007",
+      "reason": "包含 high severity issue；同一 turn 的问题放在一起，避免重复读取同一轮证据。",
+      "turnRange": {
+        "start": 28,
+        "end": 28
+      },
+      "issues": [
+        {
+          "issueIndex": 19,
+          "turn": 28,
+          "severity": "high",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The exit route and destination are unsupported by the established scene and introduce a new location as if it were already known."
+        },
+        {
+          "issueIndex": 20,
+          "turn": 28,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The narration says she never took her hands out of her pockets after the previous turn explicitly had her do so."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-008",
+      "reason": "包含 high severity issue；同一 turn 的问题放在一起，避免重复读取同一轮证据。",
+      "turnRange": {
+        "start": 31,
+        "end": 31
+      },
+      "issues": [
+        {
+          "issueIndex": 21,
+          "turn": 31,
+          "severity": "high",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "31 轮把玩家明确绕过且未展示过的康纳会面写成已经发生，并让玩家承认与康纳短暂交谈，改写了关键剧情进度。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-009",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 33,
+        "end": 45
+      },
+      "issues": [
+        {
+          "issueIndex": 22,
+          "turn": 33,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "choices",
+          "summary": "该选项把上一轮刚刚揭示完的信息重新包装成待询问信息，容易引导玩家进入重复分支，造成局部推进停滞。"
+        },
+        {
+          "issueIndex": 23,
+          "turn": 34,
+          "severity": "low",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "34 轮没有把玩家追问推进到新信息，而是把 32 轮已经完成的揭示再次当作当前回答完整演出，形成可见重复。"
+        },
+        {
+          "issueIndex": 24,
+          "turn": 41,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The turn reassigns the dinner from Connor to DeSollo and imports an unsupported “Connor sent someone” cause, making the banquet's ownership and Karina's reason for attending unstable."
+        },
+        {
+          "issueIndex": 25,
+          "turn": 45,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The next turn changes Carl's habitual wording from a quoted repeated line to an exclusive different line, creating a small but direct continuity wobble in how Karina characterizes Carl."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-010",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 48,
+        "end": 58
+      },
+      "issues": [
+        {
+          "issueIndex": 26,
+          "turn": 48,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The account labels the morning after the first meeting as both the second day and the first day of Karina's tenure, blurring the sequence of Carl choosing her."
+        },
+        {
+          "issueIndex": 27,
+          "turn": 54,
+          "severity": "low",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "正文把玩家正在说出的名字错误归给“她”，造成叙述主体短暂漂移。"
+        },
+        {
+          "issueIndex": 28,
+          "turn": 57,
+          "severity": "medium",
+          "type": "identity-drift",
+          "scope": "mixed",
+          "summary": "正文和选项把已建立为“她”的卡尔临时写成“他”，并在选项中直接把“他”和卡尔绑定，造成角色称谓/身份连续性漂移。"
+        },
+        {
+          "issueIndex": 29,
+          "turn": 58,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "对白标点格式明显异常，虽不改变剧情事实，但会造成阅读卡顿。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-011",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 63,
+        "end": 72
+      },
+      "issues": [
+        {
+          "issueIndex": 30,
+          "turn": 63,
+          "severity": "low",
+          "type": "identity-drift",
+          "scope": "visibleText",
+          "summary": "正文把玩家刚说的话短暂归给第三人称女性，造成叙述主体和称谓漂移。"
+        },
+        {
+          "issueIndex": 31,
+          "turn": 68,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "正文把玩家离开时在卡琳娜怀里的卡尔回写成当时就趴在靠垫上，轻微破坏角色姿态连续性。"
+        },
+        {
+          "issueIndex": 32,
+          "turn": 70,
+          "severity": "medium",
+          "type": "user-input-ignored",
+          "scope": "visibleText",
+          "summary": "正文把“那句话”解析到较早的告白主题，未回应上一轮刚出现的卡尔提醒，导致对话承接偏移。"
+        },
+        {
+          "issueIndex": 33,
+          "turn": 72,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "The turn invents a concrete past observation of Connor serving wine and turning a ring, then makes it plot-relevant, although the visible timeline does not support the player having that interaction."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-012",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 76,
+        "end": 86
+      },
+      "issues": [
+        {
+          "issueIndex": 34,
+          "turn": 76,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The narration abruptly relocates the conversation from the indoor fireplace scene to an outdoor park bench and mixes incompatible indoor firelight/cushion details into that outdoor setting."
+        },
+        {
+          "issueIndex": 35,
+          "turn": 78,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "mixed",
+          "summary": "The option contradicts the same turn's visible text and can make the player feel the interface has forgotten the immediately preceding statement."
+        },
+        {
+          "issueIndex": 36,
+          "turn": 84,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The narration briefly preserves a seated-body detail after the player has stood, creating a local posture continuity error."
+        },
+        {
+          "issueIndex": 37,
+          "turn": 86,
+          "severity": "medium",
+          "type": "user-input-ignored",
+          "scope": "visibleText",
+          "summary": "The generated text reverses the target of the player's question, changing an inquiry about Karina into an inquiry about the player's own lodging."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-013",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 87,
+        "end": 94
+      },
+      "issues": [
+        {
+          "issueIndex": 38,
+          "turn": 87,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The bell changes holder from Kar's mouth to Karina's hand without visible transfer, and then remains visually lit after being put into Karina's pocket."
+        },
+        {
+          "issueIndex": 39,
+          "turn": 90,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "Kar is already walking in the current scene, so describing her as standing up again without any intervening sitting or stopping breaks action continuity."
+        },
+        {
+          "issueIndex": 40,
+          "turn": 93,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The object orientation and page visibility conflict in the same visible description, making the inspection of the old book physically unclear."
+        },
+        {
+          "issueIndex": 41,
+          "turn": 94,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The focused book interaction repeats the same incompatible orientation and readable-page state, so the player-visible handling of the prop remains inconsistent."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-014",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 97,
+        "end": 110
+      },
+      "issues": [
+        {
+          "issueIndex": 42,
+          "turn": 97,
+          "severity": "medium",
+          "type": "event-negated",
+          "scope": "visibleText",
+          "summary": "After the book is visibly closed, it is treated as open again with visible symbols without any intervening player or character action reopening it."
+        },
+        {
+          "issueIndex": 43,
+          "turn": 106,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "The evaluated turn turns an unplayed and previously declined Connor encounter into a concrete memory of sitting opposite Connor, creating a significant unsupported prior event."
+        },
+        {
+          "issueIndex": 44,
+          "turn": 108,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "Karina's hand is treated as continuously resting on the book immediately after the prior turn moved it away to her side, causing a minor posture continuity glitch."
+        },
+        {
+          "issueIndex": 45,
+          "turn": 110,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The turn treats the silver bell as already given to the player even though the visible timeline still has it in Karina/Karl's custody and shows no handoff."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-015",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 115,
+        "end": 119
+      },
+      "issues": [
+        {
+          "issueIndex": 46,
+          "turn": 115,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The camera jumps from hanging on the player's neck back to the windowsill without a visible transition."
+        },
+        {
+          "issueIndex": 47,
+          "turn": 117,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "mixed",
+          "summary": "The posture and location reset as if the player were not already standing at the window, and the choices repeat moving to the current location."
+        },
+        {
+          "issueIndex": 48,
+          "turn": 118,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "mixed",
+          "summary": "After the agreed 4:30 door meeting becomes imminent, the scene advances to dawn while treating the objective as waiting indoors for Karina's message or arrival instead of acknowledging the missed rendezvous or moving to the door."
+        },
+        {
+          "issueIndex": 49,
+          "turn": 119,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "The player sits on the fireplace stool previously occupied by Carl without any visible transition accounting for Carl's position."
+        }
+      ]
+    },
+    {
+      "batchId": "batch-016",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 120,
+        "end": 125
+      },
+      "issues": [
+        {
+          "issueIndex": 50,
+          "turn": 120,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "The waterproof bag relocates from the player's shoulder/side to the windowsill without a visible action."
+        },
+        {
+          "issueIndex": 51,
+          "turn": 123,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "选项把胶片相机里的未冲洗胶卷当成可直接翻看的照片，破坏了已建立的模拟胶片相机规则。"
+        },
+        {
+          "issueIndex": 52,
+          "turn": 125,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "选项继续提供胶片相机即时回看照片的动作，与此前玩家可见的胶片摄影设定冲突。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-017",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 128,
+        "end": 130
+      },
+      "issues": [
+        {
+          "issueIndex": 53,
+          "turn": 128,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "正文把已装胶卷的模拟相机当成可随意开后背检查且不会影响胶卷/计数的设备，和已建立的胶片相机状态不一致。"
+        },
+        {
+          "issueIndex": 54,
+          "turn": 128,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "备用胶卷数量和包装状态从三卷 Tri-X 加一盒 HP5 无承接地变成五卷单独密封胶卷。"
+        },
+        {
+          "issueIndex": 55,
+          "turn": 129,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "银铃一直贴在胸口内袋且此前反复被写成温热，第 129 轮无承接地变成冰凉。"
+        },
+        {
+          "issueIndex": 56,
+          "turn": 130,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "玩家已经在门外台阶上，下一轮却从屋内开门、迈出门槛重新演出出门动作，造成空间位置回退。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-018",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 131,
+        "end": 136
+      },
+      "issues": [
+        {
+          "issueIndex": 57,
+          "turn": 131,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "同一段门口石板先被确认为干透、没有水汽，随后又能在晨露微湿的石面上留下足迹，表面状态自相矛盾。"
+        },
+        {
+          "issueIndex": 58,
+          "turn": 132,
+          "severity": "medium",
+          "type": "repeated-scene",
+          "scope": "visibleText",
+          "summary": "玩家选择了相近动作后，正文几乎把上一轮已经完成的走动和动机重新演出，且忽略了角色刚刚已经在屋外活动过。"
+        },
+        {
+          "issueIndex": 59,
+          "turn": 134,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "已建立为底片胶卷相机后，选项却暗示可以立刻查看刚拍照片的效果，和设备规则不一致。"
+        },
+        {
+          "issueIndex": 60,
+          "turn": 136,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "相机在连续动作中无交代地从胸前挂着漂移到腰间身侧，随后又回到胸前。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-019",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 139,
+        "end": 147
+      },
+      "issues": [
+        {
+          "issueIndex": 61,
+          "turn": 139,
+          "severity": "medium",
+          "type": "event-negated",
+          "scope": "visibleText",
+          "summary": "此前壁炉灰烬已彻底冷透，后文却恢复为有余热且会崩裂作响的炭火，否定了已建立的物件状态。"
+        },
+        {
+          "issueIndex": 62,
+          "turn": 139,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "屋内光照从已经整间明亮倒退成只有门缝和窗口小片天光，时间与空间状态缺少承接。"
+        },
+        {
+          "issueIndex": 63,
+          "turn": 146,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "此前刚建立底片相机不能直接查看已拍画面的规则，当前选项却让玩家通过检查胶卷确认拍到了什么，造成相机规则上的轻微冲突。"
+        },
+        {
+          "issueIndex": 64,
+          "turn": 147,
+          "severity": "medium",
+          "type": "unsupported-jump",
+          "scope": "mixed",
+          "summary": "当前玩家输入承接了上轮选项里突然出现的相机包，模型正文又把它固定为椅子扶手边的实体，并把备用胶卷从此前稳定的防水袋归属改到相机包内。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-020",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 149,
+        "end": 158
+      },
+      "issues": [
+        {
+          "issueIndex": 65,
+          "turn": 149,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "窗口上文多次明确门口石板和雨痕已经干燥且不是积水，当前却在同一门口石阶突然出现昨夜积水。"
+        },
+        {
+          "issueIndex": 66,
+          "turn": 150,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "mixed",
+          "summary": "银色铃铛此前长期稳定在外套内袋/口袋里，当前选项和正文却说它在相机包内层侧袋，关键物件位置发生无承接漂移。"
+        },
+        {
+          "issueIndex": 67,
+          "turn": 157,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "玩家正坐在门外石阶上时，选项却要求从仍应在屋内的相机包里取烟，造成可执行动作和物件位置不一致。"
+        },
+        {
+          "issueIndex": 68,
+          "turn": 158,
+          "severity": "low",
+          "type": "user-input-ignored",
+          "scope": "mixed",
+          "summary": "玩家选择中指定的取物来源被正文无说明地改写，虽然可能是在绕开上一轮选项的空间问题，但玩家可见行动仍被替换。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-021",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 159,
+        "end": 160
+      },
+      "issues": [
+        {
+          "issueIndex": 69,
+          "turn": 159,
+          "severity": "low",
+          "type": "unsupported-jump",
+          "scope": "visibleText",
+          "summary": "相机包在没有玩家动作支撑的情况下出现在门外玩家低头可见的位置，造成物件位置跳跃。"
+        },
+        {
+          "issueIndex": 70,
+          "turn": 160,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "相机包从已合拢、在椅子扶手附近，变成桌上半开；同一轮还先说包已在桌上又说把包放到桌上，物件状态和位置承接混乱。"
+        },
+        {
+          "issueIndex": 71,
+          "turn": 160,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "备用胶卷的数量和包装从五卷塑料密封袋变成三卷铝箔纸小筒，且没有消耗或重新整理的可见过程。"
+        },
+        {
+          "issueIndex": 72,
+          "turn": 160,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "同一只银色铃铛在相同的轻摇动作下从清晰发声变成完全无声，且没有给出握法、损坏或规则变化的解释，破坏关键物件的行为连续性。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-022",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 161,
+        "end": 166
+      },
+      "issues": [
+        {
+          "issueIndex": 73,
+          "turn": 161,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "选项把已建立的胶卷相机交互写成类似数码相机的即时回看，破坏物件规则连续性。"
+        },
+        {
+          "issueIndex": 74,
+          "turn": 162,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "mixed",
+          "summary": "玩家可见位置从屋内窗边等待无承接地变成屋外/门外，随后又被选项和正文写成重新进屋，造成空间连续性断裂。"
+        },
+        {
+          "issueIndex": 75,
+          "turn": 163,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "同一枚铃铛在没有可见状态变化或解释的情况下，从轻摇会响变成无论如何都不会响，破坏关键物件状态连续性。"
+        },
+        {
+          "issueIndex": 76,
+          "turn": 166,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "相机位置从膝头/胸前无承接地变为包内最上层，造成局部物件位置不连续。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-023",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 167,
+        "end": 183
+      },
+      "issues": [
+        {
+          "issueIndex": 77,
+          "turn": 167,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "晨光位置在连续等待场景中回退到此前阶段，重复了已推进过的光线轨迹。"
+        },
+        {
+          "issueIndex": 78,
+          "turn": 171,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "相机从靠垫上变成靠垫旁地面上的位置变化缺少动作承接，造成轻微物件连续性漂移。"
+        },
+        {
+          "issueIndex": 79,
+          "turn": 180,
+          "severity": "low",
+          "type": "fact-conflict",
+          "scope": "choices",
+          "summary": "胶片相机不能在拍摄后立即检查照片效果，选项提供了与当前可见设备规则冲突的行动。"
+        },
+        {
+          "issueIndex": 80,
+          "turn": 183,
+          "severity": "low",
+          "type": "language-drift",
+          "scope": "visibleText",
+          "summary": "第二人称叙事中突然出现“他内袋”造成代词和视角漂移，虽不改变剧情事实，但会破坏玩家阅读连续性。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-024",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 186,
+        "end": 191
+      },
+      "issues": [
+        {
+          "issueIndex": 81,
+          "turn": 186,
+          "severity": "low",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "时间继续推进后，晨光在同一围栏上的位置从接近顶端退回第二道横杆，造成局部时间/光影连续性倒退。"
+        },
+        {
+          "issueIndex": 82,
+          "turn": 188,
+          "severity": "medium",
+          "type": "fact-conflict",
+          "scope": "visibleText",
+          "summary": "188 轮为昨晚壁炉前新增了一段卡琳娜向卡尔倾诉且得到回应的对话，改写了早前卡尔给玩家的可见叙述，影响这段情感推进的连续性。"
+        },
+        {
+          "issueIndex": 83,
+          "turn": 191,
+          "severity": "low",
+          "type": "user-input-ignored",
+          "scope": "mixed",
+          "summary": "正文把玩家想表达的“满意/不满意”问题改写成“确认答案”，轻微改变了玩家发问的含义。"
+        }
+      ]
+    },
+    {
+      "batchId": "batch-025",
+      "reason": "按 turn 顺序自动切分，控制单个 subagent 的分析负载。",
+      "turnRange": {
+        "start": 198,
+        "end": 200
+      },
+      "issues": [
+        {
+          "issueIndex": 84,
+          "turn": 198,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "“声音在指尖上停顿”语义搭配明显异常，像局部生成错误，会造成阅读上的突兀感。"
+        },
+        {
+          "issueIndex": 85,
+          "turn": 198,
+          "severity": "medium",
+          "type": "space-time-break",
+          "scope": "visibleText",
+          "summary": "上一轮和本轮玩家输入都建立了卡琳娜正在站着等待，正文却无承接地把她写成一直在行走并保持步行节奏。"
+        },
+        {
+          "issueIndex": 86,
+          "turn": 200,
+          "severity": "low",
+          "type": "quality-regression",
+          "scope": "visibleText",
+          "summary": "湿润路面、干燥脚步声与水汽渗入鞋印的解释互相牵扯成不自然的感官描写，属于局部文本质量退化。"
+        }
+      ]
+    }
+  ]
+}

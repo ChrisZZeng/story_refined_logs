@@ -1,0 +1,105 @@
+{
+  "issueId": "issue-28-turn-57",
+  "turn": 57,
+  "issueValidity": "valid",
+  "problemSummary": "第 57 轮卡琳娜用“他/他说/他那种人”描述一个后来被玩家可见文本确认为卡尔的对象，同轮选项还写“『他』——是卡尔吗？”，与此前稳定建立的卡尔为“她/母猫”冲突。",
+  "validityAssessment": {
+    "verdictReason": "valid。即使第 57 轮正文尚未点名“那个人”，同轮选项已经把“他”和卡尔直接绑定为玩家可选理解；而玩家此前多次看到卡尔被称为“她”且是黑色母猫。第 59 轮可见文本确认“那个人……是卡尔”并恢复“她教会了我很多事”，进一步证明第 57 轮的男性代词不是合理的新角色指代，而是称谓漂移。",
+    "playerVisibleSupport": "turn-44: “卡尔……她会说”。turn-46: “她出现在暗街的那一天”“她只是甩了甩尾巴”。turn-57: “但我从来没对他说过——他对我有多重要”“他那种人——大概早就知道了吧”，choices: “『他』——是卡尔吗？”。turn-59: “……是卡尔。”“她教会了我很多事”。",
+    "caveats": [
+      "第 57 轮正文单独看时，“那个人”仍有可能是未揭示男性对象；但同轮选项直接把“他”和卡尔绑定，且后续第 59 轮可见确认对象为卡尔，因此 issue 成立。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 56 轮卡琳娜承认自己有一句欠下的话，但“不太确定——那句话是写给谁的”。第 57 轮玩家追问“写给谁”是什么意思。玩家此前已稳定知道卡尔是用女性代词称呼的黑色母猫；当前剧情要求卡琳娜部分坦白但不点名对象。",
+    "relevantFacts": [
+      {
+        "claim": "卡尔在玩家可见文本中一直以女性/雌性代词出现。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl turn-44",
+          "visible-timeline.jsonl turn-46",
+          "visible-timeline.jsonl turn-59"
+        ],
+        "notes": "玩家可见层面已经建立“卡尔=她”。"
+      },
+      {
+        "claim": "内部角色卡也明确卡尔是“黑色短毛母猫，声音像年长的女性”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-57/03-story-state.json curStates",
+          "turn-57/06a-director-prompt.md",
+          "turn-57/06b-narrator-prompt.md",
+          "turn-57/06c-choice-prompt.md"
+        ],
+        "notes": "信息不缺失，但没有成为本轮 hidden referent 的 pronoun contract。"
+      },
+      {
+        "claim": "Director 要求“不揭示具体对象”，且“不提前暴露卡琳娜与康纳或卡尔的深层关系”。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-57/04-output.json plotPoint",
+          "turn-57/06b-narrator-prompt.md"
+        ],
+        "notes": "该约束推动 Narrator 使用“那个人/某个人”维持模糊，但没有说明在候选对象含卡尔时如何保持代词中性或一致。"
+      },
+      {
+        "claim": "Narrator 生成了男性代词，把模糊对象写成“他”。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-57/06-llm-calls.json call 1",
+          "turn-57/04-output.json narrative"
+        ],
+        "notes": "这是第一个玩家可见错误点。"
+      },
+      {
+        "claim": "Choice generator 以本轮正文为最终依据，继续生成“『他』——是卡尔吗？”。",
+        "availability": "contradicted",
+        "artifacts": [
+          "turn-57/06c-choice-prompt.md",
+          "turn-57/04-output.json choices"
+        ],
+        "notes": "Choice 将 Narrator 的错误代词与卡尔显式绑定，扩大可见问题。"
+      }
+    ],
+    "competingPressures": [
+      "保持谜面：不揭示卡琳娜指向的具体对象。",
+      "Director 同时把可能关系写成“康纳或卡尔”，候选含不同性别/物种称谓。",
+      "中文“某个人/那个人”在模型续写中容易默认成男性“他”。",
+      "Choice generator 以已生成正文为依据，倾向复用正文中的“他”。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-57/06-llm-calls.json call 1 / turn-57/04-output.json narrative",
+    "triggeringPressure": "Director 为维持悬疑要求“某个具体的人或逝去的人”“不揭示具体对象”，并特别禁止提前暴露“康纳或卡尔”的深层关系；这把本轮表达推向泛称“那个人”，但没有给出代词策略。",
+    "missingGuard": "缺少 hidden-referent pronoun contract：当隐藏对象的候选包含已知女性代词实体卡尔时，应使用“那个人/对方/那句话的对象”等中性写法，或至少禁止把“他”与卡尔绑定。Choice prompt 也缺少复核“选项中的代词是否与已知实体卡一致”的 guard。",
+    "mechanismStatement": "在秘密边界要求隐藏对象、候选对象又包含已知女性代词实体时，handoff 只规定“不要点名”而没有规定 pronoun-neutral handling，Narrator 默认男性化“那个人”，Choice 再把该男性代词显式绑定到卡尔，形成玩家可见的身份/称谓漂移。",
+    "directCause": "Narrator 将卡琳娜欠话的对象写成“他”；Choice generator 依据该正文生成“『他』——是卡尔吗？”。",
+    "propagation": "错误从 `turn-57/04-output.json narrative` 传播到同轮 `choices`，并被 visible timeline 记录。第 58 轮玩家选择了不含“他”的 timing 选项，未继续扩大；第 59 轮确认对象为卡尔并恢复“她”，使第 57 轮漂移更加明显。",
+    "nonCauses": [
+      "不是卡尔性别/称谓事实缺失：角色卡和近期可见文本都清楚。",
+      "不是单纯 Choice 问题：Narrator 正文已先引入“他”。",
+      "不是隐藏信息倒推：同轮选项已公开把“他”和卡尔绑定，后续 turn-59 也是玩家可见证据。"
+    ]
+  },
+  "rootCause": {
+    "label": "hidden-referent-pronoun-contract",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 Director 为保密要求使用不点名的“某个人/那个人”，并把候选关系写成“康纳或卡尔”；缺失防线是 handoff 没有规定隐藏对象的代词中性策略，也没有让 Choice 校验选项代词与已知实体卡；失败运动是 Narrator 默认男性化该对象，Choice 又复用并绑定到卡尔。",
+    "fixSurface": [
+      "Director schema: 为 hidden referent 增加 `referentPronounPolicy` / `allowedSurfaceRefs`，明确“只用那个人/对方，不用他/她”或继承候选实体 pronoun。",
+      "Narrator prompt: 对不点名对象增加“不要用会暴露或冲突的 gendered pronoun”硬约束。",
+      "Choice generator: 在选项生成前对已知实体的 pronoun/gender facts 做一致性检查，禁止“他=卡尔”这类绑定。",
+      "entity state: 将卡尔的 displayPronoun / species / gender 放入高优先级可见 entity facts。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-44、turn-46 明确卡尔为“她”；turn-57 正文和选项使用“他”并把“他”询问为卡尔；turn-59 公开确认对象是卡尔且用“她教会了我很多事”。",
+    "internalTrace": "turn-57/06b-narrator-prompt.md 的 Director 输出只要求不点名对象；同 prompt 和 `03-story-state.json` 同时含卡尔“黑色短毛母猫”事实；turn-57/06-llm-calls.json call 1 首次生成“他”；turn-57/04-output.json choices 继续生成“『他』——是卡尔吗？”。"
+  },
+  "recommendedFixArea": "优先修复 hidden referent 的 handoff contract：Director 输出可见称谓策略，Narrator 和 Choice 都必须继承并校验实体 pronoun。",
+  "confidence": "high"
+}
