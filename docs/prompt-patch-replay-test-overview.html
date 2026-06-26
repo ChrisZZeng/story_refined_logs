@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prompt Patch Replay 测试模块总览</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --ink: #1f2933;
+      --muted: #637083;
+      --line: #d9e0ea;
+      --soft: #edf2f7;
+      --accent: #176b87;
+      --accent-2: #2f855a;
+      --warn: #9f580a;
+      --danger: #b42318;
+      --code: #eef2f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    header {
+      background: #12343b;
+      color: #fff;
+      padding: 34px 40px 30px;
+    }
+
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 32px 0 14px;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.94em;
+    }
+
+    .subtitle {
+      max-width: 900px;
+      margin: 0;
+      color: #d5e4ea;
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0 4px;
+    }
+
+    .metric,
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    }
+
+    .metric {
+      padding: 16px;
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric .value {
+      margin-top: 5px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .card {
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .module-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .module-path {
+      color: var(--muted);
+      font-size: 13px;
+      word-break: break-all;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .summary-table,
+    .case-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .summary-table th,
+    .summary-table td,
+    .case-table th,
+    .case-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .summary-table th,
+    .case-table th {
+      background: #eef3f7;
+      color: #344054;
+      font-weight: 700;
+    }
+
+    .summary-table tr:last-child td,
+    .case-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .case-table td:first-child {
+      width: 24%;
+      font-weight: 650;
+    }
+
+    .case-table td:nth-child(2),
+    .case-table td:nth-child(3) {
+      width: 26%;
+    }
+
+    .tag-ok {
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .tag-fail {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .tag-guard {
+      color: var(--warn);
+      font-weight: 700;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .flow div {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 28px 20px 24px;
+      }
+
+      main {
+        padding: 20px 14px 36px;
+      }
+
+      .grid,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .module-head {
+        display: block;
+      }
+
+      .pill {
+        margin-top: 8px;
+      }
+
+      .case-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Prompt Patch Replay 测试模块总览</h1>
+    <p class="subtitle">
+      本页整理 <code>test/prompt-patch-replay</code> 下的测试覆盖范围：每个模块测什么、典型输入是什么、期望输出是什么，以及它保护的一键复测关键行为。
+    </p>
+  </header>
+
+  <main>
+    <section class="grid" aria-label="测试概览">
+      <div class="metric">
+        <div class="label">测试文件</div>
+        <div class="value">7</div>
+      </div>
+      <div class="metric">
+        <div class="label">测试用例</div>
+        <div class="value">37</div>
+      </div>
+      <div class="metric">
+        <div class="label">运行入口</div>
+        <div class="value"><code>npm test</code></div>
+      </div>
+      <div class="metric">
+        <div class="label">测试框架</div>
+        <div class="value">node:test</div>
+      </div>
+    </section>
+
+    <h2>测试关注的主链路</h2>
+    <div class="flow" aria-label="主链路">
+      <div><strong>1. 配置校验</strong><br>读取 replay config 和 patch bundle，拒绝不完整输入。</div>
+      <div><strong>2. 版本锁</strong><br>从日志和配置解析 oreturn commit，避免错版本 replay。</div>
+      <div><strong>3. 上下文重建</strong><br>从 run logs、review 结果、root cause 文件构建 turn context。</div>
+      <div><strong>4. Prompt Patch</strong><br>在同一 turn 调用链中精确应用 patch 并记录命中位置。</div>
+      <div><strong>5. Replay/Judge/Report</strong><br>准备 oreturn replay 输入，构造 judger 输入并生成汇总报告。</div>
+    </div>
+
+    <h2>模块与测试功能</h2>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>测试文件</th>
+          <th>对应模块</th>
+          <th>典型测试功能</th>
+          <th>核心风险</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>config.test.mjs</code></td>
+          <td><code>config.mjs</code></td>
+          <td>校验 patch bundle、replay config、模型配置和默认版本策略。</td>
+          <td>输入格式错误导致 replay 半途失败，或配置字段被静默丢失。</td>
+        </tr>
+        <tr>
+          <td><code>source-version.test.mjs</code></td>
+          <td><code>source-version.mjs</code></td>
+          <td>从日志目录名、run config、显式配置解析源 commit，并检测冲突。</td>
+          <td>使用了不同于 badcase 生成时的小说系统源码。</td>
+        </tr>
+        <tr>
+          <td><code>prompt-patcher.test.mjs</code></td>
+          <td><code>prompt-patcher.mjs</code></td>
+          <td>精确替换 system/prompt/messages 内容，验证全调用链唯一命中。</td>
+          <td>patch 漏打、多打、跨 patch 互相制造命中或覆盖命中。</td>
+        </tr>
+        <tr>
+          <td><code>turn-context.test.mjs</code></td>
+          <td><code>turn-context.mjs</code></td>
+          <td>从临时日志 fixture 构造单 turn replay context。</td>
+          <td>重建输入不完整，issue 定位错误，judger 上下文污染。</td>
+        </tr>
+        <tr>
+          <td><code>oreturn-engine.test.mjs</code></td>
+          <td><code>oreturn-engine.mjs</code></td>
+          <td>生成 Bun eval 命令、写 replay-input、映射 LLM 环境变量。</td>
+          <td>调用不到 oreturn 模块，模型配置没有传入 replay 引擎。</td>
+        </tr>
+        <tr>
+          <td><code>judger.test.mjs</code></td>
+          <td><code>judger.mjs</code></td>
+          <td>构造 judger 输入，校验 verdict 枚举，覆盖 fake 模式。</td>
+          <td>judge 输入缺旧输出/新输出/上下文，或产生不可识别 verdict。</td>
+        </tr>
+        <tr>
+          <td><code>report.test.mjs</code></td>
+          <td><code>report.mjs</code></td>
+          <td>统计 verdict、失败 case、context-only issue，并渲染 Markdown。</td>
+          <td>summary 失真，patch 来源不可追溯，人工 review 找不到关键信息。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>详细测试 Case</h2>
+
+    <section class="card">
+      <div class="module-head">
+        <div>
+          <h3>配置校验</h3>
+          <div class="module-path">test/prompt-patch-replay/config.test.mjs</div>
+        </div>
+        <span class="pill">4 cases</span>
+      </div>
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>输入</th>
+            <th>期望输出</th>
+            <th>意义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>接受完整 patch bundle</td>
+            <td><code>{ id, patches: [{ id, originalText, replacementText }] }</code></td>
+            <td><span class="tag-ok">通过</span>，返回 bundle，保留 patch id。</td>
+            <td>保证用户提供的是“原始整段 + 替换整段”的精准 patch。</td>
+          </tr>
+          <tr>
+            <td>拒绝缺少 originalText</td>
+            <td><code>{ patches: [{ id, replacementText }] }</code></td>
+            <td><span class="tag-fail">抛错</span>，错误指向 <code>patches[0].originalText</code>。</td>
+            <td>避免没有原始段落时做模糊替换。</td>
+          </tr>
+          <tr>
+            <td>接受 Mode 1 replay config</td>
+            <td>包含 <code>replayId</code>、<code>logGroupDir</code>、<code>runId</code>、<code>turns</code>、<code>source</code>、<code>models</code>。</td>
+            <td><span class="tag-ok">通过</span>，保留 turns、version policy、<code>thinkingEnabled</code>。</td>
+            <td>覆盖一键复测的最小可运行配置。</td>
+          </tr>
+          <tr>
+            <td>默认版本策略</td>
+            <td><code>source</code> 未填写 <code>versionPolicy</code>。</td>
+            <td>默认补为 <code>require-matching-worktree</code>。</td>
+            <td>默认启用“必须匹配原 badcase 源码版本”的安全策略。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="module-head">
+        <div>
+          <h3>源码版本锁</h3>
+          <div class="module-path">test/prompt-patch-replay/source-version.test.mjs</div>
+        </div>
+        <span class="pill">7 cases</span>
+      </div>
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>输入</th>
+            <th>期望输出</th>
+            <th>意义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>从日志组名读取 commit</td>
+            <td><code>a4a2cfc1e411-dev-orchestrator-opt-0624</code></td>
+            <td><code>a4a2cfc1e411</code></td>
+            <td>支持从 <code>logs/&lt;branch-version&gt;</code> 中恢复源版本。</td>
+          </tr>
+          <tr>
+            <td>从路径读取 commit</td>
+            <td><code>logs/a4a2cfc1e411-dev-orchestrator-opt-0624</code></td>
+            <td><code>a4a2cfc1e411</code></td>
+            <td>CLI 传入相对或绝对路径时都能解析。</td>
+          </tr>
+          <tr>
+            <td>run config 优先于显式 config</td>
+            <td><code>runConfig.oreturnCommit=a4a2cfc1e411abcdef</code>，<code>configCommit=a4a2cfc1e411</code></td>
+            <td><code>a4a2cfc1e411abcdef</code></td>
+            <td>日志记录的源版本是权威来源，config 不能覆盖。</td>
+          </tr>
+          <tr>
+            <td>拒绝 config 与日志冲突</td>
+            <td><code>configCommit=ffffffffffff</code>，日志 commit 为 <code>a4a2cfc1e411...</code></td>
+            <td><span class="tag-fail">抛错</span>，错误包含 <code>conflicts</code>。</td>
+            <td>防止用错误源码版本得出伪 replay 结论。</td>
+          </tr>
+          <tr>
+            <td>run config fallback</td>
+            <td><code>runConfig.sourceCommit=a4a2cfc1e411abcdef</code></td>
+            <td><code>a4a2cfc1e411abcdef</code></td>
+            <td>兼容不同日志字段名。</td>
+          </tr>
+          <tr>
+            <td>log group fallback</td>
+            <td>run config 无 commit，目录名含 commit。</td>
+            <td><code>a4a2cfc1e411</code></td>
+            <td>旧日志或简化日志仍可被锁定版本。</td>
+          </tr>
+          <tr>
+            <td>无来源时报错</td>
+            <td>run config 空，目录名也无 commit。</td>
+            <td><span class="tag-fail">抛错</span>：无法解析 source commit。</td>
+            <td>宁可失败，也不默认使用当前小说系统代码。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="module-head">
+        <div>
+          <h3>Prompt Patcher</h3>
+          <div class="module-path">test/prompt-patch-replay/prompt-patcher.test.mjs</div>
+        </div>
+        <span class="pill">10 cases</span>
+      </div>
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>输入</th>
+            <th>期望输出</th>
+            <th>意义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>替换 message content</td>
+            <td><code>messages[0].content = "before old paragraph after"</code></td>
+            <td>变为 <code>"before new paragraph after"</code>，记录 <code>messages[0].content</code> 和 sha256。</td>
+            <td>覆盖 Narrator/Choice 常见 messages 风格调用。</td>
+          </tr>
+          <tr>
+            <td>替换 system text</td>
+            <td><code>system = "old paragraph"</code>，<code>prompt = "prompt stays"</code></td>
+            <td><code>system</code> 被替换，<code>prompt</code> 不变。</td>
+            <td>支持 System prompt 局部修复。</td>
+          </tr>
+          <tr>
+            <td>严格模式未命中失败</td>
+            <td><code>prompt = "no match"</code></td>
+            <td><span class="tag-fail">抛错</span>：<code>not found</code>。</td>
+            <td>用于单 call 严格 patch 校验。</td>
+          </tr>
+          <tr>
+            <td>同一 call 多次命中失败</td>
+            <td><code>prompt = "old paragraph old paragraph"</code></td>
+            <td><span class="tag-fail">抛错</span>：<code>multiple matches</code>。</td>
+            <td>迫使用户提供更长、更精准的原始段落。</td>
+          </tr>
+          <tr>
+            <td>当前 call 无 patch 时跳过</td>
+            <td>Director call 中没有该 patch 文本。</td>
+            <td>params 原样返回，<code>applications=[]</code>。</td>
+            <td>允许 patch 属于 Narrator 或 Choice，而不是每个子调用都必须命中。</td>
+          </tr>
+          <tr>
+            <td>跨调用链精确一次</td>
+            <td>Director 未命中，Narrator 命中一次。</td>
+            <td>Narrator 被替换，<code>assertAllPatchesApplied</code> 通过。</td>
+            <td>符合“一个 patch bundle 对一个 case 全链路至少且只能命中一次”。</td>
+          </tr>
+          <tr>
+            <td>整条调用链未应用失败</td>
+            <td>最终 <code>applications=[]</code>。</td>
+            <td><span class="tag-fail">抛错</span>：patch not applied。</td>
+            <td>保证 patch bundle 对每个 case 都真正生效。</td>
+          </tr>
+          <tr>
+            <td>已应用 patch 再出现失败</td>
+            <td><code>appliedPatchIds</code> 已包含 <code>p</code>，后续 Choice 又出现原文。</td>
+            <td><span class="tag-fail">抛错</span>：already applied。</td>
+            <td>防止同一 patch 在同一 turn 调用链多次替换。</td>
+          </tr>
+          <tr>
+            <td>replacement 不能制造新命中</td>
+            <td><code>p1: alpha -> beta</code>，<code>p2: beta -> gamma</code>，原文只有 <code>alpha</code>。</td>
+            <td>只应用 <code>p1</code>，最终 coverage 对 <code>p2</code> 失败。</td>
+            <td>patch 命中基于原始 assembled call，而不是前序 replacement 结果。</td>
+          </tr>
+          <tr>
+            <td>重叠 patch 失败</td>
+            <td><code>p1: alpha beta -> alpha</code>，<code>p2: beta -> gamma</code>。</td>
+            <td><span class="tag-fail">抛错</span>：overlap/removed。</td>
+            <td>防止 patch A 覆盖掉 patch B 的原始命中。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="module-head">
+        <div>
+          <h3>Turn Replay Context</h3>
+          <div class="module-path">test/prompt-patch-replay/turn-context.test.mjs</div>
+        </div>
+        <span class="pill">4 cases</span>
+      </div>
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>输入</th>
+            <th>期望输出</th>
+            <th>意义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>构建 turn context</td>
+            <td>临时日志包含 <code>01-summary.json</code>、<code>03-story-state.json</code>、<code>04-output.json</code>、<code>issues.json</code>、<code>visible-timeline.jsonl</code>。</td>
+            <td><code>caseId=turn-004</code>，<code>turnInput.playerInput=玩家输入 4</code>，issues=2，visibleContext turns=[1,2,3]。</td>
+            <td>验证脱离外部小说系统时，能从本项目日志重建一轮 replay 所需上下文。</td>
+          </tr>
+          <tr>
+            <td>加载 root cause 报告</td>
+            <td><code>root-cause-analysis/&lt;run-id&gt;/summary.json</code> 包含 turn 4 的两个 issue。</td>
+            <td><code>rootCauseReports.length=2</code>，issueIndex 为 [1,2]，记录 source file。</td>
+            <td>给 judger 提供 issue 原因背景。</td>
+          </tr>
+          <tr>
+            <td>玩家输入缺失时 fallback 到上一轮选择</td>
+            <td><code>01-summary.json</code> 没有 <code>playerInput</code>，有 <code>selectedFromPreviousTurn.text=选择 4</code>。</td>
+            <td><code>turnInput.trigger.playerInput=选择 4</code>。</td>
+            <td>兼容选择驱动的下一轮输入。</td>
+          </tr>
+          <tr>
+            <td>没有对应 issue 时失败</td>
+            <td>请求 turn 3，但 <code>issues.json</code> 没有 turn 3。</td>
+            <td><span class="tag-fail">reject</span>：No issues found。</td>
+            <td>case-set 必须指向真实 badcase turn。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="module-head">
+        <div>
+          <h3>Oreturn Replay Engine</h3>
+          <div class="module-path">test/prompt-patch-replay/oreturn-engine.test.mjs</div>
+        </div>
+        <span class="pill">4 cases</span>
+      </div>
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>输入</th>
+            <th>期望输出</th>
+            <th>意义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>构建 Bun eval 命令</td>
+            <td><code>oreturnRepo=/repo/oreturn</code>，<code>evalSource=console.log("ok")</code>。</td>
+            <td><code>command=bun</code>，cwd 为 <code>/repo/oreturn/packages/core</code>。</td>
+            <td>保证可复用 oreturn 的 internal import alias。</td>
+          </tr>
+          <tr>
+            <td>写 replay-input</td>
+            <td>context 里有 <code>turnInput</code> 和 <code>storyState</code>，patch bundle id 为 <code>bundle</code>。</td>
+            <td><code>replay-input.json</code> 包含 turnInput、storyState、patchBundle。</td>
+            <td>明确传给 oreturn runner 的最小输入包。</td>
+          </tr>
+          <tr>
+            <td>映射 replay 模型环境变量</td>
+            <td><code>modelConfig</code> 指向 openai-compatible，<code>REPLAY_API_KEY=secret</code>。</td>
+            <td>输出 <code>LLM_PROVIDER</code>、<code>LLM_BASE_URL</code>、<code>LLM_API_KEY</code>、<code>LLM_MODEL</code>、<code>LLM_THINKING_ENABLED</code>。</td>
+            <td>保证模型配置真正传入小说系统的 LLM 工厂。</td>
+          </tr>
+          <tr>
+            <td>失败时也写 partial artifacts</td>
+            <td>检查 eval runner source。</td>
+            <td>包含 <code>finally</code>、<code>replay-error.json</code>、<code>patch-application.json</code>。</td>
+            <td>patch/LLM 失败后仍可审计已捕获调用链。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="module-head">
+        <div>
+          <h3>Judger</h3>
+          <div class="module-path">test/prompt-patch-replay/judger.test.mjs</div>
+        </div>
+        <span class="pill">4 cases</span>
+      </div>
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>输入</th>
+            <th>期望输出</th>
+            <th>意义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>构建 judge 输入</td>
+            <td>issue、originalOutput、visibleContext、newOutput。</td>
+            <td>judge input 同时包含旧输出 <code>old text</code>、新输出 <code>new text</code> 和上一轮 visible context。</td>
+            <td>确保 judge 能围绕原始 issue 判断是否修复。</td>
+          </tr>
+          <tr>
+            <td>接受合法 verdict</td>
+            <td><code>{ verdict: "fixed", confidence: "high", reason, remainingProblems, newRegressions }</code></td>
+            <td>解析结果 verdict 为 <code>fixed</code>。</td>
+            <td>限定 judge 输出为可统计结构。</td>
+          </tr>
+          <tr>
+            <td>拒绝未知 verdict</td>
+            <td><code>{ verdict: "better" }</code></td>
+            <td><span class="tag-fail">抛错</span>，错误指向 verdict。</td>
+            <td>防止 summary 中出现无法归类的判定。</td>
+          </tr>
+          <tr>
+            <td>fake mode</td>
+            <td><code>mode=fake</code>，输入为空结构。</td>
+            <td>返回 <code>verdict=uncertain</code>。</td>
+            <td>支持本地 dry-like 验证，不调用真实 judge 模型。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="module-head">
+        <div>
+          <h3>Report</h3>
+          <div class="module-path">test/prompt-patch-replay/report.test.mjs</div>
+        </div>
+        <span class="pill">4 cases</span>
+      </div>
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>输入</th>
+            <th>期望输出</th>
+            <th>意义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>统计 verdict 和失败 case</td>
+            <td>一个 completed case 有 <code>fixed</code>、<code>improved</code>，一个 failed case 错误为 patch not found。</td>
+            <td><code>fixed=1</code>、<code>improved=1</code>、<code>failedCases=1</code>，保留 patch path/hash。</td>
+            <td>summary 能表达本次 patch bundle 的修复效果和失败范围。</td>
+          </tr>
+          <tr>
+            <td>context-only issue 计数</td>
+            <td>两个未 judge case，<code>issueCount</code> 分别为 2 和 1。</td>
+            <td>summary issueCount 为 3。</td>
+            <td>dry-run/context-only 下仍能正确汇总 case-set 规模。</td>
+          </tr>
+          <tr>
+            <td>渲染 summary markdown</td>
+            <td>summary 包含 replayId、runId、resultDir、patch hash、sourceVersion。</td>
+            <td>Markdown 包含这些关键字段。</td>
+            <td>人工查阅时可快速定位输出目录和 patch 来源。</td>
+          </tr>
+          <tr>
+            <td>渲染 issue report</td>
+            <td>issue turn=3，judgeResult verdict=fixed，reason=已修复。</td>
+            <td>Markdown 包含 <code>fixed</code> 和 <code>已修复</code>。</td>
+            <td>单 issue 复测结果可独立落盘审阅。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <h2>当前测试边界</h2>
+    <div class="card">
+      <p>
+        当前测试覆盖的是第一版 replay 系统的核心纯逻辑和入口约束：配置、版本锁、patch 命中、context 重建、engine 输入、judge 结构和 report 汇总。
+      </p>
+      <p>
+        它没有在单元测试里真实调用外部 LLM，也没有端到端启动完整小说生成。真实 replay 的额外保障来自 CLI smoke：<code>--dry-run-context-only</code> 可验证日志重建，非 dry-run 在 oreturn commit 不匹配时会拒绝执行。
+      </p>
+      <p class="note">
+        建议后续增加一组可控 fake LLM 的集成测试，用固定 oreturn fixture 验证 Director -> Narrator -> Choice 的完整调用链落盘。
+      </p>
+    </div>
+  </main>
+</body>
+</html>
