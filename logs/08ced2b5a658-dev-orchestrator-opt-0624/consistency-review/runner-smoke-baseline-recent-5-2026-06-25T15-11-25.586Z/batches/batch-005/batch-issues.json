@@ -1,0 +1,72 @@
+[
+  {
+    "id": "batch-005-issue-001",
+    "windowRange": { "start": 31, "end": 44 },
+    "evalRange": { "start": 41, "end": 44 },
+    "turn": 42,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 42 中卡琳娜从矮凳上自然起身后，正文写道：“她的目光在你起身的过程中没有移开——从她开始起身到她完全站立……”",
+    "conflictingEvidence": "turn 41 末尾玩家已经从地图和文件前完整直起身，并转向卡琳娜；turn 42 后段也写明“你站在桌边”。当前动作实际是卡琳娜起身，不是玩家起身。",
+    "conflictingTurns": [41, 42],
+    "source": "model-output",
+    "reason": "正文把卡琳娜起身的动作误写成“你起身”的过程，造成局部动作主体和玩家姿态不一致。"
+  },
+  {
+    "id": "batch-005-issue-002",
+    "windowRange": { "start": 31, "end": 44 },
+    "evalRange": { "start": 41, "end": 44 },
+    "turn": 42,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 42 的选项提供：“后退一步，在旧沙发上坐下，让晨光和沉默自然流过这片空间。”",
+    "conflictingEvidence": "turn 40 将当前地点描述为比地下居所更宽敞的资料室：两侧墙壁被书架占据，中央是一张厚木桌，墙上有地图和照片，卡琳娜把帆布袋放到壁炉台旁的一张旧椅子上，自己坐在矮凳上。当前房间此前没有建立旧沙发；旧沙发只在 turn 39 的地下居所中出现，玩家随后已经离开那里并进入另一栋建筑。",
+    "conflictingTurns": [39, 40],
+    "source": "model-output",
+    "reason": "选项把前一处居所的旧沙发或一个未建立的家具放入当前资料室，给玩家提供了基于错误空间状态的行动。"
+  },
+  {
+    "id": "batch-005-issue-003",
+    "windowRange": { "start": 31, "end": 44 },
+    "evalRange": { "start": 41, "end": 44 },
+    "turn": 43,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "turn 43 的玩家输入选择“后退一步，在旧沙发上坐下……”，正文随后写道玩家“在旧沙发前停住，然后坐下”，并多次围绕沙发扶手、沙发侧面和沙发靠背展开描写。",
+    "conflictingEvidence": "turn 40 对当前资料室的可见陈设只建立了书架、厚木桌、地图照片、旧椅子和矮凳；turn 39 的旧沙发属于已经离开的地下居所。turn 42 的选项先引入了这个不受当前空间支撑的“旧沙发”。",
+    "conflictingTurns": [39, 40, 42],
+    "source": "mixed",
+    "reason": "玩家选择承接了上一轮选项中的空间错误，模型输出又将旧沙发实写为当前资料室中的核心坐具，扩大了空间连续性问题。"
+  },
+  {
+    "id": "batch-005-issue-004",
+    "windowRange": { "start": 31, "end": 44 },
+    "evalRange": { "start": 41, "end": 44 },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "turn 43 中卡琳娜将陶杯“轻轻放在沙发左侧的木质扶手上”，手指确认放稳后松开；后文直接写“你坐在沙发上。手中的茶杯重量在你指尖”，并让玩家喝下第一口。",
+    "conflictingEvidence": "在卡琳娜把杯子放到扶手上之后，正文没有写玩家伸手拿起茶杯，也没有任何动作承接把杯子从扶手移动到玩家手中。",
+    "conflictingTurns": [43],
+    "source": "model-output",
+    "reason": "正文省略了必要的取杯动作，直接把杯子改写成已经在玩家手里，造成轻微动作连续性跳跃。"
+  },
+  {
+    "id": "batch-005-issue-005",
+    "windowRange": { "start": 31, "end": 44 },
+    "evalRange": { "start": 41, "end": 44 },
+    "turn": 44,
+    "scope": "mixed",
+    "type": "quality-regression",
+    "severity": "high",
+    "currentEvidence": "turn 44 的玩家输入为 null，preLlmEvents 为 []，visibleText 为空字符串，choices 为空数组。",
+    "conflictingEvidence": "turn 43 末尾仍给出四个后续选择：“把茶杯放在扶手上，身体靠进沙发里，闭上眼睛”“开口问她：‘敏特后来去了哪里？’”“目光转向书架上层，那些被晨光照亮的书脊”“朝卡尔的方向伸出手，看它会不会靠近”。随后 turn 44 没有提供任何玩家可见正文或可选行动。",
+    "conflictingTurns": [43],
+    "source": "uncertain",
+    "reason": "时间线中出现一个空白玩家可见 turn，既没有承接上一轮选择，也没有提供正文或选项，直接中断互动体验；从可见时间线无法判断来源是模型输出还是运行器占位。"
+  }
+]

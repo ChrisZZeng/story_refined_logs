@@ -1,0 +1,66 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第36轮先写相机“镜头盖闭合，边缘卡合牢固”，并且玩家“用手指在镜头盖边缘按压了一次——确认闭合状态”；随后又写“相机贴近你的右眼”，取景器中清楚看到绿铁皮酒馆、招牌、正门、二楼窗缝和右侧防火门；结尾又写“右手拉上了镜头盖——卡嗒——闭合”。",
+    "conflictingEvidence": "同一轮已经确认镜头盖处于闭合状态，正文没有描写玩家在观察前打开镜头盖，却让相机完成了取景观察，并在观察后再次闭合镜头盖。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "镜头盖状态从闭合直接跳到可取景，再写成重新闭合，导致相机物件状态和观察动作不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第37轮开头写玩家“从正对酒馆的方向向左偏了约三十度”，随后又写“窄巷入口——你选择的位置就在绿铁皮酒馆右侧的建筑间隙中”。",
+    "conflictingEvidence": "第36轮选项和第37轮玩家输入都是“先拐进右侧窄巷，检查那扇暗红色防火门”；第36轮观察也写“建筑的右侧面——小巷的方向”，并在右侧小巷中看到暗红色防火门。",
+    "conflictingTurns": [
+      36,
+      37
+    ],
+    "source": "model-output",
+    "reason": "玩家选择和上一轮空间信息都指向右侧小巷，但正文先写成向左偏转，造成进入目标小巷的方位承接出现局部断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 40,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第40轮写玩家回到巷道入口后看到“绿铁皮酒馆的正门在你右侧大约十五步的位置”，接着只描写目光扫过正门和门缝，却直接写“你站在人行道上，距离绿铁皮的正门大约六七步的位置”。",
+    "conflictingEvidence": "同一轮从防火门沿来路回到巷道入口后，正文没有描写玩家继续向正门移动；十五步的距离没有被行动消解，却变成了六七步。",
+    "conflictingTurns": [
+      40
+    ],
+    "source": "model-output",
+    "reason": "角色位置凭空向正门前移约八九步，削弱了后续假装看手机观察正门这一行动的空间基础。"
+  }
+]

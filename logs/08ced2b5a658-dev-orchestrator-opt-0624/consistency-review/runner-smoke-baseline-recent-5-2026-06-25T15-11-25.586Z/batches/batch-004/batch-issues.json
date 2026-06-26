@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 34,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "同一段先标成“[卡琳娜]‘你打算让他睡哪？’”，随后立刻写明“声音从壁炉前的方向传来——不是卡琳娜的位置，是卡尔的方向”，并描述“黑猫的声音”。",
+    "conflictingEvidence": "前文已建立说话格式和说话者边界，例如第18轮、第19轮中卡尔说话时使用“[卡尔]”标签，卡琳娜说话时使用“[卡琳娜]”标签。",
+    "conflictingTurns": [18, 19],
+    "source": "model-output",
+    "reason": "同一句可见台词的署名和叙述来源互相冲突，玩家无法稳定判断这句话到底是卡琳娜还是卡尔说的。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "本轮前半反复描述卡琳娜“站在那里”，右手停在桌沿；结尾却写“她只是坐在那里，在壁炉的火光和桌面的磨损纹路之间，等待着你的回答”。",
+    "conflictingEvidence": "同一轮没有写卡琳娜坐下，且上一轮结束时她仍“站在那个位置上”，之后只是继续对话和触碰桌沿。",
+    "conflictingTurns": [35, 36],
+    "source": "model-output",
+    "reason": "角色姿态从站立无承接地变成坐着，属于局部动作连续性错误。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "台词多次写成“‘[卡琳娜]那现在你听得到它了。’”“‘[卡琳娜]明天——’”“‘[卡琳娜]沙发上有垫子。’”，把角色标签放进了引号内部。",
+    "conflictingEvidence": "窗口内前后通常使用“[卡琳娜]‘……’”“[卡尔]‘……’”这类角色标签在引号外的格式。",
+    "conflictingTurns": [34, 36],
+    "source": "model-output",
+    "reason": "角色标签被当作正文台词内容展示，破坏了既有对白格式，形成明显可见的协议/格式问题。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 39,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第39轮醒来时写“你躺在沙发上。毯子的触感在下巴处”，并继续描述毯子和垫子。",
+    "conflictingEvidence": "第38轮玩家选择是“闭上眼睛，不再动作，让夜晚自己结束”；第38轮正文只写玩家仍在原处结束夜晚，没有写起身、拿毯子、去沙发或躺下。",
+    "conflictingTurns": [38],
+    "source": "model-output",
+    "reason": "玩家明确选择不再动作后，下一轮直接把帕兹放到沙发和毯子里，缺少玩家可见承接。"
+  },
+  {
+    "windowRange": { "start": 21, "end": 40 },
+    "evalRange": { "start": 31, "end": 40 },
+    "turn": 39,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第39轮离开地下居所时写“不是通向地面的那扇门。是另一扇。在壁炉左侧的墙壁上，与石墙几乎融为一体”，并让这扇门直接通向清晨的窄巷。",
+    "conflictingEvidence": "第33轮玩家可见扫描明确写“空间不大。没有第二个出入口。……出口就一个——你背后的木门”。",
+    "conflictingTurns": [33],
+    "source": "model-output",
+    "reason": "此前明确排除了第二出入口，后文却无解释引入另一扇可直接离开的门，破坏地下空间布局连续性。"
+  }
+]

@@ -1,0 +1,93 @@
+{
+  "turn": 10,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "progress",
+  "selectedFromPreviousTurn": {
+    "text": "走到椅子前坐下，让肩膀沉下来"
+  },
+  "submittedSelectedAction": {
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 7
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 7
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 8
+  },
+  "selectedForNext": {
+    "text": "靠回椅背，闭眼休息，让紧绷的神经彻底放松"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:反抗",
+      "id": "反抗",
+      "text": "尽力平复呼吸——你知道怎么应付这种人",
+      "satisfyAnchors": [
+        "主角对与黑帮的冲突做出选择或行动"
+      ]
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:战斗",
+      "id": "战斗",
+      "text": "准备战斗",
+      "satisfyAnchors": [
+        "主角对与黑帮的冲突做出选择或行动"
+      ]
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "靠回椅背，闭眼休息，让紧绷的神经彻底放松"
+      },
+      {
+        "text": "拿起钥匙在指尖翻转，仔细端详它的质地和磨损痕迹"
+      },
+      {
+        "text": "抬眼看向卡琳娜，问她在这条街上待了多久"
+      },
+      {
+        "text": "端起杯子喝口水，然后把杯子放回原处，什么也不说"
+      }
+    ]
+  },
+  "visibleChars": 2734,
+  "durationMs": 70199.07,
+  "memory": {
+    "recentTurns": 5,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

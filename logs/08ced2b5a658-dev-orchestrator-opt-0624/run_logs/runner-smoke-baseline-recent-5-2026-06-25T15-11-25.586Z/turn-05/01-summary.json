@@ -1,0 +1,90 @@
+{
+  "turn": 5,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "random",
+  "selectedFromPreviousTurn": {
+    "text": "接受邀请——去探探他们的身份",
+    "actionId": "choice:接受黑帮的邀请"
+  },
+  "submittedSelectedAction": {
+    "actionId": "choice:接受黑帮的邀请",
+    "committed": true,
+    "satisfiedAnchors": [
+      "玩家接受邀请"
+    ]
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-alt-01-康纳线·一",
+    "beatUid": "n_3a9kBLFfP8cN",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-alt-01-康纳线·一",
+    "beatUid": "n_3a9kBLFfP8cN",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-alt-01-康纳线·一",
+    "beatUid": "n_3a9kBLFfP8cN",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "接受和她的交易",
+    "actionId": "choice:接受"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:接受",
+      "id": "接受",
+      "text": "接受和她的交易",
+      "key": true,
+      "satisfyAnchors": [
+        "康纳的交易"
+      ]
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:拒绝",
+      "id": "拒绝",
+      "text": "拒绝她的交易",
+      "key": true,
+      "satisfyAnchors": [
+        "康纳的提议"
+      ]
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "接受和她的交易",
+        "actionId": "choice:接受"
+      },
+      {
+        "text": "拒绝她的交易",
+        "actionId": "choice:拒绝"
+      }
+    ],
+    "lockInput": true
+  },
+  "visibleChars": 3654,
+  "durationMs": 78390.55,
+  "memory": {
+    "recentTurns": 4,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

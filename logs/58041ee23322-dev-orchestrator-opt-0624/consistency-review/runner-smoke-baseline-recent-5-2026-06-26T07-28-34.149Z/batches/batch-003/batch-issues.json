@@ -1,0 +1,93 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "本轮把敏特描述为“她是战地记者。和我一样。”，并写成主角教她“怎么打架。怎么用枪”。",
+    "conflictingEvidence": "第15轮此前对卡琳娜讲述敏特时，说她是“当地人”，战后回到那片战区，起初“讨厌记者”，后来才开始和主角等记者说话，并教他们当地武装标记和路线。",
+    "conflictingTurns": [15],
+    "source": "model-output",
+    "reason": "敏特的身份从本地幸存者/向导式人物漂移成和主角一样的战地记者，改变了核心人物背景。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "本轮重新向卡琳娜讲述“她叫敏特”、村子袭击、“她死在我怀里”、照片传来后自己来找她等信息。",
+    "conflictingEvidence": "第15轮已经向同一个卡琳娜完整讲过这些事实，包括“她的名字叫敏特”、“她死在我怀里”、“里面是一张照片”、“照片上的人是她。穿着白裙。背景是新西西里的暗街。”",
+    "conflictingTurns": [15],
+    "source": "model-output",
+    "reason": "同一听众已经听过的敏特生死和照片线索被当作新叙述再次展开，造成剧情进度回退。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 24,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第23轮选项提供“准备离开房间”；第24轮执行为主角拉开门、跨过门槛、下楼并站到暗街街道上。",
+    "conflictingEvidence": "第14轮卡琳娜在骷髅会威胁后明确说：“你今晚不能出去。”“待在这里。天亮之前，别开第二次门。”",
+    "conflictingTurns": [14, 23],
+    "source": "mixed",
+    "reason": "前文刚建立夜间不能外出的安全限制，后文选项和正文却无解释地允许离开，并且卡琳娜没有任何阻拦或承接。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 25,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "同一段写道：“左侧的建筑是一栋三层的住宅楼”，随后又说“只有四楼有一扇亮着灯”。",
+    "conflictingEvidence": "冲突发生在同一轮同一空间描述内：三层住宅楼不应存在四楼窗户。",
+    "conflictingTurns": [25],
+    "source": "model-output",
+    "reason": "建筑层数在同一可见描述中自相矛盾，属于局部空间事实错误。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "high",
+    "currentEvidence": "本轮主角从门缝看到卡琳娜和德索洛在室内，德索洛下跪并说“卡琳娜阁下”，卡琳娜递出米白色信封，德索洛接过后离开。",
+    "conflictingEvidence": "第19轮同一交易已经发生并结束：德索洛跪下，重复“卡琳娜阁下”，接过信封后离开；第20轮卡琳娜还确认“交易已经完成了”，并说明信封里的线索足够他自己去追。",
+    "conflictingTurns": [19, 20],
+    "source": "model-output",
+    "reason": "已经完成并被角色确认完成的交易在后门视角被重新演出，造成明显的时间回放和剧情进度断裂。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "本轮写德索洛“先是右膝弯曲，下落”，随后“然后是左膝”，但紧接着又说“他停住了。单膝跪地的姿势。”",
+    "conflictingEvidence": "同一轮动作链条已经让左右双膝先后落地，却又把完成姿态称为单膝跪地。",
+    "conflictingTurns": [26],
+    "source": "model-output",
+    "reason": "角色跪姿的动作承接在同一段内互相冲突。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜评价德索洛时说：“那块地能养活他女儿。”",
+    "conflictingEvidence": "第19轮信封内容被说成“凯旋门。地址和名字在信封里。你的人。”；第20轮进一步说明信封里是“是谁的人，在哪个位置活动，什么样的时间规律”。此前玩家可见内容没有建立信封里有土地或地契。",
+    "conflictingTurns": [19, 20],
+    "source": "model-output",
+    "reason": "德索洛交易所得从线索/人名地址无承接地变成能养活女儿的土地，改变了交易内容。"
+  }
+]

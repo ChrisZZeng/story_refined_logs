@@ -1,0 +1,741 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 2,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "小贩说：“不过——你说到‘红头发’——我倒是有点印象。”",
+    "conflictingEvidence": "Turn 1 只描述敏特照片上的女人“头发被风吹乱了”，没有给出红发信息；Turn 2 中帕兹只说敏特是同伴、已在战区死去、照片和信从新西西里寄来，也没有说过“红头发”。",
+    "conflictingTurns": [
+      1,
+      2
+    ],
+    "source": "model-output",
+    "reason": "正文把尚未被玩家可见内容建立过的“红头发”说成帕兹已经提到的信息，造成情报来源跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 6,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 6 写道领头的人“目光越过你的肩膀——落在你身后的某个人身上”，随后确认“卡琳娜。她站在你身后大约两步的位置。从刚才到现在，她没有动过一步”。",
+    "conflictingEvidence": "Turn 5 危机对峙时写卡琳娜“站在你和那三个人之间那片狭窄的空隙里”，用沉默撑住双方之间的裂口。",
+    "conflictingTurns": [
+      5
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜从帕兹与黑帮成员之间漂移到帕兹身后，但正文同时声称她没有移动，破坏了对峙场面的空间连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 10 先说房间里有“炉灶关掉后”的余味，随后卡琳娜“从炉灶边拿起水壶”，从水桶舀水倒进去，再“拧开旋钮，蓝色火苗再次跳起来”。",
+    "conflictingEvidence": "Turn 9 中卡琳娜拿起的是“那只搪瓷杯”，打开煤气罐和炉灶后把杯子放在灶上，并把火调小；正文没有写她关火或把杯子换成水壶。",
+    "conflictingTurns": [
+      9
+    ],
+    "source": "model-output",
+    "reason": "加热容器从搪瓷杯变成水壶，炉灶也从上一轮仍在小火加热变成已关闭后再次点燃，局部道具和动作状态不连续。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "钥匙落在木质的桌面上，发出清脆的金属碰撞声——🔑——然后停了。",
+    "conflictingEvidence": "Turn 1-9 的正文一直使用常规中文叙事和对白格式，没有在正文中插入 emoji 式的图标音效。",
+    "conflictingTurns": [
+      1,
+      9
+    ],
+    "source": "model-output",
+    "reason": "正文突然插入钥匙 emoji 作为音效符号，破坏了此前稳定的叙事文本格式。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜问：“你来暗街。到底是为了什么？”帕兹回答“……来找一个人”后，她继续问：“谁？”",
+    "conflictingEvidence": "Turn 3 中帕兹已经把敏特照片递给卡琳娜并说“我来找这个人”“她是我的同伴。我收到消息说她在这里”；卡琳娜随后回答“……见过”“她来过暗街”，并提出可以告诉帕兹她在哪。",
+    "conflictingTurns": [
+      3
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜已经知道帕兹来暗街是为找照片上的敏特，却在安全屋里像首次确认一样重新追问目的和对象，使核心互动状态被轻微重置。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 14,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 14 轮在房间独处整理思绪时写道：[帕兹→卡琳娜]“至少，我进来了。”",
+    "conflictingEvidence": "同一轮前文卡琳娜已经出门并从外面锁门，脚步声远去后“一切都安静下来”，帕兹独自留在房间里。",
+    "conflictingTurns": [
+      14
+    ],
+    "source": "model-output",
+    "reason": "正文明确把这句话写成自言自语，却又用对白标签标成说给不在场的卡琳娜，破坏了当前交互对象的可见状态。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 17,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 17 轮卡琳娜在处理完巷口三人后说：[卡琳娜]“午安，记者。”",
+    "conflictingEvidence": "第 16 轮已经写明“傍晚在接近”和“傍晚的光”；第 17 轮同样写有“天快黑了”“傍晚房间”“暮色在你们周围逐渐变浓”。",
+    "conflictingTurns": [
+      16,
+      17
+    ],
+    "source": "model-output",
+    "reason": "场景连续处于傍晚到入夜，突然使用午间问候会让玩家感到时间称呼不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 19 轮卡琳娜说：“你收到的那个匿名信——给了一大笔钱，让你来暗街拍照——你不觉得奇怪吗？”并继续说“高价，目的地明确”。",
+    "conflictingEvidence": "第 1 轮可见信息是敏特照片背面写着“新西西里，暗街”，附来的信没有署名；第 2 轮帕兹说明“我只想知道她是不是还活着。如果活着——她在哪。”此前没有可见内容说明匿名信给了钱或要求他来暗街拍照。",
+    "conflictingTurns": [
+      1,
+      2
+    ],
+    "source": "model-output",
+    "reason": "正文把主角来到暗街的动机从找敏特改写成高价拍照委托，改变了玩家此前看到的任务前提。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 19 轮写道：“帆布袋的重量挂在你肩上，相机隔着布料贴着你的肋骨”。",
+    "conflictingEvidence": "第 18 轮进入公寓后已经写明“帆布袋在你身侧放下，放在脚边的地面上”，之后没有再写帕兹把它背回肩上。",
+    "conflictingTurns": [
+      18
+    ],
+    "source": "model-output",
+    "reason": "帆布袋的位置从脚边无承接地变成挂在肩上，破坏了近距离动作和物件位置连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 19 轮先写“炉灶上没有点燃的火”，后面又写“壶底已经微微发烫了”和[卡琳娜]“水快好了。”",
+    "conflictingEvidence": "第 18 轮卡琳娜把水壶放到灶面上后明确写“她没有立刻点火”，第 19 轮在水壶发烫前也没有玩家可见的点火动作。",
+    "conflictingTurns": [
+      18,
+      19
+    ],
+    "source": "model-output",
+    "reason": "水壶在没有可见热源的情况下被写成已经加热，造成物件状态承接不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "language-drift",
+    "severity": "low",
+    "currentEvidence": "第 20 轮对白统一变成 ASCII 引号格式，例如 [帕兹]\"那她具体问了什么？\" 和 [卡琳娜]\"她问的事不少。\"",
+    "conflictingEvidence": "第 1-19 轮对白基本使用中文全角引号，例如第 19 轮的[卡琳娜]“水快好了。”",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "对白引号格式在同一批次末尾突然切换，属于玩家可见文本格式稳定性下降。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "第 20 轮写“卡尔的尾巴在沙发靠垫外侧缓慢地摆动了一下”，随后又写“你的视线从卡尔身上收回来”。",
+    "conflictingEvidence": "第 19 轮只首次提到“沙发上的黑猫”，窗口范围 1-20 内此前没有玩家可见内容给这只黑猫命名为卡尔。",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "黑猫的名字没有在玩家可见内容中建立，后文直接称为卡尔会让玩家误以为漏看了命名信息。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 21 轮末尾写道：“蒸汽在她和下之间形成一道短暂的面纱”。",
+    "conflictingEvidence": "同一段语境是在描写卡琳娜端着杯子、蒸汽隔在她和玩家之间；“她和下之间”缺少对象，无法正常成句。",
+    "conflictingTurns": [
+      21
+    ],
+    "source": "model-output",
+    "reason": "正文出现明显缺字，局部破坏可读性。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 25,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 25 轮结尾写道：“她说着，将蜡烛递向你——烛焰在她和之间形成一个柔软的光球”。",
+    "conflictingEvidence": "同句语境是卡琳娜把蜡烛递给玩家，正常表达应当是烛焰在她和玩家之间；“她和之间”缺少对象。",
+    "conflictingTurns": [
+      25
+    ],
+    "source": "model-output",
+    "reason": "正文缺字，形成明显不完整句子。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 26 轮开头写“你握着蜡烛”，但随后又写卡琳娜的视线“落向她刚才放在木箱顶面上的那根蜡烛”，并让她伸手靠近那根烛焰。",
+    "conflictingEvidence": "第 25 轮刚写卡琳娜“将蜡烛递向你”，第 26 轮也确认玩家正握着蜡烛；同一根蜡烛又被放回木箱顶面，且没有可见的交接或放置动作。",
+    "conflictingTurns": [
+      25,
+      26
+    ],
+    "source": "model-output",
+    "reason": "关键照明物件在玩家手中和木箱顶面之间无承接切换，影响场景动作理解。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 27,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第 27 轮卡琳娜回忆说：“当年卡尔的猫在暗街走丢”。",
+    "conflictingEvidence": "第 20、22、25 轮都把卡尔作为当前同行的黑猫来描写，例如“卡尔的尾巴”“卡尔。它的耳朵”“卡尔没有停顿……跃上木箱顶部”。",
+    "conflictingTurns": [
+      20,
+      22,
+      25
+    ],
+    "source": "model-output",
+    "reason": "“卡尔的猫”把已建立为猫的卡尔写成猫的主人或拥有者，造成短暂身份关系漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第 28 轮帕兹对德索洛说：“你赶到医院的时候她躺在病床上，舌头被割掉了，不能唱歌了。你是这样说的——对吗？”",
+    "conflictingEvidence": "此前玩家可见内容中，德索洛只在第 27 轮说“他们——凯旋门——他们对我女儿做了那种事”，没有可见文本交代医院、病床、舌头被割掉或不能唱歌这些具体信息。",
+    "conflictingTurns": [
+      27
+    ],
+    "source": "model-output",
+    "reason": "正文把未向玩家展示过的关键情报写成德索洛已经说过的信息，造成剧情信息来源跳跃。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 29,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 29 轮写卡琳娜“伸向身侧——不是口袋，是木箱的侧面”，从木箱和墙壁之间抽出信封并递给德索洛。",
+    "conflictingEvidence": "第 27 轮卡琳娜已经从同一位置抽出一个牛皮纸信封，并且在敲门声响起后仍“信封仍然握在她手中”；第 28 轮没有玩家可见动作说明她把信封放回木箱侧面。",
+    "conflictingTurns": [
+      27,
+      28
+    ],
+    "source": "model-output",
+    "reason": "同一个信封被重复从隐藏位置取出，中间缺少放回或更换信封的可见承接。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 29,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "medium",
+    "currentEvidence": "第 29 轮德索洛跪下后出现台词标签：[卡琳娜 → 卡琳娜]“卡琳娜阁下。”",
+    "conflictingEvidence": "同一段正在描写德索洛完成跪礼，紧接着又写“他的声音干涩”，说明这句应由德索洛说出；标签却标成卡琳娜对卡琳娜说。",
+    "conflictingTurns": [
+      29
+    ],
+    "source": "model-output",
+    "reason": "对白标签把说话人和受话人都标错，干扰玩家判断仪式动作和发言归属。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 31,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第31轮写道“你握着蜡烛的手晃动了一下”，随后又写“木箱顶面上那根蜡烛”；第32轮继续写“你的右手没有离开蜡烛握把”，但同轮又写“烛焰在木箱顶面保持燃烧”。",
+    "conflictingEvidence": "第29轮写玩家“站在原处”，目光落在烛焰上，蜡油“接触到木箱表面”；第30轮写“蜡烛在你和木箱之间的空气里燃烧”，并且“蜡油沿着蜡烛的侧面流下一道弧形，在木箱表面凝固”。此前没有玩家拿起蜡烛的可见动作。",
+    "conflictingTurns": [
+      29,
+      30
+    ],
+    "source": "model-output",
+    "reason": "蜡烛已经被建立为木箱上的物件，31-32轮又把它写成玩家手中带握把的物件，造成物件位置和持有状态漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 33,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第33轮卡琳娜说“康纳也要去。那种场合他不会动手”。",
+    "conflictingEvidence": "第36轮正式出场时，康纳被写成“金色长发”的女性，且正文使用“她”“康纳小姐”；第40轮卡琳娜也说“我和她在那里一起长大”“现在她是凯旋门的门面”。",
+    "conflictingTurns": [
+      36,
+      40
+    ],
+    "source": "model-output",
+    "reason": "同一角色康纳的性别代词从“他”漂移为持续的“她”，没有任何可见解释，影响玩家对角色身份的稳定理解。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第36轮开头把上一轮左侧传来的问候标成“[卡琳娜]‘第一次来这种场合？’”，紧接着却描述说话者是“一个年轻女性站在距你两步的位置”，并让她自称“我这种小贩通常不在受邀名单上”。",
+    "conflictingEvidence": "第35轮明确写卡琳娜停在大厅右侧小圆桌旁，怀里抱着黑色的猫，正在注视大厅深处；同轮结尾的声音来自玩家左侧，并被描述为“女声——年轻”。",
+    "conflictingTurns": [
+      35
+    ],
+    "source": "model-output",
+    "reason": "陌生年轻女性的搭话被错误标注为卡琳娜发言，导致说话者身份在同一互动中混乱。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "low",
+    "currentEvidence": "第36轮写卡琳娜怀里是“黑白相间的猫”；第37轮和第38轮也继续写“那只黑白相间的猫在她怀里”。",
+    "conflictingEvidence": "第31轮和第32轮都把卡尔称为“黑色短毛母猫”或“黑色短毛猫”；第34轮写她“怀里抱着一只黑色的猫”；第35轮也写“她怀里那只黑色的猫”。",
+    "conflictingTurns": [
+      31,
+      32,
+      34,
+      35
+    ],
+    "source": "model-output",
+    "reason": "卡尔的毛色从稳定的黑色漂移成黑白相间，且没有玩家可见事件解释外观变化。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第37轮后段写“桌上那幅新西西里的地图”；第38轮继续写“桌面上那幅新西西里的地图”。",
+    "conflictingEvidence": "第37轮进入侧厅时先建立地图位置为“墙面上一幅装裱好的地图：新西西里的轮廓”，桌面则被写成“没有摆食物或酒，空着”。",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "model-output",
+    "reason": "同一幅新西西里地图在侧厅里从墙面漂移到桌面，和同轮建立的房间布置冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第37轮末尾写“康纳没有催促。她的目光仍然锁定在卡琳娜脸上，卡的双手停在桌面边缘，等待着那个回应形成”。",
+    "conflictingEvidence": "本轮上下文正在写康纳等待卡琳娜回应，场内没有名为“卡”的人物或可自然承接的“卡的双手”。",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "model-output",
+    "reason": "“卡的双手”像是残缺或误删后的文本，破坏了句子可读性。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 40,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第40轮在公园长椅上写“壁灯从侧方照过来——她的瞳孔在暗光中呈深色”。",
+    "conflictingEvidence": "第39轮已经把场景转到户外公园，并建立照明为“路灯的光线从大约十步外的位置投来”；第40轮同一段前后也写“路灯的光线从侧方照在她的脸上”和“路灯的光下”。",
+    "conflictingTurns": [
+      39,
+      40
+    ],
+    "source": "model-output",
+    "reason": "户外公园场景中突然出现“壁灯”，和已建立的路灯照明环境不一致，像是室内侧厅残留。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 41,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "正文出现“[卡琳娜]她收到了那个信号。”，同轮后文又出现“[卡琳娜 → 帕兹]‘敏特来找过我。’”。",
+    "conflictingEvidence": "窗口上文通常用“[帕兹]”“[卡琳娜]”“[卡尔]”标注直接对白，例如 turn 31 的“[帕兹]‘我来找一个人。她叫敏特。’”，叙述句本身不带角色标签，也不使用箭头式收发标记。",
+    "conflictingTurns": [
+      31,
+      32,
+      40
+    ],
+    "source": "model-output",
+    "reason": "角色标签泄漏到叙述句，并且对白标签格式突然切换为箭头式标记，破坏了玩家可见文本的格式稳定性。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "正文写成“[卡琳娜]卡琳娜的声音比刚才……”以及“卡纸灯的光线在卡尔的声音消失后重新填充了整个空间。”",
+    "conflictingEvidence": "同一房间的光源在 turn 41、turn 42 和 turn 43 其他位置都被称为“煤油灯”；窗口上文正常叙述也不会把角色标签和角色名连续叠写。",
+    "conflictingTurns": [
+      41,
+      42,
+      43
+    ],
+    "source": "model-output",
+    "reason": "这一轮同时出现角色标签重复和“卡纸灯”误字，属于明显可见的文本质量退化。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 44,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "卡尔先“在煤油灯旁边的桌角处停下来……它蜷缩下来”，同一轮熄灯后又写“墙角处传来一声极轻的、猫科动物调整卧姿时爪子收拢又放开的声响”。",
+    "conflictingEvidence": "这一轮没有写卡尔从桌角离开或回到墙角；此前 turn 41、turn 42 和 turn 43 中卡尔一直在墙角，直到 turn 44 明确移动到桌角。",
+    "conflictingTurns": [
+      41,
+      42,
+      43,
+      44
+    ],
+    "source": "model-output",
+    "reason": "卡尔的位置在同一轮内从桌角跳回墙角，中间缺少玩家可见移动承接。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 45,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "晨光“落在地面的旧砖上”。",
+    "conflictingEvidence": "turn 41 进入房间时明确写“地面是水泥——平整，但没有打磨处理过”；turn 44 也多次写椅腿和卡尔都在“水泥地面”上。",
+    "conflictingTurns": [
+      41,
+      44
+    ],
+    "source": "model-output",
+    "reason": "同一个房间的地面材质从水泥变成旧砖，缺少任何空间变化或解释。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "这一轮大量使用“[卡琳娜 → 主角]”和“[帕兹 → 卡琳娜]”作为对白标签。",
+    "conflictingEvidence": "窗口上文的玩家角色始终以“帕兹”出现，例如 turn 31 的“[帕兹]”，没有把玩家可见角色标成“主角”，也没有长期使用箭头式收发标签。",
+    "conflictingTurns": [
+      31,
+      41
+    ],
+    "source": "model-output",
+    "reason": "对白标签把玩家角色名漂移成元叙事的“主角”，并持续使用非惯例箭头格式，影响沉浸和格式一致性。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 49,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "turn 49 以“[卡琳娜 → 主角]‘古董街？’”开场，随后才写“你开口……‘想去碰碰运气。看看能不能找到关于敏特或者骷髅会的线索。’”",
+    "conflictingEvidence": "turn 48 末尾卡琳娜问“你今天打算做什么？”，turn 49 的玩家输入是“告诉她今天打算去古董街看看，搜集更多情报”。",
+    "conflictingTurns": [
+      48,
+      49
+    ],
+    "source": "model-output",
+    "reason": "模型把卡琳娜对“古董街”的反应放在帕兹说出计划之前，打乱了玩家输入和回应之间的因果顺序。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "离开时门被写成“一扇旧木门——漆面是暗绿色的……门把手是一个简单的铸铁弯柄”，门外是“宽度大约可供三人并排行走”的窄巷。",
+    "conflictingEvidence": "turn 41 抵达时同一入口是“一扇普通的、铁质的、表面漆皮剥落的门”，把手是“圆形的铁质旋钮——没有锁孔”；门所在巷道在拐弯后“宽度大约仅剩一臂”。",
+    "conflictingTurns": [
+      41
+    ],
+    "source": "model-output",
+    "reason": "同一处住所入口的门材质、把手形态和外部巷道宽度都发生了无承接变化。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "正文写成“阳光在你走出遮阳棚覆盖范围的手笼中重新落在你肩上和相机背带上”。",
+    "conflictingEvidence": "这一句周围语境是在描述走出遮阳棚后的时间和空间变化，“手笼中”不是可理解的叙事词组。",
+    "conflictingTurns": [
+      50
+    ],
+    "source": "model-output",
+    "reason": "明显误字让句子局部不可读，属于玩家可见文本质量问题。"
+  }
+]

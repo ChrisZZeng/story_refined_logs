@@ -1,0 +1,280 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 9 描述客厅时写道：\"书架上还搁着一只搪瓷杯，白色，杯口有一圈蓝边，杯底残留着一层浅褐色的茶渍。\" 后文又写：\"视线从卡琳娜脸上移开了一瞬——落在书架上的搪瓷杯上\"。",
+    "conflictingEvidence": "turn 8 从楼梯上看进客厅时，同一只具有相同特征的杯子被放在窗台上：\"窗台上放着一只搪瓷杯，白色，杯口有一圈蓝色的边。\"",
+    "conflictingTurns": [
+      8
+    ],
+    "source": "model-output",
+    "reason": "同一只显著物件在没有可见移动动作的情况下从窗台变到书架，造成轻微物件位置连续性漂移。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 10 卡琳娜说：\"两星期前。她在古董街附近出现过——向人打听骷髅会的船期。行踪不定，没人能说她现在还在不在岛上。\"",
+    "conflictingEvidence": "turn 9 帕兹说明自己找的朋友在这座岛上后，卡琳娜听到\"敏特\"这个名字，回答：\"……她确实在这里。\" 并接着说：\"我会帮你在这座岛上找到你想找的人。\"",
+    "conflictingTurns": [
+      9
+    ],
+    "source": "model-output",
+    "reason": "卡琳娜先确认敏特确实在岛上，下一轮又改成只能确认两星期前出现过且现在是否仍在岛上无人知晓，核心寻人信息被明显降级并相互冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 15,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 15 轮写道：“敲门声第三次响起。三声——停顿——两声。急促的节奏，像一个人在短暂的停顿中重新调整了呼吸，然后继续施工。”",
+    "conflictingEvidence": "同一段上下文一直在描写楼下敲门和喊话，例如“楼下传来一阵急促的敲门声”“敲门声第二次响起”“她的名字”。",
+    "conflictingTurns": [
+      15
+    ],
+    "source": "model-output",
+    "reason": "“继续施工”在敲门语境中明显用词错误，造成局部阅读断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 19 轮写道：“圆桌下——阴影里——传来一声几乎听不到的动静。黑猫的耳朵动了一下……尾巴——原来伸直在木地板上的——微微卷曲了一下尾尖，然后松开。”",
+    "conflictingEvidence": "第 18 轮结尾前，黑猫“跃上去……在一个靠垫的中央处蹲下来”，随后“蜷缩成一团”；帕兹重新躺下时也分辨出“沙发上那团蜷缩的黑色”。",
+    "conflictingTurns": [
+      18
+    ],
+    "source": "model-output",
+    "reason": "黑猫在没有任何玩家可见移动过渡的情况下，从沙发靠垫回到圆桌下和木地板上。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 20 轮写道：“沙发上——那团黑色的轮廓在黑暗中动了一下”，并描写黑猫在沙发扶手边缘摆尾。",
+    "conflictingEvidence": "第 19 轮刚把黑猫放在“圆桌下——阴影里”，并写它的尾巴“原来伸直在木地板上”。第 19 轮结尾没有写黑猫从圆桌下回到沙发。",
+    "conflictingTurns": [
+      19
+    ],
+    "source": "model-output",
+    "reason": "黑猫的位置在相邻两轮之间再次无过渡跳回沙发，玩家看到的空间状态不稳定。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "第 20 轮写道：“指腹先触到睡衣的布料，棉质的，带着体温”，后文又写“掌心贴着睡衣前襟”和“指尖轻轻压了一下自己睡衣的纽扣”。",
+    "conflictingEvidence": "此前玩家可见内容只显示帕兹在卡琳娜客厅留宿：第 15 轮提到“夹克挂在椅背上”，第 18 轮只是“走回沙发……你躺下来，毛毯拉到胸口”，没有任何换上睡衣或出现睡衣的过渡。",
+    "conflictingTurns": [
+      15,
+      18
+    ],
+    "source": "model-output",
+    "reason": "正文突然把帕兹写成穿着睡衣并有睡衣纽扣，缺少玩家可见承接，破坏了衣着和身体状态连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "Turn 21 写道：“你的手指从睡衣纽扣上移开。”",
+    "conflictingEvidence": "Turn 14 只写到帕兹摸索走回沙发、躺下并盖毛毯；Turn 15 写到“夹克挂在椅背上”，但此前玩家可见内容没有出现换上睡衣或整理睡衣纽扣的动作。",
+    "conflictingTurns": [
+      14,
+      15
+    ],
+    "source": "model-output",
+    "reason": "正文在没有可见换衣承接的情况下把帕兹的服装状态改成了带纽扣的睡衣，造成轻微服装连续性跳变。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 26 写道：“沙发弹簧在某个重物离开后恢复原状时发出的沉闷的嘎吱声。然后是四足落地的声响”，随后黑猫从身后靠近并跳到圆桌边缘。",
+    "conflictingEvidence": "Turn 24 已经写明黑猫从门口方向沿沙发和圆桌之间的通道移动，并在玩家身后停住：“一道深色的影子蹲坐在沙发附近的阴影里”；Turn 25 只写玩家蹲在窗边摸爪痕，没有黑猫重新回到沙发上的可见承接。",
+    "conflictingTurns": [
+      24,
+      25
+    ],
+    "source": "model-output",
+    "reason": "黑猫上一段可见位置是在地面、沙发附近的阴影里，Turn 26 却把它写成刚从沙发上跳下，缺少位置变化承接。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第36轮先写相机“镜头盖闭合，边缘卡合牢固”，并且玩家“用手指在镜头盖边缘按压了一次——确认闭合状态”；随后又写“相机贴近你的右眼”，取景器中清楚看到绿铁皮酒馆、招牌、正门、二楼窗缝和右侧防火门；结尾又写“右手拉上了镜头盖——卡嗒——闭合”。",
+    "conflictingEvidence": "同一轮已经确认镜头盖处于闭合状态，正文没有描写玩家在观察前打开镜头盖，却让相机完成了取景观察，并在观察后再次闭合镜头盖。",
+    "conflictingTurns": [
+      36
+    ],
+    "source": "model-output",
+    "reason": "镜头盖状态从闭合直接跳到可取景，再写成重新闭合，导致相机物件状态和观察动作不成立。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第37轮开头写玩家“从正对酒馆的方向向左偏了约三十度”，随后又写“窄巷入口——你选择的位置就在绿铁皮酒馆右侧的建筑间隙中”。",
+    "conflictingEvidence": "第36轮选项和第37轮玩家输入都是“先拐进右侧窄巷，检查那扇暗红色防火门”；第36轮观察也写“建筑的右侧面——小巷的方向”，并在右侧小巷中看到暗红色防火门。",
+    "conflictingTurns": [
+      36,
+      37
+    ],
+    "source": "model-output",
+    "reason": "玩家选择和上一轮空间信息都指向右侧小巷，但正文先写成向左偏转，造成进入目标小巷的方位承接出现局部断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 40,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第40轮写玩家回到巷道入口后看到“绿铁皮酒馆的正门在你右侧大约十五步的位置”，接着只描写目光扫过正门和门缝，却直接写“你站在人行道上，距离绿铁皮的正门大约六七步的位置”。",
+    "conflictingEvidence": "同一轮从防火门沿来路回到巷道入口后，正文没有描写玩家继续向正门移动；十五步的距离没有被行动消解，却变成了六七步。",
+    "conflictingTurns": [
+      40
+    ],
+    "source": "model-output",
+    "reason": "角色位置凭空向正门前移约八九步，削弱了后续假装看手机观察正门这一行动的空间基础。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 41,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 41 轮发生在晨光中，玩家从绿铁皮正门窥视，正文写到吧台后有围裙男人，圆桌处有人端起玻璃杯，并在玩家的整理中明确写出“目前有两名顾客在室内——一个在圆桌处——另一个在方桌处——吧台后一名服务员——深处至少还有一个人在说话”。",
+    "conflictingEvidence": "第 31 轮卡尔说明目标地点时说：“港口区。靠近码头那侧，有一家挂着绿铁皮招牌的酒馆。白天不营业，晚上后门虚掩——不走前门，走后面的小巷。第二个拐角处有一扇涂成暗红色的防火门。”",
+    "conflictingTurns": [
+      31
+    ],
+    "source": "model-output",
+    "reason": "重点范围内把清晨的酒馆明确写成已有顾客、服务员和吧台活动的营业式空间，否定了此前玩家可见的“白天不营业”规则；第 40 轮的虚掩门和人声只作为上下文，不单独计入本批次。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 50,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 50 轮中，门后人站在门缝后并说“原路回去”，玩家仍面对门缝时，正文写：“冷色光从门缝中流出，在你的靴尖前止步。室内的另一道呼吸声——在你身后——在你注意到它之后——没有变得更轻”。随后正文才写玩家“从面向他转向了朝向通道的方向”并“转过身”。",
+    "conflictingEvidence": "第 49 轮已经建立这道呼吸声来自“室内”“你视野之外的区域”“房间深处的某个角落”。第 50 轮同段也显示门缝和室内在玩家面前，直到后文玩家才转身离开。",
+    "conflictingTurns": [
+      49,
+      50
+    ],
+    "source": "model-output",
+    "reason": "在玩家尚未转身、室内仍位于面前时，把室内呼吸声标成“在你身后”，短暂打乱了威胁方位和空间关系。"
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "第 12 轮中出现了“[卡琳娜]她看着你的动作”“[卡琳娜]然后她开口了”，并且在“[帕兹]‘第二封——是确认我已经在了。’”之后紧接着写成“她说。”",
+    "conflictingEvidence": "同一窗口中通常用“[角色]‘对白’”标记发言，例如第 11 轮“[卡琳娜]‘不是。’”。第 12 轮这里的标签和代词却落在叙述句上，并把刚刚由帕兹说出的判断归成了“她说”。",
+    "conflictingTurns": [11, 12],
+    "source": "model-output",
+    "reason": "正文把对白标签和叙述句混用，并在局部把发言者代词写错，会让玩家短暂误判是谁在说话。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 15,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "第 15 轮开头写成“[帕兹]你的手从门把手上松开了。”",
+    "conflictingEvidence": "同一轮后文把真正的对白写成“[门外 → 卡琳娜]‘卡琳娜……是我！德索洛！开门！’”“[卡琳娜]‘……德索洛。’”。",
+    "conflictingTurns": [15],
+    "source": "model-output",
+    "reason": "角色标签被放在第二人称叙述句前，而不是对白前，破坏了本批次稳定的正文格式。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 16 轮写成“[帕兹]声音不高。语速不快。”，后文又出现“桌上的两封信并排躺在桌面上一——一封已拆封，一封未拆封”。",
+    "conflictingEvidence": "同一批次的正常格式通常是无标签叙述，或用角色标签引出引号内对白；“桌面上一——一封”也不像有意的正文表达。",
+    "conflictingTurns": [16],
+    "source": "model-output",
+    "reason": "这一轮同时出现角色标签误贴叙述句和明显残留字词，属于玩家可见文本质量回退。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 18,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 18 轮帕兹说：“我在前线待了五年。中东，非洲，几个你大概没听说过名字的地方。”",
+    "conflictingEvidence": "第 10 轮同一人物刚说过：“战地记者。在非洲和中东待了六年。”",
+    "conflictingTurns": [10],
+    "source": "model-output",
+    "reason": "帕兹的前线经历时长从六年变成五年，没有可见解释，造成角色经历事实不稳定。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 20,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "第 20 轮选项突然给出“建议她换身更正式的——今晚的宴会需要体面”。",
+    "conflictingEvidence": "第 11-20 轮当前可见场景仍在卡琳娜的暗街房间内，围绕两封信、德索洛求助、卡尔发问和卡琳娜身份展开；此前玩家可见内容没有建立“今晚有宴会”或需要为宴会换装的目标。",
+    "conflictingTurns": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    "source": "model-output",
+    "reason": "选项把尚未对玩家可见的下一阶段目标提前写出，导致玩家在当轮选择时遭遇未铺垫的情境跳转。"
+  }
+]

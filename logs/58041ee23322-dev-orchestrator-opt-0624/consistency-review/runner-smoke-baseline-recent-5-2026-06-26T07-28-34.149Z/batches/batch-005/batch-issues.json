@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 42,
+    "scope": "choices",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "本轮正文先让卡琳娜指向同一扇门说“那边有个小房间。床和柜子都有。没有窗户，但很安静。你可以睡那边。”随后她自己走到门边，说“晚安”，迈进黑暗，门后响起“床垫弹簧受压”的声音。本轮选项仍给出“起身走向那扇门，去小房间休息”。",
+    "conflictingEvidence": "同一轮玩家可见正文已经显示卡琳娜进入了那扇门后的房间，并且门后传来床垫受压声，说明这个房间不再是无人使用的空房间。",
+    "conflictingTurns": [42],
+    "source": "model-output",
+    "reason": "选项把刚被卡琳娜进入并使用的房间继续呈现为玩家可直接入住的小房间，破坏了当前空间和行动状态的连续性。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "本轮玩家走向那扇门，跨进小房间，关门后看到床和柜子，随后坐到床沿、取下相机并躺下入睡。正文还写到“门缝外，没有脚步声。隔壁房间一直是安静的……卡琳娜已经睡着了，或者保持安静着，与她所处的那片黑暗共存。”",
+    "conflictingEvidence": "turn 42 中，卡琳娜已经走进同一扇门后的黑暗里，门后的房间传来几步脚步声和床垫弹簧受压声。",
+    "conflictingTurns": [42],
+    "source": "mixed",
+    "reason": "玩家输入沿用了上一轮有问题的选项，而本轮正文进一步把同一房间写成空置并可由玩家独占，等于抹去了卡琳娜刚进入并使用该房间的可见事件。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 45,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "本轮正文只写玩家坐下后回答“睡得很沉。”并追问“你呢。”卡琳娜尚未回答。本轮选项却出现“追问昨晚也没睡好？”。",
+    "conflictingEvidence": "turn 44 中卡琳娜只问“睡得好吗。”turn 45 当前正文也没有出现她说自己没睡好、也没睡好或类似信息。",
+    "conflictingTurns": [44, 45],
+    "source": "model-output",
+    "reason": "选项预设了卡琳娜已经表达昨晚睡得不好，但玩家可见上下文中这一信息尚未发生。"
+  },
+  {
+    "windowRange": { "start": 31, "end": 50 },
+    "evalRange": { "start": 41, "end": 50 },
+    "turn": 47,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "本轮卡琳娜说：“大概是……半个月前吧。她来问我骷髅会的事。”",
+    "conflictingEvidence": "turn 37 中卡琳娜已经说过同一事件：“敏特来找过我。”“几个月前的事。她来打听骷髅会的情报。”",
+    "conflictingTurns": [37],
+    "source": "model-output",
+    "reason": "同一人物对敏特来找她打听骷髅会这件事给出了“几个月前”和“半个月前”两个不同时间，影响关键线索的时间线稳定性。"
+  }
+]

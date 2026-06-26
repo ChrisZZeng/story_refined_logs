@@ -1,0 +1,80 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 2,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "小贩说：“不过——你说到‘红头发’——我倒是有点印象。”",
+    "conflictingEvidence": "Turn 1 只描述敏特照片上的女人“头发被风吹乱了”，没有给出红发信息；Turn 2 中帕兹只说敏特是同伴、已在战区死去、照片和信从新西西里寄来，也没有说过“红头发”。",
+    "conflictingTurns": [1, 2],
+    "source": "model-output",
+    "reason": "正文把尚未被玩家可见内容建立过的“红头发”说成帕兹已经提到的信息，造成情报来源跳跃。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 3,
+    "scope": "choices",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "Turn 3 的选项为：“直接去暗街，往日总是如影随形”。",
+    "conflictingEvidence": "同一轮正文已经写到卡琳娜让帕兹“现在跟我来”，帕兹“跟上她的脚步”，并且“暗街在你面前展开”。",
+    "conflictingTurns": [3],
+    "source": "model-output",
+    "reason": "选项把已经发生或正在发生的进入暗街动作重新作为下一步选择，且“往日总是如影随形”语义突兀，降低了选择状态的清晰度。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 6,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "Turn 6 写道领头的人“目光越过你的肩膀——落在你身后的某个人身上”，随后确认“卡琳娜。她站在你身后大约两步的位置。从刚才到现在，她没有动过一步”。",
+    "conflictingEvidence": "Turn 5 危机对峙时写卡琳娜“站在你和那三个人之间那片狭窄的空隙里”，用沉默撑住双方之间的裂口。",
+    "conflictingTurns": [5],
+    "source": "model-output",
+    "reason": "卡琳娜从帕兹与黑帮成员之间漂移到帕兹身后，但正文同时声称她没有移动，破坏了对峙场面的空间连续性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "Turn 10 先说房间里有“炉灶关掉后”的余味，随后卡琳娜“从炉灶边拿起水壶”，从水桶舀水倒进去，再“拧开旋钮，蓝色火苗再次跳起来”。",
+    "conflictingEvidence": "Turn 9 中卡琳娜拿起的是“那只搪瓷杯”，打开煤气罐和炉灶后把杯子放在灶上，并把火调小；正文没有写她关火或把杯子换成水壶。",
+    "conflictingTurns": [9],
+    "source": "model-output",
+    "reason": "加热容器从搪瓷杯变成水壶，炉灶也从上一轮仍在小火加热变成已关闭后再次点燃，局部道具和动作状态不连续。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜问：“你来暗街。到底是为了什么？”帕兹回答“……来找一个人”后，她继续问：“谁？”",
+    "conflictingEvidence": "Turn 3 中帕兹已经把敏特照片递给卡琳娜并说“我来找这个人”“她是我的同伴。我收到消息说她在这里”；卡琳娜随后回答“……见过”“她来过暗街”，并提出可以告诉帕兹她在哪。",
+    "conflictingTurns": [3],
+    "source": "model-output",
+    "reason": "卡琳娜已经知道帕兹来暗街是为找照片上的敏特，却在安全屋里像首次确认一样重新追问目的和对象，使核心互动状态被轻微重置。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "钥匙落在木质的桌面上，发出清脆的金属碰撞声——🔑——然后停了。",
+    "conflictingEvidence": "Turn 1-9 的正文一直使用常规中文叙事和对白格式，没有在正文中插入 emoji 式的图标音效。",
+    "conflictingTurns": [1, 9],
+    "source": "model-output",
+    "reason": "正文突然插入钥匙 emoji 作为音效符号，破坏了此前稳定的叙事文本格式。"
+  }
+]

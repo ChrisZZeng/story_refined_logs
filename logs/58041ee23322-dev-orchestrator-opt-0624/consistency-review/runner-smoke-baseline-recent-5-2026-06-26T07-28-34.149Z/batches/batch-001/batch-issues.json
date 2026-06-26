@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 4,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第4轮中，帕兹对拦路者说：“这相机是我战友的遗产！我也没拍什么，胶卷和记忆卡都给你！”",
+    "conflictingEvidence": "第1轮已经把随身相机明确写成“老旧胶卷相机挂在脖子上，镜头盖上有几道划痕”。",
+    "conflictingTurns": [1],
+    "source": "model-output",
+    "reason": "核心道具已被定义为胶卷相机，角色又把“记忆卡”和“胶卷”并列交出，会让相机介质状态前后不稳定。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第5轮先写“身后没有脚步声”，随后“前方巷子拐角”走出“还是刚才那个”皮夹克和另外两人。",
+    "conflictingEvidence": "第4轮帕兹从三人身旁穿过进入暗街，文本强调“没有脚步声跟上来”，三人留在身后巷口。",
+    "conflictingTurns": [4],
+    "source": "model-output",
+    "reason": "同一组三人没有可见追赶或绕路承接，却从玩家前方再次出现，空间位置变化缺少支撑。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "第9轮玩家输入是“走向窗台，伸手试探那只黑猫”，正文完成试探后又写“你伸手拿起那本旧书，翻开封面”并“继续翻书”。",
+    "conflictingEvidence": "第8轮把“翻开那本褪色的旧书，看看里面写了什么”列为另一个可选行动，玩家本轮没有选择它。",
+    "conflictingTurns": [8, 9],
+    "source": "model-output",
+    "reason": "正文在同一轮擅自执行了另一条未选择的调查行动，削弱了玩家选择和后续行动承接。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "第10轮在玩家选择“继续翻看这本手写旧书”后，正文开头写“你翻开封面”。",
+    "conflictingEvidence": "第9轮末尾已经写过“你伸手拿起那本旧书，翻开封面”并“你继续翻书”。",
+    "conflictingTurns": [9],
+    "source": "model-output",
+    "reason": "“继续翻看”应承接已打开并翻动的书，第10轮却轻微回退到重新翻开封面的动作。"
+  }
+]
