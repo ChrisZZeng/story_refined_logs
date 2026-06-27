@@ -1,0 +1,90 @@
+{
+  "issueId": "issue-42-turn-97",
+  "turn": 97,
+  "issueValidity": "valid",
+  "problemSummary": "玩家刚看到卡琳娜把旧书合上并推到桌中央，下一轮关于“感觉”的追问却又把它写成“翻开的旧书”，并继续描写同一组可见符号。",
+  "validityAssessment": {
+    "verdictReason": "问题成立。turn 95 明确“她合上了书”“把合上的书往桌中央推了推”，turn 96 也只说手指停在旧书封面上方/封面处；turn 97 没有任何重新翻开动作，却写“长桌上那本翻开的旧书”和可见符号。",
+    "playerVisibleSupport": "visible-timeline.jsonl 中 turn 95 的合书与推书、turn 96 的封面触碰、turn 97 的“翻开的旧书/符号照得清晰”构成直接玩家可见冲突。",
+    "caveats": [
+      "玩家确实在追问旧书中的“感觉”，所以重新谈论书本合理；不合理的是物理状态从 closed 跳回 open。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "进入 turn 97 前，旧书应为 closed，位于桌中央；卡琳娜上一轮围绕“另一边”解释，玩家选择追问旧书的感知方式，但还没有让任何人重新打开书。",
+    "relevantFacts": [
+      {
+        "claim": "旧书已经被卡琳娜合上并推到桌中央。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06b-narrator-prompt.md"
+        ],
+        "notes": "turn 95/96 的最近几轮正文在 prompt 中保留了“合上了书”“合上的书”“旧书封面”等文本。"
+      },
+      {
+        "claim": "玩家本轮核心意图是询问旧书“感觉”是什么意思，而不是执行重新翻书动作。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06a-director-prompt.md"
+        ],
+        "notes": "玩家输入为“问她关于那本旧书的事——感觉是什么意思？”。"
+      },
+      {
+        "claim": "旧书早先曾是打开状态，且有“三条弧线和两个短点”的符号。",
+        "availability": "stale",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06a-director-prompt.md"
+        ],
+        "notes": "turn 93-95 的翻书和符号描写仍在最近上下文里，对生成有显著牵引，但已经被 turn 95 的合书事件更新。"
+      },
+      {
+        "claim": "当前 story state 没有结构化记录书本 open/closed 状态。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/03-story-state.json"
+        ],
+        "notes": "currentStoryline 只概括“旧书中感觉”，没有可供 Director/Narrator 优先读取的 object state。"
+      }
+    ],
+    "competingPressures": [
+      "旧书与符号是连续多轮的焦点，旧的“翻开的旧书”表达高频出现。",
+      "玩家追问“感觉”容易把生成拉回刚才看符号/翻页的场景。",
+      "通用一致性规则存在，但没有把最新物理状态提升为硬约束。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06-llm-calls.json[0].object",
+    "triggeringPressure": "Director output 把本轮 beat 写成“主角走向长桌，指向翻开的旧书”，requiredContent 又要求视角停留在“手指、书页和壁炉火光”的关联上，把已关闭的书重新当成可见书页。",
+    "missingGuard": "缺少当前场景 object-state anchor，例如“旧书 remains closed unless a new reopen action occurs”；story state 和 handoff schema 也没有 open/closed 字段或最新状态优先检查。",
+    "mechanismStatement": "旧的 opened-page/symbol 语境在 prompt 中持续高显著，而最新 closed 状态只埋在长篇最近正文里；Director 没有被要求验证物体状态，就把追问旧书解释成回到已打开页面，Narrator 随后照写为玩家可见矛盾。",
+    "directCause": "Director 的剧情骨架先把旧书标成“翻开”，Narrator 输出继续描写“那组由三条弧线和两个短点组成的符号”。",
+    "propagation": "turn 97 的可见正文和后续 choice 使玩家继续围绕打开书页的嗅觉/触觉回忆推进，turn 98 进一步把“面前的书页”作为事实延续。",
+    "nonCauses": [
+      "不是玩家输入要求重新打开书。",
+      "不是 hidden lore 必然要求书保持打开。",
+      "Choice worker 不是最早偏离点，只是在错误正文之后生成后续选项。"
+    ]
+  },
+  "rootCause": {
+    "label": "context-priority",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "当前上下文中同时存在 stale 的“翻开的旧书/符号”和最新的“合上旧书”状态；系统没有把最新物体状态结构化并作为硬优先级交给 Director/Narrator，导致旧场景细节覆盖最新可见事实。",
+    "fixSurface": [
+      "Director prompt/context assembly: add current-scene object-state anchor for interactive objects.",
+      "Narrator handoff schema: include objectState deltas such as book.open=false and require reopen action before page/symbol descriptions.",
+      "State writeback: persist close/open and item position when visible text changes them."
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 95: “她合上了书”“把合上的书往桌中央推了推”；turn 96: 手指在旧书封面/合上书上；turn 97: “重新落回长桌上那本翻开的旧书”“把那组由三条弧线和两个短点组成的符号照得清晰”。",
+    "internalTrace": "turn-97/06-llm-calls.json 的 Director object 已写入“指向翻开的旧书”和“书页”；turn-97/06b-narrator-prompt.md 同时含有最近合书证据和旧的翻页/符号文本，但没有结构化 open/closed 状态。"
+  },
+  "recommendedFixArea": "为最近可见动作生成 current-scene physical state，并在 Director/Narrator 前执行“最新物体状态优先于旧描写”的校验。",
+  "confidence": "high"
+}

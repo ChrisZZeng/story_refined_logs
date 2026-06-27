@@ -1,0 +1,341 @@
+{
+  "batchId": "batch-024",
+  "issueCount": 3,
+  "completedCount": 3,
+  "validityCounts": {
+    "valid": 2,
+    "questionable": 1,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 81,
+      "turn": 186,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "时间继续推进后，晨光在同一围栏上的位置从接近顶端退回第二道横杆，造成局部时间/光影连续性倒退。",
+      "batchId": "batch-024",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "context assembly: 为当前场景抽取可持续环境锚点，例如 lightPosition、shadowDirection、wetness、objectLocation，并标注单调/不可回退规则。",
+          "Director-to-Narrator handoff: 对返回同一地点的 turn 注入“do not regress visible environmental anchors”的当前场景约束。",
+          "post-generation consistency check: 对同一名词短语和序数坐标做短窗可见文本回退检测。"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 current scene continuity anchor 的抽取和注入；对光线、影子、水痕等可见环境细节建立短窗单调性 guard。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-024/issues/issue-081-turn-186/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-024/issues/issue-081-turn-186/root-cause-report.md",
+      "result": {
+        "issueId": "issue-81",
+        "turn": 186,
+        "issueValidity": "valid",
+        "problemSummary": "晨光在同一处公园铁艺围栏上的位置从第 181 轮的“第三根横杆移到接近顶端”退回第 186 轮的“第二道横杆”，与其间已经经过的观察和停留时间不连续。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见文本已经建立晨光沿围栏持续爬升；第 184 轮又等了两三分钟，第 185 轮又停留将近三分钟，第 186 轮返回时却写到更低的第二道横杆，形成局部时间/光影倒退。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中第 181 轮写“从铁艺围栏的第三根横杆移到了接近顶端的位置”；第 184 轮写“大约两三分钟”；第 185 轮写“停留了将近三分钟”；第 186 轮写“晨光已经爬到了铁艺围栏的第二道横杆上”。",
+          "caveats": [
+            "“第二道/第三根”的计数方向理论上有极小解释空间，但同一叙述使用“爬到”和“接近顶端”作为上升标记，玩家自然会读成同一垂直进度。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角已离开公园长椅，在附近街道观察、躲入门洞、爬到二楼阳台俯瞰并确认安全；晨光和影子应继续向早晨更晚的状态推进，而不是回到更低的围栏位置。",
+          "relevantFacts": [
+            {
+              "claim": "第 181 轮已经把公园铁艺围栏上的晨光定位到第三根横杆并接近顶端。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实完整进入了 Narrator prompt 的“最近几轮玩家经历”，但只是长篇 prose 中的一句，没有被抽取成当前场景锚点或硬约束。"
+            },
+            {
+              "claim": "第 184 轮和第 185 轮又明确经过两三分钟和将近三分钟。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md"
+              ],
+              "notes": "经过时间在最近上下文中清楚，但没有和围栏光线位置形成可执行的单调推进约束。"
+            },
+            {
+              "claim": "第 186 轮的玩家行动只是返回公园长椅，并未触发时间倒流、视角切换或特殊光学解释。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 只安排“主角走回公园长椅坐下、卡琳娜出现”，没有要求重置环境时间。"
+            },
+            {
+              "claim": "写作规则鼓励用光线变化暗示时间。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06b-narrator-prompt.md"
+              ],
+              "notes": "这使 Narrator 很容易生成新的光影细节；但缺少与既有坐标对齐的 guard。"
+            }
+          ],
+          "competingPressures": [
+            "Director handoff 将重点放在“返回长椅、卡琳娜出现、温馨忧郁对话”上，环境连续性不是显式任务目标。",
+            "Narrator prompt 的最近五轮很长，光线位置只是埋在第 181 轮正文里。",
+            "底层写作规则要求用光线表现时间流动，增加了重新造一个具体光线坐标的压力。",
+            "第 185 轮反复出现“横档”等金属横向构件描写，可能降低“横杆”这个细节的辨识度。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/06-llm-calls.json 的 Narrator streamText / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-186/04-output.json",
+          "triggeringPressure": "Narrator 被要求把“返回公园长椅、卡琳娜出现”的慢铺场景落成感官细节，同时写作规范鼓励用晨光/影子表现时间；Director 输出没有传递围栏光线已接近顶端这一具体坐标。",
+          "missingGuard": "缺少 current-scene anchor 来记录“公园铁艺围栏光线位置已到接近顶端，后续只能继续推进或改用模糊描写”；也缺少对环境坐标回退的自动一致性检查。",
+          "mechanismStatement": "最近可见正文里的微型环境坐标没有被提升为可执行的当前场景锚点，Narrator 在“用光线显示时间推进”的压力下重新生成了一个具体横杆位置，于是把已经接近顶端的晨光写回第二道横杆。",
+          "directCause": "Narrator 在输出首段中生成“晨光已经爬到了铁艺围栏的第二道横杆上”，没有对照第 181 轮已更高的位置。",
+          "propagation": "错误直接进入 04-output.json 的 narrative/visibleText，并被 consistency review 的 visible-timeline.jsonl 捕获；后续选项没有修正这个环境坐标。",
+          "nonCauses": [
+            "不是 hidden information 导致的错误；玩家可见文本本身足以证明问题。",
+            "不是 Choice worker 主因；选项生成发生在可见正文之后。",
+            "不是长期记忆缺失；关键事实仍在最近五轮 prompt 内，只是没有被锚定和优先化。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "当前场景的可测量环境细节只以长篇最近正文形式存在，没有被抽取为单调推进的 scene anchor；在 Director 未强调该细节、Narrator 又被要求用光影慢铺的情况下，模型重新生成了不受约束的围栏横杆位置，造成玩家可见的光影倒退。",
+          "fixSurface": [
+            "context assembly: 为当前场景抽取可持续环境锚点，例如 lightPosition、shadowDirection、wetness、objectLocation，并标注单调/不可回退规则。",
+            "Director-to-Narrator handoff: 对返回同一地点的 turn 注入“do not regress visible environmental anchors”的当前场景约束。",
+            "post-generation consistency check: 对同一名词短语和序数坐标做短窗可见文本回退检测。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 181 轮“第三根横杆→接近顶端”与第 186 轮“第二道横杆”冲突；第 184、185 轮又增加了约五六分钟的等待/观察时间。",
+          "internalTrace": "turn-186/06b-narrator-prompt.md 已包含第 181-185 轮可见正文和玩家输入；Director output 只要求返回长椅并让卡琳娜出现，没有约束围栏光线位置；turn-186/04-output.json 首段首次出现错误的“第二道横杆”。"
+        },
+        "recommendedFixArea": "优先修复 current scene continuity anchor 的抽取和注入；对光线、影子、水痕等可见环境细节建立短窗单调性 guard。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 82,
+      "turn": 188,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "188 轮为昨晚壁炉前新增了一段卡琳娜向卡尔倾诉且得到回应的对话，改写了早前卡尔给玩家的可见叙述，影响这段情感推进的连续性。",
+      "batchId": "batch-024",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "state-summary-negative-fact-loss",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "statefold/storyline summary policy: 保留对后续可产生冲突的 negative facts，例如“没有说更多”“没有得到回答”“只问了 X”。",
+          "memory persistence: 为关键已公开对话建立 exact/limited conversation facts，供后续回忆同一事件时检索。",
+          "Narrator prompt guard: 当要求角色回忆已出现过的离屏对话时，显式列出可用事实和禁止新增的响应范围。"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 summary/memory 对已公开离屏对话的限制性事实保留；在回忆同一事件时做 source-of-truth 检索和否定事实注入。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-024/issues/issue-082-turn-188/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-024/issues/issue-082-turn-188/root-cause-report.md",
+      "result": {
+        "issueId": "issue-82",
+        "turn": 188,
+        "issueValidity": "valid",
+        "problemSummary": "第 188 轮新增“卡琳娜向卡尔讲述昨晚和主角的谈话，卡尔回应‘那不是很好吗’”的壁炉前对话，和早前卡尔对玩家可见叙述的“她后来没有说什么了/只问你值不值得信任”冲突。",
+        "validityAssessment": {
+          "verdictReason": "玩家此前已经直接向卡尔追问“卡琳娜后来还说了什么”，卡尔回答她后来没有说什么、没有复盘对白，只问了一个信任问题；第 188 轮却让卡琳娜回忆自己后来向卡尔说了大量关于主角倾听方式的话，并得到卡尔一句明确回应，改写了同一夜晚同一壁炉前事件。",
+          "playerVisibleSupport": "visible-timeline.jsonl 第 34 轮写“她后来没有说什么了”“今晚她一句都没有提”“她问我——你值不值得信任”；第 35 轮继续限定她问这个问题时的状态。第 188 轮写“我后来跟她说——我说，我今天跟一个人说了很多……”“卡尔说，那不是很好吗”。",
+          "caveats": [
+            "可以把第 188 轮理解为卡琳娜自己的版本，但早前卡尔是在玩家追问后给出细节，且措辞是排他性的“没有说什么了/一句都没有提”，因此新增大段倾诉和回应不是普通补充。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家已知道昨晚卡琳娜在壁炉前沉默很久，反常之处是没有像以前那样复盘每一句对白，后来只问卡尔“你值不值得信任”；当前公园对话里，卡琳娜正围绕“昨晚那些话”试探主角是否愿意进入她半开的门。",
+          "relevantFacts": [
+            {
+              "claim": "卡尔早前说卡琳娜后来没有再说什么、没有提晚宴对白，只问主角是否值得信任。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06b-narrator-prompt.md"
+              ],
+              "notes": "该精确信息不在第 188 轮最近五轮上下文内；当前故事线 summary 只保留“卡尔回忆并告知卡琳娜在壁炉前的状态和提问”，没有保留排他性否定。"
+            },
+            {
+              "claim": "当前故事线把“卡琳娜的内心反思”和“卡尔与卡琳娜的互动”列为本节点可呈现内容。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06a-director-prompt.md"
+              ],
+              "notes": "这个 storyline pressure 鼓励继续挖掘昨晚壁炉前的内心内容，但没有同时约束它必须兼容早前卡尔叙述。"
+            },
+            {
+              "claim": "Director 本轮要求卡琳娜回应承诺并“部分分享她对昨晚谈话的内心感受”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06b-narrator-prompt.md"
+              ],
+              "notes": "这是合理情感推进，但在缺少旧事实 guard 时，为 Narrator 构造一段安慰性回忆提供了局部压力。"
+            },
+            {
+              "claim": "第 187 轮最新可见文本使用“门”的比喻，玩家第 188 轮回应“我可以走进去”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06a-director-prompt.md"
+              ],
+              "notes": "该最近语境强烈推动温馨、确认式对话，但不要求新增卡尔的昨晚台词。"
+            }
+          ],
+          "competingPressures": [
+            "当前情感弧线要求“温馨安心”，更容易生成一段被卡尔认可的安慰性回忆。",
+            "storyline content 明示“卡尔与卡琳娜的互动”，但没有说明该互动已经由早前可见文本限定。",
+            "早前第 31-35 轮的精确对话已经超出 recent context 窗口，只剩压缩摘要。",
+            "卡琳娜当前需要主动分享但有所保留，Narrator 需要找一个不直接泄露敏特情报的安全分享内容。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06-llm-calls.json 的 Narrator streamText / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/04-output.json",
+          "triggeringPressure": "Director handoff 要求卡琳娜部分分享昨晚谈话后的内心感受；storyline 又把“卡尔与卡琳娜的互动”作为本节点材料，但状态摘要只抽象保留“壁炉前状态和提问”，没有保留早前“没有说什么/没有复盘”的排他性事实。",
+          "missingGuard": "缺少对早前可见对话的 negative fact persistence：系统没有把“卡琳娜没有向卡尔复盘，也没有得到一段安慰回应”作为稳定事实注入第 188 轮。",
+          "mechanismStatement": "早前玩家可见的排他性对话事实在 state/storyline summary 中被压缩成模糊的“状态和提问”，随后“分享昨晚内心感受 + 卡尔与卡琳娜互动”的剧情压力让 Narrator 用一段新编的卡尔回应填补情感空白，从而改写了昨晚壁炉前发生过什么。",
+          "directCause": "Narrator 将卡琳娜的当前情感确认写成一段昨晚已经向卡尔倾诉并被卡尔认可的回忆。",
+          "propagation": "错误直接进入第 188 轮 visibleText；第 189 轮继续沿用“我昨晚在壁炉前坐那么久”的情绪话题，虽然没有重复卡尔原话，但已经承认了第 188 轮新增回忆。",
+          "nonCauses": [
+            "不是 Choice worker 主因；冲突出现在正文生成阶段之前。",
+            "不是玩家输入导致的必然改写；玩家只是给出“我可以走进去”的承诺。",
+            "不是隐藏设定冲突；仅凭第 31-35 轮与第 188 轮玩家可见文本即可确认。"
+          ]
+        },
+        "rootCause": {
+          "label": "state-summary-negative-fact-loss",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "早前对话中的限制性细节——卡琳娜没有复盘、后来只问信任问题——没有作为稳定事实保留到 story state/current storyline；后续情感 beat 又要求回到昨晚内心反思和卡尔互动，Narrator 因缺少否定边界而补写了一段并不存在的倾诉与回应。",
+          "fixSurface": [
+            "statefold/storyline summary policy: 保留对后续可产生冲突的 negative facts，例如“没有说更多”“没有得到回答”“只问了 X”。",
+            "memory persistence: 为关键已公开对话建立 exact/limited conversation facts，供后续回忆同一事件时检索。",
+            "Narrator prompt guard: 当要求角色回忆已出现过的离屏对话时，显式列出可用事实和禁止新增的响应范围。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 34 轮卡尔对“后来还说了什么”的回答是否定性且排他；第 188 轮新增的“我后来跟她说……”和“卡尔说，那不是很好吗”与之直接冲突。",
+          "internalTrace": "turn-188/03-story-state.json 与 06a/06b prompt 的 currentStoryline summary 只写“卡尔回忆并告知卡琳娜在壁炉前的状态和提问”，未包含“没有说什么/一句都没有提”；turn-188 Director output 要求“部分分享她对昨晚谈话的内心感受”；turn-188/04-output.json 首次生成新增对话。"
+        },
+        "recommendedFixArea": "优先修复 summary/memory 对已公开离屏对话的限制性事实保留；在回忆同一事件时做 source-of-truth 检索和否定事实注入。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 83,
+      "turn": 191,
+      "severity": "low",
+      "type": "user-input-ignored",
+      "scope": "mixed",
+      "summary": "正文把玩家想表达的“满意/不满意”问题改写成“确认答案”，轻微改变了玩家发问的含义。",
+      "batchId": "batch-024",
+      "issueValidity": "questionable",
+      "rootCause": null,
+      "confidence": "medium",
+      "recommendedFixArea": "评测侧应区分“局部非逐字复述”和“核心意图被替换”；生成侧可在冒号后疑似直接台词时提高原句保留权重，或要求 Narrator 若改写必须保留关键语义词。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-024/issues/issue-083-turn-191/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-024/issues/issue-083-turn-191/root-cause-report.md",
+      "result": {
+        "issueId": "issue-83",
+        "turn": 191,
+        "issueValidity": "questionable",
+        "problemSummary": "第 191 轮首句把玩家选择中的“对我的答案满意，还是想继续追问”局部改写成“确认我的答案，还是想继续追问”，但后续卡琳娜仍围绕“满意/不满意”回应，核心问意没有被明显阻断。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见首句确实发生了措辞漂移；但同一段正文马上让卡琳娜回答“如果我说我对这个答案不满意”“我没有不满意”，说明系统仍理解并回应了满意度问题。因此证据不足以判定为真正的 user-input-ignored，只能判为轻微改写风险。",
+          "playerVisibleSupport": "第 190 轮选项和第 191 轮玩家输入是“那你是对我的答案满意，还是想继续追问？”；第 191 轮正文首句为“那你是在确认我的答案，还是想继续追问？”；随后卡琳娜以“不满意/没有不满意”回应。",
+          "caveats": [
+            "如果评测标准要求逐字保留冒号后的玩家台词，则这是表层错误；但按 issue_tracer 对 player-input issues 的规则，应优先判断核心 actionable intent 是否被替换或锁死。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 190 轮主角刚解释敏特给了他来到新西西里的理由，并总结自己是为了一个答案而来；玩家接着询问卡琳娜是否满意这个答案，还是想继续追问。",
+          "relevantFacts": [
+            {
+              "claim": "玩家输入的核心意图是询问卡琳娜对答案是否满意，以及是否要继续追问。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/06b-narrator-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/04-output.json"
+              ],
+              "notes": "04-output.json metadata 仍保留原始 playerInput；正文首句改写，但后续回应恢复了“满意/不满意”语义。"
+            },
+            {
+              "claim": "Director 对本轮的角色意图发生轻微重心偏移，把卡琳娜写成“确认帕兹的意图，决定是否继续追问”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/06b-narrator-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/04-output.json"
+              ],
+              "notes": "这解释了正文首句“确认我的答案”的来源，但不等同于玩家核心意图被完全忽略。"
+            },
+            {
+              "claim": "Narrator 生成的后续卡琳娜台词仍直接处理“满意/不满意”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/04-output.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl"
+              ],
+              "notes": "这使该 issue 更像局部 paraphrase drift，而不是有效的 input replacement。"
+            },
+            {
+              "claim": "提示中存在“玩家输入不代表就是说出口的话，必须检查”的规则。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/06b-narrator-prompt.md"
+              ],
+              "notes": "系统允许对玩家话语进行角色化落地，不能只因非逐字复述判定忽略输入。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择包含冒号后的直接台词，表层上更应接近逐字呈现。",
+            "写作规则允许检查玩家输入是否等于说出口的话，给 Narrator 留出改写空间。",
+            "Director handoff 的“确认帕兹的意图”把满意度问题向确认问题轻微推偏。",
+            "后续正文和 choices 仍围绕“答案是否让人满意/是否继续追问”展开。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/06b-narrator-prompt.md 的 Director output 与 /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-191/04-output.json 的首句",
+          "triggeringPressure": "Director 将玩家问“你是否满意我的答案”概括为卡琳娜“确认帕兹的意图，决定是否继续追问”，Narrator 又在可改写玩家话语的规则下把首句落成“确认我的答案”。",
+          "missingGuard": "没有强制保留冒号后直接台词的措辞；但由于后续台词显式回应“满意/不满意”，这个缺口没有发展成核心意图丢失。",
+          "mechanismStatement": "本轮存在轻微 handoff paraphrase drift：Director 的意图摘要把“满意”推成“确认”，Narrator 首句跟随这个摘要；不过角色回复重新对齐满意度问题，所以不足以确认为 valid issue。",
+          "directCause": "首句对玩家台词做了不必要的语义近似改写。",
+          "propagation": "后续卡琳娜台词没有锁死“确认”版本，而是回到“不满意/没有不满意”；Choice output 也继续提供围绕答案的回应选项。",
+          "nonCauses": [
+            "不是隐藏设定或长期记忆问题。",
+            "不是后续 choice-action-binding 锁死；下一组选项仍允许回答或反问。",
+            "不是完整的 user-input-ignored；核心问意在同一轮响应中被处理。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "同一轮可见文本既有“确认我的答案”的改写，也有卡琳娜直接说“如果我说我对这个答案不满意”“我没有不满意”。",
+          "internalTrace": "turn-191/06b-narrator-prompt.md 中 Director summary 提到“关于他是否满意答案”，但 characterBeats 将卡琳娜 intent 写成“确认帕兹的意图”；turn-191/04-output.json metadata 保留原 playerInput，正文首句发生局部改写。"
+        },
+        "recommendedFixArea": "评测侧应区分“局部非逐字复述”和“核心意图被替换”；生成侧可在冒号后疑似直接台词时提高原句保留权重，或要求 Narrator 若改写必须保留关键语义词。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

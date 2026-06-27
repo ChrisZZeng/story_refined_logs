@@ -1,0 +1,496 @@
+{
+  "batchId": "batch-021",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 69,
+      "turn": 159,
+      "severity": "low",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "相机包在没有玩家动作支撑的情况下出现在门外玩家低头可见的位置，造成物件位置跳跃。",
+      "batchId": "batch-021",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice generator 的 current-scene affordance/object reachability check",
+          "selected choice -> playerIntent normalization 中的 source-of-truth 标记",
+          "Narrator prompt 中 playerInput 与 visibleText 冲突时的优先级规则",
+          "轻量 objectLocation state，用于常用道具的当前可达性"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 Choice 选项生成与 selected-action handoff：选项必须通过当前场景可达性校验；当叙述阶段改写选项中的物件来源时，应把原选项标记为不可靠来源，后续只以 visibleText 为已发生事实。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-069-turn-159/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-069-turn-159/root-cause-report.md",
+      "result": {
+        "issueId": "issue-69-turn-159",
+        "issueIndex": 69,
+        "turn": 159,
+        "issueValidity": "valid",
+        "problemSummary": "第159轮玩家站在卡尔小屋门口/石阶前活动身体后，正文突然写“你低头看了一眼相机包。一切都在原位”，使相机包在没有可见搬移动作的情况下出现在门外可见位置。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。玩家可见文本中，相机包此前被放在屋内椅子扶手附近；玩家随后开门、坐到石阶上、抽烟，正文没有让玩家拿起或带出相机包。第158轮还把“从相机包里拿出烟”的选项执行成“从外套内袋里摸出烟盒”，没有建立相机包在室外。因此第159轮低头看到相机包属于无支撑位置跳跃。",
+          "playerVisibleSupport": "turn-153 写“指尖落在相机包的拉链头上”，并把它定位为由椅子扶手和包面固定出的习惯姿势；turn-155 到 turn-157 玩家在门口和石阶上等待；turn-158 visibleText 写“你从外套内袋里摸出烟盒”；turn-159 visibleText 写“你低头看了一眼相机包。一切都在原位”。",
+          "caveats": [
+            "turn-157 的可见选项和 turn-158 的 playerInput 曾写“从相机包里拿出烟”，但 turn-158 正文实际改写为从外套内袋取烟；因此该选项文本不能单独算作已完成的搬包动作。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家可见状态是：主角已在屋外石阶/门口等待并抽烟，烟盒来自外套内袋；相机包最后清楚定位在屋内椅子扶手附近，且没有被带到门外的可见动作。",
+          "relevantFacts": [
+            {
+              "claim": "相机包在屋内椅子扶手附近，主角手指曾落在拉链头上。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-159/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl"
+              ],
+              "notes": "turn-159 的 recentTurns 仍包含 turn-153 正文，但该事实埋在长篇近期正文中，没有以 objectLocation/currentScene anchor 形式出现。"
+            },
+            {
+              "claim": "主角从屋内移动到门口和石阶上，没有拿起相机包。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-159/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl"
+              ],
+              "notes": "turn-155 到 turn-158 的近期正文连续描写门口、石阶、抽烟动作；没有搬包动作。"
+            },
+            {
+              "claim": "turn-158 的选项/玩家输入声称从相机包拿烟，但正文改成从外套内袋拿烟。",
+              "availability": "contradicted",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-158/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/summary.json"
+              ],
+              "notes": "selectedFromPreviousTurn 保存了不可靠的选项文本；visibleText 才是已发生事实。后续 prompt 未显式标记这两者的冲突。"
+            },
+            {
+              "claim": "本轮 Director 只要求掐灭烟、站起活动，没有要求确认相机包。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-159/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-159/06a-director-prompt.md"
+              ],
+              "notes": "plotPoint beats 为“掐灭烟头”“晨光继续推移”，没有物件位置桥接。"
+            }
+          ],
+          "competingPressures": [
+            "turn-157 choice output 给了一个不可达物件动作",
+            "inputStrategy=choice 使该选项文本变成下一轮 playerInput",
+            "recentTurns 长正文中 playerInput 与 visibleText 并列呈现但没有优先级标记",
+            "慢铺等待场景需要继续提供可操作选项，容易把装备拉回前景"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/04-output.json choices.options[2]",
+          "triggeringPressure": "Choice worker 在主角坐在门外石阶上、相机包仍应在屋内的场景下，生成了“从相机包里拿出烟点上，让呼吸更稳一些”。该不可达动作随后作为 turn-158 playerInput 进入 recentTurns。",
+          "missingGuard": "缺少 choice-action-binding 的场景可达性校验，也缺少“当 Narrator 改写了不可达选项来源时，后续 prompt 不得再把原始选项文本当事实”的冲突标记。",
+          "mechanismStatement": "不可达的 choice text 把“相机包可在门外触及”作为隐含前提写入后续上下文，而系统没有用玩家可见正文优先覆盖该前提，Narrator 在 turn-159 将这个未被证实的前提落实成“低头看到相机包”。",
+          "directCause": "turn-159 Narrator 采纳了“相机包在当前场景可见/可触及”的隐含前提，在活动身体后追加“你低头看了一眼相机包”。",
+          "propagation": "turn-159 visibleText 固化了相机包出现在门口的错误；同轮 choices 又提供“拿起相机包”，turn-160 检查装备时继续围绕相机包展开。",
+          "nonCauses": [
+            "不是隐藏设定或固定剧本要求；Director 本轮没有要求相机包出现在门外。",
+            "不是长期记忆缺失的主因；相关室内位置和门外移动都还在近期正文中，只是没有被选项和叙述阶段强制遵守。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是 Choice worker 把不可达物件“相机包”写进可选行动，并由 inputStrategy=choice 转成下一轮 playerInput；缺失防线是选项可达性校验、selected choice 与实际 visibleText 的冲突标记，以及 Narrator 对玩家可见正文优先级的强约束；失败运动是后续 Narrator 将选项里的隐含物件位置误当成当前场景事实，生成相机包在门外的可见跳跃。",
+          "fixSurface": [
+            "Choice generator 的 current-scene affordance/object reachability check",
+            "selected choice -> playerIntent normalization 中的 source-of-truth 标记",
+            "Narrator prompt 中 playerInput 与 visibleText 冲突时的优先级规则",
+            "轻量 objectLocation state，用于常用道具的当前可达性"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-153：相机包在椅子扶手附近；turn-155/156：主角到门口并坐石阶；turn-158：正文从外套内袋拿烟；turn-159：门口低头看到相机包。",
+          "internalTrace": "turn-157/04-output.json 的 choice 生成了“从相机包里拿出烟”；run summary turn-158 selectedFromPreviousTurn 保存该文本；turn-159 Director plotPoint 没有包相关 beat；turn-159 Narrator 输出把包写入 visibleText。"
+        },
+        "recommendedFixArea": "优先修复 Choice 选项生成与 selected-action handoff：选项必须通过当前场景可达性校验；当叙述阶段改写选项中的物件来源时，应把原选项标记为不可靠来源，后续只以 visibleText 为已发生事实。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 70,
+      "turn": 160,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "相机包从已合拢、在椅子扶手附近，变成桌上半开；同一轮还先说包已在桌上又说把包放到桌上，物件状态和位置承接混乱。",
+      "batchId": "batch-021",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "current-scene-anchor",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "detail-memory",
+          "llm-self"
+        ],
+        "fixSurface": [
+          "current scene/object anchor schema：objectLocation、containerState、lastVisibleTurn",
+          "Director -> Narrator handoff 中对必须桥接的物件移动生成 explicit bridge",
+          "Narrator output local consistency validator，检测同一物件“already X / put to X”冲突",
+          "state writeback 将常用道具开合状态写入可检索事实"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为高频可携带物件增加 current-scene anchor 和 container state，并在 Director 交给 Narrator 的 beats 中要求先桥接移动/开合；增加同轮输出自检，禁止同一物件在同一段被描述为已经在目标位置又被放到目标位置。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-070-turn-160/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-070-turn-160/root-cause-report.md",
+      "result": {
+        "issueId": "issue-70-turn-160",
+        "issueIndex": 70,
+        "turn": 160,
+        "issueValidity": "valid",
+        "problemSummary": "第160轮把相机包写成已经在旧木桌上、拉链半开，随后又写“把包放在桌上，拉开拉链”；这与此前已合拢且在椅子扶手附近的包状态冲突，并在同一段正文内部自相矛盾。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。玩家可见文本明确多次把相机包整理并合拢：turn-148 拉上拉链后放在椅子扶手上，turn-152 把铃铛放回侧袋后“拉链合拢”，turn-153 手指还落在椅子扶手和包面固定出的拉链头位置。turn-160 无桥接地改成桌上半开，并在同一轮先说包已在桌上又说把包放到桌上。",
+          "playerVisibleSupport": "turn-148、turn-152、turn-153 建立关闭/椅子扶手附近；turn-160 visibleText 同时出现“桌面上搁着你的相机包，拉链……半开着”和“你走过去，把包放在桌上，拉开拉链”。",
+          "caveats": [
+            "turn-159 已经把相机包错误带到门口，这使 turn-160 的输入上下文本身被污染；但 turn-160 的“桌上已搁着/又放到桌上”是独立的同轮可见矛盾。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "按玩家可见连续性，进入 turn-160 前相机包应保持已合拢；较早清楚位置是屋内椅子扶手附近，turn-159 又错误地让它出现在门口“原位”。无论采用哪条可见线索，turn-160 都需要明确拿起、带回屋、放到桌上、再拉开，而不能同时写成已经在桌上且尚未放到桌上。",
+          "relevantFacts": [
+            {
+              "claim": "相机包此前已被整理好并拉上拉链。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-148/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-152/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md"
+              ],
+              "notes": "turn-148/152 事实不在 turn-160 的 recentTurns 中；currentStoryline 只保留“整理相机包”等摘要，没有 open/closed 状态。"
+            },
+            {
+              "claim": "相机包具体位置需要桥接：椅子扶手/门口可见，不是自动在桌上。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-159/04-output.json"
+              ],
+              "notes": "prompt 中最近的明确文本只有 turn-159 的“低头看了一眼相机包。一切都在原位”，它没有说明如何回屋、拿起和放置。"
+            },
+            {
+              "claim": "本轮玩家输入只是“回屋检查装备”，没有声明已经拿起包或打开包。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/summary.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06a-director-prompt.md"
+              ],
+              "notes": "Director 只给出“回到屋内/检查相机/检查胶卷/检查防水袋/确认银色铃铛”等 beats。"
+            },
+            {
+              "claim": "Narrator 需要在本轮正文内保持局部自洽，不能先定位在桌上再写放上桌。",
+              "availability": "not-needed",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/04-output.json"
+              ],
+              "notes": "该约束不依赖长期记忆，只需要输出阶段局部一致性检查。"
+            }
+          ],
+          "competingPressures": [
+            "Director requiredContent 要一次完成多个装备检查，天然倾向把包放到桌上作为工作台",
+            "recent window 只有 turn-155 到 turn-159，丢失 turn-148/152 的关闭状态",
+            "turn-159 已污染当前包位置，但表述“原位”又含混",
+            "慢铺感官细节风格鼓励补充桌角、拉链、背带等具体物件细节"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md assistant narrative output",
+          "triggeringPressure": "Director brief 要求“回到屋内”并连续检查相机、胶卷、防水袋、银色铃铛，但没有指定相机包从当前可见位置到桌面的桥接动作；Narrator 为了让装备检查顺手，把旧木桌作为默认操作台。",
+          "missingGuard": "缺少 current-scene-anchor：没有结构化 objectLocation/openClosed state 告诉 Narrator 包在哪里、是否已合拢，以及回屋检查前是否必须先拿起/移动；同时缺少输出内自检来捕捉“已在桌上/把包放到桌上”的局部矛盾。",
+          "mechanismStatement": "在装备检查 requiredContent 的压力下，Narrator 缺少可执行的相机包位置和开合状态锚点，于是临时拼接“桌上半开”和“把包放到桌上”两个互斥 staging，导致玩家可见物件位置和状态承接混乱。",
+          "directCause": "turn-160 Narrator 自行补全“桌面上搁着相机包、半开”以及“把包放在桌上、拉开拉链”，没有桥接此前状态。",
+          "propagation": "turn-160 末尾把包写成“手边放着准备好的包”；后续回合继续基于三卷胶卷、桌边/包侧袋等新设定展开。",
+          "nonCauses": [
+            "不是固定剧情要求半开或放桌；Director 只要求检查装备。",
+            "不是玩家选择直接造成；玩家选择“回屋检查”没有指定包已在桌上或半开。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "detail-memory",
+            "llm-self"
+          ],
+          "description": "触发压力是 Director 的装备检查流程需要一个操作台和多个物件动作；缺失防线是当前场景没有结构化记录相机包的 location/openClosed，也没有要求 Narrator 在移动物件前显式桥接并自检同段矛盾；失败运动是 Narrator 用默认桌面 staging 填空，叠加了互斥的“已在桌上”和“放到桌上”。",
+          "fixSurface": [
+            "current scene/object anchor schema：objectLocation、containerState、lastVisibleTurn",
+            "Director -> Narrator handoff 中对必须桥接的物件移动生成 explicit bridge",
+            "Narrator output local consistency validator，检测同一物件“already X / put to X”冲突",
+            "state writeback 将常用道具开合状态写入可检索事实"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-148 拉上拉链并放在椅子扶手；turn-152 拉链合拢；turn-153 指尖落在拉链头；turn-160 同时写桌上半开和把包放上桌。",
+          "internalTrace": "turn-160/06a-director-prompt.md 和 plotPoint 只列“检查相机/胶卷/防水袋/铃铛”，没有包位置桥接；turn-160/03-story-state.json 的 curStates 没有相机包实体状态；turn-160/06b-narrator-prompt.md 的 recentTurns 不含 turn-148/152 的闭合事实。"
+        },
+        "recommendedFixArea": "为高频可携带物件增加 current-scene anchor 和 container state，并在 Director 交给 Narrator 的 beats 中要求先桥接移动/开合；增加同轮输出自检，禁止同一物件在同一段被描述为已经在目标位置又被放到目标位置。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 71,
+      "turn": 160,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "备用胶卷的数量和包装从五卷塑料密封袋变成三卷铝箔纸小筒，且没有消耗或重新整理的可见过程。",
+      "batchId": "batch-021",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "memory-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "inventory/detail memory schema：item=count/package/container/lastConfirmedTurn",
+          "state writeback 从装备检查正文抽取数量和包装",
+          "Narrator prompt 中“若数量/包装未给出，避免新精确数值”的约束",
+          "consistency guard 对同一物件数量/包装变更要求可见桥接"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "把装备数量、包装、容器作为 detail memory/inventory state 持久化，并在 requiredContent 要求检查装备时优先注入这些字段；对缺失字段采用保守描述，不生成新的精确数值。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-071-turn-160/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-071-turn-160/root-cause-report.md",
+      "result": {
+        "issueId": "issue-71-turn-160",
+        "issueIndex": 71,
+        "turn": 160,
+        "issueValidity": "valid",
+        "problemSummary": "第160轮把备用胶卷写成“三卷黑色的小筒，用铝箔纸包着，整整齐齐地塞在侧袋里”，与之前多次可见的“五卷、每卷用塑料密封袋包着、在防水袋里”冲突。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。turn-128 明确写备用胶卷“五卷，每一卷都用塑料密封袋包着”；turn-129 再次写“那五卷备用胶卷——每卷都用塑料密封袋包着”；turn-133 也写防水袋里有“五卷备用胶卷”。到 turn-160 前没有消耗、重新包装或转移到侧袋的可见过程。",
+          "playerVisibleSupport": "turn-128/129/133 的五卷塑料密封袋事实，与 turn-160 的三卷铝箔纸小筒直接冲突。",
+          "caveats": [
+            "turn-111 曾出现“三卷Tri-X，一盒还没拆封的HP5”，但 turn-128、turn-129、turn-133 是更晚且重复的可见事实，应优先作为进入 turn-160 前的玩家可见状态。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "进入 turn-160 前，最新稳定的玩家可见装备状态是：备用胶卷在防水袋里，共五卷，每卷用塑料密封袋包好；没有可见消耗或重新整理。",
+          "relevantFacts": [
+            {
+              "claim": "备用胶卷为五卷，塑料密封袋包装，在防水袋中。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-128/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-129/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-133/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实在 turn-160 recentTurnLimit=5 的窗口外，currentStoryline 只保留“检查相机和胶卷/防水袋”的摘要，没有数量和包装。"
+            },
+            {
+              "claim": "本轮必须检查备用胶卷。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06a-director-prompt.md"
+              ],
+              "notes": "Director requiredContent 包含“检查备用胶卷”，但没有具体数量/包装约束。"
+            },
+            {
+              "claim": "运行配置没有外部记忆请求可补回旧装备细节。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/00-run-config.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/08-memorax-requests.json"
+              ],
+              "notes": "memory.mode=baseline，recentTurnLimit=5，turn-160 memorax requests 为 []。"
+            },
+            {
+              "claim": "curStates 没有备用胶卷实体或 inventory count。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/03-story-state.json"
+              ],
+              "notes": "curStates 仅有角色/地点/世界观等内容，没有道具状态。"
+            }
+          ],
+          "competingPressures": [
+            "Director 要求检查胶卷，但没有 exact fact",
+            "写作风格鼓励具体感官细节，模型会补数量、颜色、包装",
+            "baseline recentTurnLimit=5 使 turn-128/129/133 不在当前 prompt 的近期正文中",
+            "当前故事线摘要把装备检查压缩成泛称，无法保护数量"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md assistant narrative output",
+          "triggeringPressure": "requiredContent 要求“检查备用胶卷”，Narrator 必须写出检查过程；但 prompt 中没有五卷/塑料密封袋/防水袋位置这些稳定事实，只有泛化的“检查备用胶卷”。",
+          "missingGuard": "缺少 memory-persistence：具体道具数量、包装和容器没有写入结构化 inventory/detail memory；也缺少“细节未知时不要重新发明数量和包装”的生成约束。",
+          "mechanismStatement": "当一个需要精确延续的装备细节掉出 recent window 且没有被持久化时，Narrator 在“检查备用胶卷”的压力下用新细节补空，生成了三卷铝箔纸小筒，覆盖了玩家此前看到的五卷塑料密封袋。",
+          "directCause": "turn-160 Narrator 在缺少精确事实的情况下即兴生成“三卷黑色的小筒，用铝箔纸包着”。",
+          "propagation": "turn-165 又复述“三卷用铝箔纸包裹的备用胶卷”，说明该错误细节被后续上下文继续采用。",
+          "nonCauses": [
+            "不是玩家消耗胶卷；没有拍摄或更换胶卷导致数量减少的可见过程。",
+            "不是防水袋检查本身导致；问题在具体数量/包装被重新发明。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "触发压力是本轮 requiredContent 必须写检查备用胶卷；缺失防线是五卷、塑料密封袋、防水袋位置这些低层装备事实没有持久化到 inventory/object detail memory，且当前 prompt 没有未知细节保守生成规则；失败运动是 Narrator 为了完成检查动作补造了新的数量和包装。",
+          "fixSurface": [
+            "inventory/detail memory schema：item=count/package/container/lastConfirmedTurn",
+            "state writeback 从装备检查正文抽取数量和包装",
+            "Narrator prompt 中“若数量/包装未给出，避免新精确数值”的约束",
+            "consistency guard 对同一物件数量/包装变更要求可见桥接"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-128/129/133 反复确认五卷、塑料密封袋、防水袋；turn-160 改为三卷、铝箔纸、侧袋。",
+          "internalTrace": "turn-160/06b-narrator-prompt.md 只含“检查备用胶卷”泛称；turn-160/03-story-state.json 无备用胶卷实体；turn-160/08-memorax-requests.json 为 []；00-run-config.json 显示 baseline recentTurnLimit=5。"
+        },
+        "recommendedFixArea": "把装备数量、包装、容器作为 detail memory/inventory state 持久化，并在 requiredContent 要求检查装备时优先注入这些字段；对缺失字段采用保守描述，不生成新的精确数值。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 72,
+      "turn": 160,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "同一只银色铃铛在相同的轻摇动作下从清晰发声变成完全无声，且没有给出握法、损坏或规则变化的解释，破坏关键物件的行为连续性。",
+      "batchId": "batch-021",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "memory-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "object behavior memory：actionCondition -> observedResponse，例如 shake/light -> clearSound",
+          "statefold/storyline summary 保留关键物件行为结果，而不只保留玩家意图",
+          "Narrator prompt 对同一物件不同测试条件的 priority/condition guard",
+          "关键物件行为变更必须要求 visible explanation 的 consistency guard"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为关键道具建立条件化行为记忆，尤其区分动作条件与观察结果；压缩摘要不能只保存“尝试检查”，必须保存“检查得到的结果”。若后续要改变行为，要求正文给出可见原因。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-072-turn-160/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-021/issues/issue-072-turn-160/root-cause-report.md",
+      "result": {
+        "issueId": "issue-72-turn-160",
+        "issueIndex": 72,
+        "turn": 160,
+        "issueValidity": "valid",
+        "problemSummary": "第160轮同一只银色铃铛在“轻轻摇了摇”时没有发出声音；这与 turn-151 同样轻摇即发出清脆声响、甚至更轻手腕微转仍发声并影响窗雾的表现冲突。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。turn-151 已建立银色铃铛在轻摇下会发出清脆、穿透的声响；第二次更轻的手腕微转也出现同样声音。turn-160 使用相同类型动作“轻轻摇了摇它”，却写“没有发出声音”，没有给出握法、损坏、魔法规则变化或环境解释。",
+          "playerVisibleSupport": "turn-151 visibleText：铃铛轻轻晃动发出清脆声响，第二次更轻也有同样声音；turn-160 visibleText：轻轻摇了摇它——没有发出声音。",
+          "caveats": [
+            "turn-152 写把铃铛贴近耳边时内部没有额外声音，turn-129/后续也有拨动或确认时无声的描写；这些不是与 turn-151 完全相同的“轻摇铃铛”条件，不能解释 turn-160 的完全无声。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "进入 turn-160 前，玩家可见规则应是：银色铃铛在自由轻摇时会响；贴耳静听或仅确认内部时可能安静，但没有可见事件改变它的发声机制。",
+          "relevantFacts": [
+            {
+              "claim": "银色铃铛轻摇会发出清脆、有余韵的声响，极轻手腕微转也会响。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-151/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md"
+              ],
+              "notes": "turn-151 已超出 turn-160 recentTurnLimit=5；currentStoryline 摘要只说“试图听出声音是否特别”，没有记录结果。"
+            },
+            {
+              "claim": "贴耳静听时铃铛内部保持静止/没有额外声音。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md"
+              ],
+              "notes": "故事线进展中保留了“内部保持静止，只有外部环境声响”，但这是贴耳/静听条件，不应覆盖轻摇会响的事实。"
+            },
+            {
+              "claim": "本轮 requiredContent 要求确认银色铃铛。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06a-director-prompt.md"
+              ],
+              "notes": "Director 只要求检查/确认，没有规定铃铛必须无声。"
+            },
+            {
+              "claim": "没有持久化 object behavior：shake -> sound，ear-check -> no internal sound 的条件区分。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/08-memorax-requests.json"
+              ],
+              "notes": "curStates 无银色铃铛实体行为字段；memorax requests 为空。"
+            }
+          ],
+          "competingPressures": [
+            "银色铃铛是神秘物件，模型倾向用“无声”制造悬疑",
+            "故事线摘要 foreground 了贴耳静听时的沉默，却丢失轻摇发声结果",
+            "recentTurnLimit=5 使 turn-151 原文不可见",
+            "requiredContent 只说检查铃铛，没有要求保持已建立物理行为"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06b-narrator-prompt.md assistant narrative output",
+          "triggeringPressure": "Narrator 被要求“确认银色铃铛”，而当前 prompt 中与铃铛最具体的历史摘要是“贴近耳边时内部保持静止”；真正的轻摇发声事实没有进入本轮可执行上下文。",
+          "missingGuard": "缺少 object behavior memory：系统没有持久化“轻摇会响”和“贴耳静听无额外内部声”这两个条件化行为，也没有提示模型不能把不同测试条件下的沉默泛化为轻摇无声。",
+          "mechanismStatement": "银色铃铛的条件化发声规则在 state/storyline 摘要中被压缩丢失，剩下的“内部保持静止”沉默线索被错误泛化；Narrator 在检查铃铛时把轻摇写成完全无声。",
+          "directCause": "turn-160 Narrator 将“轻轻摇了摇它”与“没有发出声音”绑定，覆盖了 turn-151 已建立的 shake -> sound 行为。",
+          "propagation": "turn-163 继续扩展为铃舌会动但不碰铃壁、铃铛怎么动都不会响，把 turn-160 的无声设定进一步系统化。",
+          "nonCauses": [
+            "不是玩家选择改变了握法；turn-160 没有描述压住铃舌或损坏。",
+            "不是环境噪声掩盖；文本明确写“没有发出声音”。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "触发压力是本轮 requiredContent 需要检查关键物件并补具体反馈；缺失防线是银色铃铛的条件化行为没有作为 object behavior 持久化，且 storyline 摘要只保留了贴耳静听的沉默线索；失败运动是 Narrator 把沉默线索泛化到轻摇动作，生成与玩家可见规则冲突的无声表现。",
+          "fixSurface": [
+            "object behavior memory：actionCondition -> observedResponse，例如 shake/light -> clearSound",
+            "statefold/storyline summary 保留关键物件行为结果，而不只保留玩家意图",
+            "Narrator prompt 对同一物件不同测试条件的 priority/condition guard",
+            "关键物件行为变更必须要求 visible explanation 的 consistency guard"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-151 轻摇两次均有清脆声和余韵；turn-160 同样轻摇却无声。",
+          "internalTrace": "turn-160/06b-narrator-prompt.md 的 storyline summary 只保留“轻轻摇动试图听出特别”和“贴近耳边内部保持静止”，不含“清脆声响/窗雾波纹”；turn-160/03-story-state.json 无铃铛行为实体；turn-160/08-memorax-requests.json 为空。"
+        },
+        "recommendedFixArea": "为关键道具建立条件化行为记忆，尤其区分动作条件与观察结果；压缩摘要不能只保存“尝试检查”，必须保存“检查得到的结果”。若后续要改变行为，要求正文给出可见原因。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

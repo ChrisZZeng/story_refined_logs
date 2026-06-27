@@ -1,0 +1,85 @@
+{
+  "issueId": "issue-29",
+  "turn": 92,
+  "issueValidity": "valid",
+  "problemSummary": "第92轮让玩家重新概括宴会“像什么”，并给出“精心排练的舞台剧”等选项；但宴会作为剧场/橱窗的核心隐喻已在第81轮被玩家提出、被卡琳娜接受，并在第83-89轮发展成橱窗、展示架、门和房间的连续隐喻。",
+  "validityAssessment": {
+    "verdictReason": "valid。玩家可见文本中，第81轮已经完成“宴会像剧场/橱窗”的发现与确认；第92轮却把同一发现重新作为开放问题交给玩家选择，造成对话回到起点。",
+    "playerVisibleSupport": "turn-81 中玩家说“宴会像是一个精心布置的剧场”，卡琳娜回答“那不是一场宴会——那是一个展示橱窗”；随后 turn-83 至 turn-89 继续围绕“没在橱窗里看到自己”“卡琳娜站在康纳背后”“离开那个房间/推开门/房间里带进了什么”推进。turn-92 又问“那些吊灯、那些礼服、那些——恰到好处的笑容。你觉得……像什么？”并提供“像一场精心排练的舞台剧”。",
+    "caveats": [
+      "第92轮发生在公园长椅，场景已经转换；如果只是回顾宴会本可成立。但文本和选项不是要求深化或对照，而是要求重新命名已经确认的隐喻，因此仍构成重复。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第91轮前，玩家与卡琳娜已经从室内谈到宴会的橱窗结构、卡琳娜不在展示架上、她曾站在康纳调光背后、她已经离开那个房间，并由此走到公园长椅安静共处。第92轮玩家选择等待她自己开口，合理后续应从这段共识之后深化，而不是重新要求玩家发现宴会的基本隐喻。",
+    "relevantFacts": [
+      {
+        "claim": "宴会像剧场/橱窗这一核心解释已经被玩家提出并被卡琳娜接受。",
+        "availability": "present-buried",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06a-director-prompt.md"
+        ],
+        "notes": "玩家可见证据在 turn-81 明确；内部 story state 也有“主角回应卡琳娜关于宴会见闻”“局外人”“橱窗”等摘要，但被埋在很长的 currentStoryline.summary 中，且不在 turn-92 最近5轮窗口内。"
+      },
+      {
+        "claim": "第92轮当前 storyline 仍把“卡琳娜询问玩家对宴会的看法”作为必须围绕的节点约束。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06c-choice-prompt.md"
+        ],
+        "notes": "currentStoryline.content/constraints 包含“她会问玩家对宴会的看法，展开讨论”“必须围绕卡琳娜询问玩家对宴会的看法展开讨论”，但没有标记该 beat 已被消费。"
+      },
+      {
+        "claim": "最近几轮的玩家可见状态已经转向卡琳娜离开康纳橱窗后的门/房间隐喻和公园静坐。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl"
+        ],
+        "notes": "turn-87 至 turn-91 作为最近轮次完整进入 prompt，显示话题已经从“宴会像什么”推进到“门后是什么/带进去了什么/一起走到公园”。"
+      }
+    ],
+    "competingPressures": [
+      "未消费的 fixed storyline beat",
+      "currentStoryline 的硬约束比 buried 已完成摘要更显眼",
+      "recentTurns 窗口没有包含 turn-81 的原始确认",
+      "阶段六要求温馨沉淀且避免核心秘密，容易回退到安全的宴会比喻讨论"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-92/04-output.json#plotPoint",
+    "triggeringPressure": "Director 看到当前节点仍要求“卡琳娜询问玩家对宴会的看法”，并把本轮 beats 写成“卡琳娜最终主动开口，询问主角对宴会的看法”；这个固定 beat 比长篇已完成摘要更靠近本轮决策。",
+    "missingGuard": "storyline 没有将“询问玩家对宴会的看法”标记为 consumed/resolved；Director prompt 也没有强制在 fixed beat 与已完成摘要冲突时跳过或改写为深化/承接。",
+    "mechanismStatement": "已消费的 storyline beat 以硬约束形式继续留在当前节点，而已完成证据只作为长摘要低显著度存在，Director 因此把“询问宴会像什么”重新当成可执行下一步，Narrator 和 Choice 又把它落成玩家可见的重复发现。",
+    "directCause": "Director 将本应已完成的“询问宴会看法”重新规划为第92轮核心动作。",
+    "propagation": "Narrator 按 Director 输出写出“宴会上……你觉得……像什么？”，Choice 再给出“像一场精心排练的舞台剧”等选项，重复被玩家可见地固化。",
+    "nonCauses": [
+      "不是隐藏秘密提前泄露导致的问题；玩家可见证据已经足够确认重复。",
+      "不是单纯长期记忆缺失；内部 story state 中有相关已完成摘要，只是低显著且缺少 consumed 生命周期。"
+    ]
+  },
+  "rootCause": {
+    "label": "fixed-beat-consumption",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "当前 storyline 的固定 beat“卡琳娜询问玩家对宴会的看法”已在可见对话中完成，却仍以硬约束形式参与 turn-92 决策；系统缺少 consumed/resolved 生命周期和优先级规则，导致 Director 在最近上下文未包含 turn-81 的情况下复用该 beat，把已完成的隐喻重新呈现为待发现问题。",
+    "fixSurface": [
+      "storyline node lifecycle / consumed beat registry",
+      "Director context assembly priority",
+      "currentStoryline.summary compaction and completed-progress separation",
+      "Choice prompt de-duplication against consumed beats"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-81 的“剧场/展示橱窗”已经被双方确认；turn-83 至 turn-89 已把该隐喻发展为玩家和卡琳娜各自的位置、门与房间；turn-92 又询问“像什么”并提供舞台剧选项。",
+    "internalTrace": "turn-92 03-story-state.json 的 currentStoryline.constraints 仍要求围绕“询问玩家对宴会的看法”；turn-92 04-output.json 的 plotPoint.beats 明确规划“卡琳娜最终主动开口，询问主角对宴会的看法”；07-events.json 记录同一 Director 输出。"
+  },
+  "recommendedFixArea": "为 storyline/fixed beat 增加 consumed/resolved 状态，并在 Director 前置检查“本 beat 的核心问题是否已在玩家可见文本中得到回答”；若已完成，只允许深化、对照或转场，不允许重新提问。",
+  "confidence": "high"
+}

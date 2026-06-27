@@ -1,0 +1,106 @@
+{
+  "issueId": "issue-38-turn-87",
+  "issueIndex": 38,
+  "turn": 87,
+  "issueValidity": "valid",
+  "problemSummary": "银铃从 turn 86 玩家可见的卡尔口中，跳到 turn 87 卡琳娜手中，正文没有展示交接；同一轮又把银铃放进口袋后，结尾仍把它当成前方可被路灯照到的物体。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。玩家可见文本先明确卡尔嘴里衔着银铃并跟在卡琳娜脚旁侧，下一轮没有任何交接动作，却让卡琳娜说银铃已经在她手里并抬手展示；随后银铃被放进口袋，结尾仍写路灯落在前方那枚银铃上，形成同一物体 holder 与 visibility 的连续性冲突。",
+    "playerVisibleSupport": "turn 86 结尾写卡尔嘴里衔着银铃、银铃在她嘴里没有发声；turn 87 玩家只是提醒卡琳娜带铃铛，正文直接写卡琳娜右手指间悬着银铃，又写收进口袋，最后还写光落在前方银铃上。",
+    "caveats": [
+      "如果文本展示了卡尔把铃铛递给卡琳娜，holder 变化可以成立；但玩家可见正文没有这一步。",
+      "卡琳娜说‘卡尔刚才进去，就是为了把它叼出来’只能解释取出来源，不能解释从猫口到她手中的交接。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 86 结束时，卡琳娜已经迈步往暗街方向走，卡尔站起来跟在她脚旁侧，银铃仍在卡尔嘴里且没有响；玩家在 turn 87 跟上并提醒卡琳娜带上银铃。",
+    "relevantFacts": [
+      {
+        "claim": "银铃当前 holder 是卡尔的嘴。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-86",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/06b-narrator-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/03-story-state.json"
+        ],
+        "notes": "最近一轮玩家可见正文和 Narrator prompt 都保留了‘卡尔嘴里衔着’与‘银铃在她嘴里’。"
+      },
+      {
+        "claim": "玩家本轮核心行动是跟上并提醒卡琳娜带铃铛。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/01-summary.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/06b-narrator-prompt.md"
+        ],
+        "notes": "输入把提醒对象指向卡琳娜，给生成一个让卡琳娜回应的局部压力。"
+      },
+      {
+        "claim": "Director handoff 仍把卡尔描述为衔着铃铛走在旁侧。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/06b-narrator-prompt.md"
+        ],
+        "notes": "plotPoint.characterBeats 中卡尔的 actionHint 是‘衔着铃铛走在旁侧’，但没有把它提升为 must-not-transfer 约束。"
+      },
+      {
+        "claim": "如果卡琳娜持有或收起银铃，交接动作与之后的可见性必须被同步更新。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/05-runtime-after.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/07-events.json"
+        ],
+        "notes": "runtime-after 未提供显式物品 holder/visibility ledger；events 也没有预先发生的交接事件可供 Narrator 依赖。"
+      },
+      {
+        "claim": "本轮必须让铃铛作为焦点元素呈现。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/06b-narrator-prompt.md"
+        ],
+        "notes": "requiredContent 要求‘铃铛作为焦点元素呈现’，但没有说明焦点应由卡尔口中、卡琳娜检查、还是交接动作承载。"
+      }
+    ],
+    "competingPressures": [
+      "玩家问的是卡琳娜‘你带上了吗’，容易把铃铛归到卡琳娜手上。",
+      "Director 要卡琳娜回应，同时要求铃铛作为焦点元素，但没有明确 holder transition。",
+      "叙事风格偏象征性收束，结尾继续把银铃当成可见意象，覆盖了刚放进口袋的物理状态。",
+      "没有结构化物品状态校验，只靠长段最近正文和 actionHint 维持一致性。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/06-llm-calls.json[1] / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-87/04-output.json Narrator output",
+    "triggeringPressure": "Director handoff 让卡琳娜回应提醒，并要求铃铛成为焦点；玩家措辞也把‘带上了吗’指向卡琳娜。这个压力把叙述拉向‘卡琳娜展示铃铛’。",
+    "missingGuard": "handoff 没有把‘银铃仍在卡尔嘴里，若转到卡琳娜手里必须展示交接；若放进口袋，后文不得再作为前方可见物描写’编码成硬约束或物品状态。",
+    "mechanismStatement": "当玩家提醒对象、Director requiredContent 与最近可见 holder 不完全对齐时，缺少 object holder/visibility contract 使 Narrator 用卡琳娜手持来满足回应与焦点需求，并在同一输出内没有回收口袋后的可见性。",
+    "directCause": "Narrator 在 turn 87 直接生成‘它已经在我手里了’和右手展示银铃，随后又忘记‘收进口袋’对可见性的影响。",
+    "propagation": "turn 87 的 turnContent 被写入 04-output.json；之后 turn 88/89 继续把银铃作为卡琳娜可从口袋或掌心取出的物件来处理，错误 holder 被玩家可见连续文本接受。",
+    "nonCauses": [
+      "不是隐藏设定导致的误判；玩家可见文本本身已经足够确认冲突。",
+      "不是 long-term meta-memory 遗忘；相关事实就在上一轮和本轮 prompt 中。",
+      "Director 不是唯一根因；它还保留了卡尔衔铃铛的 actionHint，但 handoff 没有把该事实变成可执行约束。"
+    ]
+  },
+  "rootCause": {
+    "label": "object-transfer-continuity",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context",
+      "llm-self"
+    ],
+    "description": "具体机制是 object holder 与 visibility 没有作为跨 worker 的硬状态传递：触发压力来自玩家对卡琳娜的提醒和‘铃铛作为焦点元素’的 handoff，缺失防线是未要求展示从卡尔口中到卡琳娜手中的交接、也未检查放进口袋后的可见性，失败运动是 Narrator 为了让卡琳娜回应而擅自转移物件并在结尾继续把它当成可见意象。",
+    "fixSurface": [
+      "Director->Narrator plotPoint schema 增加 currentObjectStates/holder/visibility 与 mustShowTransfer 字段",
+      "Narrator post-check 增加同一输出内 object holder 与 visibility consistency 校验",
+      "choice/player-input binding 中把‘提醒某人带上物品’区分为确认、交接、或让当前 holder 继续携带"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 86：卡尔嘴里衔着银铃并跟在卡琳娜脚旁侧。turn 87：卡琳娜直接说在手里并抬手展示，又收进口袋，结尾仍写光落在前方银铃上。",
+    "internalTrace": "turn-87/06b-narrator-prompt.md 同时包含上一轮卡尔衔铃铛的最近正文与 Director 的 actionHint‘衔着铃铛走在旁侧’；turn-87/04-output.json 的 Narrator 文本首次把 holder 改成卡琳娜，并在同一输出内留下 pocket/visible 的冲突；turn-87/05-runtime-after.json 没有可纠正该物品状态的结构化写回。"
+  },
+  "recommendedFixArea": "优先修复 Director-to-Narrator handoff 的 object state contract，并为 Narrator 增加物品 holder/visibility 自检。",
+  "confidence": "high"
+}

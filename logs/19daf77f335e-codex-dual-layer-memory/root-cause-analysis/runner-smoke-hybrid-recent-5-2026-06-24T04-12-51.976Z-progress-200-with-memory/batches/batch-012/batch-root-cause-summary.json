@@ -1,0 +1,143 @@
+{
+  "batchId": "batch-012",
+  "issueCount": 1,
+  "completedCount": 1,
+  "validityCounts": {
+    "valid": 1,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 35,
+      "turn": 168,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "这是一处直接影响阅读顺滑度的断句/残句问题，玩家可见文本在语义上没有完整闭合。",
+      "batchId": "batch-012",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local-sentence-closure-slip",
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Narrator post-generation semantic linter",
+          "visibleText sentence-closure repair pass",
+          "v3-html paragraph-level quality gate"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在 Narrator 输出提交到 `turnContent` 前增加 paragraph-level semantic quality gate：抽取 `visibleText`，检测段尾未闭合短语和无标点换段后话题突变，命中后触发局部 repair 或重写对应 `<p>`。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-012/issues/issue-035-turn-168/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-012/issues/issue-035-turn-168/root-cause-report.md",
+      "result": {
+        "issueId": "issue-35-turn-168",
+        "issueIndex": 35,
+        "turn": 168,
+        "issueValidity": "valid",
+        "problemSummary": "turn 168 的玩家可见正文中，句子在“像是已经把该说的话都留在了那间暖光”处直接断开，下一段转入脚步声描写，语义没有完整闭合。",
+        "validityAssessment": {
+          "verdictReason": "该问题只凭玩家可见正文即可确认：短语“留在了那间暖光”缺少处所或宾语补足，下一句不能自然承接，形成明显残句。",
+          "playerVisibleSupport": "visible-timeline.jsonl 的 turn 168 显示第二段以“那间暖光”结束，下一段是“她的脚步声在旧砖墙之间轻轻碰撞，然后被夜风收走。”；同一 turn 的选项正常出现，但不能修复正文残句。",
+          "caveats": [
+            "这是低严重度的阅读顺滑度问题，不改变剧情状态。",
+            "无法确定原句应补成哪个具体词组，但当前语义未闭合很明确。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 166 卡琳娜确认今晚没有其他安排并提议回去休息；turn 167 玩家起身跟随，卡琳娜开门并说“跟上”；turn 168 玩家选择沉默跟上她的步伐。本轮应是两人一前一后穿过旧砖墙窄巷、抵达铁门前的安静过渡。",
+          "relevantFacts": [
+            {
+              "claim": "玩家本轮选择是跟上卡琳娜并保持沉默。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-168/01-summary.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "玩家输入和 selectedFromPreviousTurn 都明确为“跟上她的步伐，沉默地走着”。"
+            },
+            {
+              "claim": "导演安排要求本轮为纯过渡，重点描写夜风、脚步声、窄巷和抵达铁门。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-168/06b-narrator-prompt.md:1142",
+                "turn-168/06b-narrator-prompt.md:1168",
+                "turn-168/06b-narrator-prompt.md:1169"
+              ],
+              "notes": "导演结果清楚，Narrator 不需要重新判断复杂剧情。"
+            },
+            {
+              "claim": "Narrator 必须输出 v3-html 正文帧，过长段落可拆成多个 <p>。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-168/06b-narrator-prompt.md:1204",
+                "turn-168/06b-narrator-prompt.md:1221"
+              ],
+              "notes": "格式契约清楚，但它主要约束标签结构和根元素。"
+            },
+            {
+              "claim": "提交前需要检查每个段落是否语义闭合、是否存在中文残句。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-168/06b-narrator-prompt.md",
+                "turn-168/07-events.json"
+              ],
+              "notes": "日志中没有看到残句检测或 repair 机制；HTML 合法后直接进入后续流程。"
+            },
+            {
+              "claim": "近期文本持续使用“暖光”等意象和长比喻节奏。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-168/06b-narrator-prompt.md"
+              ],
+              "notes": "这是风格压力，可能诱发长句中的局部漏补，但不是剧情或事实冲突。"
+            }
+          ],
+          "competingPressures": [
+            "慢铺、感官细节优先",
+            "近期反复出现的“暖光”意象",
+            "v3-html 分帧要求",
+            "纯过渡场景事件密度低，需要靠环境描写维持节奏"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-168/07-events.json:2755 narrator worker-done text",
+          "triggeringPressure": "Narrator 被要求在纯过渡场景中慢铺感官细节，且最近上下文多次使用“暖光”作为氛围意象；生成长比喻句时写到“像是已经把该说的话都留在了那间暖光”后直接闭合段落。",
+          "missingGuard": "缺少提交前的语义残句/句子闭合检测；v3-html 协议只确保 `<p>` 包裹和标签结构，没有要求检查段尾是否停在未完成介宾、宾语或比喻短语上。",
+          "mechanismStatement": "在清楚的剧情契约下，Narrator 的本地表层生成把未完成的中文比喻短语误当成段落终点；由于管线只验证格式而不验证语义闭合，这个局部残句被原样写入玩家可见文本。",
+          "directCause": "Narrator 输出的第二个 `<p>` 以“那间暖光</p>` 结束，缺少语义收尾。",
+          "propagation": "残句先出现在 narrator worker-done text，随后进入 `04-output.json` 的 `narrative`、`rawHtml` 和 `visibleText`，再被 `visible-timeline.jsonl` 记录；choiceGenerator 只生成选项，没有修复正文。后续 turn 169 没有把残句固化为剧情事实。",
+          "nonCauses": [
+            "Director 安排清楚且符合玩家选择，不是剧情规划错误。",
+            "Choice 输出发生在正文之后，不是残句来源。",
+            "没有缺失事实或跨轮记忆要求，因此不是 memory-persistence 或 context-priority。",
+            "残句之后还有多个完整段落，因此不是最终输出尾部截断。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local-sentence-closure-slip",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "在慢铺、感官细节和重复意象的风格压力下，Narrator 本地生成未能保持中文句法/语义闭合，把一个仍需补足处所的比喻短语直接闭合为 `<p>` 段落；系统缺少 visibleText 级残句检测或 repair，导致该表层生成失误直接暴露给玩家。",
+          "fixSurface": [
+            "Narrator post-generation semantic linter",
+            "visibleText sentence-closure repair pass",
+            "v3-html paragraph-level quality gate"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "`visible-timeline.jsonl:168` 中 turn 168 的玩家可见文本包含“像是已经把该说的话都留在了那间暖光\n她的脚步声……”，语义在换段前未完成；`issues.json:799` 也记录了同一评测证据。",
+          "internalTrace": "`06b-narrator-prompt.md:1142-1185` 显示导演安排清楚；`06b-narrator-prompt.md:1221-1231` 只提供 v3-html 结构规则；`07-events.json:2755` 的 narrator worker-done text 首次包含残句；`04-output.json:2` 将该文本写入最终 narrative。"
+        },
+        "recommendedFixArea": "在 Narrator 输出提交到 `turnContent` 前增加 paragraph-level semantic quality gate：抽取 `visibleText`，检测段尾未闭合短语和无标点换段后话题突变，命中后触发局部 repair 或重写对应 `<p>`。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

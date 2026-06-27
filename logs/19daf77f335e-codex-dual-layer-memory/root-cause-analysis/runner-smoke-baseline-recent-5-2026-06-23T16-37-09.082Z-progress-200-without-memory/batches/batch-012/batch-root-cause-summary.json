@@ -1,76 +1,503 @@
 {
   "batchId": "batch-012",
-  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
   "issueCount": 4,
+  "completedCount": 4,
   "validityCounts": {
     "valid": 4,
     "questionable": 0,
-    "invalid": 0
+    "invalid": 0,
+    "missing": 0
   },
   "issues": [
     {
-      "issueId": "issue-34-turn-76",
       "issueIndex": 34,
       "turn": 76,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "The narration abruptly relocates the conversation from the indoor fireplace scene to an outdoor park bench and mixes incompatible indoor firelight/cushion details into that outdoor setting.",
+      "batchId": "batch-012",
       "issueValidity": "valid",
       "rootCause": {
         "label": "current-scene-anchor",
         "family": "agent-system",
         "secondaryFamilies": [
           "recent-context"
+        ],
+        "fixSurface": [
+          "current scene/state writeback from turnContent data-bg and visible scene cues",
+          "prompt assembly priority for currentScene over storyline resource hints",
+          "storyline scene/CG constraint lifecycle: consumed/incompatible beats must be marked and suppressed",
+          "Narrator preflight check for scene-resource contradictions"
         ]
       },
       "confidence": "high",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-34-turn-76/root-cause-report.md",
-      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-34-turn-76/root-cause-result.json"
+      "recommendedFixArea": "优先修复 currentScene 写回与 prompt 组装优先级：把最新可见场景作为硬锚点传给 Director/Narrator，并在 storyline 节点的场景资源被近期文本覆盖后自动降权。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-034-turn-76/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-034-turn-76/root-cause-report.md",
+      "result": {
+        "issueId": "issue-34-turn-76",
+        "turn": 76,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 76 在没有玩家可见转场的情况下，把上一轮仍在卡尔小屋壁炉前的谈话切回公园长椅，并把公园路灯、夜风与壁炉火光、靠垫上的卡尔混在同一镜头里。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家在 turn 75 看到卡尔趴在靠垫上、卡琳娜坐在壁炉边旧椅子上，段落以“壁炉里的火苗轻轻跃动着”收束；turn 76 开头却直接写“长椅上的卡琳娜”“公园的树梢”“长椅边上的路灯”，末尾又写“靠垫上那只黑色母猫的尾巴尖在火光里”。没有任何玩家可见移动或切场能解释这个混合场景。",
+          "playerVisibleSupport": "visible-timeline turn 75: 室内壁炉、旧椅子、靠垫、火光；visible-timeline turn 76: 公园、长椅、路灯、夜风，同时保留靠垫和火光。",
+          "caveats": [
+            "turn 76 后续几轮延续了公园场景，但这只能说明错误被接受为新场景，不能反向证明 turn 75 到 turn 76 有过玩家可见转场。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，玩家实际看到的最近状态是卡尔小屋壁炉前的室内谈话：卡尔在靠垫上，卡琳娜在壁炉边旧椅子上，玩家刚追问卡尔“新动作”的含义，随后转向卡琳娜询问“水面开始动”的看法。",
+          "relevantFacts": [
+            {
+              "claim": "turn 75 的当前可见场景是卡尔小屋壁炉前，而不是公园。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06b-narrator-prompt.md"
+              ],
+              "notes": "recentTurns 和最近几轮玩家经历连续多次写到壁炉、旧椅子、靠垫、火光，属于强近期可见证据。"
+            },
+            {
+              "claim": "结构化地点状态没有把“卡尔小屋·壁炉前”作为当前场景锚点提供给 worker。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-75/05-runtime-after.json"
+              ],
+              "notes": "turn 76 的 curStates.locationStates 只有“夜晚的街道”和“公园”；runtimeAfter 也没有可用 currentScene 字段。"
+            },
+            {
+              "claim": "当前 storyline 仍携带公园长椅、背景/CG 的原始节点约束。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06b-narrator-prompt.md"
+              ],
+              "notes": "prompt 中“核心流程”与约束要求卡琳娜在公园长椅、使用公园 CG；这些是旧场景/节点资源约束，但仍进入本轮。"
+            },
+            {
+              "claim": "Director 没有在 handoff 中明确 scene，也没有要求 Narrator 保持室内壁炉场景。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06-llm-calls.json"
+              ],
+              "notes": "Director output 只给出“卡琳娜回应询问”的剧情骨架，未设置 scene；Narrator 需要自行从混合上下文决定画面。"
+            },
+            {
+              "claim": "“优先相信最近几轮玩家看到的正文”的一致性规则存在。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06b-narrator-prompt.md"
+              ],
+              "notes": "该规则是一般性说明，没有被转成当前场景硬约束，且与更显式的公园资源约束同在 prompt 中。"
+            }
+          ],
+          "competingPressures": [
+            "近期可见文本要求保持室内壁炉场景",
+            "currentStoryline content/constraints 强推公园长椅和公园 CG",
+            "Director handoff 聚焦谈话内容而非 scene",
+            "Narrator 需要输出画面标签并维持诗性环境描写"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06-llm-calls.json (Narrator streamText) / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/04-output.json",
+          "triggeringPressure": "turn 76 prompt 的结构化场景状态仍是“夜晚的街道/公园”，currentStoryline 还显式要求公园长椅和“和卡琳娜在公园/夜晚”CG；而 Director 没有给 Narrator 一个明确的室内 scene 覆盖这些旧约束。",
+          "missingGuard": "缺少从上一轮 visibleText/data-bg 写回并高优先级呈现的 currentScene anchor，也缺少在 storyline 场景素材已被消耗或被近期文本覆盖时降权/禁用的 lifecycle guard。",
+          "mechanismStatement": "旧 storyline 的公园场景约束和 stale locationStates 被继续前置，但最新室内壁炉场景只以长篇 recentTurns 形式存在且没有硬 scene anchor，Narrator 因而把公园镜头作为当前画面，同时又复用室内的火光/靠垫细节，形成玩家可见的时空混合。",
+          "directCause": "Narrator 在 turn 76 正文开头选用了公园长椅/路灯框架，又在末尾保留“靠垫”“火光”的室内细节。",
+          "propagation": "错误被写入 turnContent 和 visible timeline；turn 77 继续在公园长椅上展开，说明这次错误场景成为后续回合的近期上下文。",
+          "nonCauses": [
+            "不是隐藏设定导致的玩家可见错误；只凭可见 turn 75/76 已可确认。",
+            "不是玩家输入要求转场；玩家只是询问卡琳娜对卡尔话语的看法。",
+            "不是单纯“Director 错了”；Director 的问题是没有提供 scene guard，首个可见偏离发生在 Narrator 输出。"
+          ]
+        },
+        "rootCause": {
+          "label": "current-scene-anchor",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "系统没有把上一轮玩家可见的“卡尔小屋壁炉前”写回为高优先级 currentScene，也没有让已过期的公园长椅资源约束降权；在 Director handoff 未明确 scene 时，Narrator 被 stale storyline/locationStates 拉回公园，并混入近期室内细节。",
+          "fixSurface": [
+            "current scene/state writeback from turnContent data-bg and visible scene cues",
+            "prompt assembly priority for currentScene over storyline resource hints",
+            "storyline scene/CG constraint lifecycle: consumed/incompatible beats must be marked and suppressed",
+            "Narrator preflight check for scene-resource contradictions"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 75 室内壁炉谈话 -> turn 76 无转场切到“公园的树梢/长椅边上的路灯”，但同段仍写“靠垫”“火光”。",
+          "internalTrace": "turn-76/03-story-state.json 的 locationStates 缺少卡尔小屋；turn-76/06a 与 06b prompt 中 currentStoryline content/constraints 仍含公园长椅/CG；turn-76 Director output 无 scene；turn-76 Narrator raw output 首帧直接设置 data-bg=\"夜晚的街道\" data-cg=\"和卡琳娜在公园/夜晚\"。"
+        },
+        "recommendedFixArea": "优先修复 currentScene 写回与 prompt 组装优先级：把最新可见场景作为硬锚点传给 Director/Narrator，并在 storyline 节点的场景资源被近期文本覆盖后自动降权。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-35-turn-78",
       "issueIndex": 35,
       "turn": 78,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "mixed",
+      "summary": "The option contradicts the same turn's visible text and can make the player feel the interface has forgotten the immediately preceding statement.",
+      "batchId": "batch-012",
       "issueValidity": "valid",
       "rootCause": {
         "label": "model-local",
         "family": "llm-self",
         "secondaryFamilies": [
           "agent-system"
+        ],
+        "fixSurface": [
+          "Choice post-generation semantic contradiction checker against current visibleText",
+          "Choice prompt negative-fact checklist for “没有回答/不知道/不能”",
+          "option validator that rejects assumptions contradicted by the final paragraph"
         ]
       },
       "confidence": "high",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-35-turn-78/root-cause-report.md",
-      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-35-turn-78/root-cause-result.json"
+      "recommendedFixArea": "优先给 Choice worker 增加 same-turn visibleText contradiction filter，尤其检查选项是否预设了正文刚否认的事件。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-035-turn-78/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-035-turn-78/root-cause-report.md",
+      "result": {
+        "issueId": "issue-35-turn-78",
+        "turn": 78,
+        "issueValidity": "valid",
+        "problemSummary": "turn 78 正文刚写明卡琳娜“没有回答”敏特的问题，选项却立即提供“问她是怎么回答敏特那个问题的”，与同一回合正文相矛盾。",
+        "validityAssessment": {
+          "verdictReason": "valid。正文明确说敏特问“你不恨吗？”后，卡琳娜“我没有回答她。因为我还没想好答案。” 该信息是玩家刚看到的结尾事实；选项“问她是怎么回答敏特那个问题的”预设存在一个回答，构成同回合局部事实冲突。",
+          "playerVisibleSupport": "visible-timeline turn 78 正文尾部与 turn 78 choices 同屏可见；不需要任何隐藏 artifact 即可判断。",
+          "caveats": [
+            "卡琳娜曾说“我说恨什么”作为澄清反问，但她随后明确否定自己回答了核心问题；选项文本没有限定为追问这句澄清，因此仍会被玩家理解为系统忘记“没有回答”。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家刚听到卡琳娜讲述敏特曾来找她买骷髅会情报，并问“你不恨吗？……把你变成这样的人。” 卡琳娜明确说自己没有回答，因为还没想好答案。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜没有回答敏特的核心问题。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/06c-choice-prompt.md"
+              ],
+              "notes": "该句位于本轮正文结尾附近，并在 Choice prompt 的“本轮玩家已经看到的正文（最终判断依据）”中完整出现。"
+            },
+            {
+              "claim": "Choice worker 被要求以本轮正文结尾为准生成下一步行动。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/06c-choice-prompt.md"
+              ],
+              "notes": "判断流程第 1 条和输出前再次确认都强调以本轮正文结尾为准。"
+            },
+            {
+              "claim": "可选行动需要贴近当前处境，不应把未发生内容变成选项。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/06c-choice-prompt.md"
+              ],
+              "notes": "Choice prompt 对候选动作和 key choice 有明确限制，但没有强制的语义矛盾校验。"
+            },
+            {
+              "claim": "“她在离开前问了我一个问题”形成了可追问的局部话题压力。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/06c-choice-prompt.md"
+              ],
+              "notes": "这解释了模型为何容易生成“问她怎么回答”，但后文的否定事实应覆盖该压力。"
+            }
+          ],
+          "competingPressures": [
+            "选项生成需要给出 2-4 个主动追问",
+            "本轮正文引入了敏特的问题作为新信息钩子",
+            "结尾否定事实“没有回答”应约束选项语义",
+            "剧情约束不透露敏特具体情报，可能促使选项停留在问法而非实质答案"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/06-llm-calls.json (Choice generateObject) / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-78/04-output.json",
+          "triggeringPressure": "Choice model 需要把“敏特问过一个问题”转成可点击追问，且“回答/怎么回答”是该话题的高概率自然追问模板。",
+          "missingGuard": "缺少对生成选项与 same-turn visibleText 的语义矛盾检查，尤其是对“没有回答”“不知道”“不能”等否定事实的后置过滤。",
+          "mechanismStatement": "尽管“我没有回答她”在 Choice prompt 中清晰出现，Choice 生成仍把前文“敏特问了一个问题”的话题钩子局部补全为“问她怎么回答”，没有被否定事实或后置验证拦截，导致选项预设了正文刚否认的事实。",
+          "directCause": "Choice 输出第一个 option “问她是怎么回答敏特那个问题的”。",
+          "propagation": "该错误进入 turn 78 choices，成为玩家可见 UI；后续玩家未选择该选项，所以没有进一步写入剧情状态。",
+          "nonCauses": [
+            "不是 Director/Narrator 的正文事实错误；正文内部自洽地说没有回答。",
+            "不是 long-term memory 缺失；所需事实就在同一回合 Choice prompt 的最终判断依据中。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "Choice generation 在清晰上下文和明确“以本轮正文结尾为准”的 contract 下，仍局部忽略了刚出现的否定事实；系统没有同回合选项矛盾过滤器，所以这个 local semantic slip 直接进入 UI。",
+          "fixSurface": [
+            "Choice post-generation semantic contradiction checker against current visibleText",
+            "Choice prompt negative-fact checklist for “没有回答/不知道/不能”",
+            "option validator that rejects assumptions contradicted by the final paragraph"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "正文：“我没有回答她。因为我还没想好答案。” 选项：“问她是怎么回答敏特那个问题的”。",
+          "internalTrace": "turn-78/06c-choice-prompt.md 在“本轮玩家已经看到的正文（最终判断依据）”中包含上述否定句；turn-78/06-llm-calls.json 第三个 call 输出了矛盾选项。"
+        },
+        "recommendedFixArea": "优先给 Choice worker 增加 same-turn visibleText contradiction filter，尤其检查选项是否预设了正文刚否认的事件。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-36-turn-84",
       "issueIndex": 36,
       "turn": 84,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "The narration briefly preserves a seated-body detail after the player has stood, creating a local posture continuity error.",
+      "batchId": "batch-012",
       "issueValidity": "valid",
       "rootCause": {
         "label": "context-priority",
         "family": "recent-context",
         "secondaryFamilies": [
           "llm-self"
+        ],
+        "fixSurface": [
+          "Narrator prompt posture-state transition rules",
+          "short-horizon body affordance checker after generation",
+          "state representation for player/NPC posture in current scene",
+          "style phrase reuse guard when an action changes posture/location"
         ]
       },
       "confidence": "medium",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-36-turn-84/root-cause-report.md",
-      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-36-turn-84/root-cause-result.json"
+      "recommendedFixArea": "优先增加短程姿态状态锚点：当本轮动作改变坐/站/走等 body state 时，Narrator 和后置检查必须让新姿态覆盖旧描述模板。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-036-turn-84/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-036-turn-84/root-cause-report.md",
+      "result": {
+        "issueId": "issue-36-turn-84",
+        "turn": 84,
+        "issueValidity": "valid",
+        "problemSummary": "turn 84 玩家“从长椅上站起来”后，同一句仍写路灯光落在“你搁在膝盖上的手背上”，短暂保留了坐姿身体细节。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家动作和叙述第一句明确是从长椅上站起；“手背搁在膝盖上”是坐在长椅时自然的姿态，紧接在站起之后出现，造成局部姿态连续性错误。",
+          "playerVisibleSupport": "visible-timeline turn 84 同一段：“你从长椅上站起来”与“你搁在膝盖上的手背”。",
+          "caveats": [
+            "该错误只持续一个短语，后文很快转为站立、捡外套和跟随离开，因此严重度低。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 83 结束时主角、卡琳娜和卡尔仍在公园长椅场景中；turn 84 玩家选择站起来并提议回住处，这是从坐姿到离开公园的转场。",
+          "relevantFacts": [
+            {
+              "claim": "玩家本轮核心动作是站起来。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/04-output.json"
+              ],
+              "notes": "玩家输入、Director beats、requiredContent 与正文开头都明确“站起来”。"
+            },
+            {
+              "claim": "最近几轮长期处于坐在长椅上的姿态，且多次使用“膝盖/手背/路灯光”身体描写。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/06b-narrator-prompt.md"
+              ],
+              "notes": "prompt 的最近几轮中多处写“卡琳娜坐在长椅另一端”“手指在膝盖上”“光圈落在你搁在膝盖的手背上”。"
+            },
+            {
+              "claim": "Director 要求本轮完成“站起->回应->离开公园”的动作序列。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/06-llm-calls.json"
+              ],
+              "notes": "Director output 的 beats 和 requiredContent 都把站起作为第一步。"
+            },
+            {
+              "claim": "Narrator 没有收到“站起后不要继续使用坐姿 affordance”的硬约束或姿态状态更新。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/06b-narrator-prompt.md"
+              ],
+              "notes": "prompt 只有一般一致性规则和动作骨架，没有针对 body-state transition 的校验。"
+            }
+          ],
+          "competingPressures": [
+            "新动作要求站起离开",
+            "最近上下文反复强化坐姿和膝盖细节",
+            "Narrator 风格倾向复用感官光影句式",
+            "本轮需要以温馨收束，容易使用柔和静态画面"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/06-llm-calls.json (Narrator streamText) / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-84/04-output.json",
+          "triggeringPressure": "Narrator prompt 中最近几轮坐姿描写非常密集，特别是 turn 79 曾有“光圈落在你搁在膝盖的手背上”的近似句式；本轮又要求感官细节优先。",
+          "missingGuard": "缺少 posture transition anchor：站起动作没有转化为“玩家不再处于手搁膝盖的坐姿”的硬约束，也没有生成后同段身体姿态矛盾检查。",
+          "mechanismStatement": "新动作“站起来”虽清晰，但旧坐姿感官短语在 recent context 中高频且高可复用，Narrator 在同一句内先执行站起动作、随后复用 seated-body detail，系统没有 posture-state 优先级或验证器拦截。",
+          "directCause": "turn 84 首段把“你从长椅上站起来”与“你搁在膝盖上的手背”并置。",
+          "propagation": "错误仅局限于首段短语；后续写到卡琳娜站起、卡尔跳下、你弯腰捡外套并离开公园，姿态恢复正确。",
+          "nonCauses": [
+            "不是 story memory 缺失；相关动作在本轮 prompt 中清楚存在。",
+            "不是玩家输入含混；“站起来”是明确物理动作。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "Narrator 没有把当前回合的新 posture action 置于旧坐姿描写之上；高近因的 seated sensory motif 压过了同句内的站起状态，缺少 body-state transition guard 让局部模型复用错误姿态短语。",
+          "fixSurface": [
+            "Narrator prompt posture-state transition rules",
+            "short-horizon body affordance checker after generation",
+            "state representation for player/NPC posture in current scene",
+            "style phrase reuse guard when an action changes posture/location"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 84 首段同时出现“你从长椅上站起来”和“你搁在膝盖上的手背”。",
+          "internalTrace": "turn-84 Director output 明确 beats “主角站起来，提议回住处”；turn-84 Narrator prompt 的 recent turns 包含多个坐姿/膝盖短语；turn-84 Narrator raw output 复用该坐姿 affordance。"
+        },
+        "recommendedFixArea": "优先增加短程姿态状态锚点：当本轮动作改变坐/站/走等 body state 时，Narrator 和后置检查必须让新姿态覆盖旧描述模板。",
+        "confidence": "medium"
+      }
     },
     {
-      "issueId": "issue-37-turn-86",
       "issueIndex": 37,
       "turn": 86,
+      "severity": "medium",
+      "type": "user-input-ignored",
+      "scope": "visibleText",
+      "summary": "The generated text reverses the target of the player's question, changing an inquiry about Karina into an inquiry about the player's own lodging.",
+      "batchId": "batch-012",
       "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
         "family": "agent-system",
         "secondaryFamilies": [
           "recent-context"
+        ],
+        "fixSurface": [
+          "choice schema/action parser with target and askSubject fields",
+          "Director must-satisfy player intent contract before applying storyline followup",
+          "fixed beat adapter that answers/bridges selected question before advancing invitation beat",
+          "regression tests for pronoun-target preservation in Chinese choices"
         ]
       },
       "confidence": "high",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-37-turn-86/root-cause-report.md",
-      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-37-turn-86/root-cause-result.json"
+      "recommendedFixArea": "优先修复 selected choice 到 Director 的 action binding：把代词目标和询问对象结构化，并要求固定剧情 beat 在满足核心玩家问题后才能推进。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-037-turn-86/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-037-turn-86/root-cause-report.md",
+      "result": {
+        "issueId": "issue-37-turn-86",
+        "turn": 86,
+        "issueValidity": "valid",
+        "problemSummary": "turn 85 玩家选择“问她今晚打算住哪里”，turn 86 却把问题写成“今晚——我住哪里？”，将询问对象从卡琳娜的住处/安排改成了玩家自己的住宿。",
+        "validityAssessment": {
+          "verdictReason": "valid。turn 85 选项文本显式包含“她”，核心意图是问卡琳娜今晚打算住哪里；turn 86 可见正文改写为第一人称“我住哪里”，并让卡琳娜回答“你今晚不用住这里”，从而替换了玩家问题目标。",
+          "playerVisibleSupport": "visible-timeline turn 85 choices: “问她今晚打算住哪里”；visible-timeline turn 86 visibleText: “今晚——我住哪里？”、“你今晚不用住这里”。",
+          "caveats": [
+            "在“住宿安排”语境里，玩家也可能关心自己住哪；但当前选项的代词“她”明确指向卡琳娜，且输出没有先回答她的安排，而是直接锁定玩家住宿，因此仍是有效的 core intent replacement。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 85 三人从公园回到卡尔小屋门前；卡琳娜开门并站在门口等玩家决定是否进去。玩家选择询问她今晚打算住哪里。",
+          "relevantFacts": [
+            {
+              "claim": "玩家输入的目标是“她”今晚打算住哪里。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/06b-narrator-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/04-output.json"
+              ],
+              "notes": "turn 86 prompt 的“玩家输入”字段原样是“问她今晚打算住哪里”。"
+            },
+            {
+              "claim": "当前 storyline followup 强推“卡琳娜邀请主角前去她真正的家”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/06b-narrator-prompt.md"
+              ],
+              "notes": "prompt 中“玩家行动后的情节承接方式”明确写当态度值>=2，卡琳娜邀请主角去真正的家。"
+            },
+            {
+              "claim": "Director handoff 将玩家输入软化为“询问住宿安排/今晚住哪里”，没有保留问句目标“她”。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/06-llm-calls.json"
+              ],
+              "notes": "Director summary 写“卡琳娜今晚的住宿安排”，但 beats 只写“主角询问今晚住哪里”，requiredContent 则变成邀请主角去真正的家。"
+            },
+            {
+              "claim": "Narrator 被要求不要改变 Director 已确定的剧情方向。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/06b-narrator-prompt.md"
+              ],
+              "notes": "一旦 Director 绑定为邀请主角去真正的家，Narrator 很难再恢复原始“问她”的目标。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选项的代词目标：询问卡琳娜本人",
+            "storyline followup：卡琳娜邀请主角去真正的家",
+            "小屋门口情境自然联想到玩家是否进屋/住下",
+            "Director 输出的 requiredContent 比原始问句更强"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/06-llm-calls.json (Director generateObject) / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-86/04-output.json",
+          "triggeringPressure": "active storyline 的 interactionFollowup 明确要求卡琳娜邀请主角去“真正的家”，而当前场景又在小屋门口，容易把“今晚住哪里”解释为主角自己的住宿承接。",
+          "missingGuard": "缺少 choice-action-binding guard：自由文本选项中的核心参数 target=卡琳娜/ask about her lodging 没有被结构化保留为 must-satisfy contract，Director 可在固定 beat 压力下改写问句目标。",
+          "mechanismStatement": "选项文本的代词目标没有被绑定进 Director schema；在“邀请主角去真正的家”的 storyline followup 过强时，Director 把“问她今晚打算住哪里”软化为“询问今晚住哪里/住宿安排”，Narrator 继而自然写成“我住哪里”，使玩家的核心询问对象被替换。",
+          "directCause": "Director 输出 beats “主角询问今晚住哪里”并把 requiredContent 设为“卡琳娜邀请主角去真正的家”；Narrator 按这个 handoff 写出“今晚——我住哪里？”",
+          "propagation": "turn 86 可见正文和后续 choices 都进入“跟上卡琳娜去真正的家”的路径，玩家没有得到关于卡琳娜今晚住在哪里的回答。",
+          "nonCauses": [
+            "不是隐藏设定揭示问题；玩家可见选项和正文已足够确认目标反转。",
+            "不是 Choice UI 原文本错误；错误发生在 turn 86 Director 对该文本的语义绑定。",
+            "不是 Narrator 独自发挥；Narrator 主要执行了 Director 已偏移的 requiredContent。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "自由文本选择没有被解析成带 target/subject 的行动合约，导致 storyline fixed followup“邀请主角去真正的家”覆盖了玩家原本询问“她今晚住哪里”的核心意图；Director 的 handoff 丢失代词目标后，Narrator 将问题反写为玩家自己的住宿。",
+          "fixSurface": [
+            "choice schema/action parser with target and askSubject fields",
+            "Director must-satisfy player intent contract before applying storyline followup",
+            "fixed beat adapter that answers/bridges selected question before advancing invitation beat",
+            "regression tests for pronoun-target preservation in Chinese choices"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 85 option “问她今晚打算住哪里” -> turn 86 spoken line “今晚——我住哪里？” and Karina response “你今晚不用住这里”。",
+          "internalTrace": "turn-86/06a-director-prompt.md contains the exact player input, but Director output changes it to broad “住宿安排/今晚住哪里” and hard requiredContent “卡琳娜邀请主角去真正的家”；turn-86/06b-narrator-prompt.md then instructs Narrator to follow that Director arrangement. "
+        },
+        "recommendedFixArea": "优先修复 selected choice 到 Director 的 action binding：把代词目标和询问对象结构化，并要求固定剧情 beat 在满足核心玩家问题后才能推进。",
+        "confidence": "high"
+      }
     }
   ]
 }

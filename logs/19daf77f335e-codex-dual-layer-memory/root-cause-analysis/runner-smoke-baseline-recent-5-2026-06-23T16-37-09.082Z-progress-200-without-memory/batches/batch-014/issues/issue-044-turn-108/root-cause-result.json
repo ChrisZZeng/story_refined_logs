@@ -1,0 +1,81 @@
+{
+  "issueId": "issue-44-turn-108",
+  "turn": 108,
+  "issueValidity": "valid",
+  "problemSummary": "turn 107 已把卡琳娜的手从旧书书脊移开并收回身侧，turn 108 又以“手指停在旧书的书脊上没有动”开场，形成轻微姿势连续性错误。",
+  "validityAssessment": {
+    "verdictReason": "问题成立但严重度低。turn 107 末尾明确“她的手指从书脊上抬起来...收回身侧”；turn 108 开头说“手指停在旧书的书脊上没有动”，没有中间动作把手放回书上。",
+    "playerVisibleSupport": "visible-timeline.jsonl turn 107 与 turn 108 连续相邻，姿势更新与下一轮起始姿势冲突。",
+    "caveats": [
+      "该冲突只影响手部姿势，没有改变剧情事实或物品所有权。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "进入 turn 108 前，卡琳娜刚表示明天要出去确认事情，手指已离开书脊并收回身侧；玩家选择“我也去”。",
+    "relevantFacts": [
+      {
+        "claim": "卡琳娜的手已经从书脊移开并收回身侧。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06b-narrator-prompt.md"
+        ],
+        "notes": "该句在最近一轮末尾出现，但被嵌在长段可见正文中，没有结构化 pose 字段。"
+      },
+      {
+        "claim": "旧书/书脊/手指停留是过去多轮高频姿势 motif。",
+        "availability": "stale",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06a-director-prompt.md"
+        ],
+        "notes": "prompt 中 turn 105-107 多次出现“手指停在旧书书脊/桌沿”。"
+      },
+      {
+        "claim": "Director 并未要求手继续停在旧书上。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06-llm-calls.json"
+        ],
+        "notes": "Director actionHint 是“用手指轻敲桌沿或看向卡尔”，不是“保持按住书脊”。"
+      }
+    ],
+    "competingPressures": [
+      "书脊和手指是本场景反复使用的节奏动作。",
+      "Narrator 需要慢铺感官细节，容易复用上一轮开头姿势。",
+      "没有当前角色 pose anchor。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06-llm-calls.json[1].text",
+    "triggeringPressure": "最近上下文里多次出现“卡琳娜的手指停在旧书/书脊/桌沿”的视觉 motif，且本轮要求对话驱动、感官细节优先。",
+    "missingGuard": "缺少针对相邻 turn 末尾姿势更新的 current-pose guard；Director/Narrator handoff 没有显式“Karina.handPosition=at_side”。",
+    "mechanismStatement": "最新姿势“收回身侧”只作为 prose 尾句存在，未成为可执行状态；Narrator 在慢铺开场时复用 stale 的手在书脊 motif，造成相邻 turn 姿势回跳。",
+    "directCause": "Narrator 开场写“卡琳娜的手指停在旧书的书脊上没有动”。",
+    "propagation": "同一 turn 后半又写“手指从旧书书脊上抬起来”，短暂自我修正，但玩家已看到上一 turn 与本 turn 开头不连续。",
+    "nonCauses": [
+      "不是玩家动作导致。",
+      "不是 storyline 固定节点要求。",
+      "不是物品状态或长期记忆问题。"
+    ]
+  },
+  "rootCause": {
+    "label": "context-priority",
+    "family": "recent-context",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "相邻 turn 的最新 pose update 没有被提升为当前场景锚点，Narrator 在高频旧书/手指 motif 和慢铺风格压力下复用了较早姿势，覆盖了上一轮末尾的最新姿势。",
+    "fixSurface": [
+      "Recent-turn context assembly: extract last visible pose/location deltas into current-scene anchors.",
+      "Narrator prompt: add adjacent-turn posture continuity check before opening with character body position.",
+      "Optional state writeback: lightweight character pose fields for active scene."
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 107: “手指从书脊上抬起来...收回身侧”；turn 108: “手指停在旧书的书脊上没有动”。",
+    "internalTrace": "turn-108/06a-director-prompt.md 和 06b-narrator-prompt.md 均含有最新 pose 文本；Director object 没有要求书脊姿势；Narrator text 首句复用错误姿势。"
+  },
+  "recommendedFixArea": "为相邻 turn 结尾生成 current-pose anchors，并要求 Narrator 开场身体动作不得回退到上一姿势，除非先写过渡动作。",
+  "confidence": "high"
+}

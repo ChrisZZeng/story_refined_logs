@@ -1,0 +1,65 @@
+# issue-6-turn-9 root cause report
+
+## Problem
+玩家选择“用情报换取信任”，正文却把主角台词写成“不是情报——是信任”，随后拿来交换的内容主要是卡琳娜刚刚告诉主角的信息，玩家动作的因果承接被削弱。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 该问题低严重度但成立。互动叙事可以把玩家选择转写为角色化台词，但这里不仅改写了“用情报”的核心动作，还让主角交出的内容缺乏对卡琳娜的新信息价值。
+- playerVisibleSupport: turn-08 choice text 是“向卡琳娜提出交易——用情报换取信任”。turn-09 visibleText 写主角说“不是情报——是信任”，并陈述“敏特确实还活着，还跟骷髅会有关系”等信息；这些关于骷髅会方向和敏特在新西西里活动的线索刚由卡琳娜在 turn-08 告知。
+- caveats:
+  - 正文仍保留了“我可以用我知道的东西换”的交易姿态，因此不是完全忽略输入。
+  - “信任”可以被理解为以坦白换取信任，但这需要把选择改写为“坦白/经历”而不是否定情报。
+
+## Context Assessment
+- actualStateBeforeIssue: 第 9 轮前，卡琳娜已用骷髅会线索交换了主角关于敏特身份和来意的坦白；玩家选择进一步提出交易，希望用某种情报换取卡琳娜的信任和更多消息。
+- relevantFacts:
+  - claim: 玩家选择的核心意图是以情报作为交换筹码来建立信任。
+    availability: `present-clear`
+    artifacts: `turn-09/06a-director-prompt.md`, `turn-09/06b-narrator-prompt.md`, `visible-timeline.jsonl`
+    notes: 玩家输入以完整文字进入 Director 和 Narrator prompt。
+  - claim: 主角本轮可拿出的情报需要对卡琳娜有新信息价值，或至少应被明确改写为坦白/经历而非情报。
+    availability: `present-ambiguous`
+    artifacts: `turn-09/06a-director-prompt.md`, `turn-09/06b-narrator-prompt.md`
+    notes: Director requiredContent 写“主角提出交换情报”，但没有要求校验情报来源、接收者是否已知或如何在无新情报时改写动作。
+  - claim: 骷髅会方向、敏特在这里活动过等信息刚由卡琳娜提供。
+    availability: `present-clear`
+    artifacts: `turn-09/06a-director-prompt.md`, `turn-09/06b-narrator-prompt.md`, `turn-08/04-output.json`
+    notes: 这些事实在 recentTurns 中紧邻本轮，是正文不应当当作主角新情报交还给卡琳娜的内容。
+  - claim: 当前 storyline 要遵循尊严交易，且本轮结尾要被敲门声打断。
+    availability: `over-constraining`
+    artifacts: `turn-09/06a-director-prompt.md`, `turn-09/06b-narrator-prompt.md`
+    notes: 这些压力推动正文把交易转成“证明真话/信任”并快速导向敲门，而不是落实情报交换的实质。
+- competingPressures: 玩家选择的情报交换；尊严交易规则；卡琳娜保持信息边界；阶段 02-01 的信任建立氛围；节点末尾敲门打断的固定演出
+
+## Causal Chain
+- firstDivergenceArtifact: turn-09/06-llm-calls.json call[1] / turn-09/04-output.json 的 Narrator 正文输出
+- triggeringPressure: 玩家动作是抽象的“用情报换取信任”，但 prompt 没有给出主角可用的新情报清单；同时 storyline 强调尊严交易、卡琳娜不免费给情报和结尾敲门，推动正文把交易写成信任姿态而非实际情报。
+- missingGuard: 缺少 choice-action-binding 守卫：系统没有要求 Director/Narrator 明确选择要交换的情报、确认该信息对卡琳娜不是刚刚已知，或在没有可用新情报时把动作改为“坦白经历换取信任”并保留玩家意图。
+- mechanismStatement: 抽象选项“用情报换取信任”没有绑定可验证的信息 payload，Narrator 在尊严交易和信任建立压力下把核心动作软化成“不是情报——是信任”，再用刚从卡琳娜处获得的信息填充交换内容，造成玩家输入被低强度改写。
+- directCause: Narrator 将“交换情报”改成“表达信任”，并让主角复述卡琳娜已提供的线索。
+- propagation: turn-09/04-output.json 的剧情继续让卡琳娜要求主角证明真话；currentStoryline writeback 仍摘要为“以情报交换信任”，掩盖了可见正文中情报交换没有真正成立。
+- nonCauses:
+  - 不是玩家完全脱轨：选项是系统提供的可点击行动。
+  - 不是单纯模型风格问题：Director already saw requiredContent but schema 没有绑定情报内容。
+  - 不是卡琳娜拒绝交易本身的问题；问题在于主角行动被改写且信息来源不成立。
+
+## Root Cause
+- label: `choice-action-binding`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: 选择文本表达了一个需要具体内容承接的行动，但 handoff 只保留“提出交易/交换情报”的抽象意图，没有绑定信息来源、接收者已知性和必须保留的核心动作；正文因此用信任姿态替代情报交换。
+- fixSurface:
+  - Choice schema: include actionPayload/offerContent expectations for transactional choices
+  - Director prompt: validate selected-choice feasibility against recent facts
+  - Narrator prompt: enforce selected action core intent or explicitly adapt with in-world refusal
+
+## Evidence
+- playerVisible: turn-08 option 写“用情报换取信任”；turn-09 正文写“不是情报——是信任”，并复述“敏特确实还活着，还跟骷髅会有关系”等刚由卡琳娜提供的线索。
+- internalTrace: turn-09/06b-narrator-prompt.md 的 Director handoff 有 requiredContent: “主角提出交换情报”，但没有具体情报 payload；turn-09/06-llm-calls.json call[1] 首次把该动作改写为“不是情报——是信任”。
+
+## Recommended Fix Area
+优先修复选择语义绑定与交易类动作的可行性检查：没有新情报时不要生成“用情报交换”选项，或让 Director 明确把它改写为“坦白经历/证据换取信任”。
+
+## Confidence
+`medium`

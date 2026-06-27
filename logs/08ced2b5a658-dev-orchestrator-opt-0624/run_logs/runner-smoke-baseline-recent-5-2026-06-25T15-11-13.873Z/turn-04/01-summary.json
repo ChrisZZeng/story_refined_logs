@@ -1,0 +1,79 @@
+{
+  "turn": 4,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "progress",
+  "selectedFromPreviousTurn": {
+    "text": "直接去暗街，往日总是如影随形",
+    "actionId": "choice:前往暗街"
+  },
+  "submittedSelectedAction": {
+    "actionId": "choice:前往暗街",
+    "committed": true,
+    "satisfiedAnchors": [
+      "玩家主动进入暗街"
+    ]
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "加快脚步走到她身旁，压低声音问：“刚才那巷子里的涂鸦……有什么特别的含义吗？”"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "加快脚步走到她身旁，压低声音问：“刚才那巷子里的涂鸦……有什么特别的含义吗？”"
+      },
+      {
+        "text": "放慢脚步，拿出相机，对准岔路口的涂鸦拍一张——趁卡琳娜还没走远。"
+      },
+      {
+        "text": "深吸一口气，把脑子里那些画面再压一次，什么也不说，只管跟紧。"
+      },
+      {
+        "text": "留意岔路两边的窗户和门口，记住经过的每一条通道。"
+      }
+    ]
+  },
+  "visibleChars": 1430,
+  "durationMs": 53375.87,
+  "memory": {
+    "recentTurns": 3,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

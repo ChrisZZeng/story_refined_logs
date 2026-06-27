@@ -1,0 +1,379 @@
+{
+  "batchId": "batch-025",
+  "issueCount": 3,
+  "completedCount": 3,
+  "validityCounts": {
+    "valid": 3,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 84,
+      "turn": 198,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "“声音在指尖上停顿”语义搭配明显异常，像局部生成错误，会造成阅读上的突兀感。",
+      "batchId": "batch-025",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "model-local",
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Narrator prompt 的局部语义自检规则",
+          "post-generation quality lint：检测“声音/气味/光线”等感官主体与身体部位介词短语的异常搭配",
+          "Narrator rewrite pass：对诗性隐喻要求可见动作承托"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先在 Narrator 输出质量层增加短语级语义兼容检查；其次弱化“指尖”等示例在无动作承托时的可复用性。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-025/issues/issue-084-turn-198/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-025/issues/issue-084-turn-198/root-cause-report.md",
+      "result": {
+        "issueId": "issue-84",
+        "issueIndex": 84,
+        "turn": 198,
+        "issueValidity": "valid",
+        "problemSummary": "turn 198 正文把卡琳娜说话时的停顿写成“她的声音在指尖上停顿了一拍”，声音、指尖与停顿的搭配缺少可见叙事支撑，形成局部语义错配。",
+        "validityAssessment": {
+          "verdictReason": "该问题只凭玩家可见文本即可成立：卡琳娜刚说“在想……”，下一句却说声音在指尖上停顿；同段随后才写她把右手从外套口袋里抽出来，正文没有建立声音落在指尖或通过指尖发声的机制。",
+          "playerVisibleSupport": "turn 198 可见正文：“在想……”之后紧接“她的声音在指尖上停顿了一拍，目光仍然看着前方的路”，随后写“她说着，把插在外套口袋里的右手抽出来”。",
+          "caveats": [
+            "如果作为极度诗化隐喻，单句可以被勉强理解为停顿伴随手部动作；但正文没有呈现该手部动作，且“声音在指尖上”本身会打断阅读。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家在 turn 198 走近正在等他的卡琳娜，轻声问她等候时在想什么；卡琳娜开始回答“在想……”，场景应承接一次口头停顿和神态/动作描写。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜是在回答玩家的提问，问题焦点是她“在想什么”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-198/04-output.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "玩家输入和可见正文都明确进入对话回应，不需要新的物理机制。"
+            },
+            {
+              "claim": "“声音停顿”可以成立，但“声音在指尖上停顿”缺少动作承托。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-198/04-output.json"
+              ],
+              "notes": "同段先写声音，后写右手从口袋里抽出；指尖没有在该句之前承担可见动作。"
+            },
+            {
+              "claim": "近期文本反复使用“指尖”“停顿”“声音”作为心理外化材料。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-198/06b-narrator-prompt.md",
+                "turn-198/03-story-state.json"
+              ],
+              "notes": "recentTurns 中有“卡琳娜的指尖在膝盖上停住”“她的指尖在膝盖上轻轻敲了一下”“声音里带着一种微妙的停顿”等相邻素材。"
+            },
+            {
+              "claim": "Narrator 收到的导演安排要求“对话驱动，感官细节优先”，但没有要求指尖动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-198/06-llm-calls.json",
+                "turn-198/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 只给出“目光微垂，双手插在外套口袋里”的动作提示，未要求把停顿落在手指上。"
+            }
+          ],
+          "competingPressures": [
+            "Narrator prompt 的写作规则强调用环境、动作、神态建立节奏，并示例“指尖敲桌”等心理外化动作。",
+            "recentTurns 内多次出现“指尖”“停顿”“声音”的诗性句式，给局部词组拼接提供了高相似度材料。",
+            "Director pacing 要求“感官细节优先”，降低了对朴素动作描写的约束强度。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-198/06-llm-calls.json call 1 (narrator streamText)，同一内容写入 turn-198/04-output.json 的 turnContent。",
+          "triggeringPressure": "Narrator 在一个高诗化、感官细节优先的提示中，同时看到近期“指尖停住/敲”“声音停顿”的表达材料，并要描写卡琳娜回答前的一拍停顿。",
+          "missingGuard": "缺少局部语义兼容检查：身体部位动作、声音属性和停顿主体必须在同一句中物理/隐喻关系清楚；也没有要求在手在口袋里时避免凭空使用指尖动作。",
+          "mechanismStatement": "在诗性动作外化压力下，Narrator 将 recent context 中相邻的“声音停顿”和“指尖停住”局部混合，而输出侧没有语义搭配护栏，于是生成了“声音在指尖上停顿”这种无承托隐喻。",
+          "directCause": "Narrator 的局部词组拼接/隐喻生成失误，把可接受的“声音停顿了一拍”错误地挂到“指尖上”。",
+          "propagation": "错误直接进入 turn-198/04-output.json 的 visibleText 和 visible-timeline.jsonl；turnSummary 没有固化该短语，后续主要是一次性文本质量问题。",
+          "nonCauses": [
+            "不是玩家输入误导：玩家只询问她在想什么。",
+            "不是 long-term memory 缺失：所需信息都在本轮可见上下文内。",
+            "不是 Choice 阶段造成：问题在 Narrator 正文生成时已经出现。"
+          ]
+        },
+        "rootCause": {
+          "label": "model-local",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "Narrator 在清晰的对话场景下发生局部诗性搭配混合：recent prompt 中“指尖停住/敲”和“声音停顿”被压缩成同一句，系统侧又没有对身体部位、感官主体和动作关系做输出前校验，导致 malformed metaphor 直接进入玩家可见正文。",
+          "fixSurface": [
+            "Narrator prompt 的局部语义自检规则",
+            "post-generation quality lint：检测“声音/气味/光线”等感官主体与身体部位介词短语的异常搭配",
+            "Narrator rewrite pass：对诗性隐喻要求可见动作承托"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 198 可见正文在卡琳娜说“在想……”后写“她的声音在指尖上停顿了一拍”，但同段只建立她目光看路、右手稍后从口袋抽出。",
+          "internalTrace": "turn-198/06-llm-calls.json 的 Director object 没有该短语，只给出高层对话安排；call 1 Narrator text 首次生成该句。turn-198/06b-narrator-prompt.md 的 recentTurns 和写作规则提供了“指尖/停顿/声音”的邻近素材与感官细节压力。"
+        },
+        "recommendedFixArea": "优先在 Narrator 输出质量层增加短语级语义兼容检查；其次弱化“指尖”等示例在无动作承托时的可复用性。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 85,
+      "turn": 198,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "上一轮和本轮玩家输入都建立了卡琳娜正在站着等待，正文却无承接地把她写成一直在行走并保持步行节奏。",
+      "batchId": "batch-025",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "handoff-contract",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director output schema：加入 currentSceneAnchor / locomotionState / mustRespectRecentVisible 字段",
+          "Narrator prompt：当 recentTurns 有冲突时显式优先最新可见结尾和本轮玩家输入",
+          "state writeback：保存角色当前位置、姿态和运动状态，供下一轮检索",
+          "continuity lint：检测“上一轮站着等”后无桥接出现“保持步行节奏/继续走着”的冲突"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 Director 到 Narrator 的 current-scene anchor handoff，并增加 recent visible conflict priority；结构化保存角色姿态/运动状态可作为长期防线。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-025/issues/issue-085-turn-198/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-025/issues/issue-085-turn-198/root-cause-report.md",
+      "result": {
+        "issueId": "issue-85",
+        "issueIndex": 85,
+        "turn": 198,
+        "issueValidity": "valid",
+        "problemSummary": "turn 197 已把卡琳娜写成站在公园入口等玩家，turn 198 玩家也选择走近她；正文却无过渡地写她保持步行节奏、继续走着，造成当前空间动作断裂。",
+        "validityAssessment": {
+          "verdictReason": "玩家可见上下文明确：上一轮玩家停下回望公园，结尾说卡琳娜“正站在晨风中等着你”“只是站在那儿”；本轮输入是“走近她”。turn 198 正文开头却写“她没有加快脚步，也没有放慢——保持着刚才的节奏”，后文又说她继续走着。",
+          "playerVisibleSupport": "turn 197 结尾：卡琳娜披着外套，正站在晨风中等着你；turn 198 输入：走近她；turn 198 正文：她没有加快脚步也没有放慢、保持刚才节奏、她只是继续走着。",
+          "caveats": [
+            "turn 196 曾经写她迈步朝入口走去；如果 turn 197 没有停下等待，这个步行承接可以成立。但 turn 197 的最新可见状态已经覆盖了该旧动作。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 197 后，玩家停下回望公园，随后转身朝卡琳娜站着等待的方向走去；卡琳娜位于公园入口/通往巷口的路边，处于静止等待状态。turn 198 应先写玩家走近这个静止目标，再自然开启对话或重新出发。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜在最新可见结尾是站着等待，而非行走。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-198/06a-director-prompt.md",
+                "turn-198/06b-narrator-prompt.md"
+              ],
+              "notes": "recentTurns 明确包含“正站在晨风中等着你”“只是站在那儿”。"
+            },
+            {
+              "claim": "本轮玩家动作是走近她并询问等候时在想什么。",
+              "availability": "present-clear",
+              "artifacts": [
+                "batch-issues.json",
+                "turn-198/01-summary.json",
+                "turn-198/06a-director-prompt.md"
+              ],
+              "notes": "输入里的“等的时候”进一步强化她处于等待状态。"
+            },
+            {
+              "claim": "turn 196 的“迈步走出长椅旁阴影、步伐不大但稳”是旧动作，已被 turn 197 的停下/等待覆盖。",
+              "availability": "stale",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-198/06b-narrator-prompt.md"
+              ],
+              "notes": "该步行动作仍在 recentTurns 中，和最新站立等待状态并列出现。"
+            },
+            {
+              "claim": "Director handoff 没有把“当前必须从站立等待恢复”提升为约束。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-198/06-llm-calls.json",
+                "turn-198/04-output.json"
+              ],
+              "notes": "Director summary 只说“主角走近卡琳娜”，beats 只说询问/回应；没有 location/pose/locomotion anchor，还错误把卡尔列入 involvedCharacters 和可能插话。"
+            },
+            {
+              "claim": "结构化 state 未保存当前物理姿态/运动状态。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-198/03-story-state.json",
+                "turn-198/05-runtime-after.json"
+              ],
+              "notes": "entityStates 只有公园和卡琳娜的空/态度字段，缺少“standing_waiting”“walking”等可执行场景锚点。"
+            }
+          ],
+          "competingPressures": [
+            "当前故事线名为“归途反思”，整体目标是回卡尔小屋，天然推动“继续走”。",
+            "recentTurns 同时包含 turn 196 的步行动作和 turn 197 的等待状态，且没有结构化优先级字段。",
+            "Director handoff 停留在高层“走近/询问/回应”，未把最新可见站位变成 Narrator 必须满足的合同。",
+            "Narrator 的风格材料反复使用“步伐、节奏、走路”来呈现温馨安静的关系节奏。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-198/06-llm-calls.json call 0 (director generateObject) 首次弱化当前站立等待锚点；可见的错误在 call 1 Narrator 输出和 turn-198/04-output.json 中成形。",
+          "triggeringPressure": "Director 面对“归途”故事线和 recentTurns 中旧的步行动作，只输出高层“走近卡琳娜、询问她在想什么”，没有写明“她此刻仍站在入口等待”；Narrator 随后从旧的步伐/节奏素材中续写为正在行走。",
+          "missingGuard": "缺少 current-scene anchor handoff：最新可见位置、姿态、运动状态没有独立字段，也没有规则要求当 recent text 冲突时必须优先 turn 197 结尾和本轮玩家输入。",
+          "mechanismStatement": "最新可见的“站着等待”只埋在 recent prose 中，而 Director handoff 没有把它变成 Narrator 的 must-satisfy 约束；在“归途/步伐/节奏”的压力下，Narrator 选用了已过期的行走状态，生成无桥接的空间动作断裂。",
+          "directCause": "Narrator 将玩家“走近她”解释为追上正在行走的卡琳娜，而不是接近正在等待的卡琳娜。",
+          "propagation": "错误首先进入 turn-198/04-output.json 的 visibleText，并通过 turn 199、turn 200 的 recentTurns 继续固化为两人一路行走的状态；runtime-after 没有单独纠正姿态/运动状态。",
+          "nonCauses": [
+            "不是评测误判：玩家可见文本中“站着等”和“保持步行节奏”直接冲突。",
+            "不是 long-term memory 问题：所需信息就在最近一轮。",
+            "不是玩家输入歧义：玩家明确“走近她”且提到她“等的时候”。"
+          ]
+        },
+        "rootCause": {
+          "label": "handoff-contract",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Director→Narrator handoff 缺少 current-scene anchor 合同：最新可见的“卡琳娜站着等待”没有被提升为结构化 must-satisfy 字段，旧的步行文本和“归途”故事线压力仍留在 prompt 中；Narrator 因而沿用过期运动状态，把静止会合写成持续行走。",
+          "fixSurface": [
+            "Director output schema：加入 currentSceneAnchor / locomotionState / mustRespectRecentVisible 字段",
+            "Narrator prompt：当 recentTurns 有冲突时显式优先最新可见结尾和本轮玩家输入",
+            "state writeback：保存角色当前位置、姿态和运动状态，供下一轮检索",
+            "continuity lint：检测“上一轮站着等”后无桥接出现“保持步行节奏/继续走着”的冲突"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 197 结尾写卡琳娜“正站在晨风中等着你”“只是站在那儿”；turn 198 正文写“她没有加快脚步，也没有放慢——保持着刚才的节奏”以及“她只是继续走着”。",
+          "internalTrace": "turn-198/06a-director-prompt.md 与 06b-narrator-prompt.md 都包含最新站立等待文本；turn-198/06-llm-calls.json 的 Director object 未保留该姿态锚点，反而给出泛化场景“公园”和 stale 的卡尔参与提示；Narrator call 1 首次把该轮写成持续行走。turn-198/05-runtime-after.json 的 entityStates 没有记录运动状态。"
+        },
+        "recommendedFixArea": "优先修复 Director 到 Narrator 的 current-scene anchor handoff，并增加 recent visible conflict priority；结构化保存角色姿态/运动状态可作为长期防线。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 86,
+      "turn": 200,
+      "severity": "low",
+      "type": "quality-regression",
+      "scope": "visibleText",
+      "summary": "湿润路面、干燥脚步声与水汽渗入鞋印的解释互相牵扯成不自然的感官描写，属于局部文本质量退化。",
+      "batchId": "batch-025",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "unsupported-detail-inference",
+        "family": "llm-self",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Narrator prompt：限制无必要的微观物理解释，优先写可直接感知的结果",
+          "post-generation quality lint：检测同句湿/干属性冲突和“因为”引出的感官因果",
+          "style rewrite pass：将过度解释的感官句改写为直接、可验证的描写"
+        ]
+      },
+      "confidence": "medium",
+      "recommendedFixArea": "优先增加 Narrator 的 sensory causality 自检和输出后 lint，避免为氛围细节补写未经支撑的物理机制。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-025/issues/issue-086-turn-200/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-025/issues/issue-086-turn-200/root-cause-report.md",
+      "result": {
+        "issueId": "issue-86",
+        "issueIndex": 86,
+        "turn": 200,
+        "issueValidity": "valid",
+        "problemSummary": "turn 200 描写湿润石板上的脚步声时，把“湿润的石板”“干燥的声音”和“水汽还没来得及渗进鞋印”连成因果，感官和物理解释不自然。",
+        "validityAssessment": {
+          "verdictReason": "问题只凭玩家可见文本成立：同一句同时建立湿润路面和干燥脚步声，又用水汽渗入鞋印解释声音，读者很难把这理解为自然物理描写。",
+          "playerVisibleSupport": "turn 200 可见正文：“巷道的石板路面上有一层薄薄的晨露……她的鞋底踩过那些湿润的石板时，发出轻微的、干燥的声音——因为脚步足够轻，所以水汽还没来得及渗进鞋印的轮廓，她就已经走了过去。”",
+          "caveats": [
+            "“轻微、干燥的声音”单独看可被理解为轻声脚步；但后续“水汽渗进鞋印”的解释把隐喻拉成物理机制，使局部质量问题更明确。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "turn 199 后两人已经在通往巷口的路上行走；turn 200 玩家放慢一步，让卡琳娜走在前面并观察背影。正文应以安静步伐、晨光、外套和发梢等视觉细节为主，不需要解释鞋底与湿石板之间的物理机制。",
+          "relevantFacts": [
+            {
+              "claim": "本轮需要描写卡琳娜行走背影和步伐细节。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-200/06-llm-calls.json",
+                "turn-200/04-output.json"
+              ],
+              "notes": "Director requiredContent 明确要求背影、外套、金色马尾、晨光位置变化。"
+            },
+            {
+              "claim": "环境中有晨露、石板、露水气味等湿润清晨材料。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-200/06b-narrator-prompt.md"
+              ],
+              "notes": "turn 195/197/198 多次出现露水、石板和清晨气味。"
+            },
+            {
+              "claim": "近期文本中的“干燥而轻细的声响”原本描述树叶/枯叶，不是湿石板脚步声。",
+              "availability": "present-buried",
+              "artifacts": [
+                "turn-200/06b-narrator-prompt.md",
+                "turn-200/03-story-state.json"
+              ],
+              "notes": "该声响短语在 recentTurns 中反复出现，容易被迁移到新感官对象。"
+            },
+            {
+              "claim": "“水汽还没来得及渗进鞋印轮廓”没有可见设定或常识支撑。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-200/04-output.json"
+              ],
+              "notes": "Director 没有要求解释脚步声成因；正文自行添加了物理因果。"
+            }
+          ],
+          "competingPressures": [
+            "Director pacing 要求“慢铺，以感官细节为主”，并把步幅、石板和晨光列为重点。",
+            "近期可见文本反复把“露水/石板”和“干燥而轻细的声响”放在清晨氛围里。",
+            "Narrator 为了把观察写得细密，扩写到了脚跟、鞋底、鞋印和水汽等微观物理层面。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-200/06-llm-calls.json call 1 (narrator streamText)，同句写入 turn-200/04-output.json。",
+          "triggeringPressure": "Director 要求慢铺感官细节和步伐/石板描写；Narrator prompt 的 recentTurns 又同时提供“露水、石板”和“干燥而轻细的声响”这些相邻素材。",
+          "missingGuard": "缺少 unsupported sensory causality guard：当模型添加物理解释时，没有要求检查湿/干感官属性是否兼容，也没有限制无必要的微观因果解释。",
+          "mechanismStatement": "在感官细节扩写压力下，Narrator 把 recent prose 中的“干燥声响”和本轮“湿润石板/鞋底”强行建立因果，缺少物理一致性护栏，于是生成了“水汽未渗进鞋印所以声音干燥”的 unsupported detail。",
+          "directCause": "Narrator 局部过度解释脚步声，发明了不成立的湿度-鞋印-声音因果链。",
+          "propagation": "错误进入 turn-200/04-output.json 和 visible-timeline.jsonl；后续选项只承接观察距离，没有把该物理解释固化为剧情事实。",
+          "nonCauses": [
+            "不是空间位置错误：两人此时已经在路上行走。",
+            "不是记忆缺失：问题不依赖远期事实。",
+            "不是 Director 要求的固定内容：Director 只要求感官慢铺，没有要求湿石板脚步声或水汽解释。"
+          ]
+        },
+        "rootCause": {
+          "label": "unsupported-detail-inference",
+          "family": "llm-self",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "Narrator 在慢铺感官细节时，把普通的晨露/石板/脚步观察扩展成未受支持的物理因果说明；prompt 没有要求只写可感知结果或校验湿/干属性兼容，导致局部 hallucinated sensory physics 进入正文。",
+          "fixSurface": [
+            "Narrator prompt：限制无必要的微观物理解释，优先写可直接感知的结果",
+            "post-generation quality lint：检测同句湿/干属性冲突和“因为”引出的感官因果",
+            "style rewrite pass：将过度解释的感官句改写为直接、可验证的描写"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 200 可见正文把湿润石板、干燥脚步声和水汽渗进鞋印连为一体，读者可直接看到感官因果不协调。",
+          "internalTrace": "turn-200/06-llm-calls.json 的 Director object 只要求背影、步伐、外套、发梢、晨光和石板位置变化；call 1 Narrator 首次添加“湿润石板/干燥声音/水汽未渗进鞋印”的解释。turn-200/06b-narrator-prompt.md recentTurns 中有“干燥而轻细的声响”和“露水、石板”等邻近素材。"
+        },
+        "recommendedFixArea": "优先增加 Narrator 的 sensory causality 自检和输出后 lint，避免为氛围细节补写未经支撑的物理机制。",
+        "confidence": "medium"
+      }
+    }
+  ]
+}

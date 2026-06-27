@@ -1,19 +1,160 @@
 {
   "batchId": "batch-006",
   "issueCount": 1,
+  "completedCount": 1,
+  "validityCounts": {
+    "valid": 1,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
-      "issueId": "issue-18-turn-27",
       "issueIndex": 18,
       "turn": 27,
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "The output builds new plot logic on an unsupported dinner-party setting that the player had not reached.",
+      "batchId": "batch-006",
       "issueValidity": "valid",
       "rootCause": {
         "label": "storyline-lifecycle",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "quest/storyline statefold beat completion and transition gating",
+          "current-scene anchor in story state and prompt assembly",
+          "Director contract for location-changing beat compatibility",
+          "runtime validation for currentStoryline vs recent visible location"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-18-turn-27/root-cause-report.md",
-      "resultPath": "issues/issue-18-turn-27/root-cause-result.json"
+      "recommendedFixArea": "优先修复 storyline/statefold 的地点切换 beat 消费规则：为 04-02/04-03 这类 transition beat 增加 visible-transition predicate（邀请/接受/移动/到达），并在 prompt assembly 中添加 current-scene anchor 与冲突校验；当 currentStoryline 与最近可见地点冲突时，Director 必须 bridge/rewrite/delay，而不是直接使用后续节点。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-006/issues/issue-018-turn-27/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-006/issues/issue-018-turn-27/root-cause-report.md",
+      "result": {
+        "issueId": "issue-18-turn-27",
+        "issueIndex": 18,
+        "turn": 27,
+        "issueValidity": "valid",
+        "problemSummary": "turn 27 继续把主角与卡琳娜的对话放在未到达的宴会厅/晚宴语境中，并把康纳定义为“这场晚宴的主人”，建立了玩家可见时间线尚未支持的新剧情逻辑。",
+        "validityAssessment": {
+          "verdictReason": "有效。只看玩家可见内容，turn 22-25 的场景仍是卡琳娜的公寓/暗街室内：沙发、茶几、书架、暖气管、黑猫和雨声持续出现；玩家从未看到晚宴邀请、接受邀请、出门、穿过暗街或进入宴会厅。turn 26 已先把场景漂移到宴会厅，turn 27 又进一步称康纳是“这场晚宴的主人”、担心“人群里发现你”，因此不是合理省略，而是将未发生的 dinner-party setting 当作既成事实。",
+          "playerVisibleSupport": "turn 25 结尾仍有“沙发上蜷缩的黑猫”“暖气管”和茶几；turn 26/27 突然出现“宴会厅高窗”“水晶吊灯”“酒会”“宴会厅里的低语和杯盏声”，且 turn 27 说“这场晚宴的主人”“人群里发现你”。可见时间线没有过渡桥段。",
+          "caveats": [
+            "turn 27 不是首次可见漂移点；turn 26 已经把场景错误地搬到宴会厅。本 issue 仍有效，因为 turn 27 在该错误上继续建立康纳/晚宴逻辑。",
+            "玩家选择“留下来，等她继续说康纳的事”可支持继续谈康纳，但不支持已经身处晚宴或在人群中。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "截至 turn 25，玩家看到的是帕兹和卡琳娜仍在卡琳娜公寓内围绕德索洛、莫雷蒂、卡琳娜在暗街中的角色对话；turn 26 的玩家输入只是确认时间、考虑告辞，仍应从公寓/茶几/书架/雨夜这个当前场景承接，而不是默认已经进入宴会厅。turn 26 的错误输出把宴会厅设为既成事实，turn 27 则在这个漂移状态上继续。",
+          "relevantFacts": [
+            {
+              "claim": "问题前玩家可见场景仍是卡琳娜公寓或至少室内私人会谈，不是宴会厅。",
+              "availability": "present-clear",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-25",
+                "turn-27/06a-director-prompt.md",
+                "turn-27/03-story-state.json"
+              ],
+              "notes": "最近可见正文明确出现沙发、茶几、书架、暖气管和黑猫；这些事实在 turn 27 Director prompt 的最近几轮玩家经历中存在，但位于 currentStoryline 之后，且与当前故事线发生冲突。"
+            },
+            {
+              "claim": "玩家没有看到晚宴邀请、接受邀请、出门、旅行或进入宴会厅的桥段。",
+              "availability": "absent",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-22..turn-25",
+                "turn-26/06a-director-prompt.md",
+                "turn-27/06a-director-prompt.md"
+              ],
+              "notes": "历史情节概览声称 04-02 是“出门与晚宴邀请”、04-03 是“进入宴会厅”，但对应已发生剧情摘要只记录了玩家与卡琳娜的心理博弈和追问；可见正文没有完成这些 transition beats。"
+            },
+            {
+              "claim": "turn 25 Director 已把 04-03 处理成铺垫而非实际地点变化。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-25/04-output.json",
+                "turn-25/06-llm-calls.json"
+              ],
+              "notes": "turn 25 plotPoint 的 currentStorylineConstraints 明确写着“为前往宴会厅做铺垫，但不在此轮实际推进地点变化”。这应阻止 04-03 被当作已消费的入场节点。"
+            },
+            {
+              "claim": "运行状态在 turn 25 后已把 04-03 标记完成并激活 05-01。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-25/01-summary.json",
+                "turn-25/05-runtime-after.json",
+                "turn-26/03-story-state.json"
+              ],
+              "notes": "beatAfterStateFold/currentBeatId 从 04-03 跳到 5-01；runtime completedBeatIds 包含 4-03，尽管该节点的核心“正式进入宴会厅”未在可见文本发生。"
+            },
+            {
+              "claim": "turn 26/27 的 prompts 把宴会厅节点和 locationState 作为当前权威上下文。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-26/03-story-state.json",
+                "turn-26/06a-director-prompt.md",
+                "turn-27/03-story-state.json",
+                "turn-27/06a-director-prompt.md"
+              ],
+              "notes": "turn 26 currentStoryline 是 05-01“宴会厅环境与人群”，要求先描写宴会厅环境；turn 27 currentStoryline 是 05-02“康纳出场”，约束仍使用 backgrounds【宴会厅】。"
+            },
+            {
+              "claim": "turn 27 的选择可以合理承接“谈康纳”，但不应自动承接“晚宴/人群”。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "visible-timeline.jsonl:turn-26",
+                "turn-27/04-output.json"
+              ],
+              "notes": "玩家选的是“留下来，等她继续说康纳的事”；这只绑定继续听信息，不绑定去见康纳或进入宴会。"
+            }
+          ],
+          "competingPressures": [
+            "currentStoryline 05-01/05-02 的固定推进压力：宴会厅、人群、康纳出场。",
+            "历史情节概览把 04-02/04-03 写成已发生节点摘要，弱化了最近可见正文仍在公寓的事实。",
+            "prompt 中“如有冲突，优先相信最近几轮玩家看到的正文和当前故事线约束”把最近可见正文与 currentStoryline 并列，未给出 location conflict 的硬优先级。",
+            "turn 26 的错误 choice `choice:wait_for_conor` 把玩家下一步导向继续康纳话题，从而让 turn 27 更容易在错误晚宴框架内展开。",
+            "写作风格和资源约束中的宴会厅/宴会示例提供了氛围词汇，但主压力来自 active storyline，不是单纯文风污染。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-25/05-runtime-after.json（同一现象也见 turn-25/01-summary.json 的 beatAfterStateFold）：4-03-第一章 被标记完成，currentBeatId/activeBeatIds 切到 5-01-第一章。",
+          "triggeringPressure": "未消费的 04-03“进入宴会厅”transition beat 被 runtime/statefold 当作已完成，导致 turn 26 prompt 前置 05-01“宴会厅环境与人群”，turn 27 prompt 前置 05-02“康纳出场”；这些节点要求 backgrounds【宴会厅】、宴会厅环境、人群和康纳晚宴关联。",
+          "missingGuard": "缺少一个把 storyline beat 完成条件与玩家可见 transition 对齐的生命周期防线：statefold 没有检查 turn 25 Director 的“不在此轮实际推进地点变化”，也没有要求 visible text 中出现邀请/接受/移动/入场后才能完成 04-03、激活 05-01/05-02；prompt assembly 也没有用 current-scene anchor 把最近可见公寓场景设为硬约束。",
+          "mechanismStatement": "storyline-lifecycle 在未确认 04-03 入场节点被玩家可见地消费时就推进到阶段五，prompt 又把新节点的宴会厅资源和事件作为权威当前上下文，Director/Narrator 因而把“确认时间/留下听康纳”写成已经在晚宴中继续谈话，形成 turn 27 的 unsupported-jump。",
+          "directCause": "turn 26 Director 在 05-01 压力下要求“窗外光线、宴会灯光”等环境描写，Narrator 输出 `data-bg=\"宴会厅\"`、酒会、人群；turn 27 Director 继续将 scene 设为“宴会厅”，requiredContent 包含“晚宴的关联”和“宴会厅低语”，Narrator 写出“这场晚宴的主人”和“人群里发现你”。",
+          "propagation": "turn 26 的错误正文生成了“留下来，等她继续说康纳的事”并绑定 `choice:wait_for_conor`；turn 27 把该选择解释为宴会中继续铺垫康纳，04-output 与 07-events 固化了晚宴主人、人群、宴会厅背景，并在 runtime-after 中继续推进到 5-03。",
+          "nonCauses": [
+            "不是玩家输入导致：玩家只确认时间/选择留下听康纳，没有选择进入宴会厅。",
+            "不是长期 memory-persistence 缺失：最近 5 轮可见正文已在 prompts 中保留了公寓线索。",
+            "不是单纯 Narrator 局部幻觉：Director 的 plotPoint、currentStoryline、locationState 和 requiredContent 已经把宴会厅设置为当前框架。",
+            "不是评测用隐藏信息倒推：玩家可见时间线本身足以证明晚宴设定未被抵达。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "storyline 生命周期把一个未完成、且被 Director 明确标注为“不在此轮实际推进地点变化”的入场/过渡节点视为已完成，提前激活依赖宴会厅的阶段五节点；缺失的防线是“只有玩家可见 transition 被写出后才可消费地点切换 beat”的完成条件，以及 current-scene anchor 对最近可见公寓状态的硬优先级。失败运动是 statefold 先错置 activeBeat，prompt assembly 再高显著度前置宴会厅节点，Director/Narrator/Choice 依次将错误场景合理化并锁进后续。",
+          "fixSurface": [
+            "quest/storyline statefold beat completion and transition gating",
+            "current-scene anchor in story state and prompt assembly",
+            "Director contract for location-changing beat compatibility",
+            "runtime validation for currentStoryline vs recent visible location"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 25 仍在茶几、沙发、书架、暖气管、黑猫构成的私人室内场景；turn 26/27 未经可见移动就出现宴会厅高窗、水晶吊灯、酒会、低语杯盏声；turn 27 又把康纳说成“这场晚宴的主人”并讨论“人群里发现你”。",
+          "internalTrace": "turn 25 Director call 明确约束“不在此轮实际推进地点变化”，但 turn-25/05-runtime-after.json 已把 currentBeatId 改为 5-01 并完成 4-03；turn 26 story state/prompt 的 currentStoryline 是 05-01“宴会厅环境与人群”，Director requiredContent 写“宴会灯光”，Narrator 输出宴会厅；turn 27 currentStoryline 是 05-02“康纳出场”，Director scene=宴会厅、requiredContent 包含晚宴关联和宴会厅低语，Narrator 输出目标问题。"
+        },
+        "recommendedFixArea": "优先修复 storyline/statefold 的地点切换 beat 消费规则：为 04-02/04-03 这类 transition beat 增加 visible-transition predicate（邀请/接受/移动/到达），并在 prompt assembly 中添加 current-scene anchor 与冲突校验；当 currentStoryline 与最近可见地点冲突时，Director 必须 bridge/rewrite/delay，而不是直接使用后续节点。",
+        "confidence": "high"
+      }
     }
   ]
 }

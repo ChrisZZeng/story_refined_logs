@@ -1,0 +1,67 @@
+# issue-2-turn-9 Root Cause Report
+
+## Problem
+
+- issueId: `issue-2-turn-9`
+- turn: `9`
+- problemSummary: 第 9 轮卡琳娜称玩家“跟一个只见过两次面的小女孩走夜路”，在连续移动且此前仍是午后/白天的玩家可见语境里，把暗街的昏暗误写成夜间。
+
+## Validity
+
+- issueValidity: `valid`
+- verdictReason: valid。第 8 轮卡琳娜刚以“午安，记者”称呼玩家，并说“至少今天还没过完”；第 9 轮只是紧接着跟随她穿过暗街巷道，没有玩家可见的长时间跳转或入夜过渡。“走夜路”虽然可被弱读为危险/昏暗道路的俗语，但通常会把场景标成夜间，造成轻微时间感冲突。
+- playerVisibleSupport: turn 8 visibleText 有“午安，记者”和“你运气不算太差。至少今天还没过完”；turn 9 playerInput 是“跟上卡琳娜，看看她到底带你去哪”，正文连续描写转弯、走巷道、到铁门，中间没有入夜时间推进，却出现“走夜路”。
+- caveats:
+  - “走夜路”存在危险道路/昏暗巷道的隐喻读法，因此严重度低。
+  - 暗街本身有昏暗、潮湿、路灯稀疏的环境设定；问题不是暗街昏暗，而是时间词“夜”。
+
+## Context Assessment
+
+- actualStateBeforeIssue: 玩家在暗街巷口刚被卡琳娜解围；卡琳娜邀请玩家去她在暗街深处的住处继续谈。玩家紧接着跟上她，仍处在同一段复活日白天/午后的连续行动中。
+- relevantFacts:
+  - `present-clear` 当前可见时间仍是白天或午后，并未发生入夜跳转。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 8`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-09/06b-narrator-prompt.md`. notes: turn 8 的“午安”和“至少今天还没过完”出现在最近可见文本中，但在长 prompt 中只是普通历史片段。
+  - `present-clear` 暗街环境昏暗、路灯稀疏、光线浓稠。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl turn 6-9`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-09/04-output.json`. notes: 这些是地点氛围，不等于夜晚。
+  - `present-buried` Narrator prompt 没有结构化 currentTimeOfDay，只把时间事实埋在最近正文中。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-09/06b-narrator-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-09/03-story-state.json`. notes: story state 有 location 和 storyline，但没有独立时间锚点；“午安/今天还没过完”需要从长最近文本中抽取。
+  - `over-constraining` Prompt 与记忆反复前景化“昏黄灯光、路灯、黑暗、灯火”等夜感词。 artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-09/06a-director-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-09/06b-narrator-prompt.md`. notes: 这些环境词强化了夜间联想，且没有被当前时间约束抵消。
+- competingPressures:
+  - 暗街需要呈现阴暗潮湿和危险感。
+  - 卡琳娜台词要兼具门面疏离和试探好奇。
+  - 最近正文里有“午安/今天还没过完”，但不在结构化当前场景字段中。
+  - 写作规范允许用光线变化暗示时间，但未禁止未铺垫的时间词。
+
+## Causal Chain
+
+- firstDivergenceArtifact: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-09/06-llm-calls.json call 1 / turn-09/04-output.json narrative
+- triggeringPressure: Narrator 需要描写暗街深处的昏暗、路灯稀疏和与小女孩同行的危险感；prompt 中这些氛围词比“午安/今天还没过完”的时间事实更显眼。
+- missingGuard: 缺少 current-scene time-of-day anchor，也缺少“不得把地点昏暗改写成时间入夜，除非正文明确过渡”的硬约束。
+- mechanismStatement: 当前时间只以普通最近文本形式埋在 prompt 中，而暗街氛围和路灯黑暗被持续前景化；Narrator 在生成卡琳娜调侃台词时把危险/昏暗的同行场面词汇化为“走夜路”，从而把地点黑暗误投射为时间黑夜。
+- directCause: Narrator 在 turn 9 台词中使用“走夜路”这个带时间含义的表达。
+- propagation: 该短语直接进入 `turn-09/04-output.json` 和 visible timeline；后续没有在同轮内纠正。
+- nonCauses:
+  - 不是玩家输入导致；玩家只选择跟上卡琳娜。
+  - 不是 Director 明确要求夜晚；Director 输出没有要求改成夜间。
+  - 不是长期记忆缺失；矛盾信息就在最近可见文本里。
+
+## Root Cause
+
+- label: `current-scene-time-anchor-gap`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: 系统没有把最近可见的白天/午后状态提升为结构化、强约束的 current-scene time anchor；暗街昏暗氛围在 prompt 中更显眼，Narrator 因而把地点光线误写成时间上的“夜路”。
+- fixSurface:
+  - `story state currentScene.timeOfDay / elapsedTime model`
+  - `Narrator prompt current-scene anchor block`
+  - `time-transition consistency validator`
+
+## Evidence
+
+- playerVisible: turn 8：“午安，记者”“至少今天还没过完”；turn 9 连续跟随卡琳娜进入暗街深处，却出现“愿意跟一个只见过两次面的小女孩走夜路的人”。
+- internalTrace: `turn-09/03-story-state.json` 和 `turn-09/06b-narrator-prompt.md` 有当前地点与最近文本，但无结构化 time-of-day；`turn-09/06-llm-calls.json` call 1 首次生成“走夜路”。
+
+## Recommended Fix Area
+
+为当前场景建立结构化时间锚，并在 Narrator/Choice 输出后检测“夜、深夜、清晨”等时间词是否有玩家可见过渡支撑。
+
+## Confidence
+
+`medium`

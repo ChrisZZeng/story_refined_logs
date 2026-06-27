@@ -1,0 +1,80 @@
+{
+  "turn": 4,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "random",
+  "selectedFromPreviousTurn": {
+    "text": "直接去暗街，往日总是如影随形",
+    "actionId": "choice:前往暗街"
+  },
+  "submittedSelectedAction": {
+    "actionId": "choice:前往暗街",
+    "committed": true,
+    "satisfiedAnchors": [
+      "玩家主动进入暗街"
+    ]
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 1
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-02-第一章",
+    "beatUid": "n_8nYF7uHz43c0",
+    "turnInBeat": 2
+  },
+  "selectedForNext": {
+    "text": "站在原地不动，等他们先打破沉默",
+    "actionId": "anchor:a_azZx0jYROVs6"
+  },
+  "candidateActions": [
+    {
+      "kind": "anchor",
+      "actionId": "anchor:a_azZx0jYROVs6",
+      "label": "主角对与黑帮的冲突做出选择或行动",
+      "description": "配合/反抗/回避/战斗",
+      "category": "玩家选择"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "继续示弱，强调相机是战友唯一留给我的东西",
+        "actionId": "anchor:a_azZx0jYROVs6"
+      },
+      {
+        "text": "趁他们还没反应过来，先发制人",
+        "actionId": "anchor:a_azZx0jYROVs6"
+      },
+      {
+        "text": "站在原地不动，等他们先打破沉默",
+        "actionId": "anchor:a_azZx0jYROVs6"
+      }
+    ]
+  },
+  "visibleChars": 2183,
+  "durationMs": 72198.82,
+  "memory": {
+    "recentTurns": 3,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

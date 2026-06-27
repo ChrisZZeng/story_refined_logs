@@ -1,0 +1,90 @@
+{
+  "issueId": "issue-45-turn-110",
+  "turn": 110,
+  "issueValidity": "valid",
+  "problemSummary": "turn 110 把银色铃铛写成卡尔已经给过玩家的东西，turn 111/112 进一步写进玩家内袋；但此前玩家可见 timeline 中铃铛一直由卡琳娜/卡尔携带，没有 handoff。",
+  "validityAssessment": {
+    "verdictReason": "问题成立。turn 87 写卡琳娜把银铃收进口袋，turn 91 写银铃在卡琳娜指间；之后到 turn 109 没有可见交接。turn 110 却说“她已经给过你的东西”，并在 turn 111 写玩家内袋里有银色铃铛。",
+    "playerVisibleSupport": "visible-timeline.jsonl 中 turn 86-91 显示卡尔取出/卡琳娜持有铃铛；turn 110-112 显示已给玩家。中间没有玩家可见 handoff。",
+    "caveats": [
+      "卡尔提醒“带上铃铛”本身可以成立；错误在于叙述把它解释为已经交给玩家。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "银色铃铛最近一次可靠玩家可见归属是卡琳娜手中/口袋中，用于穿过边界；进入“另一边”后没有交给帕兹。玩家询问准备物品时，合理回答应是卡琳娜/卡尔提醒由当前持有者带上或进行可见交接。",
+    "relevantFacts": [
+      {
+        "claim": "银铃最后可见在卡琳娜/Karl custody，未给玩家。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06a-director-prompt.md"
+        ],
+        "notes": "该事实发生在 turn 86-91，已超出最近 5 轮；currentStoryline 只概括“提醒她带上银铃铛”，没有 owner 字段。"
+      },
+      {
+        "claim": "角色卡含“你留着。她不需要知道。（给主角银色铃铛时）”示例台词。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06b-narrator-prompt.md"
+        ],
+        "notes": "这是内部/未来或参考信息，不应当被当作已发生的玩家可见 handoff。"
+      },
+      {
+        "claim": "Director 只要求“卡尔提醒带上银铃铛”，没有指定已在玩家身上。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06-llm-calls.json"
+        ],
+        "notes": "first visible ownership error 是 Narrator 添加“她已经给过你的东西”。"
+      },
+      {
+        "claim": "主角/卡琳娜/卡尔 carriedItems 未记录铃铛归属。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/03-story-state.json"
+        ],
+        "notes": "curStates 中 carriedItems 为空，缺少 item ownership persistence。"
+      }
+    ],
+    "competingPressures": [
+      "港口行程需要铃铛成为准备物，推动系统确认它可被玩家携带。",
+      "卡尔角色卡中的“给主角银色铃铛时”示例在 prompt 中高显著。",
+      "currentStoryline 摘要只写“提醒带上银铃铛”，未记录谁拿着。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06-llm-calls.json[1].text",
+    "triggeringPressure": "Director requiredContent 要“卡尔提醒带上银铃铛”；卡尔角色卡同时含“给主角银色铃铛时”的参考台词；缺少现有 owner 信息使 Narrator 需要自行填补“怎么带上”。",
+    "missingGuard": "没有 item ownership/inventory state，也没有 prompt guard 阻止 hidden character reference/future beat 被当成已发生 visible event。",
+    "mechanismStatement": "银铃归属没有从 turn 86-91 持久化，Director 只传达“带上铃铛”而不传达 owner/transfer requirement，Narrator 用角色卡里的给铃铛示例补全缺口，生成“已经给过你”的 handoff 幻觉。",
+    "directCause": "Narrator 在 turn 110 写“提醒你一件她已经给过你的东西”。",
+    "propagation": "turn 111 在没有可见交接的情况下写“外套内袋——银色铃铛还在那里”，turn 112 继续确认内袋中有铃铛。",
+    "nonCauses": [
+      "不是玩家在 turn 110 请求获得铃铛。",
+      "不是 Director 明确写错 ownership。",
+      "不是 evaluator 依赖隐藏事实；可见 timeline 足以证明无 handoff。"
+    ]
+  },
+  "rootCause": {
+    "label": "memory-persistence",
+    "family": "detail-memory",
+    "secondaryFamilies": [
+      "agent-system"
+    ],
+    "description": "银铃这种具体物品的当前 owner/location 没有被持久化为稳定 state；当最近上下文不再包含 turn 86-91 的持有细节时，Narrator 在“带上铃铛”和角色卡参考台词压力下把未发生的交接当作事实。",
+    "fixSurface": [
+      "Item/inventory state model: persist owner/location for named portable objects.",
+      "Director handoff schema: when mentioning a portable object, include currentOwner and whether transfer is required/visible.",
+      "Prompt boundary: mark character-card example lines as non-events and forbid treating them as already happened."
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 87 卡琳娜将银铃收入口袋；turn 91 银铃在卡琳娜指间；turn 110 “已经给过你的东西”；turn 111/112 玩家内袋有铃铛。",
+    "internalTrace": "turn-110/03-story-state.json carriedItems 为空且卡尔角色卡含“给主角银色铃铛时”；turn-110 Director object 只要求“提醒带上银铃铛”；Narrator 首次生成“已经给过你”。"
+  },
+  "recommendedFixArea": "建立 named item ownership persistence，并在 Director/Narrator handoff 中强制区分“提醒当前持有者带上”“本轮交给玩家”“玩家已持有”。",
+  "confidence": "high"
+}

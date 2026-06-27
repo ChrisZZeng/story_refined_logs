@@ -1,0 +1,133 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 12 开头写玩家“拧动门把手”，并且“锁舌脱离门框”，重新把门拉开。",
+    "conflictingEvidence": "turn 11 玩家已经打开门，卡琳娜从门框挤进房间；随后叙述只说玩家仍站在门框边、手还搭在门把手上，没有交代关门或重新上锁，却又出现门外敲门。",
+    "conflictingTurns": [
+      11
+    ],
+    "source": "model-output",
+    "reason": "门在没有玩家可见关门动作的情况下被后文当作已经关上并扣住，造成门状态承接不清。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "turn 12 报信人说：“港口区，有人在你那个记者的事情。”",
+    "conflictingEvidence": "同一段后文才补足“有人在打听他的样貌和装备”，说明这句话应表达有人在打听记者的事，但原句缺少谓语。",
+    "conflictingTurns": [
+      12
+    ],
+    "source": "model-output",
+    "reason": "这句台词残缺，缺少“打听”等核心谓语，造成局部阅读卡顿。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 13,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "turn 13 正文在玩家说完“刚到。还没搞清楚是谁在盯我”之后，又替玩家回答“我有照片”“我和她的合照”“四个月前”“几年”“中东”等关键私人信息。",
+    "conflictingEvidence": "turn 13 的玩家输入只是“点点头，告诉她我刚到，不清楚谁在盯我”，没有选择披露照片性质、见到敏特的时间或中东经历。",
+    "conflictingTurns": [
+      13
+    ],
+    "source": "model-output",
+    "reason": "模型把一个有限回答扩展成多项关键自述，提前固定玩家角色的私人信息和调查线索。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 13,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 13 卡琳娜问“什么照片”，玩家回答“我和她的合照”；卡琳娜随后确认“照片上的白裙”。",
+    "conflictingEvidence": "turn 1 中白裙或匿名信封照片是少女单独背对街道、半侧着脸的照片；另一个合照是六个人挤在篝火前的照片，并不是白裙照片。",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "同一条关键照片线索从单人白裙照片漂移成玩家与敏特的合照，削弱了物证连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 20 写窗玻璃反射出三个轮廓：“一个站着，一个蹲在窗台，一个坐在灯光边缘的阴影里。”",
+    "conflictingEvidence": "turn 11 玩家从椅子上站起后一直在门边或房间中应对来客；turn 19 德索洛离开后只写卡琳娜站在原地转头看玩家，没有交代玩家坐下。",
+    "conflictingTurns": [
+      11,
+      19
+    ],
+    "source": "model-output",
+    "reason": "玩家姿态从站立突然变成坐在阴影里，缺少动作承接。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "turn 20 选项写道：“望向你手边的杯子，端起来喝了一口，借着这个空隙整理思绪”。",
+    "conflictingEvidence": "turn 7-20 反复列出的房间陈设和桌面物品包括铁架床、木桌、台灯、旧书、饼干盒、钢笔和报纸等，没有出现过玩家手边的杯子，也没有倒水或备杯动作。",
+    "conflictingTurns": [
+      7,
+      8,
+      10,
+      19
+    ],
+    "source": "model-output",
+    "reason": "选项把此前没有建立过的杯子当成可用物件，造成玩家可交互物状态不稳定。"
+  }
+]
+

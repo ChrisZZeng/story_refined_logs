@@ -1,0 +1,46 @@
+# issue-54-turn-128 Root Cause Report
+
+## Problem
+- issueIndex: 54
+- turn: 128
+- problemSummary: 第 128 轮把备用胶卷从此前多次出现的‘三卷 Tri-X + 一盒未拆封 HP5’改成‘五卷、每卷单独塑料密封’，没有玩家可见承接。
+
+## Validity
+- issueValidity: valid
+- verdictReason: 问题有效但严重度低。此前备用胶卷的数量/包装被连续写成三卷 Tri-X 加一盒未拆封 HP5；第 128 轮突然变成五卷且每卷都用塑料密封袋包扎，没有整理、拆盒或新增胶卷的可见过程。
+- playerVisibleSupport: 第 111 轮和第 112 轮均写‘三卷Tri-X，一盒还没拆封的HP5’，第 113 轮写‘三卷Tri-X和一盒HP5挨个捏了一遍’；第 128 轮写‘备用胶卷……五卷，每一卷都用塑料密封袋包着’。
+- caveats: ‘一盒 HP5’理论上可能被读成一盒内含多卷，但此前‘三卷和一盒挨个捏’更像四个独立携带单位；因此判为 valid，confidence 不是 high。
+
+## Context Assessment
+- actualStateBeforeIssue: 玩家在等待出发前多次检查防水袋。可见库存稳定为三卷 Tri-X 与一盒未拆封 HP5，防水袋封口严实，没有任何拆封或补充胶卷的叙述。
+- relevantFacts:
+  - claim: 备用胶卷为三卷 Tri-X 加一盒未拆封 HP5 | availability: absent | artifacts: turn-128/06a-director-prompt.md, turn-128/06b-narrator-prompt.md | notes: 第 111-113 轮可见事实明确，但到第 128 轮超过 recentTurnLimit=5，未进入 recentTurns，也未以精确库存写入当前故事线或 curStates。
+  - claim: 防水袋内有备用胶卷且应检查 | availability: present-clear | artifacts: turn-128/06-llm-calls.json call0 | notes: Director 只保留了泛称‘备用胶卷’，没有数量、品牌、包装状态。
+  - claim: 本轮没有拆封、重新包装或获得额外胶卷 | availability: present-clear | artifacts: visible-timeline.jsonl turns 124-128, turn-128/06a-director-prompt.md | notes: 最近几轮都只是等待、喝水、观察和检查，没有库存变化事件。
+- competingPressures: 装备检查动作需要具体物件细节；精确库存事实已滑出 recentTurns；当前故事线摘要只保留‘备用胶卷和防水袋’这一泛称；第 128 轮 Narrator 同时已经在相机检查中生成了具体但未经校验的数字
+
+## Causal Chain
+- firstDivergenceArtifact: turn-128/06-llm-calls.json call1 narrator text（同步落入 turn-128/04-output.json）
+- triggeringPressure: Director 要求检查防水袋内备用胶卷，但给 Narrator 的合约中没有原先的品牌、数量和包装状态；感官细节优先促使正文枚举胶卷数量和包装。
+- missingGuard: 备用胶卷库存没有被持久化为结构化 inventory/detail memory，也没有在故事线摘要中保留精确值；缺少‘若未提供数量，不要重新发明数量/品牌/包装’的生成约束。
+- mechanismStatement: 当旧库存细节滑出 recentTurns 且没有被写入稳定 inventory，Narrator 只拿到‘备用胶卷’泛称，却被要求写具体检查动作，于是补造了‘五卷单独密封’的库存形态，造成可见数量和包装漂移。
+- directCause: 第 128 轮 Narrator 自行将备用胶卷具体化为五卷塑料密封胶卷。
+- propagation: 第 129 轮 recentTurns 已含第 128 轮错误文本，Narrator 继续沿用‘五卷备用胶卷’检查，错误成为后续局部上下文的一部分。
+- nonCauses: 不是玩家输入改变了库存；玩家只选择检查相机。；不是 Choice 绑定问题；选项没有提到数量。；不是评测依赖隐藏信息；全部冲突来自玩家可见文本。
+
+## Root Cause
+- label: memory-persistence
+- family: detail-memory
+- secondaryFamilies: agent-system
+- description: 触发压力是装备检查需要展开具体物件；缺失防线是备用胶卷的精确品牌、数量和包装没有作为稳定 inventory/detail fact 持久化，Narrator prompt 只剩泛称‘备用胶卷’。模型在细节化写作中补造五卷单独密封胶卷，导致库存漂移。
+- fixSurface: inventory/detail fact writeback for consumables；retrieval of exact item count/brand/package when an item is inspected；Narrator prompt guard against inventing counts when state lacks exact value
+
+## Evidence
+- playerVisible: 第 111、112、113 轮反复出现三卷 Tri-X 与一盒 HP5；第 128 轮无承接变成五卷单独塑料密封胶卷。
+- internalTrace: turn-128/01-summary.json 显示 memory.recentTurns=5；turn-128/06a/06b prompt 中没有 Tri-X、HP5 或三卷等精确库存；turn-128/06-llm-calls.json call1 首次生成五卷说法。
+
+## Recommended Fix Area
+把可消耗物品的品牌、数量、包装状态写入并检索 inventory/detail memory；在物品检查 prompt 中禁止从泛称补造精确数量。
+
+## Confidence
+medium

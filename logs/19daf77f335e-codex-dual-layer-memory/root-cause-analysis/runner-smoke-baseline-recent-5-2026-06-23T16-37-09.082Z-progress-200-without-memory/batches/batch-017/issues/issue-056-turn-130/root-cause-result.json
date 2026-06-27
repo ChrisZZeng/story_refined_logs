@@ -1,0 +1,93 @@
+{
+  "issueId": "issue-56-turn-130",
+  "turn": 130,
+  "issueValidity": "valid",
+  "problemSummary": "第 129 轮玩家已经跨出门槛并站在门外台阶上；第 130 轮却从握门把、听外面、拉开门、迈出门槛重新演出出门动作，形成空间位置回退。",
+  "validityAssessment": {
+    "verdictReason": "问题有效。第 129 轮结尾明确主角反手带上门并站在门外台阶上，下一轮选项也是从台阶/门外状态给出；第 130 轮正文却把主角写回门内，需要再次拉门迈出。",
+    "playerVisibleSupport": "第 129 轮：‘你跨出门槛，反手带上门……你站在门外的台阶上’；第 130 轮：‘你停住，听了听外面的动静’、‘你拉开门，迈出一步，站在门槛外’，随后又‘把门带上’。",
+    "caveats": [
+      "玩家选择‘检查一下门口的动静’可以包含查看门和周边，但不能合理解释为已经在门外后又从屋内开门出门。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "问题发生前，主角位于卡尔小屋门外的台阶/门口，门已被反手带上并锁合；相机贴胸口，防水袋在大腿外侧，铃铛贴心跳，等待卡琳娜消息。",
+    "relevantFacts": [
+      {
+        "claim": "主角已经在门外台阶上，门已带上/锁合",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-130/06a-director-prompt.md:722",
+          "turn-130/06a-director-prompt.md:728",
+          "turn-130/06a-director-prompt.md:729"
+        ],
+        "notes": "第 129 轮完整正文作为 recentTurns 进入第 130 轮 prompt，位置事实清晰。"
+      },
+      {
+        "claim": "第 130 轮玩家选择是从门外状态检查门口动静",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "turn-130/01-summary.json",
+          "turn-130/06a-director-prompt.md:736"
+        ],
+        "notes": "文本‘门口的动静’本身可被误读为从室内听门外；必须依赖上一轮位置锚定。"
+      },
+      {
+        "claim": "Director 对本轮的安排没有显式 scene/currentLocation",
+        "availability": "absent",
+        "artifacts": [
+          "turn-130/06-llm-calls.json call0"
+        ],
+        "notes": "Director 只写‘检查门口动静，确认安全无异常’，requiredContent 也只要求描述门口及周边安静状态。"
+      },
+      {
+        "claim": "runtime-after 没有结构化位置状态可供覆盖",
+        "availability": "absent",
+        "artifacts": [
+          "turn-129/05-runtime-after.json",
+          "turn-130/05-runtime-after.json"
+        ],
+        "notes": "runtime-after 未提供主角在门外/门内的可校验字段。"
+      }
+    ],
+    "competingPressures": [
+      "选项措辞‘检查门口的动静’有从门内听外面的惯用语义",
+      "Director handoff 未保留‘already outside on step’",
+      "Narrator 感官细节优先、缓慢铺陈，容易重演开门-听声-出门流程",
+      "recent visible text 清楚但埋在长正文中"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-130/06-llm-calls.json call0 director object 丢失当前位置锚点；显性错误首次出现在 call1 narrator text / turn-130/04-output.json",
+    "triggeringPressure": "玩家选择‘检查一下门口的动静，确认安全’带有门内听外面的语义，Director 又把它压缩成‘检查门口动静，确认安全无异常’，没有声明主角已在门外台阶。",
+    "missingGuard": "handoff 缺少 currentLocation/currentSceneAnchor 和 doorState，例如‘outside on the step; door already closed/locked; do not reopen or replay exit’；runtime 也没有结构化位置状态防止 Narrator 回退。",
+    "mechanismStatement": "当选项文本存在室内检查门外的歧义，而 Director handoff 没有把上一轮结尾的门外台阶位置作为必须满足的当前场景锚点，Narrator 按惯用开门检查流程重演出门动作，造成空间位置回退。",
+    "directCause": "第 130 轮 Narrator 从握门把、转锁舌、听外面、拉开门、迈出门槛开始写，而不是从门外台阶检查周边。",
+    "propagation": "正文后半段又把门带上并站到门外石板路，最终位置回到室外，但中间重复出门动作已造成玩家可见断裂；第 130 轮 Choice 继续基于门外状态生成。",
+    "nonCauses": [
+      "不是玩家主动选择回屋或开门。",
+      "不是可见时间线缺失；上一轮位置就在 recentTurns。",
+      "不是评测误判；第 130 轮文本明确使用‘听外面’和‘迈出门槛’。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是‘检查门口动静’的动作措辞可被理解为从屋内开门检查；缺失防线是 Director/Narrator handoff 没有显式携带上一轮结尾的 currentLocation=门外台阶、doorState=已带上/锁合。模型因此按默认开门检查流程重演出门，产生空间回退。",
+    "fixSurface": [
+      "Director output schema: currentLocation/currentPosture/doorState",
+      "choice-action binding should include source state for selected option",
+      "Narrator prompt hard rule: begin from previous visible ending state before realizing selected action",
+      "runtime structured location state validation"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 129 轮结尾站在门外台阶；第 130 轮开头重新握门把、听外面、拉开门、迈出门槛，再次带上门。",
+    "internalTrace": "turn-130/06a-director-prompt.md recentTurns 含第 129 轮门外台阶结尾；turn-130/06-llm-calls.json call0 没有 scene/currentLocation 字段，只泛化为检查门口动静；call1 生成重复出门动作。"
+  },
+  "recommendedFixArea": "为每轮 Narrator 合约增加 current-scene anchor，并在 Choice/Director handoff 中绑定选项发生的源位置；对移动/门/载具等状态建立简单一致性校验。",
+  "confidence": "high"
+}

@@ -1,0 +1,92 @@
+{
+  "issueId": "issue-67-turn-157",
+  "turn": 157,
+  "issueValidity": "valid",
+  "problemSummary": "第 157 轮玩家正坐在门外石阶上，选项却提供“从相机包里拿出烟点上”，而相机包仍应在屋内椅子扶手/手边。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。第 153 轮明确相机包在屋内椅子扶手和玩家手边；第 155-157 轮玩家只是走到门口、坐到门前石阶继续等，没有带出相机包。第 157 轮选项要求从相机包取烟，空间可执行性不成立。",
+    "playerVisibleSupport": "第 153 轮“指尖落在相机包的拉链头上”；第 155 轮玩家走到门口透气，且选项里有“回屋拿相机”，暗示相机/包不在室外手边；第 156-157 轮玩家坐在门前石阶上继续等待。第 157 轮选项为“从相机包里拿出烟点上”。",
+    "caveats": [
+      "“烟”此前没有稳定位置，因此问题核心不是烟的位置记忆，而是相机包相对玩家当前位置的可达性。",
+      "如果角色背着相机包出门则可成立，但可见文本没有任何带包动作，且第 155 轮选项反向暗示需回屋拿相机。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家坐在卡尔小屋门口的石阶上，后背靠门框，继续看巷口和晨光等待。相机包最近一次明确在屋内椅子扶手/手边，玩家随后走到门口并坐下，没有携带相机包。",
+    "relevantFacts": [
+      {
+        "claim": "玩家当前在门外石阶上坐着。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/06c-choice-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/04-output.json"
+        ],
+        "notes": "本轮正文结尾和 Choice prompt 最终判断依据均明确玩家坐在石阶上、后背靠门框。"
+      },
+      {
+        "claim": "相机包最近明确在屋内椅子扶手/手边。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/06c-choice-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-153"
+        ],
+        "notes": "第 153 轮 recentTurns 明确“指尖落在相机包的拉链头上”，它在那里像被椅子扶手和包面固定。"
+      },
+      {
+        "claim": "玩家从屋内到门口/石阶的移动没有带相机包。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/06c-choice-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-155",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-156"
+        ],
+        "notes": "第 155 轮只走到门口开门透气，第 156 轮退后半步坐到石阶；无拿包/背包动作。"
+      },
+      {
+        "claim": "Choice 应按当前正文结尾判断能合理做什么。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/06c-choice-prompt.md"
+        ],
+        "notes": "prompt 写明先以本轮正文结尾为准，但这是原则性指令，缺少结构化 reachable item 检查。"
+      }
+    ],
+    "competingPressures": [
+      "第 152-153 轮相机包/侧袋在 recentTurns 中高显著。",
+      "等待场景需要生成轻微可点击动作，Choice 可能倾向提供“抽烟稳定呼吸”这类氛围动作。",
+      "缺少当前 actor location 与 item reachability 的显式状态。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/07-events.json choiceGenerator worker-done / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-157/04-output.json choices",
+    "triggeringPressure": "Choice prompt 同时包含“玩家在门外石阶上”的当前正文，以及最近几轮“相机包侧袋/相机包拉链头”的高显著物件上下文；为了给等待场景提供下一步动作，模型生成了从相机包取烟的选项。",
+    "missingGuard": "没有结构化地声明“相机包在屋内，不在当前可达范围”；Choice 的“合理可做”要求没有被 reachable item/action validator 执行。",
+    "mechanismStatement": "Choice 阶段没有把玩家当前位置和相机包位置合成为可达性约束，在相机包高显著和等待动作生成压力下，输出了当前场景不可执行的“从相机包取烟”选项。",
+    "directCause": "当前场景 affordance 与物件可达性没有成为 Choice 输出的硬约束。",
+    "propagation": "第 157 轮选项被玩家在第 158 轮选择；第 158 轮 Narrator 通过改成外套内袋取烟来绕开空间问题，但也造成后续 issue 68 的字面来源替换观感。",
+    "nonCauses": [
+      "Director 和 Narrator 在第 157 轮正文没有写错玩家位置。",
+      "问题不依赖烟盒既有位置，因为烟盒此前没有稳定玩家可见位置。",
+      "不是隐藏状态导致；玩家可见文本足以判断相机包未被带到门外。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "Choice 生成缺少 current-scene affordance/reachability 校验，未把“玩家在门外石阶上”和“相机包仍在屋内手边”合成硬约束；在等待场景需要动作选项和相机包近期高显著的压力下，生成了不可执行的取物动作。",
+    "fixSurface": [
+      "choice generation：引入 reachable item/action validator，禁止从不可达容器取物。",
+      "state model：记录 actor location、item location、carried/on-person/nearby 的可达性。",
+      "prompt assembly：在 Choice prompt 高优先级处列出 current affordances，如“身上可取物/需回屋才可取物”。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 153 轮相机包在椅子扶手/手边；第 155-157 轮玩家移动到门口并坐在石阶，没有带包；第 157 轮选项仍要求从相机包取烟。",
+    "internalTrace": "第 157 轮 Choice prompt 清楚包含当前石阶位置和 recentTurns 中相机包在屋内的线索；choiceGenerator worker-done 输出了不可达取物选项。"
+  },
+  "recommendedFixArea": "优先修复 Choice 的 current-scene affordance 与 item reachability 校验，防止等待场景中把室内物件当作室外手边物件。",
+  "confidence": "high"
+}

@@ -1,0 +1,81 @@
+{
+  "issueId": "issue-20-turn-28",
+  "turn": 28,
+  "issueIndex": 20,
+  "issueValidity": "questionable",
+  "problemSummary": "turn 27 明确写卡琳娜把手从口袋里抽出并交叉抱在胸前；turn 28 开头又写她双手插在棉衣口袋里并“没有再从口袋里抽出手来”。这有轻微姿态桥接风险，但不足以判定硬性矛盾。",
+  "validityAssessment": {
+    "verdictReason": "questionable。可见文本确实缺少从“交叉抱在胸前”回到“双手插在口袋里”的动作桥接，但人物在回合间或开口前把手放回口袋是合理小动作；“她没有再从口袋里抽出手来”也可读作从 turn 28 当前姿态开始没有再次抽手，而不是否认 turn 27 已经抽过手。",
+    "playerVisibleSupport": "支持风险的证据：turn 27 写“她把手从口袋里抽出来，交叉抱在胸前”；turn 28 写“双手插在棉衣口袋里”以及“她没有再从口袋里抽出手来”。削弱证据的可读性：两个回合之间有玩家输入和对话节奏变化，turn 28 没有使用“从未”或“仍然从未”等跨回合否定。",
+    "caveats": [
+      "如果要求严密动作连续性，应补一句她重新把手插回口袋；但互动叙事通常允许小幅未写出的姿态调整。",
+      "评测摘要把“没有再”解释成“never took her hands out”存在语义范围扩大。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 27 结束时，卡琳娜在窗边，手从口袋里抽出并交叉抱在胸前；turn 28 玩家选择仍然告辞，叙述从她回答“好”开始。",
+    "relevantFacts": [
+      {
+        "claim": "上一轮最后明确姿态是交叉抱臂。",
+        "availability": "present-clear",
+        "artifacts": [
+          "consistency-review/.../visible-timeline.jsonl:turn-27",
+          "turn-28/06b-narrator-prompt.md"
+        ],
+        "notes": "Narrator prompt 中最近几轮玩家经历包含该句，信息未缺失。"
+      },
+      {
+        "claim": "turn 28 当前姿态是双手插在口袋里。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-28/04-output.json",
+          "turn-28/06-llm-calls.json"
+        ],
+        "notes": "正文没有明确写“重新插回口袋”，因此存在桥接不足。"
+      },
+      {
+        "claim": "两轮之间可能发生未逐字描写的小动作。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "consistency-review/.../visible-timeline.jsonl:turn-27",
+          "consistency-review/.../visible-timeline.jsonl:turn-28"
+        ],
+        "notes": "玩家输入造成新的回应回合，姿态调整不一定都要明写。"
+      },
+      {
+        "claim": "“没有再”是否跨回合否认 turn 27 的抽手动作。",
+        "availability": "present-ambiguous",
+        "artifacts": [
+          "turn-28/04-output.json"
+        ],
+        "notes": "中文语义更自然地限定为当前 turn 她从口袋状态起没有再次抽手，而非否认过去。"
+      }
+    ],
+    "competingPressures": [
+      "turn 26 曾写卡琳娜双手插在口袋里，形成可复用姿态 motif。",
+      "turn 27 的交叉抱臂信息在 raw recent text 中清楚存在，但不是结构化 pose state。",
+      "叙事压缩会省略微小动作桥接。",
+      "评测器将未桥接姿态重置提升为跨回合事实冲突。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "evaluator interpretation over turn-28/04-output.json; 若只看生成链路，则是 turn-28/06-llm-calls.json call-2 的轻微姿态重置。",
+    "triggeringPressure": "Narrator 复用了卡琳娜“手插口袋”的常见姿态，并用“没有再”强化当前回合的克制感；评测器把该短语扩大解释为否认上一轮抽手。",
+    "missingGuard": "没有足够证据证明需要 root-cause tracing；若按写作质量修复，只需要姿态连续性 bridge 或结构化 pose state，但这不是已确认的玩家可见硬错误。",
+    "mechanismStatement": "证据只能支持“姿态桥接略省略/措辞可歧义”，不能支持“叙述明确说她从未抽手”这一强结论；因此不对系统机制做 valid rootCause 分类。",
+    "directCause": "turn 28 文本省略了“她重新把手插回口袋”的过渡，并使用容易被评测器跨回合理解的“没有再”。",
+    "propagation": "该姿态没有被后续选项或 runtime 关键状态固化；turn 29 之后场景已离开卡琳娜。",
+    "nonCauses": [
+      "不是 detail-memory：相关姿态就在最近一轮上下文中。",
+      "不是 storyline 或 statefold 主因：手部姿态没有来自剧情节点要求。",
+      "不是玩家动作冲突：玩家输入没有要求卡琳娜保持某姿势。"
+    ]
+  },
+  "rootCause": null,
+  "evidence": {
+    "playerVisible": "turn 27：手从口袋抽出并交叉抱胸；turn 28：双手插在口袋里、没有再抽出。该对照显示桥接不足，但没有排除隐含地重新插回口袋的读法。",
+    "internalTrace": "turn-28/06b-narrator-prompt.md 的最近几轮文本包含 turn 27 姿态；turn-28/06-llm-calls.json call-2 生成了口袋姿态。因 issueValidity=questionable，内部证据只用于说明 ambiguity，不用于倒推 valid root cause。"
+  },
+  "recommendedFixArea": "优先改进 consistency evaluator 对中文“再/从未”语义范围和 minor pose bridge 的判定；可选地在 Narrator 前注入 recent pose state，要求改变姿态时补一笔动作。",
+  "confidence": "medium"
+}

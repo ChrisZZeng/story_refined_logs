@@ -1,0 +1,92 @@
+{
+  "turn": 2,
+  "memoryMode": "baseline",
+  "recentTurnLimit": 5,
+  "choiceStrategy": "progress",
+  "selectedFromPreviousTurn": {
+    "text": "追问她是否见过照片上的女孩",
+    "actionId": "choice:理想"
+  },
+  "submittedSelectedAction": {
+    "actionId": "choice:理想",
+    "committed": false,
+    "satisfiedAnchors": []
+  },
+  "beatBefore": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 2
+  },
+  "beatForGeneration": {
+    "questId": "legacy-main-node-graph",
+    "beatId": "序章",
+    "beatUid": "n_IeBxVjWSEu4E",
+    "turnInBeat": 2
+  },
+  "beatAfterStateFold": {
+    "kind": "quest",
+    "questId": "legacy-main-node-graph",
+    "questUid": "q_1ndv3cmhgib0",
+    "beatId": "1-01-第一章",
+    "beatUid": "n_dwPEd2AVBm9f",
+    "turnInBeat": 1
+  },
+  "selectedForNext": {
+    "text": "关于卡琳娜，再多说一些？",
+    "actionId": "choice:未来"
+  },
+  "candidateActions": [
+    {
+      "kind": "choice",
+      "actionId": "choice:未来",
+      "id": "未来",
+      "text": "询问卡琳娜的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:理想",
+      "id": "理想",
+      "text": "询问敏特的事"
+    },
+    {
+      "kind": "choice",
+      "actionId": "choice:现在",
+      "id": "现在",
+      "text": "“你看起来不像是普通的小贩。”"
+    }
+  ],
+  "choices": {
+    "options": [
+      {
+        "text": "关于卡琳娜，再多说一些？",
+        "actionId": "choice:未来"
+      },
+      {
+        "text": "刚才说的那个女孩，她叫敏特——你知道多少？",
+        "actionId": "choice:理想"
+      },
+      {
+        "text": "你看起来不像是普通的小贩。",
+        "actionId": "choice:现在"
+      },
+      {
+        "text": "暗街怎么走？我现在就过去。"
+      }
+    ]
+  },
+  "visibleChars": 433,
+  "durationMs": 37505.97,
+  "memory": {
+    "recentTurns": 1,
+    "recentEvents": 0,
+    "characterEvents": 0,
+    "locationEvents": 0,
+    "entityEvents": 0
+  },
+  "memoraxRequests": [],
+  "seedMarkerFound": null,
+  "backgroundErrorCount": 0
+}

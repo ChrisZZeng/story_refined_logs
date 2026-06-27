@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "Turn 21 写道：“你的手指从睡衣纽扣上移开。”",
+    "conflictingEvidence": "Turn 14 只写到帕兹摸索走回沙发、躺下并盖毛毯；Turn 15 写到“夹克挂在椅背上”，但此前玩家可见内容没有出现换上睡衣或整理睡衣纽扣的动作。",
+    "conflictingTurns": [14, 15],
+    "source": "model-output",
+    "reason": "正文在没有可见换衣承接的情况下把帕兹的服装状态改成了带纽扣的睡衣，造成轻微服装连续性跳变。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "Turn 26 写道：“沙发弹簧在某个重物离开后恢复原状时发出的沉闷的嘎吱声。然后是四足落地的声响”，随后黑猫从身后靠近并跳到圆桌边缘。",
+    "conflictingEvidence": "Turn 24 已经写明黑猫从门口方向沿沙发和圆桌之间的通道移动，并在玩家身后停住：“一道深色的影子蹲坐在沙发附近的阴影里”；Turn 25 只写玩家蹲在窗边摸爪痕，没有黑猫重新回到沙发上的可见承接。",
+    "conflictingTurns": [24, 25],
+    "source": "model-output",
+    "reason": "黑猫上一段可见位置是在地面、沙发附近的阴影里，Turn 26 却把它写成刚从沙发上跳下，缺少位置变化承接。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 26,
+    "scope": "mixed",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "Turn 26 中黑猫突然用“沙哑的，带着年长女性才有的那种沉稳和轻微的磨砂感”的声音开口，并称呼“帕兹”；同轮 choices 也提供“你说得对。那你说，我现在该做什么？”等直接与它对话的选项。",
+    "conflictingEvidence": "Turn 8 首次只把它建立为“沙发靠背的位置”上的一只黑猫；Turn 10 和 Turn 11 继续只描写它的移动、瞳孔、尾巴和耳朵。Turn 11 虽然有“低声问它叫什么名字”的选项，但玩家没有选择，也没有玩家可见回答。直到 Turn 25，它仍只以猫的动作和位置被描写。",
+    "conflictingTurns": [8, 10, 11, 25],
+    "source": "model-output",
+    "reason": "黑猫具备人类语言能力是关键交互规则变化，正文没有提前建立或让帕兹对突变作出反应，选项又把对话状态固定下来，玩家可见体验会显得跳跃。"
+  },
+  {
+    "windowRange": { "start": 11, "end": 30 },
+    "evalRange": { "start": 21, "end": 30 },
+    "turn": 30,
+    "scope": "choices",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "Turn 30 的 choices 包含“追问卡尔：‘她说的“他们藏的不是武器”--指的是什么？’”和“问卡尔：‘港口区地下岩洞的通行证--你知道怎么弄到吗？’”。",
+    "conflictingEvidence": "此前玩家可见内容一直把该角色称为黑猫；“卡尔”这个名字只在 Turn 30 的照片背面文字“卡尔是对的。他们藏的不是武器。”中第一次出现，正文没有说明卡尔就是黑猫，也没有让黑猫自我介绍或被他人称作卡尔。",
+    "conflictingTurns": [8, 26, 30],
+    "source": "model-output",
+    "reason": "选项直接把黑猫称为卡尔，提前暴露或误绑定了尚未建立的身份，造成可见身份连续性混乱。"
+  }
+]

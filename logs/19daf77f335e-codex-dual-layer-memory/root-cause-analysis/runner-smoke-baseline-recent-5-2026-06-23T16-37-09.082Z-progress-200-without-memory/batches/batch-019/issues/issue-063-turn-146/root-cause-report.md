@@ -1,0 +1,61 @@
+# Root Cause Report - issue-63 turn 146
+## Problem
+turn 135 刚明确底片相机不能直接查看已拍画面，turn 146 的选项却让玩家‘检查胶卷，看看有没有拍到什么需要留意的’，形成轻微设备规则冲突。
+## Validity
+- issueValidity: `valid`
+- verdictReason: 该冲突发生在 choices 层：选项文字把‘检查胶卷’和‘确认拍到什么’绑定，玩家会理解为可以通过胶卷检查已拍内容；这和此前底片规则相违。
+- playerVisibleSupport: turn 135 visibleText 写‘但你没法从取景器里看到已经拍好的那一帧。这是底片的特性——你必须在心里记住它，信任它，然后继续往下一帧走。’；turn 146 choice 写‘再检查一遍胶卷，看看有没有拍到什么需要留意的’。
+- caveats:
+  - 该选项也可勉强理解为‘回忆自己拍过什么’，因此 severity 为 low；但‘检查胶卷，看看’的直接语义仍会误导玩家以为能查看画面。
+
+## Context Assessment
+主角坐在卡尔小屋中等待卡琳娜，触摸胸前相机确认它还在；相机是底片相机，已拍画面不能直接预览，只能信任记忆和胶卷。
+
+### Relevant Facts
+- `absent` 底片相机不能直接查看已经拍好的画面。
+  - artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl turn 135`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-146/03-story-state.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-146/06c-choice-prompt.md`
+  - notes: 该规则在 turn 135 玩家可见文本中 present-clear；到 turn 146 Choice prompt 时不再出现在 recentTurns 或 currentStoryline 的可执行约束中。
+- `present-clear` 当前正文只确认相机在胸前，玩家没有取出相机或胶卷。
+  - artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-146/04-output.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-146/06c-choice-prompt.md`
+  - notes: 本轮 visibleText 明确‘没有把相机取出来’，但 Choice 仍生成了检查胶卷内容的动作。
+- `present-ambiguous` Choice 需要生成贴近当前处境且不违背已知规则的选项。
+  - artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-146/06c-choice-prompt.md`
+  - notes: prompt 有‘以本轮正文结尾为准’等通用规则，但没有设备规则/物品 affordance 的结构化约束。
+
+### Competing Pressures
+- 本轮正文围绕相机触感与装备等待展开，Choice 需要给出可操作的后续动作。
+- currentStoryline 长摘要反复出现‘检查相机和胶卷’，但没有保留‘不能看已拍画面’规则。
+- baseline recentTurnLimit=5，turn 135 的底片规则已经退出 turn 146 Choice 的最近正文窗口。
+- 选项生成没有显式区分‘检查胶卷数量/状态’和‘查看已拍内容’。
+
+## Causal Chain
+- firstDivergenceArtifact: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-146/06-llm-calls.json call[2] / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-146/04-output.json choices
+- triggeringPressure: Choice worker 看到当前轮以相机为中心、故事线摘要多次提到检查相机/胶卷，于是倾向生成一个胶卷相关选项。
+- missingGuard: 底片相机不可预览已拍画面的规则没有被持久化到 turn 146 的 choice prompt；也没有 option affordance validator 阻止‘检查胶卷以确认拍到什么’这类违反设备规则的措辞。
+- mechanismStatement: 当设备使用规则没有作为 durable object rule 进入 Choice prompt，而当前正文又高亮相机/胶卷时，选项生成会把‘检查胶卷’泛化成可确认已拍内容的动作，产生玩家可见但尚未执行的规则冲突。
+- directCause: Choice 输出了‘再检查一遍胶卷，看看有没有拍到什么需要留意的’。
+- propagation: 该错误停留在 turn 146 choices；如果被选中，会把不可能的相机操作变成本轮玩家输入并迫使后续 Narrator 兑现。
+- nonCauses:
+  - turn 146 Narrator 正文没有让玩家查看已拍画面。
+  - 玩家没有主动输入该冲突动作；它由系统选项生成。
+  - 不是底片规则本身不清楚，而是该规则没有进入生成该选项的上下文。
+
+## Root Cause
+- label: `memory-persistence`
+- family: `detail-memory`
+- secondaryFamilies: `agent-system`
+- description: 底片相机不可直接查看已拍画面的设备规则只存在于 turn 135 可见正文，未被持久化为相机的 object rule 或 choice affordance；到 turn 146 已脱离最近上下文，Choice 在相机/胶卷高显著压力下生成了违反规则的选项。
+- fixSurface:
+  - `equipment/object-rule memory`
+  - `Choice prompt grounded affordance list`
+  - `choice text validator for impossible item operations`
+
+## Evidence
+- playerVisible: turn 135 明确不能看已拍画面；turn 146 选项暗示可检查胶卷来确认拍到了什么。
+- internalTrace: `turn-146/06c-choice-prompt.md` 的最近几轮覆盖 turn 141-145，没有 turn 135 的底片规则；`turn-146/06-llm-calls.json` call[2] 首次输出冲突选项。
+
+## Recommended Fix Area
+将相机/胶卷的使用规则写入装备状态，并让 Choice 只从 grounded affordances 生成选项。
+
+## Confidence
+`medium`

@@ -1,0 +1,54 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 15,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 15 轮写道：“敲门声第三次响起。三声——停顿——两声。急促的节奏，像一个人在短暂的停顿中重新调整了呼吸，然后继续施工。”",
+    "conflictingEvidence": "同一段上下文一直在描写楼下敲门和喊话，例如“楼下传来一阵急促的敲门声”“敲门声第二次响起”“她的名字”。",
+    "conflictingTurns": [15],
+    "source": "model-output",
+    "reason": "“继续施工”在敲门语境中明显用词错误，造成局部阅读断裂。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 19 轮写道：“圆桌下——阴影里——传来一声几乎听不到的动静。黑猫的耳朵动了一下……尾巴——原来伸直在木地板上的——微微卷曲了一下尾尖，然后松开。”",
+    "conflictingEvidence": "第 18 轮结尾前，黑猫“跃上去……在一个靠垫的中央处蹲下来”，随后“蜷缩成一团”；帕兹重新躺下时也分辨出“沙发上那团蜷缩的黑色”。",
+    "conflictingTurns": [18],
+    "source": "model-output",
+    "reason": "黑猫在没有任何玩家可见移动过渡的情况下，从沙发靠垫回到圆桌下和木地板上。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "第 20 轮写道：“指腹先触到睡衣的布料，棉质的，带着体温”，后文又写“掌心贴着睡衣前襟”和“指尖轻轻压了一下自己睡衣的纽扣”。",
+    "conflictingEvidence": "此前玩家可见内容只显示帕兹在卡琳娜客厅留宿：第 15 轮提到“夹克挂在椅背上”，第 18 轮只是“走回沙发……你躺下来，毛毯拉到胸口”，没有任何换上睡衣或出现睡衣的过渡。",
+    "conflictingTurns": [15, 18],
+    "source": "model-output",
+    "reason": "正文突然把帕兹写成穿着睡衣并有睡衣纽扣，缺少玩家可见承接，破坏了衣着和身体状态连续性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 20 轮写道：“沙发上——那团黑色的轮廓在黑暗中动了一下”，并描写黑猫在沙发扶手边缘摆尾。",
+    "conflictingEvidence": "第 19 轮刚把黑猫放在“圆桌下——阴影里”，并写它的尾巴“原来伸直在木地板上”。第 19 轮结尾没有写黑猫从圆桌下回到沙发。",
+    "conflictingTurns": [19],
+    "source": "model-output",
+    "reason": "黑猫的位置在相邻两轮之间再次无过渡跳回沙发，玩家看到的空间状态不稳定。"
+  }
+]

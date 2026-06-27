@@ -1,0 +1,95 @@
+{
+  "issueId": "issue-66-turn-150",
+  "turn": 150,
+  "issueValidity": "valid",
+  "problemSummary": "银色铃铛此前稳定在外套内袋/口袋， turn 149 的选项和 turn 150 的正文把它改成相机包内层侧袋，且没有承接搬移动作。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。玩家此前多次看到铃铛在外套内袋或口袋中；第 149 轮 Choice 首次把铃铛绑定到相机包，第 150 轮玩家选择后 Director/Narrator 继续把错误来源当成事实。",
+    "playerVisibleSupport": "第 111、116、123、129、133 轮均把银色铃铛写在外套内袋/口袋；第 149 轮选项为“从相机包里拿出那枚银色铃铛”，第 150 轮正文为“探向包内层的侧袋——那个你放铃铛的位置”。",
+    "caveats": [
+      "第 150 轮玩家输入来自上一轮系统选项，因此玩家是在选择系统提供的错误动作；这不削弱物件位置漂移本身。",
+      "第 152 轮以后“相机包侧袋”被继续沿用，但那是错误传播后的结果。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "在第 149 轮生成选项前，玩家刚从门口回到屋内，站在门后；相机包在椅子扶手上，钱包等物品在包内，但银色铃铛的稳定玩家可见位置仍是外套内袋/口袋。",
+    "relevantFacts": [
+      {
+        "claim": "银色铃铛长期在外套内袋/口袋。",
+        "availability": "present-buried",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-111",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-116",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-123",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-129",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-133",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/06c-choice-prompt.md"
+        ],
+        "notes": "外套内袋事实在玩家可见历史中很稳定；第 149/150 轮 prompt 的 currentStoryline 长摘要中有“最后检查外套内袋”“放回内袋”等句子，但不在专门 inventory/carriedItems 字段，且离输出要求很远。"
+      },
+      {
+        "claim": "相机包近期高显著度出现，且在第 147-148 轮被整理并放在椅子扶手上。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/06c-choice-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-150/06a-director-prompt.md"
+        ],
+        "notes": "最近两轮集中描述相机包和钱包，显著度高于更早的外套内袋铃铛事实。"
+      },
+      {
+        "claim": "第 149 轮 Choice 输出把“银色铃铛”绑定到“相机包”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/07-events.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/04-output.json"
+        ],
+        "notes": "这是本链路最早的偏离；第 150 轮只是把已错误绑定的选项当成玩家输入执行。"
+      },
+      {
+        "claim": "主角 carriedItems 没有结构化记录银色铃铛位置。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-150/03-story-state.json"
+        ],
+        "notes": "characterStates.主角.carriedItems 为空，没有能让 Choice/Director 校验物件位置的稳定字段。"
+      }
+    ],
+    "competingPressures": [
+      "第 147-148 轮相机包刚被清点和整理，prompt 近端高显著。",
+      "第 149 轮 Choice 负责生成“可点击行动”，但没有要求根据 inventory 状态校验物件来源。",
+      "第 150 轮 Director/Narrator 把玩家输入中的“相机包”视为必须承接的动作来源。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/07-events.json choiceGenerator worker-done / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/04-output.json choices",
+    "triggeringPressure": "ChoiceGenerator 在第 149 轮看到近期相机包反复出现，且玩家刚从门口回到屋内，便生成“从相机包里拿出银色铃铛”的便利选项。",
+    "missingGuard": "没有结构化 inventory/object-location 状态，也没有 Choice 输出前的物件来源校验；外套内袋事实只在长历史/长 currentStoryline 摘要中低显著出现。",
+    "mechanismStatement": "高显著的近期容器“相机包”与目标物“银色铃铛”被 Choice 阶段错误绑定，而后续 Director/Narrator 把选项文本作为玩家意图承接，缺少对象位置校验和修正桥接，导致铃铛位置从外套内袋漂移到相机包侧袋。",
+    "directCause": "Choice 阶段的 action text 未与已知物件位置绑定校验；Director/Narrator 又把该 action text 升格为事实。",
+    "propagation": "第 150 轮 Director summary/actionHint 写“从相机包中取出银色铃铛/从包中取出铃铛”；Narrator 写“包内层的侧袋——那个你放铃铛的位置”；第 150 轮选项继续写“重新把铃铛放回侧袋”，第 152 轮又把铃铛放回相机包侧袋。",
+    "nonCauses": [
+      "不是玩家主动输入新设定；玩家选择的是系统在第 149 轮给出的选项。",
+      "不是隐藏信息冲突；玩家可见文本足以确认位置漂移。",
+      "不是第 150 轮 Narrator 单点幻觉；更早的第 149 轮 Choice 已经引入错误来源。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "detail-memory"
+    ],
+    "description": "Choice 阶段缺少基于 inventory/object-location 的动作绑定校验，在近期“相机包”高显著且铃铛位置事实低显著的情况下，把银色铃铛错误绑定到相机包；后续 Director/Narrator 没有把选项来源视为需校验的假设，而是直接固化为事实。",
+    "fixSurface": [
+      "choice generation：生成取物选项前按 object-location state 校验容器/来源。",
+      "state model：为关键随身物记录 owner/location/container，并将其放入 prompt 的高优先级 current inventory。",
+      "handoff contract：Director/Narrator 在承接 selected choice 时区分“玩家意图”和“选项文本中可能错误的来源”，必要时桥接或修正。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 111、116、123、129、133 轮均支持外套内袋/口袋；第 149 轮选项和第 150 轮正文支持相机包侧袋，二者无搬移承接。",
+    "internalTrace": "第 149 轮 choiceGenerator worker-done 首次输出“从相机包里拿出那枚银色铃铛”；第 150 轮 Director 和 Narrator 均沿用“从包中取出/包内层侧袋”。主角 carriedItems 没有结构化铃铛位置。"
+  },
+  "recommendedFixArea": "优先修复 Choice 的取物动作绑定和关键物件 inventory 状态；同时让 Director/Narrator 对 selected choice 的物件来源进行一致性校验。",
+  "confidence": "high"
+}

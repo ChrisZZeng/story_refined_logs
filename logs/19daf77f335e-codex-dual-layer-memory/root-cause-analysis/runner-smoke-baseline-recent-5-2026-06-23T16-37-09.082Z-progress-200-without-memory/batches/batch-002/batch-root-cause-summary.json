@@ -1,59 +1,492 @@
 {
   "batchId": "batch-002",
-  "run": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
   "issueCount": 4,
-  "items": [
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
     {
-      "issueId": "issue-5-turn-8",
       "issueIndex": 5,
       "turn": 8,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "卡琳娜先表示敏特没有来找她，且自己没有主动打听；后文又说自己曾向敏特提供情报，改变了两人是否有过实质接触这一关键线索。",
+      "batchId": "batch-002",
       "issueValidity": "valid",
       "rootCause": {
         "label": "context-priority",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "prompt context assembler: detect hidden/public fact conflicts and foreground public-state override",
+          "Director schema: add explicit resolvedFacts/conflictResolution field",
+          "Narrator prompt: add hard constraint that recent visible denial cannot be contradicted without in-world acknowledgement"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-5-turn-8/root-cause-report.md",
-      "resultPath": "issues/issue-5-turn-8/root-cause-result.json"
+      "recommendedFixArea": "优先修复 context assembly 与 Director/Narrator handoff 的冲突优先级，把最近玩家可见事实提升为硬约束，并在角色卡冲突时要求桥接或不采用隐藏事实。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-005-turn-08/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-005-turn-08/root-cause-report.md",
+      "result": {
+        "issueId": "issue-5-turn-8",
+        "issueIndex": 5,
+        "turn": 8,
+        "issueValidity": "valid",
+        "problemSummary": "卡琳娜在第 6 轮刚对玩家说敏特没有来找她、她也没有主动打听；第 8 轮又说自己告诉过敏特一部分骷髅会情报，改变了两人是否有过实质接触这一线索。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。第 6 轮的玩家可见文本把卡琳娜与敏特的关系限定为见过、听说过、但没有来找和主动打听；第 8 轮改为卡琳娜曾直接向敏特提供情报。两者不是措辞差异，而是接触事实变化。",
+          "playerVisibleSupport": "turn-06 visibleText: 卡琳娜说敏特在新西西里活动过、她在几个地方见过敏特，并补充“但她没来找过我，我也没主动打听过她的事”。turn-08 visibleText: 卡琳娜说敏特在找骷髅会相关记录和名单，随后说“我告诉过她我知道的部分。之后她就消失了”。",
+          "caveats": [
+            "第 6 轮曾用视线错开暗示卡琳娜有所保留，因此她可能隐瞒细节；但第 8 轮不是承认隐瞒，而是直接改写为曾经向敏特提供情报，仍构成可见事实冲突。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 8 轮前，玩家已经在卡琳娜公寓内完成初步交易：卡琳娜承认见过敏特、知道敏特在新西西里活动，但玩家可见事实仍是敏特没有找过卡琳娜，卡琳娜也没有主动打听。玩家选择说明敏特是同伴，用个人来意换取更多线索。",
+          "relevantFacts": [
+            {
+              "claim": "玩家可见的最新接触事实是：敏特没有来找卡琳娜，卡琳娜也没有主动打听敏特。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-08/06a-director-prompt.md",
+                "turn-08/06b-narrator-prompt.md",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "该事实以第 6 轮完整正文进入 recentTurns，位置在最近几轮文本中，足以被本轮继续约束。"
+            },
+            {
+              "claim": "角色卡隐藏设定写着敏特来找过卡琳娜寻求骷髅会情报，卡琳娜告诉了她知道的部分。",
+              "availability": "contradicted",
+              "artifacts": [
+                "turn-08/06a-director-prompt.md",
+                "turn-08/06b-narrator-prompt.md"
+              ],
+              "notes": "该隐藏资料与最近玩家可见文本冲突，且在角色卡中靠前出现，对 Narrator 有强局部压力。"
+            },
+            {
+              "claim": "本轮允许卡琳娜透露敏特在寻找与骷髅会相关的线索，但不得说明具体细节或自己与敏特的关系。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-08/06-llm-calls.json",
+                "turn-08/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 的约束没有显式禁止把隐藏的接触关系写成可见事实，只说不要说明具体关系。"
+            }
+          ],
+          "competingPressures": [
+            "隐藏角色卡中的卡琳娜-敏特接触设定",
+            "本轮要给玩家一部分骷髅会线索的剧情压力",
+            "最近可见文本里的否认接触",
+            "保持悬疑而有所保留的角色表演"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-08/06-llm-calls.json call[1] / turn-08/04-output.json 的 Narrator 正文输出",
+          "triggeringPressure": "Narrator prompt 同时包含第 6 轮可见否认和角色卡“敏特来找过卡琳娜、卡琳娜告诉了她知道的部分”的隐藏资料；Director 只要求“透露一部分敏特在寻找的情报”，没有把第 6 轮否认接触作为硬约束交给正文。",
+          "missingGuard": "缺少冲突优先级守卫：当隐藏角色卡与最近玩家可见事实冲突时，Narrator 必须优先保持可见文本，并把隐藏事实延后、桥接或改写为不矛盾的说法。",
+          "mechanismStatement": "隐藏角色卡中更具体的“来找过/告诉过”关系事实在提示中与最近可见否认并存，而 Director handoff 没有显式锁住“不得改写接触事实”，Narrator 为满足透露骷髅会线索的压力直接采用隐藏事实，导致玩家看到卡琳娜前后改口。",
+          "directCause": "Narrator 将隐藏设定“卡琳娜告诉敏特情报”落成台词，而没有与第 6 轮“没来找过我、我也没主动打听”做可见一致性调和。",
+          "propagation": "错误进入 turn-08/04-output.json 和 visible-timeline.jsonl；后续 turn-09/turn-10 的 recentTurns 继续把该冲突事实带入上下文。",
+          "nonCauses": [
+            "不是长期记忆缺失：冲突双方都在 turn-08 prompt 内出现。",
+            "不是单纯评测误判：玩家可见文本已经足以确认冲突。",
+            "不是必须提前揭示的剧情秘密；可以只说她听说过骷髅会方向而不承认曾向敏特提供情报。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "当隐藏角色卡与最近玩家可见文本冲突时，提示只给了泛化的“保持一致、优先最近正文”原则，却没有把具体冲突转成可执行约束；在“本轮要透露骷髅会线索”的压力下，Narrator 采用了更具体但较低优先级的隐藏资料。",
+          "fixSurface": [
+            "prompt context assembler: detect hidden/public fact conflicts and foreground public-state override",
+            "Director schema: add explicit resolvedFacts/conflictResolution field",
+            "Narrator prompt: add hard constraint that recent visible denial cannot be contradicted without in-world acknowledgement"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-06 visibleText 与 turn-08 visibleText 直接冲突：前者否认来找和主动打听，后者承认曾向敏特提供情报。",
+          "internalTrace": "turn-08/06b-narrator-prompt.md 同时包含角色卡“敏特来找过卡琳娜”“卡琳娜只告诉了她自己知道的部分”和 recentTurns 中第 6 轮的否认；turn-08/06-llm-calls.json call[1] 首次输出“我告诉过她我知道的部分”。"
+        },
+        "recommendedFixArea": "优先修复 context assembly 与 Director/Narrator handoff 的冲突优先级，把最近玩家可见事实提升为硬约束，并在角色卡冲突时要求桥接或不采用隐藏事实。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-6-turn-9",
       "issueIndex": 6,
       "turn": 9,
+      "severity": "low",
+      "type": "user-input-ignored",
+      "scope": "mixed",
+      "summary": "正文把玩家选择的“用情报换取信任”改写成“不是情报”，且实际交出的信息来自对方刚说过的话，削弱了玩家行动的因果承接。",
+      "batchId": "batch-002",
       "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Choice schema: include actionPayload/offerContent expectations for transactional choices",
+          "Director prompt: validate selected-choice feasibility against recent facts",
+          "Narrator prompt: enforce selected action core intent or explicitly adapt with in-world refusal"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "issues/issue-6-turn-9/root-cause-report.md",
-      "resultPath": "issues/issue-6-turn-9/root-cause-result.json"
+      "recommendedFixArea": "优先修复选择语义绑定与交易类动作的可行性检查：没有新情报时不要生成“用情报交换”选项，或让 Director 明确把它改写为“坦白经历/证据换取信任”。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-006-turn-09/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-006-turn-09/root-cause-report.md",
+      "result": {
+        "issueId": "issue-6-turn-9",
+        "issueIndex": 6,
+        "turn": 9,
+        "issueValidity": "valid",
+        "problemSummary": "玩家选择“用情报换取信任”，正文却把主角台词写成“不是情报——是信任”，随后拿来交换的内容主要是卡琳娜刚刚告诉主角的信息，玩家动作的因果承接被削弱。",
+        "validityAssessment": {
+          "verdictReason": "该问题低严重度但成立。互动叙事可以把玩家选择转写为角色化台词，但这里不仅改写了“用情报”的核心动作，还让主角交出的内容缺乏对卡琳娜的新信息价值。",
+          "playerVisibleSupport": "turn-08 choice text 是“向卡琳娜提出交易——用情报换取信任”。turn-09 visibleText 写主角说“不是情报——是信任”，并陈述“敏特确实还活着，还跟骷髅会有关系”等信息；这些关于骷髅会方向和敏特在新西西里活动的线索刚由卡琳娜在 turn-08 告知。",
+          "caveats": [
+            "正文仍保留了“我可以用我知道的东西换”的交易姿态，因此不是完全忽略输入。",
+            "“信任”可以被理解为以坦白换取信任，但这需要把选择改写为“坦白/经历”而不是否定情报。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 9 轮前，卡琳娜已用骷髅会线索交换了主角关于敏特身份和来意的坦白；玩家选择进一步提出交易，希望用某种情报换取卡琳娜的信任和更多消息。",
+          "relevantFacts": [
+            {
+              "claim": "玩家选择的核心意图是以情报作为交换筹码来建立信任。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "玩家输入以完整文字进入 Director 和 Narrator prompt。"
+            },
+            {
+              "claim": "主角本轮可拿出的情报需要对卡琳娜有新信息价值，或至少应被明确改写为坦白/经历而非情报。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "Director requiredContent 写“主角提出交换情报”，但没有要求校验情报来源、接收者是否已知或如何在无新情报时改写动作。"
+            },
+            {
+              "claim": "骷髅会方向、敏特在这里活动过等信息刚由卡琳娜提供。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md",
+                "turn-08/04-output.json"
+              ],
+              "notes": "这些事实在 recentTurns 中紧邻本轮，是正文不应当当作主角新情报交还给卡琳娜的内容。"
+            },
+            {
+              "claim": "当前 storyline 要遵循尊严交易，且本轮结尾要被敲门声打断。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-09/06a-director-prompt.md",
+                "turn-09/06b-narrator-prompt.md"
+              ],
+              "notes": "这些压力推动正文把交易转成“证明真话/信任”并快速导向敲门，而不是落实情报交换的实质。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择的情报交换",
+            "尊严交易规则",
+            "卡琳娜保持信息边界",
+            "阶段 02-01 的信任建立氛围",
+            "节点末尾敲门打断的固定演出"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-09/06-llm-calls.json call[1] / turn-09/04-output.json 的 Narrator 正文输出",
+          "triggeringPressure": "玩家动作是抽象的“用情报换取信任”，但 prompt 没有给出主角可用的新情报清单；同时 storyline 强调尊严交易、卡琳娜不免费给情报和结尾敲门，推动正文把交易写成信任姿态而非实际情报。",
+          "missingGuard": "缺少 choice-action-binding 守卫：系统没有要求 Director/Narrator 明确选择要交换的情报、确认该信息对卡琳娜不是刚刚已知，或在没有可用新情报时把动作改为“坦白经历换取信任”并保留玩家意图。",
+          "mechanismStatement": "抽象选项“用情报换取信任”没有绑定可验证的信息 payload，Narrator 在尊严交易和信任建立压力下把核心动作软化成“不是情报——是信任”，再用刚从卡琳娜处获得的信息填充交换内容，造成玩家输入被低强度改写。",
+          "directCause": "Narrator 将“交换情报”改成“表达信任”，并让主角复述卡琳娜已提供的线索。",
+          "propagation": "turn-09/04-output.json 的剧情继续让卡琳娜要求主角证明真话；currentStoryline writeback 仍摘要为“以情报交换信任”，掩盖了可见正文中情报交换没有真正成立。",
+          "nonCauses": [
+            "不是玩家完全脱轨：选项是系统提供的可点击行动。",
+            "不是单纯模型风格问题：Director already saw requiredContent but schema 没有绑定情报内容。",
+            "不是卡琳娜拒绝交易本身的问题；问题在于主角行动被改写且信息来源不成立。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "选择文本表达了一个需要具体内容承接的行动，但 handoff 只保留“提出交易/交换情报”的抽象意图，没有绑定信息来源、接收者已知性和必须保留的核心动作；正文因此用信任姿态替代情报交换。",
+          "fixSurface": [
+            "Choice schema: include actionPayload/offerContent expectations for transactional choices",
+            "Director prompt: validate selected-choice feasibility against recent facts",
+            "Narrator prompt: enforce selected action core intent or explicitly adapt with in-world refusal"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-08 option 写“用情报换取信任”；turn-09 正文写“不是情报——是信任”，并复述“敏特确实还活着，还跟骷髅会有关系”等刚由卡琳娜提供的线索。",
+          "internalTrace": "turn-09/06b-narrator-prompt.md 的 Director handoff 有 requiredContent: “主角提出交换情报”，但没有具体情报 payload；turn-09/06-llm-calls.json call[1] 首次把该动作改写为“不是情报——是信任”。"
+        },
+        "recommendedFixArea": "优先修复选择语义绑定与交易类动作的可行性检查：没有新情报时不要生成“用情报交换”选项，或让 Director 明确把它改写为“坦白经历/证据换取信任”。",
+        "confidence": "medium"
+      }
     },
     {
-      "issueId": "issue-7-turn-10",
       "issueIndex": 7,
       "turn": 10,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "第 10 轮把敲门声回卷到卡琳娜刚评价“信任”之后，抹掉了第 9 轮已经发生的一段交易谈判和动作。",
+      "batchId": "batch-002",
       "issueValidity": "valid",
       "rootCause": {
         "label": "fixed-beat-consumption",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline lifecycle/statefold: consume fixed beats and remove or rewrite consumed constraints",
+          "runtime anchors: persist precise current-scene state such as doorKnocked/bookletInHand",
+          "Narrator prompt: require continuation from last visible sentence, not from earlier salient dialogue"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-7-turn-10/root-cause-report.md",
-      "resultPath": "issues/issue-7-turn-10/root-cause-result.json"
+      "recommendedFixArea": "优先修复固定 beat 消费与场景锚点写回：turn 结束时把敲门 beat 标记 consumed，并把下一轮 prompt 的首要约束改为从门已响后的动作继续。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-007-turn-10/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-007-turn-10/root-cause-report.md",
+      "result": {
+        "issueId": "issue-7-turn-10",
+        "issueIndex": 7,
+        "turn": 10,
+        "issueValidity": "valid",
+        "problemSummary": "第 10 轮开头把敲门声回卷到卡琳娜刚评价“信任”之后，抹掉了第 9 轮已经完成的交易谈判、取册子、要求主角讲经历和敲门发生位置。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。第 9 轮的敲门发生在卡琳娜提出条件、拿出册子、说出“那句话我没告诉过任何人”之后；第 10 轮却写成“你说‘信任’——有意思”之后立刻敲门，时间锚点明显回退。",
+          "playerVisibleSupport": "turn-09 visibleText 中，卡琳娜评价信任后继续说“交易可以”，走到书架抽出册子，要求主角讲述和敏特的真实经历，并说会告诉他敏特离开前的一句话；随后“你刚要开口——咚、咚、咚”。turn-10 visibleText 开头则是“你说‘信任’——有意思。她的尾音还没落尽，那三声敲门声...”。",
+          "caveats": [
+            "turn-10 后半段仍推进到门口，没有完全重复整个第 9 轮；问题集中在开头锚点回卷和中间动作被抹除。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 10 轮前，玩家刚看到敲门已经发生，卡琳娜已转头看铁门；当前玩家输入是在这个状态下低声问“你有客人？”。她手里应有刚拿出的册子，交易条件已经提出。",
+          "relevantFacts": [
+            {
+              "claim": "敲门声已经在第 9 轮末尾发生，且发生在交易条件、取册子和等待主角开口之后。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-10/06a-director-prompt.md",
+                "turn-10/06b-narrator-prompt.md",
+                "turn-10/03-story-state.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "完整第 9 轮正文进入 recentTurns，应该作为当前场景锚点。"
+            },
+            {
+              "claim": "当前 storyline 仍带有“该节点结束时必须输出敲门声打断对话”的固定节点约束。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "turn-10/06a-director-prompt.md",
+                "turn-10/06b-narrator-prompt.md"
+              ],
+              "notes": "该固定演出在第 9 轮已经被消费，但第 10 轮仍作为当前节点约束出现。"
+            },
+            {
+              "claim": "storyline 已完成进展只摘要到“主角向卡琳娜提出以情报交换信任”，没有写明敲门、册子、证明条件已发生。",
+              "availability": "stale",
+              "artifacts": [
+                "turn-10/06a-director-prompt.md",
+                "turn-10/03-story-state.json"
+              ],
+              "notes": "该摘要比 recentTurns 落后，削弱了最新可见场景的权重。"
+            },
+            {
+              "claim": "runtime-after 已有“敲门声打断了交谈” anchor。",
+              "availability": "absent",
+              "artifacts": [
+                "turn-09/05-runtime-after.json",
+                "turn-10/06a-director-prompt.md"
+              ],
+              "notes": "runtime 中存在已消费锚点，但没有作为强约束显著进入 turn-10 worker prompt。"
+            }
+          ],
+          "competingPressures": [
+            "已消费的敲门固定演出",
+            "过期 currentStoryline summary",
+            "最近可见正文中的正确门口状态",
+            "玩家输入要求在门响后询问",
+            "Narrator 对上一句‘信任’的局部复用"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-10/06-llm-calls.json call[1] / turn-10/04-output.json 的 Narrator 正文输出",
+          "triggeringPressure": "turn-10 prompt 仍携带“节点结束时必须输出敲门声”的固定约束，且 currentStoryline 已完成进展没有记录第 9 轮的敲门和取册子细节；Director summary 也写成“敲门声打断了主角和卡琳娜的对话”，没有明确“敲门已发生，继续门口动作”。",
+          "missingGuard": "缺少 fixed-beat consumed-state guard 和 current-scene anchor：固定敲门演出在 turn-09 消费后应标记为 consumed，并在下一轮要求从“门已响、卡琳娜看向门”继续，禁止重演触发。",
+          "mechanismStatement": "已消费的敲门固定 beat 在后续 prompt 中仍以硬约束和过期 storyline 摘要形式存在，而最新场景锚点没有被提升为 must-continue 状态，Narrator 于是从更显眼的“信任”台词处重新触发敲门，造成时间回卷。",
+          "directCause": "Narrator 重新使用 turn-09 中较早的“信任”评价作为开场，并把敲门声放到那里之后。",
+          "propagation": "turn-10/04-output.json 固化了回卷文本；runtime-after 继续只有“敲门声打断了交谈”这一粗粒度 anchor，没有记录中间交易条件或册子状态。",
+          "nonCauses": [
+            "不是玩家输入导致：玩家是在门已经响后问“你有客人？”。",
+            "不是缺少最近文本：turn-09 完整正文在 prompt 中。",
+            "不是空间移动复杂度问题：场景仍在同一公寓内，错误来自固定演出重复消费。"
+          ]
+        },
+        "rootCause": {
+          "label": "fixed-beat-consumption",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "固定剧情 beat“敲门打断”在第 9 轮已经被消费，但 storyline lifecycle 没有把它标记为 consumed，也没有生成下一轮的 current-scene anchor；过期的节点约束继续压过最新可见状态，导致敲门被再次触发并回卷。",
+          "fixSurface": [
+            "storyline lifecycle/statefold: consume fixed beats and remove or rewrite consumed constraints",
+            "runtime anchors: persist precise current-scene state such as doorKnocked/bookletInHand",
+            "Narrator prompt: require continuation from last visible sentence, not from earlier salient dialogue"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-09 已在“你刚要开口”处发生敲门；turn-10 又让敲门紧接“你说‘信任’——有意思”发生。",
+          "internalTrace": "turn-10/06a-director-prompt.md 仍有“该节点结束时，必须输出：一阵急促的敲门声...”约束，并且 currentStoryline 已完成进展只到“提出以情报交换信任”；turn-10/06-llm-calls.json call[1] 首次输出回卷开头。"
+        },
+        "recommendedFixArea": "优先修复固定 beat 消费与场景锚点写回：turn 结束时把敲门 beat 标记 consumed，并把下一轮 prompt 的首要约束改为从门已响后的动作继续。",
+        "confidence": "high"
+      }
     },
     {
-      "issueId": "issue-8-turn-14",
       "issueIndex": 8,
       "turn": 14,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "玩家选择先带入与既有记忆不一致的说法，正文又把它固定为帕兹当时身在别处，改写了敏特死亡或失踪这一核心记忆。",
+      "batchId": "batch-002",
       "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "meta-memory"
+        ],
+        "fixSurface": [
+          "Choice generator: validate options against immutable/player-visible core memories",
+          "Director schema: add selectedChoiceInterpretation with preserveFacts list",
+          "Narrator prompt: when selected text conflicts with core memory, frame as uncertainty/evasion rather than factual rewrite",
+          "memory/state model: persist player-visible core memories separately from hidden truth"
+        ]
       },
       "confidence": "medium",
-      "reportPath": "issues/issue-8-turn-14/root-cause-report.md",
-      "resultPath": "issues/issue-8-turn-14/root-cause-result.json"
+      "recommendedFixArea": "优先修复 Choice 与 selected-choice execution 的核心记忆约束：对主角身份、重大死亡记忆、亲历/未亲历这类事实建立不可被普通选项改写的 player-visible memory contract。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-008-turn-14/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-002/issues/issue-008-turn-14/root-cause-report.md",
+      "result": {
+        "issueId": "issue-8-turn-14",
+        "issueIndex": 8,
+        "turn": 14,
+        "issueValidity": "valid",
+        "problemSummary": "第 13 轮选项允许玩家说“不知道她怎么死的”，第 14 轮正文又扩展为“那时候我在另一个地方”，把此前敏特死在帕兹怀里/帕兹亲眼看着她闭眼的核心记忆改写成帕兹不在现场。",
+        "validityAssessment": {
+          "verdictReason": "该问题成立。单独选择“不知道她怎么死的”还能解释为回避、记忆不可靠或不确定死亡真相；但正文追加“那时候我在另一个地方”后，变成明确的在场事实改写，与第 1 轮和第 13 轮选项中的玩家可见记忆冲突。",
+          "playerVisibleSupport": "turn-01 visibleText 的梦醒叙述里，帕兹抱着敏特，看着她失去温度，并在现实中说明她是“那个你亲眼看着闭上眼睛的人”。turn-13 choice 包含“她死在我怀里。但那是真的还是我以为的？”承接该记忆。turn-14 visibleText 则说“那时候我在另一个地方。等我知道消息的时候，已经来不及了”。",
+          "caveats": [
+            "故事存在记忆不可靠和复活秘密，因此“是否真的死亡”可以保持悬疑；但“帕兹当时是否在场”是玩家已经看到的核心记忆，不能无过渡改成另一个地点。",
+            "问题链条包含系统生成的选项和玩家选择，不应把全部责任归为玩家输入。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 14 轮前，卡琳娜要求主角继续讲敏特的事，并精准追问“她后来怎么死的？——还是说，你以为她死了。”玩家选择回答不知道她怎么死、只知道她没回来。玩家可见大背景仍是帕兹曾亲眼看见敏特在怀中闭眼，但真实死亡与复活秘密尚未揭示。",
+          "relevantFacts": [
+            {
+              "claim": "玩家可见核心记忆：帕兹曾抱着敏特并亲眼看着她闭上眼睛。",
+              "availability": "absent",
+              "artifacts": [
+                "visible-timeline.jsonl",
+                "turn-14/06a-director-prompt.md"
+              ],
+              "notes": "该事实在完整可见时间线中明确，但没有作为玩家可见 memory/summary 进入 turn-14 最近上下文；只以隐藏角色卡“死在帕兹怀里”的形式存在。"
+            },
+            {
+              "claim": "角色卡隐藏资料也写着敏特身受重伤死在帕兹怀里。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-14/06a-director-prompt.md",
+                "turn-13/06c-choice-prompt.md"
+              ],
+              "notes": "该事实存在，但未被转成选择生成和正文生成的硬约束。"
+            },
+            {
+              "claim": "turn-13 选项已经给出“她死在我怀里。但那是真的还是我以为的？”这一一致性较强的表达。",
+              "availability": "present-clear",
+              "artifacts": [
+                "turn-13/04-output.json",
+                "visible-timeline.jsonl"
+              ],
+              "notes": "同一组选项中同时出现一致选项与矛盾选项，说明 Choice 没有筛除核心记忆冲突。"
+            },
+            {
+              "claim": "玩家选择的“不知道她怎么死的”可以被解释为回避或对真相不确定，而不必改写为不在现场。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "turn-14/06a-director-prompt.md",
+                "turn-14/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 把 intent 写成“诚实回答，但回避具体细节”，却没有约束 Narrator 不要把回避扩展成新的事实背景。"
+            }
+          ],
+          "competingPressures": [
+            "玩家选择中的矛盾措辞",
+            "卡琳娜关于死亡/以为死亡的精准追问",
+            "隐藏复活秘密不可揭示",
+            "最近上下文缺少 turn-01 玩家可见死亡场景",
+            "主角创伤叙述的戏剧压力"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "turn-13/06c-choice-prompt.md 的 Choice 输出提供矛盾选项；turn-14/06-llm-calls.json call[1] 将其固化为不在现场事实",
+          "triggeringPressure": "Choice prompt 以当前正文结尾“她后来怎么死的？——还是说，你以为她死了”为局部锚点，最近可见上下文只说“我以为她死了/没能回来”，缺少 turn-01 的玩家可见死亡场景；turn-14 又把玩家选项当作必须说出的事实性回答。",
+          "missingGuard": "缺少核心记忆 choice-action-binding guard：选项生成应验证玩家选项不改写已建立的主角核心记忆；正文生成应把矛盾选择解释为回避、记忆不确定或关于死亡真相的不确定，而不是创造“我在另一个地方”的新事实。",
+          "mechanismStatement": "选择生成没有把“敏特死在怀里/亲眼看见闭眼”作为不可改写的玩家记忆约束，导致一个局部看似可回答卡琳娜追问、但会改写在场事实的选项出现；Narrator 随后按字面补强该选项，扩展出“那时候我在另一个地方”，把可疑措辞固化成核心记忆冲突。",
+          "directCause": "turn-14 Narrator 为了让“不知道她怎么死”显得完整，自行补充了帕兹当时在别处、事后才知道的解释。",
+          "propagation": "turn-14/04-output.json 把该解释写入可见正文；后续 choices 包含“点头承认，顺着她的话讲下去”，有继续锁定新解释的风险。",
+          "nonCauses": [
+            "不能用隐藏真相“真正死的是主角”来判定玩家可见输出正确；玩家可见层仍需维护帕兹的既有记忆。",
+            "不是玩家自由选择就自动合理：选项由系统生成，且正文把它扩展为更强事实。",
+            "不是单纯 recent-context 遗忘：角色卡和同组选项都暴露了正确记忆，但未被约束化。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "meta-memory"
+          ],
+          "description": "系统没有把核心人物记忆转成选择生成和选项执行的 must-preserve contract；当玩家选择含矛盾措辞的系统选项时，Director/Narrator 没有进行语义修正，而是按字面补足为新的事实背景。",
+          "fixSurface": [
+            "Choice generator: validate options against immutable/player-visible core memories",
+            "Director schema: add selectedChoiceInterpretation with preserveFacts list",
+            "Narrator prompt: when selected text conflicts with core memory, frame as uncertainty/evasion rather than factual rewrite",
+            "memory/state model: persist player-visible core memories separately from hidden truth"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-01 显示帕兹抱着敏特、亲眼看着她闭眼；turn-13 option 也承接“死在我怀里”；turn-14 说“那时候我在另一个地方”。",
+          "internalTrace": "turn-13/06c-choice-prompt.md 的 Choice 输出同时生成“不知道她怎么死”和“她死在我怀里”两个互相张力很强的选项；turn-14/06b-narrator-prompt.md 的 Director handoff 要求写出“不知道她怎么死”，但没有 preserveFacts guard；turn-14/06-llm-calls.json call[1] 首次添加“那时候我在另一个地方”。"
+        },
+        "recommendedFixArea": "优先修复 Choice 与 selected-choice execution 的核心记忆约束：对主角身份、重大死亡记忆、亲历/未亲历这类事实建立不可被普通选项改写的 player-visible memory contract。",
+        "confidence": "medium"
+      }
     }
   ]
 }

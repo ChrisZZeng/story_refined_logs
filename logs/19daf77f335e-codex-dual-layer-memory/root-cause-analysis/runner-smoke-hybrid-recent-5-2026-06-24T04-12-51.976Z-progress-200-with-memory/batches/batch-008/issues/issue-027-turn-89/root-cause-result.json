@@ -1,0 +1,103 @@
+{
+  "issueId": "issue-027-turn-89",
+  "turn": 89,
+  "issueValidity": "valid",
+  "problemSummary": "turn 89 在没有写出离开室内的动作前，把对话从旧木桌/炉灶的室内环境切到路灯、梧桐叶、夜风、长椅和潮湿路面。",
+  "validityAssessment": {
+    "verdictReason": "该问题有效。turn 88 明确两人仍在室内旧木桌边，turn 89 玩家只是追问“带进去了什么”，没有移动意图；正文中段直接出现户外光源和长椅，缺少必要过渡。",
+    "playerVisibleSupport": "turn 88 写卡琳娜坐在旧木桌沿、炉灶余烬、姜片和煮茶味；turn 89 前半仍写她看自己膝盖上的指尖，后半突然写路灯透过梧桐叶、夜风、从长椅上站起、潮湿路面。",
+    "caveats": [
+      "“那扇门/房间”本来是隐喻，但问题文本使用了具体物理环境词，玩家会理解为实体空间切换。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "问题发生前，玩家看到的是卡琳娜在室内旧木桌沿/桌边延续关于“房间”的隐喻谈话，黑猫在沙发扶手，炉灶有余烬，空气有姜茶余味。",
+    "relevantFacts": [
+      {
+        "claim": "最近可见场景是室内谈话空间。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-89/06a-director-prompt.md",
+          "turn-89/06b-narrator-prompt.md"
+        ],
+        "notes": "recentTurns 中 turn 86-88 多次出现旧木桌沿、炉灶、沙发扶手、暖光与暗影交界线。"
+      },
+      {
+        "claim": "玩家本轮输入只是追问“带进去了什么”，没有走出房间。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-89/06a-director-prompt.md"
+        ],
+        "notes": "该输入应优先维持当前位置并回答问题。"
+      },
+      {
+        "claim": "currentStoryline 的核心流程仍保留“卡琳娜带着主角来到附近的公园，她会在公园的长椅上坐下”。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-89/03-story-state.json",
+          "turn-89/06a-director-prompt.md",
+          "turn-89/06b-narrator-prompt.md"
+        ],
+        "notes": "该公园长椅 beat 在已完成进展中早已发生并被后续“前往真正的家/进入室内”覆盖，但仍作为可参考核心流程出现。"
+      },
+      {
+        "claim": "当前场景没有稳定结构化锚点。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-89/03-story-state.json",
+          "turn-89/05-runtime-after.json"
+        ],
+        "notes": "storyState 中 currentScene 为 null；runtime-after 也没有可执行的 currentScene 字段来压过 stale storyline。"
+      },
+      {
+        "claim": "Director 首先把本轮 scene 改成“公园”并要求“卡琳娜在长椅上回应”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-89/04-output.json",
+          "turn-89/06b-narrator-prompt.md"
+        ],
+        "notes": "这是内部链路中最早明确偏离当前室内场景的 artifact。"
+      }
+    ],
+    "competingPressures": [
+      "recentTurns 明确室内位置",
+      "currentStoryline 旧核心流程仍强推公园长椅",
+      "阶段六情感铺垫要求氛围转换",
+      "缺少 currentScene hard anchor",
+      "Narrator 必须服从 Director 已确定的剧情骨架"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-89/04-output.json plotPoint",
+    "triggeringPressure": "当前故事线中未消费的公园长椅固定 beat 与 background/cg 约束持续出现在 prompt，且 currentScene 为空；Director 在回答隐喻追问时重新激活了该旧 beat。",
+    "missingGuard": "缺少 storyline beat consumed/incompatible 标记，也缺少“若最近可见场景与旧核心流程冲突，必须先写物理过渡或延迟旧 beat”的硬约束。",
+    "mechanismStatement": "已消费的公园长椅 beat 仍以核心流程身份压过清晰 recentTurns，Director 把它重新安排为当前 scene，Narrator 又按 Director 骨架写出户外细节，导致同一轮无过渡空间跳切。",
+    "directCause": "Director 输出 scene=公园、requiredContent=“卡琳娜在长椅上回应”、beats=“两人起身，卡琳娜带路前往公园”；Narrator 将其落成路灯、梧桐叶、夜风、长椅和潮湿路面。",
+    "propagation": "turn 89 visibleText 既保留前半室内动作，又把末尾状态写成户外等待；turn 89 writes 的 currentStoryline summary 还没有可靠记录这次物理锚点，为 turn 90 继续混乱埋下条件。",
+    "nonCauses": [
+      "不是玩家选择导致移动；玩家输入没有离开房间。",
+      "不是单纯 Narrator 漏写一句过渡；Director 已经把错误公园长椅 beat 放进本轮安排。",
+      "不是隐藏设定要求必须在此轮去公园；已完成进展显示公园与真正的家流程已发生过。"
+    ]
+  },
+  "rootCause": {
+    "label": "fixed-beat-consumption",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 currentStoryline 中公园长椅固定 beat 在已完成后仍作为核心流程和资源约束出现；缺失防线是没有 consumed/incompatible 状态与 currentScene 优先级；失败运动是 Director 重启旧 beat，Narrator 在没有离室动作的情况下生成户外长椅环境。",
+    "fixSurface": [
+      "storyline lifecycle 增加 beat 状态：unstarted/active/consumed/incompatible，已发生公园长椅 beat 不再进入当前核心流程",
+      "Director prompt 增加 hard current-scene anchor：从 recent visible tail 抽取当前位置，场景变更必须显式 bridge",
+      "Narrator 增加 scene-transition validator：若正文新增户外环境但导演/正文未写离开动作，则要求补桥或拒绝切场"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 88 仍是室内旧木桌、炉灶、姜茶味；turn 89 无移动输入，却直接出现路灯、梧桐叶、夜风、长椅和潮湿路面。",
+    "internalTrace": "turn-89/03-story-state.json 与 prompts 同时包含已完成的室内进展和 stale 公园长椅核心流程；turn-89/04-output.json 首先输出 scene=公园、requiredContent=长椅回应。"
+  },
+  "recommendedFixArea": "优先修复 storyline/fixed beat lifecycle 与 current scene anchoring，在 Director 前阻止已消费场景 beat 重新成为本轮骨架。",
+  "confidence": "high"
+}

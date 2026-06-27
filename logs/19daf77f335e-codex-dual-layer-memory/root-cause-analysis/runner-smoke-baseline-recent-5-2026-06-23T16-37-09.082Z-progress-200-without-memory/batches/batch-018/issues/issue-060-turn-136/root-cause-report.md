@@ -1,0 +1,70 @@
+# Root Cause Report: issue-60-turn-136
+
+## Problem
+- issueIndex: 60
+- turn: 136
+- problemSummary: turn 135 已把相机放回胸前，turn 136 却先写相机在腰间身侧，随后同轮又写胸前相机。
+
+## Validity
+- issueValidity: valid
+- verdictReason: 该问题基本成立。相机由胸前变到腰间身侧没有过渡交代，同轮后文又回到胸前，形成局部物件位置漂移。
+- playerVisibleSupport: turn 135 写“让它重新贴着胸口挂着”；turn 136 写“露出腰间那台相机的轮廓——黑色金属机身贴在你身侧”；同轮后文又写“胸前的相机金属外壳”。
+- caveats:
+  - 相机挂带在伸展时可能轻微摆到身侧，因此“腰间”可作低强度合理化；但文本没有写摆动或滑落，且后文立即回到胸前，所以仍是低严重度连续性问题。
+
+## Context Assessment
+- actualStateBeforeIssue: turn 135 末尾主角把底片相机放下，让它重新贴着胸口挂着，之后坐在石阶上等待；turn 136 玩家选择站起伸展身体。
+- relevantFacts:
+  - claim: 相机当前贴着胸口挂着。
+    availability: present-clear
+    artifacts: visible-timeline.jsonl, turn-136/06b-narrator-prompt.md, turn-135/04-output.json
+    notes: 该事实在 turn 135 末尾和 turn 136 recentTurns 中非常近。
+  - claim: 伸展身体可能导致外套和挂件轻微移动，但需要文本交代。
+    availability: present-ambiguous
+    artifacts: turn-136/01-summary.json, turn-136/06a-director-prompt.md
+    notes: 玩家动作是伸展，给了“外套下摆扬起”等身体描写压力，但没有要求移动相机位置。
+  - claim: 当前 carried item position 没有结构化状态锚点。
+    availability: absent
+    artifacts: turn-136/03-story-state.json, turn-136/06b-narrator-prompt.md
+    notes: 故事状态记录了角色卡和故事线摘要，没有把“相机=胸前”作为可检索实体位置字段。
+  - claim: 同轮 Narrator 自身又恢复了胸前相机。
+    availability: present-clear
+    artifacts: turn-136/04-output.json, turn-136/06-llm-calls.json
+    notes: 说明模型并非完全不知道胸前事实，而是在局部动作描写中切换了不兼容位置。
+- competingPressures:
+  - 伸展动作需要身体与衣物细节
+  - 摄影机原则鼓励用可见物理细节呈现状态
+  - 近期上下文里相机、袋子、铃铛等随身物件位置多次以 prose 出现
+  - 缺少结构化 carried-item anchor 和局部生成后的位置一致性检查
+
+## Causal Chain
+- firstDivergenceArtifact: turn-136/04-output.json narrative（Narrator output）
+- triggeringPressure: 玩家选择伸展身体，Narrator 为了写外套下摆和身体轮廓，套用了“腰间/身侧物件随动作起伏”的动作细节；同时 recent prose 中还有胸前相机事实。
+- missingGuard: 没有 current object position anchor 或 same-turn entity-position consistency check 要求相机保持胸前，除非明确写出滑动/摆动/移位。
+- mechanismStatement: 随身物件位置只埋在 recent prose 中，伸展动作的身体描写触发了腰侧物件模板，缺少当前物件位置锚点和同轮校验，使 Narrator 在同一轮内把相机写成腰间身侧又写回胸前。
+- directCause: Narrator 在第三段生成“腰间那台相机”，后文又依据近期事实生成“胸前的相机”。
+- propagation: 错误进入 turnContent；没有明显写入后续结构化状态，主要是本轮 visibleText 的局部漂移。
+- nonCauses:
+  - Director 没有要求相机移到腰间
+  - 不是玩家输入导致的明确移位
+  - 不是 meta-memory；胸前事实就在最近一轮和同轮后文
+
+## Root Cause
+- label: current-object-anchor
+- family: agent-system
+- secondaryFamilies: recent-context
+- description: 随身物件的当前位置没有被结构化锚定或在 Narrator 输出前后校验；当伸展动作触发衣物/腰侧细节模板时，模型可以临时改写相机位置，随后又回到 recent prose 中的胸前位置。
+- fixSurface:
+  - carried item position state/writeback
+  - Narrator prompt current-object facts block
+  - same-turn entity position consistency checker
+
+## Evidence
+- playerVisible: turn 135 胸前挂着、turn 136 腰间身侧、turn 136 后文胸前三处玩家可见文本构成位置漂移。
+- internalTrace: turn-136 Director 只安排伸展身体；turn-136 Narrator prompt 含有 turn 135 胸前事实；错误首次出现在 Narrator 输出。
+
+## Recommended Fix Area
+把随身物品位置写入 current-object facts，并要求 Narrator 若改变位置必须显式描写移动原因；增加同轮实体位置冲突检测。
+
+## Confidence
+medium

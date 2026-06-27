@@ -1,0 +1,91 @@
+{
+  "issueIndex": 11,
+  "issueId": "issue-11-turn-20",
+  "turn": 20,
+  "issueValidity": "valid",
+  "problemSummary": "第 20 轮把上一轮已由德索洛带走的信封重写为茶几上的可拿取物，并让主角打开阅读。",
+  "validityAssessment": {
+    "verdictReason": "第 20 轮正文与第 19 轮刚发生的物件转移和离场直接冲突；“玩家选择了错误选项”不能让物理状态自动改写。",
+    "playerVisibleSupport": "第 19 轮正文写德索洛接过并握着信封离开公寓；第 20 轮玩家输入为“拿过信封看看”，正文却写“茶几上那个信封”“你伸出手，拿过信封”“你打开它”。",
+    "caveats": [
+      "问题不是玩家想了解信封内容，而是系统没有把不可执行行动桥接为追问、回想观察或说明信封不在现场。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "第 20 轮开始前的实际可见状态是德索洛已经带着信封离开，门锁归位，卡琳娜在书架旁对主角说“你看到了。我这就是我做的事。”",
+    "relevantFacts": [
+      {
+        "claim": "信封不在茶几上，也不在主角可拿取范围内。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+        ],
+        "notes": "turn-20 Director prompt 的最近正文完整包含“德索洛接过信封”“握着那封信”“快步走了出去”。"
+      },
+      {
+        "claim": "本轮玩家输入来自上一轮错误选项“拿过信封看看”。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+        ],
+        "notes": "Director 将该输入当作本轮核心行动，而不是检测其与场景冲突。"
+      },
+      {
+        "claim": "Director 有一般一致性规则：冲突时优先相信最近几轮玩家看到的正文。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+        ],
+        "notes": "规则存在，但没有被转化为“不可执行动作必须桥接/拒绝”的具体 contract。"
+      },
+      {
+        "claim": "当前故事线要求卡琳娜对主角洞察力好奇。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+        ],
+        "notes": "该目标给“主角通过信封观察展示洞察力”提供了局部叙事吸引力。"
+      }
+    ],
+    "competingPressures": [
+      "玩家输入是一个由系统上一轮提供的具体行动，Director 倾向于满足。",
+      "3-01 节点需要展示卡琳娜对主角洞察力的好奇，信封成为方便载体。",
+      "没有对象位置状态或 impossible-action 分支来支持改写为“信封已经被带走”。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json choices; within target turn: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06-llm-calls.json director object",
+    "triggeringPressure": "错误选项“拿过信封看看”被当作真实玩家输入进入第 20 轮；Director 又被当前故事线的“卡琳娜对主角洞察力好奇”拉向让主角通过信封展示观察力。",
+    "missingGuard": "缺少 selected-choice feasibility check：当玩家输入来自系统选项且与最近可见物理状态冲突时，Director 没有被要求拒绝、桥接或改写行动。一般一致性规则没有约束 requiredContent。",
+    "mechanismStatement": "错误选项一旦被选中就被升级为必须满足的玩家行动，Director 在没有可执行性校验的情况下把它写成“茶几上的信封”与 requiredContent，Narrator 随后按 handoff 复现并扩写了冲突。",
+    "directCause": "turn-20 Director 输出 actionHint“伸手拿起茶几上的信封，观察或打开”和 requiredContent“主角拿过信封查看的动作描写”；Narrator 依此写出信封在茶几上并可打开。",
+    "propagation": "turn-20/04-output.json 的 visibleText 和 currentStoryline writeback 写入“主角拿过信封查看”，成为第 21 轮的最近上下文。",
+    "nonCauses": [
+      "不是玩家自由输入导致的不可控脱轨；该输入来自系统第 19 轮提供的选项。",
+      "不是长期或细节记忆缺失；第 19 轮信封离场事实就在第 20 轮 prompt 中。",
+      "Narrator 不是最早偏离点，它主要执行了已经错误的 Director handoff。"
+    ]
+  },
+  "rootCause": {
+    "label": "choice-action-binding",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "具体机制是选项语义与场景 affordance 绑定失败后缺少二次校验：上一轮生成的不可能动作被玩家选中后，Director 将其当成硬性玩家意图执行，而没有按最近可见状态桥接为可行行动或指出信封已随德索洛离开。",
+    "fixSurface": [
+      "selected-choice feasibility validator before Director",
+      "Director prompt contract for impossible actions",
+      "state/object affordance model for movable props"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn-19 正文：德索洛接过并握着信封离开；turn-20 正文：信封躺在茶几上，主角拿过并打开。",
+    "internalTrace": "turn-20/06a-director-prompt.md 同时包含冲突事实和玩家输入；turn-20/06-llm-calls.json Director 对象把错误输入固化为 actionHint/requiredContent；turn-20/06b-narrator-prompt.md 要 Narrator 不改变导演方向。"
+  },
+  "recommendedFixArea": "在 Director 前增加 selected choice 可执行性层：如果动作目标已离场，应生成承接文本（例如主角意识到信封被带走，转为询问卡琳娜）而不是重写物件位置。",
+  "confidence": "high"
+}

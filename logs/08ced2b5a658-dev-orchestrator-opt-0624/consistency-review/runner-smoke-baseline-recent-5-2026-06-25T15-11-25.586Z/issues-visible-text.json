@@ -1,0 +1,413 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 6,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 6 轮写卡琳娜“和白天你见到她时一模一样的穿着”，又写“那双湛蓝的眼睛今天下午你见过一次”。",
+    "conflictingEvidence": "第 1 轮初见卡琳娜发生在庆典夜景中，包含“路灯下”“灯火通明的人流”等夜间描写；第 3 轮小贩也明确说“你今晚在这里站得够久了”。",
+    "conflictingTurns": [
+      1,
+      3
+    ],
+    "source": "model-output",
+    "reason": "正文把同一场初见从夜晚改写成白天或下午，造成时间连续性轻微断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 7,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "第 7 轮出现格式残缺的发言：“[卡琳娜]就这些。”",
+    "conflictingEvidence": "同一窗口内角色对白通常采用“[角色]“……。””格式，例如第 6 轮“[卡琳娜]“很好。””。",
+    "conflictingTurns": [
+      6
+    ],
+    "source": "model-output",
+    "reason": "对白标签后缺少起始引号，破坏了已经建立的可见文本格式。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮卡琳娜称主角胸前相机是“佳能F1”，并说“快门按钮旁边那截红绳是自己缠的”。",
+    "conflictingEvidence": "第 1 轮主角确认自己的相机是“尼康FM2”，且快门按钮边的褪色红绳是敏特系上去的，说“这样好认”。",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "核心随身物件的型号和红绳来源都被改写，破坏了物件与人物记忆的连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮把旧合照写成“背景是一堵被阳光晒得发白的土墙”，六个人里“只有一张脸是正对着镜头的”，敏特是“短发女孩，戴着迷彩渔夫帽”；随后又写照片背面是“露白的纸面，什么都没有”。",
+    "conflictingEvidence": "第 1 轮同一类旧合照被建立为六个人挤在残垣断壁前，中间挂着相机的年轻人是主角，所有人都在笑；敏特是右数第二个红发女孩；照片背面写着“活着回来再拍一张”。",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "正文承接的是与匿名信照片相对的旧照片，但照片画面、敏特外观和背面文字都与此前可见设定不一致。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮正文第一行写“[卡琳娜]“我不知道该信多少。但照片是真的，敏特在这里——其他部分我可以边走边确认。””，下一句却写“你的声音在说完最后一个字时落定了”。",
+    "conflictingEvidence": "第 9 轮选项和第 10 轮 playerInput 都显示这句话是玩家选择的帕兹发言，而不是卡琳娜的发言。",
+    "conflictingTurns": [
+      9
+    ],
+    "source": "model-output",
+    "reason": "正文把玩家发言标成卡琳娜说出，同时又用叙述承认是“你的声音”，造成说话人身份冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 10 轮帕兹说：“她当时在难民营里做翻译——英浾、法语、还有两种当地土语。”",
+    "conflictingEvidence": "同句在列举语言能力，“英浾”不是可读的语言名称，按语境应为“英语”一类词。",
+    "conflictingTurns": [],
+    "source": "model-output",
+    "reason": "明显错字影响读者理解，属于局部文本质量问题。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "第 10 轮卡琳娜问：“你刚才说她‘应该’在另一个半球死去。你亲眼看到她受伤？还是只接到消息？”",
+    "conflictingEvidence": "第 9 轮玩家刚刚选择的输入是“我不知道该信多少。但照片是真的，敏特在这里——其他部分我可以边走边确认。”；第 8 轮“照片上是一个应该在另一个半球死去的人”是卡琳娜自己的判断，而含有类似信息的第 8 轮另一选项并未被选择。",
+    "conflictingTurns": [
+      8,
+      9
+    ],
+    "source": "model-output",
+    "reason": "正文把非玩家已说内容当作玩家刚说过的话，像是吸收了未选择选项或误记了上一轮对话。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "第 12 轮中出现了“[卡琳娜]她看着你的动作”“[卡琳娜]然后她开口了”，并且在“[帕兹]‘第二封——是确认我已经在了。’”之后紧接着写成“她说。”",
+    "conflictingEvidence": "同一窗口中通常用“[角色]‘对白’”标记发言，例如第 11 轮“[卡琳娜]‘不是。’”。第 12 轮这里的标签和代词却落在叙述句上，并把刚刚由帕兹说出的判断归成了“她说”。",
+    "conflictingTurns": [
+      11,
+      12
+    ],
+    "source": "model-output",
+    "reason": "正文把对白标签和叙述句混用，并在局部把发言者代词写错，会让玩家短暂误判是谁在说话。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 15,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "第 15 轮开头写成“[帕兹]你的手从门把手上松开了。”",
+    "conflictingEvidence": "同一轮后文把真正的对白写成“[门外 → 卡琳娜]‘卡琳娜……是我！德索洛！开门！’”“[卡琳娜]‘……德索洛。’”。",
+    "conflictingTurns": [
+      15
+    ],
+    "source": "model-output",
+    "reason": "角色标签被放在第二人称叙述句前，而不是对白前，破坏了本批次稳定的正文格式。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 16,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "第 16 轮写成“[帕兹]声音不高。语速不快。”，后文又出现“桌上的两封信并排躺在桌面上一——一封已拆封，一封未拆封”。",
+    "conflictingEvidence": "同一批次的正常格式通常是无标签叙述，或用角色标签引出引号内对白；“桌面上一——一封”也不像有意的正文表达。",
+    "conflictingTurns": [
+      16
+    ],
+    "source": "model-output",
+    "reason": "这一轮同时出现角色标签误贴叙述句和明显残留字词，属于玩家可见文本质量回退。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 18,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 18 轮帕兹说：“我在前线待了五年。中东，非洲，几个你大概没听说过名字的地方。”",
+    "conflictingEvidence": "第 10 轮同一人物刚说过：“战地记者。在非洲和中东待了六年。”",
+    "conflictingTurns": [
+      10
+    ],
+    "source": "model-output",
+    "reason": "帕兹的前线经历时长从六年变成五年，没有可见解释，造成角色经历事实不稳定。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 22,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 22 轮先写“夜晚的空气涌进来”，随后在宴会厅内写“窗外，最后一缕天光沉入海面。夜幕从水平线沿着天空的方向向上铺展”。",
+    "conflictingEvidence": "此前玩家可见上下文已多次确立为夜晚：第 11 轮写“暗街的夜里”，第 17 轮写“窗外那片夜色”，第 20 轮写“远处的夜空”，第 21 轮又说“今晚”去凯旋门。",
+    "conflictingTurns": [
+      11,
+      17,
+      20,
+      21
+    ],
+    "source": "model-output",
+    "reason": "已经进入夜晚后又写成最后一缕天光正在沉入海面，造成轻微的时间连续性滑移。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "high",
+    "currentEvidence": "第 24 轮康纳出场时写“她正穿过那道人墙的缝隙向这边走来”，随后以“[康纳 → 卡琳娜]”说话，并持续使用“她”的叙述。",
+    "conflictingEvidence": "第 21 轮卡琳娜说“康纳今晚在凯旋门设宴，庆祝什么——他自己也想不起来的理由”，并说“康纳不会在自己的宴会上动手”。第 22 轮远端身影被写成“他背对着你们的方向”“他的肩宽”。第 23 轮又写“那个方向是康纳所在的位置，尽管他还没有转向这边”。",
+    "conflictingTurns": [
+      21,
+      22,
+      23
+    ],
+    "source": "model-output",
+    "reason": "康纳在玩家可见上下文中刚被建立为男性高大身影，下一轮正式交谈时突然变为女性代词和形象，直接破坏核心人物身份连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 34,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "同一段先标成“[卡琳娜]‘你打算让他睡哪？’”，随后立刻写明“声音从壁炉前的方向传来——不是卡琳娜的位置，是卡尔的方向”，并描述“黑猫的声音”。",
+    "conflictingEvidence": "前文已建立说话格式和说话者边界，例如第18轮、第19轮中卡尔说话时使用“[卡尔]”标签，卡琳娜说话时使用“[卡琳娜]”标签。",
+    "conflictingTurns": [
+      18,
+      19
+    ],
+    "source": "model-output",
+    "reason": "同一句可见台词的署名和叙述来源互相冲突，玩家无法稳定判断这句话到底是卡琳娜还是卡尔说的。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "本轮前半反复描述卡琳娜“站在那里”，右手停在桌沿；结尾却写“她只是坐在那里，在壁炉的火光和桌面的磨损纹路之间，等待着你的回答”。",
+    "conflictingEvidence": "同一轮没有写卡琳娜坐下，且上一轮结束时她仍“站在那个位置上”，之后只是继续对话和触碰桌沿。",
+    "conflictingTurns": [
+      35,
+      36
+    ],
+    "source": "model-output",
+    "reason": "角色姿态从站立无承接地变成坐着，属于局部动作连续性错误。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "protocol-break",
+    "severity": "low",
+    "currentEvidence": "台词多次写成“‘[卡琳娜]那现在你听得到它了。’”“‘[卡琳娜]明天——’”“‘[卡琳娜]沙发上有垫子。’”，把角色标签放进了引号内部。",
+    "conflictingEvidence": "窗口内前后通常使用“[卡琳娜]‘……’”“[卡尔]‘……’”这类角色标签在引号外的格式。",
+    "conflictingTurns": [
+      34,
+      36
+    ],
+    "source": "model-output",
+    "reason": "角色标签被当作正文台词内容展示，破坏了既有对白格式，形成明显可见的协议/格式问题。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 39,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第39轮离开地下居所时写“不是通向地面的那扇门。是另一扇。在壁炉左侧的墙壁上，与石墙几乎融为一体”，并让这扇门直接通向清晨的窄巷。",
+    "conflictingEvidence": "第33轮玩家可见扫描明确写“空间不大。没有第二个出入口。……出口就一个——你背后的木门”。",
+    "conflictingTurns": [
+      33
+    ],
+    "source": "model-output",
+    "reason": "此前明确排除了第二出入口，后文却无解释引入另一扇可直接离开的门，破坏地下空间布局连续性。"
+  },
+  {
+    "id": "batch-005-issue-001",
+    "windowRange": {
+      "start": 31,
+      "end": 44
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 44
+    },
+    "turn": 42,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 42 中卡琳娜从矮凳上自然起身后，正文写道：“她的目光在你起身的过程中没有移开——从她开始起身到她完全站立……”",
+    "conflictingEvidence": "turn 41 末尾玩家已经从地图和文件前完整直起身，并转向卡琳娜；turn 42 后段也写明“你站在桌边”。当前动作实际是卡琳娜起身，不是玩家起身。",
+    "conflictingTurns": [
+      41,
+      42
+    ],
+    "source": "model-output",
+    "reason": "正文把卡琳娜起身的动作误写成“你起身”的过程，造成局部动作主体和玩家姿态不一致。"
+  },
+  {
+    "id": "batch-005-issue-004",
+    "windowRange": {
+      "start": 31,
+      "end": 44
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 44
+    },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "turn 43 中卡琳娜将陶杯“轻轻放在沙发左侧的木质扶手上”，手指确认放稳后松开；后文直接写“你坐在沙发上。手中的茶杯重量在你指尖”，并让玩家喝下第一口。",
+    "conflictingEvidence": "在卡琳娜把杯子放到扶手上之后，正文没有写玩家伸手拿起茶杯，也没有任何动作承接把杯子从扶手移动到玩家手中。",
+    "conflictingTurns": [
+      43
+    ],
+    "source": "model-output",
+    "reason": "正文省略了必要的取杯动作，直接把杯子改写成已经在玩家手里，造成轻微动作连续性跳跃。"
+  }
+]

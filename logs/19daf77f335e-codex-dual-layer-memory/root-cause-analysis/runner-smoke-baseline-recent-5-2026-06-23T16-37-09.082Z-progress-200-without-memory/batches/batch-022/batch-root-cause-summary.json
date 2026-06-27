@@ -1,0 +1,494 @@
+{
+  "batchId": "batch-022",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 73,
+      "turn": 161,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "choices",
+      "summary": "选项把已建立的胶卷相机交互写成类似数码相机的即时回看，破坏物件规则连续性。",
+      "batchId": "batch-022",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [],
+        "fixSurface": [
+          "choice prompt 的 object affordance contract",
+          "choice post-generation consistency validator",
+          "story state/currentStoryline summary 中物件规则的结构化写入"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为 Choice worker 增加物件 affordance 提取与校验：从最近正文/结构化 state 中识别 film camera，禁止生成即时预览、删除或改写与物件规则冲突的普通选项。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-073-turn-161/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-073-turn-161/root-cause-report.md",
+      "result": {
+        "issueId": "issue-73-turn-161",
+        "issueIndex": 73,
+        "turn": 161,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 161 的选项把刚用胶卷相机拍下的巷口照片写成可以低头即时检查满意度，和已建立的胶卷/银盐/定影规则冲突。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。玩家可见正文在 Turn 160 说明有三卷备用胶卷，Turn 161 正文又写快门后图像留在银盐粒子里、需在定影液里显影；同轮选项却要求低头检查刚拍的照片是否满意，默认存在即时预览能力。",
+          "playerVisibleSupport": "Turn 161 可见正文：按下快门后卷片，影像留在银盐粒子并等待定影液显影；同轮选项：低头检查拍下照片是否满意。Turn 160 可见正文：备用胶卷为三卷黑色小筒，说明这是胶卷流程。",
+          "caveats": [
+            "如果选项明确写成检查取景/构图记忆而非检查成片，则可成立；但原文是检查拍下的那张照片是否满意，玩家会理解为即时看照片。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "主角在屋内窗边等待，刚把相机举起对准巷口并按下快门。可见叙述强调快门、卷片、银盐粒子和定影液，照片尚未显影。",
+          "relevantFacts": [
+            {
+              "claim": "相机是胶卷工作流，不支持拍后即时回看成片。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/04-output.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/04-output.json"
+              ],
+              "notes": "Turn 160 的备用胶卷和 Turn 161 的银盐/定影液使规则对玩家清楚成立。"
+            },
+            {
+              "claim": "Choice worker 需要把选项约束在当前物件可用 affordance 内。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json"
+              ],
+              "notes": "choice prompt 只有贴近当前处境/不要泄露等通用要求，没有胶卷相机不可即时检查的硬性约束或后处理校验。"
+            },
+            {
+              "claim": "本轮正文已经给出胶卷显影提示。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md"
+              ],
+              "notes": "该事实在 choice prompt 的长篇最近正文中出现，但不是结构化物件规则，也没有靠近最终输出要求。"
+            },
+            {
+              "claim": "当前故事线摘要里存在“检查相机刚才拍摄的那一帧效果如何”的旧句。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md"
+              ],
+              "notes": "该摘要把拍后检查效果当作可复用行动方向，和胶卷规则形成隐性冲突。"
+            }
+          ],
+          "competingPressures": [
+            "等待期间需要生成普通后续行动选项",
+            "主角职业特质强调观察取证/相机",
+            "currentStoryline.summary 中残留拍后检查效果的旧行动",
+            "胶卷规则只在正文长段里出现，没有结构化 affordance"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json call[2] / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/04-output.json choices",
+          "triggeringPressure": "Choice worker 面对刚拍照的场景，需要补足 2-4 个普通行动；prompt 中有主角相机/照片相关长期摘要，且 currentStoryline.summary 残留“检查相机刚才拍摄的那一帧效果如何”的旧方向。",
+          "missingGuard": "缺少把物件类型转成选项级 affordance 的硬约束；胶卷相机、银盐和定影液只作为长篇正文事实出现，没有被提炼为‘不能即时查看成片’的选项校验。",
+          "mechanismStatement": "在相机行为被强 foreground、旧摘要又把“检查拍摄效果”作为可用动作的情况下，Choice worker 没有物件 affordance 守卫，便把胶卷拍摄误绑定成数码相机式即时回看选项。",
+          "directCause": "Turn 161 的 Choice 输出生成了“低头检查一下拍下的那张照片是否满意”。",
+          "propagation": "该错误直接暴露在玩家可见选项中；本批目标未选择该选项，因此没有进一步写入正文，但已破坏可选行动的物件规则连续性。",
+          "nonCauses": [
+            "Narrator 在 Turn 161 正文中反而明确写出银盐/定影液，不是正文生成阶段遗忘胶卷规则。",
+            "runtime-after 没有提供可反驳或确认相机 affordance 的结构化物件状态。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [],
+          "description": "触发压力是 Choice worker 需要围绕刚拍照生成行动，且故事线摘要里有旧的“检查拍摄效果”方向；缺失防线是选项层没有物件 affordance/相机类型校验，未把正文中的胶卷显影规则转成不可即时回看的约束；失败运动是选项把“拍照后可检查照片满意度”绑定为玩家下一步行动。",
+          "fixSurface": [
+            "choice prompt 的 object affordance contract",
+            "choice post-generation consistency validator",
+            "story state/currentStoryline summary 中物件规则的结构化写入"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 160 玩家看到备用胶卷三卷；Turn 161 玩家看到按快门、卷片、银盐粒子和定影液，随后看到“低头检查一下拍下的那张照片是否满意”的选项。",
+          "internalTrace": "Turn 161 Director/Narrator 输出没有要求即时回看；Choice prompt 包含本轮正文但也包含长期摘要里的拍后检查效果旧句。Turn 161 llm call[2] 首次产生矛盾选项。"
+        },
+        "recommendedFixArea": "为 Choice worker 增加物件 affordance 提取与校验：从最近正文/结构化 state 中识别 film camera，禁止生成即时预览、删除或改写与物件规则冲突的普通选项。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 74,
+      "turn": 162,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "mixed",
+      "summary": "玩家可见位置从屋内窗边等待无承接地变成屋外/门外，随后又被选项和正文写成重新进屋，造成空间连续性断裂。",
+      "batchId": "batch-022",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "choice current-scene anchor validation",
+          "selected choice repair/bridge contract",
+          "runtime location state writeback"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "在选项生成和 selected choice 消费之间增加 scene-location invariant：若当前位置为屋内，禁止/修复“回到屋里”类选项；若已暴露给玩家，则下一轮必须桥接为“往门边挪”而非重新进屋。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-074-turn-162/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-074-turn-162/root-cause-report.md",
+      "result": {
+        "issueId": "issue-74-turn-162",
+        "issueIndex": 74,
+        "turn": 162,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 161 已在屋内窗边等待，选项却写“回到屋里”，Turn 162 又写推门跨进屋内，造成从屋内无承接变成屋外/门外再入屋的空间断裂。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。Turn 160 明确回到屋内、带上门、坐回窗边椅子；Turn 161 只是用相机取景和拍巷口，没有可见开门或离屋动作。Turn 161 选项与 Turn 162 正文都把当前位置当成屋外/门外。",
+          "playerVisibleSupport": "玩家可见链路是：Turn 160 回屋并坐在窗边；Turn 161 拍摄巷口后相机挂胸前/搁手心等待；Turn 161 选项“回到屋里”；Turn 162 正文“推开木门，跨进屋内”。",
+          "caveats": [
+            "Turn 161 的“肩膀抵住门框”让位置有轻微歧义，但它没有写开门、出屋或站到门外，无法支撑“推开木门跨进屋内”。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "Turn 160 末尾主角在屋内窗边椅子坐下，手边放着包。Turn 161 主角举相机观察巷口并按快门，文本最多把他带到门框/窗边附近，未发生离屋。",
+          "relevantFacts": [
+            {
+              "claim": "目标前玩家位置在屋内，且没有可见离屋动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06c-choice-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/06a-director-prompt.md"
+              ],
+              "notes": "最近几轮正文在 prompt 中清楚列出 Turn 160 回屋坐下和 Turn 161 拍照等待。"
+            },
+            {
+              "claim": "Turn 161 选项把下一步写成“回到屋里”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/04-output.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json"
+              ],
+              "notes": "该选项和最新位置冲突，是玩家可见链路的第一处明显偏离。"
+            },
+            {
+              "claim": "Director 应修复或桥接不可能的 selected choice。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/06-llm-calls.json"
+              ],
+              "notes": "Director 直接把玩家输入解释为“回到屋内”，没有把它改写为‘移到门边’或补出合理桥接。"
+            },
+            {
+              "claim": "当前位置没有结构化 scene anchor。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/05-runtime-after.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-162/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 只有粗略 worldState/entityStates，没有屋内/屋外/窗边/门边的可机读位置。"
+            }
+          ],
+          "competingPressures": [
+            "历史摘要和最近几轮包含多次门口/石阶等待",
+            "Turn 161 正文的“肩膀抵住门框”增加门口歧义",
+            "Choice worker 需要生成移动/休息类选项",
+            "selected choice 文本被后续 Director 当作强事实"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-161/06-llm-calls.json call[2] / choices",
+          "triggeringPressure": "Choice worker 从门框、巷口、等待和可移动到更舒服位置等语义中生成后续行动，且历史上下文中有多轮门口/石阶活动。",
+          "missingGuard": "缺少 current-scene anchor 和选项动作可达性检查；后续 Director 也缺少对系统生成 selected choice 的空间可行性修复合同。",
+          "mechanismStatement": "当最近正文包含门框/巷口等空间词而结构化当前位置缺失时，Choice worker 把‘在屋内换位置’误写成‘回到屋里’，Director 又把该选项当作事实入口，Narrator 因此写出再次推门进屋。",
+          "directCause": "Turn 161 的 Choice 输出给出不可能的“回到屋里”选项；Turn 162 Director 将玩家输入概括为“回到屋内”。",
+          "propagation": "Turn 162 Narrator 按 Director 安排写“推开木门，跨进屋内”，把选项中的空间误判固化为正文，并影响后续门边/屋内等待位置。",
+          "nonCauses": [
+            "不是玩家自由输入导致的脱轨；玩家选择的是系统提供的选项。",
+            "不是 runtime 事件强制移动；本轮生成前事件为空。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "触发压力是最近文本有门框/巷口词和历史门口活动，选项生成需要补移动选项；缺失防线是没有结构化当前位置锚点和 selected-choice 可达性校验；失败运动是 Choice 先生成与当前位置冲突的“回到屋里”，Director/Narrator 再把这个系统选项当作真实空间转移。",
+          "fixSurface": [
+            "choice current-scene anchor validation",
+            "selected choice repair/bridge contract",
+            "runtime location state writeback"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 160 写回到屋内、门闩落回、坐回窗边椅子；Turn 161 只写举相机取景、按快门和等待；Turn 161 选项与 Turn 162 正文却都表现为从外面回屋。",
+          "internalTrace": "Turn 162 prompts 的最近几轮明示屋内状态，但 Director call[0] 输出 summary/beats 均为“回到屋内”；Narrator call[1] 写“推开木门，跨进屋内”。runtime-after 没有细粒度位置状态。"
+        },
+        "recommendedFixArea": "在选项生成和 selected choice 消费之间增加 scene-location invariant：若当前位置为屋内，禁止/修复“回到屋里”类选项；若已暴露给玩家，则下一轮必须桥接为“往门边挪”而非重新进屋。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 75,
+      "turn": 163,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "同一枚铃铛在没有可见状态变化或解释的情况下，从轻摇会响变成无论如何都不会响，破坏关键物件状态连续性。",
+      "batchId": "batch-022",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "memory-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "entity/object memory schema for salient object affordances",
+          "storyline summary compaction rules",
+          "Narrator prompt rule: secrecy constraints must not negate already visible object behavior"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为关键物件建立条件化状态记忆：记录触发动作、可见反应、例外条件；摘要压缩不得把‘贴耳无额外声’覆盖‘摇动会响’，Narrator 在保密约束下也必须保持已见物理反应。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-075-turn-163/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-075-turn-163/root-cause-report.md",
+      "result": {
+        "issueId": "issue-75-turn-163",
+        "issueIndex": 75,
+        "turn": 163,
+        "issueValidity": "valid",
+        "problemSummary": "同一枚银色铃铛先在轻摇时发出清脆声音，后来却被写成无论怎么动作都不会响，缺少玩家可见的状态变化解释。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。Turn 151 已建立轻摇和更轻摇都会发出清脆、有余韵的声音；Turn 163 写“它还是没有发出声音”“无论怎么动作，它都不会响”，并补写轻摇无声。Turn 152 的贴耳倾听只说明不摇时内部没有其他声音，不能推翻轻摇会响。",
+          "playerVisibleSupport": "Turn 151：轻轻晃动铃铛发出清脆声，第二次更轻也有同样声音。Turn 163：摩挲后‘还是没有发出声音’，并断言‘无论怎么动作，它都不会响’，举到耳边轻轻摇也没有声音。",
+          "caveats": [
+            "Turn 160 已经先出现一次轻摇无声，因此 Turn 163 不是第一处可见矛盾；但本 issue 指向的是 Turn 163 对无声规则的强化，仍然有效。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家知道银色铃铛是特殊物件：轻摇会响且影响窗雾；贴近耳边不摇时没有额外内部声；之后没有可见损坏、封印、环境条件变化或解释说明它变成绝对无声。",
+          "relevantFacts": [
+            {
+              "claim": "铃铛轻摇会发出清脆、穿透、有余韵的声音。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06b-narrator-prompt.md"
+              ],
+              "notes": "Turn 163 的最近几轮窗口不含 Turn 151 原文；currentStoryline.summary 只保留‘试图听出声音是否特别’，没有保留实际结果。"
+            },
+            {
+              "claim": "贴耳倾听时没有额外内部声音，不等于摇动不会响。",
+              "availability": "present-ambiguous",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06b-narrator-prompt.md"
+              ],
+              "notes": "故事线摘要写‘铃铛内部保持静止，只有外部环境声’，容易被压缩成铃铛沉默。"
+            },
+            {
+              "claim": "Turn 160 已写轻摇无声。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06b-narrator-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl"
+              ],
+              "notes": "这是和 Turn 151 冲突的近因，并在 Turn 163 prompt 中比原始响声更近、更清楚。"
+            },
+            {
+              "claim": "不要揭示铃铛秘密或特殊功能。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06b-narrator-prompt.md"
+              ],
+              "notes": "Director 约束本意是保密，但未说明已建立的普通可见物理反应必须保持。"
+            },
+            {
+              "claim": "铃铛声学状态没有结构化实体记忆。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/05-runtime-after.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/05-runtime-after.json"
+              ],
+              "notes": "runtime/entityStates 不含铃铛、声音、响/不响条件。"
+            }
+          ],
+          "competingPressures": [
+            "当前选项只是摩挲，模型倾向写安静触感",
+            "近几轮已有一次无声描写",
+            "保密约束不让揭示特殊功能",
+            "原始响声事实已掉出 recentTurns 且未结构化"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-160/06-llm-calls.json call[1]（首次把轻摇写成无声）；target turn 的强化发生在 /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-163/06-llm-calls.json call[1]",
+          "triggeringPressure": "Turn 151 的响声结果没有被保存在实体状态或高保真摘要中；Turn 152 的‘内部静止’和 Turn 160 的‘轻摇无声’成为更近、更显眼的上下文；Turn 163 Director 又要求不揭示铃铛秘密或特殊功能。",
+          "missingGuard": "缺少按交互模式持久化的关键物件状态：‘摇动会响’与‘贴耳静听没有额外声音’应同时保留，并阻止后续把保密约束改写成物理失声。",
+          "mechanismStatement": "铃铛的声学规则被摘要压缩成模糊的‘检查状态/内部静止’，原始‘轻摇会响’未持久化；在近因无声文本和保密约束压力下，Narrator 将沉默扩展成‘无论怎么动作都不会响’。",
+          "directCause": "Turn 163 Narrator 输出在摩挲场景中主动加入‘还是没有发出声音’、‘无论怎么动作，它都不会响’和轻摇无声。",
+          "propagation": "该断言被写入 Turn 163 visibleText，并进入后续 recentTurns，形成新的错误物件规则。",
+          "nonCauses": [
+            "不是评测把 Turn 152 误读为响声；评测使用的是 Turn 151 轻摇会响。",
+            "不是玩家要求让铃铛失声；玩家只要求拿出并摩挲。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "触发压力是原始响声事实掉出 recentTurns，近处只剩‘内部静止/无声’和‘不揭示特殊功能’；缺失防线是物件状态没有以交互条件持久化为‘摇动会响、贴耳静听无额外声’；失败运动是生成器把保密和沉默近因合并成绝对无声规则。",
+          "fixSurface": [
+            "entity/object memory schema for salient object affordances",
+            "storyline summary compaction rules",
+            "Narrator prompt rule: secrecy constraints must not negate already visible object behavior"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 151 两次轻摇均发声并影响窗雾；Turn 152 只是在耳边静听没有内部额外声；Turn 160 和 Turn 163 改写为轻摇/任何动作都无声。",
+          "internalTrace": "Turn 163 Director/Narrator prompts 的最近几轮包含 Turn 160 无声，currentStoryline.summary 只含‘轻摇试图听出特别之处’和‘内部保持静止’，没有保留清脆声与余韵；runtime-after 不含铃铛状态。"
+        },
+        "recommendedFixArea": "为关键物件建立条件化状态记忆：记录触发动作、可见反应、例外条件；摘要压缩不得把‘贴耳无额外声’覆盖‘摇动会响’，Narrator 在保密约束下也必须保持已见物理反应。",
+        "confidence": "high"
+      }
+    },
+    {
+      "issueIndex": 76,
+      "turn": 166,
+      "severity": "low",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "相机位置从膝头/胸前无承接地变为包内最上层，造成局部物件位置不连续。",
+      "batchId": "batch-022",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "state-writeback",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context",
+          "detail-memory"
+        ],
+        "fixSurface": [
+          "runtime object-location state writeback",
+          "Narrator current-scene inventory block",
+          "post-generation continuity validator for object moves"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "将关键随身物件位置写入 runtime/story state，并在 Narrator prompt 末尾给出 currentSceneInventory；生成后校验若物件从膝头/胸前变入包内，必须有显式放置桥接。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-076-turn-166/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-022/issues/issue-076-turn-166/root-cause-report.md",
+      "result": {
+        "issueId": "issue-76-turn-166",
+        "issueIndex": 76,
+        "turn": 166,
+        "issueValidity": "valid",
+        "problemSummary": "Turn 165 末尾相机在胸前后又被搁在膝头，Turn 166 没有放回动作却写相机在相机包最上层，形成物件位置不连续。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。Turn 165 明确写相机挂回胸前，随后回到靠垫边坐下并把相机搁在膝头；Turn 166 的玩家动作只是调整相机包背带，没有可见动作把相机装回包内，却直接检查出‘相机在最上层’。",
+          "playerVisibleSupport": "Turn 165：相机挂回胸前、坐下后相机搁在膝头。Turn 166：拉开相机包搭扣后相机在最上层。两者之间没有放入包中的可见桥接。",
+          "caveats": [
+            "玩家选择‘做好出发准备’可以合理包含收拾动作，但正文没有写‘先把膝头相机放回包里’，因此可见连续性仍断裂。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "问题发生前，主角坐在墙角靠垫边，相机在膝头，手掌搁在机身上；银铃铛在外套口袋，相机包在身边且此前被检查过。",
+          "relevantFacts": [
+            {
+              "claim": "相机当前位置是膝头/胸前，不在包内。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/06a-director-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/06b-narrator-prompt.md"
+              ],
+              "notes": "Turn 166 prompt 的最近几轮在末尾清楚列出‘把相机搁在膝头’。"
+            },
+            {
+              "claim": "结构化 runtime/story state 没有记录相机位置。",
+              "availability": "absent",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-165/05-runtime-after.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 不含相机、胶卷、包、膝头或胸前等可机读对象位置。"
+            },
+            {
+              "claim": "Director 对本轮的必做内容是调整相机包并确认装备就绪。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/06-llm-calls.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/06b-narrator-prompt.md"
+              ],
+              "notes": "该安排没有指定先处理膝头相机，容易让 Narrator套用‘包内装备清点’模板。"
+            },
+            {
+              "claim": "当前故事线长期摘要多次把装备检查概括为相机、胶卷、防水袋都准备就绪。",
+              "availability": "present-buried",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/06b-narrator-prompt.md"
+              ],
+              "notes": "长期摘要强化默认装备在包内/已整理的图式，和最近物件位置竞争。"
+            }
+          ],
+          "competingPressures": [
+            "玩家输入要求调整相机包背带、做好出发准备",
+            "Director requiredContent 要确认装备就绪",
+            "长期摘要反复出现检查相机/胶卷/防水袋",
+            "最近的相机位置只在长篇可见正文中而非结构化 state"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/06-llm-calls.json call[1] / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-166/04-output.json narrative",
+          "triggeringPressure": "Narrator 被要求写调整相机包、确认装备就绪；装备清点模板自然包含相机在包内，且长期 storyline 摘要多次概括相机和胶卷准备完毕。",
+          "missingGuard": "缺少 object-location writeback 和叙述前连续性检查；最近 Turn 165 的‘相机搁在膝头’没有被提升为必须先处理的 current object state。",
+          "mechanismStatement": "在出发前清点装备模板的压力下，Narrator 没有结构化位置状态守卫，只从‘相机包’推断相机应在包内，于是越过‘膝头相机’这一步直接写成包内最上层。",
+          "directCause": "Turn 166 Narrator 输出“相机在最上层，机身横向放置，镜头朝内”。",
+          "propagation": "该位置进入 Turn 166 visibleText 和后续 choices/recentTurns；Turn 167 又回到相机搁膝头，说明状态没有被稳定维护。",
+          "nonCauses": [
+            "不是玩家明确要求把相机放回包内；玩家只说调整相机包背带。",
+            "不是 runtime 事件移动相机；本轮生成前事件为空，runtime-after 也不记录相机位置。"
+          ]
+        },
+        "rootCause": {
+          "label": "state-writeback",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context",
+            "detail-memory"
+          ],
+          "description": "触发压力是出发前相机包清点模板和确认装备就绪的 requiredContent；缺失防线是相机当前位置没有写入结构化 state，也没有在 Narrator 前以 must-satisfy invariant 形式呈现；失败运动是模型把包内默认清单覆盖了最近可见的膝头位置。",
+          "fixSurface": [
+            "runtime object-location state writeback",
+            "Narrator current-scene inventory block",
+            "post-generation continuity validator for object moves"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "Turn 165 写相机挂回胸前，最终搁在膝头；Turn 166 在未写放回包的情况下写相机在包内最上层。",
+          "internalTrace": "Turn 166 Director/Narrator prompts 的最近几轮包含相机搁在膝头，但 Director 输出只要求调整相机包并确认装备；Narrator 直接生成包内相机清单。runtime-after 对相机/包位置完全为空。"
+        },
+        "recommendedFixArea": "将关键随身物件位置写入 runtime/story state，并在 Narrator prompt 末尾给出 currentSceneInventory；生成后校验若物件从膝头/胸前变入包内，必须有显式放置桥接。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

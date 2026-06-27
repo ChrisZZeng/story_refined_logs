@@ -1,0 +1,93 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 14,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 14 轮在房间独处整理思绪时写道：[帕兹→卡琳娜]“至少，我进来了。”",
+    "conflictingEvidence": "同一轮前文卡琳娜已经出门并从外面锁门，脚步声远去后“一切都安静下来”，帕兹独自留在房间里。",
+    "conflictingTurns": [14],
+    "source": "model-output",
+    "reason": "正文明确把这句话写成自言自语，却又用对白标签标成说给不在场的卡琳娜，破坏了当前交互对象的可见状态。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 17,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 17 轮卡琳娜在处理完巷口三人后说：[卡琳娜]“午安，记者。”",
+    "conflictingEvidence": "第 16 轮已经写明“傍晚在接近”和“傍晚的光”；第 17 轮同样写有“天快黑了”“傍晚房间”“暮色在你们周围逐渐变浓”。",
+    "conflictingTurns": [16, 17],
+    "source": "model-output",
+    "reason": "场景连续处于傍晚到入夜，突然使用午间问候会让玩家感到时间称呼不一致。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "第 19 轮卡琳娜说：“你收到的那个匿名信——给了一大笔钱，让你来暗街拍照——你不觉得奇怪吗？”并继续说“高价，目的地明确”。",
+    "conflictingEvidence": "第 1 轮可见信息是敏特照片背面写着“新西西里，暗街”，附来的信没有署名；第 2 轮帕兹说明“我只想知道她是不是还活着。如果活着——她在哪。”此前没有可见内容说明匿名信给了钱或要求他来暗街拍照。",
+    "conflictingTurns": [1, 2],
+    "source": "model-output",
+    "reason": "正文把主角来到暗街的动机从找敏特改写成高价拍照委托，改变了玩家此前看到的任务前提。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 19 轮先写“炉灶上没有点燃的火”，后面又写“壶底已经微微发烫了”和[卡琳娜]“水快好了。”",
+    "conflictingEvidence": "第 18 轮卡琳娜把水壶放到灶面上后明确写“她没有立刻点火”，第 19 轮在水壶发烫前也没有玩家可见的点火动作。",
+    "conflictingTurns": [18, 19],
+    "source": "model-output",
+    "reason": "水壶在没有可见热源的情况下被写成已经加热，造成物件状态承接不成立。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 19,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第 19 轮写道：“帆布袋的重量挂在你肩上，相机隔着布料贴着你的肋骨”。",
+    "conflictingEvidence": "第 18 轮进入公寓后已经写明“帆布袋在你身侧放下，放在脚边的地面上”，之后没有再写帕兹把它背回肩上。",
+    "conflictingTurns": [18],
+    "source": "model-output",
+    "reason": "帆布袋的位置从脚边无承接地变成挂在肩上，破坏了近距离动作和物件位置连续性。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "第 20 轮写“卡尔的尾巴在沙发靠垫外侧缓慢地摆动了一下”，随后又写“你的视线从卡尔身上收回来”。",
+    "conflictingEvidence": "第 19 轮只首次提到“沙发上的黑猫”，窗口范围 1-20 内此前没有玩家可见内容给这只黑猫命名为卡尔。",
+    "conflictingTurns": [19],
+    "source": "model-output",
+    "reason": "黑猫的名字没有在玩家可见内容中建立，后文直接称为卡尔会让玩家误以为漏看了命名信息。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 20 },
+    "evalRange": { "start": 11, "end": 20 },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "language-drift",
+    "severity": "low",
+    "currentEvidence": "第 20 轮对白统一变成 ASCII 引号格式，例如 [帕兹]\"那她具体问了什么？\" 和 [卡琳娜]\"她问的事不少。\"",
+    "conflictingEvidence": "第 1-19 轮对白基本使用中文全角引号，例如第 19 轮的[卡琳娜]“水快好了。”",
+    "conflictingTurns": [19],
+    "source": "model-output",
+    "reason": "对白引号格式在同一批次末尾突然切换，属于玩家可见文本格式稳定性下降。"
+  }
+]

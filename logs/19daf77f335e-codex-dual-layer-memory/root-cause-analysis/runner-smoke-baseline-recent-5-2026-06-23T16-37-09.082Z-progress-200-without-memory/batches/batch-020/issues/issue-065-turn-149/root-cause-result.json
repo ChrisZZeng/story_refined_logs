@@ -1,0 +1,85 @@
+{
+  "issueId": "issue-65-turn-149",
+  "turn": 149,
+  "issueValidity": "valid",
+  "problemSummary": "玩家此前已经看到门口石板和石阶处的雨痕是干燥痕迹、不是积水；第 149 轮同一门口又出现“一小片昨夜的积水”和正在蒸发的水渍。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。第 131-133 轮连续把门口石板/石阶写成干燥、不是积水；第 149 轮没有新的降雨或洒水承接，却把同一区域改写成有昨夜积水。",
+    "playerVisibleSupport": "第 131 轮写“干燥的石面和鞋底之间没有水汽”且“不是积水”；第 132 轮写“靴底落在干燥的石板路上”“不是积水”“干燥的，结实的”；第 133 轮玩家坐在石阶上，看到“干燥的、灰白色的石面”。第 149 轮写“门口的石阶上落着一小片昨夜的积水”和“石板路面上的水渍正在蒸发”。",
+    "caveats": [
+      "第 149 轮的“水渍”本身可以理解为旧雨痕，但“一小片昨夜的积水”与先前“不是积水”直接冲突。",
+      "这是低严重度局部环境细节冲突，不改变主线行动。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家在卡尔小屋内等待卡琳娜消息。早先门口石板和石阶已经被可见正文明确为干燥，只剩渗入石质/泥土的旧雨痕；第 144-148 轮主要在屋内等待、整理相机包，没有任何新水源。",
+    "relevantFacts": [
+      {
+        "claim": "门口石板路/石阶已干燥，雨痕不是积水。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-131",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-132",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-133",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/06b-narrator-prompt.md"
+        ],
+        "notes": "玩家可见证据很清楚，但第 149 轮 Director/Narrator prompt 的 recentTurns 只覆盖第 144-148 轮，未带入第 131-133 轮的干燥/非积水事实；story state 中也没有卡尔小屋门口的结构化环境状态。"
+      },
+      {
+        "claim": "第 149 轮应只检查巷口是否有卡琳娜动静，不需要重设地面湿度。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/07-events.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/04-output.json"
+        ],
+        "notes": "Director 输出只要求起身到门口、观察巷口、确认无人、返回屋内，并建议感官细节优先；没有要求出现积水。"
+      },
+      {
+        "claim": "近期可见上下文强调晨光、屋檐影子、雾气、鸽子和等待氛围。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/06b-narrator-prompt.md"
+        ],
+        "notes": "这些信息靠近最终生成指令，给 Narrator 提供了“晨光/湿气/感官细节”的素材压力，但没有约束地面必须保持干燥。"
+      }
+    ],
+    "competingPressures": [
+      "Director 的 pacing 要求“慢铺，感官细节优先（晨光、空气、寂静）”。",
+      "第 144 轮窗口雾气和晨光、第 149 轮开门通风给模型提供了潮湿/水汽的意象。",
+      "一致性规则只是一般性文字，缺少当前场景物理状态锚点。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/07-events.json narrator worker-done / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-149/04-output.json",
+    "triggeringPressure": "Narrator 收到的导演安排要求到门口观察并以晨光、空气、寂静做慢铺感官描写；prompt 中最近几轮有窗雾、晨光和雨后暗街意象，但没有“门口已干燥、不是积水”的当前场景约束。",
+    "missingGuard": "系统没有把第 131-133 轮确认过的门口地面干燥状态写入 location/entity state，也没有在 narrator prompt 中以 current-scene anchor 形式提示“不要再写积水”。",
+    "mechanismStatement": "雨后晨光的感官描写压力在缺少门口地面干燥锚点时，让 Narrator 将旧雨痕扩写成“昨夜积水”和“正在蒸发的水渍”，从而把已干燥的玩家可见场景重新湿化。",
+    "directCause": "局部环境状态未持久化，且最近上下文窗口不再包含第 131-133 轮的非积水事实。",
+    "propagation": "错误直接出现在第 149 轮正文；第 149 轮 Choice 继续在该正文后生成选项，但没有进一步修正地面状态。",
+    "nonCauses": [
+      "Director 没有显式要求出现积水。",
+      "events 中没有预 LLM 事件或 runtime-after 写入新降雨/积水状态。",
+      "这不是隐藏设定导致的冲突，完全由玩家可见场景状态可判定。"
+    ]
+  },
+  "rootCause": {
+    "label": "memory-persistence",
+    "family": "detail-memory",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "门口地面“干燥、不是积水”的局部环境事实没有被持久化为场景状态；当该事实滑出 recentTurns 后，Narrator 在感官慢铺和雨后晨光意象压力下缺少硬性防线，重新生成了昨夜积水。",
+    "fixSurface": [
+      "scene-state/writeback：为当前地点记录可影响连续性的局部物理状态，如地面 wet/dry、是否有 puddle。",
+      "prompt assembly：在 Director/Narrator prompt 中加入 current-scene anchor，优先列出最近已确认的环境约束。",
+      "Narrator guard：写雨后感官细节前检查同地点是否已明确“不是积水”。"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "第 131-133 轮连续出现“干燥”“不是积水”“干燥的、灰白色的石面”；第 149 轮同一门口出现“一小片昨夜的积水”。",
+    "internalTrace": "第 149 轮 Director 输出只安排门口观察巷口；第 149 轮 Narrator prompt 的最近几轮只含第 144-148 轮，缺少第 131-133 轮地面干燥事实；story state 没有卡尔小屋门口地面状态，events/runtime-after 也未提供新水源。"
+  },
+  "recommendedFixArea": "优先补 scene-state/writeback 与 prompt assembly 的当前场景物理状态锚点，避免局部环境细节滑出 recentTurns 后被感官描写重写。",
+  "confidence": "high"
+}

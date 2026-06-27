@@ -1,23 +1,155 @@
 {
   "batchId": "batch-005",
-  "run": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
-  "review": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueCount": 1,
+  "completedCount": 1,
+  "validityCounts": {
+    "valid": 1,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
-      "issueId": "issue-17",
       "issueIndex": 17,
       "turn": 26,
       "severity": "high",
       "type": "space-time-break",
       "scope": "visibleText",
-      "validity": "valid",
+      "summary": "The scene jumps from Karina's apartment to a banquet hall without any player-visible transition.",
+      "batchId": "batch-005",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "storyline-lifecycle",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "quest/storyline beat completion gating",
+          "statefold visible-transition verification",
+          "prompt assembler currentSceneAnchor and location conflict priority",
+          "Director currentStorylineConstraints persistence across turns",
+          "choice/runtime propagation guard for unbridged scene transitions"
+        ]
       },
       "confidence": "high",
-      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-005/issues/issue-17-turn-26/root-cause-report.md",
-      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-005/issues/issue-17-turn-26/root-cause-result.json"
+      "recommendedFixArea": "优先修复 storyline/statefold 的 transition beat lifecycle：只有当上一轮可见正文实际完成离开公寓、路程或进入宴会厅的桥段时，才允许消费 `4-03-第一章` 并激活 `5-01-第一章`；同时在 prompt assembly 中增加 currentSceneAnchor，对 currentLocation 与 recent visible text 冲突时强制要求桥接或回退。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-005/issues/issue-017-turn-26/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-005/issues/issue-017-turn-26/root-cause-report.md",
+      "result": {
+        "issueId": "issue-17",
+        "issueIndex": 17,
+        "turn": 26,
+        "severity": "high",
+        "type": "space-time-break",
+        "scope": "visibleText",
+        "issueValidity": "valid",
+        "problemSummary": "第 26 轮在玩家只选择“确认一下时间，考虑该不该告辞”的情况下，玩家可见正文突然把视角写成宴会厅高窗、水晶吊灯、白色桌布和正在继续的酒会；此前第 25 轮仍明确处在卡琳娜公寓内的沙发、茶几、书架、雨声和暖气管场景中。",
+        "validityAssessment": {
+          "verdictReason": "valid。仅看玩家可见内容，第 25 轮结束时仍是卡琳娜公寓内的私人对话；第 26 轮开头没有出门、路程、抵达、被邀请同行或进入宴会厅的过渡，却直接出现宴会厅空间与酒会声场。这不是合理省略，而是空间连续性断裂。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中第 25 轮写到沙发上的黑猫、窗外雨声、暖气管和卡琳娜在书架/茶几附近；第 26 轮第一段直接写“宴会厅高窗”“水晶吊灯”“白色桌布”“酒会还在继续”。第 26 轮玩家输入只是确认时间、考虑告辞，不能自然触发已经身处宴会厅。",
+          "caveats": [
+            "第 26 轮同时保留了茶几、沙发、书架等公寓物件，但这形成的是公寓与宴会厅混合场景，不能解释为合法转场。",
+            "内部剧本确实有前往宴会厅节点；但该隐藏剧本不能反向证明玩家已经看见过转场。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 25 轮玩家可见状态：主角和卡琳娜仍在卡琳娜公寓内围绕德索洛、信封和卡琳娜自身角色进行对话。可见空间锚点是沙发、茶几、书架、窗外雨声、暖气管和黑猫；没有离开公寓、穿过暗街/繁华街、接受晚宴邀请或进入宴会厅。",
+          "relevantFacts": [
+            {
+              "claim": "问题发生前玩家可见当前位置是卡琳娜公寓，而不是宴会厅。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-25/04-output.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/06b-narrator-prompt.md"
+              ],
+              "notes": "最近几轮玩家经历反复出现书架、茶几、沙发、黑猫、雨声、暖气管；第 25 轮仍以这些锚点收束。"
+            },
+            {
+              "claim": "第 26 轮玩家意图只是确认时间并考虑告辞，没有选择前往宴会厅。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/01-summary.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/06b-narrator-prompt.md"
+              ],
+              "notes": "selectedFromPreviousTurn 与 playerInput 都是“确认一下时间，考虑该不该告辞”；它只要求处理当前场景中的时间与离开意图。"
+            },
+            {
+              "claim": "内部当前 location/storyline 已提前切到宴会厅节点。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-25/02-script-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/02-script-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/03-story-state.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/06b-narrator-prompt.md"
+              ],
+              "notes": "turn-25 的 facts.currentLocationId 已是“宴会厅”；turn-26 的 currentStoryline 是 `5-01-第一章`，`locationStates` 只有“宴会厅”，Narrator prompt 顶部也列出地点为宴会厅。"
+            },
+            {
+              "claim": "第 25 轮 Director 已意识到不能实际移动地点，但该约束没有进入下一轮的有效防线。",
+              "availability": "present-clear",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-25/04-output.json",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-25/06b-narrator-prompt.md",
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/01-summary.json"
+              ],
+              "notes": "第 25 轮 plotPoint.currentStorylineConstraints 写明“为前往宴会厅做铺垫，但不在此轮实际推进地点变化”；同轮 beatAfterStateFold 仍把下一轮推进到 `5-01-第一章`。"
+            },
+            {
+              "claim": "第 26 轮 Narrator prompt 同时包含最近公寓可见文本和当前宴会厅故事线，冲突没有可执行优先级。",
+              "availability": "contradicted",
+              "artifacts": [
+                "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-26/06b-narrator-prompt.md"
+              ],
+              "notes": "一致性提示说如有冲突优先相信最近几轮正文和当前故事线约束；但这里最近正文指向公寓，当前故事线/地点强指向宴会厅。"
+            }
+          ],
+          "competingPressures": [
+            "currentStoryline `5-01-第一章` 要求建立宴会厅氛围、人群、灯光和康纳相关铺垫。",
+            "currentLocationId/locationStates 在内部状态中已是 `宴会厅`。",
+            "recentTurns 明确显示玩家仍在公寓内对话。",
+            "玩家输入要求确认时间和考虑告辞，适合在当前公寓场景中处理。",
+            "第 25 轮 Director 的“不要实际推进地点变化”只是一轮内/故事线约束，没有被 lifecycle 作为完成前置条件执行。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-25/05-runtime-after.json（同见 /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-25/01-summary.json 的 beatAfterStateFold）",
+          "triggeringPressure": "第 25 轮可见输出没有进入宴会厅，甚至 Director 明确要求只铺垫、不实际推进地点；但回合后 quest/storyline 状态仍把 `4-03-第一章` 标记完成，并把下一轮 activeBeat/currentBeat 推到 `5-01-第一章`。第 26 轮 prompt 因此把 `宴会厅` 放入地点列表，并把宴会厅氛围、灯光、人群作为当前故事线的前景压力。",
+          "missingGuard": "缺少“过渡节点必须由玩家可见文本完成后才能消费/推进”的 lifecycle guard；缺少跨回合的 current-scene anchor 来阻止 location/storyline 覆盖最近可见场景；第 25 轮的“不实际推进地点变化”没有作为未完成条件持久化到 statefold 或下一轮 prompt。",
+          "mechanismStatement": "transition beat 的完成与玩家可见场景实现脱钩：系统在可见正文仍停留公寓时消费 `进入宴会厅` 节点并激活宴会厅后续节点，prompt assembler 又把新 storyline/location 前景化，导致 Narrator 在处理“确认时间/告辞”时把当前地点写成宴会厅，而不是先桥接或停留公寓。",
+          "directCause": "第 26 轮 Director/Narrator 看到的当前状态被包装为宴会厅，Director requiredContent 又要求“窗外光线、宴会灯光”等时间暗示；Narrator 顺着该压力输出 `data-bg=\"宴会厅\"`、宴会厅高窗、水晶吊灯、白色桌布和酒会声。",
+          "propagation": "第 26 轮输出把错误地点玩家可见化；Choice generator 随后根据“还没见过康纳”生成留下/问康纳等选项；turn-26 runtime-after 继续推进到 `5-02-第一章`，worldState.charactersOnStage 还加入“康纳”。第 27、28 轮继续沿宴会厅叙事展开，错误场景被锁定。",
+          "nonCauses": [
+            "不是玩家输入导致：玩家没有选择前往宴会厅，只是确认时间、考虑告辞。",
+            "不是长期 memory 缺失：最近几轮公寓场景在 prompt 中 present-clear。",
+            "不是 evaluator 误判：玩家可见文本确实没有转场。",
+            "不宜归为纯 `model-local`：Narrator prompt 中 currentStoryline/location 与 requiredContent 对宴会厅施加强压力，且内部 lifecycle 已提前推进。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "storyline lifecycle 在 transition beat 未被玩家可见文本实现时仍将其消费并推进到宴会厅后续节点；缺失的防线是可见转场完成校验、current-scene anchor 和对 Director 跨回合约束的持久化。失败运动是：内部 beat/location 提前变成宴会厅 -> prompt foreground 当前故事线/地点 -> Narrator 用宴会厅环境响应普通的告辞动作 -> 错误被 choices 和 runtime-after 固化。",
+          "fixSurface": [
+            "quest/storyline beat completion gating",
+            "statefold visible-transition verification",
+            "prompt assembler currentSceneAnchor and location conflict priority",
+            "Director currentStorylineConstraints persistence across turns",
+            "choice/runtime propagation guard for unbridged scene transitions"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 25 轮：公寓内的沙发、茶几、书架、黑猫、窗外雨声、暖气管仍在；第 26 轮：直接出现宴会厅高窗、水晶吊灯、白色桌布和酒会声，且没有出门/抵达桥段。",
+          "internalTrace": "turn-25/04-output.json 的 plotPoint.currentStorylineConstraints 写明不实际推进地点；turn-25/01-summary.json 的 beatAfterStateFold 却推进到 `5-01-第一章`；turn-26/02-script-state.json 和 turn-26/03-story-state.json 将 currentLocationId/currentStoryline/locationStates 设为宴会厅；turn-26/06b-narrator-prompt.md 前景化 `5-01-第一章` 宴会厅环境；turn-26/04-output.json 将其落成玩家可见文本。"
+        },
+        "recommendedFixArea": "优先修复 storyline/statefold 的 transition beat lifecycle：只有当上一轮可见正文实际完成离开公寓、路程或进入宴会厅的桥段时，才允许消费 `4-03-第一章` 并激活 `5-01-第一章`；同时在 prompt assembly 中增加 currentSceneAnchor，对 currentLocation 与 recent visible text 冲突时强制要求桥接或回退。",
+        "confidence": "high"
+      }
     }
   ]
 }

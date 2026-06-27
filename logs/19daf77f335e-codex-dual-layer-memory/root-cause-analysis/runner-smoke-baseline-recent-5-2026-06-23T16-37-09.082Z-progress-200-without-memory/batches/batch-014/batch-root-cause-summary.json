@@ -1,54 +1,469 @@
-[
-  {
-    "issueId": "issue-42-turn-97",
-    "issueIndex": 42,
-    "turn": 97,
-    "issueValidity": "valid",
-    "rootCause": {
-      "label": "context-priority",
-      "family": "agent-system"
-    },
-    "confidence": "high",
-    "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-42-turn-97/root-cause-report.md",
-    "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-42-turn-97/root-cause-result.json"
+{
+  "batchId": "batch-014",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
   },
-  {
-    "issueId": "issue-43-turn-106",
-    "issueIndex": 43,
-    "turn": 106,
-    "issueValidity": "valid",
-    "rootCause": {
-      "label": "storyline-lifecycle",
-      "family": "agent-system"
+  "issues": [
+    {
+      "issueIndex": 42,
+      "turn": 97,
+      "severity": "medium",
+      "type": "event-negated",
+      "scope": "visibleText",
+      "summary": "After the book is visibly closed, it is treated as open again with visible symbols without any intervening player or character action reopening it.",
+      "batchId": "batch-014",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Director prompt/context assembly: add current-scene object-state anchor for interactive objects.",
+          "Narrator handoff schema: include objectState deltas such as book.open=false and require reopen action before page/symbol descriptions.",
+          "State writeback: persist close/open and item position when visible text changes them."
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为最近可见动作生成 current-scene physical state，并在 Director/Narrator 前执行“最新物体状态优先于旧描写”的校验。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-042-turn-97/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-042-turn-97/root-cause-report.md",
+      "result": {
+        "issueId": "issue-42-turn-97",
+        "turn": 97,
+        "issueValidity": "valid",
+        "problemSummary": "玩家刚看到卡琳娜把旧书合上并推到桌中央，下一轮关于“感觉”的追问却又把它写成“翻开的旧书”，并继续描写同一组可见符号。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。turn 95 明确“她合上了书”“把合上的书往桌中央推了推”，turn 96 也只说手指停在旧书封面上方/封面处；turn 97 没有任何重新翻开动作，却写“长桌上那本翻开的旧书”和可见符号。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中 turn 95 的合书与推书、turn 96 的封面触碰、turn 97 的“翻开的旧书/符号照得清晰”构成直接玩家可见冲突。",
+          "caveats": [
+            "玩家确实在追问旧书中的“感觉”，所以重新谈论书本合理；不合理的是物理状态从 closed 跳回 open。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "进入 turn 97 前，旧书应为 closed，位于桌中央；卡琳娜上一轮围绕“另一边”解释，玩家选择追问旧书的感知方式，但还没有让任何人重新打开书。",
+          "relevantFacts": [
+            {
+              "claim": "旧书已经被卡琳娜合上并推到桌中央。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06b-narrator-prompt.md"
+              ],
+              "notes": "turn 95/96 的最近几轮正文在 prompt 中保留了“合上了书”“合上的书”“旧书封面”等文本。"
+            },
+            {
+              "claim": "玩家本轮核心意图是询问旧书“感觉”是什么意思，而不是执行重新翻书动作。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06a-director-prompt.md"
+              ],
+              "notes": "玩家输入为“问她关于那本旧书的事——感觉是什么意思？”。"
+            },
+            {
+              "claim": "旧书早先曾是打开状态，且有“三条弧线和两个短点”的符号。",
+              "availability": "stale",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06a-director-prompt.md"
+              ],
+              "notes": "turn 93-95 的翻书和符号描写仍在最近上下文里，对生成有显著牵引，但已经被 turn 95 的合书事件更新。"
+            },
+            {
+              "claim": "当前 story state 没有结构化记录书本 open/closed 状态。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/03-story-state.json"
+              ],
+              "notes": "currentStoryline 只概括“旧书中感觉”，没有可供 Director/Narrator 优先读取的 object state。"
+            }
+          ],
+          "competingPressures": [
+            "旧书与符号是连续多轮的焦点，旧的“翻开的旧书”表达高频出现。",
+            "玩家追问“感觉”容易把生成拉回刚才看符号/翻页的场景。",
+            "通用一致性规则存在，但没有把最新物理状态提升为硬约束。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-97/06-llm-calls.json[0].object",
+          "triggeringPressure": "Director output 把本轮 beat 写成“主角走向长桌，指向翻开的旧书”，requiredContent 又要求视角停留在“手指、书页和壁炉火光”的关联上，把已关闭的书重新当成可见书页。",
+          "missingGuard": "缺少当前场景 object-state anchor，例如“旧书 remains closed unless a new reopen action occurs”；story state 和 handoff schema 也没有 open/closed 字段或最新状态优先检查。",
+          "mechanismStatement": "旧的 opened-page/symbol 语境在 prompt 中持续高显著，而最新 closed 状态只埋在长篇最近正文里；Director 没有被要求验证物体状态，就把追问旧书解释成回到已打开页面，Narrator 随后照写为玩家可见矛盾。",
+          "directCause": "Director 的剧情骨架先把旧书标成“翻开”，Narrator 输出继续描写“那组由三条弧线和两个短点组成的符号”。",
+          "propagation": "turn 97 的可见正文和后续 choice 使玩家继续围绕打开书页的嗅觉/触觉回忆推进，turn 98 进一步把“面前的书页”作为事实延续。",
+          "nonCauses": [
+            "不是玩家输入要求重新打开书。",
+            "不是 hidden lore 必然要求书保持打开。",
+            "Choice worker 不是最早偏离点，只是在错误正文之后生成后续选项。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "当前上下文中同时存在 stale 的“翻开的旧书/符号”和最新的“合上旧书”状态；系统没有把最新物体状态结构化并作为硬优先级交给 Director/Narrator，导致旧场景细节覆盖最新可见事实。",
+          "fixSurface": [
+            "Director prompt/context assembly: add current-scene object-state anchor for interactive objects.",
+            "Narrator handoff schema: include objectState deltas such as book.open=false and require reopen action before page/symbol descriptions.",
+            "State writeback: persist close/open and item position when visible text changes them."
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 95: “她合上了书”“把合上的书往桌中央推了推”；turn 96: 手指在旧书封面/合上书上；turn 97: “重新落回长桌上那本翻开的旧书”“把那组由三条弧线和两个短点组成的符号照得清晰”。",
+          "internalTrace": "turn-97/06-llm-calls.json 的 Director object 已写入“指向翻开的旧书”和“书页”；turn-97/06b-narrator-prompt.md 同时含有最近合书证据和旧的翻页/符号文本，但没有结构化 open/closed 状态。"
+        },
+        "recommendedFixArea": "为最近可见动作生成 current-scene physical state，并在 Director/Narrator 前执行“最新物体状态优先于旧描写”的校验。",
+        "confidence": "high"
+      }
     },
-    "confidence": "high",
-    "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-43-turn-106/root-cause-report.md",
-    "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-43-turn-106/root-cause-result.json"
-  },
-  {
-    "issueId": "issue-44-turn-108",
-    "issueIndex": 44,
-    "turn": 108,
-    "issueValidity": "valid",
-    "rootCause": {
-      "label": "context-priority",
-      "family": "recent-context"
+    {
+      "issueIndex": 43,
+      "turn": 106,
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "visibleText",
+      "summary": "The evaluated turn turns an unplayed and previously declined Connor encounter into a concrete memory of sitting opposite Connor, creating a significant unsupported prior event.",
+      "batchId": "batch-014",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "storyline-lifecycle",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "Storyline node lifecycle: add skipped/incompatible state when a player declines a branch.",
+          "Director handoff contract: distinguish allowed topic mention from already-seen event details.",
+          "Narrator prompt guard: forbid creating concrete prior events unless present in visible timeline or explicit Director beat with support."
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "修复 storyline lifecycle 与 handoff 可见性边界：declined branch 必须显式 skipped，后续只能讨论“听说/被提醒/可能会见”而不能生成“已经坐在对面”的 prior event。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-043-turn-106/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-043-turn-106/root-cause-report.md",
+      "result": {
+        "issueId": "issue-43-turn-106",
+        "turn": 106,
+        "issueValidity": "valid",
+        "problemSummary": "turn 106 把未实际发生、且曾被玩家改日再说的 Connor encounter 写成帕兹坐在康纳正对面的具体记忆，并让卡琳娜确认该细节。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。玩家可见 timeline 中，turn 27 只是卡琳娜建议“你应该见见她”，turn 28 玩家选择“仍然决定告辞，改日再说”并离开宴会厅；没有坐到康纳对面或观察椅子扶手的场景。turn 106 直接生成“我坐在那个位子上——康纳正对面那张椅子”的回忆。",
+          "playerVisibleSupport": "turn 26-28 只建立 Connor 尚未见面且玩家离开；turn 106 生成坐在康纳正对面的具体 prior event。turn 31 曾经也错误声称见过康纳，但那只是前置污染，不能为更具体的 turn 106 椅子记忆提供真实玩家可见支持。",
+          "caveats": [
+            "如果只看 turn 31 之后的错误文本，系统内部可能已经把“见过康纳”当作可见事实；本报告把它视为污染链的一部分，而非有效支持。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "玩家参加过德索洛/宴会相关事件、听到卡琳娜介绍 Connor 并拒绝当场会面；之后与卡琳娜/卡尔讨论宴会感受和权力结构，但没有可见的 Connor 对坐谈判场景。",
+          "relevantFacts": [
+            {
+              "claim": "玩家没有和 Connor 进行可见会面。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06b-narrator-prompt.md"
+              ],
+              "notes": "历史情节概览含“主角坚持告辞...主角离开宴会厅”，但它远离最终生成指令，并与“康纳出场/权力试探”节点标题并列。"
+            },
+            {
+              "claim": "当前玩家输入只要求回应宴会结构感受，不要求补写一个具体 Connor encounter。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06a-director-prompt.md"
+              ],
+              "notes": "玩家选择“告诉她我在宴会上确实感觉到了什么——那套衣服不止一个人穿过”。"
+            },
+            {
+              "claim": "Director handoff 允许提及 Connor 或德索洛家族观察，但未限定为已可见观察。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06-llm-calls.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06b-narrator-prompt.md"
+              ],
+              "notes": "requiredContent 写“帕兹可提及对康纳或德索洛家族的观察”，为 Narrator 构造具体 Connor 场景开了口。"
+            },
+            {
+              "claim": "Storyline 中 Connor 出场/权力试探节点在玩家离开后未被标记为 skipped/incompatible。",
+              "availability": "contradicted",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/03-story-state.json"
+              ],
+              "notes": "历史概览同时保留“康纳出场”“权力试探”功能说明和“主角坚持告辞”摘要。"
+            }
+          ],
+          "competingPressures": [
+            "阶段五固定节点仍强调 Connor 出场、权力试探和卡琳娜/Connor 过去关系。",
+            "帕兹的“观察取证”角色特质鼓励生成具体物理细节。",
+            "turn 31 已经生成过“你见到康纳了”的错误可见污染。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06-llm-calls.json[1].text (with upstream contamination from turn-31/06-llm-calls.json[1].text)",
+          "triggeringPressure": "当前 Director requiredContent 允许“对康纳或德索洛家族的观察”，历史概览仍呈现未完成/被拒绝的“康纳出场”“权力试探”固定节点，且前序错误 turn 31 已把“见到康纳”写进可见文本。",
+          "missingGuard": "缺少 storyline lifecycle guard：当玩家选择“改日再说”并离开时，Connor encounter 节点应被标记为 skipped/incompatible；同时缺少“只能提及已可见观察，不能补造会面座次”的 handoff 约束。",
+          "mechanismStatement": "被玩家拒绝的 Connor encounter 仍以 active/available 的 fixed storyline pressure 留在 prompt，Director 又把“可提及 Connor 观察”交给 Narrator 而没有可见性边界，Narrator 将抽象宴会感受具体化为坐在 Connor 对面的未发生记忆。",
+          "directCause": "Narrator 在 turn 106 生成“我坐在那个位子上——康纳正对面那张椅子...”并让卡琳娜确认“那张椅子的左扶手”。",
+          "propagation": "turn 106 的错误成为后续最近上下文；如果继续推进，会把 Connor 会面/座位细节固化为可引用事实。",
+          "nonCauses": [
+            "不是玩家在 turn 106 选择了见 Connor。",
+            "不是缺少 Connor 角色资料；相反，是固定节点/角色资料压力过强。",
+            "不是 Choice worker 首发，错误出现在正文生成。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "Connor encounter 节点在玩家离开宴会厅后没有进入 skipped/incompatible 生命周期状态，仍作为可用剧情压力出现在历史/Director handoff 中；缺少可见事件边界检查，使 Narrator 将未发生节点补写成具体回忆。",
+          "fixSurface": [
+            "Storyline node lifecycle: add skipped/incompatible state when a player declines a branch.",
+            "Director handoff contract: distinguish allowed topic mention from already-seen event details.",
+            "Narrator prompt guard: forbid creating concrete prior events unless present in visible timeline or explicit Director beat with support."
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 27 只是介绍 Connor 并建议见面；turn 28 玩家选择改日再说并离开；turn 106 出现坐在 Connor 对面椅子的未支持记忆。",
+          "internalTrace": "turn-106/06a-director-prompt.md 历史概览保留 Connor 出场/权力试探节点；turn-106/06-llm-calls.json Director requiredContent “可提及对康纳或德索洛家族的观察”；Narrator 输出具体椅子扶手记忆。"
+        },
+        "recommendedFixArea": "修复 storyline lifecycle 与 handoff 可见性边界：declined branch 必须显式 skipped，后续只能讨论“听说/被提醒/可能会见”而不能生成“已经坐在对面”的 prior event。",
+        "confidence": "high"
+      }
     },
-    "confidence": "high",
-    "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-44-turn-108/root-cause-report.md",
-    "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-44-turn-108/root-cause-result.json"
-  },
-  {
-    "issueId": "issue-45-turn-110",
-    "issueIndex": 45,
-    "turn": 110,
-    "issueValidity": "valid",
-    "rootCause": {
-      "label": "memory-persistence",
-      "family": "detail-memory"
+    {
+      "issueIndex": 44,
+      "turn": 108,
+      "severity": "low",
+      "type": "space-time-break",
+      "scope": "visibleText",
+      "summary": "Karina's hand is treated as continuously resting on the book immediately after the prior turn moved it away to her side, causing a minor posture continuity glitch.",
+      "batchId": "batch-014",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "context-priority",
+        "family": "recent-context",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Recent-turn context assembly: extract last visible pose/location deltas into current-scene anchors.",
+          "Narrator prompt: add adjacent-turn posture continuity check before opening with character body position.",
+          "Optional state writeback: lightweight character pose fields for active scene."
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "为相邻 turn 结尾生成 current-pose anchors，并要求 Narrator 开场身体动作不得回退到上一姿势，除非先写过渡动作。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-044-turn-108/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-044-turn-108/root-cause-report.md",
+      "result": {
+        "issueId": "issue-44-turn-108",
+        "turn": 108,
+        "issueValidity": "valid",
+        "problemSummary": "turn 107 已把卡琳娜的手从旧书书脊移开并收回身侧，turn 108 又以“手指停在旧书的书脊上没有动”开场，形成轻微姿势连续性错误。",
+        "validityAssessment": {
+          "verdictReason": "问题成立但严重度低。turn 107 末尾明确“她的手指从书脊上抬起来...收回身侧”；turn 108 开头说“手指停在旧书的书脊上没有动”，没有中间动作把手放回书上。",
+          "playerVisibleSupport": "visible-timeline.jsonl turn 107 与 turn 108 连续相邻，姿势更新与下一轮起始姿势冲突。",
+          "caveats": [
+            "该冲突只影响手部姿势，没有改变剧情事实或物品所有权。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "进入 turn 108 前，卡琳娜刚表示明天要出去确认事情，手指已离开书脊并收回身侧；玩家选择“我也去”。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜的手已经从书脊移开并收回身侧。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06b-narrator-prompt.md"
+              ],
+              "notes": "该句在最近一轮末尾出现，但被嵌在长段可见正文中，没有结构化 pose 字段。"
+            },
+            {
+              "claim": "旧书/书脊/手指停留是过去多轮高频姿势 motif。",
+              "availability": "stale",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06a-director-prompt.md"
+              ],
+              "notes": "prompt 中 turn 105-107 多次出现“手指停在旧书书脊/桌沿”。"
+            },
+            {
+              "claim": "Director 并未要求手继续停在旧书上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06-llm-calls.json"
+              ],
+              "notes": "Director actionHint 是“用手指轻敲桌沿或看向卡尔”，不是“保持按住书脊”。"
+            }
+          ],
+          "competingPressures": [
+            "书脊和手指是本场景反复使用的节奏动作。",
+            "Narrator 需要慢铺感官细节，容易复用上一轮开头姿势。",
+            "没有当前角色 pose anchor。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-108/06-llm-calls.json[1].text",
+          "triggeringPressure": "最近上下文里多次出现“卡琳娜的手指停在旧书/书脊/桌沿”的视觉 motif，且本轮要求对话驱动、感官细节优先。",
+          "missingGuard": "缺少针对相邻 turn 末尾姿势更新的 current-pose guard；Director/Narrator handoff 没有显式“Karina.handPosition=at_side”。",
+          "mechanismStatement": "最新姿势“收回身侧”只作为 prose 尾句存在，未成为可执行状态；Narrator 在慢铺开场时复用 stale 的手在书脊 motif，造成相邻 turn 姿势回跳。",
+          "directCause": "Narrator 开场写“卡琳娜的手指停在旧书的书脊上没有动”。",
+          "propagation": "同一 turn 后半又写“手指从旧书书脊上抬起来”，短暂自我修正，但玩家已看到上一 turn 与本 turn 开头不连续。",
+          "nonCauses": [
+            "不是玩家动作导致。",
+            "不是 storyline 固定节点要求。",
+            "不是物品状态或长期记忆问题。"
+          ]
+        },
+        "rootCause": {
+          "label": "context-priority",
+          "family": "recent-context",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "相邻 turn 的最新 pose update 没有被提升为当前场景锚点，Narrator 在高频旧书/手指 motif 和慢铺风格压力下复用了较早姿势，覆盖了上一轮末尾的最新姿势。",
+          "fixSurface": [
+            "Recent-turn context assembly: extract last visible pose/location deltas into current-scene anchors.",
+            "Narrator prompt: add adjacent-turn posture continuity check before opening with character body position.",
+            "Optional state writeback: lightweight character pose fields for active scene."
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 107: “手指从书脊上抬起来...收回身侧”；turn 108: “手指停在旧书的书脊上没有动”。",
+          "internalTrace": "turn-108/06a-director-prompt.md 和 06b-narrator-prompt.md 均含有最新 pose 文本；Director object 没有要求书脊姿势；Narrator text 首句复用错误姿势。"
+        },
+        "recommendedFixArea": "为相邻 turn 结尾生成 current-pose anchors，并要求 Narrator 开场身体动作不得回退到上一姿势，除非先写过渡动作。",
+        "confidence": "high"
+      }
     },
-    "confidence": "high",
-    "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-45-turn-110/root-cause-report.md",
-    "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-45-turn-110/root-cause-result.json"
-  }
-]
+    {
+      "issueIndex": 45,
+      "turn": 110,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "The turn treats the silver bell as already given to the player even though the visible timeline still has it in Karina/Karl's custody and shows no handoff.",
+      "batchId": "batch-014",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "memory-persistence",
+        "family": "detail-memory",
+        "secondaryFamilies": [
+          "agent-system"
+        ],
+        "fixSurface": [
+          "Item/inventory state model: persist owner/location for named portable objects.",
+          "Director handoff schema: when mentioning a portable object, include currentOwner and whether transfer is required/visible.",
+          "Prompt boundary: mark character-card example lines as non-events and forbid treating them as already happened."
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "建立 named item ownership persistence，并在 Director/Narrator handoff 中强制区分“提醒当前持有者带上”“本轮交给玩家”“玩家已持有”。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-045-turn-110/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-014/issues/issue-045-turn-110/root-cause-report.md",
+      "result": {
+        "issueId": "issue-45-turn-110",
+        "turn": 110,
+        "issueValidity": "valid",
+        "problemSummary": "turn 110 把银色铃铛写成卡尔已经给过玩家的东西，turn 111/112 进一步写进玩家内袋；但此前玩家可见 timeline 中铃铛一直由卡琳娜/卡尔携带，没有 handoff。",
+        "validityAssessment": {
+          "verdictReason": "问题成立。turn 87 写卡琳娜把银铃收进口袋，turn 91 写银铃在卡琳娜指间；之后到 turn 109 没有可见交接。turn 110 却说“她已经给过你的东西”，并在 turn 111 写玩家内袋里有银色铃铛。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中 turn 86-91 显示卡尔取出/卡琳娜持有铃铛；turn 110-112 显示已给玩家。中间没有玩家可见 handoff。",
+          "caveats": [
+            "卡尔提醒“带上铃铛”本身可以成立；错误在于叙述把它解释为已经交给玩家。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "银色铃铛最近一次可靠玩家可见归属是卡琳娜手中/口袋中，用于穿过边界；进入“另一边”后没有交给帕兹。玩家询问准备物品时，合理回答应是卡琳娜/卡尔提醒由当前持有者带上或进行可见交接。",
+          "relevantFacts": [
+            {
+              "claim": "银铃最后可见在卡琳娜/Karl custody，未给玩家。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06a-director-prompt.md"
+              ],
+              "notes": "该事实发生在 turn 86-91，已超出最近 5 轮；currentStoryline 只概括“提醒她带上银铃铛”，没有 owner 字段。"
+            },
+            {
+              "claim": "角色卡含“你留着。她不需要知道。（给主角银色铃铛时）”示例台词。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06b-narrator-prompt.md"
+              ],
+              "notes": "这是内部/未来或参考信息，不应当被当作已发生的玩家可见 handoff。"
+            },
+            {
+              "claim": "Director 只要求“卡尔提醒带上银铃铛”，没有指定已在玩家身上。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06-llm-calls.json"
+              ],
+              "notes": "first visible ownership error 是 Narrator 添加“她已经给过你的东西”。"
+            },
+            {
+              "claim": "主角/卡琳娜/卡尔 carriedItems 未记录铃铛归属。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/03-story-state.json"
+              ],
+              "notes": "curStates 中 carriedItems 为空，缺少 item ownership persistence。"
+            }
+          ],
+          "competingPressures": [
+            "港口行程需要铃铛成为准备物，推动系统确认它可被玩家携带。",
+            "卡尔角色卡中的“给主角银色铃铛时”示例在 prompt 中高显著。",
+            "currentStoryline 摘要只写“提醒带上银铃铛”，未记录谁拿着。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-110/06-llm-calls.json[1].text",
+          "triggeringPressure": "Director requiredContent 要“卡尔提醒带上银铃铛”；卡尔角色卡同时含“给主角银色铃铛时”的参考台词；缺少现有 owner 信息使 Narrator 需要自行填补“怎么带上”。",
+          "missingGuard": "没有 item ownership/inventory state，也没有 prompt guard 阻止 hidden character reference/future beat 被当成已发生 visible event。",
+          "mechanismStatement": "银铃归属没有从 turn 86-91 持久化，Director 只传达“带上铃铛”而不传达 owner/transfer requirement，Narrator 用角色卡里的给铃铛示例补全缺口，生成“已经给过你”的 handoff 幻觉。",
+          "directCause": "Narrator 在 turn 110 写“提醒你一件她已经给过你的东西”。",
+          "propagation": "turn 111 在没有可见交接的情况下写“外套内袋——银色铃铛还在那里”，turn 112 继续确认内袋中有铃铛。",
+          "nonCauses": [
+            "不是玩家在 turn 110 请求获得铃铛。",
+            "不是 Director 明确写错 ownership。",
+            "不是 evaluator 依赖隐藏事实；可见 timeline 足以证明无 handoff。"
+          ]
+        },
+        "rootCause": {
+          "label": "memory-persistence",
+          "family": "detail-memory",
+          "secondaryFamilies": [
+            "agent-system"
+          ],
+          "description": "银铃这种具体物品的当前 owner/location 没有被持久化为稳定 state；当最近上下文不再包含 turn 86-91 的持有细节时，Narrator 在“带上铃铛”和角色卡参考台词压力下把未发生的交接当作事实。",
+          "fixSurface": [
+            "Item/inventory state model: persist owner/location for named portable objects.",
+            "Director handoff schema: when mentioning a portable object, include currentOwner and whether transfer is required/visible.",
+            "Prompt boundary: mark character-card example lines as non-events and forbid treating them as already happened."
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn 87 卡琳娜将银铃收入口袋；turn 91 银铃在卡琳娜指间；turn 110 “已经给过你的东西”；turn 111/112 玩家内袋有铃铛。",
+          "internalTrace": "turn-110/03-story-state.json carriedItems 为空且卡尔角色卡含“给主角银色铃铛时”；turn-110 Director object 只要求“提醒带上银铃铛”；Narrator 首次生成“已经给过你”。"
+        },
+        "recommendedFixArea": "建立 named item ownership persistence，并在 Director/Narrator handoff 中强制区分“提醒当前持有者带上”“本轮交给玩家”“玩家已持有”。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

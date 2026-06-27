@@ -1,0 +1,104 @@
+{
+  "issueId": "issue-41-turn-94",
+  "issueIndex": 41,
+  "turn": 94,
+  "issueValidity": "valid",
+  "problemSummary": "turn 94 聚焦旧书时重复‘书脊朝上’并进一步写玩家看书页、翻页和比较下一页符号，使上一轮的物理不清变成持续的交互不一致。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。turn 94 明确写‘那本翻开的旧书躺在桌面上，书脊朝上’，更像页面被压向桌面或至少不是平摊可读；随即写玩家低头看书页、辨认符号、翻页并看到下一页差异。缺少把书扶正或翻转的动作，玩家可见的 prop handling 持续不一致。",
+    "playerVisibleSupport": "turn 93 已有‘旧书脊背朝上——扫了一眼书页’；turn 94 选择检查这本书后，正文重复‘躺在桌面上，书脊朝上’，然后详细描述书页符号和翻页。",
+    "caveats": [
+      "若作者想表达书像帐篷一样支起，需要明确可见面和翻页方式；当前文本没有这种说明。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 93 结束时，仓库长桌上的旧书已经被描述为翻开且书脊背朝上，但玩家仍扫到了书页文字；下一步玩家选择走向长桌看看那本翻开的旧书。",
+    "relevantFacts": [
+      {
+        "claim": "旧书方向问题已在 turn 92/93 玩家可见文本中存在。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-92",
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl:turn-93",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/06b-narrator-prompt.md"
+        ],
+        "notes": "turn 94 prompt 同时包含两次‘书脊朝上’相关最近正文。"
+      },
+      {
+        "claim": "玩家选择聚焦查看那本翻开的旧书。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/01-summary.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/06b-narrator-prompt.md"
+        ],
+        "notes": "Choice 将原本的陈设物推进为交互焦点，增加了修复或明确朝向的必要性。"
+      },
+      {
+        "claim": "Director 要求描写页面上的符号体系。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/06b-narrator-prompt.md"
+        ],
+        "notes": "requiredContent 明确要求页面细节‘不是英语或意大利语，而是由短线条和弧点组成’，但没有要求先修正物理姿态。"
+      },
+      {
+        "claim": "本轮没有展示玩家扶正、翻转或移动旧书以让页面可读。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/04-output.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/07-events.json"
+        ],
+        "notes": "正文直接从‘书脊朝上’跳到看页面和翻页；pre-LLM events 也没有交互动作。"
+      },
+      {
+        "claim": "旧书 orientation 没有进入可纠错的结构化 story state。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/05-runtime-after.json"
+        ],
+        "notes": "该事实只以最近 visibleText 进入 prompt，既被保留又没有 affordance metadata。"
+      }
+    ],
+    "competingPressures": [
+      "玩家选择要求查看旧书，Director 因而强制页面细节。",
+      "最近正文一致性压力要求继续承认‘书脊朝上’。",
+      "神秘信息控制要求不解释具体含义，却仍要展示可见符号。",
+      "没有 prop repair beat，Narrator 只能同时满足旧朝向和页面描写。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "precursor: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-92/04-output.json and logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-93/04-output.json; turn-94 handoff pressure: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/04-output.json plotPoint; visible recurrence: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-94/06-llm-calls.json[1] / 04-output.json",
+    "triggeringPressure": "turn 94 的 selected choice 和 Director requiredContent 都要求查看页面符号；最近上下文又要求保留旧书‘书脊朝上’的可见状态。",
+    "missingGuard": "没有 interaction repair contract：当目标 prop 的 orientation 与查看页面不兼容时，系统应先要求‘把书翻过来/扶正/只看书页边缘’之一，而不是直接读页。",
+    "mechanismStatement": "当玩家选择聚焦一个带有未解决 orientation 问题的 prop 时，缺少 object affordance continuity 与 repair beat 使 Director/Narrator 把页面细节作为 must-write 内容，同时保留‘书脊朝上’，从而重复并放大物理不一致。",
+    "directCause": "Director 把‘看看旧书’转成必须描写页面符号，Narrator 在没有修复姿态的情况下重复‘书脊朝上’并写看页、翻页。",
+    "propagation": "turn 94 的选择继续围绕‘那上面写了什么’和符号含义展开；turn 95 又让卡琳娜翻页并合上书，说明旧书交互已沿着可读页面状态继续。",
+    "nonCauses": [
+      "不是 Choice 文本本身错误；‘看看旧书’可以成立，错误在未修复朝向就读页。",
+      "不是秘密边界或信息控制导致；页面含义是否揭示与物理朝向无关。",
+      "不是长期 detail-memory 缺失；问题事实在最近两轮 prompt 中反而过度保留。"
+    ]
+  },
+  "rootCause": {
+    "label": "object-affordance-continuity",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "具体机制是可交互 prop 缺少 orientation/affordance repair contract：触发压力来自玩家选择查看旧书和 Director 对页面符号的 requiredContent，缺失防线是没有在读取前处理‘书脊朝上’这一最近状态，失败运动是 Narrator 同时满足保留朝向与描写页面，令玩家看到重复的物理冲突。",
+    "fixSurface": [
+      "Choice->Director action binding 增加 prop interaction precondition/repair beat",
+      "Director requiredContent 生成前检查目标 prop 的 orientation 与玩家动作是否兼容",
+      "Narrator 输出后执行 prop affordance consistency lint，特别是 read/turn/open/close 等动作"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 94 写旧书躺在桌面上、书脊朝上；随即玩家低头看书页内容、翻页，并看到下一页符号变化。",
+    "internalTrace": "turn-94/06b-narrator-prompt.md 的最近上下文保留 turn 92/93 的书脊朝上；turn-94/04-output.json plotPoint.requiredContent 强制页面符号描写；turn-94/06-llm-calls.json[1] streamText 重复方向并生成看页/翻页动作。"
+  },
+  "recommendedFixArea": "优先在 Choice->Director->Narrator 链路加入 prop interaction precondition 和 repair beat，确保查看/翻页前先解决物理朝向。",
+  "confidence": "high"
+}

@@ -1,0 +1,537 @@
+[
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 4,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "第4轮中，帕兹对拦路者说：“这相机是我战友的遗产！我也没拍什么，胶卷和记忆卡都给你！”",
+    "conflictingEvidence": "第1轮已经把随身相机明确写成“老旧胶卷相机挂在脖子上，镜头盖上有几道划痕”。",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "核心道具已被定义为胶卷相机，角色又把“记忆卡”和“胶卷”并列交出，会让相机介质状态前后不稳定。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 5,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第5轮先写“身后没有脚步声”，随后“前方巷子拐角”走出“还是刚才那个”皮夹克和另外两人。",
+    "conflictingEvidence": "第4轮帕兹从三人身旁穿过进入暗街，文本强调“没有脚步声跟上来”，三人留在身后巷口。",
+    "conflictingTurns": [
+      4
+    ],
+    "source": "model-output",
+    "reason": "同一组三人没有可见追赶或绕路承接，却从玩家前方再次出现，空间位置变化缺少支撑。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "第9轮玩家输入是“走向窗台，伸手试探那只黑猫”，正文完成试探后又写“你伸手拿起那本旧书，翻开封面”并“继续翻书”。",
+    "conflictingEvidence": "第8轮把“翻开那本褪色的旧书，看看里面写了什么”列为另一个可选行动，玩家本轮没有选择它。",
+    "conflictingTurns": [
+      8,
+      9
+    ],
+    "source": "model-output",
+    "reason": "正文在同一轮擅自执行了另一条未选择的调查行动，削弱了玩家选择和后续行动承接。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 10
+    },
+    "evalRange": {
+      "start": 1,
+      "end": 10
+    },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "low",
+    "currentEvidence": "第10轮在玩家选择“继续翻看这本手写旧书”后，正文开头写“你翻开封面”。",
+    "conflictingEvidence": "第9轮末尾已经写过“你伸手拿起那本旧书，翻开封面”并“你继续翻书”。",
+    "conflictingTurns": [
+      9
+    ],
+    "source": "model-output",
+    "reason": "“继续翻看”应承接已打开并翻动的书，第10轮却轻微回退到重新翻开封面的动作。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "quality-regression",
+    "severity": "low",
+    "currentEvidence": "turn 12 报信人说：“港口区，有人在你那个记者的事情。”",
+    "conflictingEvidence": "同一段后文才补足“有人在打听他的样貌和装备”，说明这句话应表达有人在打听记者的事，但原句缺少谓语。",
+    "conflictingTurns": [
+      12
+    ],
+    "source": "model-output",
+    "reason": "这句台词残缺，缺少“打听”等核心谓语，造成局部阅读卡顿。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 12,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 12 开头写玩家“拧动门把手”，并且“锁舌脱离门框”，重新把门拉开。",
+    "conflictingEvidence": "turn 11 玩家已经打开门，卡琳娜从门框挤进房间；随后叙述只说玩家仍站在门框边、手还搭在门把手上，没有交代关门或重新上锁，却又出现门外敲门。",
+    "conflictingTurns": [
+      11
+    ],
+    "source": "model-output",
+    "reason": "门在没有玩家可见关门动作的情况下被后文当作已经关上并扣住，造成门状态承接不清。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 13,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 13 卡琳娜问“什么照片”，玩家回答“我和她的合照”；卡琳娜随后确认“照片上的白裙”。",
+    "conflictingEvidence": "turn 1 中白裙或匿名信封照片是少女单独背对街道、半侧着脸的照片；另一个合照是六个人挤在篝火前的照片，并不是白裙照片。",
+    "conflictingTurns": [
+      1
+    ],
+    "source": "model-output",
+    "reason": "同一条关键照片线索从单人白裙照片漂移成玩家与敏特的合照，削弱了物证连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 13,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "turn 13 正文在玩家说完“刚到。还没搞清楚是谁在盯我”之后，又替玩家回答“我有照片”“我和她的合照”“四个月前”“几年”“中东”等关键私人信息。",
+    "conflictingEvidence": "turn 13 的玩家输入只是“点点头，告诉她我刚到，不清楚谁在盯我”，没有选择披露照片性质、见到敏特的时间或中东经历。",
+    "conflictingTurns": [
+      13
+    ],
+    "source": "model-output",
+    "reason": "模型把一个有限回答扩展成多项关键自述，提前固定玩家角色的私人信息和调查线索。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "turn 20 写窗玻璃反射出三个轮廓：“一个站着，一个蹲在窗台，一个坐在灯光边缘的阴影里。”",
+    "conflictingEvidence": "turn 11 玩家从椅子上站起后一直在门边或房间中应对来客；turn 19 德索洛离开后只写卡琳娜站在原地转头看玩家，没有交代玩家坐下。",
+    "conflictingTurns": [
+      11,
+      19
+    ],
+    "source": "model-output",
+    "reason": "玩家姿态从站立突然变成坐在阴影里，缺少动作承接。"
+  },
+  {
+    "windowRange": {
+      "start": 1,
+      "end": 20
+    },
+    "evalRange": {
+      "start": 11,
+      "end": 20
+    },
+    "turn": 20,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "turn 20 选项写道：“望向你手边的杯子，端起来喝了一口，借着这个空隙整理思绪”。",
+    "conflictingEvidence": "turn 7-20 反复列出的房间陈设和桌面物品包括铁架床、木桌、台灯、旧书、饼干盒、钢笔和报纸等，没有出现过玩家手边的杯子，也没有倒水或备杯动作。",
+    "conflictingTurns": [
+      7,
+      8,
+      10,
+      19
+    ],
+    "source": "model-output",
+    "reason": "选项把此前没有建立过的杯子当成可用物件，造成玩家可交互物状态不稳定。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "medium",
+    "currentEvidence": "本轮把敏特描述为“她是战地记者。和我一样。”，并写成主角教她“怎么打架。怎么用枪”。",
+    "conflictingEvidence": "第15轮此前对卡琳娜讲述敏特时，说她是“当地人”，战后回到那片战区，起初“讨厌记者”，后来才开始和主角等记者说话，并教他们当地武装标记和路线。",
+    "conflictingTurns": [
+      15
+    ],
+    "source": "model-output",
+    "reason": "敏特的身份从本地幸存者/向导式人物漂移成和主角一样的战地记者，改变了核心人物背景。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 21,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "medium",
+    "currentEvidence": "本轮重新向卡琳娜讲述“她叫敏特”、村子袭击、“她死在我怀里”、照片传来后自己来找她等信息。",
+    "conflictingEvidence": "第15轮已经向同一个卡琳娜完整讲过这些事实，包括“她的名字叫敏特”、“她死在我怀里”、“里面是一张照片”、“照片上的人是她。穿着白裙。背景是新西西里的暗街。”",
+    "conflictingTurns": [
+      15
+    ],
+    "source": "model-output",
+    "reason": "同一听众已经听过的敏特生死和照片线索被当作新叙述再次展开，造成剧情进度回退。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "mixed",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "第23轮选项提供“准备离开房间”；第24轮执行为主角拉开门、跨过门槛、下楼并站到暗街街道上。",
+    "conflictingEvidence": "第14轮卡琳娜在骷髅会威胁后明确说：“你今晚不能出去。”“待在这里。天亮之前，别开第二次门。”",
+    "conflictingTurns": [
+      14,
+      23
+    ],
+    "source": "mixed",
+    "reason": "前文刚建立夜间不能外出的安全限制，后文选项和正文却无解释地允许离开，并且卡琳娜没有任何阻拦或承接。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 25,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "同一段写道：“左侧的建筑是一栋三层的住宅楼”，随后又说“只有四楼有一扇亮着灯”。",
+    "conflictingEvidence": "冲突发生在同一轮同一空间描述内：三层住宅楼不应存在四楼窗户。",
+    "conflictingTurns": [
+      25
+    ],
+    "source": "model-output",
+    "reason": "建筑层数在同一可见描述中自相矛盾，属于局部空间事实错误。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "本轮写德索洛“先是右膝弯曲，下落”，随后“然后是左膝”，但紧接着又说“他停住了。单膝跪地的姿势。”",
+    "conflictingEvidence": "同一轮动作链条已经让左右双膝先后落地，却又把完成姿态称为单膝跪地。",
+    "conflictingTurns": [
+      26
+    ],
+    "source": "model-output",
+    "reason": "角色跪姿的动作承接在同一段内互相冲突。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 26,
+    "scope": "visibleText",
+    "type": "repeated-scene",
+    "severity": "high",
+    "currentEvidence": "本轮主角从门缝看到卡琳娜和德索洛在室内，德索洛下跪并说“卡琳娜阁下”，卡琳娜递出米白色信封，德索洛接过后离开。",
+    "conflictingEvidence": "第19轮同一交易已经发生并结束：德索洛跪下，重复“卡琳娜阁下”，接过信封后离开；第20轮卡琳娜还确认“交易已经完成了”，并说明信封里的线索足够他自己去追。",
+    "conflictingTurns": [
+      19,
+      20
+    ],
+    "source": "model-output",
+    "reason": "已经完成并被角色确认完成的交易在后门视角被重新演出，造成明显的时间回放和剧情进度断裂。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 28,
+    "scope": "visibleText",
+    "type": "unsupported-jump",
+    "severity": "medium",
+    "currentEvidence": "卡琳娜评价德索洛时说：“那块地能养活他女儿。”",
+    "conflictingEvidence": "第19轮信封内容被说成“凯旋门。地址和名字在信封里。你的人。”；第20轮进一步说明信封里是“是谁的人，在哪个位置活动，什么样的时间规律”。此前玩家可见内容没有建立信封里有土地或地契。",
+    "conflictingTurns": [
+      19,
+      20
+    ],
+    "source": "model-output",
+    "reason": "德索洛交易所得从线索/人名地址无承接地变成能养活女儿的土地，改变了交易内容。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 31,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 31 写到大厅尽头高窗外“新西西里岛的天空呈现出一种深蓝中透暗紫的颜色”，并说明“那是白昼的最后一点余光”。",
+    "conflictingEvidence": "turn 24 玩家离开楼房时，正文写明夜风带着“凌晨时分特有的那种没有任何气味的空气”，随后街道空寂、只有路灯与暗影。",
+    "conflictingTurns": [
+      24
+    ],
+    "source": "model-output",
+    "reason": "此前玩家可见时间已经进入凌晨深夜，turn 31 又把宴会窗外写成日落余光，造成可见时间倒退。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 36 选项写道：“反问她：‘你觉得呢？你才是这里的主人。’”",
+    "conflictingEvidence": "turn 30 卡琳娜说明这是“凯旋门的晚宴”，并说“但晚宴属于凯旋门”；turn 34 她又说明“康纳·凯拉宁”是“凯旋门的管理者”。",
+    "conflictingTurns": [
+      30,
+      34
+    ],
+    "source": "model-output",
+    "reason": "选项把卡琳娜称为宴会或场所的主人，与玩家已知的凯旋门归属和康纳管理者身份不符。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "high",
+    "currentEvidence": "turn 37 中卡琳娜问“想去透透气吗？附近有个公园。”正文随即写“你点了点头”，并让玩家跨过门槛、离开大厅、穿过小路进入公园。",
+    "conflictingEvidence": "turn 37 的玩家输入只是回答宴会观感：“富丽堂皇，但每个人都带着面具。”玩家尚未选择是否接受去公园的提议。",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "model-output",
+    "reason": "模型在同一轮内替玩家接受邀请并完成跨场景移动，越过了玩家应当选择的关键行动。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "turn 37 在公园里让卡琳娜问“你和她很熟吗？”，随后直接写玩家回答：“我认识她。很久以前。”“她……帮过很多人。也帮过我。”“……我想找到她。”",
+    "conflictingEvidence": "turn 37 的玩家输入没有选择回答敏特关系，也没有授权在这轮中披露新的个人表述；该轮玩家只评价了宴会。",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "model-output",
+    "reason": "模型替玩家给出关键私人问题的回答，固定了玩家角色的表达和关系叙述，超出了本轮玩家输入。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 42,
+    "scope": "choices",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "本轮正文先让卡琳娜指向同一扇门说“那边有个小房间。床和柜子都有。没有窗户，但很安静。你可以睡那边。”随后她自己走到门边，说“晚安”，迈进黑暗，门后响起“床垫弹簧受压”的声音。本轮选项仍给出“起身走向那扇门，去小房间休息”。",
+    "conflictingEvidence": "同一轮玩家可见正文已经显示卡琳娜进入了那扇门后的房间，并且门后传来床垫受压声，说明这个房间不再是无人使用的空房间。",
+    "conflictingTurns": [
+      42
+    ],
+    "source": "model-output",
+    "reason": "选项把刚被卡琳娜进入并使用的房间继续呈现为玩家可直接入住的小房间，破坏了当前空间和行动状态的连续性。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 43,
+    "scope": "visibleText",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "本轮玩家走向那扇门，跨进小房间，关门后看到床和柜子，随后坐到床沿、取下相机并躺下入睡。正文还写到“门缝外，没有脚步声。隔壁房间一直是安静的……卡琳娜已经睡着了，或者保持安静着，与她所处的那片黑暗共存。”",
+    "conflictingEvidence": "turn 42 中，卡琳娜已经走进同一扇门后的黑暗里，门后的房间传来几步脚步声和床垫弹簧受压声。",
+    "conflictingTurns": [
+      42
+    ],
+    "source": "mixed",
+    "reason": "玩家输入沿用了上一轮有问题的选项，而本轮正文进一步把同一房间写成空置并可由玩家独占，等于抹去了卡琳娜刚进入并使用该房间的可见事件。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 45,
+    "scope": "choices",
+    "type": "unsupported-jump",
+    "severity": "low",
+    "currentEvidence": "本轮正文只写玩家坐下后回答“睡得很沉。”并追问“你呢。”卡琳娜尚未回答。本轮选项却出现“追问昨晚也没睡好？”。",
+    "conflictingEvidence": "turn 44 中卡琳娜只问“睡得好吗。”turn 45 当前正文也没有出现她说自己没睡好、也没睡好或类似信息。",
+    "conflictingTurns": [
+      44,
+      45
+    ],
+    "source": "model-output",
+    "reason": "选项预设了卡琳娜已经表达昨晚睡得不好，但玩家可见上下文中这一信息尚未发生。"
+  },
+  {
+    "windowRange": {
+      "start": 31,
+      "end": 50
+    },
+    "evalRange": {
+      "start": 41,
+      "end": 50
+    },
+    "turn": 47,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "本轮卡琳娜说：“大概是……半个月前吧。她来问我骷髅会的事。”",
+    "conflictingEvidence": "turn 37 中卡琳娜已经说过同一事件：“敏特来找过我。”“几个月前的事。她来打听骷髅会的情报。”",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "model-output",
+    "reason": "同一人物对敏特来找她打听骷髅会这件事给出了“几个月前”和“半个月前”两个不同时间，影响关键线索的时间线稳定性。"
+  }
+]

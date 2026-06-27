@@ -1,23 +1,153 @@
 {
   "batchId": "batch-008",
-  "runId": "runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
   "issueCount": 1,
+  "completedCount": 1,
+  "validityCounts": {
+    "valid": 1,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
-      "issueId": "issue-21-turn-31",
       "issueIndex": 21,
       "turn": 31,
       "severity": "high",
       "type": "unsupported-jump",
       "scope": "visibleText",
-      "validity": "valid",
+      "summary": "31 轮把玩家明确绕过且未展示过的康纳会面写成已经发生，并让玩家承认与康纳短暂交谈，改写了关键剧情进度。",
+      "batchId": "batch-008",
+      "issueValidity": "valid",
       "rootCause": {
         "label": "storyline-lifecycle",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "quest/storyline lifecycle state machine",
+          "anchor activation and beat completion evidence gate",
+          "statefold/currentStorylineConstraints carryover",
+          "Director prompt assembly conflict-priority rules",
+          "Narrator handoff contract for ambiguous 'mention X' instructions"
+        ]
       },
       "confidence": "high",
-      "reportPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-008/issues/issue-21-turn-31/root-cause-report.md",
-      "resultPath": "logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-008/issues/issue-21-turn-31/root-cause-result.json"
+      "recommendedFixArea": "优先修复 quest/storyline lifecycle：对固定 beat 完成和 anchor 激活增加玩家可见证据校验；玩家绕过固定节点时标记 deferred/skipped/incompatible，并把“主角尚未见过康纳”这类负向进度作为当前硬约束进入 Director/Narrator prompt。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-008/issues/issue-021-turn-31/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-008/issues/issue-021-turn-31/root-cause-report.md",
+      "result": {
+        "issueId": "issue-21-turn-31",
+        "issueIndex": 21,
+        "turn": 31,
+        "severity": "high",
+        "type": "unsupported-jump",
+        "scope": "visibleText",
+        "issueValidity": "valid",
+        "problemSummary": "Turn 31 把玩家只听过介绍、且随后明确改日再说并离开宴会的康纳会面写成已经发生；正文还替玩家承认“见到了。没多说几句——我提前走了”，改写了关键剧情进度。",
+        "validityAssessment": {
+          "verdictReason": "valid。玩家可见时间线中，Turn 26 明说“你还没见过康纳”，Turn 27 只是介绍康纳并建议主角应该见她，Turn 28 玩家选择“仍然决定告辞，改日再说”并离开宴会回到暗街。Turn 31 却让卡尔陈述“你见到康纳了”，并替玩家回答“见到了”，没有可见桥段支持。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中 Turn 26-28 只显示康纳被提及和推迟会面；Turn 31 visibleText 直接把会面和短暂交谈写成既成事实。",
+          "caveats": [
+            "如果系统意图是让卡尔根据隐秘情报误判，正文也需要把它写成卡尔的误判或试探；现有文本却替玩家确认“见到了”，因此不是合理的角色推断。",
+            "不依赖隐藏状态判断 validity；隐藏 artifact 仅用于后续追根因。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "Turn 31 前，玩家从宴会返回暗街，停在卡尔小屋外检查周围无异常，然后推开门。康纳只被卡琳娜介绍过身份与重要性，玩家没有接受引见，也没有与康纳见面、交谈或被她挽留。",
+          "relevantFacts": [
+            {
+              "claim": "玩家尚未见过康纳；康纳会面被玩家推迟到未来。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/06b-narrator-prompt.md"
+              ],
+              "notes": "Turn 26 可见文本明说“你还没见过康纳”；Turn 27 只是说明“你应该见见她”；Turn 28 玩家选择改日再说并离开。该事实在最近 5 轮正文中清楚可见。"
+            },
+            {
+              "claim": "Turn 28 的剧情约束已经把康纳相关剧情标记为未来再处理。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-28/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/03-story-state.json"
+              ],
+              "notes": "Turn 28 plotPoint 写入 currentStorylineConstraints：保持康纳尚未与主角正面接触、保留康纳相关剧情至未来合适时机；但这条约束没有以强约束形式进入 Turn 31 Director/Narrator prompt。"
+            },
+            {
+              "claim": "隐藏 quest/anchor 生命周期把 5-02/5-03 康纳事件当成已推进、已完成。",
+              "availability": "contradicted",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-27/05-runtime-after.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-28/05-runtime-after.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/02-script-state.json"
+              ],
+              "notes": "Runtime 在 Turn 27 后置 true：康纳出场、康纳和卡琳娜交互；Turn 28 后又置 true：康纳的试探、康纳和卡琳娜的交锋，并完成 5-03。它与玩家可见内容相矛盾。"
+            },
+            {
+              "claim": "当前 6-02 story beat 需要宴会后的反思、卡尔/卡琳娜互动，并把话题引向卡琳娜状态。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/06a-director-prompt.md"
+              ],
+              "notes": "当前 beat 素材推动“卡尔向卡琳娜提问主角的处理”和“询问玩家对宴会的看法”，在实际场景已变成主角和卡尔单独对话时，容易诱导系统寻找一个宴会后评价入口。"
+            },
+            {
+              "claim": "玩家本轮输入只是询问卡尔今晚有什么需要知道的。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/01-summary.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/06a-director-prompt.md"
+              ],
+              "notes": "该输入没有授权系统替玩家补写与康纳见面或承认短暂交谈。"
+            }
+          ],
+          "competingPressures": [
+            "recent visible text 清楚显示“未见康纳/改日再说”。",
+            "quest lifecycle 与 anchors 把康纳出场、交锋等固定节点当成已发生。",
+            "历史情节概览仍列出 05-02 康纳出场、05-03 权力试探与支线回响，给 Director 施加已进入康纳线后的压力。",
+            "当前 6-02 beat 需要宴会后反思与卡琳娜状态变化，促使 Director 安排卡尔谈康纳和宴会。",
+            "Narrator 被要求不要改变 Director 的剧情方向，并必须落实 requiredContent。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-27/05-runtime-after.json 和 logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-28/05-runtime-after.json（隐藏 lifecycle divergence）；首个玩家可见 divergence 位于 logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-31/04-output.json",
+          "triggeringPressure": "玩家绕过康纳会面后，quest/anchor lifecycle 仍把康纳固定节点推进为 visited/completed，并将“康纳出场”“康纳和卡琳娜交互”“康纳的试探”“康纳和卡琳娜的交锋”置为 true。Turn 31 的历史情节概览又把 05-02/05-03 作为已发生故事线列入上下文。",
+          "missingGuard": "缺少一个可见证据门控：固定 beat/anchor 只有在玩家可见正文实际呈现对应事件时才能标记完成；若玩家选择绕过，应写入 skipped/deferred/incompatible，并把“主角尚未见过康纳”提升为后续 Director/Narrator 的硬约束。Turn 28 写入的 no-contact 约束没有在 Turn 31 prompt 中作为强约束出现。",
+          "mechanismStatement": "当固定康纳节点被 lifecycle 当成 completed/true，而 no-contact 事实只留在最近正文和 story-state 历史约束中、没有成为当前硬约束时，Director 为了衔接 6-02 的宴会后反思安排“卡尔提及康纳和今晚的宴会”，Narrator 进一步把“提及”具体化为已会面并替玩家确认，从而产生 Turn 31 的 unsupported-jump。",
+          "directCause": "Turn 31 Director 输出 requiredContent“卡尔提及康纳和今晚的宴会，暗示卡琳娜的状态”，没有同时约束“不得写成主角已经见过康纳”；Narrator 在该模糊 handoff 下生成“你见到康纳了”和玩家答复“见到了”。",
+          "propagation": "错误首先进入 Turn 31 narrator text/04-output visibleText，随后 Choice prompt 把该错误正文作为“本轮玩家已经看到的正文”继续使用，并生成“问问康纳到底是什么样的人”等后续选项。Turn 32 的 recentTurns 也会携带 Turn 31 错误文本，存在进一步固化风险。",
+          "nonCauses": [
+            "不是长程 memory-persistence 缺失：未见康纳的事实在最近几轮可见文本中清楚存在。",
+            "不是本轮 choice-action-binding 主因：Turn 31 的玩家输入“直接开口问卡尔，今晚有什么需要知道的”被正确传入。",
+            "不是纯 llm-self：Narrator 确有本地扩写错误，但上游 lifecycle/prompt 已经把康纳节点作为已完成历史和当前话题压力传入。",
+            "不是评测误判：问题可由玩家可见时间线独立确认。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "固定康纳 storyline 节点在玩家选择绕过后没有进入 deferred/skipped 状态，而是按线性 quest lifecycle 被 visited/completed，并触发对应 anchors。缺失的防线是以玩家可见正文为准的 beat completion/anchor activation guard，以及把 no-contact 事实提升为当前硬约束的 prompt assembly。结果是后续 Director/Narrator 在“已完成康纳节点”和“最近可见未会面”之间优先了前者，将未发生的会面补写为既成事实。",
+          "fixSurface": [
+            "quest/storyline lifecycle state machine",
+            "anchor activation and beat completion evidence gate",
+            "statefold/currentStorylineConstraints carryover",
+            "Director prompt assembly conflict-priority rules",
+            "Narrator handoff contract for ambiguous 'mention X' instructions"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "visible-timeline.jsonl Turn 26: 卡琳娜说“你还没见过康纳”；Turn 27: 只介绍康纳并建议应见她；Turn 28: 玩家选择“仍然决定告辞，改日再说”，正文离开宴会回到暗街；Turn 31: 卡尔说“你见到康纳了”，叙述替玩家回答“见到了。没多说几句——我提前走了”。",
+          "internalTrace": "Turn 27 runtime-after 将“康纳出场”“康纳和卡琳娜交互”置 true，并转入 5-03；Turn 28 runtime-after 又将“康纳的试探”“康纳和卡琳娜的交锋”置 true、完成 5-03 并转入 6-01。Turn 31 script state 仍携带这些 true anchors；Director prompt 的最近正文包含未会面证据，但没有把 Turn 28 no-contact 约束作为当前硬约束；Director requiredContent 只说“卡尔提及康纳和今晚的宴会”，Narrator 将其具体化为已会面。"
+        },
+        "recommendedFixArea": "优先修复 quest/storyline lifecycle：对固定 beat 完成和 anchor 激活增加玩家可见证据校验；玩家绕过固定节点时标记 deferred/skipped/incompatible，并把“主角尚未见过康纳”这类负向进度作为当前硬约束进入 Director/Narrator prompt。",
+        "confidence": "high"
+      }
     }
   ]
 }

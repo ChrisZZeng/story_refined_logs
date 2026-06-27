@@ -1,59 +1,474 @@
 {
   "batchId": "batch-003",
-  "runDir": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
-  "reviewDir": "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory",
+  "issueCount": 4,
+  "completedCount": 4,
+  "validityCounts": {
+    "valid": 4,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
   "issues": [
     {
       "issueIndex": 9,
-      "issueId": "issue-9-turn-16",
       "turn": 16,
+      "severity": "medium",
+      "type": "unsupported-jump",
+      "scope": "choices",
+      "summary": "选项要求玩家追问一个尚无玩家可见来源的人物关系，像是提前泄露了后续未登场角色。",
+      "batchId": "batch-003",
       "issueValidity": "valid",
       "rootCause": {
         "label": "storyline-lifecycle",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "storyline beat activation/consumption guard",
+          "choice prompt context assembly visible-entity filter",
+          "choice output validator for unseen named entities"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-9-turn-16/root-cause-report.md",
-      "resultPath": "issues/issue-9-turn-16/root-cause-result.json"
+      "recommendedFixArea": "优先修复 storyline 生命周期与 Choice prompt 的解锁边界：只有玩家可见触发已发生的 beat、角色名和关系才能进入选项可用素材；对输出选项做 unseen entity 检测。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-009-turn-16/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-009-turn-16/root-cause-report.md",
+      "result": {
+        "issueIndex": 9,
+        "issueId": "issue-9-turn-16",
+        "turn": 16,
+        "issueValidity": "valid",
+        "problemSummary": "第 16 轮选项让玩家询问“卡琳娜她和德索洛是什么关系”，但截至该轮玩家可见内容尚未介绍德索洛。",
+        "validityAssessment": {
+          "verdictReason": "该选项把尚未玩家可见的角色名和人物关系提前变成可点击行动，构成真实的 unsupported-jump。",
+          "playerVisibleSupport": "visible-timeline.jsonl 中第 11-16 轮只出现门外未具名男子、费舍尔、凯旋门和敏特相关谈话；第 16 轮正文结尾仍停在卡琳娜判断“她喜欢你”，随后选项却出现“避开话题，反问卡琳娜她和德索洛是什么关系”。德索洛的正式可见登场在第 18 轮。",
+          "caveats": [
+            "内部剧本和角色卡已经包含德索洛，但这些不是玩家可见证据，不能用来否定问题。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 16 轮正文前后仍是卡琳娜公寓内关于敏特、战场经历和主角创伤的私人谈话。玩家知道门外曾有无名黑帮成员提到费舍尔和凯旋门，也知道卡琳娜有暗街权威；玩家尚不知道德索洛这个名字，也不知道他与卡琳娜的旧识/家人关系。",
+          "relevantFacts": [
+            {
+              "claim": "德索洛及其与卡琳娜的关系在第 16 轮前对玩家不可见。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-16/04-output.json"
+              ],
+              "notes": "第 16 轮 visibleText 和前几轮选择都未出现德索洛。"
+            },
+            {
+              "claim": "Choice worker 被要求先以本轮正文结尾为准，并且不要提前泄露玩家尚未看到的信息。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-16/06c-choice-prompt.md"
+              ],
+              "notes": "判断流程和输出前再次确认都明确要求以本轮玩家已经看到的正文为最终判断依据。"
+            },
+            {
+              "claim": "未来 beat 02-03 和德索洛角色卡已经进入第 16 轮 choice prompt。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-16/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-16/06c-choice-prompt.md"
+              ],
+              "notes": "prompt 的“当前情节边界参考”是“推进节点 02-03：尊严换公道的交易”，并在“当前可见处境”里放入德索洛角色卡，包含“与卡琳娜的关系”。"
+            },
+            {
+              "claim": "运行时在可见交易发生前已经把 DeSolo 相关 anchor/beat 推进到后续节点。",
+              "availability": "stale",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-15/05-runtime-after.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-16/03-story-state.json"
+              ],
+              "notes": "turn-15 runtime-after 显示 currentBeatId 已变为 2-03，且 anchor “德索洛的倾诉”为 true；但玩家可见第 15、16 轮仍未出现德索洛。"
+            }
+          ],
+          "competingPressures": [
+            "storyline 已提前切到德索洛交易 beat，强烈前景化后续事件。",
+            "德索洛角色卡把“旧识/家人关系”作为显著关系素材暴露给 Choice worker。",
+            "本轮可见正文只支持继续敏特谈话或询问已知门口事件，二者与隐藏 beat 发生冲突。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-16/03-story-state.json and logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-16/06c-choice-prompt.md",
+          "triggeringPressure": "运行时/故事线生命周期提前激活“推进节点 02-03：尊严换公道的交易”，并把德索洛完整角色卡放进 Choice worker 的当前处境上下文；该卡片包含德索洛与卡琳娜的关系，且比最近可见正文更像可用剧情素材。",
+          "missingGuard": "缺少基于玩家可见实体的 option gate：Choice worker 没有一个可执行的“只能命名玩家已见过/已听过的人物”的结构化约束；storyline 激活也缺少“可见触发发生后才解锁后续 beat/角色卡”的生命周期校验。",
+          "mechanismStatement": "未来 storyline beat 在可见触发前被解锁，并通过 prompt assembly 把未登场角色卡当成当前处境交给 Choice worker；由于缺少玩家可见实体过滤，Choice worker 将隐藏关系素材转换成了玩家选项。",
+          "directCause": "Choice generator 在 turn-16/06-llm-calls.json 的第三个调用中输出“避开话题，反问卡琳娜她和德索洛是什么关系”。",
+          "propagation": "错误直接落入 turn-16/04-output.json 的 choices；玩家没有选择该选项，德索洛随后在第 18 轮才被正文正式介绍。",
+          "nonCauses": [
+            "不是长期记忆缺失；信息不是被忘记，而是隐藏信息过早进入了当前选项上下文。",
+            "Narrator 本轮正文没有提前泄露德索洛，偏离发生在 choice handoff/choice 输出。",
+            "第 11 轮门外无名男子不构成德索洛的玩家可见来源。"
+          ]
+        },
+        "rootCause": {
+          "label": "storyline-lifecycle",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "具体机制是 storyline beat 的可见触发与上下文解锁不同步：后续德索洛交易节点和角色卡在玩家尚未见到德索洛时已作为当前情节边界进入 Choice prompt；缺失的防线是玩家可见实体/已解锁 beat 过滤，导致 Choice worker 把隐藏角色关系转成可点击选项。",
+          "fixSurface": [
+            "storyline beat activation/consumption guard",
+            "choice prompt context assembly visible-entity filter",
+            "choice output validator for unseen named entities"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 16 轮正文仍是敏特话题；第 16 轮选项出现“德索洛”；visible-timeline 显示德索洛到第 18 轮才被卡琳娜叫出名字。",
+          "internalTrace": "turn-16/03-story-state.json 的 currentStoryline 已是 2-03；turn-16/06c-choice-prompt.md 把德索洛角色卡放在“当前可见处境”里；turn-15/05-runtime-after.json 已将 2-02 完成并把 currentBeatId 推到 2-03。"
+        },
+        "recommendedFixArea": "优先修复 storyline 生命周期与 Choice prompt 的解锁边界：只有玩家可见触发已发生的 beat、角色名和关系才能进入选项可用素材；对输出选项做 unseen entity 检测。",
+        "confidence": "high"
+      }
     },
     {
       "issueIndex": 10,
-      "issueId": "issue-10-turn-19",
       "turn": 19,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "choices",
+      "summary": "选项把已经由德索洛带走的信封当作仍在现场、可由玩家拿取的物件。",
+      "batchId": "batch-003",
       "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "llm-self"
+        ],
+        "fixSurface": [
+          "choice generator scene-affordance schema",
+          "object holder/location extraction from latest visible text",
+          "post-choice validator for impossible object interactions"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-10-turn-19/root-cause-report.md",
-      "resultPath": "issues/issue-10-turn-19/root-cause-result.json"
+      "recommendedFixArea": "为 Choice worker 增加对象可用性抽取与验证：选项中的动词目标必须与 latest visible scene 中的 holder/location 一致；不一致时改写为“追问信封内容”等可行行动。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-010-turn-19/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-010-turn-19/root-cause-report.md",
+      "result": {
+        "issueIndex": 10,
+        "issueId": "issue-10-turn-19",
+        "turn": 19,
+        "issueValidity": "valid",
+        "problemSummary": "第 19 轮正文已经写德索洛接过信封并带着它离开，随后选项仍提供“拿过信封看看”。",
+        "validityAssessment": {
+          "verdictReason": "同一轮正文的物件归属和空间状态非常明确，选项却把不在现场的信封当作玩家可拿取对象，构成事实冲突。",
+          "playerVisibleSupport": "第 19 轮正文写“德索洛接过信封”“他握着那封信”“快步走了出去”“门……合上”；同轮 choices 包含“拿过信封看看”。",
+          "caveats": [
+            "如果只说“问关于信封”或“追问信封内容”可成立；但“拿过”要求信封仍在现场，文本不支持。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 19 轮结束时，德索洛已完成交易，手持卡琳娜给出的信封离开公寓并关门。公寓内剩下卡琳娜和主角，卡琳娜以“你看到了。我这就是我做的事。”收束场景。",
+          "relevantFacts": [
+            {
+              "claim": "信封的当前持有者是德索洛，且德索洛已经离开公寓。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06c-choice-prompt.md"
+              ],
+              "notes": "本轮可见正文和 choice prompt 的“本轮玩家已经看到的正文”都保留了接过、握着、离开的连续动作。"
+            },
+            {
+              "claim": "Choice worker 被要求以本轮正文结尾为准判断玩家能做什么。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06c-choice-prompt.md"
+              ],
+              "notes": "最终确认区再次强调正文结尾是最终判断依据。"
+            },
+            {
+              "claim": "信封作为交易核心物件在角色卡/剧本素材中很醒目，但没有结构化位置/持有者状态。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06c-choice-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/05-runtime-after.json"
+              ],
+              "notes": "剧本写“卡琳娜给出信封”，但 runtime-after 没有 envelope entity；charactersOnStage 还保留德索洛，场景 affordance 没有被结构化校验。"
+            }
+          ],
+          "competingPressures": [
+            "信封是本轮最显眼的新线索，容易被 Choice worker 当成玩家调查对象。",
+            "帕兹角色卡强调观察取证/靠近信息源，给“看信封”行动提供了局部吸引力。",
+            "选项生成只靠 prose 阅读，没有物件持有者 schema 或后处理 validator。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/06-llm-calls.json / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json choices",
+          "triggeringPressure": "信封作为刚出现的关键线索在正文、角色卡和 storyline 中高度显著；Choice worker 需要给玩家可调查行动，而系统没有把“信封已随德索洛离开”提升为结构化不可用 affordance。",
+          "missingGuard": "缺少 choice-action target 的现场可用性检查：没有对象位置/持有者字段，也没有 post-generation 规则拦截“拿过”这类要求目标物仍在场的选项。",
+          "mechanismStatement": "Choice worker 在没有结构化 scene affordance guard 的情况下，把一个刚刚离场的显著物件绑定成玩家可执行动作；可见正文中的离场事实虽然存在，但没有被转换为硬约束或输出校验。",
+          "directCause": "turn-19 的 choiceGenerator 输出了“拿过信封看看”。",
+          "propagation": "该选项被记录到 turn-19/04-output.json，随后玩家在第 20 轮选择它，触发后续更明显的信封重现。",
+          "nonCauses": [
+            "不是 detail-memory；冲突发生在同一轮，所需事实就在 Choice prompt 末尾。",
+            "Narrator 正文在第 19 轮本身是自洽的，问题出在选项生成。",
+            "不是隐藏剧情要求玩家查看信封；剧本只要求卡琳娜给出信封并让德索洛离开。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "llm-self"
+          ],
+          "description": "具体机制是选项行动绑定缺少当前场景 affordance 校验：信封作为高显著线索吸引了“观察取证”选项，但系统没有把“德索洛握着信封离开”转为可执行的物件不可用约束，也没有拦截生成后的不可能动作。",
+          "fixSurface": [
+            "choice generator scene-affordance schema",
+            "object holder/location extraction from latest visible text",
+            "post-choice validator for impossible object interactions"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "第 19 轮正文明确描述德索洛接过信封、握着它离开并关门；同轮选项仍写“拿过信封看看”。",
+          "internalTrace": "turn-19/06c-choice-prompt.md 的最终正文区包含离场事实；turn-19/06-llm-calls.json 第三个调用输出该选项；turn-19/05-runtime-after.json 没有信封实体/持有者状态可供校验。"
+        },
+        "recommendedFixArea": "为 Choice worker 增加对象可用性抽取与验证：选项中的动词目标必须与 latest visible scene 中的 holder/location 一致；不一致时改写为“追问信封内容”等可行行动。",
+        "confidence": "high"
+      }
     },
     {
       "issueIndex": 11,
-      "issueId": "issue-11-turn-20",
       "turn": 20,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "上一轮已经被德索洛带离现场的信封无承接地重新出现在茶几上，并进一步被写成帕兹可以从谈话开始就观察完整封信。",
+      "batchId": "batch-003",
       "issueValidity": "valid",
       "rootCause": {
         "label": "choice-action-binding",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "selected-choice feasibility validator before Director",
+          "Director prompt contract for impossible actions",
+          "state/object affordance model for movable props"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-11-turn-20/root-cause-report.md",
-      "resultPath": "issues/issue-11-turn-20/root-cause-result.json"
+      "recommendedFixArea": "在 Director 前增加 selected choice 可执行性层：如果动作目标已离场，应生成承接文本（例如主角意识到信封被带走，转为询问卡琳娜）而不是重写物件位置。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-011-turn-20/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-011-turn-20/root-cause-report.md",
+      "result": {
+        "issueIndex": 11,
+        "issueId": "issue-11-turn-20",
+        "turn": 20,
+        "issueValidity": "valid",
+        "problemSummary": "第 20 轮把上一轮已由德索洛带走的信封重写为茶几上的可拿取物，并让主角打开阅读。",
+        "validityAssessment": {
+          "verdictReason": "第 20 轮正文与第 19 轮刚发生的物件转移和离场直接冲突；“玩家选择了错误选项”不能让物理状态自动改写。",
+          "playerVisibleSupport": "第 19 轮正文写德索洛接过并握着信封离开公寓；第 20 轮玩家输入为“拿过信封看看”，正文却写“茶几上那个信封”“你伸出手，拿过信封”“你打开它”。",
+          "caveats": [
+            "问题不是玩家想了解信封内容，而是系统没有把不可执行行动桥接为追问、回想观察或说明信封不在现场。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 20 轮开始前的实际可见状态是德索洛已经带着信封离开，门锁归位，卡琳娜在书架旁对主角说“你看到了。我这就是我做的事。”",
+          "relevantFacts": [
+            {
+              "claim": "信封不在茶几上，也不在主角可拿取范围内。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+              ],
+              "notes": "turn-20 Director prompt 的最近正文完整包含“德索洛接过信封”“握着那封信”“快步走了出去”。"
+            },
+            {
+              "claim": "本轮玩家输入来自上一轮错误选项“拿过信封看看”。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+              ],
+              "notes": "Director 将该输入当作本轮核心行动，而不是检测其与场景冲突。"
+            },
+            {
+              "claim": "Director 有一般一致性规则：冲突时优先相信最近几轮玩家看到的正文。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+              ],
+              "notes": "规则存在，但没有被转化为“不可执行动作必须桥接/拒绝”的具体 contract。"
+            },
+            {
+              "claim": "当前故事线要求卡琳娜对主角洞察力好奇。",
+              "availability": "over-constraining",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06a-director-prompt.md"
+              ],
+              "notes": "该目标给“主角通过信封观察展示洞察力”提供了局部叙事吸引力。"
+            }
+          ],
+          "competingPressures": [
+            "玩家输入是一个由系统上一轮提供的具体行动，Director 倾向于满足。",
+            "3-01 节点需要展示卡琳娜对主角洞察力的好奇，信封成为方便载体。",
+            "没有对象位置状态或 impossible-action 分支来支持改写为“信封已经被带走”。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-19/04-output.json choices; within target turn: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/06-llm-calls.json director object",
+          "triggeringPressure": "错误选项“拿过信封看看”被当作真实玩家输入进入第 20 轮；Director 又被当前故事线的“卡琳娜对主角洞察力好奇”拉向让主角通过信封展示观察力。",
+          "missingGuard": "缺少 selected-choice feasibility check：当玩家输入来自系统选项且与最近可见物理状态冲突时，Director 没有被要求拒绝、桥接或改写行动。一般一致性规则没有约束 requiredContent。",
+          "mechanismStatement": "错误选项一旦被选中就被升级为必须满足的玩家行动，Director 在没有可执行性校验的情况下把它写成“茶几上的信封”与 requiredContent，Narrator 随后按 handoff 复现并扩写了冲突。",
+          "directCause": "turn-20 Director 输出 actionHint“伸手拿起茶几上的信封，观察或打开”和 requiredContent“主角拿过信封查看的动作描写”；Narrator 依此写出信封在茶几上并可打开。",
+          "propagation": "turn-20/04-output.json 的 visibleText 和 currentStoryline writeback 写入“主角拿过信封查看”，成为第 21 轮的最近上下文。",
+          "nonCauses": [
+            "不是玩家自由输入导致的不可控脱轨；该输入来自系统第 19 轮提供的选项。",
+            "不是长期或细节记忆缺失；第 19 轮信封离场事实就在第 20 轮 prompt 中。",
+            "Narrator 不是最早偏离点，它主要执行了已经错误的 Director handoff。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "具体机制是选项语义与场景 affordance 绑定失败后缺少二次校验：上一轮生成的不可能动作被玩家选中后，Director 将其当成硬性玩家意图执行，而没有按最近可见状态桥接为可行行动或指出信封已随德索洛离开。",
+          "fixSurface": [
+            "selected-choice feasibility validator before Director",
+            "Director prompt contract for impossible actions",
+            "state/object affordance model for movable props"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-19 正文：德索洛接过并握着信封离开；turn-20 正文：信封躺在茶几上，主角拿过并打开。",
+          "internalTrace": "turn-20/06a-director-prompt.md 同时包含冲突事实和玩家输入；turn-20/06-llm-calls.json Director 对象把错误输入固化为 actionHint/requiredContent；turn-20/06b-narrator-prompt.md 要 Narrator 不改变导演方向。"
+        },
+        "recommendedFixArea": "在 Director 前增加 selected choice 可执行性层：如果动作目标已离场，应生成承接文本（例如主角意识到信封被带走，转为询问卡琳娜）而不是重写物件位置。",
+        "confidence": "high"
+      }
     },
     {
       "issueIndex": 12,
-      "issueId": "issue-12-turn-21",
       "turn": 21,
+      "severity": "medium",
+      "type": "fact-conflict",
+      "scope": "visibleText",
+      "summary": "The output treats an envelope that should have left the apartment with Desolo as still being available to the player.",
+      "batchId": "batch-003",
       "issueValidity": "valid",
       "rootCause": {
         "label": "state-writeback",
-        "family": "agent-system"
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "state writeback validator for movable objects",
+          "recent-turn contradiction resolver",
+          "runtime object holder/location persistence"
+        ]
       },
       "confidence": "high",
-      "reportPath": "issues/issue-12-turn-21/root-cause-report.md",
-      "resultPath": "issues/issue-12-turn-21/root-cause-result.json"
+      "recommendedFixArea": "为 runtime-after/story state 增加物件 holder/location 写回，并在新一轮构建 prompt 时对 recentTurns 中的物理冲突进行仲裁；发现上一轮错误时优先桥接修正，而不是继续承接。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-012-turn-21/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-003/issues/issue-012-turn-21/root-cause-report.md",
+      "result": {
+        "issueIndex": 12,
+        "issueId": "issue-12-turn-21",
+        "turn": 21,
+        "issueValidity": "valid",
+        "problemSummary": "第 21 轮延续第 20 轮的错误，把信封写成仍在主角手中并可放回茶几。",
+        "validityAssessment": {
+          "verdictReason": "第 21 轮的信封持有状态继承了第 20 轮错误，并继续违背第 19 轮德索洛带走信封的玩家可见事实。",
+          "playerVisibleSupport": "第 19 轮正文写德索洛握着信封离开；第 21 轮正文写“你拿着信封的手停在半空”和“你把信封放回茶几上”。",
+          "caveats": [
+            "第 20 轮已经制造了一个新的错误可见事实；第 21 轮的问题是系统继续优先采纳这个最新错误，而不是纠正与第 19 轮的冲突。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "若按第 19 轮的物理事件，信封应随德索洛离开公寓；但第 20 轮已经错误写成主角从茶几拿起并阅读信封。第 21 轮开始时系统上下文同时包含第 19 轮正确事实和第 20 轮错误事实，二者冲突。",
+          "relevantFacts": [
+            {
+              "claim": "第 19 轮确立的正确信封状态是随德索洛离场。",
+              "availability": "present-buried",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/06a-director-prompt.md"
+              ],
+              "notes": "该事实在 turn-21 的 recentTurns 中仍存在，但被第 20 轮最近错误状态压过。"
+            },
+            {
+              "claim": "第 20 轮错误状态被写入最近上下文：主角拿起、打开、合上信封。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json"
+              ],
+              "notes": "它是第 21 轮最近一轮 visibleText，也是当前叙述最直接的物理连续性来源。"
+            },
+            {
+              "claim": "第 20 轮 writeback 将错误概括为“主角拿过信封查看”。",
+              "availability": "stale",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json"
+              ],
+              "notes": "错误被写入 currentStoryline update，并随最近历史进入下一轮。"
+            },
+            {
+              "claim": "系统没有结构化 envelope holder/location，因此无法在第 21 轮解析两条 recentTurns 的冲突。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/05-runtime-after.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 中没有信封实体；charactersOnStage 还保留德索洛，显示场景状态写回也不精确。"
+            }
+          ],
+          "competingPressures": [
+            "prompt/叙事习惯倾向优先承接最近一轮可见正文以保持表面连续。",
+            "第 21 轮玩家选择只是反问信任标准，并未处理信封放下问题，Narrator 自然补齐“把信封放回茶几”。",
+            "没有跨轮 contradiction resolver 去比较第 19 轮物件离场和第 20 轮物件重现。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-20/04-output.json writeback and logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/03-story-state.json recentTurns",
+          "triggeringPressure": "第 20 轮错误 visibleText/writeback 变成第 21 轮最邻近上下文，Narrator 为了动作连续性承接“主角仍拿着信封”。",
+          "missingGuard": "缺少 state writeback 的冲突检查和恢复策略：错误的物件位置被写入后，没有与更早但仍清晰的离场事实对账，也没有稳定 object state 阻止错误继续传播。",
+          "mechanismStatement": "上一轮的错误物件状态被写回为最近上下文，系统又按“最近正文优先”继续承接；由于没有结构化对象状态和跨轮冲突恢复，信封从一次错误选项扩散成后续轮次的默认现场事实。",
+          "directCause": "turn-21 Narrator 写出“你拿着信封的手停在半空”和“你把信封放回茶几上”，直接承接 turn-20 的错误持有状态。",
+          "propagation": "错误继续进入 turn-21/04-output.json 的 visibleText 和后续选择上下文，使信封在玩家感知中被进一步固化为公寓内物件。",
+          "nonCauses": [
+            "不是新的独立 hallucination；它主要承接第 20 轮已写入的错误状态。",
+            "不是 meta-memory；冲突只跨两轮，属于近场状态和写回处理。",
+            "第 21 轮当前 storyline 本身不要求信封在场，信封出现是状态传播而非剧情必需。"
+          ]
+        },
+        "rootCause": {
+          "label": "state-writeback",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "具体机制是错误可见状态缺少写回/恢复校验：第 20 轮把不可能的信封持有写入 visibleText 和 storyline summary 后，第 21 轮 prompt 把它作为最新事实承接；缺失的防线是结构化物件状态与跨轮冲突检测，导致较早的“德索洛带走信封”被压过。",
+          "fixSurface": [
+            "state writeback validator for movable objects",
+            "recent-turn contradiction resolver",
+            "runtime object holder/location persistence"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "turn-19 显示德索洛带走信封；turn-21 显示主角仍拿着信封并放回茶几。",
+          "internalTrace": "turn-20/04-output.json writes 将错误状态写入正文和 currentStoryline；turn-21/03-story-state.json 的最近历史把 turn-20 错误状态放在最新位置；turn-21/05-runtime-after.json 没有 envelope object state 可纠正。"
+        },
+        "recommendedFixArea": "为 runtime-after/story state 增加物件 holder/location 写回，并在新一轮构建 prompt 时对 recentTurns 中的物理冲突进行仲裁；发现上一轮错误时优先桥接修正，而不是继续承接。",
+        "confidence": "high"
+      }
     }
   ]
 }

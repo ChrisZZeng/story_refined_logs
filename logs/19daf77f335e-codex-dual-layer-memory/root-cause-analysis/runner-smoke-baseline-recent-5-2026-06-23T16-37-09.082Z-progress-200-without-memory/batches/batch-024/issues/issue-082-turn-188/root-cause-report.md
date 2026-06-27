@@ -1,0 +1,70 @@
+# Root Cause Report - issue-82 turn 188
+
+## Problem
+第 188 轮新增“卡琳娜向卡尔讲述昨晚和主角的谈话，卡尔回应‘那不是很好吗’”的壁炉前对话，和早前卡尔对玩家可见叙述的“她后来没有说什么了/只问你值不值得信任”冲突。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 玩家此前已经直接向卡尔追问“卡琳娜后来还说了什么”，卡尔回答她后来没有说什么、没有复盘对白，只问了一个信任问题；第 188 轮却让卡琳娜回忆自己后来向卡尔说了大量关于主角倾听方式的话，并得到卡尔一句明确回应，改写了同一夜晚同一壁炉前事件。
+- playerVisibleSupport: visible-timeline.jsonl 第 34 轮写“她后来没有说什么了”“今晚她一句都没有提”“她问我——你值不值得信任”；第 35 轮继续限定她问这个问题时的状态。第 188 轮写“我后来跟她说——我说，我今天跟一个人说了很多……”“卡尔说，那不是很好吗”。
+- caveats:
+- 可以把第 188 轮理解为卡琳娜自己的版本，但早前卡尔是在玩家追问后给出细节，且措辞是排他性的“没有说什么了/一句都没有提”，因此新增大段倾诉和回应不是普通补充。
+
+
+## Context Assessment
+actualStateBeforeIssue: 玩家已知道昨晚卡琳娜在壁炉前沉默很久，反常之处是没有像以前那样复盘每一句对白，后来只问卡尔“你值不值得信任”；当前公园对话里，卡琳娜正围绕“昨晚那些话”试探主角是否愿意进入她半开的门。
+
+relevantFacts:
+- `absent`：卡尔早前说卡琳娜后来没有再说什么、没有提晚宴对白，只问主角是否值得信任。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06a-director-prompt.md, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06b-narrator-prompt.md
+  - notes: 该精确信息不在第 188 轮最近五轮上下文内；当前故事线 summary 只保留“卡尔回忆并告知卡琳娜在壁炉前的状态和提问”，没有保留排他性否定。
+- `over-constraining`：当前故事线把“卡琳娜的内心反思”和“卡尔与卡琳娜的互动”列为本节点可呈现内容。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/03-story-state.json, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06a-director-prompt.md
+  - notes: 这个 storyline pressure 鼓励继续挖掘昨晚壁炉前的内心内容，但没有同时约束它必须兼容早前卡尔叙述。
+- `present-clear`：Director 本轮要求卡琳娜回应承诺并“部分分享她对昨晚谈话的内心感受”。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06b-narrator-prompt.md
+  - notes: 这是合理情感推进，但在缺少旧事实 guard 时，为 Narrator 构造一段安慰性回忆提供了局部压力。
+- `present-clear`：第 187 轮最新可见文本使用“门”的比喻，玩家第 188 轮回应“我可以走进去”。
+  - artifacts: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06a-director-prompt.md
+  - notes: 该最近语境强烈推动温馨、确认式对话，但不要求新增卡尔的昨晚台词。
+
+competingPressures:
+- 当前情感弧线要求“温馨安心”，更容易生成一段被卡尔认可的安慰性回忆。
+- storyline content 明示“卡尔与卡琳娜的互动”，但没有说明该互动已经由早前可见文本限定。
+- 早前第 31-35 轮的精确对话已经超出 recent context 窗口，只剩压缩摘要。
+- 卡琳娜当前需要主动分享但有所保留，Narrator 需要找一个不直接泄露敏特情报的安全分享内容。
+
+
+## Causal Chain
+- firstDivergenceArtifact: /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/06-llm-calls.json 的 Narrator streamText / /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-188/04-output.json
+- triggeringPressure: Director handoff 要求卡琳娜部分分享昨晚谈话后的内心感受；storyline 又把“卡尔与卡琳娜的互动”作为本节点材料，但状态摘要只抽象保留“壁炉前状态和提问”，没有保留早前“没有说什么/没有复盘”的排他性事实。
+- missingGuard: 缺少对早前可见对话的 negative fact persistence：系统没有把“卡琳娜没有向卡尔复盘，也没有得到一段安慰回应”作为稳定事实注入第 188 轮。
+- mechanismStatement: 早前玩家可见的排他性对话事实在 state/storyline summary 中被压缩成模糊的“状态和提问”，随后“分享昨晚内心感受 + 卡尔与卡琳娜互动”的剧情压力让 Narrator 用一段新编的卡尔回应填补情感空白，从而改写了昨晚壁炉前发生过什么。
+- directCause: Narrator 将卡琳娜的当前情感确认写成一段昨晚已经向卡尔倾诉并被卡尔认可的回忆。
+- propagation: 错误直接进入第 188 轮 visibleText；第 189 轮继续沿用“我昨晚在壁炉前坐那么久”的情绪话题，虽然没有重复卡尔原话，但已经承认了第 188 轮新增回忆。
+- nonCauses:
+- 不是 Choice worker 主因；冲突出现在正文生成阶段之前。
+- 不是玩家输入导致的必然改写；玩家只是给出“我可以走进去”的承诺。
+- 不是隐藏设定冲突；仅凭第 31-35 轮与第 188 轮玩家可见文本即可确认。
+
+
+## Root Cause
+- label: `state-summary-negative-fact-loss`
+- family: `detail-memory`
+- secondaryFamilies: `agent-system`
+- description: 早前对话中的限制性细节——卡琳娜没有复盘、后来只问信任问题——没有作为稳定事实保留到 story state/current storyline；后续情感 beat 又要求回到昨晚内心反思和卡尔互动，Narrator 因缺少否定边界而补写了一段并不存在的倾诉与回应。
+- fixSurface:
+  - statefold/storyline summary policy: 保留对后续可产生冲突的 negative facts，例如“没有说更多”“没有得到回答”“只问了 X”。
+  - memory persistence: 为关键已公开对话建立 exact/limited conversation facts，供后续回忆同一事件时检索。
+  - Narrator prompt guard: 当要求角色回忆已出现过的离屏对话时，显式列出可用事实和禁止新增的响应范围。
+
+
+## Evidence
+- playerVisible: 第 34 轮卡尔对“后来还说了什么”的回答是否定性且排他；第 188 轮新增的“我后来跟她说……”和“卡尔说，那不是很好吗”与之直接冲突。
+- internalTrace: turn-188/03-story-state.json 与 06a/06b prompt 的 currentStoryline summary 只写“卡尔回忆并告知卡琳娜在壁炉前的状态和提问”，未包含“没有说什么/一句都没有提”；turn-188 Director output 要求“部分分享她对昨晚谈话的内心感受”；turn-188/04-output.json 首次生成新增对话。
+
+## Recommended Fix Area
+优先修复 summary/memory 对已公开离屏对话的限制性事实保留；在回忆同一事件时做 source-of-truth 检索和否定事实注入。
+
+## Confidence
+`high`

@@ -1,0 +1,41 @@
+[
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 9,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 9 描述客厅时写道：\"书架上还搁着一只搪瓷杯，白色，杯口有一圈蓝边，杯底残留着一层浅褐色的茶渍。\" 后文又写：\"视线从卡琳娜脸上移开了一瞬——落在书架上的搪瓷杯上\"。",
+    "conflictingEvidence": "turn 8 从楼梯上看进客厅时，同一只具有相同特征的杯子被放在窗台上：\"窗台上放着一只搪瓷杯，白色，杯口有一圈蓝色的边。\"",
+    "conflictingTurns": [8],
+    "source": "model-output",
+    "reason": "同一只显著物件在没有可见移动动作的情况下从窗台变到书架，造成轻微物件位置连续性漂移。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "visibleText",
+    "type": "fact-conflict",
+    "severity": "medium",
+    "currentEvidence": "turn 10 卡琳娜说：\"两星期前。她在古董街附近出现过——向人打听骷髅会的船期。行踪不定，没人能说她现在还在不在岛上。\"",
+    "conflictingEvidence": "turn 9 帕兹说明自己找的朋友在这座岛上后，卡琳娜听到\"敏特\"这个名字，回答：\"……她确实在这里。\" 并接着说：\"我会帮你在这座岛上找到你想找的人。\"",
+    "conflictingTurns": [9],
+    "source": "model-output",
+    "reason": "卡琳娜先确认敏特确实在岛上，下一轮又改成只能确认两星期前出现过且现在是否仍在岛上无人知晓，核心寻人信息被明显降级并相互冲突。"
+  },
+  {
+    "windowRange": { "start": 1, "end": 10 },
+    "evalRange": { "start": 1, "end": 10 },
+    "turn": 10,
+    "scope": "mixed",
+    "type": "event-negated",
+    "severity": "medium",
+    "currentEvidence": "turn 10 选项仍提供：\"起身走到书架前，看看那些书和那只搪瓷杯\"。",
+    "conflictingEvidence": "同一轮正文刚写卡琳娜已经把杯子带走：\"她走向书架的方向，伸手取下那只搪瓷杯\"，随后\"她端着杯子走向客厅另一侧的门\"并进入走廊，\"木门在她身后合上\"。",
+    "conflictingTurns": [10],
+    "source": "model-output",
+    "reason": "正文已经让搪瓷杯离开书架和客厅，选项却仍把它作为书架上的可查看物件，导致玩家可选行动与刚发生的可见事件冲突。"
+  }
+]

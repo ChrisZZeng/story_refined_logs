@@ -1,0 +1,40 @@
+[
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 22,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "low",
+    "currentEvidence": "第 22 轮先写“夜晚的空气涌进来”，随后在宴会厅内写“窗外，最后一缕天光沉入海面。夜幕从水平线沿着天空的方向向上铺展”。",
+    "conflictingEvidence": "此前玩家可见上下文已多次确立为夜晚：第 11 轮写“暗街的夜里”，第 17 轮写“窗外那片夜色”，第 20 轮写“远处的夜空”，第 21 轮又说“今晚”去凯旋门。",
+    "conflictingTurns": [11, 17, 20, 21],
+    "source": "model-output",
+    "reason": "已经进入夜晚后又写成最后一缕天光正在沉入海面，造成轻微的时间连续性滑移。"
+  },
+  {
+    "windowRange": {
+      "start": 11,
+      "end": 30
+    },
+    "evalRange": {
+      "start": 21,
+      "end": 30
+    },
+    "turn": 24,
+    "scope": "visibleText",
+    "type": "identity-drift",
+    "severity": "high",
+    "currentEvidence": "第 24 轮康纳出场时写“她正穿过那道人墙的缝隙向这边走来”，随后以“[康纳 → 卡琳娜]”说话，并持续使用“她”的叙述。",
+    "conflictingEvidence": "第 21 轮卡琳娜说“康纳今晚在凯旋门设宴，庆祝什么——他自己也想不起来的理由”，并说“康纳不会在自己的宴会上动手”。第 22 轮远端身影被写成“他背对着你们的方向”“他的肩宽”。第 23 轮又写“那个方向是康纳所在的位置，尽管他还没有转向这边”。",
+    "conflictingTurns": [21, 22, 23],
+    "source": "model-output",
+    "reason": "康纳在玩家可见上下文中刚被建立为男性高大身影，下一轮正式交谈时突然变为女性代词和形象，直接破坏核心人物身份连续性。"
+  }
+]

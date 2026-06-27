@@ -1,0 +1,94 @@
+{
+  "issueId": "issue-028-turn-90",
+  "turn": 90,
+  "issueValidity": "valid",
+  "problemSummary": "turn 90 在 turn 89 已经把卡琳娜写到户外路灯下等待后，又从“暖光笼罩的室内跨出门槛”重新出发，回滚了刚刚可见的空间状态。",
+  "validityAssessment": {
+    "verdictReason": "该问题有效但严重度低于 turn 89，因为它延续的是上一轮已出错的空间状态；从玩家视角看，上一轮结尾已经在户外，下一轮再从室内出门仍是可见连续性回滚。",
+    "playerVisibleSupport": "turn 89 结尾写卡琳娜站在路灯照亮的潮湿路面上等你；turn 90 开头写你跟着她站起身，从室内跨出门槛，再穿过三条窄巷到达梧桐树和长椅。",
+    "caveats": [
+      "turn 90 的写法若单独接在 turn 88 后会合理；问题在于它没有承认 turn 89 已经把人物放到室外。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "按玩家刚看到的 turn 89 末尾，卡琳娜已在户外路灯和潮湿路面下侧身等待；玩家选择“跟她一起走走”应从这个户外等待点继续。",
+    "relevantFacts": [
+      {
+        "claim": "上一轮可见末尾已经是户外路灯/潮湿路面。",
+        "availability": "present-clear",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-90/06a-director-prompt.md"
+        ],
+        "notes": "turn 90 Director prompt 的 recentTurns 明确包含这段 turn 89 可见文本。"
+      },
+      {
+        "claim": "turn 90 currentStoryline summary 没有记录 turn 89 的实际末尾空间状态。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-90/03-story-state.json",
+          "turn-89/04-output.json"
+        ],
+        "notes": "turn 89 writes 的 storyline update 只概括“回应带进去了什么”，未写“站到户外等待/已在公园或路灯下”。"
+      },
+      {
+        "claim": "currentScene 仍缺失，旧 storyline 核心流程继续要求公园长椅。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "turn-90/03-story-state.json",
+          "turn-90/06a-director-prompt.md",
+          "turn-90/05-runtime-after.json"
+        ],
+        "notes": "结构化状态没有可用当前场景锚点，prompt 仍保留“卡琳娜带着主角来到附近公园/长椅”的旧流程。"
+      },
+      {
+        "claim": "Director 在 turn 90 重新安排“离开室内前往公园”。",
+        "availability": "present-clear",
+        "artifacts": [
+          "turn-90/04-output.json",
+          "turn-90/06b-narrator-prompt.md"
+        ],
+        "notes": "Director summary 与 beats 将本轮写成从室内出门、穿过暗巷、进入公园。"
+      }
+    ],
+    "competingPressures": [
+      "最近可见文本已经户外",
+      "玩家选择“跟她一起走走”",
+      "state/writeback 没有保存上一轮末尾物理位置",
+      "旧 storyline 仍把公园作为待执行转换",
+      "Narrator 服从 Director 的室内到公园骨架"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-89/04-output.json writes and turn-90/04-output.json plotPoint",
+    "triggeringPressure": "turn 89 的 writeback 没有把实际可见末尾“户外等待”写入 currentStoryline/currentScene；turn 90 Director 面对玩家“跟她一起走走”时，被旧的室内到公园转换 beat 拉回。",
+    "missingGuard": "缺少 runtime/state 的 last-visible-location writeback 与下一轮开头校验；Director 没有硬性比较上一轮 visible tail 和本轮 scene transition 是否回滚。",
+    "mechanismStatement": "上一轮末尾空间状态没有被结构化持久化，旧 storyline 转场 beat 又保持可用，导致下一轮 Director 以过期室内状态起笔，Narrator 把已经发生过的出门/去公园动作重放。",
+    "directCause": "Director 输出“主角接受邀请，两人离开室内前往公园”，Narrator 开头写“从暖光笼罩的室内跨出门槛”。",
+    "propagation": "turn 90 visibleText 回滚空间状态后又把两人安置到公园长椅，形成与 turn 89 末尾的低强度但明确的连续性断裂。",
+    "nonCauses": [
+      "不是玩家选择含糊；“跟她一起走走”应承接上一轮等待动作。",
+      "不是单纯需要更多描写；问题是出发点从户外被回滚成室内。",
+      "不是隐藏信息造成的差异；玩家可见文本本身足以判定冲突。"
+    ]
+  },
+  "rootCause": {
+    "label": "state-writeback",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 turn 89 实际可见末尾包含户外等待，但 writeback/currentScene 没有保存该位置，旧 storyline 转场仍可执行；缺失防线是 last-visible-location 与 scene-transition 回滚检测；失败运动是 turn 90 从过期室内状态重新出门，重放了已经可见完成的空间移动。",
+    "fixSurface": [
+      "turn writeback 增加 lastVisibleLocation/characterPositions，从 visible tail 或 Narrator output 抽取并持久化",
+      "Director 输入加入上一轮 endingState 作为高优先级字段，且高于 storyline content",
+      "场景转换后处理检测：若本轮 opening location 与上一轮 ending location 冲突，要求桥接或修正"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 89 末尾：卡琳娜在路灯照亮的潮湿路面上等你；turn 90 开头：你跟着她从室内跨出门槛并重新走到公园。",
+    "internalTrace": "turn-90/06a-director-prompt.md 已包含 turn 89 户外末尾，但 turn-90/04-output.json 仍输出“离开室内前往公园”；turn-90/03-story-state.json summary 缺少 turn 89 的户外等待末尾。"
+  },
+  "recommendedFixArea": "优先修复 state writeback 与 Director 的上一轮 endingState 优先级，确保下一轮从玩家最后看到的位置继续。",
+  "confidence": "high"
+}

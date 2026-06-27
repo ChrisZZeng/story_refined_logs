@@ -1,0 +1,86 @@
+{
+  "issueId": "issue-78-turn-171",
+  "issueIndex": 78,
+  "turn": 171,
+  "issueValidity": "valid",
+  "problemSummary": "turn 170 玩家可见正文把相机搁在靠垫上；turn 171 玩家只是收回视线回到靠垫边坐下，却直接写相机在靠垫旁地面上，缺少拿起、挪开或放下的动作承接。",
+  "validityAssessment": {
+    "verdictReason": "相机位置变化发生在连续相邻回合，且玩家输入只覆盖从窗边返回并坐下。正文可以隐含轻微整理动作，但这里直接声明新位置，缺少承接，属于有效的低严重度物件连续性漂移。",
+    "playerVisibleSupport": "turn 170: “你站起身，把相机搁在靠垫上，走到窗边。” turn 171: “相机搁在靠垫旁的地面上，取景框玻璃斜指向窗户的方向。” 玩家输入没有说移动相机。",
+    "caveats": [
+      "玩家回到靠垫边坐下时，可能会自然把相机挪开，因此严重度低。",
+      "问题主要是缺少可见动作桥，而非完全不可解释的物理矛盾。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "问题前一轮，主角为了探窗观察，把相机放在靠垫上，自己走到窗边并把窗户留缝。turn 171 开始时玩家选择收回视线、回到靠垫边坐下继续等待。",
+    "relevantFacts": [
+      {
+        "claim": "相机最后被明确放在靠垫上。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06b-narrator-prompt.md"
+        ],
+        "notes": "该事实是 turn 170 正文第一句，进入 turn 171 recentTurns。"
+      },
+      {
+        "claim": "玩家本轮核心动作是回到靠垫边坐下并继续等待。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06b-narrator-prompt.md"
+        ],
+        "notes": "Director 只总结等待，没有要求移动相机，也没有禁止补写一个移动动作。"
+      },
+      {
+        "claim": "相机位置不是结构化 scene/entity state。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-170/05-runtime-after.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/05-runtime-after.json"
+        ],
+        "notes": "runtime-after 的 entityStates 只有公园、卡琳娜等粗状态；没有相机/靠垫位置。"
+      }
+    ],
+    "competingPressures": [
+      "回到靠垫边坐下需要给身体和物件腾位置",
+      "Narrator 慢铺感官细节，倾向布置静物画面",
+      "recent prompt 同时包含相机包在脚边、相机在膝上/包中/靠垫上等多轮物件位置"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-171/06-llm-calls.json#narrator-streamText",
+    "triggeringPressure": "本轮动作要求从窗边回到靠垫边坐下；为了写静态等待画面，Narrator 需要重新安置相机，而 Director handoff 没有保留“相机在靠垫上”或要求补写移动动作。",
+    "missingGuard": "缺少物件位置 writeback 与动作桥接 guard；相机位置只在上一轮 prose 中，未被作为需要续接的 current object location 传递。",
+    "mechanismStatement": "当玩家动作改变姿态/座位时，上一轮物件位置没有结构化进入 handoff，Narrator 便以当前静态构图重新推断相机位置，并跳过移动承接，造成物件从靠垫到地面的可见漂移。",
+    "directCause": "Narrator 在 turn 171 第二段直接写“相机搁在靠垫旁的地面上”。",
+    "propagation": "该位置进入 04-output.json 的 turnContent write；后续 turn 172 又从地面提起相机包/整理背包，没有回溯解释 turn 171 的移动。",
+    "nonCauses": [
+      "不是 Choice action binding；玩家选项本身只是返回坐下。",
+      "不是 storyline 要求相机在地面；storyline 只维持等待卡琳娜。",
+      "不是长期记忆缺失；正确事实就在上一轮。"
+    ]
+  },
+  "rootCause": {
+    "label": "state-writeback",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "上一轮的局部物件位置没有写入可执行 scene/entity state，也没有在 Director handoff 中作为 must-preserve fact；在姿态变化场景中，Narrator 以“坐下等待”的静态构图重置相机位置，却没有被要求生成动作桥。",
+    "fixSurface": [
+      "runtime state/writeback: 记录高显著物件位置和持有关系",
+      "Director/Narrator handoff: 为姿态变化附加 object-continuity checklist",
+      "Narrator prompt: 若改变物件位置必须显式写出移动动作"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 170 相机在靠垫上；turn 171 变为靠垫旁地面；两者之间没有玩家可见移动动作。",
+    "internalTrace": "turn-171/03-story-state.json 和 prompts 包含 turn 170 原句，但 currentStoryline summary 只概括观察巷口；turn-170/05-runtime-after.json 与 turn-171/05-runtime-after.json 没有相机位置；turn-171/04-output.json 和 07-events.json 显示 narrator 首次输出地面位置。"
+  },
+  "recommendedFixArea": "补强局部物件状态写回和 Narrator 的动作桥约束：物件位置从最近正文改变时，必须显式写出拿起、放下、挪开或保持原位。",
+  "confidence": "medium"
+}

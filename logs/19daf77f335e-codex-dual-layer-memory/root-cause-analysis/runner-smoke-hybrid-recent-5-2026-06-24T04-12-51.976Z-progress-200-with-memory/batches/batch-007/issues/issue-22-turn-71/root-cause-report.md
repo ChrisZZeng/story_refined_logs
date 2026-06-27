@@ -1,0 +1,54 @@
+# Root Cause Report: issue-22-turn-71
+
+## Problem
+第71轮把上一轮位于沙发另一头、尾巴敲在沙发垫上的黑猫改写为蹲坐在沙发扶手上、尾巴垂在扶手边缘，未给出移动承接。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 该 issue 有效，但严重度低。第70轮的最后位置是黑猫跳上沙发另一头、前爪收进身体下、尾巴尖敲沙发垫；第71轮开头直接写它蹲坐在沙发扶手上、尾巴垂在扶手边缘。两者可空间相邻，但文本没有移动或姿态转换承接。
+- playerVisibleSupport: turn 70 visibleText: “跳上沙发的另一头……前爪收进身体下面……尾巴尖在沙发垫上轻轻敲了两下”。turn 71 visibleText: “蹲坐在沙发扶手上……尾巴尖垂在扶手边缘”。
+- caveats:
+- “沙发的另一头”在物理上可能靠近扶手，因此不是大幅场景断裂；核心问题是尾巴接触点和姿态变化未被叙述承接。
+
+## Context Assessment
+- actualStateBeforeIssue: 第70轮结束时，黑猫已经从卡琳娜脚边跳到沙发另一头，收起前爪闭眼，尾巴尖在沙发垫上敲动。主角第71轮选择只是看向卡尔、等待它加入，没有触发猫移动。
+- relevantFacts:
+- 黑猫上一轮的即时位置和尾巴接触点是沙发另一头/沙发垫。 availability=present-clear artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06b-narrator-prompt.md notes=最近一轮正文完整进入 prompt，且比旧记忆更近。
+- 本轮玩家动作只是看向并等待，不包含移动黑猫或靠近扶手。 availability=present-clear artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/04-output.json notes=玩家输入和 Director playerIntent 都是观察与等待。
+- 提示中存在大量旧场景/地点摘要，把黑猫惯常锚定在沙发扶手。 availability=present-buried artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06a-director-prompt.md notes=地点摘要、旧 recentTurns、角色动作多次出现“沙发扶手”，与最近位置竞争。
+- Director 输出把位置改成“沙发扶手上的黑猫卡尔”。 availability=over-constraining artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/04-output.json notes=这是第一处把错误位置结构化交给 Narrator 的 artifact。
+- runtime/entity state 没有独立记录黑猫当前 pose/location。 availability=absent artifacts=/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-70/05-runtime-after.json, /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/05-runtime-after.json notes=runtime 只保留 charactersOnStage 包含黑猫，没有沙发另一头/沙发垫等实体位置。
+- competingPressures:
+- 角色/地点记忆中的惯常沙发扶手位置
+- 最近 visibleText 的沙发另一头/沙发垫位置
+- Director 想突出猫的尾巴敲击作为回应
+- 温馨慢铺节奏使动作被重复而非明确移动
+
+## Causal Chain
+- firstDivergenceArtifact: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-71/06-llm-calls.json call[0] Director output`
+- triggeringPressure: prompt 中旧场景摘要多次把黑猫与沙发扶手绑定，且 Director 需要安排“黑猫卡尔保持闭眼、尾巴轻敲”的小动作；这些压力把动作吸回惯常的扶手位置。
+- missingGuard: 缺少 current-scene entity position anchor：上一轮的精确位置没有被提升为结构化、近端、强制优先的事实；“最近可见文本优先”的规则也没有在 Director 输出字段中变成可校验约束。
+- mechanismStatement: 上一轮精确位置虽在 prompt 中，但未作为当前实体位置锚点进入 Director 的 must-preserve contract，旧的“沙发扶手”场景模板与猫尾动作压力覆盖了最近正文，导致位置无承接跳转。
+- directCause: Director 把 beats 写成“主角的目光转向沙发扶手上的黑猫卡尔”，requiredContent 写成“尾巴尖在扶手上轻敲两下”；Narrator 依此输出蹲坐在扶手上、尾巴垂在扶手边缘。
+- propagation: 错误只在 visibleText 中传播；turn-71/07-events.json 记录 narrator 完成该正文，runtime-after 未写入可纠正的黑猫位置状态，后续仍可沿用扶手位置。
+- nonCauses:
+- 不是玩家输入导致；玩家只选择看向并等待。
+- 不是缺少上一轮文本；turn-71 prompt 明确包含 turn70 沙发垫事实。
+- 不是 Choice 首发错误；Choice 只在错误正文后生成后续选项。
+
+## Root Cause
+- label: `current-scene-anchor`
+- family: `recent-context`
+- secondaryFamilies: ["agent-system"]
+- description: 最近一轮实体位置没有被维护为结构化当前场景锚点；触发压力是旧记忆/地点摘要反复把黑猫放在沙发扶手并要求尾巴动作，缺失防线是没有强制 Director 继承上一轮“沙发另一头/沙发垫”的实体 pose/location，失败运动是 Director 选择了惯常扶手模板并让 Narrator 具体化。
+- fixSurface: recentTurns -> Director 的实体位置抽取与置顶, current scene entity state/writeback：记录黑猫 location/pose/tailContact, Director validator：若改变实体位置需生成移动承接, prompt priority：最近 visibleText 覆盖旧地点摘要
+
+## Evidence
+- playerVisible: 第70轮黑猫“跳上沙发的另一头”，尾巴在“沙发垫”上敲；第71轮无移动句，直接成为“蹲坐在沙发扶手上”，尾巴垂在扶手边缘。
+- internalTrace: turn-71/06a-director-prompt.md 包含第70轮原文；同一 prompt 也含多个旧“沙发扶手”地点摘要。turn-71/06-llm-calls.json call[0] 首次输出“沙发扶手上的黑猫卡尔”和“尾巴尖在扶手上轻敲”；call[1] 生成对应正文。runtime-after 未记录黑猫位置。
+
+## Recommended Fix Area
+增加当前场景实体锚点抽取与校验：每轮从 visibleText 写回可见实体的 location/pose/contactPoint，下轮 Director 必须继承；若输出改变位置，要求显式移动桥接。
+
+## Confidence
+`high`

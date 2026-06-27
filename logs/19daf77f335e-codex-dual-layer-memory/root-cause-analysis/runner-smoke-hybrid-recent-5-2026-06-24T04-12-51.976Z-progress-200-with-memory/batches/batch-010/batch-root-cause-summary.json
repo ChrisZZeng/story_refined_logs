@@ -1,0 +1,159 @@
+{
+  "batchId": "batch-010",
+  "issueCount": 1,
+  "completedCount": 1,
+  "validityCounts": {
+    "valid": 1,
+    "questionable": 0,
+    "invalid": 0,
+    "missing": 0
+  },
+  "issues": [
+    {
+      "issueIndex": 33,
+      "turn": 113,
+      "severity": "medium",
+      "type": "space-time-break",
+      "scope": "mixed",
+      "summary": "The generated choice and subsequent narration treat a palm-up hand as if the back of the hand were exposed upward, making the focal touch posture physically inconsistent.",
+      "batchId": "batch-010",
+      "issueValidity": "valid",
+      "rootCause": {
+        "label": "choice-action-binding",
+        "family": "agent-system",
+        "secondaryFamilies": [
+          "recent-context"
+        ],
+        "fixSurface": [
+          "choice generator prompt/schema：加入 physical affordance check，要求动作接触面必须匹配最近可见 body pose；对“掌心朝上/朝下/握拳/手放桌面”等姿势生成可行接触选项。",
+          "selected-choice -> Director handoff：加入冲突检测与 repair rule；若玩家输入来自系统选项但与可见姿势冲突，Director 必须桥接、改写为物理可行等价动作，或显式写出角色/玩家调整姿势。",
+          "Narrator prompt：在 requiredContent 与 recent visible state 冲突时，优先维护玩家已见物理状态，并用最小改写保留核心意图。",
+          "可选 state model：把当前接触相关 pose/contactSurface 作为短期 scene affordance 存入当前场景状态，供 Choice 和 Director 共同读取。"
+        ]
+      },
+      "confidence": "high",
+      "recommendedFixArea": "优先修复 `choice-action-binding`：在 Choice 生成和 selected-choice handoff 中加入 scene affordance/pose 校验与冲突修复；其次在 Narrator 层加入 requiredContent 与 recent visible state 冲突时的局部改写规则。",
+      "resultPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-010/issues/issue-033-turn-113/root-cause-result.json",
+      "reportPath": "/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/batches/batch-010/issues/issue-033-turn-113/root-cause-report.md",
+      "result": {
+        "issueId": "issue-33-turn-113",
+        "issueIndex": 33,
+        "turn": 113,
+        "severity": "medium",
+        "type": "space-time-break",
+        "scope": "mixed",
+        "issueValidity": "valid",
+        "problemSummary": "第 113 轮玩家可见正文把卡琳娜的手明确写成“掌心朝上”平放在椅面上，但同轮生成选项给出“覆上她的手背”；第 114 轮又按该选项叙述玩家的手从上方落到她手背并以掌心感受手背温度，形成玩家可见的接触姿势矛盾。",
+        "validityAssessment": {
+          "verdictReason": "该 issue 有效。仅看玩家可见内容，掌心朝上意味着手背朝下或至少不是可被“覆上/落到”的上表面；后续文本没有写卡琳娜翻手、侧手或玩家从下方托起，却反复把触碰面写成“手背”，因此不是隐含动作可自然补足的空白。",
+          "playerVisibleSupport": "Turn 113 visibleText 结尾写“手指扁平地搁在椅面上，掌心朝上”；同一轮可见选项出现“轻轻伸出手，覆上她的手背”。Turn 114 visibleText 随后写“平稳地落到了她搁在椅面上的手背上”、又写“手背上她皮肤的温度，在你掌心下保持着稳定”。这些证据都来自玩家可见 timeline/output。",
+          "caveats": [
+            "如果正文写明卡琳娜翻手或玩家改为托住掌心，问题可消失；但目标窗口内没有这种过渡。",
+            "“路灯的光落在她手背上”在手从口袋抽出时曾出现，但后文“掌心朝上”更新了最终可触碰姿势。"
+          ]
+        },
+        "contextAssessment": {
+          "actualStateBeforeIssue": "第 113 轮结束时，卡琳娜刚把一直在口袋里的手抽出，放在膝盖旁边的长椅椅面上，距离玩家约一掌宽；她没有直接说同意，只说“你可以告诉我，它应该是什么感觉”，最后明确为手指平放、掌心朝上。玩家能自然做的是靠近、碰指尖、把手放在旁边，或接触她的掌心/指尖，而不是从上方覆盖手背。",
+          "relevantFacts": [
+            {
+              "claim": "卡琳娜的最终手部姿势是平放在椅面上且“掌心朝上”。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/06c-choice-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-114/03-story-state.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-114/06b-narrator-prompt.md"
+              ],
+              "notes": "该事实位于第 113 轮正文最后一句，在 choice prompt 和下一轮 narrator prompt 的“最近几轮玩家经历”中也保留，属于最高相关的近期可见事实。"
+            },
+            {
+              "claim": "“手背”一词在第 113 轮较早出现于“路灯的光落在她手背上”，但那是在手从口袋抽出过程中的视觉描写。",
+              "availability": "stale",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/04-output.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/06c-choice-prompt.md"
+              ],
+              "notes": "该词可能提高了“手背”这个接触面的局部显著性，但后续“掌心朝上”才是选项生成时应服从的最终姿势。"
+            },
+            {
+              "claim": "Choice worker 被要求“先以本轮正文结尾为准”生成玩家此刻能合理做的行动。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/06c-choice-prompt.md"
+              ],
+              "notes": "这是一个通用合理性要求，但没有把“接触面/身体朝向”变成可检查的硬约束或结构化 pose。"
+            },
+            {
+              "claim": "Choice worker 生成了“轻轻伸出手，覆上她的手背”，并带出 actionId。",
+              "availability": "present-clear",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/06-llm-calls.json",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/04-output.json"
+              ],
+              "notes": "这是最早的错误 artifact：它把可见的开放姿态绑定成一个物理上不匹配的玩家动作。"
+            },
+            {
+              "claim": "第 114 轮 Director/Narrator 同时看到了“掌心朝上”和玩家输入“覆上她的手背”。",
+              "availability": "contradicted",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-114/06a-director-prompt.md",
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-114/06b-narrator-prompt.md"
+              ],
+              "notes": "两个 worker 的 prompt 中既有近期可见姿势，也有已选动作文本；但导演输出和 requiredContent 强化了“手背”，没有要求修正动作与姿势冲突。"
+            },
+            {
+              "claim": "runtime-after 没有单独的手部姿势状态或写回字段来纠正/约束后续叙述。",
+              "availability": "absent",
+              "artifacts": [
+                "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-114/05-runtime-after.json"
+              ],
+              "notes": "runtime-after 只保留 worldState/entityStates/internal beat 等运行态，不是本次错误的首发点，也未提供可供下游校验的 contact surface 状态。"
+            }
+          ],
+          "competingPressures": [
+            "情感线压力：近几轮围绕“空出来的手”“抓住什么”“不会想松开”持续铺垫，推高了生成亲密触碰选项的概率。",
+            "局部词汇显著性压力：第 113 轮中较早的“路灯的光落在她手背上”让“手背”成为高显著接触词。",
+            "选项短文本压力：Choice worker 需要输出短、具体、可点击行动，容易压缩掉姿势检查。",
+            "下游顺从玩家输入压力：第 114 轮玩家输入来自上一轮选项，Director/Narrator 将其当作必须满足的核心动作。",
+            "风格压力：Narrator 被要求慢铺、触觉细节优先，进一步反复描写“手背温度”，放大了矛盾。"
+          ]
+        },
+        "causalChain": {
+          "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/06-llm-calls.json[2].object.options[0]（同步落到 logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-113/04-output.json 的 choices.options[0]）",
+          "triggeringPressure": "第 113 轮 choice prompt 中既有近期“手/抓住/不会松开”的情感铺垫，也有较早“路灯的光落在她手背上”的词汇；Choice worker 需要把当前开放姿态转成一个短行动选项，于是直接把“覆上手背”作为温柔触碰动作。",
+          "missingGuard": "系统没有把最终身体姿势“掌心朝上”转成结构化、可校验的 physical affordance；Choice contract 只要求“合理可选”，没有硬性检查接触面是否与 pose 匹配。第 114 轮也没有“如果 selected choice 与上一轮可见物理状态冲突，必须桥接、改写为可行触碰面，或拒绝字面执行”的 handoff/repair 规则。",
+          "mechanismStatement": "Choice 生成阶段把近期亲密触碰意图绑定到一个与最终手部朝向不兼容的接触面；由于下游 handoff 把该选项文本当作玩家输入和 Director requiredContent 的硬事实，而没有物理姿势冲突修复，Narrator 只能沿“手背”继续细写，最终把“掌心朝上”和“覆上手背”同时呈现给玩家。",
+          "directCause": "Choice worker 错误生成“覆上她的手背”；Director 在第 114 轮将该错误重述为 summary、beats、requiredContent；Narrator 服从导演安排并在正文中重复“手背”和“掌心朝上”，使矛盾显性化。",
+          "propagation": "turn-113/04-output.json 将错误选项展示给玩家；玩家在 turn 114 选择该选项后，turn-114/06a-director-prompt.md 把它作为玩家输入，turn-114/06-llm-calls.json 的 director object 写入“主角伸手覆上卡琳娜的手背”和 requiredContent；turn-114/06b-narrator-prompt.md 再把该导演安排交给 Narrator，turn-114/04-output.json 最终输出从上方落到手背并感受手背温度的正文。turn-114/07-events.json 记录了同一 plotPoint 和 requiredContent。",
+          "nonCauses": [
+            "不是 meta-memory 或 detail-memory 遗忘：关键姿势来自上一轮结尾，且在 prompts 中 present-clear。",
+            "不是 storyline-lifecycle 或 fixed-beat-consumption：当前 storyline 只要求情感沉淀和卡尔暗示，没有指定“手背”动作。",
+            "不是 state-writeback 首发：runtime-after 没有把错误姿势写成独立实体状态；错误在 Choice 输出中已经出现。",
+            "不是单纯 evaluator 误判：玩家可见文本本身同时给出互斥的接触面和手掌朝向。"
+          ]
+        },
+        "rootCause": {
+          "label": "choice-action-binding",
+          "family": "agent-system",
+          "secondaryFamilies": [
+            "recent-context"
+          ],
+          "description": "根因是选项生成到后续执行的 action binding 缺少物理可供性校验：Choice worker 在“掌心朝上”的近期事实存在且清晰时，把亲密触碰意图绑定成“覆上手背”；selected choice 进入下一轮后又被 Director/Narrator 当作硬动作，而系统没有要求在玩家输入与最近可见姿势冲突时桥接或修正为“覆上掌心/托住掌心/碰指尖”等可行动作。触发压力是情感触碰铺垫和“手背”词汇显著性，缺失防线是接触面-姿势校验与下游冲突修复 handoff，失败运动是错误选项被玩家选择后固化为导演 requiredContent 并由 Narrator 细写。",
+          "fixSurface": [
+            "choice generator prompt/schema：加入 physical affordance check，要求动作接触面必须匹配最近可见 body pose；对“掌心朝上/朝下/握拳/手放桌面”等姿势生成可行接触选项。",
+            "selected-choice -> Director handoff：加入冲突检测与 repair rule；若玩家输入来自系统选项但与可见姿势冲突，Director 必须桥接、改写为物理可行等价动作，或显式写出角色/玩家调整姿势。",
+            "Narrator prompt：在 requiredContent 与 recent visible state 冲突时，优先维护玩家已见物理状态，并用最小改写保留核心意图。",
+            "可选 state model：把当前接触相关 pose/contactSurface 作为短期 scene affordance 存入当前场景状态，供 Choice 和 Director 共同读取。"
+          ]
+        },
+        "evidence": {
+          "playerVisible": "visible-timeline.jsonl、turn-113/04-output.json 和 turn-114/04-output.json 显示：第 113 轮正文最终是“掌心朝上”，同轮选项却是“覆上她的手背”；第 114 轮正文继续写“落到了她搁在椅面上的手背上”“手背上她皮肤的温度，在你掌心下保持着稳定”。这是玩家不需要内部信息即可看到的物理矛盾。",
+          "internalTrace": "turn-113/06c-choice-prompt.md 已把“掌心朝上”放在“本轮玩家已经看到的正文（最终判断依据，尤其结尾）”中，且要求先看正文结尾判断能合理做什么；但 turn-113/06-llm-calls.json[2] 输出了错误选项。turn-114/06a-director-prompt.md 与 turn-114/06b-narrator-prompt.md 同时包含上一轮“掌心朝上”和玩家输入“覆上她的手背”；Director object、events 和 04-output 都把“手背”作为必须描写内容继续传播。turn-114/05-runtime-after.json 未提供独立姿势写回，排除 runtime state 首发。"
+        },
+        "recommendedFixArea": "优先修复 `choice-action-binding`：在 Choice 生成和 selected-choice handoff 中加入 scene affordance/pose 校验与冲突修复；其次在 Narrator 层加入 requiredContent 与 recent visible state 冲突时的局部改写规则。",
+        "confidence": "high"
+      }
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "issueId": "issue-46-turn-115",
+  "turn": 115,
+  "issueValidity": "valid",
+  "problemSummary": "玩家上一轮最后看到相机已经挂在脖子上，下一轮又看到相机在窗台上，没有任何拿下或放回窗台的过渡。",
+  "validityAssessment": {
+    "verdictReason": "该问题成立。turn 114 的最终可见状态明确写成“相机挂在脖子上”，turn 115 又写“窗台上的相机和防水袋”，中间没有玩家行动或叙述把相机放回窗台。",
+    "playerVisibleSupport": "turn 114 可见文本先有“你把相机从膝盖上拿起来放到窗台上”，但随后更新为“相机挂在脖子上”；turn 115 可见文本写“你低头看了一眼窗台上的相机和防水袋”。",
+    "caveats": [
+      "turn 114 内部已经有一次未交代的相机位置变化；本 issue 只以 turn 114 末尾到 turn 115 的玩家可见断裂确认问题成立。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 114 结束时，主角站在窗边，防水袋在手边或窗台附近，相机已经挂在脖子上，银色铃铛在外套内袋里，四点半快到。",
+    "relevantFacts": [
+      {
+        "claim": "相机在 turn 114 末尾已经挂在主角脖子上。",
+        "availability": "present-buried",
+        "artifacts": [
+          "visible-timeline.jsonl",
+          "turn-114/04-output.json",
+          "turn-115/06b-narrator-prompt.md"
+        ],
+        "notes": "事实在上一轮长正文的靠后位置出现，对玩家很清楚；但在 Narrator prompt 中只是 recentTurns 长段正文的一部分，没有被抽成当前物品状态。"
+      },
+      {
+        "claim": "相机更早曾和防水袋一起在窗台上。",
+        "availability": "stale",
+        "artifacts": [
+          "turn-113/04-output.json",
+          "turn-114/04-output.json",
+          "turn-115/06b-narrator-prompt.md"
+        ],
+        "notes": "旧位置在 turn 113 和 turn 114 前半段都出现过，容易被晨光/窗台描写重新激活，但它已被 turn 114 后半段的挂脖状态覆盖。"
+      },
+      {
+        "claim": "本轮导演安排没有说明相机当前位置，只要求观察夜色与暗示四点半。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-115/04-output.json",
+          "turn-115/06-llm-calls.json"
+        ],
+        "notes": "Director 输出的 beats、requiredContent 和 actionHint 都没有把“相机在脖子上”变成 Narrator 必须遵守的硬约束。"
+      },
+      {
+        "claim": "runtime/story state 没有结构化记录相机的 last-visible location。",
+        "availability": "absent",
+        "artifacts": [
+          "turn-115/03-story-state.json",
+          "turn-115/04-output.json",
+          "turn-115/05-runtime-after.json"
+        ],
+        "notes": "turnContent 和 currentStoryline 只写入剧情摘要；没有可供下一轮直接读取的物品位置槽位。"
+      }
+    ],
+    "competingPressures": [
+      "最近几轮反复在窗边/窗台检查装备",
+      "慢铺晨光时自然会描写窗台物件",
+      "Director 只强调感官观察和时间接近四点半",
+      "通用一致性规则存在但不够靠近最终生成任务"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "turn-115/06-llm-calls.json call[1] (Narrator streamText)，随后写入 turn-115/04-output.json",
+    "triggeringPressure": "recentTurns 中既有旧的“相机和防水袋并排放在窗台上”，也有更新的“相机挂在脖子上”；Director handoff 没有提炼当前物品位置，而本轮晨光观察描写把注意力拉回窗台。",
+    "missingGuard": "缺少 currentSceneAnchor / object last-write summary，把上一轮末尾的“相机挂在脖子上”作为 Narrator 和 Choice 的强约束；也缺少旧位置被新位置覆盖时的显式优先级提示。",
+    "mechanismStatement": "当同一物品在 recent prose 中有旧位置和新位置，而 handoff 没有抽取“当前可见物品位置”时，Narrator 会为当前氛围描写调用更有画面感的旧窗台构图，造成相机从脖子无过渡跳回窗台。",
+    "directCause": "Narrator 使用了 stale/buried 的窗台位置描写“窗台上的相机和防水袋”，而没有遵守上一轮末尾的挂脖状态。",
+    "propagation": "turn 115 正文固化为窗台相机；同轮 Choice 又给出“拿起相机和防水袋，准备出发”，继续承认相机在窗台上。",
+    "nonCauses": [
+      "不是 Karina/Carl 的角色记忆问题，本轮她们没有参与。",
+      "不是长期 meta-memory 遗忘；正确事实就在上一轮可见文本里。",
+      "不是剧情需要的有意转场；没有任何可见动作支撑位置变化。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 recentTurns 长正文里旧窗台构图比最新挂脖状态更容易被晨光描写调用；缺失防线是没有结构化 current-scene/object anchor 与 last-write 优先级；失败运动是 Narrator 在缺少硬约束时把相机回填到旧位置，并由 Choice 继续传播。",
+    "fixSurface": [
+      "context assembly: 为当前地点、主角姿态、手持/穿戴/摆放物品生成 last-visible-state anchor",
+      "Narrator prompt: 在导演 JSON 后追加不可违背的 Current Scene Anchor，并要求旧位置必须由显式动作改写",
+      "Choice prompt/output validator: 检查选项是否假设物品位于旧位置"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 114 末尾：“相机挂在脖子上”；turn 115：“窗台上的相机和防水袋”。",
+    "internalTrace": "turn-115/04-output.json 的 plotPoint 未包含相机位置；turn-115/06-llm-calls.json call[1] 首次输出“窗台上的相机和防水袋”；turn-115/04-output.json 的 writes 只写 currentStoryline 摘要，没有物品状态写回。"
+  },
+  "recommendedFixArea": "优先修复 currentSceneAnchor / object-location statefold 与 Narrator/Choice 的硬约束注入，避免 recent prose 中旧位置覆盖最新可见状态。",
+  "confidence": "high"
+}

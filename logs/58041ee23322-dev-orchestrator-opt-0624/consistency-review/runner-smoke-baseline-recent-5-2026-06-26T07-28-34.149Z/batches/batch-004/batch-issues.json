@@ -1,0 +1,87 @@
+[
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 31,
+    "scope": "visibleText",
+    "type": "space-time-break",
+    "severity": "medium",
+    "currentEvidence": "turn 31 写到大厅尽头高窗外“新西西里岛的天空呈现出一种深蓝中透暗紫的颜色”，并说明“那是白昼的最后一点余光”。",
+    "conflictingEvidence": "turn 24 玩家离开楼房时，正文写明夜风带着“凌晨时分特有的那种没有任何气味的空气”，随后街道空寂、只有路灯与暗影。",
+    "conflictingTurns": [
+      24
+    ],
+    "source": "model-output",
+    "reason": "此前玩家可见时间已经进入凌晨深夜，turn 31 又把宴会窗外写成日落余光，造成可见时间倒退。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 36,
+    "scope": "choices",
+    "type": "fact-conflict",
+    "severity": "low",
+    "currentEvidence": "turn 36 选项写道：“反问她：‘你觉得呢？你才是这里的主人。’”",
+    "conflictingEvidence": "turn 30 卡琳娜说明这是“凯旋门的晚宴”，并说“但晚宴属于凯旋门”；turn 34 她又说明“康纳·凯拉宁”是“凯旋门的管理者”。",
+    "conflictingTurns": [
+      30,
+      34
+    ],
+    "source": "model-output",
+    "reason": "选项把卡琳娜称为宴会或场所的主人，与玩家已知的凯旋门归属和康纳管理者身份不符。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "high",
+    "currentEvidence": "turn 37 中卡琳娜问“想去透透气吗？附近有个公园。”正文随即写“你点了点头”，并让玩家跨过门槛、离开大厅、穿过小路进入公园。",
+    "conflictingEvidence": "turn 37 的玩家输入只是回答宴会观感：“富丽堂皇，但每个人都带着面具。”玩家尚未选择是否接受去公园的提议。",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "model-output",
+    "reason": "模型在同一轮内替玩家接受邀请并完成跨场景移动，越过了玩家应当选择的关键行动。"
+  },
+  {
+    "windowRange": {
+      "start": 21,
+      "end": 40
+    },
+    "evalRange": {
+      "start": 31,
+      "end": 40
+    },
+    "turn": 37,
+    "scope": "visibleText",
+    "type": "user-input-ignored",
+    "severity": "medium",
+    "currentEvidence": "turn 37 在公园里让卡琳娜问“你和她很熟吗？”，随后直接写玩家回答：“我认识她。很久以前。”“她……帮过很多人。也帮过我。”“……我想找到她。”",
+    "conflictingEvidence": "turn 37 的玩家输入没有选择回答敏特关系，也没有授权在这轮中披露新的个人表述；该轮玩家只评价了宴会。",
+    "conflictingTurns": [
+      37
+    ],
+    "source": "model-output",
+    "reason": "模型替玩家给出关键私人问题的回答，固定了玩家角色的表达和关系叙述，超出了本轮玩家输入。"
+  }
+]

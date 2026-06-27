@@ -1,0 +1,95 @@
+{
+  "issueId": "issue-13-turn-22",
+  "turn": 22,
+  "issueValidity": "valid",
+  "problemSummary": "Turn 22 在没有新动作的情况下说卡琳娜“撑着膝盖的姿势没有变”，随后又让她“直起身”，重复了 turn 21 已经结束的弯腰姿态。",
+  "validityAssessment": {
+    "verdictReason": "该 issue 有效。玩家在 turn 21 已看到卡琳娜弯腰与玩家视线平齐后“她直起身，没有继续追问”；turn 22 开头却把同一弯腰姿态当成仍在持续，并再次写她直起身。没有玩家可见的中间动作解释她为什么重新弯下去。",
+    "playerVisibleSupport": "visible-timeline.jsonl 中 turn 21 先写“她弯下腰，双手撑在膝盖上”，随后写“她直起身，没有继续追问”；turn 22 又写“卡琳娜撑着膝盖的姿势没有变”并接着“她直起身”。",
+    "caveats": [
+      "严重度偏低，因为 turn 22 在同一段里很快把她重新写成站直姿态；但重复的起始姿态仍是玩家可见的连续性断裂。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "turn 21 结束时，卡琳娜已从双手撑膝、与玩家视线平齐的姿态直起身，停止追问；玩家仍在沙发附近，黑猫在沙发靠背上。",
+    "relevantFacts": [
+      {
+        "claim": "卡琳娜在 turn 21 中曾弯腰、双手撑膝与玩家视线平齐。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/06b-narrator-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/03-story-state.json"
+        ],
+        "notes": "该姿态以具体动作描写出现在 recentTurns 中，画面感很强，容易被后续叙述继续沿用。"
+      },
+      {
+        "claim": "同一 turn 21 已经结束该姿态：卡琳娜直起身，没有继续追问。",
+        "availability": "present-buried",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/06b-narrator-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/03-story-state.json"
+        ],
+        "notes": "事实在最近可见正文中是清楚的，但只作为长段 prose 的最后一句出现，没有被提升为 current pose/location anchor。"
+      },
+      {
+        "claim": "turn 22 的 Director 只要求主角承认战地记者身份、卡琳娜接收信息并保持试探，没有要求保持撑膝姿态。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/06-llm-calls.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/06b-narrator-prompt.md"
+        ],
+        "notes": "Director output 缺少当前姿态约束，也没有把“已直起身”显式传给 Narrator。"
+      },
+      {
+        "claim": "运行时没有结构化记录卡琳娜当前姿态/位置，runtime-after 也没有可用于覆盖 prose 里的旧姿态。",
+        "availability": "absent",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/03-story-state.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-21/05-runtime-after.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/05-runtime-after.json"
+        ],
+        "notes": "curStates 主要是角色卡、地点和设定；缺少 scene entity 的 final pose。"
+      }
+    ],
+    "competingPressures": [
+      "玩家输入“她猜得差不多”语义上延续 turn 21 卡琳娜观察/判断主角的近身互动。",
+      "recentTurns 中“弯下腰，双手撑在膝盖上”比后面的“她直起身”更具画面显著性。",
+      "Director handoff 是抽象心理/对话安排，没有提供本轮开场应继承的身体状态。",
+      "当前故事线已经推进到新节点，但该节点素材与房间内即时姿态无关，不能修正姿态。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/06-llm-calls.json call[1] narrator text / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/04-output.json",
+    "triggeringPressure": "Narrator prompt 的 recentTurns 同时包含一个画面强烈的旧姿态（双手撑膝、与视线平齐）和一个较弱的结束动作（她直起身）；Director 只要求卡琳娜继续观察并回应主角身份，没有把最终姿态显式化。",
+    "missingGuard": "缺少“以上一轮最后可见姿态为起点”的结构化 current-scene anchor，也缺少对临时动作 lifecycle 的 consumed-state 标记；通用一致性提示不足以阻止复用已结束姿态。",
+    "mechanismStatement": "当最近正文里一个已完成的临时姿态只有 prose 级结束句、没有结构化 final pose anchor 时，Narrator 会被更显著的旧动作吸引，把已 consumed 的撑膝姿态当作本轮开场状态，导致同一角色再次直起身。",
+    "directCause": "Narrator 在 turn 22 选择了 stale posture 作为开场，而不是继承 turn 21 的最终 upright state。",
+    "propagation": "错误进入 turn 22 可见正文和之后的 recentTurns；后续 turn 24 又可从这条错误 recent text 中看到“撑膝”姿态，增加同类姿态复活的风险。",
+    "nonCauses": [
+      "不是 meta-memory：所需事实就在上一轮玩家可见正文中。",
+      "不是 storyline 固定演出：当前故事线没有要求卡琳娜保持撑膝。",
+      "不是 Choice 生成问题：错误发生在 Narrator 可见正文。"
+    ]
+  },
+  "rootCause": {
+    "label": "current-scene-anchor",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "触发压力是 recentTurns 中画面显著但已结束的撑膝姿态；缺失防线是没有结构化的上一轮最终姿态/临时动作 consumed 标记，也没有 Director->Narrator 的硬性当前场景锚点；失败运动是 Narrator 复用旧姿态作为本轮起点，从而把已经直起身的卡琳娜再次写成撑膝后再直起。",
+    "fixSurface": [
+      "context assembly: 为 Narrator 提供 currentScene.entityPose/currentLocation 的短锚点，来源于上一轮最后可见帧",
+      "statefold/event extraction: 抽取角色最终姿态、位置和临时动作 consumed 状态",
+      "Narrator prompt/check: 若复用最近动作，必须检查该动作是否已在上一轮结束"
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 21 玩家看到“她弯下腰，双手撑在膝盖上”后又看到“她直起身，没有继续追问”；turn 22 玩家又看到“卡琳娜撑着膝盖的姿势没有变”和“她直起身”。",
+    "internalTrace": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/06b-narrator-prompt.md 的 recentTurns 保留 turn 21 全段 prose；logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/06-llm-calls.json call[0] Director object 没有姿态要求，call[1] Narrator text 首次引入错误；logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-22/05-runtime-after.json 未提供姿态状态。"
+  },
+  "recommendedFixArea": "在 prompt/context assembly 与 statefold 之间增加可执行的 current-scene anchor：上一轮最后角色位置、姿态、手部状态，以及 transient action consumed 标记；Narrator 生成前优先继承该锚点。",
+  "confidence": "high"
+}

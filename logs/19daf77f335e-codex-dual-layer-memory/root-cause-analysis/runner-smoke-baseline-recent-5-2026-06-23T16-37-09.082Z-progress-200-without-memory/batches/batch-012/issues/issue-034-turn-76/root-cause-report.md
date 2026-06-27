@@ -1,0 +1,79 @@
+# Root Cause Report: issue-34-turn-76
+
+## Problem
+- issueId: `issue-34-turn-76`
+- turn: `76`
+- problemSummary: Turn 76 在没有玩家可见转场的情况下，把上一轮仍在卡尔小屋壁炉前的谈话切回公园长椅，并把公园路灯、夜风与壁炉火光、靠垫上的卡尔混在同一镜头里。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: valid。玩家在 turn 75 看到卡尔趴在靠垫上、卡琳娜坐在壁炉边旧椅子上，段落以“壁炉里的火苗轻轻跃动着”收束；turn 76 开头却直接写“长椅上的卡琳娜”“公园的树梢”“长椅边上的路灯”，末尾又写“靠垫上那只黑色母猫的尾巴尖在火光里”。没有任何玩家可见移动或切场能解释这个混合场景。
+- playerVisibleSupport: visible-timeline turn 75: 室内壁炉、旧椅子、靠垫、火光；visible-timeline turn 76: 公园、长椅、路灯、夜风，同时保留靠垫和火光。
+- caveats:
+  - turn 76 后续几轮延续了公园场景，但这只能说明错误被接受为新场景，不能反向证明 turn 75 到 turn 76 有过玩家可见转场。
+
+## Context Assessment
+- actualStateBeforeIssue: 问题发生前，玩家实际看到的最近状态是卡尔小屋壁炉前的室内谈话：卡尔在靠垫上，卡琳娜在壁炉边旧椅子上，玩家刚追问卡尔“新动作”的含义，随后转向卡琳娜询问“水面开始动”的看法。
+- relevantFacts:
+  - claim: turn 75 的当前可见场景是卡尔小屋壁炉前，而不是公园。
+    availability: `present-clear`
+    artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/03-story-state.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06a-director-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06b-narrator-prompt.md`
+    notes: recentTurns 和最近几轮玩家经历连续多次写到壁炉、旧椅子、靠垫、火光，属于强近期可见证据。
+  - claim: 结构化地点状态没有把“卡尔小屋·壁炉前”作为当前场景锚点提供给 worker。
+    availability: `absent`
+    artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/03-story-state.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-75/05-runtime-after.json`
+    notes: turn 76 的 curStates.locationStates 只有“夜晚的街道”和“公园”；runtimeAfter 也没有可用 currentScene 字段。
+  - claim: 当前 storyline 仍携带公园长椅、背景/CG 的原始节点约束。
+    availability: `over-constraining`
+    artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/03-story-state.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06a-director-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06b-narrator-prompt.md`
+    notes: prompt 中“核心流程”与约束要求卡琳娜在公园长椅、使用公园 CG；这些是旧场景/节点资源约束，但仍进入本轮。
+  - claim: Director 没有在 handoff 中明确 scene，也没有要求 Narrator 保持室内壁炉场景。
+    availability: `absent`
+    artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/04-output.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06-llm-calls.json`
+    notes: Director output 只给出“卡琳娜回应询问”的剧情骨架，未设置 scene；Narrator 需要自行从混合上下文决定画面。
+  - claim: “优先相信最近几轮玩家看到的正文”的一致性规则存在。
+    availability: `present-buried`
+    artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06a-director-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06b-narrator-prompt.md`
+    notes: 该规则是一般性说明，没有被转成当前场景硬约束，且与更显式的公园资源约束同在 prompt 中。
+- competingPressures:
+  - 近期可见文本要求保持室内壁炉场景
+  - currentStoryline content/constraints 强推公园长椅和公园 CG
+  - Director handoff 聚焦谈话内容而非 scene
+  - Narrator 需要输出画面标签并维持诗性环境描写
+
+## Causal Chain
+- firstDivergenceArtifact: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/06-llm-calls.json (Narrator streamText) / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-76/04-output.json`
+- triggeringPressure: turn 76 prompt 的结构化场景状态仍是“夜晚的街道/公园”，currentStoryline 还显式要求公园长椅和“和卡琳娜在公园/夜晚”CG；而 Director 没有给 Narrator 一个明确的室内 scene 覆盖这些旧约束。
+- missingGuard: 缺少从上一轮 visibleText/data-bg 写回并高优先级呈现的 currentScene anchor，也缺少在 storyline 场景素材已被消耗或被近期文本覆盖时降权/禁用的 lifecycle guard。
+- mechanismStatement: 旧 storyline 的公园场景约束和 stale locationStates 被继续前置，但最新室内壁炉场景只以长篇 recentTurns 形式存在且没有硬 scene anchor，Narrator 因而把公园镜头作为当前画面，同时又复用室内的火光/靠垫细节，形成玩家可见的时空混合。
+- directCause: Narrator 在 turn 76 正文开头选用了公园长椅/路灯框架，又在末尾保留“靠垫”“火光”的室内细节。
+- propagation: 错误被写入 turnContent 和 visible timeline；turn 77 继续在公园长椅上展开，说明这次错误场景成为后续回合的近期上下文。
+- nonCauses:
+  - 不是隐藏设定导致的玩家可见错误；只凭可见 turn 75/76 已可确认。
+  - 不是玩家输入要求转场；玩家只是询问卡琳娜对卡尔话语的看法。
+  - 不是单纯“Director 错了”；Director 的问题是没有提供 scene guard，首个可见偏离发生在 Narrator 输出。
+
+## Root Cause
+- label: `current-scene-anchor`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: 系统没有把上一轮玩家可见的“卡尔小屋壁炉前”写回为高优先级 currentScene，也没有让已过期的公园长椅资源约束降权；在 Director handoff 未明确 scene 时，Narrator 被 stale storyline/locationStates 拉回公园，并混入近期室内细节。
+- fixSurface:
+  - current scene/state writeback from turnContent data-bg and visible scene cues
+  - prompt assembly priority for currentScene over storyline resource hints
+  - storyline scene/CG constraint lifecycle: consumed/incompatible beats must be marked and suppressed
+  - Narrator preflight check for scene-resource contradictions
+
+## Evidence
+- playerVisible: turn 75 室内壁炉谈话 -> turn 76 无转场切到“公园的树梢/长椅边上的路灯”，但同段仍写“靠垫”“火光”。
+- internalTrace: turn-76/03-story-state.json 的 locationStates 缺少卡尔小屋；turn-76/06a 与 06b prompt 中 currentStoryline content/constraints 仍含公园长椅/CG；turn-76 Director output 无 scene；turn-76 Narrator raw output 首帧直接设置 data-bg="夜晚的街道" data-cg="和卡琳娜在公园/夜晚"。
+
+## Recommended Fix Area
+优先修复 currentScene 写回与 prompt 组装优先级：把最新可见场景作为硬锚点传给 Director/Narrator，并在 storyline 节点的场景资源被近期文本覆盖后自动降权。
+
+## Confidence
+`high`
+
+## Output Files
+- JSON: `logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-34-turn-76/root-cause-result.json`
+- Markdown: `logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-012/issues/issue-34-turn-76/root-cause-report.md`

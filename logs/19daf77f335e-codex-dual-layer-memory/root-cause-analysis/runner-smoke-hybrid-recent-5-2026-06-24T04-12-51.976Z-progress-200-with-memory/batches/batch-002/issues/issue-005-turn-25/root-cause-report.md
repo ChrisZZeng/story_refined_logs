@@ -1,0 +1,47 @@
+# Root Cause Report
+
+## Problem
+- issueId: `issue-5-turn-25`
+- turn: `25`
+- problemSummary: 卡琳娜在玩家复述“亏欠作货币”时表现得像第一次听到这种说法，和她此前亲自向玩家解释“亏欠本身就是暗街的货币”相冲突。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 该问题用玩家可见文本即可成立：turn 13 已由卡琳娜本人讲清“尊严、亏欠、羞耻”并说“这份亏欠本身，就是暗街的货币”，turn 25 却写成“亏欠？”、“我第一次听到有人这么形容”。这不是隐藏设定冲突，而是同一角色对已公开核心规则的可见记忆/连续性冲突。
+- playerVisibleSupport: turn 13 卡琳娜本人说明暗街不收钱，亏欠本身是货币；turn 25 玩家回答“我看懂了你用‘亏欠’作货币”，卡琳娜回应“第一次听到有人这么形容”。turn 4 小贩也曾从外部说明“申诉人不收钱，收亏欠”。
+- caveats: “有人这么形容”可以勉强读成“别人这样形容”，但由于她此前几乎使用同一概念自述，玩家仍会感到她把核心概念当成新发现。
+
+## Context Assessment
+- actualStateBeforeIssue: 德索洛完成“尊严换公道”的交易后离开，卡琳娜关上铁门并问玩家“这一行你看懂了多少”。玩家回答看懂了“亏欠作货币”。在玩家可见历史里，暗街的交易逻辑已经由小贩和卡琳娜本人多次建立。
+- relevantFacts:
+  - `present-clear` 卡琳娜本人知道并使用“尊严/亏欠/货币”作为暗街交易逻辑。 artifacts: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06a-director-prompt.md`, `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06b-narrator-prompt.md`. notes: 角色卡明确写着她“不收钱，收尊重，收亏欠”，这是角色认知边界内的核心设定。
+  - `present-buried` 卡琳娜此前已向玩家亲自解释“这份亏欠本身，就是暗街的货币”。 artifacts: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/visible-timeline.jsonl`, `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06a-director-prompt.md`. notes: 玩家可见证据在 turn 13 很清楚；turn 25 prompt 中更多以历史概览、地点总结和事件记忆形式弱化为“规矩/亏欠即货币”，没有作为本轮硬约束进入 Director handoff。
+  - `present-clear` 本轮只需要表现卡琳娜对玩家洞察感兴趣，而不需要表现她第一次听说该概念。 artifacts: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json`. notes: Director 输出只要求“闻言后眼睛微微一亮，追问主角的看法”，没有要求“首次听到”。
+  - `over-constraining` “好奇/洞察”被包装成新奇反应。 artifacts: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json`. notes: Director 的“洞察”“好奇”给 Narrator 一个新奇性方向，但缺少“不要否认此前自述”的边界。
+- competingPressures: 当前 storyline 想把德索洛后的气氛从紧张转向轻松；Director 强调卡琳娜对主角洞察力的兴趣；turn 13 的精确自述不在最近几轮正文中，主要依赖长 prompt 中的总结和角色卡；写作风格倾向用“第一次听到/没听过”来强化好奇反应
+
+## Causal Chain
+- firstDivergenceArtifact: `/home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json call[1] narrator text`
+- triggeringPressure: Director 将玩家回答概括为“看懂了暗街的底层交易逻辑——亏欠作为货币”，并要求卡琳娜“表现出好奇、追问主角看法”；这鼓励 Narrator 把玩家话语写成罕见洞察。
+- missingGuard: Director/Narrator handoff 没有把“卡琳娜此前已对玩家说过亏欠本身是货币”提升为 must-not-contradict 约束，也没有要求“好奇的是玩家如何理解德索洛的具体亏欠，而不是第一次听说亏欠”。
+- mechanismStatement: 当已建立概念只以弱摘要/角色卡存在，而本轮 handoff 强调“洞察带来的好奇”时，Narrator 用“第一次听到有人这么形容”来实现新奇反应，导致角色把自己曾公开提出的核心概念重新当成外来新说法。
+- directCause: Narrator 过度发挥“好奇/新鲜”语气，在玩家可见正文中写出“亏欠？”和“第一次听到有人这么形容”。
+- propagation: turn 25 选项继续让玩家“解释对亏欠的理解”，turn 26-27 又围绕德索洛的亏欠展开，使该误读被后续对话自然接住而没有即时修正。
+- nonCauses: 不是隐藏设定导致的评测误判；不是卡琳娜不知道“亏欠”这一设定，角色卡和历史状态中该信息存在；不是 Choice 组件首发问题，Choice 只沿用了已写出的正文状态
+
+## Root Cause
+- label: `handoff-contract`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: Director→Narrator handoff 只传递“玩家有洞察、卡琳娜好奇”的表演目标，没有传递“该概念已由卡琳娜亲自讲过”的可执行连续性护栏；最近几轮又不包含 turn 13 的精确台词，导致 Narrator 把好奇写成首次听闻。
+- fixSurface: `Director output schema`, `Narrator prompt consistency guard`, `story-state/event-memory summarization`, `pre-output contradiction check`
+
+## Evidence
+- playerVisible: turn 13：“尊严。亏欠。”、“这份亏欠本身，就是暗街的货币”；turn 25：“亏欠？”、“我第一次听到有人这么形容”。
+- internalTrace: turn-25 Director object in /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-hybrid-recent-5-2026-06-24T04-12-51.976Z-progress-200-with-memory/turn-25/06-llm-calls.json emphasizes “洞察/好奇”；turn-25 prompts contain the rule in character card but do not hand off the prior self-disclosure as a hard constraint.
+
+## Recommended Fix Area
+在 Director→Narrator 交接中增加“echoedKnownConcept”或“previouslyStatedByCharacter”类约束：当玩家复述角色已讲过的核心规则时，Narrator 必须把反应写成“认可/追问理解深度”，不得写成“第一次听到/不认识该概念”。
+
+## Confidence
+`high`

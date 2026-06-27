@@ -1,0 +1,91 @@
+{
+  "issueId": "issue-43-turn-106",
+  "turn": 106,
+  "issueValidity": "valid",
+  "problemSummary": "turn 106 把未实际发生、且曾被玩家改日再说的 Connor encounter 写成帕兹坐在康纳正对面的具体记忆，并让卡琳娜确认该细节。",
+  "validityAssessment": {
+    "verdictReason": "问题成立。玩家可见 timeline 中，turn 27 只是卡琳娜建议“你应该见见她”，turn 28 玩家选择“仍然决定告辞，改日再说”并离开宴会厅；没有坐到康纳对面或观察椅子扶手的场景。turn 106 直接生成“我坐在那个位子上——康纳正对面那张椅子”的回忆。",
+    "playerVisibleSupport": "turn 26-28 只建立 Connor 尚未见面且玩家离开；turn 106 生成坐在康纳正对面的具体 prior event。turn 31 曾经也错误声称见过康纳，但那只是前置污染，不能为更具体的 turn 106 椅子记忆提供真实玩家可见支持。",
+    "caveats": [
+      "如果只看 turn 31 之后的错误文本，系统内部可能已经把“见过康纳”当作可见事实；本报告把它视为污染链的一部分，而非有效支持。"
+    ]
+  },
+  "contextAssessment": {
+    "actualStateBeforeIssue": "玩家参加过德索洛/宴会相关事件、听到卡琳娜介绍 Connor 并拒绝当场会面；之后与卡琳娜/卡尔讨论宴会感受和权力结构，但没有可见的 Connor 对坐谈判场景。",
+    "relevantFacts": [
+      {
+        "claim": "玩家没有和 Connor 进行可见会面。",
+        "availability": "present-buried",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06b-narrator-prompt.md"
+        ],
+        "notes": "历史情节概览含“主角坚持告辞...主角离开宴会厅”，但它远离最终生成指令，并与“康纳出场/权力试探”节点标题并列。"
+      },
+      {
+        "claim": "当前玩家输入只要求回应宴会结构感受，不要求补写一个具体 Connor encounter。",
+        "availability": "present-clear",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06a-director-prompt.md"
+        ],
+        "notes": "玩家选择“告诉她我在宴会上确实感觉到了什么——那套衣服不止一个人穿过”。"
+      },
+      {
+        "claim": "Director handoff 允许提及 Connor 或德索洛家族观察，但未限定为已可见观察。",
+        "availability": "over-constraining",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06-llm-calls.json",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06b-narrator-prompt.md"
+        ],
+        "notes": "requiredContent 写“帕兹可提及对康纳或德索洛家族的观察”，为 Narrator 构造具体 Connor 场景开了口。"
+      },
+      {
+        "claim": "Storyline 中 Connor 出场/权力试探节点在玩家离开后未被标记为 skipped/incompatible。",
+        "availability": "contradicted",
+        "artifacts": [
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06a-director-prompt.md",
+          "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/03-story-state.json"
+        ],
+        "notes": "历史概览同时保留“康纳出场”“权力试探”功能说明和“主角坚持告辞”摘要。"
+      }
+    ],
+    "competingPressures": [
+      "阶段五固定节点仍强调 Connor 出场、权力试探和卡琳娜/Connor 过去关系。",
+      "帕兹的“观察取证”角色特质鼓励生成具体物理细节。",
+      "turn 31 已经生成过“你见到康纳了”的错误可见污染。"
+    ]
+  },
+  "causalChain": {
+    "firstDivergenceArtifact": "logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-106/06-llm-calls.json[1].text (with upstream contamination from turn-31/06-llm-calls.json[1].text)",
+    "triggeringPressure": "当前 Director requiredContent 允许“对康纳或德索洛家族的观察”，历史概览仍呈现未完成/被拒绝的“康纳出场”“权力试探”固定节点，且前序错误 turn 31 已把“见到康纳”写进可见文本。",
+    "missingGuard": "缺少 storyline lifecycle guard：当玩家选择“改日再说”并离开时，Connor encounter 节点应被标记为 skipped/incompatible；同时缺少“只能提及已可见观察，不能补造会面座次”的 handoff 约束。",
+    "mechanismStatement": "被玩家拒绝的 Connor encounter 仍以 active/available 的 fixed storyline pressure 留在 prompt，Director 又把“可提及 Connor 观察”交给 Narrator 而没有可见性边界，Narrator 将抽象宴会感受具体化为坐在 Connor 对面的未发生记忆。",
+    "directCause": "Narrator 在 turn 106 生成“我坐在那个位子上——康纳正对面那张椅子...”并让卡琳娜确认“那张椅子的左扶手”。",
+    "propagation": "turn 106 的错误成为后续最近上下文；如果继续推进，会把 Connor 会面/座位细节固化为可引用事实。",
+    "nonCauses": [
+      "不是玩家在 turn 106 选择了见 Connor。",
+      "不是缺少 Connor 角色资料；相反，是固定节点/角色资料压力过强。",
+      "不是 Choice worker 首发，错误出现在正文生成。"
+    ]
+  },
+  "rootCause": {
+    "label": "storyline-lifecycle",
+    "family": "agent-system",
+    "secondaryFamilies": [
+      "recent-context"
+    ],
+    "description": "Connor encounter 节点在玩家离开宴会厅后没有进入 skipped/incompatible 生命周期状态，仍作为可用剧情压力出现在历史/Director handoff 中；缺少可见事件边界检查，使 Narrator 将未发生节点补写成具体回忆。",
+    "fixSurface": [
+      "Storyline node lifecycle: add skipped/incompatible state when a player declines a branch.",
+      "Director handoff contract: distinguish allowed topic mention from already-seen event details.",
+      "Narrator prompt guard: forbid creating concrete prior events unless present in visible timeline or explicit Director beat with support."
+    ]
+  },
+  "evidence": {
+    "playerVisible": "turn 27 只是介绍 Connor 并建议见面；turn 28 玩家选择改日再说并离开；turn 106 出现坐在 Connor 对面椅子的未支持记忆。",
+    "internalTrace": "turn-106/06a-director-prompt.md 历史概览保留 Connor 出场/权力试探节点；turn-106/06-llm-calls.json Director requiredContent “可提及对康纳或德索洛家族的观察”；Narrator 输出具体椅子扶手记忆。"
+  },
+  "recommendedFixArea": "修复 storyline lifecycle 与 handoff 可见性边界：declined branch 必须显式 skipped，后续只能讨论“听说/被提醒/可能会见”而不能生成“已经坐在对面”的 prior event。",
+  "confidence": "high"
+}

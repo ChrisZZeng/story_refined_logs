@@ -1,12 +1,14 @@
-# Batch Root Cause Summary: batch-013
+# batch-013 Root Cause Summary
 
-| issueIndex | turn | validity | rootCause.label | family | confidence | report |
-|---:|---:|---|---|---|---|---|
-| 38 | 87 | `valid` | `object-transfer-continuity` | `agent-system` | `high` | issues/issue-38-turn-87/root-cause-report.md |
-| 39 | 90 | `valid` | `current-scene-posture-anchor` | `recent-context` | `medium` | issues/issue-39-turn-90/root-cause-report.md |
-| 40 | 93 | `valid` | `object-affordance-continuity` | `agent-system` | `medium` | issues/issue-40-turn-93/root-cause-report.md |
-| 41 | 94 | `valid` | `object-affordance-continuity` | `agent-system` | `high` | issues/issue-41-turn-94/root-cause-report.md |
+issueCount: 4
 
-## Notes
-- 本批次 4 条 issue 均已逐条分析，包括 low severity。
-- 所有输出仅写入 batch-013 目录下的 `issues/`、`batch-root-cause-summary.md` 和 `batch-root-cause-summary.json`。
+completedCount: 4
+
+validityCounts: {"valid":4,"questionable":0,"invalid":0,"missing":0}
+
+| issue | turn | severity | type | validity | rootCause.label | family | confidence | report |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 38 | 87 | medium | fact-conflict | valid | object-transfer-continuity | agent-system | high | /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-013/issues/issue-038-turn-87/root-cause-report.md |
+| 39 | 90 | low | space-time-break | valid | current-scene-posture-anchor | recent-context | medium | /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-013/issues/issue-039-turn-90/root-cause-report.md |
+| 40 | 93 | low | fact-conflict | valid | object-affordance-continuity | agent-system | medium | /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-013/issues/issue-040-turn-93/root-cause-report.md |
+| 41 | 94 | low | fact-conflict | valid | object-affordance-continuity | agent-system | high | /home/chris/Project_Intern/1_memorax/1_story_memory/workspace/1_evaluation_suite/story_refined_logs/logs/19daf77f335e-codex-dual-layer-memory/root-cause-analysis/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/batches/batch-013/issues/issue-041-turn-94/root-cause-report.md |

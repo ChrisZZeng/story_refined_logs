@@ -1,0 +1,69 @@
+# issue-14-turn-23 Root Cause Report
+
+## Problem
+Turn 23 开头把卡琳娜放回书架旁，指尖还搭在书脊上，随后又写她从书架边走出来；此前可见状态已让她离开书架并在茶几边/站直，缺少返回书架的过渡。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 该 issue 有效。turn 21 玩家看到卡琳娜从书架边走到茶几边缘；turn 22 结束时她至少已直起身、双手抱胸，没有可见动作返回书架。turn 23 却直接以“站在书架旁、指尖还搭在书脊上”开场，并再写她从书架边走出来，构成空间跳切。
+- playerVisibleSupport: turn 21：“她从书架边走过来……停在茶几边缘”；turn 22：“她直起身……交叉抱在胸前”；turn 23：“她站在书架旁，指尖还搭在那本书的背脊上”，随后“她从书架边走出来”。
+- caveats: turn 22 没有再次明说她具体站在茶几哪一侧，因此位置有少量隐含性；但没有玩家可见的返回书架动作，仍足以判定为低严重度空间断裂。
+
+## Context Assessment
+actualStateBeforeIssue: turn 23 生成前，玩家最近看到的是卡琳娜在与玩家近距离谈话后直起身、双手抱胸；此前她已经从书架边来到茶几边缘，未显示返回书架。
+
+relevantFacts:
+- claim: 卡琳娜在 turn 21 从书架边走到茶几边缘。
+  availability: `present-clear`
+  artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/06b-narrator-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/03-story-state.json`
+  notes: 这是位置变化的最近明确来源，进入 turn 23 prompt 的 recentTurns。
+- claim: turn 22 结束时卡琳娜直起身、双手抱胸，未显示返回书架。
+  availability: `present-buried`
+  artifacts: `logs/19daf77f335e-codex-dual-layer-memory/consistency-review/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/visible-timeline.jsonl`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/06b-narrator-prompt.md`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/03-story-state.json`
+  notes: 该最终状态在长 prose 中可见，但没有形成结构化 current location/pose。
+- claim: turn 23 Director 的 actionHint 提到“从茶几旁走回书架，或站在原地回答”。
+  availability: `present-ambiguous`
+  artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/06-llm-calls.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/06b-narrator-prompt.md`
+  notes: 这承认了起点应在茶几旁，但以 optional actionHint 形式给出，未要求 Narrator 如果选择书架必须写出移动过渡。
+- claim: 系统没有结构化记录卡琳娜当前 location，从而无法硬性校验“开场在书架旁”是否需要过渡。
+  availability: `absent`
+  artifacts: `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/03-story-state.json`, `logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/05-runtime-after.json`
+  notes: runtime-after 不含书架/茶几/位置状态，Director 与 Narrator 只能从 prose 推断。
+
+competingPressures:
+- turn 20 和更早交易场景多次把卡琳娜写在书架旁，书架是高频场景锚点。
+- Director 为回答信封身份提供了“从茶几旁走回书架，或站在原地回答”的软性二选一。
+- 本轮主要任务是交代信封中目标身份，节奏要求“简洁交代线索”，压缩了空间桥接。
+- 缺少独立 current location state，prompt 中的 generic consistency rule 需要模型自行执行。
+
+## Causal Chain
+- firstDivergenceArtifact: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/06-llm-calls.json call[1] narrator text / logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/04-output.json
+- triggeringPressure: Director actionHint 把“书架”重新作为可用 endpoint，同时给的是“从茶几旁走回书架，或站在原地回答”的可选提示；Narrator prompt 里也有多轮“书架旁”的历史描写，形成强场景锚点。
+- missingGuard: 缺少“如果改变角色位置，必须显式桥接移动”的 handoff contract；也缺少当前 location anchor 告诉 Narrator 开场不能直接从书架开始。
+- mechanismStatement: 当 Director 用 optional actionHint 提供一个新位置 endpoint、但没有把 movement bridge 作为 must-satisfy contract 传给 Narrator 时，Narrator 会把 endpoint 当成开场状态，造成角色无过渡瞬移到书架。
+- directCause: Narrator 选择了 Director actionHint 中的书架 endpoint，却省略了从茶几边到书架的移动。
+- propagation: turn 23 可见正文把卡琳娜先放在书架旁，再让她走回茶几对面并双手插袋；后续 turn 24 prompt 将这个矛盾位置历史带入 recentTurns。
+- nonCauses:
+  - 不是玩家输入导致：玩家只问“他找的人是谁”，没有要求卡琳娜去书架。
+  - 不是隐藏剧情要求：当前故事线 4-01 准备节点没有要求此刻站在书架旁。
+  - 不是纯 detail-memory：所需空间关系就在最近两轮可见正文中。
+
+## Root Cause
+- label: `location-transition-bridge`
+- family: `agent-system`
+- secondaryFamilies: `recent-context`
+- description: 触发压力是 Director 将“走回书架/站在原地”写成软性 actionHint 并重新显化书架；缺失防线是 Narrator handoff 没有强制 currentLocation 起点与 movement bridge；失败运动是 Narrator 直接采用书架 endpoint 开场，跳过从茶几边返回书架的可见动作。
+- fixSurface:
+  - Director schema: 将 characterBeats.actionHint 拆成 currentLocation/from/to/transitionRequired，而非自然语言二选一
+  - Narrator prompt/check: 角色 location 与上一轮 final location 不一致时必须写 bridge 或改回原地
+  - statefold: 维护角色当前 location 与最近交互锚点（茶几、书架、门口等）
+
+## Evidence
+- playerVisible: turn 21 玩家看到卡琳娜从书架边走到茶几边缘；turn 22 没有返回书架动作；turn 23 却从“站在书架旁”开始。
+- internalTrace: logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/06-llm-calls.json call[0] 的 characterBeats.actionHint 为“从茶几旁走回书架，或站在原地回答”；call[1] Narrator text 直接写“她站在书架旁”，未写从茶几旁走回书架；logs/19daf77f335e-codex-dual-layer-memory/run_logs/runner-smoke-baseline-recent-5-2026-06-23T16-37-09.082Z-progress-200-without-memory/turn-23/05-runtime-after.json 没有 location state 可校验。
+
+## Recommended Fix Area
+强化 Director->Narrator handoff 的位置转换契约：所有 actionHint 中的新位置必须带 from/to 与 transitionRequired，并在 Narrator 输出后做可见移动桥接校验。
+
+## Confidence
+`high`

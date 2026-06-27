@@ -1,0 +1,61 @@
+# Root Cause Report - issue-11 turn 46
+
+## Problem
+turn 46 在玩家尚未清楚获知黑猫与卡尔关系时，让黑猫对“卡尔”作出“自己名字”的承认，并用“她说”承接卡尔，造成可见身份关系突兀暴露和混淆。
+
+## Validity
+- issueValidity: `valid`
+- verdictReason: 玩家可见信息此前主要把卡尔建立为“卡尔大人”、暗街秩序创建者或“卡尔的心脏”相关历史核心；黑猫虽多次在场并带有异常象征性，但可见文本没有清楚交代“黑猫就是卡尔”。turn 46 直接写黑猫像在承认自己的名字，使身份关系从暗示跳成事实。
+- playerVisibleSupport: turn 2 小贩说卡尔大人是创建暗街秩序的人；turn 38 卡琳娜说真正的家是卡尔的心脏和暗街过去的影子；turn 40-45 黑猫以“黑猫”出现。turn 46 写“卡尔带我来的”后，黑猫耳朵转动“像是对自己名字的间接承认”。
+- caveats:
+- turn 42 已有“卡尔让我记下巷子”和黑猫靠近笔记本的并置，存在伏笔；因此问题不是硬性世界观矛盾，而是 reveal/alias 边界过快、过不清楚。
+- 如果设计意图是在 turn 46 正式揭示黑猫就是卡尔，则该问题会降级；但本轮内部约束仍写着不揭示卡尔核心秘密。
+
+## Context Assessment
+- actualStateBeforeIssue: 玩家在卡琳娜真正的家里，刚接过茶并选择询问这个家住了多久。黑猫在房间内反复出现，但玩家可见称呼仍主要是“黑猫”；卡尔在玩家认知中仍是暗街历史核心/卡琳娜过去的重要人物。
+- relevantFacts:
+- `present-clear` 玩家可见的黑猫在 runtime 中仍应是未命名舞台实体。
+  artifacts: `turn-46/05-runtime-after.json`, `visible-timeline.jsonl`
+  notes: runtime-after.worldState.charactersOnStage 包含“黑猫（未命名）”，说明玩家表层实体未完成命名。
+- `present-clear` 内部角色卡把卡尔定义为黑色短毛母猫、暗街真正秩序源头。
+  artifacts: `turn-46/06a-director-prompt.md`, `turn-46/06b-narrator-prompt.md`
+  notes: 这是内部真相，不能直接用来证明玩家可见错误，但能解释链路如何泄露。
+- `contradicted` 当前 storyline 强调阶段六要引向卡尔对话，但同时约束不解释卡尔核心秘密。
+  artifacts: `turn-46/03-story-state.json`, `turn-46/04-output.json`
+  notes: 同一轮既推动卡尔互动，又保留秘密边界，缺少可见 alias 说明。
+- `over-constraining` Director handoff 明确把脚边黑猫动作写成 `卡尔` 的本轮 requiredContent。
+  artifacts: `turn-46/04-output.json`, `turn-46/06b-narrator-prompt.md`
+  notes: plotPoint 中 involvedCharacters 含 `卡尔`，beats 写“卡尔在脚边出现互动”，requiredContent 写“卡尔全程在场但不说话”。
+- competingPressures:
+- 剧本节点希望进入卡尔与卡琳娜关系的情感铺垫。
+- 内部角色卡使用稳定 ID `卡尔` 表示黑猫，而玩家可见层仍是“黑猫（未命名）”。
+- 当前约束要求不揭示核心秘密，但没有说明如何用玩家可见别名描写卡尔动作。
+
+## Causal Chain
+- firstDivergenceArtifact: `turn-46/04-output.json.plotPoint / turn-46/06-llm-calls.json[0]`
+- triggeringPressure: Director 看到内部角色卡和 storyline 中的 `卡尔`，并在本轮安排里把 `卡尔` 作为在场角色和动作承担者，要求 Narrator 写“卡尔全程在场但不说话，只以动作回应”。
+- missingGuard: handoff 没有区分 internalCharacterId 与 playerVisibleAlias，也没有在 secret boundary 下要求 Narrator 在揭示前只能写“黑猫”而不能写成名字承认。
+- directCause: Director 的 `卡尔在脚边出现互动` handoff 让 Narrator 把黑猫耳朵动作写成对“卡尔”名字的承认。
+- mechanismStatement: 内部身份 ID 被直接下发为可执行叙事对象，而当前玩家可见 alias 仍是“黑猫（未命名）”；缺少 hidden-identity alias/redaction contract 时，Narrator 会把脚边黑猫动作解释为 `卡尔` 对名字的回应，造成身份秘密提前、模糊地暴露。
+- propagation: 错误进入 turn-46 visibleText；turn-47 choice prompt 和后续 recentTurns 继续把该段作为上下文，使黑猫/卡尔绑定更容易被后续巩固。
+- nonCauses:
+- 不是单纯 Narrator 忽略设定；Narrator 是在执行 Director 已经写出的 `卡尔` 动作安排。
+- 不是长期记忆缺失；相反是隐藏真相过强进入了当前 handoff。
+- 不是玩家输入导致；玩家只问这个家住了多久。
+
+## Root Cause
+- label: `hidden-identity-alias-contract`
+- family: `agent-system`
+- secondaryFamilies: 无
+- description: 系统把隐藏身份角色的 internal ID `卡尔` 和玩家当前可见实体“黑猫（未命名）”混在同一 handoff 中；在 storyline 推动卡尔互动、又要求不揭示核心秘密的双重压力下，缺少 alias/redaction guard，导致 Director 将内部真相作为 Narrator 的可见执行对象，Narrator 进一步写成名字承认。
+- fixSurface: `director-output-schema/internal-vs-visible-character-alias`, `secret-boundary-redaction-layer`, `narrator-prompt/hidden-identity-guard`, `storyline-beat-lifecycle-for-reveals`
+
+## Evidence
+- playerVisible: turn 2 与 turn 38 将卡尔建立为暗街历史核心；turn 40-45 黑猫仍只是黑猫；turn 46 突然写黑猫对“卡尔”名字间接承认。
+- internalTrace: turn-46/06a-director-prompt.md 内部角色卡显示卡尔=黑色短毛母猫；turn-46/05-runtime-after.json 仍有“黑猫（未命名）”；turn-46/04-output.json.plotPoint 把 `卡尔` 写入 involvedCharacters、beats 和 requiredContent；Narrator 输出由此产生名字承认。
+
+## Recommended Fix Area
+为隐藏身份角色增加 playerVisibleAlias/currentRevealState 字段；Director 输出只允许使用当前 revealState 许可的可见称呼，并在 requiredContent 中禁止“对自己名字承认”等 reveal 句式，除非 storyline 节点显式标记 reveal。
+
+## Confidence
+`high`
