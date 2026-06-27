@@ -25,6 +25,8 @@ test('startWorkbenchServer serves static index and API routes on localhost', asy
     const task = await fetchJson(`${server.url}/api/task`);
 
     assert.match(index, /Prompt Replay Workbench/);
+    assert.match(index, /setupIssueRepairJudger/);
+    assert.match(index, /setupConsistencyJudger/);
     assert.equal(task.config.replayId, 'server-task-a');
   } finally {
     await server.close();

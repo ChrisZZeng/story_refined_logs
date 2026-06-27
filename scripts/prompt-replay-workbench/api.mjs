@@ -229,6 +229,10 @@ function defaultBootstrapConfig({ cwd }) {
       replay: defaultModelConfig('REPLAY_API_KEY'),
       judge: defaultModelConfig('JUDGE_API_KEY'),
     },
+    judging: {
+      issueRepair: { enabled: true },
+      regressionConsistency: { enabled: true, target: 'fullTurn' },
+    },
   };
 }
 

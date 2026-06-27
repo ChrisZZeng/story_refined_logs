@@ -76,6 +76,9 @@ export async function runPromptPatchReplay({
 
   const repeats = config.repeats ?? 1;
   const passVerdicts = config.judging?.passVerdicts ?? ['fixed'];
+  const issueRepair = config.judging?.issueRepair ?? {
+    enabled: true,
+  };
   const regressionConsistency = config.judging?.regressionConsistency ?? {
     enabled: true,
     target: 'fullTurn',
@@ -95,6 +98,7 @@ export async function runPromptPatchReplay({
         replayModelConfig: config.models.replay,
         judgeMode: config.judgeMode ?? 'openai-compatible',
         judgeModelConfig: config.models.judge,
+        issueRepair,
         regressionConsistency,
         passVerdicts,
         services,
@@ -139,6 +143,7 @@ async function runReplayCase({
   replayModelConfig,
   judgeMode,
   judgeModelConfig,
+  issueRepair,
   regressionConsistency,
   passVerdicts,
   services,
@@ -176,6 +181,7 @@ async function runReplayCase({
           replayModelConfig,
           judgeMode,
           judgeModelConfig,
+          issueRepair,
           regressionConsistency,
           services,
         }),
@@ -222,6 +228,7 @@ async function runReplayAttempt({
   replayModelConfig,
   judgeMode,
   judgeModelConfig,
+  issueRepair,
   regressionConsistency,
   services,
 }) {
@@ -257,30 +264,33 @@ async function runReplayAttempt({
     }
 
     const judgeResults = [];
-    for (let index = 0; index < context.issues.length; index += 1) {
-      const issue = context.issues[index];
-      const issueId = issue.id ?? `issue-${String(index + 1).padStart(3, '0')}`;
-      const issueDir = path.join(outputDir, 'issues', sanitizePathSegment(issueId));
-      await mkdir(issueDir, { recursive: true });
-      const judgeInput = buildJudgeInput({ issue, context, newOutput: replay.newOutput });
-      await writeJson(path.join(issueDir, 'judge-input.json'), judgeInput);
-      const judgeResult = await services.runJudge({
-        mode: judgeMode,
-        modelConfig: judgeModelConfig,
-        input: judgeInput,
-      });
-      await writeJson(path.join(issueDir, 'judge-result.json'), judgeResult);
-      await writeFile(
-        path.join(issueDir, 'report.md'),
-        renderIssueReportMarkdown({ issue, judgeResult }),
-      );
-      judgeResults.push({ issueId, turn: issue.turn, ...judgeResult });
+    if (issueRepair?.enabled !== false) {
+      for (let index = 0; index < context.issues.length; index += 1) {
+        const issue = context.issues[index];
+        const issueId = issue.id ?? `issue-${String(index + 1).padStart(3, '0')}`;
+        const issueDir = path.join(outputDir, 'issues', sanitizePathSegment(issueId));
+        await mkdir(issueDir, { recursive: true });
+        const judgeInput = buildJudgeInput({ issue, context, newOutput: replay.newOutput });
+        await writeJson(path.join(issueDir, 'judge-input.json'), judgeInput);
+        const judgeResult = await services.runJudge({
+          mode: judgeMode,
+          modelConfig: judgeModelConfig,
+          input: judgeInput,
+        });
+        await writeJson(path.join(issueDir, 'judge-result.json'), judgeResult);
+        await writeFile(
+          path.join(issueDir, 'report.md'),
+          renderIssueReportMarkdown({ issue, judgeResult }),
+        );
+        judgeResults.push({ issueId, turn: issue.turn, ...judgeResult });
+      }
     }
 
     return {
       runIndex,
       status: 'completed',
       outputDir,
+      issueRepairEnabled: issueRepair?.enabled !== false,
       judgeResults,
       ...(regressionConsistencyResult ? { regressionConsistencyResult } : {}),
       issueCount: context.issues.length,

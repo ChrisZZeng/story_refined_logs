@@ -224,6 +224,39 @@ fieldset legend {
   color: #334155;
 }
 
+.setupJudgerFieldset {
+  margin-top: 16px;
+}
+
+.setupCheckboxGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.setupCheckboxField {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 10px;
+}
+
+.setupCheckboxField input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.setupCheckboxField span {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
 .setupActions {
   display: flex;
   align-items: center;
@@ -904,6 +937,16 @@ label span {
   font-weight: 650;
 }
 
+.setupForm .setupCheckboxField {
+  flex-direction: row;
+  border-right: 1px solid var(--line);
+}
+
+.setupForm .setupCheckboxField span {
+  padding: 0;
+  border-bottom: 0;
+}
+
 textarea {
   width: 100%;
   min-height: 0;
@@ -977,7 +1020,8 @@ textarea[readonly] {
   }
 
   .setupGrid,
-  .setupModelGrid {
+  .setupModelGrid,
+  .setupCheckboxGrid {
     grid-template-columns: 1fr;
   }
 

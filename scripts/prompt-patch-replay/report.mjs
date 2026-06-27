@@ -213,15 +213,22 @@ export function summarizeCase({ caseResult, passVerdicts = ['fixed'] }) {
 
 function buildRunOverall({ run, passVerdicts }) {
   const judgeResults = run.judgeResults ?? [];
+  const issueRepairEnabled = run.issueRepairEnabled !== false;
   const issueFixPassed =
     run.status === 'completed' &&
-    judgeResults.length > 0 &&
-    judgeResults.every((judgeResult) => passVerdicts.includes(judgeResult.verdict));
+    (
+      issueRepairEnabled === false ||
+      (
+        judgeResults.length > 0 &&
+        judgeResults.every((judgeResult) => passVerdicts.includes(judgeResult.verdict))
+      )
+    );
   const regressionResult = run.regressionConsistencyResult;
   const consistencyPassed = !regressionResult || regressionResult.isViolation !== true;
   const consistencyEnabled = Boolean(regressionResult);
   return {
     issueFix: {
+      enabled: issueRepairEnabled,
       passed: issueFixPassed,
       verdicts: judgeResults.map((judgeResult) => judgeResult.verdict).filter(Boolean),
     },
@@ -237,11 +244,14 @@ function buildRunOverall({ run, passVerdicts }) {
         : {}),
     },
     passed: issueFixPassed && consistencyPassed,
-    reason: overallReason({ issueFixPassed, consistencyEnabled, consistencyPassed }),
+    reason: overallReason({ issueRepairEnabled, issueFixPassed, consistencyEnabled, consistencyPassed }),
   };
 }
 
-function overallReason({ issueFixPassed, consistencyEnabled, consistencyPassed }) {
+function overallReason({ issueRepairEnabled, issueFixPassed, consistencyEnabled, consistencyPassed }) {
+  if (!issueRepairEnabled && consistencyEnabled && !consistencyPassed) return '原 issue judge 已禁用，但发现新增一致性回归';
+  if (!issueRepairEnabled && consistencyEnabled) return '原 issue judge 已禁用，且未发现新增一致性问题';
+  if (!issueRepairEnabled) return '原 issue judge 已禁用';
   if (!issueFixPassed) return '原 issue 未达到当前 pass verdict 口径';
   if (consistencyEnabled && !consistencyPassed) return '原 issue 已通过，但发现新增一致性回归';
   if (consistencyEnabled) return '原 issue 已通过，且未发现新增一致性问题';

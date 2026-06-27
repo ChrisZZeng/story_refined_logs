@@ -131,6 +131,7 @@ function validateRepeats(value) {
 function validateJudging(judging) {
   if (judging === undefined) {
     return {
+      issueRepair: { enabled: true },
       passVerdicts: ['fixed'],
       regressionConsistency: { enabled: true, target: 'fullTurn' },
     };
@@ -138,6 +139,7 @@ function validateJudging(judging) {
   assertObject(judging, 'judging');
   const passVerdicts = validatePassVerdicts(judging.passVerdicts);
   return {
+    issueRepair: validateIssueRepair(judging.issueRepair),
     passVerdicts,
     regressionConsistency: validateRegressionConsistency(judging.regressionConsistency),
   };
@@ -154,6 +156,14 @@ function validatePassVerdicts(value) {
     }
     return verdict;
   });
+}
+
+function validateIssueRepair(value) {
+  if (value === undefined) return { enabled: true };
+  assertObject(value, 'judging.issueRepair');
+  return {
+    enabled: value.enabled !== false,
+  };
 }
 
 function validateRegressionConsistency(value) {

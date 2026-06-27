@@ -139,6 +139,71 @@ test('runPromptPatchReplay starts badcase turns concurrently and preserves summa
   assert.deepEqual(result.summary.cases.map((item) => item.status), ['completed', 'completed']);
 });
 
+test('runPromptPatchReplay skips issue repair judge when disabled', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-service-issue-disabled-'));
+  const logGroupDir = path.join(root, 'abcdef0-dev');
+  const runId = 'runner-a';
+  await writeRunFixture(logGroupDir, runId);
+  const taskPath = path.join(root, 'replay-task.yaml');
+  await writeFile(
+    taskPath,
+    [
+      'replayId: service-issue-disabled',
+      'caseSet:',
+      `  logGroupDir: ${JSON.stringify(logGroupDir)}`,
+      `  runId: ${runId}`,
+      '  turns: [4]',
+      'source:',
+      '  oreturnRepo: /tmp/oreturn-faked-by-test',
+      'models:',
+      '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
+      '  judge: { useReplayModel: true }',
+      'judging:',
+      '  issueRepair: { enabled: false }',
+      '  regressionConsistency: { enabled: false }',
+      'judgeMode: fake',
+      'patchBundle:',
+      '  id: bundle-a',
+      '  patches:',
+      '    - id: rule-a',
+      '      originalText: old prompt',
+      '      replacementText: new prompt',
+      '',
+    ].join('\n'),
+  );
+
+  const result = await runPromptPatchReplay({
+    configPath: taskPath,
+    cwd: process.cwd(),
+    deps: {
+      ensureOreturnReplayWorktree: () => ({
+        sourceOreturnCommit: 'abcdef0',
+        replayEngineOreturnCommit: 'abcdef0123456789',
+        oreturnRepo: '/tmp/oreturn-faked-by-test',
+        replayEngineOreturnRepo: '/tmp/oreturn-faked-by-test',
+        managedWorktree: true,
+        dirty: false,
+        matched: true,
+      }),
+      runOreturnReplay: async () => ({
+        newOutput: { normalizedContent: { visibleText: 'new output' } },
+      }),
+      runJudge: async () => {
+        throw new Error('issue judge should not run');
+      },
+      runRegressionJudge: async () => {
+        throw new Error('regression judge should not run');
+      },
+    },
+  });
+
+  assert.equal(result.summary.cases[0].status, 'completed');
+  assert.equal(result.summary.judgmentCount, 0);
+  assert.equal(result.summary.passedRuns, 1);
+  assert.deepEqual(result.summary.cases[0].runs[0].judgeResults, []);
+  assert.equal(result.summary.cases[0].runs[0].overall.issueFix.enabled, false);
+});
+
 async function writeRunFixture(logGroupDir, runId, { maxTurn = 4, issueTurns = [4] } = {}) {
   const runDir = path.join(logGroupDir, 'run_logs', runId);
   const reviewDir = path.join(logGroupDir, 'consistency-review', runId);

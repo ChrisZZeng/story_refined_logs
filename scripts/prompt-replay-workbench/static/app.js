@@ -77,6 +77,8 @@ const setupFields = {
   judgeApiKeyEnv: document.querySelector('#setupJudgeApiKeyEnv'),
   judgeApiKeyToken: document.querySelector('#setupJudgeApiKeyToken'),
   judgeModel: document.querySelector('#setupJudgeModel'),
+  issueRepairJudger: document.querySelector('#setupIssueRepairJudger'),
+  consistencyJudger: document.querySelector('#setupConsistencyJudger'),
 };
 
 elements.configButton.addEventListener('click', () => {
@@ -255,6 +257,8 @@ function populateSetupForm(config) {
     configModel: config.models?.judge,
     currentToken: setupFields.judgeApiKeyToken.value,
   }));
+  setupFields.issueRepairJudger.checked = config.judging?.issueRepair?.enabled !== false;
+  setupFields.consistencyJudger.checked = config.judging?.regressionConsistency?.enabled !== false;
   updateKeySourceFields();
 }
 
@@ -286,6 +290,15 @@ function setupPayload() {
         apiKey: setupFields.judgeApiKeyToken.value,
         model: setupFields.judgeModel.value,
       }),
+    },
+    judging: {
+      issueRepair: {
+        enabled: setupFields.issueRepairJudger.checked,
+      },
+      regressionConsistency: {
+        enabled: setupFields.consistencyJudger.checked,
+        target: 'fullTurn',
+      },
     },
   };
 }

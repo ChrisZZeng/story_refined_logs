@@ -119,6 +119,10 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
         model: 'model-b',
       },
     },
+    judging: {
+      issueRepair: { enabled: false },
+      regressionConsistency: { enabled: true, target: 'fullTurn' },
+    },
   });
 
   assert.equal(loaded.status, 200);
@@ -126,14 +130,19 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
   assert.equal(loaded.body.config.replayId, 'manual-task');
   assert.deepEqual(loaded.body.config.turns, [4]);
   assert.equal(loaded.body.config.repeats, 2);
+  assert.deepEqual(loaded.body.config.judging.issueRepair, { enabled: false });
+  assert.deepEqual(loaded.body.config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
 
   const active = await request(handler, 'GET', '/api/task');
   assert.equal(active.body.config.replayId, 'manual-task');
   assert.equal(active.body.config.source.oreturnRepo, '/tmp/oreturn');
+  assert.deepEqual(active.body.config.judging.issueRepair, { enabled: false });
 
   const snapshotText = await readFile(loaded.body.taskPath, 'utf8');
   assert.match(snapshotText, /replayId: manual-task/);
   assert.match(snapshotText, /runId: run-a/);
+  assert.match(snapshotText, /issueRepair:\n\s+enabled: false/);
+  assert.match(snapshotText, /regressionConsistency:\n\s+enabled: true\n\s+target: fullTurn/);
 });
 
 test('direct model tokens are kept in memory and injected only while running replay', async () => {
@@ -223,6 +232,8 @@ test('bootstrap defaults work without an initial active task', async () => {
   assert.equal(defaults.status, 200);
   assert.equal(defaults.body.hasActiveTask, false);
   assert.equal(defaults.body.config.replayId, 'prompt-replay-workbench');
+  assert.deepEqual(defaults.body.config.judging.issueRepair, { enabled: true });
+  assert.deepEqual(defaults.body.config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
 
   const task = await request(handler, 'GET', '/api/task');
   assert.equal(task.status, 400);
