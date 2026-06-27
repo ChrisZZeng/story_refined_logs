@@ -1,0 +1,66 @@
+promptSources:
+  - id: narrator.v3-html-protocol
+    label: Narrator / v3-html Protocol
+    stage: narrator
+    file: packages/core/src/orchestrator/workers/novel-creator/narrator/v3-html-prompt.mts
+    extract:
+      type: function-body-return-array
+      symbol: buildV3HtmlNarratorProtocolPrompt
+
+  - id: narrator.v3-html-tail
+    label: Narrator / v3-html Tail Reminder
+    stage: narrator
+    file: packages/core/src/orchestrator/workers/novel-creator/narrator/v3-html-prompt.mts
+    extract:
+      type: function-body-return-array
+      symbol: buildV3HtmlNarratorTailReminder
+
+  - id: choice.system
+    label: Choice / System
+    stage: choice
+    file: packages/core/src/orchestrator/workers/novel-creator/choice/choice-worker.mts
+    extract:
+      type: function-body-return-array
+      symbol: buildChoiceSystemPrompt
+
+  - id: choice.judgement-flow
+    label: Choice / Judgement Flow
+    stage: choice
+    file: packages/core/src/orchestrator/workers/novel-creator/choice/choice-worker.mts
+    extract:
+      type: function-body-return-array
+      symbol: renderChoiceJudgementFlow
+      fallbackSymbols:
+        - renderChoiceRules
+
+  - id: director.system
+    label: Director / System
+    stage: director
+    file: packages/core/src/orchestrator/workers/novel-creator/director/director-worker.mts
+    extract:
+      type: function-body-return-array
+      symbol: buildDirectorSystemPrompt
+
+  - id: director.output-guidance
+    label: Director / Output Guidance
+    stage: director
+    file: packages/core/src/orchestrator/workers/novel-creator/director/director-worker.mts
+    extract:
+      type: function-body-return-array
+      symbol: renderOutputGuidance
+
+  - id: director.output-discipline
+    label: Director / Output Discipline
+    stage: director
+    file: packages/core/src/orchestrator/workers/novel-creator/director/director-worker.mts
+    extract:
+      type: function-body-return-array
+      symbol: renderOutputDiscipline
+
+  - id: director.checklist
+    label: Director / Checklist
+    stage: director
+    file: packages/core/src/orchestrator/workers/novel-creator/director/director-worker.mts
+    extract:
+      type: function-body-return-array
+      symbol: renderDirectorChecklist

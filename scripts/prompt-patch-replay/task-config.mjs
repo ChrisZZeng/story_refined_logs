@@ -116,6 +116,13 @@ async function resolvePatchText({ patch, index, taskDir }) {
   });
   return {
     id: patch.id,
+    ...(patch.matchMode !== undefined ? { matchMode: patch.matchMode } : {}),
+    ...(patch.turn !== undefined ? { turn: patch.turn } : {}),
+    ...(patch.sourceTurn !== undefined ? { sourceTurn: patch.sourceTurn } : {}),
+    ...(patch.stage !== undefined ? { stage: patch.stage } : {}),
+    ...(patch.callKind !== undefined ? { callKind: patch.callKind } : {}),
+    ...(patch.fieldPath !== undefined ? { fieldPath: patch.fieldPath } : {}),
+    ...(patch.preserveTags !== undefined ? { preserveTags: patch.preserveTags } : {}),
     originalText,
     replacementText,
   };

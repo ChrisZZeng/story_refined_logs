@@ -189,3 +189,89 @@ test('fails when an earlier replacement removes another original match', () => {
     /overlap|removed/,
   );
 });
+
+test('applies an observed field patch to the corresponding call in every replay turn', () => {
+  const patchBundle = {
+    id: 'b',
+    patches: [
+      {
+        id: 'turn-4-narrator-brief',
+        matchMode: 'field',
+        sourceTurn: 4,
+        stage: 'narrator',
+        callKind: 'streamText',
+        fieldPath: 'messages[2].content',
+        originalText: 'old observed brief',
+        replacementText: 'edited observed brief',
+      },
+    ],
+  };
+
+  const skipped = applyAvailablePatchesToCall({
+    patchBundle,
+    appliedPatchIds: new Set(),
+    turn: 5,
+    stage: 'director',
+    callKind: 'generateObject',
+    params: { messages: [{ content: 'a' }, { content: 'b' }, { content: 'fresh replay brief' }] },
+  });
+  assert.equal(skipped.params.messages[2].content, 'fresh replay brief');
+  assert.deepEqual(skipped.applications, []);
+
+  const applied = applyAvailablePatchesToCall({
+    patchBundle,
+    appliedPatchIds: new Set(),
+    turn: 5,
+    stage: 'narrator',
+    callKind: 'streamText',
+    params: { messages: [{ content: 'a' }, { content: 'b' }, { content: 'fresh replay brief' }] },
+  });
+
+  assert.equal(applied.params.messages[2].content, 'edited observed brief');
+  assert.equal(applied.applications[0].patchId, 'turn-4-narrator-brief');
+  assert.equal(applied.applications[0].fieldPath, 'messages[2].content');
+  assert.equal(applied.applications[0].matchMode, 'field');
+  assert.equal(applied.applications[0].turn, 5);
+});
+
+test('preserves current turn tag content when applying a slot-aware field patch', () => {
+  const patchBundle = {
+    id: 'b',
+    patches: [
+      {
+        id: 'player-input-rules',
+        matchMode: 'field',
+        sourceTurn: 4,
+        stage: 'director',
+        callKind: 'generateObject',
+        fieldPath: 'messages[4].content',
+        preserveTags: ['player_input'],
+        originalText: '<player_input>turn 4 action</player_input>\nold requirements',
+        replacementText: '<player_input>turn 4 action</player_input>\nnew requirements',
+      },
+    ],
+  };
+
+  const applied = applyAvailablePatchesToCall({
+    patchBundle,
+    appliedPatchIds: new Set(),
+    turn: 5,
+    stage: 'director',
+    callKind: 'generateObject',
+    params: {
+      messages: [
+        { content: 'a' },
+        { content: 'b' },
+        { content: 'c' },
+        { content: 'd' },
+        { content: '<player_input>turn 5 action</player_input>\nold requirements' },
+      ],
+    },
+  });
+
+  assert.equal(
+    applied.params.messages[4].content,
+    '<player_input>turn 5 action</player_input>\nnew requirements',
+  );
+  assert.deepEqual(applied.applications[0].preserveTags, ['player_input']);
+});

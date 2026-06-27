@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 export function applyPatchBundleToCall({ patchBundle, stage, callKind, params }) {
   let nextParams = cloneParams(params);
   const applications = [];
-  const patchMatches = analyzePatchMatches({ patchBundle, params });
+  const patchMatches = analyzePatchMatches({ patchBundle, stage, callKind, params });
 
   for (const patchMatch of patchMatches) {
     const { patch, match, totalMatches } = patchMatch;
@@ -31,13 +31,14 @@ export function applyPatchBundleToCall({ patchBundle, stage, callKind, params })
 export function applyAvailablePatchesToCall({
   patchBundle,
   appliedPatchIds,
+  turn,
   stage,
   callKind,
   params,
 }) {
   let nextParams = cloneParams(params);
   const applications = [];
-  const patchMatches = analyzePatchMatches({ patchBundle, params });
+  const patchMatches = analyzePatchMatches({ patchBundle, turn, stage, callKind, params });
 
   for (const patchMatch of patchMatches) {
     const { patch, match, totalMatches } = patchMatch;
@@ -49,9 +50,14 @@ export function applyAvailablePatchesToCall({
     nextParams = applyPatchToField({ params: nextParams, patch, match });
     applications.push({
       patchId: patch.id,
+      ...(turn !== undefined ? { turn } : {}),
       stage,
       callKind,
       fieldPath: match.path,
+      ...(patch.matchMode !== undefined ? { matchMode: patch.matchMode } : {}),
+      ...(Array.isArray(patch.preserveTags) && patch.preserveTags.length > 0
+        ? { preserveTags: patch.preserveTags }
+        : {}),
       originalHash: hashText(patch.originalText),
       replacementHash: hashText(patch.replacementText),
       ...(appliedPatchIds.has(patch.id) ? { propagated: true } : {}),
@@ -61,13 +67,14 @@ export function applyAvailablePatchesToCall({
   return { params: nextParams, applications };
 }
 
-export function assertAllPatchesApplied({ patchBundle, applications }) {
+export function assertAllPatchesApplied({ patchBundle, applications, turn }) {
   const appliedPatchIds = new Set(
     applications
       .filter((application) => application.propagated !== true)
       .map((application) => application.patchId),
   );
   const missing = patchBundle.patches
+    .filter((patch) => patchAppliesToTurn(patch, turn))
     .map((patch) => patch.id)
     .filter((patchId) => !appliedPatchIds.has(patchId));
   if (missing.length > 0) {
@@ -132,6 +139,18 @@ function getTextField(params, fieldPath) {
 
 function applyPatchToField({ params, patch, match }) {
   const currentValue = getTextField(params, match.path);
+  if (patch.matchMode === 'field') {
+    return setTextField(
+      params,
+      match.path,
+      applyPreservedTags({
+        patchId: patch.id,
+        currentValue,
+        replacementText: patch.replacementText,
+        preserveTags: patch.preserveTags,
+      }),
+    );
+  }
   if (!currentValue.includes(patch.originalText)) {
     throw new Error(
       `patch ${patch.id} original text was removed by an overlapping earlier replacement`,
@@ -144,9 +163,56 @@ function applyPatchToField({ params, patch, match }) {
   );
 }
 
-function analyzePatchMatches({ patchBundle, params }) {
+function applyPreservedTags({ patchId, currentValue, replacementText, preserveTags }) {
+  if (!Array.isArray(preserveTags) || preserveTags.length === 0) {
+    return replacementText;
+  }
+
+  let nextText = replacementText;
+  for (const tag of preserveTags) {
+    const currentBlock = findSingleTagBlock(currentValue, tag);
+    const replacementBlock = findSingleTagBlock(nextText, tag);
+    if (currentBlock === null || replacementBlock === null) {
+      throw new Error(`patch ${patchId} cannot preserve missing <${tag}> tag`);
+    }
+    nextText =
+      nextText.slice(0, replacementBlock.start) +
+      currentBlock.text +
+      nextText.slice(replacementBlock.end);
+  }
+  return nextText;
+}
+
+function findSingleTagBlock(text, tag) {
+  const escapedTag = tag.replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`<${escapedTag}(?:\\s[^>]*)?>[\\s\\S]*?<\\/${escapedTag}>`, 'g');
+  const first = pattern.exec(text);
+  if (first === null) return null;
+  const second = pattern.exec(text);
+  if (second !== null) {
+    throw new Error(`preserved tag <${tag}> appears more than once`);
+  }
+  return {
+    start: first.index,
+    end: first.index + first[0].length,
+    text: first[0],
+  };
+}
+
+function analyzePatchMatches({ patchBundle, turn, stage, callKind, params }) {
   const fields = collectTextFields(params);
   return patchBundle.patches.map((patch) => {
+    if (!patchAppliesToCall({ patch, turn, stage, callKind })) {
+      return { patch, match: undefined, totalMatches: 0 };
+    }
+    if (patch.matchMode === 'field') {
+      const field = fields.find((candidate) => candidate.path === patch.fieldPath);
+      return {
+        patch,
+        match: field,
+        totalMatches: field === undefined ? 0 : 1,
+      };
+    }
     const matches = fields
       .map((field) => ({
         ...field,
@@ -156,6 +222,19 @@ function analyzePatchMatches({ patchBundle, params }) {
     const totalMatches = matches.reduce((sum, field) => sum + field.occurrenceCount, 0);
     return { patch, match: matches[0], totalMatches };
   });
+}
+
+function patchAppliesToCall({ patch, turn, stage, callKind }) {
+  if (!patchAppliesToTurn(patch, turn)) return false;
+  if (patch.stage !== undefined && patch.stage !== stage) return false;
+  if (patch.callKind !== undefined && patch.callKind !== callKind) return false;
+  return true;
+}
+
+function patchAppliesToTurn(patch, turn) {
+  if (patch.turn === undefined) return true;
+  if (turn === undefined) return true;
+  return Number(patch.turn) === Number(turn);
 }
 
 function countOccurrences(haystack, needle) {

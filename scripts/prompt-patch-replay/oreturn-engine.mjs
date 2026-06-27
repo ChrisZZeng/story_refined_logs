@@ -23,6 +23,7 @@ export async function writeReplayInput({ outDir, context, patchBundle }) {
     inputPath,
     JSON.stringify(
       {
+        turn: context.turn,
         turnInput: context.turnInput,
         storyState: context.storyState,
         patchBundle,

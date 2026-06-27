@@ -37,7 +37,7 @@ let output;
 let replayError = null;
 try {
   const baseLlm = createAISdkLLMCall();
-  const llm = wrapLlm(baseLlm, input.patchBundle, calls, applications, appliedPatchIds);
+  const llm = wrapLlm(baseLlm, input.patchBundle, input.turn, calls, applications, appliedPatchIds);
   const model = buildModelFromEnv();
   const strategy = createNovelCreatorStrategy({ llm, model });
 
@@ -55,7 +55,7 @@ try {
     events.push(event);
   }
 
-  assertAllPatchesApplied({ patchBundle: input.patchBundle, applications });
+  assertAllPatchesApplied({ patchBundle: input.patchBundle, applications, turn: input.turn });
 } catch (error) {
   replayError = serializeError(error);
   throw error;
@@ -73,11 +73,11 @@ try {
   }
 }
 
-function wrapLlm(base, patchBundle, sink, applicationSink, appliedPatchIds) {
+function wrapLlm(base, patchBundle, turn, sink, applicationSink, appliedPatchIds) {
   return {
     async generateText(params) {
       const stage = inferStage(sink.length);
-      const patched = patchCall({ patchBundle, stage, callKind: 'generateText', params, sink });
+      const patched = patchCall({ patchBundle, turn, stage, callKind: 'generateText', params, sink });
       const record = startCall(sink, 'generateText', patched.stage, patched.params, patched.applications);
       try {
         const result = await base.generateText(patched.params);
@@ -92,7 +92,7 @@ function wrapLlm(base, patchBundle, sink, applicationSink, appliedPatchIds) {
     },
     async *streamText(params) {
       const stage = inferStage(sink.length);
-      const patched = patchCall({ patchBundle, stage, callKind: 'streamText', params, sink });
+      const patched = patchCall({ patchBundle, turn, stage, callKind: 'streamText', params, sink });
       const record = startCall(sink, 'streamText', patched.stage, patched.params, patched.applications);
       try {
         let finalText = '';
@@ -111,7 +111,7 @@ function wrapLlm(base, patchBundle, sink, applicationSink, appliedPatchIds) {
     },
     async generateObject(params) {
       const stage = inferStage(sink.length);
-      const patched = patchCall({ patchBundle, stage, callKind: 'generateObject', params, sink });
+      const patched = patchCall({ patchBundle, turn, stage, callKind: 'generateObject', params, sink });
       const record = startCall(sink, 'generateObject', patched.stage, patched.params, patched.applications);
       try {
         const result = await base.generateObject(patched.params);
@@ -127,12 +127,13 @@ function wrapLlm(base, patchBundle, sink, applicationSink, appliedPatchIds) {
   };
 }
 
-function patchCall({ patchBundle, stage, callKind, params, sink }) {
+function patchCall({ patchBundle, turn, stage, callKind, params, sink }) {
   let result;
   try {
     result = applyAvailablePatchesToCall({
       patchBundle,
       appliedPatchIds,
+      turn,
       stage,
       callKind,
       params,

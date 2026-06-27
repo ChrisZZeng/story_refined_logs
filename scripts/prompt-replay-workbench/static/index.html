@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prompt Replay Workbench</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Prompt Replay Workbench</h1>
+        <p id="taskMeta">Loading...</p>
+      </div>
+      <div class="actions">
+        <span id="runStatus" class="runStatus" role="status" aria-live="polite">Idle</span>
+        <button id="configButton" type="button">Configure</button>
+        <button id="refreshButton" type="button">Refresh</button>
+        <button id="runButton" type="button">Run</button>
+      </div>
+    </header>
+
+    <section id="setupView" class="setupView" aria-label="Workbench setup">
+      <form id="setupForm" class="setupForm">
+        <div class="setupIntro">
+          <h2>Replay Task Setup</h2>
+          <p>填写日志、badcase turn 和小说系统路径后加载工作台。加载后可返回这里重新配置。</p>
+        </div>
+
+        <div class="setupGrid">
+          <label class="setupField">
+            <span>Replay ID</span>
+            <input id="setupReplayId" name="replayId" autocomplete="off" required>
+          </label>
+          <label class="setupField">
+            <span>Turns</span>
+            <input id="setupTurns" name="turns" autocomplete="off" placeholder="5,8,10" required>
+          </label>
+          <label class="setupField">
+            <span>Repeats</span>
+            <input id="setupRepeats" name="repeats" type="number" min="1" step="1" required>
+          </label>
+          <label class="setupField wide">
+            <span>Log Group Dir</span>
+            <input id="setupLogGroupDir" name="logGroupDir" autocomplete="off" required>
+          </label>
+          <label class="setupField wide">
+            <span>Run ID</span>
+            <input id="setupRunId" name="runId" autocomplete="off" required>
+          </label>
+          <label class="setupField wide">
+            <span>Oreturn Repo</span>
+            <input id="setupOreturnRepo" name="oreturnRepo" autocomplete="off" required>
+          </label>
+          <label class="setupField">
+            <span>Version Policy</span>
+            <select id="setupVersionPolicy" name="versionPolicy">
+              <option value="require-matching-worktree">require-matching-worktree</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="setupModelGrid">
+          <fieldset>
+            <legend>Replay Model</legend>
+            <label class="setupField">
+              <span>Base URL</span>
+              <input id="setupReplayBaseUrl" autocomplete="off" required>
+            </label>
+            <label class="setupField">
+              <span>Key Source</span>
+              <select id="setupReplayKeySource">
+                <option value="direct">Direct Token</option>
+              </select>
+            </label>
+            <label class="setupField">
+              <span>API Key Env</span>
+              <input id="setupReplayApiKeyEnv" autocomplete="off" required>
+            </label>
+            <label class="setupField">
+              <span>API Token</span>
+              <input id="setupReplayApiKeyToken" type="password" autocomplete="off" placeholder="Only kept in this Workbench process">
+            </label>
+            <label class="setupField">
+              <span>Model</span>
+              <input id="setupReplayModel" autocomplete="off" required>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Judge Model</legend>
+            <label class="setupField">
+              <span>Base URL</span>
+              <input id="setupJudgeBaseUrl" autocomplete="off" required>
+            </label>
+            <label class="setupField">
+              <span>Key Source</span>
+              <select id="setupJudgeKeySource">
+                <option value="direct">Direct Token</option>
+              </select>
+            </label>
+            <label class="setupField">
+              <span>API Key Env</span>
+              <input id="setupJudgeApiKeyEnv" autocomplete="off" required>
+            </label>
+            <label class="setupField">
+              <span>API Token</span>
+              <input id="setupJudgeApiKeyToken" type="password" autocomplete="off" placeholder="Only kept in this Workbench process">
+            </label>
+            <label class="setupField">
+              <span>Model</span>
+              <input id="setupJudgeModel" autocomplete="off" required>
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="setupActions">
+          <button id="setupLoadButton" type="submit">Load Workbench</button>
+          <span id="setupError" class="setupError" role="alert"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="caseContext workbenchOnly" aria-label="Case context">
+      <div class="caseHeader">
+        <div>
+          <div class="panelTitle">Case Context</div>
+          <div id="caseSummary" class="caseSummary">Loading...</div>
+        </div>
+        <div id="caseTurnTabs" class="caseTurnTabs"></div>
+        <div id="replayProgress" class="replayProgress" aria-live="polite"></div>
+      </div>
+      <div class="caseBody">
+        <div id="caseContent" class="caseContent"></div>
+      </div>
+    </section>
+
+    <div
+      id="splitResizeBar"
+      class="splitResizeBar workbenchOnly"
+      role="separator"
+      aria-label="Resize case context"
+      aria-orientation="horizontal"
+      aria-valuemin="160"
+      aria-valuemax="600"
+      tabindex="0"
+    >
+      <span class="splitResizeHandle"></span>
+    </div>
+
+    <main class="workspace workbenchOnly">
+      <aside class="sourceList" aria-label="Prompt sources">
+        <div class="panelTitle">Prompt</div>
+        <div id="sourceTabs" class="tabs"></div>
+      </aside>
+
+      <section class="editor">
+        <div class="editorHeader">
+          <div>
+            <h2 id="sourceTitle">Prompt</h2>
+            <p id="sourcePath"></p>
+          </div>
+          <div class="editorHeaderActions">
+            <span id="promptTurnNotice" class="promptTurnNotice"></span>
+            <button id="loadPromptTurnButton" class="loadPromptTurnButton" type="button" hidden>Load selected turn prompts</button>
+            <span id="dirtyBadge" class="badge">Clean</span>
+          </div>
+        </div>
+        <div class="columns">
+          <label>
+            <span>Original</span>
+            <textarea id="originalText" readonly spellcheck="false"></textarea>
+          </label>
+          <label>
+            <span>Draft</span>
+            <textarea id="draftText" spellcheck="false"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <aside class="inspector">
+        <section>
+          <div class="panelTitle">Diff</div>
+          <pre id="diffView" class="diff"></pre>
+        </section>
+        <section>
+          <div class="panelTitle">Result</div>
+          <div id="resultView" class="result">Idle</div>
+        </section>
+      </aside>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

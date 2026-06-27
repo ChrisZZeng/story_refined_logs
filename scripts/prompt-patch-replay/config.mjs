@@ -52,11 +52,44 @@ function validatePatch(patch, index) {
   assertNonEmptyString(patch.id, `patches[${index}].id`);
   assertNonEmptyString(patch.originalText, `patches[${index}].originalText`);
   assertString(patch.replacementText, `patches[${index}].replacementText`);
+  const matchMode = patch.matchMode ?? 'text';
+  if (!['text', 'field'].includes(matchMode)) {
+    throw new Error(`patches[${index}].matchMode must be text or field`);
+  }
+  if (patch.turn !== undefined && (!Number.isInteger(patch.turn) || patch.turn < 1)) {
+    throw new Error(`patches[${index}].turn must be a positive integer`);
+  }
+  if (
+    patch.sourceTurn !== undefined &&
+    (!Number.isInteger(patch.sourceTurn) || patch.sourceTurn < 1)
+  ) {
+    throw new Error(`patches[${index}].sourceTurn must be a positive integer`);
+  }
+  if (patch.stage !== undefined) assertNonEmptyString(patch.stage, `patches[${index}].stage`);
+  if (patch.callKind !== undefined) assertNonEmptyString(patch.callKind, `patches[${index}].callKind`);
+  if (patch.fieldPath !== undefined) assertNonEmptyString(patch.fieldPath, `patches[${index}].fieldPath`);
+  if (patch.preserveTags !== undefined) {
+    validatePreserveTags(patch.preserveTags, `patches[${index}].preserveTags`);
+  }
   return {
     id: patch.id,
+    ...(matchMode !== 'text' ? { matchMode } : {}),
+    ...(patch.turn !== undefined ? { turn: patch.turn } : {}),
+    ...(patch.sourceTurn !== undefined ? { sourceTurn: patch.sourceTurn } : {}),
+    ...(patch.stage !== undefined ? { stage: patch.stage } : {}),
+    ...(patch.callKind !== undefined ? { callKind: patch.callKind } : {}),
+    ...(patch.fieldPath !== undefined ? { fieldPath: patch.fieldPath } : {}),
+    ...(patch.preserveTags !== undefined ? { preserveTags: patch.preserveTags } : {}),
     originalText: patch.originalText,
     replacementText: patch.replacementText,
   };
+}
+
+function validatePreserveTags(value, path) {
+  if (!Array.isArray(value)) throw new Error(`${path} must be an array`);
+  for (const [index, tag] of value.entries()) {
+    assertNonEmptyString(tag, `${path}[${index}]`);
+  }
 }
 
 function validateSource(source) {
