@@ -110,6 +110,7 @@ patches/
 | `models.replay` | replay 调用小说系统时使用的大模型配置。`provider` 不填时默认为 `openai-compatible`。 |
 | `models.judge` | judger 判断修复结果时使用的大模型配置。设为 `useReplayModel: true` 可直接复用 replay 模型配置。 |
 | `judging.passVerdicts` | 可选。哪些 judger verdict 算通过。默认只有 `fixed` 算通过。 |
+| `judging.regressionConsistency.enabled` | 可选。控制是否运行 Regression Consistency Judge，检查 replay 新输出是否引入新的叙事一致性问题。默认开启；如需跳过，显式设为 `false`。 |
 | `patchBundle.id` | 本次 patch bundle 的名字。 |
 | `patchBundle.patches` | 本次要应用的一组精确 patch。第一版建议一个 bundle 对多个 badcase turn。 |
 | `judgeMode` | 可选。设为 `fake` 时不调用真实 judge 模型，直接返回 `uncertain`。 |
@@ -304,6 +305,21 @@ judging:
   passVerdicts: [fixed, improved]
 ```
 
+第二阶段的一致性回归判定默认开启。也可以显式配置：
+
+```yaml
+judging:
+  passVerdicts: [fixed]
+  regressionConsistency:
+    enabled: true
+    target: fullTurn
+```
+
+启用后，每次 run 会在 Issue Fix Judge 之外额外调用 Regression Consistency Judge。单次 run 的 overall 通过需要同时满足：
+
+- 原 issue 的 verdict 命中 `passVerdicts`。
+- Regression Consistency Judge 未发现新增一致性 violation。
+
 ## 输出目录
 
 结果会写到：
@@ -357,6 +373,8 @@ cases/turn-XXX/
       patch-application.json
       replay-writes.json
       replay-events.json
+      regression-consistency-judge-input.json
+      regression-consistency-judge-result.json
       issues/
         <issue-id>/
           judge-input.json
@@ -386,6 +404,13 @@ cases/turn-XXX/issues/<issue-id>/
 | `judge-result.json` | judger 的结构化判定。 |
 | `report.md` | 单个 issue 的人工阅读报告。 |
 
+启用 Regression Consistency Judge 时，每个 run 目录还会写入：
+
+| 文件 | 说明 |
+| --- | --- |
+| `regression-consistency-judge-input.json` | 传给回归一致性 judger 的历史可见上下文、当前玩家输入和 replay 新输出。 |
+| `regression-consistency-judge-result.json` | 回归一致性 judger 的结构化判定，包含 `isViolation`、`confidence`、`violations` 和 `reasoning`。 |
+
 ## Judger 判定结果
 
 `judge-result.json` 的 `verdict` 只允许以下值：
@@ -408,6 +433,8 @@ summary 会统计这些 verdict 的数量。
 | `runCount` | 实际 run 总数。 |
 | `passedRuns` | 通过的 run 数。 |
 | `failedRuns` | replay 或 judge 失败的 run 数。 |
+| `regressionJudgmentCount` | 已执行的回归一致性判定次数。 |
+| `regressionViolationRuns` | 回归一致性判定发现 violation 的 run 数。 |
 | `overallPassRate` | 总体通过率。 |
 | `cases[].passRate` | 单个 turn 的通过率。 |
 | `cases[].issues[].passRate` | 单个 issue 的通过率。 |

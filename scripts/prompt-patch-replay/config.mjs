@@ -129,19 +129,44 @@ function validateRepeats(value) {
 }
 
 function validateJudging(judging) {
-  if (judging === undefined) return { passVerdicts: ['fixed'] };
+  if (judging === undefined) {
+    return {
+      passVerdicts: ['fixed'],
+      regressionConsistency: { enabled: true, target: 'fullTurn' },
+    };
+  }
   assertObject(judging, 'judging');
-  if (judging.passVerdicts === undefined) return { passVerdicts: ['fixed'] };
-  if (!Array.isArray(judging.passVerdicts) || judging.passVerdicts.length === 0) {
+  const passVerdicts = validatePassVerdicts(judging.passVerdicts);
+  return {
+    passVerdicts,
+    regressionConsistency: validateRegressionConsistency(judging.regressionConsistency),
+  };
+}
+
+function validatePassVerdicts(value) {
+  if (value === undefined) return ['fixed'];
+  if (!Array.isArray(value) || value.length === 0) {
     throw new Error('judging.passVerdicts must be a non-empty array');
   }
-  const passVerdicts = judging.passVerdicts.map((verdict, index) => {
+  return value.map((verdict, index) => {
     if (!VERDICTS.includes(verdict)) {
       throw new Error(`judging.passVerdicts[${index}] must be one of ${VERDICTS.join(', ')}`);
     }
     return verdict;
   });
-  return { passVerdicts };
+}
+
+function validateRegressionConsistency(value) {
+  if (value === undefined) return { enabled: true, target: 'fullTurn' };
+  assertObject(value, 'judging.regressionConsistency');
+  const target = value.target ?? 'fullTurn';
+  if (target !== 'fullTurn') {
+    throw new Error('judging.regressionConsistency.target must be fullTurn');
+  }
+  return {
+    enabled: value.enabled === true,
+    target,
+  };
 }
 
 function validateOpenAiModel(model, path) {

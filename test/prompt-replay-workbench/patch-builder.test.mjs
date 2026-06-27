@@ -114,6 +114,36 @@ test('buildPatchBundleFromPromptSources scopes turn-only observed fields to thei
   assert.equal(bundle.patches[0].turn, 4);
 });
 
+test('buildPatchBundleFromPromptSources rejects turn-scoped observed edits for multi-turn replay tasks', () => {
+  assert.throws(
+    () =>
+      buildPatchBundleFromPromptSources({
+        bundleId: 'b',
+        replayTurnCount: 2,
+        sources: [
+          {
+            id: 'turn-004.director.context',
+            sourceKind: 'observed-llm-call',
+            patchMode: 'field',
+            patchScope: 'turn',
+            turn: 4,
+            stage: 'director',
+            callKind: 'generateObject',
+            fieldPath: 'messages[3].content',
+            originalText: '<context>old</context>',
+            draftText: '<context>new</context>',
+          },
+        ],
+      }),
+    (error) => {
+      assert.equal(error.code, 'PATCH_SOURCE_TURN_SCOPED_MULTI_TURN');
+      assert.equal(error.sourceId, 'turn-004.director.context');
+      assert.match(error.message, /single-turn replay task/);
+      return true;
+    },
+  );
+});
+
 test('buildPatchBundleFromPromptSources preserves slot-aware tag metadata', () => {
   const bundle = buildPatchBundleFromPromptSources({
     bundleId: 'b',

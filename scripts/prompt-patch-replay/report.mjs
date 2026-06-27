@@ -19,6 +19,8 @@ export function buildSummary({
   let passedRuns = 0;
   let failedRuns = 0;
   let repeatCount = 1;
+  let regressionJudgmentCount = 0;
+  let regressionViolationRuns = 0;
   const summarizedCases = [];
 
   for (const caseResult of caseResults) {
@@ -31,13 +33,15 @@ export function buildSummary({
     runCount += summarizedCase.runCount ?? 0;
     passedRuns += summarizedCase.passedRuns ?? 0;
     failedRuns += summarizedCase.failedRuns ?? 0;
+    regressionJudgmentCount += summarizedCase.regressionJudgmentCount ?? 0;
+    regressionViolationRuns += summarizedCase.regressionViolationRuns ?? 0;
     for (const run of summarizedCase.runs ?? []) {
       for (const judgeResult of run.judgeResults ?? []) {
-      if (verdictCounts[judgeResult.verdict] !== undefined) {
-        verdictCounts[judgeResult.verdict] += 1;
+        if (verdictCounts[judgeResult.verdict] !== undefined) {
+          verdictCounts[judgeResult.verdict] += 1;
+        }
       }
     }
-  }
   }
 
   return {
@@ -55,6 +59,8 @@ export function buildSummary({
     runCount,
     passedRuns,
     failedRuns,
+    regressionJudgmentCount,
+    regressionViolationRuns,
     overallPassRate: runCount === 0 ? 0 : passedRuns / runCount,
     failedCases,
     passVerdicts,
@@ -80,6 +86,8 @@ export function renderSummaryMarkdown(summary) {
     `- repeatCount: ${summary.repeatCount ?? 1}`,
     `- issues: ${summary.issueCount}`,
     `- judgments: ${summary.judgmentCount ?? summary.issueCount}`,
+    `- regressionJudgments: ${summary.regressionJudgmentCount ?? 0}`,
+    `- regressionViolationRuns: ${summary.regressionViolationRuns ?? 0}`,
     `- runs: ${summary.runCount ?? summary.turnCount}`,
     `- passedRuns: ${summary.passedRuns ?? 0}`,
     `- failedRuns: ${summary.failedRuns ?? 0}`,
@@ -147,17 +155,20 @@ export function summarizeCase({ caseResult, passVerdicts = ['fixed'] }) {
   let passedRuns = 0;
   let failedRuns = 0;
   let judgmentCount = 0;
+  let regressionJudgmentCount = 0;
+  let regressionViolationRuns = 0;
 
   for (const run of runs) {
     if (run.status === 'failed') failedRuns += 1;
     const judgeResults = run.judgeResults ?? [];
     judgmentCount += judgeResults.length;
-    const runPassed =
-      run.status === 'completed' &&
-      judgeResults.length > 0 &&
-      judgeResults.every((judgeResult) => passVerdicts.includes(judgeResult.verdict));
-    if (runPassed) passedRuns += 1;
-    run.passed = runPassed;
+    if (run.regressionConsistencyResult) {
+      regressionJudgmentCount += 1;
+      if (run.regressionConsistencyResult.isViolation === true) regressionViolationRuns += 1;
+    }
+    run.overall = buildRunOverall({ run, passVerdicts });
+    if (run.overall.passed) passedRuns += 1;
+    run.passed = run.overall.passed;
 
     judgeResults.forEach((judgeResult, index) => {
       const issueId = judgeResult.issueId ?? `issue-${String(index + 1).padStart(3, '0')}`;
@@ -190,12 +201,51 @@ export function summarizeCase({ caseResult, passVerdicts = ['fixed'] }) {
     runs,
     issueCount,
     judgmentCount,
+    regressionJudgmentCount,
+    regressionViolationRuns,
     runCount,
     passedRuns,
     failedRuns,
     passRate: runCount === 0 ? 0 : passedRuns / runCount,
     issues,
   };
+}
+
+function buildRunOverall({ run, passVerdicts }) {
+  const judgeResults = run.judgeResults ?? [];
+  const issueFixPassed =
+    run.status === 'completed' &&
+    judgeResults.length > 0 &&
+    judgeResults.every((judgeResult) => passVerdicts.includes(judgeResult.verdict));
+  const regressionResult = run.regressionConsistencyResult;
+  const consistencyPassed = !regressionResult || regressionResult.isViolation !== true;
+  const consistencyEnabled = Boolean(regressionResult);
+  return {
+    issueFix: {
+      passed: issueFixPassed,
+      verdicts: judgeResults.map((judgeResult) => judgeResult.verdict).filter(Boolean),
+    },
+    consistencyRegression: {
+      enabled: consistencyEnabled,
+      passed: consistencyPassed,
+      ...(consistencyEnabled
+        ? {
+            isViolation: regressionResult.isViolation === true,
+            confidence: regressionResult.confidence,
+            violationCount: regressionResult.violations?.length ?? 0,
+          }
+        : {}),
+    },
+    passed: issueFixPassed && consistencyPassed,
+    reason: overallReason({ issueFixPassed, consistencyEnabled, consistencyPassed }),
+  };
+}
+
+function overallReason({ issueFixPassed, consistencyEnabled, consistencyPassed }) {
+  if (!issueFixPassed) return '原 issue 未达到当前 pass verdict 口径';
+  if (consistencyEnabled && !consistencyPassed) return '原 issue 已通过，但发现新增一致性回归';
+  if (consistencyEnabled) return '原 issue 已通过，且未发现新增一致性问题';
+  return '原 issue 已通过';
 }
 
 function normalizeRuns(caseResult) {

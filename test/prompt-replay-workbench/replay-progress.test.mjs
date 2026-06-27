@@ -111,10 +111,27 @@ test('replay artifact formatters expose new output and judge details for manual 
         },
       },
     ],
+    regressionConsistency: {
+      result: {
+        isViolation: true,
+        confidence: 'high',
+        reasoning: '当前输出新增了钥匙来源冲突。',
+        violations: [
+          {
+            type: 'factual_contradiction',
+            evidence_history: '钥匙已经丢失。',
+            evidence_current: '你拿起刚出现的钥匙。',
+            explanation: '钥匙没有来源解释。',
+          },
+        ],
+      },
+    },
   };
 
   assert.equal(replayOutputText(runArtifact), '<p data-speaker="卡琳娜">“到此为止。”</p>');
   assert.match(replayJudgeText(runArtifact), /issue-001 \| fixed \| confidence: high/);
   assert.match(replayJudgeText(runArtifact), /玩家输入被正确响应。/);
   assert.match(replayJudgeText(runArtifact), /New regressions:\n- speaker tag still suspicious/);
+  assert.match(replayJudgeText(runArtifact), /Regression Consistency \| violation: yes \| confidence: high/);
+  assert.match(replayJudgeText(runArtifact), /factual_contradiction: 钥匙没有来源解释。/);
 });

@@ -45,6 +45,8 @@ test('readRunArtifact loads repeated run output, calls, and issue judge results'
   assert.equal(artifact.llmCalls[0].stage, 'director');
   assert.equal(artifact.issues[0].issueId, 'issue-001');
   assert.equal(artifact.issues[0].judgeResult.verdict, 'regressed');
+  assert.equal(artifact.regressionConsistency.input.playerInput, '打开门');
+  assert.equal(artifact.regressionConsistency.result.isViolation, true);
 });
 
 test('readRunArtifact supports legacy single-run case directory', async () => {
@@ -95,6 +97,18 @@ async function writeReplayArtifacts() {
     await writeJson(path.join(runDir, 'llm-calls.json'), [{ stage: 'director', runIndex }]);
     await writeJson(path.join(runDir, 'issues', 'issue-001', 'judge-result.json'), {
       verdict: runIndex === 1 ? 'fixed' : 'regressed',
+    });
+    await writeJson(path.join(runDir, 'regression-consistency-judge-input.json'), {
+      playerInput: '打开门',
+      output: `new text ${runIndex}`,
+      history_turn: [],
+      target: 'fullTurn',
+    });
+    await writeJson(path.join(runDir, 'regression-consistency-judge-result.json'), {
+      isViolation: runIndex === 2,
+      confidence: 'high',
+      violations: runIndex === 2 ? [{ type: 'continuity_break' }] : [],
+      reasoning: 'checked',
     });
   }
 

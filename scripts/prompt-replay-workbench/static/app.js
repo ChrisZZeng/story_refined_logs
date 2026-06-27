@@ -48,6 +48,7 @@ const elements = {
   sourcePath: document.querySelector('#sourcePath'),
   promptTurnNotice: document.querySelector('#promptTurnNotice'),
   loadPromptTurnButton: document.querySelector('#loadPromptTurnButton'),
+  editStatePanel: document.querySelector('#editStatePanel'),
   dirtyBadge: document.querySelector('#dirtyBadge'),
   originalText: document.querySelector('#originalText'),
   draftText: document.querySelector('#draftText'),
@@ -779,6 +780,8 @@ function renderSource() {
     elements.sourcePath.textContent = '';
     elements.promptTurnNotice.textContent = '';
     elements.loadPromptTurnButton.hidden = true;
+    elements.editStatePanel.hidden = true;
+    elements.editStatePanel.textContent = '';
     elements.originalText.value = '';
     elements.draftText.value = '';
     return;
@@ -818,8 +821,26 @@ function renderSource() {
   elements.dirtyBadge.textContent = source.unavailable ? 'Unavailable' : source.dirty ? 'Dirty' : editable ? 'Editable' : 'View only';
   elements.dirtyBadge.classList.toggle('dirty', source.dirty);
   elements.dirtyBadge.classList.toggle('readonly', !editable && !source.unavailable);
+  renderEditStatePanel({ source, editable });
   renderPromptTurnControls();
   renderTabs();
+}
+
+function renderEditStatePanel({ source, editable }) {
+  if (editable || !source.editBlockReason) {
+    elements.editStatePanel.hidden = true;
+    elements.editStatePanel.textContent = '';
+    return;
+  }
+
+  const title = document.createElement('strong');
+  title.textContent = 'Current prompt is locked';
+  const body = document.createElement('span');
+  body.textContent = source.editBlockReasonCode === 'MULTI_TURN_TURN_SCOPED_PROMPT'
+    ? 'This prompt contains current-turn memory or context material. Load exactly one replay turn to edit it safely.'
+    : source.editBlockReason;
+  elements.editStatePanel.replaceChildren(title, body);
+  elements.editStatePanel.hidden = false;
 }
 
 function renderPromptTurnControls() {

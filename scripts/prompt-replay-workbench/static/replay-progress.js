@@ -60,8 +60,7 @@ export function replayOutputText(runArtifact) {
 
 export function replayJudgeText(runArtifact) {
   const issues = runArtifact?.issues ?? [];
-  if (issues.length === 0) return 'No judge results.';
-  return issues.map((issue) => {
+  const blocks = issues.map((issue) => {
     const result = issue.judgeResult ?? {};
     return [
       `${issue.issueId ?? 'issue'} | ${result.verdict ?? '-'} | confidence: ${result.confidence ?? '-'}`,
@@ -69,7 +68,10 @@ export function replayJudgeText(runArtifact) {
       listBlock('Remaining problems', result.remainingProblems),
       listBlock('New regressions', result.newRegressions),
     ].filter(Boolean).join('\n');
-  }).join('\n\n');
+  });
+  const regressionText = regressionConsistencyText(runArtifact?.regressionConsistency?.result);
+  if (regressionText) blocks.push(regressionText);
+  return blocks.length > 0 ? blocks.join('\n\n') : 'No judge results.';
 }
 
 function formatCaseVerdict(item) {
@@ -92,4 +94,27 @@ function formatRunLabel(run) {
 function listBlock(title, items) {
   if (!Array.isArray(items) || items.length === 0) return '';
   return `${title}:\n${items.map((item) => `- ${item}`).join('\n')}`;
+}
+
+function regressionConsistencyText(result) {
+  if (!result) return '';
+  return [
+    `Regression Consistency | violation: ${result.isViolation ? 'yes' : 'no'} | confidence: ${result.confidence ?? '-'}`,
+    result.reasoning ?? '',
+    regressionViolationsBlock(result.violations),
+  ].filter(Boolean).join('\n');
+}
+
+function regressionViolationsBlock(violations) {
+  if (!Array.isArray(violations) || violations.length === 0) return '';
+  return [
+    'Violations:',
+    ...violations.map((item) =>
+      [
+        `- ${item.type ?? 'violation'}: ${item.explanation ?? ''}`.trim(),
+        item.evidence_history ? `  history: ${item.evidence_history}` : '',
+        item.evidence_current ? `  current: ${item.evidence_current}` : '',
+      ].filter(Boolean).join('\n'),
+    ),
+  ].join('\n');
 }

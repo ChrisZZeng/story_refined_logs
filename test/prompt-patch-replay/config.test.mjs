@@ -130,3 +130,97 @@ test('validateReplayConfig accepts repeats and pass verdicts', () => {
   assert.equal(config.repeats, 5);
   assert.deepEqual(config.judging.passVerdicts, ['fixed', 'improved']);
 });
+
+test('validateReplayConfig accepts regression consistency judge options', () => {
+  const config = validateReplayConfig({
+    replayId: 'replay-a',
+    logGroupDir: 'logs/group-a',
+    runId: 'run-a',
+    turns: [3],
+    patchBundlePath: 'patches/a.json',
+    source: {
+      oreturnRepo: '/repo/oreturn',
+    },
+    models: {
+      replay: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://llm/v1',
+        apiKeyEnv: 'REPLAY_KEY',
+        model: 'replay-model',
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://judge/v1',
+        apiKeyEnv: 'JUDGE_KEY',
+        model: 'judge-model',
+      },
+    },
+    judging: {
+      regressionConsistency: { enabled: true, target: 'fullTurn' },
+    },
+  });
+
+  assert.deepEqual(config.judging.passVerdicts, ['fixed']);
+  assert.deepEqual(config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
+});
+
+test('validateReplayConfig accepts explicit regression consistency judge disable', () => {
+  const config = validateReplayConfig({
+    replayId: 'replay-a',
+    logGroupDir: 'logs/group-a',
+    runId: 'run-a',
+    turns: [3],
+    patchBundlePath: 'patches/a.json',
+    source: {
+      oreturnRepo: '/repo/oreturn',
+    },
+    models: {
+      replay: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://llm/v1',
+        apiKeyEnv: 'REPLAY_KEY',
+        model: 'replay-model',
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://judge/v1',
+        apiKeyEnv: 'JUDGE_KEY',
+        model: 'judge-model',
+      },
+    },
+    judging: {
+      regressionConsistency: { enabled: false, target: 'fullTurn' },
+    },
+  });
+
+  assert.deepEqual(config.judging.regressionConsistency, { enabled: false, target: 'fullTurn' });
+});
+
+test('validateReplayConfig enables regression consistency judge by default', () => {
+  const config = validateReplayConfig({
+    replayId: 'replay-a',
+    logGroupDir: 'logs/group-a',
+    runId: 'run-a',
+    turns: [3],
+    patchBundlePath: 'patches/a.json',
+    source: {
+      oreturnRepo: '/repo/oreturn',
+    },
+    models: {
+      replay: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://llm/v1',
+        apiKeyEnv: 'REPLAY_KEY',
+        model: 'replay-model',
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://judge/v1',
+        apiKeyEnv: 'JUDGE_KEY',
+        model: 'judge-model',
+      },
+    },
+  });
+
+  assert.deepEqual(config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
+});

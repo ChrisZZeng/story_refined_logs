@@ -1,10 +1,11 @@
-export function buildPatchBundleFromPromptSources({ bundleId, description, sources }) {
+export function buildPatchBundleFromPromptSources({ bundleId, description, sources, replayTurnCount }) {
   const patches = [];
 
   for (const [index, source] of sources.entries()) {
     validatePromptSource(source, index);
 
     if (source.dirty === true || source.originalText !== source.draftText) {
+      validatePatchScopeForReplayTask({ source, index, replayTurnCount });
       patches.push({
         id: createPatchId(source.id),
         ...(source.patchMode === 'field' ? { matchMode: 'field' } : {}),
@@ -33,6 +34,19 @@ export function buildPatchBundleFromPromptSources({ bundleId, description, sourc
     ...(description === undefined ? {} : { description }),
     patches,
   };
+}
+
+function validatePatchScopeForReplayTask({ source, index, replayTurnCount }) {
+  if (replayTurnCount === undefined || replayTurnCount === 1) return;
+  if (!isTurnScopedObservedMaterial(source)) return;
+
+  const error = new Error(
+    `Cannot patch turn-scoped prompt source ${source.id} in a multi-turn replay task. Load a single-turn replay task before editing current-turn prompt material.`,
+  );
+  error.code = 'PATCH_SOURCE_TURN_SCOPED_MULTI_TURN';
+  error.sourceId = source.id;
+  error.index = index;
+  throw error;
 }
 
 export function createPromptSourceDiff({ originalText, draftText }) {
@@ -113,6 +127,17 @@ function validatePromptSource(source, index) {
 
 function createPatchId(sourceId) {
   return `prompt-source-${sourceId.replaceAll(/[^a-zA-Z0-9]+/g, '-').replaceAll(/^-|-$/g, '')}`;
+}
+
+function isTurnScopedObservedMaterial(source) {
+  if (source?.patchScope === 'turn') return true;
+  if (source?.sourceKind !== 'observed-llm-call') return false;
+  if (source?.fieldPath === 'system') return false;
+  return leadingXmlTag(source?.originalText ?? source?.draftText ?? '') !== 'player_input';
+}
+
+function leadingXmlTag(content) {
+  return /^<([a-zA-Z][\w:-]*)>/.exec(String(content ?? '').trim())?.[1] ?? null;
 }
 
 function splitLines(text) {

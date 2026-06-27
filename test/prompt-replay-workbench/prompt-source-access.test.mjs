@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import {
   groupPromptSourcesByAccess,
   isEditablePromptSource,
+  promptSourceEditState,
+  withPromptSourceAccess,
 } from '../../scripts/prompt-replay-workbench/static/prompt-source-access.js';
 
 test('only system fields and player_input prompts are editable', () => {
@@ -29,4 +31,59 @@ test('prompt sources are grouped with editable prompts first', () => {
   assert.deepEqual(groups.map((group) => group.id), ['editable', 'view-only']);
   assert.deepEqual(groups[0].sources.map((source) => source.id), ['director-system', 'narrator-player']);
   assert.deepEqual(groups[1].sources.map((source) => source.id), ['director-world', 'narrator-context']);
+});
+
+test('turn-scoped observed material is editable only for single-turn replay tasks', () => {
+  const source = {
+    id: 'turn-005.director.context',
+    sourceKind: 'observed-llm-call',
+    patchScope: 'turn',
+    fieldPath: 'messages[3].content',
+    originalText: '<context>\ncurrent memory\n</context>',
+  };
+
+  assert.equal(isEditablePromptSource(source, { replayTurnCount: 1 }), true);
+  assert.equal(isEditablePromptSource(source, { replayTurnCount: 3 }), false);
+
+  assert.deepEqual(promptSourceEditState(source, { replayTurnCount: 3 }), {
+    editable: false,
+    reasonCode: 'MULTI_TURN_TURN_SCOPED_PROMPT',
+    reason: 'Turn-scoped prompt material can only be edited when the replay task contains exactly one turn.',
+  });
+});
+
+test('withPromptSourceAccess annotates multi-turn blocked prompt material for the UI', () => {
+  const source = withPromptSourceAccess(
+    {
+      id: 'turn-009.narrator.world-setting',
+      sourceKind: 'observed-llm-call',
+      patchScope: 'turn',
+      fieldPath: 'messages[1].content',
+      originalText: '<world_setting>\nworld\n</world_setting>',
+    },
+    { replayTurnCount: 2 },
+  );
+
+  assert.equal(source.editable, false);
+  assert.equal(source.access, 'view-only');
+  assert.equal(source.editBlockReasonCode, 'MULTI_TURN_TURN_SCOPED_PROMPT');
+  assert.match(source.editBlockReason, /exactly one turn/);
+});
+
+test('grouping preserves server-provided editability when no replay turn count is supplied', () => {
+  const sources = [
+    {
+      id: 'turn-005.director.context',
+      sourceKind: 'observed-llm-call',
+      patchScope: 'turn',
+      fieldPath: 'messages[3].content',
+      originalText: '<context>x</context>',
+      editable: true,
+    },
+  ];
+
+  const groups = groupPromptSourcesByAccess(sources);
+
+  assert.deepEqual(groups.map((group) => group.id), ['editable']);
+  assert.deepEqual(groups[0].sources.map((source) => source.id), ['turn-005.director.context']);
 });

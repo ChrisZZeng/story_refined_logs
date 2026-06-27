@@ -853,6 +853,29 @@ fieldset legend {
   background: #f8fafc;
 }
 
+.editStatePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 10px 14px 0;
+  padding: 10px 12px;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.editStatePanel strong {
+  color: #9a3412;
+  font-size: 12px;
+}
+
+.editStatePanel[hidden] {
+  display: none;
+}
+
 .columns {
   display: grid;
   grid-template-columns: 1fr 1fr;

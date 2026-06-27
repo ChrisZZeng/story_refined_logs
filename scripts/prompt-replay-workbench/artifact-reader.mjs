@@ -23,10 +23,11 @@ export async function readCaseArtifact({ resultDir, turn }) {
 export async function readRunArtifact({ resultDir, turn, runIndex = 1 }) {
   const caseDir = caseArtifactDir({ resultDir, turn });
   const runDir = await runArtifactDir({ caseDir, runIndex });
-  const [output, llmCalls, issues] = await Promise.all([
+  const [output, llmCalls, issues, regressionConsistency] = await Promise.all([
     readOptionalJson(path.join(runDir, 'new-04-output.json')),
     readOptionalJson(path.join(runDir, 'llm-calls.json')).then((value) => value ?? []),
     readIssueArtifacts(path.join(runDir, 'issues')),
+    readRegressionConsistencyArtifact(runDir),
   ]);
   return {
     turn,
@@ -35,6 +36,7 @@ export async function readRunArtifact({ resultDir, turn, runIndex = 1 }) {
     output,
     llmCalls,
     issues,
+    regressionConsistency,
   };
 }
 
@@ -77,6 +79,15 @@ async function readIssueArtifacts(issuesDir) {
     });
   }
   return issues;
+}
+
+async function readRegressionConsistencyArtifact(runDir) {
+  const [input, result] = await Promise.all([
+    readOptionalJson(path.join(runDir, 'regression-consistency-judge-input.json')),
+    readOptionalJson(path.join(runDir, 'regression-consistency-judge-result.json')),
+  ]);
+  if (!input && !result) return null;
+  return { input, result };
 }
 
 async function readJson(filePath) {

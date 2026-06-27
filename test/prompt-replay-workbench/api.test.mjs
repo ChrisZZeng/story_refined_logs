@@ -10,7 +10,7 @@ import { createWorkbenchApiHandler } from '../../scripts/prompt-replay-workbench
 test('GET /api/task returns normalized task config without patch text expansion details', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
   const taskPath = path.join(dir, 'replay-task.yaml');
-  await writeTask(taskPath);
+  await writeTask(taskPath, { regressionConsistencyEnabled: false });
   const resolvedSource = {
     sourceOreturnCommit: 'abcdef0123456789',
     replayEngineOreturnCommit: 'abcdef0123456789ffffffffffffffffffffffff',
@@ -290,6 +290,7 @@ test('POST /api/replay/run turns prompt edits into an inline workbench task snap
   assert.match(snapshot, /id: prompt-source-choice-system/);
   assert.match(snapshot, /originalText: old prompt/);
   assert.match(snapshot, /replacementText: new prompt/);
+  assert.match(snapshot, /regressionConsistency:\n\s+enabled: true\n\s+target: fullTurn/);
 });
 
 test('GET /api/prompt-sources loads observed prompt fields from the selected badcase turn', async () => {
@@ -342,9 +343,36 @@ test('GET /api/prompt-sources loads observed prompt fields from the selected bad
   assert.equal(response.body.sources[3].label, 'Narrator / creative_brief');
   assert.equal(response.body.sources[3].patchScope, 'turn');
   assert.equal(response.body.sources[3].patchScopeKind, 'turn-scoped-material');
-  assert.equal(response.body.sources[3].editable, false);
-  assert.equal(response.body.sources[3].access, 'view-only');
+  assert.equal(response.body.sources[3].editable, true);
+  assert.equal(response.body.sources[3].access, 'editable');
   assert.equal(response.body.sources[3].originalText, '<creative_brief>\nobserved director output\n</creative_brief>');
+});
+
+test('GET /api/prompt-sources marks turn-scoped observed material blocked for multi-turn replay tasks', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const logGroupDir = path.join(dir, 'logs', 'abcdef0-dev');
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath, { logGroupDir, turns: [4, 9] });
+  await writeRunContextFixture(logGroupDir, 'run-a');
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    cwd: dir,
+    loadPromptSources: async () => {
+      throw new Error('should read observed turn prompts, not source files');
+    },
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const response = await request(handler, 'GET', '/api/prompt-sources?turn=4');
+
+  assert.equal(response.status, 200);
+  const creativeBrief = response.body.sources.find((source) => source.label === 'Narrator / creative_brief');
+  assert.equal(creativeBrief.editable, false);
+  assert.equal(creativeBrief.access, 'view-only');
+  assert.equal(creativeBrief.editBlockReasonCode, 'MULTI_TURN_TURN_SCOPED_PROMPT');
+  assert.match(creativeBrief.editBlockReason, /exactly one turn/);
 });
 
 test('GET /api/prompt-sources uses resolved managed worktree repo and default config path', async () => {
@@ -384,6 +412,41 @@ test('GET /api/prompt-sources uses resolved managed worktree repo and default co
   assert.equal(calls.length, 1);
   assert.match(calls[0].configPath, /default-prompt-sources\.yaml$/);
   assert.equal(calls[0].oreturnRepo, managedRepo);
+});
+
+test('POST /api/replay/run rejects turn-scoped prompt edits for multi-turn replay tasks', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath, { turns: [4, 9] });
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    cwd: dir,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const response = await request(handler, 'POST', '/api/replay/run', {
+    promptEdits: [
+      {
+        id: 'turn-004.director.context',
+        sourceKind: 'observed-llm-call',
+        patchMode: 'field',
+        patchScope: 'turn',
+        turn: 4,
+        stage: 'director',
+        callKind: 'generateObject',
+        fieldPath: 'messages[3].content',
+        originalText: '<context>old</context>',
+        draftText: '<context>new</context>',
+      },
+    ],
+  });
+
+  assert.equal(response.status, 400);
+  assert.equal(response.body.code, 'PATCH_SOURCE_TURN_SCOPED_MULTI_TURN');
+  assert.match(response.body.error, /single-turn replay task/);
 });
 
 test('GET /api/prompt-sources fails instead of falling back to the main repo', async () => {
@@ -515,6 +578,15 @@ async function writeTask(taskPath, overrides = {}) {
   const turns = overrides.turns ?? [4];
   const replayId = overrides.replayId ?? 'api-task-a';
   const oreturnRepo = overrides.oreturnRepo ?? '/tmp/oreturn';
+  const judgingLines = overrides.regressionConsistencyEnabled === undefined
+    ? []
+    : [
+        'judging:',
+        '  passVerdicts: [fixed]',
+        '  regressionConsistency:',
+        `    enabled: ${overrides.regressionConsistencyEnabled}`,
+        '    target: fullTurn',
+      ];
   await writeFile(
     taskPath,
     [
@@ -524,6 +596,7 @@ async function writeTask(taskPath, overrides = {}) {
       'models:',
       '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
       '  judge: { useReplayModel: true }',
+      ...judgingLines,
       'patchBundle:',
       '  id: bundle-a',
       '  patches:',

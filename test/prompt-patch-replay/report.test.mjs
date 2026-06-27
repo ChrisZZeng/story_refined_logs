@@ -101,6 +101,54 @@ test('buildSummary computes pass rates for repeated runs', () => {
   assert.equal(summary.cases[0].issues[1].passRate, 0.5);
 });
 
+test('buildSummary requires regression consistency pass when result is present', () => {
+  const summary = buildSummary({
+    replayId: 'replay-a',
+    runId: 'run-a',
+    resultDir: '/tmp/result',
+    patchBundle: { id: 'bundle-a' },
+    patchBundlePath: '/tmp/patch-bundle.json',
+    patchBundleHash: 'sha256:abc',
+    sourceVersion: {},
+    passVerdicts: ['fixed'],
+    caseResults: [
+      {
+        turn: 3,
+        status: 'completed',
+        issueCount: 1,
+        repeats: 2,
+        runs: [
+          {
+            runIndex: 1,
+            status: 'completed',
+            judgeResults: [{ issueId: 'issue-001', verdict: 'fixed' }],
+            regressionConsistencyResult: { isViolation: false, confidence: 'high', violations: [] },
+          },
+          {
+            runIndex: 2,
+            status: 'completed',
+            judgeResults: [{ issueId: 'issue-001', verdict: 'fixed' }],
+            regressionConsistencyResult: {
+              isViolation: true,
+              confidence: 'high',
+              violations: [{ type: 'continuity_break' }],
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.equal(summary.regressionJudgmentCount, 2);
+  assert.equal(summary.regressionViolationRuns, 1);
+  assert.equal(summary.passedRuns, 1);
+  assert.equal(summary.overallPassRate, 0.5);
+  assert.equal(summary.cases[0].runs[0].overall.passed, true);
+  assert.equal(summary.cases[0].runs[1].overall.issueFix.passed, true);
+  assert.equal(summary.cases[0].runs[1].overall.consistencyRegression.passed, false);
+  assert.equal(summary.cases[0].runs[1].overall.passed, false);
+});
+
 test('renderSummaryMarkdown includes repeated run pass rates', () => {
   const markdown = renderSummaryMarkdown({
     replayId: 'replay-a',

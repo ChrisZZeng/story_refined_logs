@@ -3,7 +3,12 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 
 import { runOreturnReplay } from './oreturn-engine.mjs';
-import { buildJudgeInput, runJudge } from './judger.mjs';
+import {
+  buildJudgeInput,
+  buildRegressionJudgeInput,
+  runJudge,
+  runRegressionJudge,
+} from './judger.mjs';
 import {
   buildSummary,
   renderIssueReportMarkdown,
@@ -14,9 +19,25 @@ import { currentGitCommit, ensureOreturnReplayWorktree, resolveSourceCommit } fr
 import { loadReplayTask } from './task-config.mjs';
 import { buildTurnReplayContext } from './turn-context.mjs';
 
-export async function runPromptPatchReplay({ configPath, dryRunContextOnly = false, cwd = process.cwd() }) {
+export async function runPromptPatchReplay({
+  configPath,
+  dryRunContextOnly = false,
+  cwd = process.cwd(),
+  deps = {},
+}) {
+  const services = {
+    loadReplayTask,
+    ensureOreturnReplayWorktree,
+    currentGitCommit,
+    buildTurnReplayContext,
+    runOreturnReplay,
+    runJudge,
+    runRegressionJudge,
+    ...deps,
+  };
   const resolvedConfigPath = path.resolve(cwd, configPath);
-  const { config, patchBundle, patchBundleRaw, patchBundlePath } = await loadReplayTask(resolvedConfigPath);
+  const { config, patchBundle, patchBundleRaw, patchBundlePath } =
+    await services.loadReplayTask(resolvedConfigPath);
   const patchBundleHash = hashText(patchBundleRaw);
   const logGroupDir = path.resolve(cwd, config.logGroupDir);
   const runConfigPath = path.join(logGroupDir, 'run_logs', config.runId, '00-run-config.json');
@@ -43,88 +64,43 @@ export async function runPromptPatchReplay({ configPath, dryRunContextOnly = fal
         matched: null,
         dryRunContextOnly: true,
       }
-    : ensureOreturnReplayWorktree({
+    : services.ensureOreturnReplayWorktree({
         oreturnRepo: config.source.oreturnRepo,
         sourceCommit,
         allowDirty: config.source.allowDirtyEngine,
       });
   sourceVersion.patchBundlePath = patchBundlePath;
   sourceVersion.patchBundleHash = patchBundleHash;
-  sourceVersion.storyRefinedLogsCommit = safeCurrentCommit(cwd);
+  sourceVersion.storyRefinedLogsCommit = safeCurrentCommit(cwd, services.currentGitCommit);
   await writeJson(path.join(resultDir, 'resolved-source-version.json'), sourceVersion);
 
-  const caseResults = [];
   const repeats = config.repeats ?? 1;
   const passVerdicts = config.judging?.passVerdicts ?? ['fixed'];
-  for (const turn of config.turns) {
-    const caseOutputDir = path.join(resultDir, 'cases', `turn-${String(turn).padStart(3, '0')}`);
-    await mkdir(caseOutputDir, { recursive: true });
-    try {
-      const context = await buildTurnReplayContext({ logGroupDir, runId: config.runId, turn });
-      await writeJson(path.join(caseOutputDir, 'turn-replay-context.json'), context);
-
-      if (dryRunContextOnly) {
-        caseResults.push({
-          turn,
-          status: 'context-only',
-          repeats,
-          judgeResults: [],
-          issueCount: context.issues.length,
-        });
-        continue;
-      }
-
-      const runs = [];
-      for (let runIndex = 1; runIndex <= repeats; runIndex += 1) {
-        const runOutputDir =
-          repeats === 1
-            ? caseOutputDir
-            : path.join(caseOutputDir, 'runs', `run-${String(runIndex).padStart(3, '0')}`);
-        await mkdir(runOutputDir, { recursive: true });
-        runs.push(
-          await runReplayAttempt({
-            runIndex,
-            outputDir: runOutputDir,
-            oreturnRepo: sourceVersion.replayEngineOreturnRepo ?? config.source.oreturnRepo,
-            context,
-            patchBundle,
-            replayModelConfig: config.models.replay,
-            judgeMode: config.judgeMode ?? 'openai-compatible',
-            judgeModelConfig: config.models.judge,
-          }),
-        );
-      }
-
-      const failedRunCount = runs.filter((run) => run.status === 'failed').length;
-      const caseResult = {
+  const regressionConsistency = config.judging?.regressionConsistency ?? {
+    enabled: true,
+    target: 'fullTurn',
+  };
+  const caseResults = await Promise.all(
+    config.turns.map((turn) =>
+      runReplayCase({
         turn,
-        status:
-          failedRunCount === 0
-            ? 'completed'
-            : failedRunCount === runs.length
-              ? 'failed'
-              : 'partial-failed',
+        resultDir,
+        logGroupDir,
+        runId: config.runId,
         repeats,
-        runs,
-        ...(repeats === 1 ? { judgeResults: runs[0]?.judgeResults ?? [] } : {}),
-        issueCount: context.issues.length,
-      };
-      await writeJson(
-        path.join(caseOutputDir, 'aggregate-summary.json'),
-        summarizeCase({ caseResult, passVerdicts }),
-      );
-      caseResults.push(caseResult);
-    } catch (error) {
-      caseResults.push({
-        turn,
-        status: 'failed',
-        repeats,
-        error: error instanceof Error ? error.message : String(error),
-        judgeResults: [],
-        runs: [],
-      });
-    }
-  }
+        dryRunContextOnly,
+        sourceVersion,
+        sourceRepo: config.source.oreturnRepo,
+        patchBundle,
+        replayModelConfig: config.models.replay,
+        judgeMode: config.judgeMode ?? 'openai-compatible',
+        judgeModelConfig: config.models.judge,
+        regressionConsistency,
+        passVerdicts,
+        services,
+      }),
+    ),
+  );
 
   const summary = buildSummary({
     replayId: config.replayId,
@@ -150,6 +126,93 @@ export async function runPromptPatchReplay({ configPath, dryRunContextOnly = fal
   };
 }
 
+async function runReplayCase({
+  turn,
+  resultDir,
+  logGroupDir,
+  runId,
+  repeats,
+  dryRunContextOnly,
+  sourceVersion,
+  sourceRepo,
+  patchBundle,
+  replayModelConfig,
+  judgeMode,
+  judgeModelConfig,
+  regressionConsistency,
+  passVerdicts,
+  services,
+}) {
+  const caseOutputDir = path.join(resultDir, 'cases', `turn-${String(turn).padStart(3, '0')}`);
+  await mkdir(caseOutputDir, { recursive: true });
+  try {
+    const context = await services.buildTurnReplayContext({ logGroupDir, runId, turn });
+    await writeJson(path.join(caseOutputDir, 'turn-replay-context.json'), context);
+
+    if (dryRunContextOnly) {
+      return {
+        turn,
+        status: 'context-only',
+        repeats,
+        judgeResults: [],
+        issueCount: context.issues.length,
+      };
+    }
+
+    const runs = [];
+    for (let runIndex = 1; runIndex <= repeats; runIndex += 1) {
+      const runOutputDir =
+        repeats === 1
+          ? caseOutputDir
+          : path.join(caseOutputDir, 'runs', `run-${String(runIndex).padStart(3, '0')}`);
+      await mkdir(runOutputDir, { recursive: true });
+      runs.push(
+        await runReplayAttempt({
+          runIndex,
+          outputDir: runOutputDir,
+          oreturnRepo: sourceVersion.replayEngineOreturnRepo ?? sourceRepo,
+          context,
+          patchBundle,
+          replayModelConfig,
+          judgeMode,
+          judgeModelConfig,
+          regressionConsistency,
+          services,
+        }),
+      );
+    }
+
+    const failedRunCount = runs.filter((run) => run.status === 'failed').length;
+    const caseResult = {
+      turn,
+      status:
+        failedRunCount === 0
+          ? 'completed'
+          : failedRunCount === runs.length
+            ? 'failed'
+            : 'partial-failed',
+      repeats,
+      runs,
+      ...(repeats === 1 ? { judgeResults: runs[0]?.judgeResults ?? [] } : {}),
+      issueCount: context.issues.length,
+    };
+    await writeJson(
+      path.join(caseOutputDir, 'aggregate-summary.json'),
+      summarizeCase({ caseResult, passVerdicts }),
+    );
+    return caseResult;
+  } catch (error) {
+    return {
+      turn,
+      status: 'failed',
+      repeats,
+      error: error instanceof Error ? error.message : String(error),
+      judgeResults: [],
+      runs: [],
+    };
+  }
+}
+
 async function runReplayAttempt({
   runIndex,
   outputDir,
@@ -159,15 +222,39 @@ async function runReplayAttempt({
   replayModelConfig,
   judgeMode,
   judgeModelConfig,
+  regressionConsistency,
+  services,
 }) {
   try {
-    const replay = await runOreturnReplay({
+    const replay = await services.runOreturnReplay({
       oreturnRepo,
       caseOutputDir: outputDir,
       context,
       patchBundle,
       modelConfig: replayModelConfig,
     });
+
+    let regressionConsistencyResult = null;
+    if (regressionConsistency?.enabled === true) {
+      const regressionInput = buildRegressionJudgeInput({
+        context,
+        newOutput: replay.newOutput,
+        target: regressionConsistency.target ?? 'fullTurn',
+      });
+      await writeJson(
+        path.join(outputDir, 'regression-consistency-judge-input.json'),
+        regressionInput,
+      );
+      regressionConsistencyResult = await services.runRegressionJudge({
+        mode: judgeMode,
+        modelConfig: judgeModelConfig,
+        input: regressionInput,
+      });
+      await writeJson(
+        path.join(outputDir, 'regression-consistency-judge-result.json'),
+        regressionConsistencyResult,
+      );
+    }
 
     const judgeResults = [];
     for (let index = 0; index < context.issues.length; index += 1) {
@@ -177,7 +264,7 @@ async function runReplayAttempt({
       await mkdir(issueDir, { recursive: true });
       const judgeInput = buildJudgeInput({ issue, context, newOutput: replay.newOutput });
       await writeJson(path.join(issueDir, 'judge-input.json'), judgeInput);
-      const judgeResult = await runJudge({
+      const judgeResult = await services.runJudge({
         mode: judgeMode,
         modelConfig: judgeModelConfig,
         input: judgeInput,
@@ -195,6 +282,7 @@ async function runReplayAttempt({
       status: 'completed',
       outputDir,
       judgeResults,
+      ...(regressionConsistencyResult ? { regressionConsistencyResult } : {}),
       issueCount: context.issues.length,
     };
   } catch (error) {
@@ -220,9 +308,9 @@ async function writeJson(filePath, value) {
   await writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-function safeCurrentCommit(cwd) {
+function safeCurrentCommit(cwd, currentGitCommitImpl = currentGitCommit) {
   try {
-    return currentGitCommit(cwd);
+    return currentGitCommitImpl(cwd);
   } catch {
     return null;
   }
