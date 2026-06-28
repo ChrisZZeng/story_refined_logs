@@ -218,6 +218,74 @@ test('direct model tokens are kept in memory and injected only while running rep
   if (originalJudgeEnv !== undefined) process.env.WORKBENCH_JUDGE_API_KEY = originalJudgeEnv;
 });
 
+test('bootstrap defaults restore the last manual setup and direct tokens', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const logGroupDir = path.join(dir, 'logs', 'abcdef0-dev');
+  const firstHandler = createWorkbenchApiHandler({
+    cwd: dir,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const loaded = await request(firstHandler, 'POST', '/api/bootstrap/load', {
+    replayId: 'saved-manual-task',
+    logGroupDir,
+    runId: 'run-a',
+    turns: '4',
+    oreturnRepo: '/tmp/oreturn',
+    models: {
+      replay: {
+        keySource: 'direct',
+        apiKey: 'saved-replay-token',
+        baseUrl: 'https://example.test/v1',
+        model: 'model-a',
+      },
+      judge: {
+        keySource: 'direct',
+        apiKey: 'saved-judge-token',
+        baseUrl: 'https://example.test/v1',
+        model: 'model-b',
+      },
+    },
+  });
+  assert.equal(loaded.status, 200);
+
+  const savedSetupText = await readFile(path.join(dir, '.workbench-tasks', 'latest-manual-setup.json'), 'utf8');
+  assert.match(savedSetupText, /saved-replay-token/);
+  assert.match(savedSetupText, /saved-judge-token/);
+
+  const seenEnv = [];
+  const restoredHandler = createWorkbenchApiHandler({
+    cwd: dir,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      seenEnv.push({
+        replay: process.env.WORKBENCH_REPLAY_API_KEY,
+        judge: process.env.WORKBENCH_JUDGE_API_KEY,
+      });
+      return { replayId: 'saved-manual-task', resultDir: '/tmp/result', summaryPath: '/tmp/result/summary.md' };
+    },
+  });
+
+  const defaults = await request(restoredHandler, 'GET', '/api/bootstrap/defaults');
+  assert.equal(defaults.status, 200);
+  assert.equal(defaults.body.hasActiveTask, true);
+  assert.equal(defaults.body.config.replayId, 'saved-manual-task');
+  assert.equal(defaults.body.setupConfig.models.replay.apiKey, 'saved-replay-token');
+  assert.equal(defaults.body.setupConfig.models.judge.apiKey, 'saved-judge-token');
+
+  const replay = await request(restoredHandler, 'POST', '/api/replay/run', {});
+  assert.equal(replay.status, 200);
+  assert.deepEqual(seenEnv, [
+    {
+      replay: 'saved-replay-token',
+      judge: 'saved-judge-token',
+    },
+  ]);
+});
+
 test('bootstrap defaults work without an initial active task', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
   const handler = createWorkbenchApiHandler({

@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { chmod, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
@@ -14,6 +14,8 @@ import { readCaseArtifact, readReplaySummary, readRunArtifact } from './artifact
 import { withPromptSourceAccess } from './static/prompt-source-access.js';
 
 const DEFAULT_PROMPT_SOURCES_CONFIG = new URL('./default-prompt-sources.yaml', import.meta.url).pathname;
+const WORKBENCH_TASK_DIR = '.workbench-tasks';
+const LAST_MANUAL_SETUP_FILE = 'latest-manual-setup.json';
 
 export function createWorkbenchApiHandler({
   taskPath,
@@ -26,12 +28,21 @@ export function createWorkbenchApiHandler({
 }) {
   let activeTaskPath = taskPath ? path.resolve(taskPath) : null;
   let activeSecrets = {};
+  let activeSetupConfig = null;
 
   return async function handleWorkbenchApi(request) {
     try {
       const url = new URL(request.url, 'http://127.0.0.1');
       if (request.method === 'GET' && url.pathname === '/api/bootstrap/defaults') {
-        return jsonResponse(await readBootstrapDefaults({ activeTaskPath, cwd }));
+        if (!activeTaskPath) {
+          const restoredTask = await restoreLastManualSetup({ cwd });
+          if (restoredTask) {
+            activeTaskPath = restoredTask.taskPath;
+            activeSecrets = restoredTask.secrets;
+            activeSetupConfig = restoredTask.setupConfig;
+          }
+        }
+        return jsonResponse(await readBootstrapDefaults({ activeTaskPath, cwd, activeSetupConfig }));
       }
 
       if (request.method === 'POST' && url.pathname === '/api/bootstrap/load') {
@@ -41,6 +52,7 @@ export function createWorkbenchApiHandler({
         });
         activeTaskPath = taskSnapshot.taskPath;
         activeSecrets = taskSnapshot.secrets;
+        activeSetupConfig = taskSnapshot.setupConfig;
         const task = await loadReplayTask(activeTaskPath);
         return jsonResponse({
           taskPath: activeTaskPath,
@@ -198,13 +210,14 @@ async function safeResolvePromptSourceVersion({ task, cwd, resolvePromptSourceVe
   }
 }
 
-async function readBootstrapDefaults({ activeTaskPath, cwd }) {
+async function readBootstrapDefaults({ activeTaskPath, cwd, activeSetupConfig = null }) {
   if (activeTaskPath) {
     const task = await loadReplayTask(activeTaskPath);
     return {
       hasActiveTask: true,
       taskPath: activeTaskPath,
       config: task.config,
+      ...(activeSetupConfig ? { setupConfig: activeSetupConfig } : {}),
     };
   }
   return {
@@ -254,19 +267,43 @@ function requireActiveTaskPath(activeTaskPath) {
 }
 
 async function writeManualTaskSnapshot({ body, cwd }) {
+  const taskSnapshot = buildManualTaskSnapshot({ body, cwd });
+  await writeManualTaskFiles({ cwd, taskSnapshot, persistSetup: true });
+  return taskSnapshot;
+}
+
+async function restoreLastManualSetup({ cwd }) {
+  const setupState = await readLastManualSetup({ cwd });
+  if (!setupState) return null;
+  try {
+    const taskSnapshot = buildManualTaskSnapshot({ body: setupState.setupConfig, cwd });
+    await writeManualTaskFiles({ cwd, taskSnapshot, persistSetup: false });
+    return taskSnapshot;
+  } catch {
+    return null;
+  }
+}
+
+function buildManualTaskSnapshot({ body, cwd }) {
   const replayId = sanitizeReplayId(requiredString(body.replayId, 'replayId'));
   const { models, secrets } = normalizeModels(body.models);
+  const logGroupDir = requiredString(body.logGroupDir, 'logGroupDir');
+  const runId = requiredString(body.runId, 'runId');
+  const turns = parseTurns(body.turns);
+  const repeats = parseRepeats(body.repeats);
+  const oreturnRepo = requiredString(body.oreturnRepo ?? body.source?.oreturnRepo, 'oreturnRepo');
+  const versionPolicy = String(body.versionPolicy ?? body.source?.versionPolicy ?? 'require-matching-worktree');
   const snapshot = {
     replayId,
     caseSet: {
-      logGroupDir: requiredString(body.logGroupDir, 'logGroupDir'),
-      runId: requiredString(body.runId, 'runId'),
-      turns: parseTurns(body.turns),
-      repeats: parseRepeats(body.repeats),
+      logGroupDir,
+      runId,
+      turns,
+      repeats,
     },
     source: {
-      oreturnRepo: requiredString(body.oreturnRepo ?? body.source?.oreturnRepo, 'oreturnRepo'),
-      versionPolicy: String(body.versionPolicy ?? body.source?.versionPolicy ?? 'require-matching-worktree'),
+      oreturnRepo,
+      versionPolicy,
     },
     models,
     judging: body.judging,
@@ -283,11 +320,104 @@ async function writeManualTaskSnapshot({ body, cwd }) {
       ],
     },
   };
-  const snapshotDir = path.resolve(cwd, '.workbench-tasks');
+  const setupConfig = manualSetupConfig({
+    body,
+    replayId,
+    logGroupDir,
+    runId,
+    turns,
+    repeats,
+    oreturnRepo,
+    versionPolicy,
+  });
+  return {
+    taskPath: path.join(workbenchTaskDir(cwd), `${replayId}-manual.yaml`),
+    config: snapshot,
+    secrets,
+    setupConfig,
+  };
+}
+
+async function writeManualTaskFiles({ cwd, taskSnapshot, persistSetup }) {
+  const snapshotDir = workbenchTaskDir(cwd);
   await mkdir(snapshotDir, { recursive: true });
-  const taskPath = path.join(snapshotDir, `${replayId}-manual.yaml`);
-  await writeFile(taskPath, YAML.stringify(snapshot));
-  return { taskPath, config: snapshot, secrets };
+  await writeFile(taskSnapshot.taskPath, YAML.stringify(taskSnapshot.config));
+  if (persistSetup) {
+    await writeLastManualSetup({ cwd, taskSnapshot });
+  }
+}
+
+function manualSetupConfig({ body, replayId, logGroupDir, runId, turns, repeats, oreturnRepo, versionPolicy }) {
+  return {
+    replayId,
+    logGroupDir,
+    runId,
+    turns,
+    repeats,
+    oreturnRepo,
+    versionPolicy,
+    models: {
+      replay: manualModelSetupConfig(body.models?.replay, defaultModelConfig('REPLAY_API_KEY')),
+      judge: manualModelSetupConfig(body.models?.judge, defaultModelConfig('JUDGE_API_KEY')),
+    },
+    ...(body.judging !== undefined ? { judging: body.judging } : {}),
+    ...(body.judgeMode !== undefined ? { judgeMode: body.judgeMode } : {}),
+  };
+}
+
+function manualModelSetupConfig(model, defaults) {
+  if (model?.keySource === 'direct') {
+    return {
+      keySource: 'direct',
+      provider: model?.provider ?? defaults.provider,
+      baseUrl: model?.baseUrl ?? defaults.baseUrl,
+      apiKey: requiredString(model?.apiKey, 'apiKey'),
+      apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
+      model: model?.model ?? defaults.model,
+      ...(model?.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+    };
+  }
+  return {
+    keySource: model?.keySource ?? 'env',
+    provider: model?.provider ?? defaults.provider,
+    baseUrl: model?.baseUrl ?? defaults.baseUrl,
+    apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
+    model: model?.model ?? defaults.model,
+    ...(model?.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+  };
+}
+
+async function writeLastManualSetup({ cwd, taskSnapshot }) {
+  const setupPath = lastManualSetupPath(cwd);
+  await writeFile(
+    setupPath,
+    `${JSON.stringify({
+      version: 1,
+      taskPath: taskSnapshot.taskPath,
+      setupConfig: taskSnapshot.setupConfig,
+    }, null, 2)}\n`,
+    { mode: 0o600 },
+  );
+  await chmod(setupPath, 0o600);
+}
+
+async function readLastManualSetup({ cwd }) {
+  try {
+    const value = JSON.parse(await readFile(lastManualSetupPath(cwd), 'utf8'));
+    if (!value || typeof value !== 'object' || typeof value.setupConfig !== 'object') return null;
+    return value;
+  } catch (error) {
+    if (error?.code === 'ENOENT') return null;
+    return null;
+  }
+}
+
+function workbenchTaskDir(cwd) {
+  return path.resolve(cwd, WORKBENCH_TASK_DIR);
+}
+
+function lastManualSetupPath(cwd) {
+  return path.join(workbenchTaskDir(cwd), LAST_MANUAL_SETUP_FILE);
 }
 
 function requiredString(value, field) {

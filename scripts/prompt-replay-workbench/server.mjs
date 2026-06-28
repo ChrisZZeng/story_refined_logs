@@ -1,10 +1,11 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { createWorkbenchApiHandler } from './api.mjs';
 
-const STATIC_ROOT = new URL('./static/', import.meta.url).pathname;
+const STATIC_ROOT = fileURLToPath(new URL('./static/', import.meta.url));
 
 export async function startWorkbenchServer({
   taskPath,

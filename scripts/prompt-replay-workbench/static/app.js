@@ -27,6 +27,7 @@ const state = {
   replaySummary: null,
   runArtifacts: new Map(),
   bootstrapConfig: null,
+  setupConfig: null,
 };
 
 const elements = {
@@ -85,7 +86,7 @@ elements.configButton.addEventListener('click', () => {
   if (hasDirtyPromptEdits() && !window.confirm('返回配置页会丢弃当前未运行的 prompt 修改，继续吗？')) {
     return;
   }
-  populateSetupForm(state.task ?? state.bootstrapConfig);
+  populateSetupForm(state.setupConfig ?? state.task ?? state.bootstrapConfig);
   showSetupView();
 });
 
@@ -128,8 +129,9 @@ void loadBootstrap();
 
 async function loadBootstrap() {
   const response = await apiGet('/api/bootstrap/defaults');
-  state.bootstrapConfig = response.config;
-  populateSetupForm(response.config);
+  state.setupConfig = response.setupConfig ?? null;
+  state.bootstrapConfig = response.setupConfig ?? response.config;
+  populateSetupForm(state.bootstrapConfig);
   if (response.hasActiveTask) {
     await loadWorkbench();
   } else {
@@ -146,7 +148,7 @@ async function loadWorkbench() {
     ]);
     state.task = taskResponse.config;
     state.resolvedSource = taskResponse.resolvedSource ?? null;
-    state.bootstrapConfig = taskResponse.config;
+    state.bootstrapConfig = state.setupConfig ?? taskResponse.config;
     state.cases = casesResponse.cases;
     state.selectedCaseTurn = state.cases[0]?.turn ?? null;
     state.selectedPromptTurn = state.selectedCaseTurn;
@@ -175,10 +177,12 @@ async function loadWorkbench() {
 async function loadConfiguredWorkbench() {
   elements.setupLoadButton.disabled = true;
   elements.setupError.textContent = '';
+  const payload = setupPayload();
   try {
-    const response = await apiPost('/api/bootstrap/load', setupPayload());
+    const response = await apiPost('/api/bootstrap/load', payload);
     state.task = response.config;
-    state.bootstrapConfig = response.config;
+    state.setupConfig = payload;
+    state.bootstrapConfig = payload;
     await loadWorkbench();
   } catch (error) {
     elements.setupError.textContent = error.message;
@@ -233,10 +237,10 @@ function populateSetupForm(config) {
   setupFields.replayId.value = config.replayId ?? '';
   setupFields.logGroupDir.value = config.logGroupDir ?? '';
   setupFields.runId.value = config.runId ?? '';
-  setupFields.turns.value = Array.isArray(config.turns) ? config.turns.join(',') : '';
+  setupFields.turns.value = setupTurnsFormValue(config.turns);
   setupFields.repeats.value = String(config.repeats ?? 1);
-  setupFields.oreturnRepo.value = config.source?.oreturnRepo ?? '';
-  setupFields.versionPolicy.value = config.source?.versionPolicy ?? 'require-matching-worktree';
+  setupFields.oreturnRepo.value = config.oreturnRepo ?? config.source?.oreturnRepo ?? '';
+  setupFields.versionPolicy.value = config.versionPolicy ?? config.source?.versionPolicy ?? 'require-matching-worktree';
   populateModelSetupFields({
     baseUrl: setupFields.replayBaseUrl,
     keySource: setupFields.replayKeySource,
@@ -245,7 +249,7 @@ function populateSetupForm(config) {
     model: setupFields.replayModel,
   }, setupModelFormState({
     configModel: config.models?.replay,
-    currentToken: setupFields.replayApiKeyToken.value,
+    currentToken: config.models?.replay?.apiKey ?? setupFields.replayApiKeyToken.value,
   }));
   populateModelSetupFields({
     baseUrl: setupFields.judgeBaseUrl,
@@ -255,11 +259,17 @@ function populateSetupForm(config) {
     model: setupFields.judgeModel,
   }, setupModelFormState({
     configModel: config.models?.judge,
-    currentToken: setupFields.judgeApiKeyToken.value,
+    currentToken: config.models?.judge?.apiKey ?? setupFields.judgeApiKeyToken.value,
   }));
   setupFields.issueRepairJudger.checked = config.judging?.issueRepair?.enabled !== false;
   setupFields.consistencyJudger.checked = config.judging?.regressionConsistency?.enabled !== false;
   updateKeySourceFields();
+}
+
+function setupTurnsFormValue(turns) {
+  if (Array.isArray(turns)) return turns.join(',');
+  if (typeof turns === 'string') return turns;
+  return '';
 }
 
 function populateModelSetupFields(fields, modelState) {
@@ -282,11 +292,15 @@ function setupPayload() {
     models: {
       replay: modelPayload({
         baseUrl: setupFields.replayBaseUrl.value,
+        keySource: setupFields.replayKeySource.value,
+        apiKeyEnv: setupFields.replayApiKeyEnv.value,
         apiKey: setupFields.replayApiKeyToken.value,
         model: setupFields.replayModel.value,
       }),
       judge: modelPayload({
         baseUrl: setupFields.judgeBaseUrl.value,
+        keySource: setupFields.judgeKeySource.value,
+        apiKeyEnv: setupFields.judgeApiKeyEnv.value,
         apiKey: setupFields.judgeApiKeyToken.value,
         model: setupFields.judgeModel.value,
       }),

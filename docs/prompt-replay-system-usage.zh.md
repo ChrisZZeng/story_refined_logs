@@ -116,6 +116,14 @@ Workbench 的 Configure 页会生成一个临时 task snapshot，写到：
 .workbench-tasks/<replay-id>-manual.yaml
 ```
 
+同时会把最近一次 Configure 表单保存到本地缓存：
+
+```text
+.workbench-tasks/latest-manual-setup.json
+```
+
+下次直接启动 Workbench 时会默认恢复这份配置。这个缓存会包含页面里直接填写的 API key；如果不希望继续保留，可以删除该文件。
+
 关键字段：
 
 | 字段 | 说明 |
@@ -130,7 +138,7 @@ Workbench 的 Configure 页会生成一个临时 task snapshot，写到：
 | `Replay Model` | 重放小说系统时使用的模型。 |
 | `Judge Model` | 判断 issue 是否修复时使用的模型。 |
 
-API key 可以直接填在页面里。Workbench 不会把直接填写的 key 写进 task 文件；运行 replay 时会临时放进进程环境变量：
+API key 可以直接填在页面里。Workbench 不会把直接填写的 key 写进 task snapshot YAML；运行 replay 时会临时放进进程环境变量：
 
 ```text
 WORKBENCH_REPLAY_API_KEY

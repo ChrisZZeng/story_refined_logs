@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   DIRECT_TOKEN_KEY_SOURCE,
+  ENV_KEY_SOURCE,
   modelPayload,
   setupModelFormState,
 } from '../../scripts/prompt-replay-workbench/static/setup-model.js';
@@ -35,6 +36,36 @@ test('setup model form keeps an existing direct token when repopulated from norm
   assert.equal(state.apiKeyToken, 'already-entered-token');
 });
 
+test('setup model form restores persisted direct token from setup config', () => {
+  const state = setupModelFormState({
+    configModel: {
+      keySource: DIRECT_TOKEN_KEY_SOURCE,
+      baseUrl: 'https://example.test/v1',
+      apiKey: 'saved-token',
+      model: 'model-a',
+    },
+  });
+
+  assert.equal(state.keySource, DIRECT_TOKEN_KEY_SOURCE);
+  assert.equal(state.apiKeyToken, 'saved-token');
+});
+
+test('setup model form supports environment variable key source', () => {
+  const state = setupModelFormState({
+    configModel: {
+      keySource: ENV_KEY_SOURCE,
+      baseUrl: 'https://example.test/v1',
+      apiKeyEnv: 'REPLAY_API_KEY',
+      model: 'model-a',
+    },
+    currentToken: 'ignored-token',
+  });
+
+  assert.equal(state.keySource, ENV_KEY_SOURCE);
+  assert.equal(state.apiKeyEnv, 'REPLAY_API_KEY');
+  assert.equal(state.apiKeyToken, '');
+});
+
 test('setup model payload always submits a direct token model', () => {
   assert.deepEqual(
     modelPayload({
@@ -47,6 +78,24 @@ test('setup model payload always submits a direct token model', () => {
       provider: 'openai-compatible',
       baseUrl: 'https://example.test/v1',
       apiKey: 'direct-token',
+      model: 'model-a',
+    },
+  );
+});
+
+test('setup model payload can submit an environment variable model', () => {
+  assert.deepEqual(
+    modelPayload({
+      baseUrl: 'https://example.test/v1',
+      keySource: ENV_KEY_SOURCE,
+      apiKeyEnv: 'REPLAY_API_KEY',
+      model: 'model-a',
+    }),
+    {
+      keySource: ENV_KEY_SOURCE,
+      provider: 'openai-compatible',
+      baseUrl: 'https://example.test/v1',
+      apiKeyEnv: 'REPLAY_API_KEY',
       model: 'model-a',
     },
   );
