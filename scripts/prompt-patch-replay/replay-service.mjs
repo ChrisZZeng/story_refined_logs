@@ -23,8 +23,10 @@ export async function runPromptPatchReplay({
   configPath,
   dryRunContextOnly = false,
   cwd = process.cwd(),
+  signal,
   deps = {},
 }) {
+  throwIfAborted(signal);
   const services = {
     loadReplayTask,
     ensureOreturnReplayWorktree,
@@ -83,28 +85,33 @@ export async function runPromptPatchReplay({
     enabled: true,
     target: 'fullTurn',
   };
-  const caseResults = await Promise.all(
-    config.turns.map((turn) =>
-      runReplayCase({
-        turn,
-        resultDir,
-        logGroupDir,
-        runId: config.runId,
-        repeats,
-        dryRunContextOnly,
-        sourceVersion,
-        sourceRepo: config.source.oreturnRepo,
-        patchBundle,
-        replayModelConfig: config.models.replay,
-        judgeMode: config.judgeMode ?? 'openai-compatible',
-        judgeModelConfig: config.models.judge,
-        issueRepair,
-        regressionConsistency,
-        passVerdicts,
-        services,
-      }),
-    ),
+  const limiters = {
+    replay: createLimiter(config.concurrency?.replayAttempts ?? 1),
+    judge: createLimiter(config.concurrency?.judgeRequests ?? 2),
+  };
+  const casePromises = config.turns.map((turn) =>
+    runReplayCase({
+      turn,
+      resultDir,
+      logGroupDir,
+      runId: config.runId,
+      repeats,
+      dryRunContextOnly,
+      sourceVersion,
+      sourceRepo: config.source.oreturnRepo,
+      patchBundle,
+      replayModelConfig: config.models.replay,
+      judgeMode: config.judgeMode ?? 'openai-compatible',
+      judgeModelConfig: config.models.judge,
+      issueRepair,
+      regressionConsistency,
+      passVerdicts,
+      limiters,
+      signal,
+      services,
+    }),
   );
+  const caseResults = await allOrAbort(casePromises);
 
   const summary = buildSummary({
     replayId: config.replayId,
@@ -146,13 +153,17 @@ async function runReplayCase({
   issueRepair,
   regressionConsistency,
   passVerdicts,
+  limiters,
+  signal,
   services,
 }) {
   const caseOutputDir = path.join(resultDir, 'cases', `turn-${String(turn).padStart(3, '0')}`);
   await mkdir(caseOutputDir, { recursive: true });
   try {
+    throwIfAborted(signal);
     const context = await services.buildTurnReplayContext({ logGroupDir, runId, turn });
     await writeJson(path.join(caseOutputDir, 'turn-replay-context.json'), context);
+    throwIfAborted(signal);
 
     if (dryRunContextOnly) {
       return {
@@ -164,29 +175,30 @@ async function runReplayCase({
       };
     }
 
-    const runs = [];
-    for (let runIndex = 1; runIndex <= repeats; runIndex += 1) {
+    const runPromises = Array.from({ length: repeats }, async (_item, index) => {
+      const runIndex = index + 1;
       const runOutputDir =
         repeats === 1
           ? caseOutputDir
           : path.join(caseOutputDir, 'runs', `run-${String(runIndex).padStart(3, '0')}`);
       await mkdir(runOutputDir, { recursive: true });
-      runs.push(
-        await runReplayAttempt({
-          runIndex,
-          outputDir: runOutputDir,
-          oreturnRepo: sourceVersion.replayEngineOreturnRepo ?? sourceRepo,
-          context,
-          patchBundle,
-          replayModelConfig,
-          judgeMode,
-          judgeModelConfig,
-          issueRepair,
-          regressionConsistency,
-          services,
-        }),
-      );
-    }
+      return runReplayAttempt({
+        runIndex,
+        outputDir: runOutputDir,
+        oreturnRepo: sourceVersion.replayEngineOreturnRepo ?? sourceRepo,
+        context,
+        patchBundle,
+        replayModelConfig,
+        judgeMode,
+        judgeModelConfig,
+        issueRepair,
+        regressionConsistency,
+        limiters,
+        signal,
+        services,
+      });
+    });
+    const runs = await allOrAbort(runPromises);
 
     const failedRunCount = runs.filter((run) => run.status === 'failed').length;
     const caseResult = {
@@ -208,6 +220,7 @@ async function runReplayCase({
     );
     return caseResult;
   } catch (error) {
+    if (isAbortError(error)) throw error;
     return {
       turn,
       status: 'failed',
@@ -230,61 +243,59 @@ async function runReplayAttempt({
   judgeModelConfig,
   issueRepair,
   regressionConsistency,
+  limiters,
+  signal,
   services,
 }) {
   try {
-    const replay = await services.runOreturnReplay({
-      oreturnRepo,
-      caseOutputDir: outputDir,
-      context,
-      patchBundle,
-      modelConfig: replayModelConfig,
-    });
-
-    let regressionConsistencyResult = null;
-    if (regressionConsistency?.enabled === true) {
-      const regressionInput = buildRegressionJudgeInput({
+    const replay = await limiters.replay(() => {
+      throwIfAborted(signal);
+      return services.runOreturnReplay({
+        oreturnRepo,
+        caseOutputDir: outputDir,
         context,
-        newOutput: replay.newOutput,
-        target: regressionConsistency.target ?? 'fullTurn',
+        patchBundle,
+        modelConfig: replayModelConfig,
+        signal,
       });
-      await writeJson(
-        path.join(outputDir, 'regression-consistency-judge-input.json'),
-        regressionInput,
-      );
-      regressionConsistencyResult = await services.runRegressionJudge({
-        mode: judgeMode,
-        modelConfig: judgeModelConfig,
-        input: regressionInput,
-      });
-      await writeJson(
-        path.join(outputDir, 'regression-consistency-judge-result.json'),
-        regressionConsistencyResult,
-      );
-    }
+    });
+    throwIfAborted(signal);
 
-    const judgeResults = [];
-    if (issueRepair?.enabled !== false) {
-      for (let index = 0; index < context.issues.length; index += 1) {
-        const issue = context.issues[index];
-        const issueId = issue.id ?? `issue-${String(index + 1).padStart(3, '0')}`;
-        const issueDir = path.join(outputDir, 'issues', sanitizePathSegment(issueId));
-        await mkdir(issueDir, { recursive: true });
-        const judgeInput = buildJudgeInput({ issue, context, newOutput: replay.newOutput });
-        await writeJson(path.join(issueDir, 'judge-input.json'), judgeInput);
-        const judgeResult = await services.runJudge({
-          mode: judgeMode,
-          modelConfig: judgeModelConfig,
-          input: judgeInput,
-        });
-        await writeJson(path.join(issueDir, 'judge-result.json'), judgeResult);
-        await writeFile(
-          path.join(issueDir, 'report.md'),
-          renderIssueReportMarkdown({ issue, judgeResult }),
+    const regressionTask = regressionConsistency?.enabled === true
+      ? runRegressionJudgeTask({
+          outputDir,
+          context,
+          newOutput: replay.newOutput,
+          regressionConsistency,
+          judgeMode,
+          judgeModelConfig,
+          limiters,
+          signal,
+          services,
+        })
+      : Promise.resolve(null);
+
+    const issueTasks = issueRepair?.enabled === false
+      ? []
+      : context.issues.map((issue, index) =>
+          runIssueJudgeTask({
+            outputDir,
+            issue,
+            issueIndex: index,
+            context,
+            newOutput: replay.newOutput,
+            judgeMode,
+            judgeModelConfig,
+            limiters,
+            signal,
+            services,
+          }),
         );
-        judgeResults.push({ issueId, turn: issue.turn, ...judgeResult });
-      }
-    }
+    const issueResultsTask = allOrAbort(issueTasks);
+    const [regressionConsistencyResult, judgeResults] = await allOrAbort([
+      regressionTask,
+      issueResultsTask,
+    ]);
 
     return {
       runIndex,
@@ -298,6 +309,7 @@ async function runReplayAttempt({
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     await writeJson(path.join(outputDir, 'replay-error.json'), { runIndex, error: message });
+    if (isAbortError(error)) throw error;
     return {
       runIndex,
       status: 'failed',
@@ -307,6 +319,78 @@ async function runReplayAttempt({
       issueCount: context.issues.length,
     };
   }
+}
+
+async function runRegressionJudgeTask({
+  outputDir,
+  context,
+  newOutput,
+  regressionConsistency,
+  judgeMode,
+  judgeModelConfig,
+  limiters,
+  signal,
+  services,
+}) {
+  throwIfAborted(signal);
+  const regressionInput = buildRegressionJudgeInput({
+    context,
+    newOutput,
+    target: regressionConsistency.target ?? 'fullTurn',
+  });
+  await writeJson(
+    path.join(outputDir, 'regression-consistency-judge-input.json'),
+    regressionInput,
+  );
+  const regressionConsistencyResult = await limiters.judge(() => {
+    throwIfAborted(signal);
+    return services.runRegressionJudge({
+      mode: judgeMode,
+      modelConfig: judgeModelConfig,
+      input: regressionInput,
+    });
+  });
+  throwIfAborted(signal);
+  await writeJson(
+    path.join(outputDir, 'regression-consistency-judge-result.json'),
+    regressionConsistencyResult,
+  );
+  return regressionConsistencyResult;
+}
+
+async function runIssueJudgeTask({
+  outputDir,
+  issue,
+  issueIndex,
+  context,
+  newOutput,
+  judgeMode,
+  judgeModelConfig,
+  limiters,
+  signal,
+  services,
+}) {
+  throwIfAborted(signal);
+  const issueId = issue.id ?? `issue-${String(issueIndex + 1).padStart(3, '0')}`;
+  const issueDir = path.join(outputDir, 'issues', sanitizePathSegment(issueId));
+  await mkdir(issueDir, { recursive: true });
+  const judgeInput = buildJudgeInput({ issue, context, newOutput });
+  await writeJson(path.join(issueDir, 'judge-input.json'), judgeInput);
+  const judgeResult = await limiters.judge(() => {
+    throwIfAborted(signal);
+    return services.runJudge({
+      mode: judgeMode,
+      modelConfig: judgeModelConfig,
+      input: judgeInput,
+    });
+  });
+  throwIfAborted(signal);
+  await writeJson(path.join(issueDir, 'judge-result.json'), judgeResult);
+  await writeFile(
+    path.join(issueDir, 'report.md'),
+    renderIssueReportMarkdown({ issue, judgeResult }),
+  );
+  return { issueId, turn: issue.turn, ...judgeResult };
 }
 
 async function readJson(filePath) {
@@ -332,4 +416,61 @@ function sanitizePathSegment(value) {
 
 function hashText(value) {
   return `sha256:${createHash('sha256').update(value).digest('hex')}`;
+}
+
+function throwIfAborted(signal) {
+  if (!signal?.aborted) return;
+  throw abortError(signal.reason);
+}
+
+function isAbortError(error) {
+  return error?.name === 'AbortError' || error?.code === 'ABORT_ERR';
+}
+
+function abortError(reason) {
+  if (reason instanceof Error) return reason;
+  const error = new Error(reason ? String(reason) : 'Operation aborted');
+  error.name = 'AbortError';
+  error.code = 'ABORT_ERR';
+  return error;
+}
+
+async function allOrAbort(promises) {
+  try {
+    return await Promise.all(promises);
+  } catch (error) {
+    if (isAbortError(error)) {
+      await Promise.allSettled(promises);
+    }
+    throw error;
+  }
+}
+
+export function createLimiter(max) {
+  if (!Number.isInteger(max) || max < 1) {
+    throw new Error('limiter max must be a positive integer');
+  }
+  let active = 0;
+  const queue = [];
+
+  function drain() {
+    while (active < max && queue.length > 0) {
+      const item = queue.shift();
+      active += 1;
+      Promise.resolve()
+        .then(item.fn)
+        .then(item.resolve, item.reject)
+        .finally(() => {
+          active -= 1;
+          drain();
+        });
+    }
+  }
+
+  return function limit(fn) {
+    return new Promise((resolve, reject) => {
+      queue.push({ fn, resolve, reject });
+      drain();
+    });
+  };
 }

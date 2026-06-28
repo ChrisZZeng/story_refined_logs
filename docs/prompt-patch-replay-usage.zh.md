@@ -61,6 +61,10 @@ caseSet:
   turns: [2, 4, 17]
   repeats: 5
 
+concurrency:
+  replayAttempts: 20
+  judgeRequests: 50
+
 source:
   oreturnRepo: /Users/lidong/Projects/MemoraXAI/codebase/oreturn
 
@@ -103,6 +107,8 @@ patches/
 | `caseSet.runId` | 原始小说运行日志 run id。 |
 | `caseSet.turns` | 人工指定的 badcase turn 列表。 |
 | `caseSet.repeats` | 可选。每个 badcase turn 重复 replay 的次数。不填默认为 `1`。 |
+| `concurrency.replayAttempts` | 可选。真实 replay attempt 的全局并发上限。CLI 不填默认为 `1`；Workbench 新建任务默认写入 `20`。 |
+| `concurrency.judgeRequests` | 可选。judge 请求的全局并发上限。CLI 不填默认为 `2`；Workbench 新建任务默认写入 `50`。 |
 | `source.oreturnRepo` | 本地 `oreturn` 小说系统源码路径。工具会从这里创建隔离 replay worktree。 |
 | `source.versionPolicy` | 可选。当前只支持 `require-matching-worktree`，不填会默认使用它。 |
 | `source.oreturnCommit` | 可选。只有日志无法提供 source commit 时才作为兜底；如果日志也有 commit，则必须与日志一致。 |
@@ -319,6 +325,42 @@ judging:
 
 - 原 issue 的 verdict 命中 `passVerdicts`。
 - Regression Consistency Judge 未发现新增一致性 violation。
+
+## 并发设置
+
+Prompt Patch Replay 的并发是单个 replay job 内部的全局并发，而不是每个 turn 单独一份并发。
+
+```yaml
+concurrency:
+  replayAttempts: 20
+  judgeRequests: 50
+```
+
+含义：
+
+- `replayAttempts`：所有 turns 和 repeats 加起来，同时进入 `runOreturnReplay` 的最大数量。
+- `judgeRequests`：所有 judge 请求的最大并发数量，Regression Consistency Judge 和每个 issue judge 共用同一个上限。
+- `turns` 之间会一起提交任务；同一个 turn 的多个 repeats 也会一起提交任务；真正执行 replay / judge 时由上面两个 limiter 排队。
+- 某个 replay attempt 完成后，会立即提交它对应的 regression consistency judge 和 issue judges，不会等待所有 replay attempt 都完成。
+
+例如：
+
+```yaml
+caseSet:
+  turns: [4, 5, 6]
+  repeats: 2
+
+concurrency:
+  replayAttempts: 6
+  judgeRequests: 12
+```
+
+这里总共有 `3 * 2 = 6` 个 replay attempt，因此 replay 阶段可以同时跑完这 6 个 attempt。judge 阶段最多同时 12 个请求；如果每个 attempt 有 1 个 regression judge 和 3 个 issue judge，总 judge 请求数是 24，仍会按 12 并发分批执行。
+
+默认值需要区分入口：
+
+- 直接写 CLI task 且不配置 `concurrency` 时，底层默认是 `replayAttempts: 1`、`judgeRequests: 2`。
+- 通过 Workbench Configure 新建任务时，页面默认会写入 `replayAttempts: 20`、`judgeRequests: 50`。
 
 ## 输出目录
 

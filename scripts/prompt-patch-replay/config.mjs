@@ -42,6 +42,7 @@ export function validateReplayConfig(value) {
     patchBundlePath: value.patchBundlePath,
     source: validateSource(value.source),
     models: validateModels(value.models),
+    concurrency: validateConcurrency(value.concurrency),
     judging: validateJudging(value.judging),
     ...(value.judgeMode !== undefined ? { judgeMode: value.judgeMode } : {}),
   };
@@ -124,6 +125,33 @@ function validateRepeats(value) {
   if (value === undefined) return 1;
   if (!Number.isInteger(value) || value < 1) {
     throw new Error('repeats must be a positive integer');
+  }
+  return value;
+}
+
+function validateConcurrency(value) {
+  if (value === undefined) {
+    return {
+      replayAttempts: 1,
+      judgeRequests: 2,
+    };
+  }
+  assertObject(value, 'concurrency');
+  return {
+    replayAttempts: validatePositiveInteger(
+      value.replayAttempts ?? 1,
+      'concurrency.replayAttempts',
+    ),
+    judgeRequests: validatePositiveInteger(
+      value.judgeRequests ?? 2,
+      'concurrency.judgeRequests',
+    ),
+  };
+}
+
+function validatePositiveInteger(value, path) {
+  if (!Number.isInteger(value) || value < 1) {
+    throw new Error(`${path} must be a positive integer`);
   }
   return value;
 }

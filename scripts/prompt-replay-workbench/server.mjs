@@ -55,10 +55,50 @@ export async function startWorkbenchServer({
 
   const address = server.address();
   const actualPort = typeof address === 'object' && address ? address.port : port;
+  let closed = false;
+  const signalHandlers = installSignalHandlers(async (signal) => {
+    process.exitCode = signal === 'SIGINT' ? 130 : 143;
+    await close({ reason: `Received ${signal}; stopping Workbench replay jobs` });
+  });
+
+  async function close({ reason = 'Workbench server stopped before replay completed' } = {}) {
+    if (closed) return;
+    closed = true;
+    removeSignalHandlers(signalHandlers);
+    await apiHandler.shutdown?.({ reason });
+    await new Promise((resolve, reject) => {
+      server.close((error) => {
+        if (error?.code === 'ERR_SERVER_NOT_RUNNING') {
+          resolve();
+          return;
+        }
+        error ? reject(error) : resolve();
+      });
+    });
+  }
+
   return {
     url: `http://${host}:${actualPort}`,
-    close: () => new Promise((resolve, reject) => server.close((error) => (error ? reject(error) : resolve()))),
+    close,
   };
+}
+
+function installSignalHandlers(onSignal) {
+  const handlers = [];
+  for (const signal of ['SIGINT', 'SIGTERM']) {
+    const handler = () => {
+      void onSignal(signal);
+    };
+    process.once(signal, handler);
+    handlers.push([signal, handler]);
+  }
+  return handlers;
+}
+
+function removeSignalHandlers(handlers) {
+  for (const [signal, handler] of handlers) {
+    process.removeListener(signal, handler);
+  }
 }
 
 async function readJsonBody(request) {

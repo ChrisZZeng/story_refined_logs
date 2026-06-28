@@ -4,7 +4,10 @@ import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { runPromptPatchReplay } from '../../scripts/prompt-patch-replay/replay-service.mjs';
+import {
+  createLimiter,
+  runPromptPatchReplay,
+} from '../../scripts/prompt-patch-replay/replay-service.mjs';
 
 test('runPromptPatchReplay writes context-only dry-run artifacts and returns paths', async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-service-'));
@@ -83,6 +86,9 @@ test('runPromptPatchReplay starts badcase turns concurrently and preserves summa
       '  turns: [4, 5]',
       'source:',
       '  oreturnRepo: /tmp/oreturn-faked-by-test',
+      'concurrency:',
+      '  replayAttempts: 2',
+      '  judgeRequests: 2',
       'models:',
       '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
       '  judge: { useReplayModel: true }',
@@ -137,6 +143,173 @@ test('runPromptPatchReplay starts badcase turns concurrently and preserves summa
   assert.deepEqual([...replayStarts].sort((left, right) => left - right), [4, 5]);
   assert.deepEqual(result.summary.cases.map((item) => item.turn), [4, 5]);
   assert.deepEqual(result.summary.cases.map((item) => item.status), ['completed', 'completed']);
+});
+
+test('createLimiter caps active tasks and releases slots after rejection', async () => {
+  const limit = createLimiter(2);
+  let active = 0;
+  let maxActive = 0;
+  const tasks = Array.from({ length: 5 }, (_item, index) =>
+    limit(async () => {
+      active += 1;
+      maxActive = Math.max(maxActive, active);
+      try {
+        await delay(15);
+        if (index === 2) throw new Error('boom');
+        return index;
+      } finally {
+        active -= 1;
+      }
+    }),
+  );
+
+  const results = await Promise.allSettled(tasks);
+  assert.equal(maxActive, 2);
+  assert.equal(results.filter((item) => item.status === 'fulfilled').length, 4);
+  assert.equal(results.filter((item) => item.status === 'rejected').length, 1);
+  assert.equal(await limit(async () => 'after-failure'), 'after-failure');
+});
+
+test('runPromptPatchReplay limits concurrent replay attempts and preserves repeat order', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-service-repeat-limit-'));
+  const logGroupDir = path.join(root, 'abcdef0-dev');
+  const runId = 'runner-a';
+  await writeRunFixture(logGroupDir, runId);
+  const taskPath = path.join(root, 'replay-task.yaml');
+  await writeFile(
+    taskPath,
+    [
+      'replayId: service-repeat-limit',
+      'caseSet:',
+      `  logGroupDir: ${JSON.stringify(logGroupDir)}`,
+      `  runId: ${runId}`,
+      '  turns: [4]',
+      '  repeats: 3',
+      'concurrency:',
+      '  replayAttempts: 2',
+      '  judgeRequests: 2',
+      'source:',
+      '  oreturnRepo: /tmp/oreturn-faked-by-test',
+      'models:',
+      '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
+      '  judge: { useReplayModel: true }',
+      'judging:',
+      '  issueRepair: { enabled: false }',
+      '  regressionConsistency: { enabled: false }',
+      'judgeMode: fake',
+      'patchBundle:',
+      '  id: bundle-a',
+      '  patches:',
+      '    - id: rule-a',
+      '      originalText: old prompt',
+      '      replacementText: new prompt',
+      '',
+    ].join('\n'),
+  );
+
+  let active = 0;
+  let maxActive = 0;
+  const result = await runPromptPatchReplay({
+    configPath: taskPath,
+    cwd: process.cwd(),
+    deps: {
+      ensureOreturnReplayWorktree: fakeSourceVersion,
+      runOreturnReplay: async () => {
+        active += 1;
+        maxActive = Math.max(maxActive, active);
+        try {
+          await delay(25);
+          return {
+            newOutput: { normalizedContent: { visibleText: 'new output' } },
+          };
+        } finally {
+          active -= 1;
+        }
+      },
+    },
+  });
+
+  assert.equal(maxActive, 2);
+  assert.deepEqual(result.summary.cases[0].runs.map((run) => run.runIndex), [1, 2, 3]);
+  assert.equal(result.summary.cases[0].status, 'completed');
+});
+
+test('runPromptPatchReplay runs regression and issue judges concurrently with stable issue order', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-service-judge-limit-'));
+  const logGroupDir = path.join(root, 'abcdef0-dev');
+  const runId = 'runner-a';
+  await writeRunFixture(logGroupDir, runId, { issueTurns: [4, 4, 4] });
+  const taskPath = path.join(root, 'replay-task.yaml');
+  await writeFile(
+    taskPath,
+    [
+      'replayId: service-judge-limit',
+      'caseSet:',
+      `  logGroupDir: ${JSON.stringify(logGroupDir)}`,
+      `  runId: ${runId}`,
+      '  turns: [4]',
+      'concurrency:',
+      '  replayAttempts: 1',
+      '  judgeRequests: 4',
+      'source:',
+      '  oreturnRepo: /tmp/oreturn-faked-by-test',
+      'models:',
+      '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
+      '  judge: { useReplayModel: true }',
+      'patchBundle:',
+      '  id: bundle-a',
+      '  patches:',
+      '    - id: rule-a',
+      '      originalText: old prompt',
+      '      replacementText: new prompt',
+      '',
+    ].join('\n'),
+  );
+
+  let active = 0;
+  let maxActive = 0;
+  async function trackJudge(result) {
+    active += 1;
+    maxActive = Math.max(maxActive, active);
+    try {
+      await delay(25);
+      return result;
+    } finally {
+      active -= 1;
+    }
+  }
+
+  const result = await runPromptPatchReplay({
+    configPath: taskPath,
+    cwd: process.cwd(),
+    deps: {
+      ensureOreturnReplayWorktree: fakeSourceVersion,
+      runOreturnReplay: async () => ({
+        newOutput: { normalizedContent: { visibleText: 'new output' } },
+      }),
+      runRegressionJudge: async () => trackJudge({
+        isViolation: false,
+        confidence: 'high',
+        violations: [],
+        reasoning: 'ok',
+      }),
+      runJudge: async () => trackJudge({
+        verdict: 'fixed',
+        confidence: 'high',
+        reason: 'fixed',
+        remainingProblems: [],
+        newRegressions: [],
+      }),
+    },
+  });
+
+  assert.equal(maxActive, 4);
+  assert.equal(result.summary.regressionJudgmentCount, 1);
+  assert.equal(result.summary.judgmentCount, 3);
+  assert.deepEqual(
+    result.summary.cases[0].runs[0].judgeResults.map((item) => item.issueId),
+    ['issue-001', 'issue-002', 'issue-003'],
+  );
 });
 
 test('runPromptPatchReplay skips issue repair judge when disabled', async () => {
@@ -259,4 +432,16 @@ function delay(ms) {
 
 async function writeJson(filePath, value) {
   await writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function fakeSourceVersion() {
+  return {
+    sourceOreturnCommit: 'abcdef0',
+    replayEngineOreturnCommit: 'abcdef0123456789',
+    oreturnRepo: '/tmp/oreturn-faked-by-test',
+    replayEngineOreturnRepo: '/tmp/oreturn-faked-by-test',
+    managedWorktree: true,
+    dirty: false,
+    matched: true,
+  };
 }

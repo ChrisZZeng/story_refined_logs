@@ -105,6 +105,10 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
     repeats: 2,
     oreturnRepo: '/tmp/oreturn',
     versionPolicy: 'require-matching-worktree',
+    concurrency: {
+      replayAttempts: 20,
+      judgeRequests: 50,
+    },
     models: {
       replay: {
         provider: 'openai-compatible',
@@ -130,6 +134,7 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
   assert.equal(loaded.body.config.replayId, 'manual-task');
   assert.deepEqual(loaded.body.config.turns, [4]);
   assert.equal(loaded.body.config.repeats, 2);
+  assert.deepEqual(loaded.body.config.concurrency, { replayAttempts: 20, judgeRequests: 50 });
   assert.deepEqual(loaded.body.config.judging.issueRepair, { enabled: false });
   assert.deepEqual(loaded.body.config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
 
@@ -141,6 +146,8 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
   const snapshotText = await readFile(loaded.body.taskPath, 'utf8');
   assert.match(snapshotText, /replayId: manual-task/);
   assert.match(snapshotText, /runId: run-a/);
+  assert.match(snapshotText, /replayAttempts: 20/);
+  assert.match(snapshotText, /judgeRequests: 50/);
   assert.match(snapshotText, /issueRepair:\n\s+enabled: false/);
   assert.match(snapshotText, /regressionConsistency:\n\s+enabled: true\n\s+target: fullTurn/);
 });
@@ -203,8 +210,10 @@ test('direct model tokens are kept in memory and injected only while running rep
   assert.match(snapshotText, /apiKeyEnv: WORKBENCH_JUDGE_API_KEY/);
 
   const replay = await request(handler, 'POST', '/api/replay/run', {});
+  const replayJob = await waitForJob(handler, replay.body.jobId);
 
-  assert.equal(replay.status, 200);
+  assert.equal(replay.status, 202);
+  assert.equal(replayJob.body.status, 'completed');
   assert.deepEqual(seenEnv, [
     {
       replay: 'replay-secret-token',
@@ -277,7 +286,9 @@ test('bootstrap defaults restore the last manual setup and direct tokens', async
   assert.equal(defaults.body.setupConfig.models.judge.apiKey, 'saved-judge-token');
 
   const replay = await request(restoredHandler, 'POST', '/api/replay/run', {});
-  assert.equal(replay.status, 200);
+  const replayJob = await waitForJob(restoredHandler, replay.body.jobId);
+  assert.equal(replay.status, 202);
+  assert.equal(replayJob.body.status, 'completed');
   assert.deepEqual(seenEnv, [
     {
       replay: 'saved-replay-token',
@@ -300,6 +311,7 @@ test('bootstrap defaults work without an initial active task', async () => {
   assert.equal(defaults.status, 200);
   assert.equal(defaults.body.hasActiveTask, false);
   assert.equal(defaults.body.config.replayId, 'prompt-replay-workbench');
+  assert.deepEqual(defaults.body.config.concurrency, { replayAttempts: 20, judgeRequests: 50 });
   assert.deepEqual(defaults.body.config.judging.issueRepair, { enabled: true });
   assert.deepEqual(defaults.body.config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
 
@@ -308,7 +320,7 @@ test('bootstrap defaults work without an initial active task', async () => {
   assert.equal(task.body.code, 'WORKBENCH_TASK_NOT_CONFIGURED');
 });
 
-test('POST /api/replay/run delegates to replay service with current task path', async () => {
+test('POST /api/replay/run creates a replay job for the current task path', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
   const taskPath = path.join(dir, 'replay-task.yaml');
   await writeTask(taskPath);
@@ -323,14 +335,127 @@ test('POST /api/replay/run delegates to replay service with current task path', 
   });
 
   const response = await request(handler, 'POST', '/api/replay/run', { dryRunContextOnly: true });
+  const job = await waitForJob(handler, response.body.jobId);
 
-  assert.equal(response.status, 200);
-  assert.deepEqual(response.body, {
-    replayId: 'api-task-a',
-    resultDir: '/tmp/result',
-    summaryPath: '/tmp/result/summary.md',
+  assert.equal(response.status, 202);
+  assert.equal(response.body.jobId, 'job-000001');
+  assert.equal(response.body.replayId, 'api-task-a');
+  assert.equal(response.body.status, 'running');
+  assert.equal(response.body.dryRunContextOnly, true);
+  assert.equal(response.body.promptEditCount, 0);
+  assert.match(response.body.createdAt, /^\d{4}-\d{2}-\d{2}T/);
+  assert.equal(job.body.jobId, 'job-000001');
+  assert.equal(job.body.replayId, 'api-task-a');
+  assert.equal(job.body.status, 'completed');
+  assert.equal(job.body.resultDir, '/tmp/result');
+  assert.equal(job.body.summaryPath, '/tmp/result/summary.md');
+  assert.match(job.body.finishedAt, /^\d{4}-\d{2}-\d{2}T/);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].configPath, taskPath);
+  assert.equal(calls[0].dryRunContextOnly, true);
+  assert.equal(calls[0].cwd, process.cwd());
+  assert.equal(calls[0].signal instanceof AbortSignal, true);
+});
+
+test('GET /api/replay/jobs lists in-memory replay jobs for refresh recovery', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath);
+  const firstGate = deferred();
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    cwd: dir,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      await firstGate.promise;
+      return { replayId: 'api-task-a', resultDir: '/tmp/result', summaryPath: '/tmp/result/summary.md' };
+    },
   });
-  assert.deepEqual(calls, [{ configPath: taskPath, dryRunContextOnly: true, cwd: process.cwd() }]);
+
+  const run = await request(handler, 'POST', '/api/replay/run', {
+    promptEdits: [{ id: 'director.system', originalText: 'old', draftText: 'new' }],
+  });
+  const listed = await request(handler, 'GET', '/api/replay/jobs');
+
+  assert.equal(run.status, 202);
+  assert.equal(listed.status, 200);
+  assert.equal(listed.body.jobs.length, 1);
+  assert.equal(listed.body.jobs[0].jobId, run.body.jobId);
+  assert.equal(listed.body.jobs[0].status, 'running');
+  assert.equal(listed.body.jobs[0].promptEditCount, 1);
+
+  firstGate.resolve();
+  await waitForJob(handler, run.body.jobId);
+});
+
+test('POST /api/replay/run queues workbench replay jobs one at a time', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath);
+  const firstGate = deferred();
+  const calls = [];
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      calls.push(calls.length + 1);
+      if (calls.length === 1) await firstGate.promise;
+      return {
+        replayId: 'api-task-a',
+        resultDir: `/tmp/result-${calls.length}`,
+        summaryPath: `/tmp/result-${calls.length}/summary.md`,
+      };
+    },
+  });
+
+  const first = await request(handler, 'POST', '/api/replay/run', {});
+  const second = await request(handler, 'POST', '/api/replay/run', {});
+
+  assert.equal(first.status, 202);
+  assert.equal(first.body.status, 'running');
+  assert.equal(second.status, 202);
+  assert.equal(second.body.status, 'queued');
+  assert.deepEqual(calls, [1]);
+
+  firstGate.resolve();
+  const firstJob = await waitForJob(handler, first.body.jobId);
+  const secondJob = await waitForJob(handler, second.body.jobId);
+
+  assert.equal(firstJob.body.status, 'completed');
+  assert.equal(secondJob.body.status, 'completed');
+  assert.deepEqual(calls, [1, 2]);
+});
+
+test('workbench API shutdown cancels running and queued replay jobs', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath);
+  let seenSignal = false;
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async ({ signal }) => {
+      seenSignal = signal instanceof AbortSignal;
+      await new Promise((resolve, reject) => {
+        signal.addEventListener('abort', () => reject(signal.reason), { once: true });
+      });
+    },
+  });
+
+  const first = await request(handler, 'POST', '/api/replay/run', {});
+  const second = await request(handler, 'POST', '/api/replay/run', {});
+  assert.equal(first.body.status, 'running');
+  assert.equal(second.body.status, 'queued');
+
+  await handler.shutdown({ reason: 'test shutdown', timeoutMs: 1000 });
+
+  const firstJob = await request(handler, 'GET', `/api/replay/jobs/${first.body.jobId}`);
+  const secondJob = await request(handler, 'GET', `/api/replay/jobs/${second.body.jobId}`);
+  assert.equal(seenSignal, true);
+  assert.equal(firstJob.body.status, 'cancelled');
+  assert.equal(secondJob.body.status, 'cancelled');
+  assert.match(firstJob.body.error, /test shutdown/);
+  assert.match(secondJob.body.error, /test shutdown/);
 });
 
 test('POST /api/replay/run turns prompt edits into an inline workbench task snapshot', async () => {
@@ -358,8 +483,10 @@ test('POST /api/replay/run turns prompt edits into an inline workbench task snap
       },
     ],
   });
+  const job = await waitForJob(handler, response.body.jobId);
 
-  assert.equal(response.status, 200);
+  assert.equal(response.status, 202);
+  assert.equal(job.body.status, 'completed');
   assert.equal(calls.length, 1);
   assert.match(calls[0].configPath, /\.workbench-tasks\/api-task-a-workbench-2026-06-26T01-02-03-004Z\.yaml$/);
   assert.equal(calls[0].dryRunContextOnly, false);
@@ -610,6 +737,52 @@ test('GET replay artifact endpoints read summary, case, and run artifacts', asyn
   assert.equal(runArtifact.body.output.normalizedContent.visibleText, 'new text');
 });
 
+test('GET /api/replay/history lists persisted replay result directories', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const logGroupDir = path.join(dir, 'logs', 'abcdef0-dev');
+  const resultDir = path.join(logGroupDir, 'prompt-patch-replay', 'api-task-a');
+  const incompleteDir = path.join(logGroupDir, 'prompt-patch-replay', 'api-task-incomplete');
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath, { logGroupDir });
+  await writeArtifactFixture(resultDir);
+  await mkdir(incompleteDir, { recursive: true });
+  await writeJson(path.join(incompleteDir, 'replay-config.json'), {
+    replayId: 'api-task-incomplete',
+    runId: 'run-a',
+    turns: [6],
+    repeats: 2,
+  });
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    cwd: dir,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const history = await request(handler, 'GET', '/api/replay/history');
+
+  assert.equal(history.status, 200);
+  assert.match(history.body.historyRoot, /prompt-patch-replay$/);
+  assert.deepEqual(
+    history.body.items.map((item) => [item.replayId, item.status]).sort(),
+    [
+      ['api-task-a', 'completed'],
+      ['api-task-incomplete', 'incomplete'],
+    ],
+  );
+  const completed = history.body.items.find((item) => item.replayId === 'api-task-a');
+  assert.equal(completed.runId, 'run-a');
+  assert.equal(completed.turnCount, 1);
+  assert.equal(completed.runCount, 1);
+  assert.equal(completed.passedRuns, 1);
+  assert.equal(completed.resultDir, resultDir);
+  const incomplete = history.body.items.find((item) => item.replayId === 'api-task-incomplete');
+  assert.deepEqual(incomplete.turns, [6]);
+  assert.equal(incomplete.repeatCount, 2);
+});
+
 test('GET /api/cases returns badcase contexts with related issue turns', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
   const logGroupDir = path.join(dir, 'logs', 'abcdef0-dev');
@@ -650,6 +823,31 @@ async function request(handler, method, url, body) {
     status: response.status,
     body: response.body === undefined ? undefined : JSON.parse(response.body),
   };
+}
+
+async function waitForJob(handler, jobId) {
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const response = await request(handler, 'GET', `/api/replay/jobs/${encodeURIComponent(jobId)}`);
+    if (response.body.status !== 'queued' && response.body.status !== 'running') {
+      return response;
+    }
+    await delay(5);
+  }
+  throw new Error(`Replay job ${jobId} did not finish`);
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+function deferred() {
+  let resolve;
+  const promise = new Promise((innerResolve) => {
+    resolve = innerResolve;
+  });
+  return { promise, resolve };
 }
 
 async function writeTask(taskPath, overrides = {}) {
@@ -696,6 +894,13 @@ async function writeArtifactFixture(resultDir) {
   await mkdir(path.join(caseDir, 'issues', 'issue-001'), { recursive: true });
   await writeJson(path.join(resultDir, 'summary.json'), {
     replayId: 'api-task-a',
+    runId: 'run-a',
+    turnCount: 1,
+    runCount: 1,
+    passedRuns: 1,
+    failedRuns: 0,
+    overallPassRate: 1,
+    judgmentCount: 1,
     cases: [{ turn: 5 }],
   });
   await writeJson(path.join(caseDir, 'turn-replay-context.json'), { turn: 5 });

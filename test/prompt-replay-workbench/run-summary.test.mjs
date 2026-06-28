@@ -19,6 +19,20 @@ test('runStatusFromSummary reports failed replay attempts as failed, not complet
   });
 });
 
+test('runStatusFromSummary warns when judge pass rate is below 100%', () => {
+  const status = runStatusFromSummary({
+    failedRuns: 0,
+    runCount: 5,
+    passedRuns: 4,
+    overallPassRate: 4 / 5,
+  });
+
+  assert.deepEqual(status, {
+    text: 'Completed: 80.00% pass rate',
+    state: 'warn',
+  });
+});
+
 test('formatRunResultText includes per-turn replay errors', () => {
   const text = formatRunResultText({
     result: {

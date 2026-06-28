@@ -97,7 +97,10 @@ h2 {
   color: var(--ok);
 }
 
-.runStatus[data-state="warn"],
+.runStatus[data-state="warn"] {
+  color: var(--warn);
+}
+
 .runStatus[data-state="error"] {
   color: var(--delete);
 }
@@ -383,6 +386,11 @@ fieldset legend {
   background: #f0fdf4;
 }
 
+.replayProgressSummary[data-state="warn"] {
+  border-color: #fed7aa;
+  background: #fff7ed;
+}
+
 .replayProgressSummary[data-state="error"] {
   border-color: #fecaca;
   background: #fef2f2;
@@ -426,6 +434,10 @@ fieldset legend {
   color: var(--ok);
 }
 
+.replayProgressCase[data-status="not-passed"] summary {
+  color: var(--warn);
+}
+
 .replayProgressCase[data-status="failed"] summary,
 .replayProgressCase[data-status="partial-failed"] summary {
   color: var(--delete);
@@ -449,8 +461,81 @@ fieldset legend {
   color: var(--ok);
 }
 
+.replayProgressRun[data-status="passed"] {
+  color: var(--ok);
+}
+
+.replayProgressRun[data-status="not-passed"] {
+  color: var(--warn);
+}
+
 .replayProgressRun[data-status="failed"] {
   color: var(--delete);
+}
+
+.replayHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 14px;
+  border-top: 1px solid #e6ebf2;
+  padding-top: 12px;
+}
+
+.replayHistoryTitle {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 780;
+  text-transform: uppercase;
+}
+
+.replayHistoryEmpty {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.replayHistoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.replayHistoryItem {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  padding: 8px 9px;
+  text-align: left;
+  white-space: normal;
+}
+
+.replayHistoryItem.active {
+  border-color: var(--accent);
+  background: #eff6ff;
+}
+
+.replayHistoryItem[data-status="incomplete"] {
+  border-color: #fed7aa;
+  background: #fff7ed;
+}
+
+.replayHistoryName {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: #1f2a3a;
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.replayHistoryMeta {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 .caseTurnTab {

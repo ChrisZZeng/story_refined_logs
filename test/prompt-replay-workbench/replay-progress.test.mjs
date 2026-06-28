@@ -91,6 +91,55 @@ test('buildReplayProgress summarizes completed cases and repeated run verdicts',
   );
 });
 
+test('buildReplayProgress marks regression violations as non-passing runs', () => {
+  const progress = buildReplayProgress({
+    runCount: 5,
+    passedRuns: 4,
+    failedRuns: 0,
+    judgmentCount: 5,
+    overallPassRate: 4 / 5,
+    cases: [
+      {
+        turn: 37,
+        status: 'completed',
+        passRate: 4 / 5,
+        runs: [
+          {
+            runIndex: 5,
+            status: 'completed',
+            passed: false,
+            judgeResults: [{ issueId: 'issue-001', verdict: 'fixed' }],
+            regressionConsistencyResult: {
+              isViolation: true,
+              confidence: 'medium',
+              violations: [{ type: 'factual_contradiction' }],
+            },
+            overall: {
+              passed: false,
+              consistencyRegression: {
+                enabled: true,
+                passed: false,
+                isViolation: true,
+                violationCount: 1,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.equal(progress.state, 'warn');
+  assert.equal(progress.statusText, 'Completed: 80.00% pass rate');
+  assert.equal(progress.cases[0].state, 'not-passed');
+  assert.deepEqual(progress.cases[0].runs[0], {
+    runIndex: 5,
+    status: 'completed',
+    state: 'not-passed',
+    label: 'Run 5 regression violation x1; issue: fixed',
+  });
+});
+
 test('replay artifact formatters expose new output and judge details for manual review', () => {
   const runArtifact = {
     output: {

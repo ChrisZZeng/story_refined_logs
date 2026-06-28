@@ -7,10 +7,15 @@ export function runStatusFromSummary(summary) {
       state: 'error',
     };
   }
-  const passRate = formatRate(summary?.overallPassRate);
+  const passRateValue = summary?.overallPassRate;
+  const passRate = formatRate(passRateValue);
+  const passedRuns = Number(summary?.passedRuns ?? runCount);
+  const hasNonPassingRuns =
+    runCount > 0 &&
+    (passedRuns < runCount || (typeof passRateValue === 'number' && passRateValue < 1));
   return {
     text: `Completed: ${passRate} pass rate`,
-    state: 'ok',
+    state: hasNonPassingRuns ? 'warn' : 'ok',
   };
 }
 

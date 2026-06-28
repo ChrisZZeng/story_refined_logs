@@ -57,6 +57,9 @@ function normalizeInlineReplayConfig(value) {
           ? replayModel
           : normalizeModel(value.models?.judge, 'models.judge'),
     },
+    ...(value.concurrency !== undefined || caseSet.concurrency !== undefined
+      ? { concurrency: value.concurrency ?? caseSet.concurrency }
+      : {}),
     ...(value.judging !== undefined ? { judging: value.judging } : {}),
     ...(value.judgeMode !== undefined ? { judgeMode: value.judgeMode } : {}),
   };

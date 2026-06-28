@@ -1,4 +1,4 @@
-import { chmod, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { chmod, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
@@ -29,8 +29,9 @@ export function createWorkbenchApiHandler({
   let activeTaskPath = taskPath ? path.resolve(taskPath) : null;
   let activeSecrets = {};
   let activeSetupConfig = null;
+  const replayJobs = createReplayJobQueue({ runPromptPatchReplay, cwd });
 
-  return async function handleWorkbenchApi(request) {
+  const handleWorkbenchApi = async function handleWorkbenchApi(request) {
     try {
       const url = new URL(request.url, 'http://127.0.0.1');
       if (request.method === 'GET' && url.pathname === '/api/bootstrap/defaults') {
@@ -108,19 +109,36 @@ export function createWorkbenchApiHandler({
         const effectiveTaskPath = Array.isArray(body.promptEdits) && body.promptEdits.length > 0
           ? await writeWorkbenchTaskSnapshot({ taskPath: requireActiveTaskPath(activeTaskPath), promptEdits: body.promptEdits, cwd, now })
           : requireActiveTaskPath(activeTaskPath);
-        const result = await withTemporaryEnv(activeSecrets, () => runPromptPatchReplay({
+        const task = await loadReplayTask(effectiveTaskPath);
+        const job = replayJobs.enqueue({
+          replayId: task.config.replayId,
           configPath: effectiveTaskPath,
           dryRunContextOnly: body.dryRunContextOnly === true,
-          cwd,
-        }));
-        return jsonResponse({
-          replayId: result.replayId,
-          resultDir: result.resultDir,
-          summaryPath: result.summaryPath,
+          promptEditCount: Array.isArray(body.promptEdits) ? body.promptEdits.length : 0,
+          secrets: { ...activeSecrets },
         });
+        return jsonResponse(replayJobResponse(job), { status: 202 });
       }
 
       if (request.method === 'GET') {
+        if (url.pathname === '/api/replay/jobs') {
+          return jsonResponse({ jobs: replayJobs.list().map(replayJobResponse) });
+        }
+
+        if (url.pathname === '/api/replay/history') {
+          return jsonResponse(await listReplayHistory({
+            taskPath: requireActiveTaskPath(activeTaskPath),
+            cwd,
+          }));
+        }
+
+        const jobMatch = url.pathname.match(/^\/api\/replay\/jobs\/([^/]+)$/);
+        if (jobMatch) {
+          const job = replayJobs.get(jobMatch[1]);
+          if (!job) return jsonResponse({ error: 'Replay job not found' }, { status: 404 });
+          return jsonResponse(replayJobResponse(job));
+        }
+
         const summaryMatch = url.pathname.match(/^\/api\/replay\/([^/]+)\/summary$/);
         if (summaryMatch) {
           return jsonResponse(await readReplaySummary({
@@ -157,6 +175,149 @@ export function createWorkbenchApiHandler({
       );
     }
   };
+  handleWorkbenchApi.shutdown = (options) => replayJobs.shutdown(options);
+  return handleWorkbenchApi;
+}
+
+function createReplayJobQueue({ runPromptPatchReplay, cwd }) {
+  let nextJobId = 1;
+  let activeJob = null;
+  let activePromise = null;
+  let shuttingDown = false;
+  const jobs = new Map();
+  const pending = [];
+
+  function enqueue({ replayId, configPath, dryRunContextOnly, promptEditCount, secrets }) {
+    const job = {
+      jobId: `job-${String(nextJobId).padStart(6, '0')}`,
+      replayId,
+      status: 'queued',
+      configPath,
+      dryRunContextOnly,
+      promptEditCount,
+      secrets,
+      resultDir: null,
+      summaryPath: null,
+      error: null,
+      code: null,
+      controller: new AbortController(),
+      createdAt: new Date().toISOString(),
+      startedAt: null,
+      finishedAt: null,
+    };
+    nextJobId += 1;
+    jobs.set(job.jobId, job);
+    pending.push(job);
+    schedule();
+    return job;
+  }
+
+  function get(jobId) {
+    return jobs.get(jobId) ?? null;
+  }
+
+  function list() {
+    return [...jobs.values()].sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+  }
+
+  function schedule() {
+    if (shuttingDown || activeJob || pending.length === 0) return;
+    const job = pending.shift();
+    activeJob = job;
+    job.status = 'running';
+    job.startedAt = new Date().toISOString();
+    activePromise = runJob(job).finally(() => {
+      activeJob = null;
+      activePromise = null;
+      schedule();
+    });
+    void activePromise;
+  }
+
+  async function runJob(job) {
+    try {
+      const result = await withTemporaryEnv(job.secrets, () => runPromptPatchReplay({
+        configPath: job.configPath,
+        dryRunContextOnly: job.dryRunContextOnly,
+        cwd,
+        signal: job.controller.signal,
+      }));
+      if (job.controller.signal.aborted) {
+        throw abortError(job.controller.signal.reason);
+      }
+      job.replayId = result.replayId;
+      job.resultDir = result.resultDir;
+      job.summaryPath = result.summaryPath;
+      job.status = 'completed';
+    } catch (error) {
+      job.status = isAbortError(error) ? 'cancelled' : 'failed';
+      job.error = error instanceof Error ? error.message : String(error);
+      job.code = error?.code;
+    } finally {
+      job.finishedAt = new Date().toISOString();
+    }
+  }
+
+  async function shutdown({
+    reason = 'Workbench server stopped before replay completed',
+    timeoutMs = 10000,
+  } = {}) {
+    shuttingDown = true;
+    const abortReason = abortError(reason);
+    for (const job of pending.splice(0)) {
+      job.status = 'cancelled';
+      job.error = abortReason.message;
+      job.code = abortReason.code;
+      job.finishedAt = new Date().toISOString();
+      job.controller.abort(abortReason);
+    }
+    if (activeJob && !activeJob.controller.signal.aborted) {
+      activeJob.controller.abort(abortReason);
+    }
+    if (activePromise) {
+      await Promise.race([
+        activePromise.catch(() => {}),
+        delay(timeoutMs),
+      ]);
+    }
+  }
+
+  return { enqueue, get, list, shutdown };
+}
+
+function replayJobResponse(job) {
+  return {
+    jobId: job.jobId,
+    replayId: job.replayId,
+    status: job.status,
+    dryRunContextOnly: job.dryRunContextOnly,
+    promptEditCount: job.promptEditCount ?? 0,
+    createdAt: job.createdAt,
+    ...(job.startedAt ? { startedAt: job.startedAt } : {}),
+    ...(job.finishedAt ? { finishedAt: job.finishedAt } : {}),
+    ...(job.resultDir ? { resultDir: job.resultDir } : {}),
+    ...(job.summaryPath ? { summaryPath: job.summaryPath } : {}),
+    ...(job.error ? { error: job.error } : {}),
+    ...(job.code ? { code: job.code } : {}),
+  };
+}
+
+function isAbortError(error) {
+  return error?.name === 'AbortError' || error?.code === 'ABORT_ERR';
+}
+
+function abortError(reason) {
+  if (reason instanceof Error) return reason;
+  const error = new Error(reason ? String(reason) : 'Operation aborted');
+  error.name = 'AbortError';
+  error.code = 'ABORT_ERR';
+  return error;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 function isBadRequestCode(code) {
@@ -242,6 +403,10 @@ function defaultBootstrapConfig({ cwd }) {
       replay: defaultModelConfig('REPLAY_API_KEY'),
       judge: defaultModelConfig('JUDGE_API_KEY'),
     },
+    concurrency: {
+      replayAttempts: 20,
+      judgeRequests: 50,
+    },
     judging: {
       issueRepair: { enabled: true },
       regressionConsistency: { enabled: true, target: 'fullTurn' },
@@ -306,6 +471,7 @@ function buildManualTaskSnapshot({ body, cwd }) {
       versionPolicy,
     },
     models,
+    ...(body.concurrency !== undefined ? { concurrency: body.concurrency } : {}),
     judging: body.judging,
     ...(body.judgeMode !== undefined ? { judgeMode: body.judgeMode } : {}),
     patchBundle: {
@@ -360,6 +526,7 @@ function manualSetupConfig({ body, replayId, logGroupDir, runId, turns, repeats,
       replay: manualModelSetupConfig(body.models?.replay, defaultModelConfig('REPLAY_API_KEY')),
       judge: manualModelSetupConfig(body.models?.judge, defaultModelConfig('JUDGE_API_KEY')),
     },
+    ...(body.concurrency !== undefined ? { concurrency: body.concurrency } : {}),
     ...(body.judging !== undefined ? { judging: body.judging } : {}),
     ...(body.judgeMode !== undefined ? { judgeMode: body.judgeMode } : {}),
   };
@@ -725,6 +892,52 @@ async function resolveResultDir({ taskPath, replayId, cwd }) {
   return path.resolve(cwd, task.config.logGroupDir, 'prompt-patch-replay', replayId);
 }
 
+async function listReplayHistory({ taskPath, cwd }) {
+  const task = await loadReplayTask(taskPath);
+  const historyRoot = path.resolve(cwd, task.config.logGroupDir, 'prompt-patch-replay');
+  const entries = await readOptionalDirEntries(historyRoot);
+  const items = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const resultDir = path.join(historyRoot, entry.name);
+    const summaryPath = path.join(resultDir, 'summary.json');
+    const configPath = path.join(resultDir, 'replay-config.json');
+    const [summary, config, summaryStat, configStat, resultStat] = await Promise.all([
+      readOptionalJson(summaryPath),
+      readOptionalJson(configPath),
+      readOptionalStat(summaryPath),
+      readOptionalStat(configPath),
+      stat(resultDir),
+    ]);
+    const updatedAt = summaryStat?.mtime ?? configStat?.mtime ?? resultStat.mtime;
+    const replayId = summary?.replayId ?? config?.replayId ?? entry.name;
+    items.push({
+      replayId,
+      status: summary ? 'completed' : 'incomplete',
+      runId: summary?.runId ?? config?.runId ?? null,
+      turns: config?.turns ?? summary?.cases?.map((item) => item.turn).filter((turn) => Number.isInteger(Number(turn))) ?? [],
+      repeatCount: summary?.repeatCount ?? config?.repeats ?? 1,
+      resultDir,
+      summaryPath: path.join(resultDir, 'summary.md'),
+      summaryJsonPath: summaryPath,
+      updatedAt: updatedAt.toISOString(),
+      ...(summary
+        ? {
+            turnCount: summary.turnCount,
+            runCount: summary.runCount,
+            passedRuns: summary.passedRuns,
+            failedRuns: summary.failedRuns,
+            overallPassRate: summary.overallPassRate,
+            judgmentCount: summary.judgmentCount,
+            regressionViolationRuns: summary.regressionViolationRuns,
+          }
+        : {}),
+    });
+  }
+  items.sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
+  return { historyRoot, items };
+}
+
 async function writeWorkbenchTaskSnapshot({ taskPath, promptEdits, cwd, now }) {
   const task = await loadReplayTask(taskPath);
   const timestamp = formatTimestamp(now());
@@ -745,6 +958,7 @@ async function writeWorkbenchTaskSnapshot({ taskPath, promptEdits, cwd, now }) {
     },
     source: task.config.source,
     models: task.config.models,
+    concurrency: task.config.concurrency,
     judging: enableWorkbenchRegressionConsistency(task.config.judging),
     ...(task.config.judgeMode !== undefined ? { judgeMode: task.config.judgeMode } : {}),
     patchBundle,
@@ -771,6 +985,24 @@ function enableWorkbenchRegressionConsistency(judging) {
 async function readOptionalJson(filePath) {
   try {
     return JSON.parse(await readFile(filePath, 'utf8'));
+  } catch (error) {
+    if (error?.code === 'ENOENT') return null;
+    throw error;
+  }
+}
+
+async function readOptionalDirEntries(dirPath) {
+  try {
+    return await readdir(dirPath, { withFileTypes: true });
+  } catch (error) {
+    if (error?.code === 'ENOENT') return [];
+    throw error;
+  }
+}
+
+async function readOptionalStat(filePath) {
+  try {
+    return await stat(filePath);
   } catch (error) {
     if (error?.code === 'ENOENT') return null;
     throw error;

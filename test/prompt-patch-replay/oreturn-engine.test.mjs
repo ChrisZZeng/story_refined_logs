@@ -7,6 +7,7 @@ import path from 'node:path';
 import {
   buildBunEvalCommand,
   buildReplayEnv,
+  runCommand,
   writeReplayInput,
 } from '../../scripts/prompt-patch-replay/oreturn-engine.mjs';
 import { ORETURN_EVAL_RUNNER_SOURCE } from '../../scripts/prompt-patch-replay/oreturn-eval-runner-source.mjs';
@@ -63,4 +64,31 @@ test('oreturn eval runner writes partial artifacts on replay failure', () => {
   assert.match(ORETURN_EVAL_RUNNER_SOURCE, /finally/);
   assert.match(ORETURN_EVAL_RUNNER_SOURCE, /replay-error\.json/);
   assert.match(ORETURN_EVAL_RUNNER_SOURCE, /patch-application\.json/);
+});
+
+test('runCommand resolves on zero exit and rejects non-zero exit', async () => {
+  await runCommand(process.execPath, ['-e', 'process.exit(0)'], {});
+
+  await assert.rejects(
+    () => runCommand(process.execPath, ['-e', 'process.exit(3)'], {}),
+    /exited with code 3/,
+  );
+});
+
+test('runCommand aborts a running child process', async () => {
+  const controller = new AbortController();
+  const running = runCommand(
+    process.execPath,
+    ['-e', 'setTimeout(() => {}, 10000)'],
+    { signal: controller.signal, stdio: 'ignore', graceMs: 10 },
+  );
+
+  setTimeout(() => {
+    const error = new Error('test abort');
+    error.name = 'AbortError';
+    error.code = 'ABORT_ERR';
+    controller.abort(error);
+  }, 20);
+
+  await assert.rejects(running, /test abort/);
 });

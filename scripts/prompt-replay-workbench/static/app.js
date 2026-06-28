@@ -1,5 +1,5 @@
 import { parseNarrativeSegments } from './speaker-to.js';
-import { formatRunResultText, runStatusFromSummary } from './run-summary.js';
+import { formatRate, formatRunResultText, runStatusFromSummary } from './run-summary.js';
 import {
   buildPendingReplayProgress,
   buildReplayProgress,
@@ -13,6 +13,9 @@ import {
 import { modelPayload, setupModelFormState } from './setup-model.js';
 import { groupPromptSourcesByAccess, isEditablePromptSource } from './prompt-source-access.js';
 
+const DEFAULT_REPLAY_ATTEMPTS = 20;
+const DEFAULT_JUDGE_REQUESTS = 50;
+
 const state = {
   task: null,
   resolvedSource: null,
@@ -25,6 +28,9 @@ const state = {
   selectedRunIndex: 1,
   replayResult: null,
   replaySummary: null,
+  replayHistory: [],
+  activeReplayJob: null,
+  pendingReplayProgress: null,
   runArtifacts: new Map(),
   bootstrapConfig: null,
   setupConfig: null,
@@ -43,6 +49,7 @@ const elements = {
   caseTurnTabs: document.querySelector('#caseTurnTabs'),
   caseContent: document.querySelector('#caseContent'),
   replayProgress: document.querySelector('#replayProgress'),
+  replayHistory: document.querySelector('#replayHistory'),
   splitResizeBar: document.querySelector('#splitResizeBar'),
   sourceTabs: document.querySelector('#sourceTabs'),
   sourceTitle: document.querySelector('#sourceTitle'),
@@ -68,6 +75,8 @@ const setupFields = {
   repeats: document.querySelector('#setupRepeats'),
   oreturnRepo: document.querySelector('#setupOreturnRepo'),
   versionPolicy: document.querySelector('#setupVersionPolicy'),
+  replayAttempts: document.querySelector('#setupReplayAttempts'),
+  judgeRequests: document.querySelector('#setupJudgeRequests'),
   replayBaseUrl: document.querySelector('#setupReplayBaseUrl'),
   replayKeySource: document.querySelector('#setupReplayKeySource'),
   replayApiKeyEnv: document.querySelector('#setupReplayApiKeyEnv'),
@@ -156,13 +165,19 @@ async function loadWorkbench() {
     state.selectedRunIndex = 1;
     state.replayResult = null;
     state.replaySummary = null;
+    state.replayHistory = [];
+    state.activeReplayJob = null;
+    state.pendingReplayProgress = null;
     state.runArtifacts.clear();
     await loadPromptSourcesForSelectedTurn();
+    const restoredReplayState = await restoreReplayState();
     renderTask();
     renderCaseContext();
     await renderDiff(selectedSource());
-    setResult('Idle');
-    updateRunStatusForDirtyEdits();
+    if (!restoredReplayState) {
+      setResult('Idle');
+      updateRunStatusForDirtyEdits();
+    }
     showWorkbenchView();
   } catch (error) {
     if (error.code === 'WORKBENCH_TASK_NOT_CONFIGURED') {
@@ -241,6 +256,8 @@ function populateSetupForm(config) {
   setupFields.repeats.value = String(config.repeats ?? 1);
   setupFields.oreturnRepo.value = config.oreturnRepo ?? config.source?.oreturnRepo ?? '';
   setupFields.versionPolicy.value = config.versionPolicy ?? config.source?.versionPolicy ?? 'require-matching-worktree';
+  setupFields.replayAttempts.value = String(config.concurrency?.replayAttempts ?? DEFAULT_REPLAY_ATTEMPTS);
+  setupFields.judgeRequests.value = String(config.concurrency?.judgeRequests ?? DEFAULT_JUDGE_REQUESTS);
   populateModelSetupFields({
     baseUrl: setupFields.replayBaseUrl,
     keySource: setupFields.replayKeySource,
@@ -289,6 +306,10 @@ function setupPayload() {
     repeats: Number(setupFields.repeats.value),
     oreturnRepo: setupFields.oreturnRepo.value,
     versionPolicy: setupFields.versionPolicy.value,
+    concurrency: {
+      replayAttempts: Number(setupFields.replayAttempts.value),
+      judgeRequests: Number(setupFields.judgeRequests.value),
+    },
     models: {
       replay: modelPayload({
         baseUrl: setupFields.replayBaseUrl.value,
@@ -357,6 +378,7 @@ function renderCaseContext() {
     : 'No case context';
   renderCaseTurnTabs();
   renderReplayProgress();
+  renderReplayHistory();
   renderCaseContent();
 }
 
@@ -377,6 +399,7 @@ function renderCaseTurnTabs() {
 function renderReplayProgress(progress = null) {
   elements.replayProgress.replaceChildren();
   const effectiveProgress = progress
+    ?? state.pendingReplayProgress
     ?? (state.replaySummary ? buildReplayProgress(state.replaySummary) : null);
   if (!effectiveProgress) {
     const empty = document.createElement('div');
@@ -403,7 +426,7 @@ function renderReplayProgress(progress = null) {
     const row = document.createElement('details');
     row.className = 'replayProgressCase';
     row.open = item.turn === state.selectedCaseTurn;
-    row.dataset.status = item.status;
+    row.dataset.status = item.state ?? item.status;
     const rowSummary = document.createElement('summary');
     rowSummary.textContent = `Turn ${item.turn}: ${item.status} (${item.verdict})`;
     const runs = document.createElement('div');
@@ -411,7 +434,7 @@ function renderReplayProgress(progress = null) {
     for (const run of item.runs) {
       const runLine = document.createElement('div');
       runLine.className = 'replayProgressRun';
-      runLine.dataset.status = run.status;
+      runLine.dataset.status = run.state ?? run.status;
       runLine.textContent = run.label;
       runs.append(runLine);
     }
@@ -420,6 +443,150 @@ function renderReplayProgress(progress = null) {
   }
 
   elements.replayProgress.append(summary, list);
+}
+
+function renderReplayHistory() {
+  elements.replayHistory.replaceChildren();
+  const title = document.createElement('div');
+  title.className = 'replayHistoryTitle';
+  title.textContent = 'Replay History';
+  elements.replayHistory.append(title);
+
+  if (state.replayHistory.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'replayHistoryEmpty';
+    empty.textContent = 'No historical replay tasks in this log group yet.';
+    elements.replayHistory.append(empty);
+    return;
+  }
+
+  const list = document.createElement('div');
+  list.className = 'replayHistoryList';
+  for (const item of state.replayHistory.slice(0, 12)) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `replayHistoryItem${item.replayId === state.replayResult?.replayId ? ' active' : ''}`;
+    button.dataset.status = item.status;
+    button.disabled = item.status !== 'completed';
+    button.title = item.status === 'completed'
+      ? 'Load this replay result'
+      : 'This replay does not have summary.json yet.';
+    const name = document.createElement('span');
+    name.className = 'replayHistoryName';
+    name.textContent = item.replayId;
+    const meta = document.createElement('span');
+    meta.className = 'replayHistoryMeta';
+    meta.textContent = replayHistoryMeta(item);
+    button.append(name, meta);
+    button.addEventListener('click', () => {
+      void selectReplayHistoryItem(item);
+    });
+    list.append(button);
+  }
+  elements.replayHistory.append(list);
+}
+
+async function restoreReplayState() {
+  const [jobsResponse, historyResponse] = await Promise.all([
+    apiGet('/api/replay/jobs'),
+    apiGet('/api/replay/history'),
+  ]);
+  state.replayHistory = historyResponse.items ?? [];
+  const activeJob = (jobsResponse.jobs ?? []).find(isActiveReplayJob);
+  if (activeJob) {
+    activateReplayJob(activeJob, { resume: true });
+    return true;
+  }
+
+  const latestCompleted = state.replayHistory.find((item) => item.status === 'completed');
+  if (latestCompleted) {
+    await selectReplayHistoryItem(latestCompleted, { render: false });
+    return true;
+  }
+  return false;
+}
+
+async function refreshReplayHistory({ render = true } = {}) {
+  const historyResponse = await apiGet('/api/replay/history');
+  state.replayHistory = historyResponse.items ?? [];
+  if (render) renderReplayHistory();
+}
+
+async function selectReplayHistoryItem(item, { render = true } = {}) {
+  if (!item || item.status !== 'completed') return;
+  const summary = await apiGet(`/api/replay/${encodeURIComponent(item.replayId)}/summary`);
+  state.activeReplayJob = null;
+  state.pendingReplayProgress = null;
+  state.replayResult = {
+    replayId: item.replayId,
+    resultDir: item.resultDir,
+    summaryPath: item.summaryPath,
+  };
+  state.replaySummary = summary;
+  state.runArtifacts.clear();
+  const status = runStatusFromSummary(summary);
+  setRunStatus(status.text, status.state);
+  setResult(formatRunResultText({ result: state.replayResult, summary }));
+  elements.runButton.disabled = false;
+  elements.runButton.textContent = 'Run';
+  elements.runButton.removeAttribute('aria-busy');
+  if (render) {
+    renderReplayProgress();
+    renderReplayHistory();
+    renderCaseContent();
+  }
+}
+
+function activateReplayJob(job, { resume = false } = {}) {
+  state.activeReplayJob = job;
+  state.replayResult = null;
+  state.replaySummary = null;
+  state.pendingReplayProgress = buildPendingReplayProgress({
+    turns: state.task?.turns ?? state.cases.map((item) => item.turn),
+    repeats: state.task?.repeats ?? 1,
+    promptEditCount: job.promptEditCount ?? 0,
+  });
+  elements.runButton.disabled = true;
+  elements.runButton.textContent = 'Running...';
+  elements.runButton.setAttribute('aria-busy', 'true');
+  setRunStatus(`Replay job ${job.status}...`, 'busy');
+  setResult(replayJobText(job));
+  if (resume) {
+    void resumeReplayJob(job);
+  }
+}
+
+async function resumeReplayJob(job) {
+  try {
+    const result = await waitForReplayJob(job);
+    const summary = await apiGet(`/api/replay/${encodeURIComponent(result.replayId)}/summary`);
+    state.activeReplayJob = null;
+    state.pendingReplayProgress = null;
+    state.replayResult = result;
+    state.replaySummary = summary;
+    state.runArtifacts.clear();
+    await refreshReplayHistory({ render: false });
+    const status = runStatusFromSummary(summary);
+    setRunStatus(status.text, status.state);
+    setResult(formatRunResultText({ result, summary }));
+    renderReplayProgress();
+    renderReplayHistory();
+    renderCaseContent();
+  } catch (error) {
+    state.activeReplayJob = null;
+    state.pendingReplayProgress = null;
+    setRunStatus(`Failed: ${error.message}`, 'error');
+    setResult(`Failed: ${error.message}`);
+    renderReplayProgress();
+  } finally {
+    elements.runButton.disabled = false;
+    elements.runButton.textContent = 'Run';
+    elements.runButton.removeAttribute('aria-busy');
+  }
+}
+
+function isActiveReplayJob(job) {
+  return job?.status === 'queued' || job?.status === 'running';
 }
 
 async function selectCaseTurn(turn) {
@@ -924,11 +1091,12 @@ async function runReplay() {
   elements.runButton.textContent = 'Running...';
   elements.runButton.setAttribute('aria-busy', 'true');
   setRunStatus(`Running ${promptEdits.length} prompt edit${promptEdits.length === 1 ? '' : 's'}...`, 'busy');
-  renderReplayProgress(buildPendingReplayProgress({
+  state.pendingReplayProgress = buildPendingReplayProgress({
     turns: state.task?.turns ?? state.cases.map((item) => item.turn),
     repeats: state.task?.repeats ?? 1,
     promptEditCount: promptEdits.length,
-  }));
+  });
+  renderReplayProgress();
   setResult([
     'Running...',
     `promptEdits: ${promptEdits.length}`,
@@ -936,17 +1104,12 @@ async function runReplay() {
     'Waiting for replay and judge results.',
   ].join('\n'));
   try {
-    const result = await apiPost('/api/replay/run', { promptEdits });
-    const summary = await apiGet(`/api/replay/${encodeURIComponent(result.replayId)}/summary`);
-    state.replayResult = result;
-    state.replaySummary = summary;
-    state.runArtifacts.clear();
-    const status = runStatusFromSummary(summary);
-    setRunStatus(status.text, status.state);
-    setResult(formatRunResultText({ result, summary }));
-    renderReplayProgress();
-    renderCaseContent();
+    const job = await apiPost('/api/replay/run', { promptEdits });
+    activateReplayJob(job);
+    await resumeReplayJob(job);
   } catch (error) {
+    state.activeReplayJob = null;
+    state.pendingReplayProgress = null;
     setRunStatus(`Failed: ${error.message}`, 'error');
     setResult(`Failed: ${error.message}`);
     renderReplayProgress();
@@ -955,6 +1118,62 @@ async function runReplay() {
     elements.runButton.textContent = 'Run';
     elements.runButton.removeAttribute('aria-busy');
   }
+}
+
+async function waitForReplayJob(initialJob) {
+  let job = initialJob;
+  while (job.status === 'queued' || job.status === 'running') {
+    await sleep(1500);
+    job = await apiGet(`/api/replay/jobs/${encodeURIComponent(job.jobId)}`);
+    state.activeReplayJob = job;
+    setRunStatus(`Replay job ${job.status}...`, 'busy');
+    setResult(replayJobText(job));
+  }
+  if (job.status === 'failed' || job.status === 'cancelled') {
+    throw new Error(job.error ?? 'Replay job failed');
+  }
+  return job;
+}
+
+function replayJobText(job) {
+  return [
+    `Replay job ${job.status}...`,
+    `jobId: ${job.jobId}`,
+    `replayId: ${job.replayId}`,
+    job.promptEditCount !== undefined ? `promptEdits: ${job.promptEditCount}` : null,
+    job.resultDir ? `resultDir: ${job.resultDir}` : 'Waiting for resultDir.',
+  ].filter(Boolean).join('\n');
+}
+
+function replayHistoryMeta(item) {
+  if (item.status !== 'completed') {
+    return `incomplete | updated ${formatDateTime(item.updatedAt)}`;
+  }
+  const passText = `${item.passedRuns ?? 0}/${item.runCount ?? 0} passed`;
+  return [
+    passText,
+    formatRate(item.overallPassRate),
+    `${item.turnCount ?? item.turns?.length ?? '-'} turns`,
+    `updated ${formatDateTime(item.updatedAt)}`,
+  ].join(' | ');
+}
+
+function formatDateTime(value) {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString(undefined, {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
 }
 
 function selectedSource() {
@@ -1114,6 +1333,7 @@ function setRunStatus(text, stateName = 'idle') {
 }
 
 function updateRunStatusForDirtyEdits() {
+  if (isActiveReplayJob(state.activeReplayJob)) return;
   syncSelectedDraftFromTextarea();
   const dirtyCount = state.sources.filter((source) => isEditablePromptSource(source) && source.originalText !== source.draftText).length;
   if (dirtyCount > 0) {

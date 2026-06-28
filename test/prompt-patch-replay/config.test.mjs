@@ -258,3 +258,73 @@ test('validateReplayConfig enables regression consistency judge by default', () 
   assert.deepEqual(config.judging.issueRepair, { enabled: true });
   assert.deepEqual(config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
 });
+
+test('validateReplayConfig defaults replay concurrency limits', () => {
+  const config = validateReplayConfig(replayConfigFixture());
+
+  assert.deepEqual(config.concurrency, {
+    replayAttempts: 1,
+    judgeRequests: 2,
+  });
+});
+
+test('validateReplayConfig accepts explicit replay concurrency limits', () => {
+  const config = validateReplayConfig({
+    ...replayConfigFixture(),
+    concurrency: {
+      replayAttempts: 3,
+      judgeRequests: 4,
+    },
+  });
+
+  assert.deepEqual(config.concurrency, {
+    replayAttempts: 3,
+    judgeRequests: 4,
+  });
+});
+
+test('validateReplayConfig rejects invalid replay concurrency limits', () => {
+  assert.throws(
+    () =>
+      validateReplayConfig({
+        ...replayConfigFixture(),
+        concurrency: { replayAttempts: 0 },
+      }),
+    /concurrency\.replayAttempts must be a positive integer/,
+  );
+  assert.throws(
+    () =>
+      validateReplayConfig({
+        ...replayConfigFixture(),
+        concurrency: { judgeRequests: 1.5 },
+      }),
+    /concurrency\.judgeRequests must be a positive integer/,
+  );
+});
+
+function replayConfigFixture() {
+  return {
+    replayId: 'replay-a',
+    logGroupDir: 'logs/group-a',
+    runId: 'run-a',
+    turns: [3],
+    patchBundlePath: 'patches/a.json',
+    source: {
+      oreturnRepo: '/repo/oreturn',
+    },
+    models: {
+      replay: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://llm/v1',
+        apiKeyEnv: 'REPLAY_KEY',
+        model: 'replay-model',
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://judge/v1',
+        apiKeyEnv: 'JUDGE_KEY',
+        model: 'judge-model',
+      },
+    },
+  };
+}

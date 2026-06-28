@@ -58,6 +58,14 @@
               <option value="require-matching-worktree">require-matching-worktree</option>
             </select>
           </label>
+          <label class="setupField">
+            <span>Concurrent Replay Attempts</span>
+            <input id="setupReplayAttempts" name="replayAttempts" type="number" min="1" step="1" required>
+          </label>
+          <label class="setupField">
+            <span>Concurrent Judge Requests</span>
+            <input id="setupJudgeRequests" name="judgeRequests" type="number" min="1" step="1" required>
+          </label>
         </div>
 
         <div class="setupModelGrid">
@@ -144,6 +152,7 @@
         </div>
         <div id="caseTurnTabs" class="caseTurnTabs"></div>
         <div id="replayProgress" class="replayProgress" aria-live="polite"></div>
+        <div id="replayHistory" class="replayHistory" aria-label="Replay history"></div>
       </div>
       <div class="caseBody">
         <div id="caseContent" class="caseContent"></div>

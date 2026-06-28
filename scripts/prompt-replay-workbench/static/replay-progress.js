@@ -27,12 +27,16 @@ export function buildReplayProgress(summary) {
   const failedRuns = Number(summary?.failedRuns ?? 0);
   const runCount = Number(summary?.runCount ?? summary?.cases?.length ?? 0);
   const passedRuns = Number(summary?.passedRuns ?? Math.max(0, runCount - failedRuns));
-  const state = failedRuns > 0 ? 'error' : 'ok';
+  const passRateValue = summary?.overallPassRate;
+  const hasNonPassingRuns =
+    runCount > 0 &&
+    (passedRuns < runCount || (typeof passRateValue === 'number' && passRateValue < 1));
+  const state = failedRuns > 0 ? 'error' : hasNonPassingRuns ? 'warn' : 'ok';
   return {
     state,
     statusText: failedRuns > 0
       ? `Failed: ${failedRuns}/${runCount || failedRuns} replay runs failed`
-      : `Completed: ${formatRate(summary?.overallPassRate)} pass rate`,
+      : `Completed: ${formatRate(passRateValue)} pass rate`,
     totals: {
       label: `${passedRuns}/${runCount || passedRuns} runs passed`,
       detail: `${summary?.judgmentCount ?? 0} judgments`,
@@ -40,10 +44,12 @@ export function buildReplayProgress(summary) {
     cases: (summary?.cases ?? []).map((item) => ({
       turn: item.turn,
       status: item.status ?? 'unknown',
+      state: formatCaseState(item),
       verdict: formatCaseVerdict(item),
       runs: (item.runs ?? []).map((run) => ({
         runIndex: run.runIndex,
         status: run.status ?? 'unknown',
+        state: formatRunState(run),
         label: formatRunLabel(run),
       })),
     })),
@@ -88,7 +94,43 @@ function formatCaseVerdict(item) {
 function formatRunLabel(run) {
   if (run?.error) return `Run ${run.runIndex ?? '-'} failed: ${run.error}`;
   const verdicts = Array.from(new Set((run?.judgeResults ?? []).map((item) => item.verdict).filter(Boolean)));
-  return `Run ${run?.runIndex ?? '-'} ${verdicts.join(', ') || run?.status || '-'}`;
+  const verdictText = verdicts.join(', ');
+  if (hasRegressionViolation(run)) {
+    const violationCount = regressionViolationCount(run);
+    const countText = violationCount > 0 ? ` x${violationCount}` : '';
+    const issueText = verdictText ? `; issue: ${verdictText}` : '';
+    return `Run ${run?.runIndex ?? '-'} regression violation${countText}${issueText}`;
+  }
+  if (run?.overall?.passed === false || run?.passed === false) {
+    return `Run ${run?.runIndex ?? '-'} not passed${verdictText ? `: ${verdictText}` : ''}`;
+  }
+  return `Run ${run?.runIndex ?? '-'} ${verdictText || run?.status || '-'}`;
+}
+
+function formatCaseState(item) {
+  if (item?.status === 'failed' || item?.status === 'partial-failed') return item.status;
+  if (typeof item?.passRate === 'number' && item.passRate < 1) return 'not-passed';
+  if ((item?.runs ?? []).some((run) => formatRunState(run) === 'not-passed')) return 'not-passed';
+  return item?.status ?? 'unknown';
+}
+
+function formatRunState(run) {
+  if (run?.error || run?.status === 'failed') return 'failed';
+  if (hasRegressionViolation(run) || run?.overall?.passed === false || run?.passed === false) return 'not-passed';
+  if (run?.overall?.passed === true || run?.passed === true) return 'passed';
+  return run?.status ?? 'unknown';
+}
+
+function hasRegressionViolation(run) {
+  return run?.overall?.consistencyRegression?.passed === false
+    || run?.regressionConsistencyResult?.isViolation === true;
+}
+
+function regressionViolationCount(run) {
+  const overallCount = run?.overall?.consistencyRegression?.violationCount;
+  if (Number.isFinite(overallCount)) return overallCount;
+  const violations = run?.regressionConsistencyResult?.violations;
+  return Array.isArray(violations) ? violations.length : 0;
 }
 
 function listBlock(title, items) {
