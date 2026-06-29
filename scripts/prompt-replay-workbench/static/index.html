@@ -192,20 +192,29 @@
         </div>
         <section id="editStatePanel" class="editStatePanel" hidden aria-live="polite"></section>
         <div class="columns">
-          <label>
-            <span>Original</span>
-            <textarea id="originalText" readonly spellcheck="false"></textarea>
-          </label>
-          <label>
-            <span>Draft</span>
-            <textarea id="draftText" spellcheck="false"></textarea>
-          </label>
+          <section class="promptTextPanel" aria-labelledby="originalTextLabel">
+            <div class="promptPanelHeader">
+              <span id="originalTextLabel">Original</span>
+              <button class="fullscreenButton" type="button" data-fullscreen-target="originalText">Full screen</button>
+            </div>
+            <textarea id="originalText" readonly spellcheck="false" aria-labelledby="originalTextLabel"></textarea>
+          </section>
+          <section class="promptTextPanel" aria-labelledby="draftTextLabel">
+            <div class="promptPanelHeader">
+              <span id="draftTextLabel">Draft</span>
+              <button class="fullscreenButton" type="button" data-fullscreen-target="draftText">Full screen</button>
+            </div>
+            <textarea id="draftText" spellcheck="false" aria-labelledby="draftTextLabel"></textarea>
+          </section>
         </div>
       </section>
 
       <aside class="inspector">
         <section>
-          <div class="panelTitle">Diff</div>
+          <div class="inspectorPanelHeader">
+            <div class="panelTitle">Diff</div>
+            <button class="fullscreenButton" type="button" data-fullscreen-target="diffView">Full screen</button>
+          </div>
           <pre id="diffView" class="diff"></pre>
         </section>
         <section>
@@ -214,6 +223,19 @@
         </section>
       </aside>
     </main>
+
+    <dialog id="fullscreenViewer" class="fullscreenViewer" aria-labelledby="fullscreenViewerTitle">
+      <div class="fullscreenViewerShell">
+        <header class="fullscreenViewerHeader">
+          <div>
+            <h2 id="fullscreenViewerTitle" class="fullscreenViewerTitle">Content</h2>
+            <p id="fullscreenViewerMeta" class="fullscreenViewerMeta"></p>
+          </div>
+          <button id="fullscreenViewerClose" class="fullscreenViewerClose" type="button">Close</button>
+        </header>
+        <pre id="fullscreenViewerContent" class="fullscreenViewerContent" tabindex="0"></pre>
+      </div>
+    </dialog>
 
     <script src="/app.js" type="module"></script>
   </body>

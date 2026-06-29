@@ -348,6 +348,10 @@ async function runRegressionJudgeTask({
       mode: judgeMode,
       modelConfig: judgeModelConfig,
       input: regressionInput,
+      onRawResponse: (rawResponse) => writeJson(
+        path.join(outputDir, 'regression-consistency-judge-raw-response.json'),
+        rawResponse,
+      ),
     });
   });
   throwIfAborted(signal);
@@ -382,6 +386,10 @@ async function runIssueJudgeTask({
       mode: judgeMode,
       modelConfig: judgeModelConfig,
       input: judgeInput,
+      onRawResponse: (rawResponse) => writeJson(
+        path.join(issueDir, 'judge-raw-response.json'),
+        rawResponse,
+      ),
     });
   });
   throwIfAborted(signal);

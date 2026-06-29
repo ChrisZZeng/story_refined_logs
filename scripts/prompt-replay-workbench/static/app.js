@@ -61,6 +61,12 @@ const elements = {
   originalText: document.querySelector('#originalText'),
   draftText: document.querySelector('#draftText'),
   diffView: document.querySelector('#diffView'),
+  fullscreenButtons: document.querySelectorAll('[data-fullscreen-target]'),
+  fullscreenViewer: document.querySelector('#fullscreenViewer'),
+  fullscreenViewerTitle: document.querySelector('#fullscreenViewerTitle'),
+  fullscreenViewerMeta: document.querySelector('#fullscreenViewerMeta'),
+  fullscreenViewerContent: document.querySelector('#fullscreenViewerContent'),
+  fullscreenViewerClose: document.querySelector('#fullscreenViewerClose'),
   resultView: document.querySelector('#resultView'),
   runStatus: document.querySelector('#runStatus'),
   refreshButton: document.querySelector('#refreshButton'),
@@ -91,6 +97,9 @@ const setupFields = {
   consistencyJudger: document.querySelector('#setupConsistencyJudger'),
 };
 
+let fullscreenTrigger = null;
+let stopActiveCaseResize = null;
+
 elements.configButton.addEventListener('click', () => {
   if (hasDirtyPromptEdits() && !window.confirm('返回配置页会丢弃当前未运行的 prompt 修改，继续吗？')) {
     return;
@@ -117,6 +126,28 @@ elements.runButton.addEventListener('click', () => {
 
 elements.loadPromptTurnButton.addEventListener('click', () => {
   void loadPromptsForSelectedCaseTurn();
+});
+
+for (const button of elements.fullscreenButtons) {
+  button.addEventListener('click', () => {
+    openFullscreenViewer(button.dataset.fullscreenTarget, button);
+  });
+}
+
+elements.fullscreenViewerClose.addEventListener('click', () => {
+  closeFullscreenViewer();
+});
+
+elements.fullscreenViewer.addEventListener('click', (event) => {
+  if (event.target === elements.fullscreenViewer) {
+    closeFullscreenViewer();
+  }
+});
+
+elements.fullscreenViewer.addEventListener('close', () => {
+  elements.fullscreenViewerContent.replaceChildren();
+  fullscreenTrigger?.focus();
+  fullscreenTrigger = null;
 });
 
 elements.draftText.addEventListener('input', () => {
@@ -1057,6 +1088,59 @@ function renderPromptTurnControls() {
     : 'Load prompt sources for the selected review turn.';
 }
 
+function openFullscreenViewer(targetId, trigger) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  fullscreenTrigger = trigger ?? null;
+  elements.fullscreenViewerTitle.textContent = fullscreenTitleFor(targetId);
+  elements.fullscreenViewerMeta.textContent = fullscreenMetaText();
+  elements.fullscreenViewerContent.classList.toggle('diff', targetId === 'diffView');
+  elements.fullscreenViewerContent.replaceChildren();
+
+  if (targetId === 'diffView') {
+    elements.fullscreenViewerContent.append(...Array.from(target.childNodes, (node) => node.cloneNode(true)));
+  } else {
+    elements.fullscreenViewerContent.textContent = target.value ?? target.textContent ?? '';
+  }
+
+  if (!elements.fullscreenViewer.open) {
+    if (typeof elements.fullscreenViewer.showModal === 'function') {
+      elements.fullscreenViewer.showModal();
+    } else {
+      elements.fullscreenViewer.setAttribute('open', '');
+    }
+  }
+  elements.fullscreenViewerContent.focus();
+}
+
+function closeFullscreenViewer() {
+  if (elements.fullscreenViewer.open && typeof elements.fullscreenViewer.close === 'function') {
+    elements.fullscreenViewer.close();
+    return;
+  }
+  elements.fullscreenViewer.removeAttribute('open');
+  elements.fullscreenViewerContent.replaceChildren();
+  fullscreenTrigger?.focus();
+  fullscreenTrigger = null;
+}
+
+function fullscreenTitleFor(targetId) {
+  if (targetId === 'originalText') return 'Original prompt';
+  if (targetId === 'draftText') return 'Draft prompt';
+  if (targetId === 'diffView') return 'Diff preview';
+  return 'Content';
+}
+
+function fullscreenMetaText() {
+  const source = selectedSource();
+  if (!source) return 'Prompt Replay Workbench';
+  return [
+    source.label ?? source.id,
+    elements.sourcePath.textContent,
+  ].filter(Boolean).join(' | ');
+}
+
 async function renderDiff(source) {
   if (!source) {
     elements.diffView.textContent = '';
@@ -1351,24 +1435,41 @@ function initCaseResize() {
     updateResizeValue(280);
   }
 
-  elements.splitResizeBar.addEventListener('pointerdown', (event) => {
-    event.preventDefault();
-    elements.splitResizeBar.setPointerCapture(event.pointerId);
-    startCaseResize({
-      moveEvent: 'pointermove',
-      endEvents: ['pointerup', 'pointercancel'],
-      target: elements.splitResizeBar,
+  if ('PointerEvent' in window) {
+    elements.splitResizeBar.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      event.preventDefault();
+      if (elements.splitResizeBar.setPointerCapture) {
+        try {
+          elements.splitResizeBar.setPointerCapture(event.pointerId);
+        } catch {
+          // Window-level listeners still keep resizing usable if capture fails.
+        }
+      }
+      startCaseResize({
+        moveEvent: 'pointermove',
+        endEvents: ['pointerup', 'pointercancel', 'lostpointercapture'],
+        moveTarget: window,
+        endTargets: [window, elements.splitResizeBar],
+        cleanup: () => {
+          if (elements.splitResizeBar.hasPointerCapture?.(event.pointerId)) {
+            elements.splitResizeBar.releasePointerCapture(event.pointerId);
+          }
+        },
+      });
     });
-  });
-
-  elements.splitResizeBar.addEventListener('mousedown', (event) => {
-    event.preventDefault();
-    startCaseResize({
-      moveEvent: 'mousemove',
-      endEvents: ['mouseup'],
-      target: window,
+  } else {
+    elements.splitResizeBar.addEventListener('mousedown', (event) => {
+      if (event.button !== 0) return;
+      event.preventDefault();
+      startCaseResize({
+        moveEvent: 'mousemove',
+        endEvents: ['mouseup'],
+        moveTarget: window,
+        endTargets: [window],
+      });
     });
-  });
+  }
 
   elements.splitResizeBar.addEventListener('keydown', (event) => {
     const currentHeight = elements.caseContext.getBoundingClientRect().height;
@@ -1392,23 +1493,38 @@ function initCaseResize() {
   });
 }
 
-function startCaseResize({ moveEvent, endEvents, target }) {
+function startCaseResize({ moveEvent, endEvents, moveTarget, endTargets, cleanup = () => {} }) {
+  stopActiveCaseResize?.();
   document.body.classList.add('isResizing');
+  let ended = false;
   const onMove = (event) => {
     const top = elements.caseContext.getBoundingClientRect().top;
     setCaseContextHeight(event.clientY - top);
   };
   const onEnd = () => {
+    if (ended) return;
+    ended = true;
     document.body.classList.remove('isResizing');
-    target.removeEventListener(moveEvent, onMove);
-    for (const eventName of endEvents) {
-      target.removeEventListener(eventName, onEnd);
+    moveTarget.removeEventListener(moveEvent, onMove);
+    for (const endTarget of endTargets) {
+      for (const eventName of endEvents) {
+        endTarget.removeEventListener(eventName, onEnd);
+      }
+    }
+    window.removeEventListener('blur', onEnd);
+    cleanup();
+    if (stopActiveCaseResize === onEnd) {
+      stopActiveCaseResize = null;
     }
   };
-  target.addEventListener(moveEvent, onMove);
-  for (const eventName of endEvents) {
-    target.addEventListener(eventName, onEnd);
+  stopActiveCaseResize = onEnd;
+  moveTarget.addEventListener(moveEvent, onMove);
+  for (const endTarget of endTargets) {
+    for (const eventName of endEvents) {
+      endTarget.addEventListener(eventName, onEnd);
+    }
   }
+  window.addEventListener('blur', onEnd);
 }
 
 function setCaseContextHeight(height, { persist = true } = {}) {

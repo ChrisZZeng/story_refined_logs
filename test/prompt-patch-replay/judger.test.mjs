@@ -55,6 +55,30 @@ test('runJudge fake mode returns uncertain result', async () => {
   assert.equal(result.verdict, 'uncertain');
 });
 
+test('runJudge parses a JSON object wrapped in model formatting text', async () => {
+  await withEnv('JUDGE_TEST_KEY', 'secret', async () => {
+    const result = await runJudge({
+      modelConfig: modelConfigFixture(),
+      input: { issue: { turn: 1 }, newOutput: {}, originalOutput: {}, visibleContext: [] },
+      fetchImpl: async () => openAiResponse(
+        [
+          '```json',
+          JSON.stringify({
+            verdict: 'fixed',
+            confidence: 'high',
+            reason: 'fixed',
+            remainingProblems: [],
+            newRegressions: [],
+          }),
+          '```',
+        ].join('\n'),
+      ),
+    });
+
+    assert.equal(result.verdict, 'fixed');
+  });
+});
+
 test('buildRegressionJudgeInput uses visible timeline history and replay output text', () => {
   const input = buildRegressionJudgeInput({
     context: {
@@ -112,3 +136,67 @@ test('runRegressionJudge fake mode returns no violation', async () => {
   assert.equal(result.isViolation, false);
   assert.equal(result.confidence, 'low');
 });
+
+test('runRegressionJudge exposes raw response before malformed content parse failure', async () => {
+  await withEnv('JUDGE_TEST_KEY', 'secret', async () => {
+    const malformedContent = [
+      '{',
+      '  "is_violation": 1,',
+      '  "confidence": "high",',
+      '  "violations": [],',
+      '  "reasoning": "当前输出写到 "左脚向左偏转"，引号未转义"',
+      '}',
+    ].join('\n');
+    let rawResponse = null;
+
+    await assert.rejects(
+      () => runRegressionJudge({
+        modelConfig: modelConfigFixture(),
+        input: { history_turn: [], playerInput: 'x', output: 'y', target: 'fullTurn' },
+        fetchImpl: async () => openAiResponse(malformedContent),
+        onRawResponse: (value) => {
+          rawResponse = value;
+        },
+      }),
+      /regression judge response content is not valid JSON/,
+    );
+
+    assert.equal(rawResponse.content, malformedContent);
+    assert.equal(rawResponse.body.choices[0].message.content, malformedContent);
+  });
+});
+
+function modelConfigFixture() {
+  return {
+    provider: 'openai-compatible',
+    baseUrl: 'http://judge.test/v1',
+    apiKeyEnv: 'JUDGE_TEST_KEY',
+    model: 'judge-model',
+  };
+}
+
+function openAiResponse(content, { ok = true, status = 200 } = {}) {
+  return {
+    ok,
+    status,
+    statusText: ok ? 'OK' : 'Error',
+    headers: new Map([['x-request-id', 'req-1']]),
+    async text() {
+      return JSON.stringify({ choices: [{ message: { content } }] });
+    },
+  };
+}
+
+async function withEnv(name, value, fn) {
+  const previous = process.env[name];
+  process.env[name] = value;
+  try {
+    await fn();
+  } finally {
+    if (previous === undefined) {
+      delete process.env[name];
+    } else {
+      process.env[name] = previous;
+    }
+  }
+}

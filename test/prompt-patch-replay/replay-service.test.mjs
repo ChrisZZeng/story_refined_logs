@@ -312,6 +312,76 @@ test('runPromptPatchReplay runs regression and issue judges concurrently with st
   );
 });
 
+test('runPromptPatchReplay writes raw judge response artifacts', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-service-raw-judge-'));
+  const logGroupDir = path.join(root, 'abcdef0-dev');
+  const runId = 'runner-a';
+  await writeRunFixture(logGroupDir, runId);
+  const taskPath = path.join(root, 'replay-task.yaml');
+  await writeFile(
+    taskPath,
+    [
+      'replayId: service-raw-judge',
+      'caseSet:',
+      `  logGroupDir: ${JSON.stringify(logGroupDir)}`,
+      `  runId: ${runId}`,
+      '  turns: [4]',
+      'source:',
+      '  oreturnRepo: /tmp/oreturn-faked-by-test',
+      'models:',
+      '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
+      '  judge: { useReplayModel: true }',
+      'patchBundle:',
+      '  id: bundle-a',
+      '  patches:',
+      '    - id: rule-a',
+      '      originalText: old prompt',
+      '      replacementText: new prompt',
+      '',
+    ].join('\n'),
+  );
+
+  const result = await runPromptPatchReplay({
+    configPath: taskPath,
+    cwd: process.cwd(),
+    deps: {
+      ensureOreturnReplayWorktree: fakeSourceVersion,
+      runOreturnReplay: async () => ({
+        newOutput: { normalizedContent: { visibleText: 'new output' } },
+      }),
+      runRegressionJudge: async ({ onRawResponse }) => {
+        await onRawResponse({ content: '{"is_violation":false}', requestId: 'regression-1' });
+        return {
+          isViolation: false,
+          confidence: 'high',
+          violations: [],
+          reasoning: 'ok',
+        };
+      },
+      runJudge: async ({ onRawResponse }) => {
+        await onRawResponse({ content: '{"verdict":"fixed"}', requestId: 'issue-1' });
+        return {
+          verdict: 'fixed',
+          confidence: 'high',
+          reason: 'fixed',
+          remainingProblems: [],
+          newRegressions: [],
+        };
+      },
+    },
+  });
+
+  const caseDir = path.join(result.resultDir, 'cases', 'turn-004');
+  const regressionRaw = JSON.parse(
+    await readFile(path.join(caseDir, 'regression-consistency-judge-raw-response.json'), 'utf8'),
+  );
+  const issueRaw = JSON.parse(
+    await readFile(path.join(caseDir, 'issues', 'issue-001', 'judge-raw-response.json'), 'utf8'),
+  );
+  assert.equal(regressionRaw.requestId, 'regression-1');
+  assert.equal(issueRaw.requestId, 'issue-1');
+});
+
 test('runPromptPatchReplay skips issue repair judge when disabled', async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-service-issue-disabled-'));
   const logGroupDir = path.join(root, 'abcdef0-dev');
