@@ -48,6 +48,17 @@ export function resolveSourceCommit({ configCommit, runConfig, logGroupDir }) {
   throw new Error('Cannot resolve source oreturn commit from config, run config, or log group name');
 }
 
+export function tryResolveSourceCommit(args) {
+  try {
+    return resolveSourceCommit(args);
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('Cannot resolve source oreturn commit')) {
+      return null;
+    }
+    throw error;
+  }
+}
+
 export function validateOreturnVersion({ oreturnRepo, sourceCommit, allowDirty = false }) {
   const repoRoot = path.resolve(oreturnRepo);
   git(['rev-parse', '--is-inside-work-tree'], repoRoot);
@@ -70,6 +81,30 @@ export function validateOreturnVersion({ oreturnRepo, sourceCommit, allowDirty =
     oreturnRepo: repoRoot,
     dirty,
     matched: true,
+  };
+}
+
+export function resolveOreturnRepoHead({ oreturnRepo, badcaseCommit = null, allowDirty = false }) {
+  const repoRoot = path.resolve(oreturnRepo);
+  git(['rev-parse', '--is-inside-work-tree'], repoRoot);
+
+  const replayEngineOreturnCommit = git(['rev-parse', 'HEAD'], repoRoot);
+  const dirty = git(['status', '--porcelain', '--untracked-files=no'], repoRoot).length > 0;
+  if (dirty && !allowDirty) {
+    throw new Error(`oreturnRepo has uncommitted changes: ${repoRoot}`);
+  }
+
+  return {
+    sourceOreturnCommit: badcaseCommit,
+    badcaseOreturnCommit: badcaseCommit,
+    replayEngineOreturnCommit,
+    oreturnRepo: repoRoot,
+    replayEngineOreturnRepo: repoRoot,
+    managedWorktree: false,
+    followBadcaseCommit: false,
+    sourceCommitMode: 'repo-head',
+    dirty,
+    matched: badcaseCommit !== null ? commitsMatch(replayEngineOreturnCommit, badcaseCommit) : null,
   };
 }
 
@@ -114,11 +149,14 @@ export function ensureOreturnReplayWorktree({
 
   return {
     sourceOreturnCommit: sourceCommit,
+    badcaseOreturnCommit: sourceCommit,
     replayEngineOreturnCommit,
     oreturnRepo: repoRoot,
     replayEngineOreturnRepo: worktreePath,
     managedWorktreeRoot: worktreeRoot,
     managedWorktree: true,
+    followBadcaseCommit: true,
+    sourceCommitMode: 'badcase-log',
     dirty,
     matched: true,
   };

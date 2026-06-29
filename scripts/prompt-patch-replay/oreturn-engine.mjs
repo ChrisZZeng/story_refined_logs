@@ -7,6 +7,12 @@ import { ORETURN_EVAL_RUNNER_SOURCE } from './oreturn-eval-runner-source.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
 const patcherModulePath = path.join(path.dirname(modulePath), 'prompt-patcher.mjs');
+const REPLAY_STEP_MODEL_PREFIXES = {
+  director: 'LLM_DIRECTOR',
+  narrator: 'LLM_NARRATOR',
+  choices: 'LLM_CHOICES',
+  stateFold: 'LLM_STATE_FOLD',
+};
 
 export function buildBunEvalCommand({ oreturnRepo, evalSource = ORETURN_EVAL_RUNNER_SOURCE }) {
   return {
@@ -36,20 +42,36 @@ export async function writeReplayInput({ outDir, context, patchBundle }) {
 }
 
 export function buildReplayEnv({ baseEnv = process.env, modelConfig }) {
+  const globalEnv = modelEnvFields({ baseEnv, modelConfig, prefix: 'LLM' });
+  const env = {
+    ...baseEnv,
+    ...globalEnv,
+  };
+  for (const [stepName, prefix] of Object.entries(REPLAY_STEP_MODEL_PREFIXES)) {
+    Object.assign(env, modelEnvFields({
+      baseEnv,
+      modelConfig: modelConfig.steps?.[stepName] ?? modelConfig,
+      prefix,
+    }));
+  }
+  return env;
+}
+
+function modelEnvFields({ baseEnv, modelConfig, prefix }) {
   const apiKey = baseEnv[modelConfig.apiKeyEnv];
   if (!apiKey) {
     throw new Error(`missing env: ${modelConfig.apiKeyEnv}`);
   }
 
   return {
-    ...baseEnv,
-    LLM_PROVIDER: modelConfig.provider,
-    LLM_BASE_URL: modelConfig.baseUrl,
-    LLM_API_KEY: apiKey,
-    LLM_MODEL: modelConfig.model,
-    ...(modelConfig.thinkingEnabled !== undefined && modelConfig.thinkingEnabled !== null
-      ? { LLM_THINKING_ENABLED: String(modelConfig.thinkingEnabled) }
-      : {}),
+    [`${prefix}_PROVIDER`]: modelConfig.provider,
+    [`${prefix}_BASE_URL`]: modelConfig.baseUrl,
+    [`${prefix}_API_KEY`]: apiKey,
+    [`${prefix}_MODEL`]: modelConfig.model,
+    [`${prefix}_THINKING_ENABLED`]: modelConfig.thinkingEnabled !== undefined && modelConfig.thinkingEnabled !== null
+      ? String(modelConfig.thinkingEnabled)
+      : '',
+    [`${prefix}_REASONING_EFFORT`]: modelConfig.reasoningEffort ?? '',
   };
 }
 

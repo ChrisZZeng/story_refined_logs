@@ -88,6 +88,10 @@ tool creates or reuses an isolated managed worktree under
 This protects replay from silently using a newer or different novel system
 implementation than the badcase logs were generated with, without changing the
 user's main `oreturn` checkout.
+Set `source.followBadcaseCommit` to `false` to run replay from the current
+`HEAD` of `source.oreturnRepo` instead. This is useful for local experiments,
+but the replay engine version will no longer strictly match the original
+badcase logs.
 If `source.oreturnCommit` is provided while logs also expose a source commit, the
 values must match by prefix.
 

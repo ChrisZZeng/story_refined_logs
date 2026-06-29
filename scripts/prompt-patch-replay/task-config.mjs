@@ -6,6 +6,8 @@ import YAML from 'yaml';
 
 import { validatePatchBundle, validateReplayConfig } from './config.mjs';
 
+const REPLAY_STEP_MODEL_KEYS = ['director', 'narrator', 'choices', 'stateFold'];
+
 export async function loadReplayTask(taskPath) {
   const resolvedTaskPath = path.resolve(taskPath);
   const taskDir = path.dirname(resolvedTaskPath);
@@ -41,7 +43,7 @@ function parseTaskFile({ filePath, text }) {
 function normalizeInlineReplayConfig(value) {
   assertObject(value, 'task');
   const caseSet = value.caseSet ?? {};
-  const replayModel = normalizeModel(value.models?.replay, 'models.replay');
+  const replayModel = normalizeReplayModel(value.models?.replay, 'models.replay');
   return {
     replayId: value.replayId,
     logGroupDir: value.logGroupDir ?? caseSet.logGroupDir,
@@ -73,7 +75,22 @@ function normalizeModel(model, fieldPath) {
     apiKeyEnv: model.apiKeyEnv,
     model: model.model,
     ...(model.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+    ...(model.reasoningEffort !== undefined ? { reasoningEffort: model.reasoningEffort } : {}),
   };
+}
+
+function normalizeReplayModel(model, fieldPath) {
+  const replay = normalizeModel(model, fieldPath);
+  if (model.steps === undefined) return replay;
+  assertObject(model.steps, `${fieldPath}.steps`);
+  const steps = {};
+  for (const [stepName, stepModel] of Object.entries(model.steps)) {
+    if (!REPLAY_STEP_MODEL_KEYS.includes(stepName)) {
+      throw new Error(`${fieldPath}.steps.${stepName} must be one of ${REPLAY_STEP_MODEL_KEYS.join(', ')}`);
+    }
+    steps[stepName] = normalizeModel(stepModel, `${fieldPath}.steps.${stepName}`);
+  }
+  return Object.keys(steps).length > 0 ? { ...replay, steps } : replay;
 }
 
 async function resolveInlinePatchBundle(value, taskDir) {

@@ -27,6 +27,7 @@ test('startWorkbenchServer serves static index and API routes on localhost', asy
     assert.match(index, /Prompt Replay Workbench/);
     assert.match(index, /setupReplayAttempts/);
     assert.match(index, /setupJudgeRequests/);
+    assert.match(index, /setupFollowBadcaseCommit/);
     assert.match(index, /setupIssueRepairJudger/);
     assert.match(index, /setupConsistencyJudger/);
     assert.equal(task.config.replayId, 'server-task-a');

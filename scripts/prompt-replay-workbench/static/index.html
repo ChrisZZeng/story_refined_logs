@@ -27,50 +27,79 @@
           <p>填写日志、badcase turn 和小说系统路径后加载工作台。加载后可返回这里重新配置。</p>
         </div>
 
-        <div class="setupGrid">
-          <label class="setupField">
-            <span>Replay ID</span>
-            <input id="setupReplayId" name="replayId" autocomplete="off" required>
-          </label>
-          <label class="setupField">
-            <span>Turns</span>
-            <input id="setupTurns" name="turns" autocomplete="off" placeholder="5,8,10" required>
-          </label>
-          <label class="setupField">
-            <span>Repeats</span>
-            <input id="setupRepeats" name="repeats" type="number" min="1" step="1" required>
-          </label>
-          <label class="setupField wide">
-            <span>Log Group Dir</span>
-            <input id="setupLogGroupDir" name="logGroupDir" autocomplete="off" required>
-          </label>
-          <label class="setupField wide">
-            <span>Run ID</span>
-            <input id="setupRunId" name="runId" autocomplete="off" required>
-          </label>
-          <label class="setupField wide">
-            <span>Oreturn Repo</span>
-            <input id="setupOreturnRepo" name="oreturnRepo" autocomplete="off" required>
-          </label>
-          <label class="setupField">
-            <span>Version Policy</span>
-            <select id="setupVersionPolicy" name="versionPolicy">
-              <option value="require-matching-worktree">require-matching-worktree</option>
-            </select>
-          </label>
-          <label class="setupField">
-            <span>Concurrent Replay Attempts</span>
-            <input id="setupReplayAttempts" name="replayAttempts" type="number" min="1" step="1" required>
-          </label>
-          <label class="setupField">
-            <span>Concurrent Judge Requests</span>
-            <input id="setupJudgeRequests" name="judgeRequests" type="number" min="1" step="1" required>
-          </label>
+        <div class="setupShell">
+          <section class="setupPanel setupPanelPrimary" aria-labelledby="setupBadcaseTitle">
+            <div class="setupPanelHeader">
+              <div>
+                <span class="setupEyebrow">Case</span>
+                <h3 id="setupBadcaseTitle">Badcase inputs</h3>
+              </div>
+              <p>选择要复盘的日志、run 和 turn；这些字段决定读取哪组原始上下文。</p>
+            </div>
+            <div class="setupGrid setupCaseGrid">
+              <label class="setupField">
+                <span>Replay ID</span>
+                <input id="setupReplayId" name="replayId" autocomplete="off" required>
+              </label>
+              <label class="setupField">
+                <span>Turns</span>
+                <input id="setupTurns" name="turns" autocomplete="off" placeholder="5,8,10" required>
+              </label>
+              <label class="setupField">
+                <span>Repeats</span>
+                <input id="setupRepeats" name="repeats" type="number" min="1" step="1" required>
+              </label>
+              <label class="setupField wide">
+                <span>Log Group Dir</span>
+                <input id="setupLogGroupDir" name="logGroupDir" autocomplete="off" required>
+              </label>
+              <label class="setupField wide">
+                <span>Run ID</span>
+                <input id="setupRunId" name="runId" autocomplete="off" required>
+              </label>
+            </div>
+          </section>
+
+          <section class="setupPanel" aria-labelledby="setupSourceTitle">
+            <div class="setupPanelHeader">
+              <div>
+                <span class="setupEyebrow">Engine</span>
+                <h3 id="setupSourceTitle">Source & throughput</h3>
+              </div>
+              <p>控制 replay 使用哪份 oreturn 代码，以及并发上限。</p>
+            </div>
+            <div class="setupGrid setupSourceGrid">
+              <label class="setupField wide">
+                <span>Oreturn Repo</span>
+                <input id="setupOreturnRepo" name="oreturnRepo" autocomplete="off" required>
+              </label>
+              <label class="setupField">
+                <span>Version Policy</span>
+                <select id="setupVersionPolicy" name="versionPolicy">
+                  <option value="require-matching-worktree">require-matching-worktree</option>
+                </select>
+              </label>
+              <label class="setupCheckboxField setupSourceOption">
+                <input id="setupFollowBadcaseCommit" name="followBadcaseCommit" type="checkbox" checked>
+                <span>Follow Badcase Commit</span>
+                <small>Off uses Oreturn Repo HEAD.</small>
+              </label>
+              <label class="setupField">
+                <span>Concurrent Replay Attempts</span>
+                <input id="setupReplayAttempts" name="replayAttempts" type="number" min="1" step="1" required>
+              </label>
+              <label class="setupField">
+                <span>Concurrent Judge Requests</span>
+                <input id="setupJudgeRequests" name="judgeRequests" type="number" min="1" step="1" required>
+              </label>
+            </div>
+          </section>
         </div>
 
         <div class="setupModelGrid">
-          <fieldset>
+          <fieldset class="setupModelCard">
             <legend>Replay Model</legend>
+            <p class="setupLegendText">Used by the actual oreturn replay engine.</p>
             <label class="setupField">
               <span>Base URL</span>
               <input id="setupReplayBaseUrl" autocomplete="off" required>
@@ -94,9 +123,44 @@
               <span>Model</span>
               <input id="setupReplayModel" autocomplete="off" required>
             </label>
+            <label class="setupField">
+              <span>LLM_THINKING_ENABLED</span>
+              <select id="setupReplayThinkingEnabled">
+                <option value="false">Off</option>
+                <option value="true">On</option>
+              </select>
+            </label>
+            <label class="setupField">
+              <span>LLM_REASONING_EFFORT</span>
+              <select id="setupReplayReasoningEffort">
+                <option value="minimal">Minimal</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <section class="setupStepModels" aria-label="Replay step model overrides">
+              <div class="setupStepModelHeader">
+                <div>
+                  <strong>Step Models</strong>
+                  <p>Optional overrides; unset steps inherit Replay Model.</p>
+                </div>
+                <div class="setupStepModelAdd">
+                  <select id="setupReplayStepModelType" aria-label="Step model type">
+                    <option value="director">Director</option>
+                    <option value="narrator">Narrator</option>
+                    <option value="choices">Choices</option>
+                    <option value="stateFold">State Fold</option>
+                  </select>
+                  <button id="addReplayStepModelButton" type="button">+ Add step model</button>
+                </div>
+              </div>
+              <div id="setupReplayStepModels" class="setupStepModelList"></div>
+            </section>
           </fieldset>
-          <fieldset>
+          <fieldset class="setupModelCard">
             <legend>Judge Model</legend>
+            <p class="setupLegendText">Scores repair quality and regression consistency.</p>
             <label class="setupField">
               <span>Base URL</span>
               <input id="setupJudgeBaseUrl" autocomplete="off" required>

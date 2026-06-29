@@ -145,6 +145,76 @@ test('runPromptPatchReplay starts badcase turns concurrently and preserves summa
   assert.deepEqual(result.summary.cases.map((item) => item.status), ['completed', 'completed']);
 });
 
+test('runPromptPatchReplay can use the oreturn repo HEAD instead of the badcase commit', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-service-head-'));
+  const logGroupDir = path.join(root, 'abcdef0-dev');
+  const runId = 'runner-a';
+  await writeRunFixture(logGroupDir, runId);
+  const taskPath = path.join(root, 'replay-task.yaml');
+  await writeFile(
+    taskPath,
+    [
+      'replayId: service-repo-head',
+      'caseSet:',
+      `  logGroupDir: ${JSON.stringify(logGroupDir)}`,
+      `  runId: ${runId}`,
+      '  turns: [4]',
+      'source:',
+      '  oreturnRepo: /tmp/oreturn-head',
+      '  followBadcaseCommit: false',
+      'models:',
+      '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
+      '  judge: { useReplayModel: true }',
+      'judgeMode: fake',
+      'patchBundle:',
+      '  id: bundle-a',
+      '  patches:',
+      '    - id: rule-a',
+      '      originalText: old prompt',
+      '      replacementText: new prompt',
+      '',
+    ].join('\n'),
+  );
+
+  const replayRepos = [];
+  const result = await runPromptPatchReplay({
+    configPath: taskPath,
+    cwd: process.cwd(),
+    deps: {
+      ensureOreturnReplayWorktree: () => {
+        throw new Error('managed worktree should not be used');
+      },
+      resolveOreturnRepoHead: ({ badcaseCommit, allowDirty }) => {
+        assert.equal(allowDirty, true);
+        return {
+          sourceOreturnCommit: badcaseCommit,
+          badcaseOreturnCommit: badcaseCommit,
+          replayEngineOreturnCommit: 'head-commit',
+          oreturnRepo: '/tmp/oreturn-head',
+          replayEngineOreturnRepo: '/tmp/oreturn-head',
+          managedWorktree: false,
+          followBadcaseCommit: false,
+          sourceCommitMode: 'repo-head',
+          dirty: false,
+          matched: false,
+        };
+      },
+      runOreturnReplay: async ({ oreturnRepo }) => {
+        replayRepos.push(oreturnRepo);
+        return {
+          newOutput: { normalizedContent: { visibleText: 'new output' } },
+        };
+      },
+    },
+  });
+
+  assert.deepEqual(replayRepos, ['/tmp/oreturn-head']);
+  assert.equal(result.summary.sourceVersion.sourceOreturnCommit, 'abcdef0');
+  assert.equal(result.summary.sourceVersion.replayEngineOreturnCommit, 'head-commit');
+  assert.equal(result.summary.sourceVersion.managedWorktree, false);
+  assert.equal(result.summary.sourceVersion.followBadcaseCommit, false);
+});
+
 test('createLimiter caps active tasks and releases slots after rejection', async () => {
   const limit = createLimiter(2);
   let active = 0;

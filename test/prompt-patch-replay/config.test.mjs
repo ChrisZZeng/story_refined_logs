@@ -52,6 +52,7 @@ test('validateReplayConfig accepts mode1 replay config', () => {
         apiKeyEnv: 'REPLAY_KEY',
         model: 'replay-model',
         thinkingEnabled: false,
+        reasoningEffort: 'minimal',
       },
       judge: {
         provider: 'openai-compatible',
@@ -65,6 +66,126 @@ test('validateReplayConfig accepts mode1 replay config', () => {
   assert.deepEqual(config.turns, [3, 9]);
   assert.equal(config.source.versionPolicy, 'require-matching-worktree');
   assert.equal(config.models.replay.thinkingEnabled, false);
+  assert.equal(config.models.replay.reasoningEffort, 'minimal');
+});
+
+test('validateReplayConfig accepts replay step model overrides', () => {
+  const config = validateReplayConfig({
+    replayId: 'replay-a',
+    logGroupDir: 'logs/group-a',
+    runId: 'run-a',
+    turns: [3],
+    patchBundlePath: 'patches/a.json',
+    source: {
+      oreturnRepo: '/repo/oreturn',
+    },
+    models: {
+      replay: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://llm/v1',
+        apiKeyEnv: 'REPLAY_KEY',
+        model: 'replay-model',
+        steps: {
+          director: {
+            provider: 'openai-compatible',
+            baseUrl: 'http://director/v1',
+            apiKeyEnv: 'DIRECTOR_KEY',
+            model: 'director-model',
+            thinkingEnabled: true,
+            reasoningEffort: 'high',
+          },
+          stateFold: {
+            provider: 'openai-compatible',
+            baseUrl: 'http://state-fold/v1',
+            apiKeyEnv: 'STATE_FOLD_KEY',
+            model: 'state-fold-model',
+          },
+        },
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://judge/v1',
+        apiKeyEnv: 'JUDGE_KEY',
+        model: 'judge-model',
+      },
+    },
+  });
+
+  assert.equal(config.models.replay.steps.director.model, 'director-model');
+  assert.equal(config.models.replay.steps.director.thinkingEnabled, true);
+  assert.equal(config.models.replay.steps.director.reasoningEffort, 'high');
+  assert.equal(config.models.replay.steps.stateFold.apiKeyEnv, 'STATE_FOLD_KEY');
+});
+
+test('validateReplayConfig rejects invalid reasoning effort', () => {
+  assert.throws(
+    () =>
+      validateReplayConfig({
+        replayId: 'replay-a',
+        logGroupDir: 'logs/group-a',
+        runId: 'run-a',
+        turns: [3],
+        patchBundlePath: 'patches/a.json',
+        source: {
+          oreturnRepo: '/repo/oreturn',
+        },
+        models: {
+          replay: {
+            provider: 'openai-compatible',
+            baseUrl: 'http://llm/v1',
+            apiKeyEnv: 'REPLAY_KEY',
+            model: 'replay-model',
+            reasoningEffort: 'extreme',
+          },
+          judge: {
+            provider: 'openai-compatible',
+            baseUrl: 'http://judge/v1',
+            apiKeyEnv: 'JUDGE_KEY',
+            model: 'judge-model',
+          },
+        },
+      }),
+    /models\.replay\.reasoningEffort/,
+  );
+});
+
+test('validateReplayConfig rejects unknown replay step model override', () => {
+  assert.throws(
+    () =>
+      validateReplayConfig({
+        replayId: 'replay-a',
+        logGroupDir: 'logs/group-a',
+        runId: 'run-a',
+        turns: [3],
+        patchBundlePath: 'patches/a.json',
+        source: {
+          oreturnRepo: '/repo/oreturn',
+        },
+        models: {
+          replay: {
+            provider: 'openai-compatible',
+            baseUrl: 'http://llm/v1',
+            apiKeyEnv: 'REPLAY_KEY',
+            model: 'replay-model',
+            steps: {
+              invalidStep: {
+                provider: 'openai-compatible',
+                baseUrl: 'http://invalid/v1',
+                apiKeyEnv: 'INVALID_KEY',
+                model: 'invalid-model',
+              },
+            },
+          },
+          judge: {
+            provider: 'openai-compatible',
+            baseUrl: 'http://judge/v1',
+            apiKeyEnv: 'JUDGE_KEY',
+            model: 'judge-model',
+          },
+        },
+      }),
+    /models\.replay\.steps\.invalidStep/,
+  );
 });
 
 test('validateReplayConfig defaults version policy', () => {
@@ -95,6 +216,34 @@ test('validateReplayConfig defaults version policy', () => {
   });
 
   assert.equal(config.source.versionPolicy, 'require-matching-worktree');
+  assert.equal(config.source.followBadcaseCommit, true);
+});
+
+test('validateReplayConfig accepts disabling badcase commit following', () => {
+  const config = validateReplayConfig({
+    ...replayConfigFixture(),
+    source: {
+      oreturnRepo: '/repo/oreturn',
+      followBadcaseCommit: false,
+    },
+  });
+
+  assert.equal(config.source.followBadcaseCommit, false);
+  assert.equal(config.source.allowDirtyEngine, true);
+});
+
+test('validateReplayConfig respects explicit dirty engine setting for repo HEAD mode', () => {
+  const config = validateReplayConfig({
+    ...replayConfigFixture(),
+    source: {
+      oreturnRepo: '/repo/oreturn',
+      followBadcaseCommit: false,
+      allowDirtyEngine: false,
+    },
+  });
+
+  assert.equal(config.source.followBadcaseCommit, false);
+  assert.equal(config.source.allowDirtyEngine, false);
 });
 
 test('validateReplayConfig accepts repeats and pass verdicts', () => {

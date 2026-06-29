@@ -38,8 +38,13 @@ let replayError = null;
 try {
   const baseLlm = createAISdkLLMCall();
   const llm = wrapLlm(baseLlm, input.patchBundle, input.turn, calls, applications, appliedPatchIds);
-  const model = buildModelFromEnv();
-  const strategy = createNovelCreatorStrategy({ llm, model });
+  const models = {
+    director: buildModelFromEnv('LLM_DIRECTOR'),
+    narrator: buildModelFromEnv('LLM_NARRATOR'),
+    choices: buildModelFromEnv('LLM_CHOICES'),
+    stateFold: buildModelFromEnv('LLM_STATE_FOLD'),
+  };
+  const strategy = createNovelCreatorStrategy({ llm, models });
 
   for await (const event of runStrategy({
     strategy: {

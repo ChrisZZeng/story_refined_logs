@@ -49,6 +49,7 @@ test('buildReplayEnv maps replay model config to oreturn LLM env', () => {
       apiKeyEnv: 'REPLAY_API_KEY',
       model: 'model-a',
       thinkingEnabled: false,
+      reasoningEffort: 'minimal',
     },
   });
 
@@ -58,12 +59,65 @@ test('buildReplayEnv maps replay model config to oreturn LLM env', () => {
   assert.equal(env.LLM_API_KEY, 'secret');
   assert.equal(env.LLM_MODEL, 'model-a');
   assert.equal(env.LLM_THINKING_ENABLED, 'false');
+  assert.equal(env.LLM_REASONING_EFFORT, 'minimal');
+  assert.equal(env.LLM_DIRECTOR_MODEL, 'model-a');
+  assert.equal(env.LLM_NARRATOR_MODEL, 'model-a');
+  assert.equal(env.LLM_CHOICES_MODEL, 'model-a');
+  assert.equal(env.LLM_STATE_FOLD_MODEL, 'model-a');
+});
+
+test('buildReplayEnv maps replay step model overrides to prefixed oreturn env', () => {
+  const env = buildReplayEnv({
+    baseEnv: {
+      REPLAY_API_KEY: 'global-secret',
+      DIRECTOR_API_KEY: 'director-secret',
+      STATE_FOLD_API_KEY: 'state-secret',
+      LLM_DIRECTOR_MODEL: 'stale-director-model',
+    },
+    modelConfig: {
+      provider: 'openai-compatible',
+      baseUrl: 'https://global.test/v1',
+      apiKeyEnv: 'REPLAY_API_KEY',
+      model: 'global-model',
+      steps: {
+        director: {
+          provider: 'openai-compatible',
+          baseUrl: 'https://director.test/v1',
+          apiKeyEnv: 'DIRECTOR_API_KEY',
+          model: 'director-model',
+          thinkingEnabled: true,
+          reasoningEffort: 'high',
+        },
+        stateFold: {
+          provider: 'openai-compatible',
+          baseUrl: 'https://state.test/v1',
+          apiKeyEnv: 'STATE_FOLD_API_KEY',
+          model: 'state-model',
+        },
+      },
+    },
+  });
+
+  assert.equal(env.LLM_MODEL, 'global-model');
+  assert.equal(env.LLM_DIRECTOR_BASE_URL, 'https://director.test/v1');
+  assert.equal(env.LLM_DIRECTOR_API_KEY, 'director-secret');
+  assert.equal(env.LLM_DIRECTOR_MODEL, 'director-model');
+  assert.equal(env.LLM_DIRECTOR_THINKING_ENABLED, 'true');
+  assert.equal(env.LLM_DIRECTOR_REASONING_EFFORT, 'high');
+  assert.equal(env.LLM_NARRATOR_MODEL, 'global-model');
+  assert.equal(env.LLM_CHOICES_API_KEY, 'global-secret');
+  assert.equal(env.LLM_STATE_FOLD_MODEL, 'state-model');
+  assert.equal(env.LLM_STATE_FOLD_API_KEY, 'state-secret');
+  assert.equal(env.LLM_STATE_FOLD_THINKING_ENABLED, '');
+  assert.equal(env.LLM_STATE_FOLD_REASONING_EFFORT, '');
 });
 
 test('oreturn eval runner writes partial artifacts on replay failure', () => {
   assert.match(ORETURN_EVAL_RUNNER_SOURCE, /finally/);
   assert.match(ORETURN_EVAL_RUNNER_SOURCE, /replay-error\.json/);
   assert.match(ORETURN_EVAL_RUNNER_SOURCE, /patch-application\.json/);
+  assert.match(ORETURN_EVAL_RUNNER_SOURCE, /buildModelFromEnv\('LLM_DIRECTOR'\)/);
+  assert.match(ORETURN_EVAL_RUNNER_SOURCE, /buildModelFromEnv\('LLM_STATE_FOLD'\)/);
 });
 
 test('runCommand resolves on zero exit and rejects non-zero exit', async () => {

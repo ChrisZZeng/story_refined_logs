@@ -8,7 +8,9 @@ import path from 'node:path';
 import {
   ensureOreturnReplayWorktree,
   parseCommitFromLogGroupName,
+  resolveOreturnRepoHead,
   resolveSourceCommit,
+  tryResolveSourceCommit,
 } from '../../scripts/prompt-patch-replay/source-version.mjs';
 
 test('parseCommitFromLogGroupName reads branch-version prefix', () => {
@@ -82,6 +84,13 @@ test('resolveSourceCommit throws when no source is available', () => {
   );
 });
 
+test('tryResolveSourceCommit returns null when no source is available', () => {
+  assert.equal(
+    tryResolveSourceCommit({ runConfig: {}, logGroupDir: 'logs/no-commit-here' }),
+    null,
+  );
+});
+
 test('ensureOreturnReplayWorktree creates an isolated worktree at the source commit', async () => {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'story-replay-worktree-'));
   const repo = path.join(tempRoot, 'oreturn');
@@ -136,6 +145,41 @@ test('ensureOreturnReplayWorktree links dependency directories from the source r
   assert.equal((await lstat(coreLink)).isSymbolicLink(), true);
   assert.equal(await readlink(rootLink), path.join(repo, 'node_modules'));
   assert.equal(await readlink(coreLink), path.join(repo, 'packages', 'core', 'node_modules'));
+});
+
+test('resolveOreturnRepoHead uses the current oreturn repo checkout', async () => {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'story-replay-head-'));
+  const repo = path.join(tempRoot, 'oreturn');
+  await initRepo(repo);
+  const badcaseCommit = git(['rev-parse', '--short=12', 'HEAD'], repo);
+  await writeFile(path.join(repo, 'main.txt'), 'second\n');
+  git(['add', 'main.txt'], repo);
+  git(['commit', '-m', 'second'], repo);
+  const headCommit = git(['rev-parse', 'HEAD'], repo);
+
+  const result = resolveOreturnRepoHead({ oreturnRepo: repo, badcaseCommit });
+
+  assert.equal(result.sourceOreturnCommit, badcaseCommit);
+  assert.equal(result.badcaseOreturnCommit, badcaseCommit);
+  assert.equal(result.replayEngineOreturnCommit, headCommit);
+  assert.equal(result.oreturnRepo, path.resolve(repo));
+  assert.equal(result.replayEngineOreturnRepo, path.resolve(repo));
+  assert.equal(result.managedWorktree, false);
+  assert.equal(result.followBadcaseCommit, false);
+  assert.equal(result.sourceCommitMode, 'repo-head');
+  assert.equal(result.matched, false);
+});
+
+test('resolveOreturnRepoHead rejects tracked dirty changes by default', async () => {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'story-replay-head-dirty-'));
+  const repo = path.join(tempRoot, 'oreturn');
+  await initRepo(repo);
+  await writeFile(path.join(repo, 'main.txt'), 'dirty tracked change\n');
+
+  assert.throws(
+    () => resolveOreturnRepoHead({ oreturnRepo: repo, badcaseCommit: null }),
+    /oreturnRepo has uncommitted changes/,
+  );
 });
 
 test('ensureOreturnReplayWorktree fails when existing managed worktree is at another commit', async () => {

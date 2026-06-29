@@ -6,7 +6,12 @@ import YAML from 'yaml';
 
 import { loadReplayTask } from '../prompt-patch-replay/task-config.mjs';
 import { runPromptPatchReplay as defaultRunPromptPatchReplay } from '../prompt-patch-replay/replay-service.mjs';
-import { ensureOreturnReplayWorktree, resolveSourceCommit } from '../prompt-patch-replay/source-version.mjs';
+import {
+  ensureOreturnReplayWorktree,
+  resolveOreturnRepoHead,
+  resolveSourceCommit,
+  tryResolveSourceCommit,
+} from '../prompt-patch-replay/source-version.mjs';
 import { buildTurnReplayContext } from '../prompt-patch-replay/turn-context.mjs';
 import { buildPatchBundleFromPromptSources, createPromptSourceDiff } from './patch-builder.mjs';
 import { loadPromptSources as defaultLoadPromptSources } from './prompt-source.mjs';
@@ -16,6 +21,14 @@ import { withPromptSourceAccess } from './static/prompt-source-access.js';
 const DEFAULT_PROMPT_SOURCES_CONFIG = new URL('./default-prompt-sources.yaml', import.meta.url).pathname;
 const WORKBENCH_TASK_DIR = '.workbench-tasks';
 const LAST_MANUAL_SETUP_FILE = 'latest-manual-setup.json';
+const REPLAY_STEP_MODEL_KEYS = ['director', 'narrator', 'choices', 'stateFold'];
+const REASONING_EFFORTS = ['minimal', 'low', 'medium', 'high'];
+const REPLAY_STEP_MODEL_ENV = {
+  director: 'WORKBENCH_REPLAY_DIRECTOR_API_KEY',
+  narrator: 'WORKBENCH_REPLAY_NARRATOR_API_KEY',
+  choices: 'WORKBENCH_REPLAY_CHOICES_API_KEY',
+  stateFold: 'WORKBENCH_REPLAY_STATE_FOLD_API_KEY',
+};
 
 export function createWorkbenchApiHandler({
   taskPath,
@@ -85,7 +98,7 @@ export function createWorkbenchApiHandler({
           });
         }
         const resolvedSource = await resolvePromptSourceVersion({ task, cwd });
-        const promptSourceRepo = requirePromptSourceWorktree(resolvedSource);
+        const promptSourceRepo = requirePromptSourceRepo(resolvedSource);
         const sources = await loadPromptSources({
           configPath: promptSourcesConfigPath,
           oreturnRepo: promptSourceRepo,
@@ -328,11 +341,11 @@ function isBadRequestCode(code) {
   ].includes(code);
 }
 
-function requirePromptSourceWorktree(resolvedSource) {
-  if (resolvedSource?.managedWorktree === true && resolvedSource?.replayEngineOreturnRepo) {
+function requirePromptSourceRepo(resolvedSource) {
+  if (resolvedSource?.replayEngineOreturnRepo) {
     return resolvedSource.replayEngineOreturnRepo;
   }
-  const error = new Error('Prompt sources require a resolved managed oreturn worktree; refusing to read from the main oreturn repo.');
+  const error = new Error('Prompt sources require a resolved oreturn source repo.');
   error.code = 'PROMPT_SOURCE_VERSION_UNRESOLVED';
   throw error;
 }
@@ -341,11 +354,19 @@ async function defaultResolvePromptSourceVersion({ task, cwd }) {
   const logGroupDir = path.resolve(cwd, task.config.logGroupDir);
   const runConfigPath = path.join(logGroupDir, 'run_logs', task.config.runId, '00-run-config.json');
   const runConfig = await readJson(runConfigPath);
-  const sourceCommit = resolveSourceCommit({
+  const followBadcaseCommit = task.config.source.followBadcaseCommit !== false;
+  const sourceCommit = (followBadcaseCommit ? resolveSourceCommit : tryResolveSourceCommit)({
     configCommit: task.config.source.oreturnCommit,
     runConfig,
     logGroupDir,
   });
+  if (!followBadcaseCommit) {
+    return resolveOreturnRepoHead({
+      oreturnRepo: task.config.source.oreturnRepo,
+      badcaseCommit: sourceCommit,
+      allowDirty: task.config.source.allowDirtyEngine,
+    });
+  }
   return ensureOreturnReplayWorktree({
     oreturnRepo: task.config.source.oreturnRepo,
     sourceCommit,
@@ -363,6 +384,7 @@ async function safeResolvePromptSourceVersion({ task, cwd, resolvePromptSourceVe
       oreturnRepo: path.resolve(cwd, task.config.source.oreturnRepo),
       replayEngineOreturnRepo: null,
       managedWorktree: null,
+      followBadcaseCommit: task.config.source.followBadcaseCommit !== false,
       dirty: null,
       matched: false,
       error: error instanceof Error ? error.message : String(error),
@@ -398,9 +420,10 @@ function defaultBootstrapConfig({ cwd }) {
     source: {
       oreturnRepo: path.resolve(cwd, '../oreturn'),
       versionPolicy: 'require-matching-worktree',
+      followBadcaseCommit: true,
     },
     models: {
-      replay: defaultModelConfig('REPLAY_API_KEY'),
+      replay: defaultReplayModelConfig('REPLAY_API_KEY'),
       judge: defaultModelConfig('JUDGE_API_KEY'),
     },
     concurrency: {
@@ -421,6 +444,14 @@ function defaultModelConfig(apiKeyEnv) {
     baseUrl: 'https://api.deepseek.com/v1',
     apiKeyEnv,
     model: 'deepseek-v4-flash',
+  };
+}
+
+function defaultReplayModelConfig(apiKeyEnv) {
+  return {
+    ...defaultModelConfig(apiKeyEnv),
+    thinkingEnabled: false,
+    reasoningEffort: 'minimal',
   };
 }
 
@@ -458,6 +489,9 @@ function buildManualTaskSnapshot({ body, cwd }) {
   const repeats = parseRepeats(body.repeats);
   const oreturnRepo = requiredString(body.oreturnRepo ?? body.source?.oreturnRepo, 'oreturnRepo');
   const versionPolicy = String(body.versionPolicy ?? body.source?.versionPolicy ?? 'require-matching-worktree');
+  const followBadcaseCommit = normalizeFollowBadcaseCommit(
+    body.followBadcaseCommit ?? body.source?.followBadcaseCommit,
+  );
   const snapshot = {
     replayId,
     caseSet: {
@@ -469,6 +503,8 @@ function buildManualTaskSnapshot({ body, cwd }) {
     source: {
       oreturnRepo,
       versionPolicy,
+      followBadcaseCommit,
+      ...(!followBadcaseCommit ? { allowDirtyEngine: true } : {}),
     },
     models,
     ...(body.concurrency !== undefined ? { concurrency: body.concurrency } : {}),
@@ -495,6 +531,7 @@ function buildManualTaskSnapshot({ body, cwd }) {
     repeats,
     oreturnRepo,
     versionPolicy,
+    followBadcaseCommit,
   });
   return {
     taskPath: path.join(workbenchTaskDir(cwd), `${replayId}-manual.yaml`),
@@ -513,7 +550,17 @@ async function writeManualTaskFiles({ cwd, taskSnapshot, persistSetup }) {
   }
 }
 
-function manualSetupConfig({ body, replayId, logGroupDir, runId, turns, repeats, oreturnRepo, versionPolicy }) {
+function manualSetupConfig({
+  body,
+  replayId,
+  logGroupDir,
+  runId,
+  turns,
+  repeats,
+  oreturnRepo,
+  versionPolicy,
+  followBadcaseCommit,
+}) {
   return {
     replayId,
     logGroupDir,
@@ -522,14 +569,38 @@ function manualSetupConfig({ body, replayId, logGroupDir, runId, turns, repeats,
     repeats,
     oreturnRepo,
     versionPolicy,
+    followBadcaseCommit,
     models: {
-      replay: manualModelSetupConfig(body.models?.replay, defaultModelConfig('REPLAY_API_KEY')),
+      replay: manualReplayModelSetupConfig(body.models?.replay, defaultReplayModelConfig('REPLAY_API_KEY')),
       judge: manualModelSetupConfig(body.models?.judge, defaultModelConfig('JUDGE_API_KEY')),
     },
     ...(body.concurrency !== undefined ? { concurrency: body.concurrency } : {}),
     ...(body.judging !== undefined ? { judging: body.judging } : {}),
     ...(body.judgeMode !== undefined ? { judgeMode: body.judgeMode } : {}),
   };
+}
+
+function normalizeFollowBadcaseCommit(value) {
+  if (value === undefined || value === null) return true;
+  if (typeof value === 'string') {
+    return !['false', 'off', '0', 'no'].includes(value.toLowerCase());
+  }
+  return value !== false;
+}
+
+function manualReplayModelSetupConfig(model, defaults) {
+  const replay = manualModelSetupConfig(model, defaults);
+  const steps = manualStepModelSetupConfigs(model?.steps, defaults);
+  return Object.keys(steps).length > 0 ? { ...replay, steps } : replay;
+}
+
+function manualStepModelSetupConfigs(steps, defaults) {
+  if (!steps || typeof steps !== 'object' || Array.isArray(steps)) return {};
+  return Object.fromEntries(
+    REPLAY_STEP_MODEL_KEYS
+      .filter((stepName) => steps[stepName] !== undefined)
+      .map((stepName) => [stepName, manualModelSetupConfig(steps[stepName], defaults)]),
+  );
 }
 
 function manualModelSetupConfig(model, defaults) {
@@ -541,7 +612,7 @@ function manualModelSetupConfig(model, defaults) {
       apiKey: requiredString(model?.apiKey, 'apiKey'),
       apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
       model: model?.model ?? defaults.model,
-      ...(model?.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+      ...modelAdvancedOptions(model, defaults),
     };
   }
   return {
@@ -550,7 +621,7 @@ function manualModelSetupConfig(model, defaults) {
     baseUrl: model?.baseUrl ?? defaults.baseUrl,
     apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
     model: model?.model ?? defaults.model,
-    ...(model?.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+    ...modelAdvancedOptions(model, defaults),
   };
 }
 
@@ -623,7 +694,7 @@ function parseRepeats(value) {
 }
 
 function normalizeModels(models) {
-  const replay = normalizeModel(models?.replay, defaultModelConfig('REPLAY_API_KEY'), 'WORKBENCH_REPLAY_API_KEY');
+  const replay = normalizeReplayModel(models?.replay, defaultReplayModelConfig('REPLAY_API_KEY'));
   const judge = normalizeModel(models?.judge, defaultModelConfig('JUDGE_API_KEY'), 'WORKBENCH_JUDGE_API_KEY');
   return {
     models: {
@@ -637,6 +708,40 @@ function normalizeModels(models) {
   };
 }
 
+function normalizeReplayModel(model, defaults) {
+  const replay = normalizeModel(model, defaults, 'WORKBENCH_REPLAY_API_KEY');
+  const stepResults = normalizeStepModels(model?.steps, defaults);
+  const steps = Object.fromEntries(
+    Object.entries(stepResults).map(([stepName, result]) => [stepName, result.config]),
+  );
+  return {
+    config: {
+      ...replay.config,
+      ...(Object.keys(steps).length > 0 ? { steps } : {}),
+    },
+    secrets: {
+      ...replay.secrets,
+      ...Object.fromEntries(
+        Object.values(stepResults).flatMap((result) => Object.entries(result.secrets)),
+      ),
+    },
+  };
+}
+
+function normalizeStepModels(steps, defaults) {
+  if (!steps || typeof steps !== 'object' || Array.isArray(steps)) return {};
+  const normalized = {};
+  for (const [stepName, stepModel] of Object.entries(steps)) {
+    if (!REPLAY_STEP_MODEL_KEYS.includes(stepName)) {
+      const error = new Error(`models.replay.steps.${stepName} must be one of ${REPLAY_STEP_MODEL_KEYS.join(', ')}`);
+      error.code = 'WORKBENCH_CONFIG_INVALID';
+      throw error;
+    }
+    normalized[stepName] = normalizeModel(stepModel, defaults, REPLAY_STEP_MODEL_ENV[stepName]);
+  }
+  return normalized;
+}
+
 function normalizeModel(model, defaults, directEnvName) {
   if (model?.keySource === 'direct') {
     return {
@@ -645,7 +750,7 @@ function normalizeModel(model, defaults, directEnvName) {
         baseUrl: model?.baseUrl ?? defaults.baseUrl,
         apiKeyEnv: directEnvName,
         model: model?.model ?? defaults.model,
-        ...(model?.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+        ...modelAdvancedOptions(model, defaults),
       },
       secrets: {
         [directEnvName]: requiredString(model?.apiKey, `${directEnvName}.apiKey`),
@@ -658,10 +763,30 @@ function normalizeModel(model, defaults, directEnvName) {
       baseUrl: model?.baseUrl ?? defaults.baseUrl,
       apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
       model: model?.model ?? defaults.model,
-      ...(model?.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+      ...modelAdvancedOptions(model, defaults),
     },
     secrets: {},
   };
+}
+
+function modelAdvancedOptions(model, defaults) {
+  const thinkingEnabled = model?.thinkingEnabled ?? defaults.thinkingEnabled;
+  const reasoningEffort = model?.reasoningEffort ?? defaults.reasoningEffort;
+  return {
+    ...(thinkingEnabled !== undefined ? { thinkingEnabled: normalizeThinkingEnabled(thinkingEnabled) } : {}),
+    ...(reasoningEffort !== undefined ? { reasoningEffort: normalizeReasoningEffort(reasoningEffort) } : {}),
+  };
+}
+
+function normalizeThinkingEnabled(value) {
+  return value === true || value === 'true' || value === 'on' || value === '1';
+}
+
+function normalizeReasoningEffort(value) {
+  if (REASONING_EFFORTS.includes(value)) return value;
+  const error = new Error(`reasoningEffort must be one of ${REASONING_EFFORTS.join(', ')}`);
+  error.code = 'WORKBENCH_CONFIG_INVALID';
+  throw error;
 }
 
 function sanitizeReplayId(value) {

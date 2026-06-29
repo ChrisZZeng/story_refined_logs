@@ -1,5 +1,7 @@
 const VERSION_POLICY = 'require-matching-worktree';
 const VERDICTS = ['fixed', 'improved', 'unchanged', 'regressed', 'uncertain'];
+const REPLAY_STEP_MODEL_KEYS = ['director', 'narrator', 'choices', 'stateFold'];
+const REASONING_EFFORTS = ['minimal', 'low', 'medium', 'high'];
 
 export function validatePatchBundle(value) {
   assertObject(value, 'patchBundle');
@@ -103,20 +105,26 @@ function validateSource(source) {
   if (versionPolicy !== VERSION_POLICY) {
     throw new Error(`source.versionPolicy must be ${VERSION_POLICY}`);
   }
+  const followBadcaseCommit = source.followBadcaseCommit !== false;
+  const allowDirtyEngine =
+    source.allowDirtyEngine !== undefined
+      ? Boolean(source.allowDirtyEngine)
+      : followBadcaseCommit
+        ? undefined
+        : true;
   return {
     oreturnRepo: source.oreturnRepo,
     ...(source.oreturnCommit !== undefined ? { oreturnCommit: source.oreturnCommit } : {}),
     versionPolicy,
-    ...(source.allowDirtyEngine !== undefined
-      ? { allowDirtyEngine: Boolean(source.allowDirtyEngine) }
-      : {}),
+    followBadcaseCommit,
+    ...(allowDirtyEngine !== undefined ? { allowDirtyEngine } : {}),
   };
 }
 
 function validateModels(models) {
   assertObject(models, 'models');
   return {
-    replay: validateOpenAiModel(models.replay, 'models.replay'),
+    replay: validateReplayModel(models.replay, 'models.replay'),
     judge: validateOpenAiModel(models.judge, 'models.judge'),
   };
 }
@@ -218,13 +226,31 @@ function validateOpenAiModel(model, path) {
   if (model.thinkingEnabled !== undefined && typeof model.thinkingEnabled !== 'boolean') {
     throw new Error(`${path}.thinkingEnabled must be a boolean`);
   }
+  if (model.reasoningEffort !== undefined && !REASONING_EFFORTS.includes(model.reasoningEffort)) {
+    throw new Error(`${path}.reasoningEffort must be one of ${REASONING_EFFORTS.join(', ')}`);
+  }
   return {
     provider: 'openai-compatible',
     baseUrl: model.baseUrl,
     apiKeyEnv: model.apiKeyEnv,
     model: model.model,
     ...(model.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+    ...(model.reasoningEffort !== undefined ? { reasoningEffort: model.reasoningEffort } : {}),
   };
+}
+
+function validateReplayModel(model, path) {
+  const replay = validateOpenAiModel(model, path);
+  if (model.steps === undefined) return replay;
+  assertObject(model.steps, `${path}.steps`);
+  const steps = {};
+  for (const [stepName, stepModel] of Object.entries(model.steps)) {
+    if (!REPLAY_STEP_MODEL_KEYS.includes(stepName)) {
+      throw new Error(`${path}.steps.${stepName} must be one of ${REPLAY_STEP_MODEL_KEYS.join(', ')}`);
+    }
+    steps[stepName] = validateOpenAiModel(stepModel, `${path}.steps.${stepName}`);
+  }
+  return Object.keys(steps).length > 0 ? { ...replay, steps } : replay;
 }
 
 function assertObject(value, path) {

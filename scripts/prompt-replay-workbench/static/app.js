@@ -10,7 +10,7 @@ import {
   caseTurnSelection,
   promptTurnLoadState,
 } from './turn-selection.js';
-import { modelPayload, setupModelFormState } from './setup-model.js';
+import { modelPayload, replayModelPayload, setupModelFormState, STEP_MODEL_TYPES } from './setup-model.js';
 import { groupPromptSourcesByAccess, isEditablePromptSource } from './prompt-source-access.js';
 
 const DEFAULT_REPLAY_ATTEMPTS = 20;
@@ -81,6 +81,7 @@ const setupFields = {
   repeats: document.querySelector('#setupRepeats'),
   oreturnRepo: document.querySelector('#setupOreturnRepo'),
   versionPolicy: document.querySelector('#setupVersionPolicy'),
+  followBadcaseCommit: document.querySelector('#setupFollowBadcaseCommit'),
   replayAttempts: document.querySelector('#setupReplayAttempts'),
   judgeRequests: document.querySelector('#setupJudgeRequests'),
   replayBaseUrl: document.querySelector('#setupReplayBaseUrl'),
@@ -88,6 +89,11 @@ const setupFields = {
   replayApiKeyEnv: document.querySelector('#setupReplayApiKeyEnv'),
   replayApiKeyToken: document.querySelector('#setupReplayApiKeyToken'),
   replayModel: document.querySelector('#setupReplayModel'),
+  replayThinkingEnabled: document.querySelector('#setupReplayThinkingEnabled'),
+  replayReasoningEffort: document.querySelector('#setupReplayReasoningEffort'),
+  replayStepModels: document.querySelector('#setupReplayStepModels'),
+  replayStepModelType: document.querySelector('#setupReplayStepModelType'),
+  addReplayStepModelButton: document.querySelector('#addReplayStepModelButton'),
   judgeBaseUrl: document.querySelector('#setupJudgeBaseUrl'),
   judgeKeySource: document.querySelector('#setupJudgeKeySource'),
   judgeApiKeyEnv: document.querySelector('#setupJudgeApiKeyEnv'),
@@ -115,6 +121,9 @@ elements.setupForm.addEventListener('submit', (event) => {
 
 setupFields.replayKeySource.addEventListener('change', updateKeySourceFields);
 setupFields.judgeKeySource.addEventListener('change', updateKeySourceFields);
+setupFields.addReplayStepModelButton.addEventListener('click', () => {
+  addReplayStepModel(setupFields.replayStepModelType.value);
+});
 
 elements.refreshButton.addEventListener('click', () => {
   void loadWorkbench();
@@ -243,6 +252,7 @@ function renderTask() {
   const sourceMeta = resolvedSource
     ? [
         `source=${shortCommit(resolvedSource.sourceOreturnCommit)}`,
+        `mode=${resolvedSource.sourceCommitMode ?? (resolvedSource.followBadcaseCommit === false ? 'repo-head' : 'badcase-log')}`,
         `worktree=${resolvedSource.replayEngineOreturnRepo ?? resolvedSource.oreturnRepo ?? '-'}`,
         `matched=${String(resolvedSource.matched)}`,
         `dirty=${String(resolvedSource.dirty)}`,
@@ -287,6 +297,7 @@ function populateSetupForm(config) {
   setupFields.repeats.value = String(config.repeats ?? 1);
   setupFields.oreturnRepo.value = config.oreturnRepo ?? config.source?.oreturnRepo ?? '';
   setupFields.versionPolicy.value = config.versionPolicy ?? config.source?.versionPolicy ?? 'require-matching-worktree';
+  setupFields.followBadcaseCommit.checked = config.followBadcaseCommit ?? config.source?.followBadcaseCommit ?? true;
   setupFields.replayAttempts.value = String(config.concurrency?.replayAttempts ?? DEFAULT_REPLAY_ATTEMPTS);
   setupFields.judgeRequests.value = String(config.concurrency?.judgeRequests ?? DEFAULT_JUDGE_REQUESTS);
   populateModelSetupFields({
@@ -295,10 +306,13 @@ function populateSetupForm(config) {
     apiKeyEnv: setupFields.replayApiKeyEnv,
     apiKeyToken: setupFields.replayApiKeyToken,
     model: setupFields.replayModel,
+    thinkingEnabled: setupFields.replayThinkingEnabled,
+    reasoningEffort: setupFields.replayReasoningEffort,
   }, setupModelFormState({
     configModel: config.models?.replay,
     currentToken: config.models?.replay?.apiKey ?? setupFields.replayApiKeyToken.value,
   }));
+  renderReplayStepModels(config.models?.replay?.steps ?? {});
   populateModelSetupFields({
     baseUrl: setupFields.judgeBaseUrl,
     keySource: setupFields.judgeKeySource,
@@ -326,6 +340,174 @@ function populateModelSetupFields(fields, modelState) {
   fields.apiKeyEnv.value = modelState.apiKeyEnv;
   fields.apiKeyToken.value = modelState.apiKeyToken;
   fields.model.value = modelState.model;
+  if (fields.thinkingEnabled) fields.thinkingEnabled.value = String(modelState.thinkingEnabled);
+  if (fields.reasoningEffort) fields.reasoningEffort.value = modelState.reasoningEffort;
+}
+
+function renderReplayStepModels(stepModels) {
+  setupFields.replayStepModels.replaceChildren();
+  for (const stepType of STEP_MODEL_TYPES) {
+    const model = stepModels?.[stepType.id];
+    if (model) {
+      addReplayStepModel(stepType.id, model);
+    }
+  }
+  updateReplayStepModelOptions();
+}
+
+function addReplayStepModel(stepId, configModel = null) {
+  if (!STEP_MODEL_TYPES.some((type) => type.id === stepId)) return;
+  if (setupFields.replayStepModels.querySelector(`[data-step-model="${stepId}"]`)) return;
+
+  const stepType = STEP_MODEL_TYPES.find((type) => type.id === stepId);
+  const card = document.createElement('article');
+  card.className = 'setupStepModel';
+  card.dataset.stepModel = stepId;
+
+  const header = document.createElement('div');
+  header.className = 'setupStepModelCardHeader';
+  const title = document.createElement('strong');
+  title.textContent = stepType.label;
+  const removeButton = document.createElement('button');
+  removeButton.type = 'button';
+  removeButton.className = 'setupStepModelRemove';
+  removeButton.textContent = 'Remove';
+  removeButton.addEventListener('click', () => {
+    card.remove();
+    updateReplayStepModelOptions();
+  });
+  header.append(title, removeButton);
+
+  const fields = {
+    baseUrl: setupStepModelField('Base URL', 'baseUrl'),
+    keySource: setupStepModelSelectField('Key Source', 'keySource'),
+    apiKeyEnv: setupStepModelField('API Key Env', 'apiKeyEnv'),
+    apiKeyToken: setupStepModelField('API Token', 'apiKeyToken', { type: 'password' }),
+    model: setupStepModelField('Model', 'model'),
+    thinkingEnabled: setupStepModelSelectField('Thinking', 'thinkingEnabled', [
+      ['false', 'Off'],
+      ['true', 'On'],
+    ]),
+    reasoningEffort: setupStepModelSelectField('Reasoning Effort', 'reasoningEffort', [
+      ['minimal', 'Minimal'],
+      ['low', 'Low'],
+      ['medium', 'Medium'],
+      ['high', 'High'],
+    ]),
+  };
+  card.append(
+    header,
+    fields.baseUrl.label,
+    fields.keySource.label,
+    fields.apiKeyEnv.label,
+    fields.apiKeyToken.label,
+    fields.model.label,
+    fields.thinkingEnabled.label,
+    fields.reasoningEffort.label,
+  );
+  setupFields.replayStepModels.append(card);
+
+  populateModelSetupFields({
+    baseUrl: fields.baseUrl.input,
+    keySource: fields.keySource.input,
+    apiKeyEnv: fields.apiKeyEnv.input,
+    apiKeyToken: fields.apiKeyToken.input,
+    model: fields.model.input,
+    thinkingEnabled: fields.thinkingEnabled.input,
+    reasoningEffort: fields.reasoningEffort.input,
+  }, setupModelFormState({
+    configModel: configModel ?? replayStepModelDefaults(),
+    currentToken: configModel?.apiKey ?? '',
+  }));
+  fields.keySource.input.addEventListener('change', updateKeySourceFields);
+  updateKeySourceFields();
+  updateReplayStepModelOptions();
+}
+
+function setupStepModelField(labelText, fieldName, { type = 'text' } = {}) {
+  const label = document.createElement('label');
+  label.className = 'setupField';
+  const labelSpan = document.createElement('span');
+  labelSpan.textContent = labelText;
+  const input = document.createElement('input');
+  input.type = type;
+  input.autocomplete = 'off';
+  input.dataset.stepModelField = fieldName;
+  label.append(labelSpan, input);
+  return { label, input };
+}
+
+function setupStepModelSelectField(labelText, fieldName, options = [['direct', 'Direct Token'], ['env', 'Environment Variable']]) {
+  const label = document.createElement('label');
+  label.className = 'setupField';
+  const labelSpan = document.createElement('span');
+  labelSpan.textContent = labelText;
+  const input = document.createElement('select');
+  input.dataset.stepModelField = fieldName;
+  for (const [value, text] of options) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = text;
+    input.append(option);
+  }
+  label.append(labelSpan, input);
+  return { label, input };
+}
+
+function replayStepModelDefaults() {
+  return {
+    keySource: setupFields.replayKeySource.value,
+    baseUrl: setupFields.replayBaseUrl.value,
+    apiKeyEnv: setupFields.replayApiKeyEnv.value,
+    apiKey: setupFields.replayApiKeyToken.value,
+    model: setupFields.replayModel.value,
+    thinkingEnabled: setupFields.replayThinkingEnabled.value === 'true',
+    reasoningEffort: setupFields.replayReasoningEffort.value,
+  };
+}
+
+function replayStepModelPayloads() {
+  const stepModels = {};
+  for (const card of setupFields.replayStepModels.querySelectorAll('[data-step-model]')) {
+    const stepId = card.dataset.stepModel;
+    stepModels[stepId] = modelPayload({
+      baseUrl: stepModelInputValue(card, 'baseUrl'),
+      keySource: stepModelInputValue(card, 'keySource'),
+      apiKeyEnv: stepModelInputValue(card, 'apiKeyEnv'),
+      apiKey: stepModelInputValue(card, 'apiKeyToken'),
+      model: stepModelInputValue(card, 'model'),
+      thinkingEnabled: stepModelInputValue(card, 'thinkingEnabled'),
+      reasoningEffort: stepModelInputValue(card, 'reasoningEffort'),
+    });
+  }
+  return stepModels;
+}
+
+function stepModelInputValue(card, fieldName) {
+  return card.querySelector(`[data-step-model-field="${fieldName}"]`)?.value ?? '';
+}
+
+function updateReplayStepModelOptions() {
+  const cards = Array.from(setupFields.replayStepModels.querySelectorAll('[data-step-model]'));
+  const added = new Set(cards.map((card) => card.dataset.stepModel));
+  for (const option of setupFields.replayStepModelType.options) {
+    option.disabled = added.has(option.value);
+  }
+  const firstAvailable = STEP_MODEL_TYPES.find((type) => !added.has(type.id));
+  setupFields.addReplayStepModelButton.disabled = !firstAvailable;
+  if (firstAvailable && added.has(setupFields.replayStepModelType.value)) {
+    setupFields.replayStepModelType.value = firstAvailable.id;
+  }
+
+  if (cards.length === 0) {
+    setupFields.replayStepModels.querySelector('.setupStepModelEmpty')?.remove();
+    const empty = document.createElement('p');
+    empty.className = 'setupStepModelEmpty';
+    empty.textContent = 'No step overrides yet. Add one only when a stage should use a different model.';
+    setupFields.replayStepModels.append(empty);
+  } else {
+    setupFields.replayStepModels.querySelector('.setupStepModelEmpty')?.remove();
+  }
 }
 
 function setupPayload() {
@@ -337,17 +519,23 @@ function setupPayload() {
     repeats: Number(setupFields.repeats.value),
     oreturnRepo: setupFields.oreturnRepo.value,
     versionPolicy: setupFields.versionPolicy.value,
+    followBadcaseCommit: setupFields.followBadcaseCommit.checked,
     concurrency: {
       replayAttempts: Number(setupFields.replayAttempts.value),
       judgeRequests: Number(setupFields.judgeRequests.value),
     },
     models: {
-      replay: modelPayload({
-        baseUrl: setupFields.replayBaseUrl.value,
-        keySource: setupFields.replayKeySource.value,
-        apiKeyEnv: setupFields.replayApiKeyEnv.value,
-        apiKey: setupFields.replayApiKeyToken.value,
-        model: setupFields.replayModel.value,
+      replay: replayModelPayload({
+        baseModel: modelPayload({
+          baseUrl: setupFields.replayBaseUrl.value,
+          keySource: setupFields.replayKeySource.value,
+          apiKeyEnv: setupFields.replayApiKeyEnv.value,
+          apiKey: setupFields.replayApiKeyToken.value,
+          model: setupFields.replayModel.value,
+          thinkingEnabled: setupFields.replayThinkingEnabled.value,
+          reasoningEffort: setupFields.replayReasoningEffort.value,
+        }),
+        stepModels: replayStepModelPayloads(),
       }),
       judge: modelPayload({
         baseUrl: setupFields.judgeBaseUrl.value,
@@ -355,6 +543,7 @@ function setupPayload() {
         apiKeyEnv: setupFields.judgeApiKeyEnv.value,
         apiKey: setupFields.judgeApiKeyToken.value,
         model: setupFields.judgeModel.value,
+        includeAdvanced: false,
       }),
     },
     judging: {
@@ -393,6 +582,13 @@ function updateKeySourceFields() {
     envInput: setupFields.judgeApiKeyEnv,
     tokenInput: setupFields.judgeApiKeyToken,
   });
+  for (const card of setupFields.replayStepModels.querySelectorAll('[data-step-model]')) {
+    updateModelKeySource({
+      keySource: card.querySelector('[data-step-model-field="keySource"]'),
+      envInput: card.querySelector('[data-step-model-field="apiKeyEnv"]'),
+      tokenInput: card.querySelector('[data-step-model-field="apiKeyToken"]'),
+    });
+  }
 }
 
 function updateModelKeySource({ keySource, envInput, tokenInput }) {

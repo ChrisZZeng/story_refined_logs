@@ -15,7 +15,13 @@ import {
   renderSummaryMarkdown,
   summarizeCase,
 } from './report.mjs';
-import { currentGitCommit, ensureOreturnReplayWorktree, resolveSourceCommit } from './source-version.mjs';
+import {
+  currentGitCommit,
+  ensureOreturnReplayWorktree,
+  resolveOreturnRepoHead,
+  resolveSourceCommit,
+  tryResolveSourceCommit,
+} from './source-version.mjs';
 import { loadReplayTask } from './task-config.mjs';
 import { buildTurnReplayContext } from './turn-context.mjs';
 
@@ -30,6 +36,7 @@ export async function runPromptPatchReplay({
   const services = {
     loadReplayTask,
     ensureOreturnReplayWorktree,
+    resolveOreturnRepoHead,
     currentGitCommit,
     buildTurnReplayContext,
     runOreturnReplay,
@@ -44,7 +51,8 @@ export async function runPromptPatchReplay({
   const logGroupDir = path.resolve(cwd, config.logGroupDir);
   const runConfigPath = path.join(logGroupDir, 'run_logs', config.runId, '00-run-config.json');
   const runConfig = await readJson(runConfigPath);
-  const sourceCommit = resolveSourceCommit({
+  const followBadcaseCommit = config.source.followBadcaseCommit !== false;
+  const sourceCommit = (followBadcaseCommit ? resolveSourceCommit : tryResolveSourceCommit)({
     configCommit: config.source.oreturnCommit,
     runConfig,
     logGroupDir,
@@ -62,15 +70,13 @@ export async function runPromptPatchReplay({
         oreturnRepo: path.resolve(cwd, config.source.oreturnRepo),
         replayEngineOreturnRepo: null,
         managedWorktree: false,
+        followBadcaseCommit,
+        sourceCommitMode: followBadcaseCommit ? 'badcase-log' : 'repo-head',
         dirty: null,
         matched: null,
         dryRunContextOnly: true,
       }
-    : services.ensureOreturnReplayWorktree({
-        oreturnRepo: config.source.oreturnRepo,
-        sourceCommit,
-        allowDirty: config.source.allowDirtyEngine,
-      });
+    : resolveReplaySourceVersion({ config, sourceCommit, followBadcaseCommit, services });
   sourceVersion.patchBundlePath = patchBundlePath;
   sourceVersion.patchBundleHash = patchBundleHash;
   sourceVersion.storyRefinedLogsCommit = safeCurrentCommit(cwd, services.currentGitCommit);
@@ -135,6 +141,21 @@ export async function runPromptPatchReplay({
     summaryJsonPath,
     summary,
   };
+}
+
+function resolveReplaySourceVersion({ config, sourceCommit, followBadcaseCommit, services }) {
+  if (!followBadcaseCommit) {
+    return services.resolveOreturnRepoHead({
+      oreturnRepo: config.source.oreturnRepo,
+      badcaseCommit: sourceCommit,
+      allowDirty: config.source.allowDirtyEngine,
+    });
+  }
+  return services.ensureOreturnReplayWorktree({
+    oreturnRepo: config.source.oreturnRepo,
+    sourceCommit,
+    allowDirty: config.source.allowDirtyEngine,
+  });
 }
 
 async function runReplayCase({

@@ -77,6 +77,58 @@ test('GET /api/task resolves source version through the default managed worktree
   assert.match(response.body.resolvedSource.replayEngineOreturnRepo, /\.worktrees\/prompt-patch-replay\/oreturn-/);
 });
 
+test('GET /api/task can resolve prompt sources against the oreturn repo HEAD', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const oreturnRepo = path.join(dir, 'oreturn');
+  await mkdir(oreturnRepo, { recursive: true });
+  git(['init'], oreturnRepo);
+  git(['config', 'user.email', 'test@example.com'], oreturnRepo);
+  git(['config', 'user.name', 'Test User'], oreturnRepo);
+  await writeFile(path.join(oreturnRepo, 'README.md'), 'badcase\n');
+  git(['add', 'README.md'], oreturnRepo);
+  git(['commit', '-m', 'badcase'], oreturnRepo);
+  const badcaseCommit = git(['rev-parse', 'HEAD'], oreturnRepo);
+  await writeFile(path.join(oreturnRepo, 'README.md'), 'head\n');
+  git(['add', 'README.md'], oreturnRepo);
+  git(['commit', '-m', 'head'], oreturnRepo);
+  const headCommit = git(['rev-parse', 'HEAD'], oreturnRepo);
+  await writeFile(path.join(oreturnRepo, 'README.md'), 'dirty local head\n');
+
+  const logGroupDir = path.join(dir, 'logs', `${badcaseCommit.slice(0, 12)}-fixture`);
+  await mkdir(path.join(logGroupDir, 'run_logs', 'run-a'), { recursive: true });
+  await writeJson(path.join(logGroupDir, 'run_logs', 'run-a', '00-run-config.json'), {
+    sourceCommit: badcaseCommit,
+  });
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath, { logGroupDir, oreturnRepo, followBadcaseCommit: false });
+  const seenPromptRepos = [];
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    cwd: dir,
+    loadPromptSources: async ({ oreturnRepo }) => {
+      seenPromptRepos.push(oreturnRepo);
+      return [];
+    },
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const task = await request(handler, 'GET', '/api/task');
+  const sources = await request(handler, 'GET', '/api/prompt-sources');
+
+  assert.equal(task.status, 200);
+  assert.equal(task.body.resolvedSource.sourceOreturnCommit, badcaseCommit);
+  assert.equal(task.body.resolvedSource.replayEngineOreturnCommit, headCommit);
+  assert.equal(task.body.resolvedSource.replayEngineOreturnRepo, oreturnRepo);
+  assert.equal(task.body.resolvedSource.managedWorktree, false);
+  assert.equal(task.body.resolvedSource.followBadcaseCommit, false);
+  assert.equal(task.body.resolvedSource.dirty, true);
+  assert.equal(task.body.resolvedSource.matched, false);
+  assert.equal(sources.status, 200);
+  assert.deepEqual(seenPromptRepos, [oreturnRepo]);
+});
+
 test('bootstrap defaults and load switch the active workbench task', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
   const initialTaskPath = path.join(dir, 'initial-task.yaml');
@@ -105,6 +157,7 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
     repeats: 2,
     oreturnRepo: '/tmp/oreturn',
     versionPolicy: 'require-matching-worktree',
+    followBadcaseCommit: false,
     concurrency: {
       replayAttempts: 20,
       judgeRequests: 50,
@@ -115,6 +168,8 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
         baseUrl: 'https://example.test/v1',
         apiKeyEnv: 'REPLAY_API_KEY',
         model: 'model-a',
+        thinkingEnabled: true,
+        reasoningEffort: 'medium',
       },
       judge: {
         provider: 'openai-compatible',
@@ -134,6 +189,10 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
   assert.equal(loaded.body.config.replayId, 'manual-task');
   assert.deepEqual(loaded.body.config.turns, [4]);
   assert.equal(loaded.body.config.repeats, 2);
+  assert.equal(loaded.body.config.source.followBadcaseCommit, false);
+  assert.equal(loaded.body.config.source.allowDirtyEngine, true);
+  assert.equal(loaded.body.config.models.replay.thinkingEnabled, true);
+  assert.equal(loaded.body.config.models.replay.reasoningEffort, 'medium');
   assert.deepEqual(loaded.body.config.concurrency, { replayAttempts: 20, judgeRequests: 50 });
   assert.deepEqual(loaded.body.config.judging.issueRepair, { enabled: false });
   assert.deepEqual(loaded.body.config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
@@ -141,11 +200,15 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
   const active = await request(handler, 'GET', '/api/task');
   assert.equal(active.body.config.replayId, 'manual-task');
   assert.equal(active.body.config.source.oreturnRepo, '/tmp/oreturn');
+  assert.equal(active.body.config.source.followBadcaseCommit, false);
+  assert.equal(active.body.config.source.allowDirtyEngine, true);
   assert.deepEqual(active.body.config.judging.issueRepair, { enabled: false });
 
   const snapshotText = await readFile(loaded.body.taskPath, 'utf8');
   assert.match(snapshotText, /replayId: manual-task/);
   assert.match(snapshotText, /runId: run-a/);
+  assert.match(snapshotText, /followBadcaseCommit: false/);
+  assert.match(snapshotText, /allowDirtyEngine: true/);
   assert.match(snapshotText, /replayAttempts: 20/);
   assert.match(snapshotText, /judgeRequests: 50/);
   assert.match(snapshotText, /issueRepair:\n\s+enabled: false/);
@@ -159,8 +222,10 @@ test('direct model tokens are kept in memory and injected only while running rep
   await writeTask(taskPath, { logGroupDir, turns: [4] });
   const seenEnv = [];
   const originalReplayEnv = process.env.WORKBENCH_REPLAY_API_KEY;
+  const originalDirectorEnv = process.env.WORKBENCH_REPLAY_DIRECTOR_API_KEY;
   const originalJudgeEnv = process.env.WORKBENCH_JUDGE_API_KEY;
   delete process.env.WORKBENCH_REPLAY_API_KEY;
+  delete process.env.WORKBENCH_REPLAY_DIRECTOR_API_KEY;
   delete process.env.WORKBENCH_JUDGE_API_KEY;
 
   const handler = createWorkbenchApiHandler({
@@ -170,6 +235,7 @@ test('direct model tokens are kept in memory and injected only while running rep
     runPromptPatchReplay: async () => {
       seenEnv.push({
         replay: process.env.WORKBENCH_REPLAY_API_KEY,
+        director: process.env.WORKBENCH_REPLAY_DIRECTOR_API_KEY,
         judge: process.env.WORKBENCH_JUDGE_API_KEY,
       });
       return { replayId: 'manual-token-task', resultDir: '/tmp/result', summaryPath: '/tmp/result/summary.md' };
@@ -188,6 +254,16 @@ test('direct model tokens are kept in memory and injected only while running rep
         apiKey: 'replay-secret-token',
         baseUrl: 'https://example.test/v1',
         model: 'model-a',
+        steps: {
+          director: {
+            keySource: 'direct',
+          apiKey: 'director-secret-token',
+          baseUrl: 'https://director.test/v1',
+          model: 'director-model',
+          thinkingEnabled: true,
+          reasoningEffort: 'high',
+        },
+        },
       },
       judge: {
         keySource: 'direct',
@@ -200,13 +276,20 @@ test('direct model tokens are kept in memory and injected only while running rep
 
   assert.equal(loaded.status, 200);
   assert.equal(loaded.body.config.models.replay.apiKeyEnv, 'WORKBENCH_REPLAY_API_KEY');
+  assert.equal(loaded.body.config.models.replay.steps.director.apiKeyEnv, 'WORKBENCH_REPLAY_DIRECTOR_API_KEY');
+  assert.equal(loaded.body.config.models.replay.thinkingEnabled, false);
+  assert.equal(loaded.body.config.models.replay.reasoningEffort, 'minimal');
+  assert.equal(loaded.body.config.models.replay.steps.director.thinkingEnabled, true);
+  assert.equal(loaded.body.config.models.replay.steps.director.reasoningEffort, 'high');
   assert.equal(loaded.body.config.models.judge.apiKeyEnv, 'WORKBENCH_JUDGE_API_KEY');
   assert.equal(JSON.stringify(loaded.body).includes('secret-token'), false);
 
   const snapshotText = await readFile(loaded.body.taskPath, 'utf8');
   assert.equal(snapshotText.includes('replay-secret-token'), false);
+  assert.equal(snapshotText.includes('director-secret-token'), false);
   assert.equal(snapshotText.includes('judge-secret-token'), false);
   assert.match(snapshotText, /apiKeyEnv: WORKBENCH_REPLAY_API_KEY/);
+  assert.match(snapshotText, /apiKeyEnv: WORKBENCH_REPLAY_DIRECTOR_API_KEY/);
   assert.match(snapshotText, /apiKeyEnv: WORKBENCH_JUDGE_API_KEY/);
 
   const replay = await request(handler, 'POST', '/api/replay/run', {});
@@ -217,13 +300,16 @@ test('direct model tokens are kept in memory and injected only while running rep
   assert.deepEqual(seenEnv, [
     {
       replay: 'replay-secret-token',
+      director: 'director-secret-token',
       judge: 'judge-secret-token',
     },
   ]);
   assert.equal(process.env.WORKBENCH_REPLAY_API_KEY, undefined);
+  assert.equal(process.env.WORKBENCH_REPLAY_DIRECTOR_API_KEY, undefined);
   assert.equal(process.env.WORKBENCH_JUDGE_API_KEY, undefined);
 
   if (originalReplayEnv !== undefined) process.env.WORKBENCH_REPLAY_API_KEY = originalReplayEnv;
+  if (originalDirectorEnv !== undefined) process.env.WORKBENCH_REPLAY_DIRECTOR_API_KEY = originalDirectorEnv;
   if (originalJudgeEnv !== undefined) process.env.WORKBENCH_JUDGE_API_KEY = originalJudgeEnv;
 });
 
@@ -250,6 +336,16 @@ test('bootstrap defaults restore the last manual setup and direct tokens', async
         apiKey: 'saved-replay-token',
         baseUrl: 'https://example.test/v1',
         model: 'model-a',
+        steps: {
+          narrator: {
+            keySource: 'direct',
+          apiKey: 'saved-narrator-token',
+          baseUrl: 'https://narrator.test/v1',
+          model: 'narrator-model',
+          thinkingEnabled: true,
+          reasoningEffort: 'low',
+        },
+        },
       },
       judge: {
         keySource: 'direct',
@@ -263,6 +359,7 @@ test('bootstrap defaults restore the last manual setup and direct tokens', async
 
   const savedSetupText = await readFile(path.join(dir, '.workbench-tasks', 'latest-manual-setup.json'), 'utf8');
   assert.match(savedSetupText, /saved-replay-token/);
+  assert.match(savedSetupText, /saved-narrator-token/);
   assert.match(savedSetupText, /saved-judge-token/);
 
   const seenEnv = [];
@@ -272,6 +369,7 @@ test('bootstrap defaults restore the last manual setup and direct tokens', async
     runPromptPatchReplay: async () => {
       seenEnv.push({
         replay: process.env.WORKBENCH_REPLAY_API_KEY,
+        narrator: process.env.WORKBENCH_REPLAY_NARRATOR_API_KEY,
         judge: process.env.WORKBENCH_JUDGE_API_KEY,
       });
       return { replayId: 'saved-manual-task', resultDir: '/tmp/result', summaryPath: '/tmp/result/summary.md' };
@@ -283,6 +381,9 @@ test('bootstrap defaults restore the last manual setup and direct tokens', async
   assert.equal(defaults.body.hasActiveTask, true);
   assert.equal(defaults.body.config.replayId, 'saved-manual-task');
   assert.equal(defaults.body.setupConfig.models.replay.apiKey, 'saved-replay-token');
+  assert.equal(defaults.body.setupConfig.models.replay.steps.narrator.apiKey, 'saved-narrator-token');
+  assert.equal(defaults.body.setupConfig.models.replay.steps.narrator.thinkingEnabled, true);
+  assert.equal(defaults.body.setupConfig.models.replay.steps.narrator.reasoningEffort, 'low');
   assert.equal(defaults.body.setupConfig.models.judge.apiKey, 'saved-judge-token');
 
   const replay = await request(restoredHandler, 'POST', '/api/replay/run', {});
@@ -292,6 +393,7 @@ test('bootstrap defaults restore the last manual setup and direct tokens', async
   assert.deepEqual(seenEnv, [
     {
       replay: 'saved-replay-token',
+      narrator: 'saved-narrator-token',
       judge: 'saved-judge-token',
     },
   ]);
@@ -311,6 +413,9 @@ test('bootstrap defaults work without an initial active task', async () => {
   assert.equal(defaults.status, 200);
   assert.equal(defaults.body.hasActiveTask, false);
   assert.equal(defaults.body.config.replayId, 'prompt-replay-workbench');
+  assert.equal(defaults.body.config.source.followBadcaseCommit, true);
+  assert.equal(defaults.body.config.models.replay.thinkingEnabled, false);
+  assert.equal(defaults.body.config.models.replay.reasoningEffort, 'minimal');
   assert.deepEqual(defaults.body.config.concurrency, { replayAttempts: 20, judgeRequests: 50 });
   assert.deepEqual(defaults.body.config.judging.issueRepair, { enabled: true });
   assert.deepEqual(defaults.body.config.judging.regressionConsistency, { enabled: true, target: 'fullTurn' });
@@ -855,6 +960,10 @@ async function writeTask(taskPath, overrides = {}) {
   const turns = overrides.turns ?? [4];
   const replayId = overrides.replayId ?? 'api-task-a';
   const oreturnRepo = overrides.oreturnRepo ?? '/tmp/oreturn';
+  const sourceFields = [`oreturnRepo: ${JSON.stringify(oreturnRepo)}`];
+  if (overrides.followBadcaseCommit !== undefined) {
+    sourceFields.push(`followBadcaseCommit: ${overrides.followBadcaseCommit}`);
+  }
   const judgingLines = overrides.regressionConsistencyEnabled === undefined
     ? []
     : [
@@ -869,7 +978,7 @@ async function writeTask(taskPath, overrides = {}) {
     [
       `replayId: ${replayId}`,
       `caseSet: { logGroupDir: ${JSON.stringify(logGroupDir)}, runId: run-a, turns: [${turns.join(', ')}] }`,
-      `source: { oreturnRepo: ${JSON.stringify(oreturnRepo)} }`,
+      `source: { ${sourceFields.join(', ')} }`,
       'models:',
       '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
       '  judge: { useReplayModel: true }',
