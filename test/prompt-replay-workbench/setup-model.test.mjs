@@ -85,6 +85,41 @@ test('setup model form restores thinking and reasoning controls', () => {
   assert.equal(state.reasoningEffort, 'high');
 });
 
+test('setup model form restores provider selection', () => {
+  const state = setupModelFormState({
+    configModel: {
+      provider: 'anthropic',
+      baseUrl: 'https://anthropic.test',
+      apiKeyEnv: 'ANTHROPIC_API_KEY',
+      model: 'claude-model',
+    },
+  });
+
+  assert.equal(state.provider, 'anthropic');
+});
+
+test('setup model form normalizes removed none reasoning effort to default', () => {
+  const state = setupModelFormState({
+    configModel: {
+      baseUrl: 'https://example.test/v1',
+      apiKeyEnv: 'REPLAY_API_KEY',
+      model: 'model-a',
+      reasoningEffort: 'none',
+    },
+  });
+
+  assert.equal(state.reasoningEffort, 'minimal');
+  assert.equal(
+    modelPayload({
+      baseUrl: 'https://example.test/v1',
+      apiKey: 'direct-token',
+      model: 'model-a',
+      reasoningEffort: 'none',
+    }).reasoningEffort,
+    'minimal',
+  );
+});
+
 test('setup model payload always submits a direct token model', () => {
   assert.deepEqual(
     modelPayload({
@@ -142,6 +177,40 @@ test('setup model payload includes explicit thinking and reasoning controls', ()
       thinkingEnabled: true,
       reasoningEffort: 'medium',
     },
+  );
+});
+
+test('setup model payload can submit a non-openai replay provider', () => {
+  assert.deepEqual(
+    modelPayload({
+      provider: 'bedrock-native',
+      baseUrl: 'https://bedrock-runtime.us-east-1.amazonaws.com',
+      apiKey: 'direct-token',
+      model: 'anthropic.claude-model',
+      thinkingEnabled: false,
+      reasoningEffort: 'minimal',
+    }),
+    {
+      keySource: DIRECT_TOKEN_KEY_SOURCE,
+      provider: 'bedrock-native',
+      baseUrl: 'https://bedrock-runtime.us-east-1.amazonaws.com',
+      apiKey: 'direct-token',
+      model: 'anthropic.claude-model',
+      thinkingEnabled: false,
+      reasoningEffort: 'minimal',
+    },
+  );
+});
+
+test('setup model payload can omit bedrock base url', () => {
+  assert.equal(
+    modelPayload({
+      provider: 'bedrock-native',
+      baseUrl: '',
+      apiKey: 'direct-token',
+      model: 'anthropic.claude-model',
+    }).baseUrl,
+    null,
   );
 });
 

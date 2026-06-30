@@ -62,16 +62,24 @@ function modelEnvFields({ baseEnv, modelConfig, prefix }) {
   if (!apiKey) {
     throw new Error(`missing env: ${modelConfig.apiKeyEnv}`);
   }
+  const reasoningEffort =
+    modelConfig.reasoningEffort === 'none'
+      ? ''
+      : (modelConfig.reasoningEffort ?? '');
+  const baseUrl =
+    modelConfig.baseUrl === null || modelConfig.baseUrl === ''
+      ? undefined
+      : modelConfig.baseUrl;
 
   return {
     [`${prefix}_PROVIDER`]: modelConfig.provider,
-    [`${prefix}_BASE_URL`]: modelConfig.baseUrl,
+    [`${prefix}_BASE_URL`]: baseUrl,
     [`${prefix}_API_KEY`]: apiKey,
     [`${prefix}_MODEL`]: modelConfig.model,
     [`${prefix}_THINKING_ENABLED`]: modelConfig.thinkingEnabled !== undefined && modelConfig.thinkingEnabled !== null
       ? String(modelConfig.thinkingEnabled)
       : '',
-    [`${prefix}_REASONING_EFFORT`]: modelConfig.reasoningEffort ?? '',
+    [`${prefix}_REASONING_EFFORT`]: reasoningEffort,
   };
 }
 

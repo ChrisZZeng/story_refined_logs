@@ -60,6 +60,33 @@ test('loadReplayTask reads a single yaml task with patch text files', async () =
   assert.equal(task.patchBundlePath, path.join(dir, 'replay-task.yaml'));
 });
 
+test('loadReplayTask accepts an inline empty patch bundle', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-task-'));
+  await writeFile(
+    path.join(dir, 'replay-task.yaml'),
+    [
+      'replayId: yaml-task-no-edits',
+      'caseSet: { logGroupDir: logs/group-a, runId: run-a, turns: [5] }',
+      'source: { oreturnRepo: /repo/oreturn }',
+      'models:',
+      '  replay: { baseUrl: http://llm/v1, apiKeyEnv: REPLAY_KEY, model: replay-model }',
+      '  judge: { useReplayModel: true }',
+      'judging:',
+      '  issueRepair: { enabled: false }',
+      '  regressionConsistency: { enabled: true, target: fullTurn }',
+      'patchBundle:',
+      '  id: bundle-a',
+      '  patches: []',
+      '',
+    ].join('\n'),
+  );
+
+  const task = await loadReplayTask(path.join(dir, 'replay-task.yaml'));
+
+  assert.deepEqual(task.patchBundle.patches, []);
+  assert.deepEqual(task.config.judging.issueRepair, { enabled: false });
+});
+
 test('loadReplayTask preserves source commit follow toggle', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'prompt-replay-task-'));
   await writeFile(

@@ -215,6 +215,98 @@ test('bootstrap defaults and load switch the active workbench task', async () =>
   assert.match(snapshotText, /regressionConsistency:\n\s+enabled: true\n\s+target: fullTurn/);
 });
 
+test('bootstrap load accepts none reasoning effort for replay models', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const handler = createWorkbenchApiHandler({
+    cwd: dir,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const loaded = await request(handler, 'POST', '/api/bootstrap/load', {
+    replayId: 'none-reasoning-task',
+    logGroupDir: 'logs/abcdef0-dev',
+    runId: 'run-a',
+    turns: '4',
+    oreturnRepo: '/tmp/oreturn',
+    models: {
+      replay: {
+        provider: 'openai-compatible',
+        baseUrl: 'https://example.test/v1',
+        apiKeyEnv: 'REPLAY_API_KEY',
+        model: 'model-a',
+        reasoningEffort: 'none',
+        steps: {
+          director: {
+            provider: 'openai-compatible',
+            baseUrl: 'https://director.test/v1',
+            apiKeyEnv: 'DIRECTOR_KEY',
+            model: 'director-model',
+            reasoningEffort: 'none',
+          },
+        },
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'https://example.test/v1',
+        apiKeyEnv: 'JUDGE_API_KEY',
+        model: 'model-b',
+      },
+    },
+  });
+
+  assert.equal(loaded.status, 200);
+  assert.equal(loaded.body.config.models.replay.reasoningEffort, 'none');
+  assert.equal(loaded.body.config.models.replay.steps.director.reasoningEffort, 'none');
+});
+
+test('bootstrap load accepts replay providers supported by oreturn', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const handler = createWorkbenchApiHandler({
+    cwd: dir,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const loaded = await request(handler, 'POST', '/api/bootstrap/load', {
+    replayId: 'provider-task',
+    logGroupDir: 'logs/abcdef0-dev',
+    runId: 'run-a',
+    turns: '4',
+    oreturnRepo: '/tmp/oreturn',
+    models: {
+      replay: {
+        provider: 'anthropic',
+        baseUrl: 'https://api.anthropic.com',
+        apiKeyEnv: 'ANTHROPIC_KEY',
+        model: 'claude-model',
+        steps: {
+          narrator: {
+            provider: 'bedrock-native',
+            apiKeyEnv: 'AWS_BEARER_TOKEN_BEDROCK',
+            model: 'anthropic.claude-model',
+          },
+        },
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'https://example.test/v1',
+        apiKeyEnv: 'JUDGE_API_KEY',
+        model: 'judge-model',
+      },
+    },
+  });
+
+  assert.equal(loaded.status, 200);
+  assert.equal(loaded.body.config.models.replay.provider, 'anthropic');
+  assert.equal(loaded.body.config.models.replay.steps.narrator.provider, 'bedrock-native');
+  assert.equal(loaded.body.config.models.replay.steps.narrator.baseUrl, null);
+});
+
 test('direct model tokens are kept in memory and injected only while running replay', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
   const logGroupDir = path.join(dir, 'logs', 'abcdef0-dev');
@@ -604,6 +696,44 @@ test('POST /api/replay/run turns prompt edits into an inline workbench task snap
   assert.match(snapshot, /regressionConsistency:\n\s+enabled: true\n\s+target: fullTurn/);
 });
 
+test('POST /api/replay/run creates a regression-only snapshot when no prompt edits are provided', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath);
+  const calls = [];
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    cwd: dir,
+    now: () => new Date('2026-06-26T01:02:03.004Z'),
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async (args) => {
+      calls.push(args);
+      return { replayId: 'api-task-a-workbench-2026-06-26T01-02-03-004Z', resultDir: '/tmp/result', summaryPath: '/tmp/result/summary.md' };
+    },
+  });
+
+  const response = await request(handler, 'POST', '/api/replay/run', {
+    promptEdits: [],
+    regressionConsistencyOnly: true,
+  });
+  const job = await waitForJob(handler, response.body.jobId);
+
+  assert.equal(response.status, 202);
+  assert.equal(response.body.promptEditCount, 0);
+  assert.equal(response.body.regressionConsistencyOnly, true);
+  assert.equal(job.body.status, 'completed');
+  assert.equal(job.body.regressionConsistencyOnly, true);
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].configPath, /\.workbench-tasks\/api-task-a-workbench-2026-06-26T01-02-03-004Z\.yaml$/);
+
+  const snapshot = await readFile(calls[0].configPath, 'utf8');
+  assert.match(snapshot, /replayId: api-task-a-workbench-2026-06-26T01-02-03-004Z/);
+  assert.match(snapshot, /id: api-task-a-workbench-2026-06-26T01-02-03-004Z-no-prompt-edits/);
+  assert.match(snapshot, /patches: \[\]/);
+  assert.match(snapshot, /issueRepair:\n\s+enabled: false/);
+  assert.match(snapshot, /regressionConsistency:\n\s+enabled: true\n\s+target: fullTurn/);
+});
+
 test('GET /api/prompt-sources loads observed prompt fields from the selected badcase turn', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
   const logGroupDir = path.join(dir, 'logs', 'abcdef0-dev');
@@ -915,6 +1045,36 @@ test('GET /api/cases returns badcase contexts with related issue turns', async (
   assert.equal(response.body.cases[0].visibleContext[0].rawNarrativeHtml, '<p data-speaker="角色1" data-to="玩家">正文 1</p>');
   assert.equal(response.body.cases[0].originalOutput.normalizedContent.visibleText, '正文 4');
   assert.equal(response.body.cases[0].originalRawNarrativeHtml, '<p data-speaker="角色4" data-to="玩家">正文 4</p>');
+  assert.deepEqual(response.body.cases[0].originalDirectorOutput.object, {
+    summary: 'observed director output',
+    requiredContent: ['写出正文 4'],
+  });
+});
+
+test('GET /api/cases allows configured turns without issues', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'workbench-api-'));
+  const logGroupDir = path.join(dir, 'logs', 'abcdef0-dev');
+  const taskPath = path.join(dir, 'replay-task.yaml');
+  await writeTask(taskPath, { logGroupDir, turns: [3] });
+  await writeRunContextFixture(logGroupDir, 'run-a');
+  const handler = createWorkbenchApiHandler({
+    taskPath,
+    loadPromptSources: async () => [],
+    runPromptPatchReplay: async () => {
+      throw new Error('should not run replay');
+    },
+  });
+
+  const response = await request(handler, 'GET', '/api/cases');
+
+  assert.equal(response.status, 200);
+  assert.equal(response.body.cases.length, 1);
+  assert.equal(response.body.cases[0].turn, 3);
+  assert.deepEqual(response.body.cases[0].issues, []);
+  assert.deepEqual(
+    response.body.cases[0].visibleContext.map((item) => item.turn),
+    [1, 2],
+  );
 });
 
 async function request(handler, method, url, body) {
@@ -1062,6 +1222,10 @@ async function writeRunContextFixture(logGroupDir, runId) {
           content: '<player_input>\n玩家输入 4\n</player_input>',
         },
       ],
+      object: {
+        summary: 'observed director output',
+        requiredContent: ['写出正文 4'],
+      },
     },
     {
       kind: 'streamText',

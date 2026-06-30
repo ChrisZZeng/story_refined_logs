@@ -1,13 +1,14 @@
 const VERSION_POLICY = 'require-matching-worktree';
 const VERDICTS = ['fixed', 'improved', 'unchanged', 'regressed', 'uncertain'];
 const REPLAY_STEP_MODEL_KEYS = ['director', 'narrator', 'choices', 'stateFold'];
-const REASONING_EFFORTS = ['minimal', 'low', 'medium', 'high'];
+const LLM_PROVIDERS = ['openai-compatible', 'anthropic', 'bedrock-native'];
+const REASONING_EFFORTS = ['none', 'minimal', 'low', 'medium', 'high'];
 
 export function validatePatchBundle(value) {
   assertObject(value, 'patchBundle');
   assertNonEmptyString(value.id, 'id');
-  if (!Array.isArray(value.patches) || value.patches.length === 0) {
-    throw new Error('patches must be a non-empty array');
+  if (!Array.isArray(value.patches)) {
+    throw new Error('patches must be an array');
   }
 
   return {
@@ -239,8 +240,41 @@ function validateOpenAiModel(model, path) {
   };
 }
 
+function validateLlmModel(model, path) {
+  assertObject(model, path);
+  const provider = model.provider ?? 'openai-compatible';
+  if (!LLM_PROVIDERS.includes(provider)) {
+    throw new Error(`${path}.provider must be one of ${LLM_PROVIDERS.join(', ')}`);
+  }
+  const baseUrl = validateModelBaseUrl(model.baseUrl, provider, path);
+  assertNonEmptyString(model.apiKeyEnv, `${path}.apiKeyEnv`);
+  assertNonEmptyString(model.model, `${path}.model`);
+  if (model.thinkingEnabled !== undefined && typeof model.thinkingEnabled !== 'boolean') {
+    throw new Error(`${path}.thinkingEnabled must be a boolean`);
+  }
+  if (model.reasoningEffort !== undefined && !REASONING_EFFORTS.includes(model.reasoningEffort)) {
+    throw new Error(`${path}.reasoningEffort must be one of ${REASONING_EFFORTS.join(', ')}`);
+  }
+  return {
+    provider,
+    baseUrl,
+    apiKeyEnv: model.apiKeyEnv,
+    model: model.model,
+    ...(model.thinkingEnabled !== undefined ? { thinkingEnabled: model.thinkingEnabled } : {}),
+    ...(model.reasoningEffort !== undefined ? { reasoningEffort: model.reasoningEffort } : {}),
+  };
+}
+
+function validateModelBaseUrl(value, provider, path) {
+  if (provider === 'bedrock-native' && (value === undefined || value === null || value === '')) {
+    return null;
+  }
+  assertNonEmptyString(value, `${path}.baseUrl`);
+  return value;
+}
+
 function validateReplayModel(model, path) {
-  const replay = validateOpenAiModel(model, path);
+  const replay = validateLlmModel(model, path);
   if (model.steps === undefined) return replay;
   assertObject(model.steps, `${path}.steps`);
   const steps = {};
@@ -248,7 +282,7 @@ function validateReplayModel(model, path) {
     if (!REPLAY_STEP_MODEL_KEYS.includes(stepName)) {
       throw new Error(`${path}.steps.${stepName} must be one of ${REPLAY_STEP_MODEL_KEYS.join(', ')}`);
     }
-    steps[stepName] = validateOpenAiModel(stepModel, `${path}.steps.${stepName}`);
+    steps[stepName] = validateLlmModel(stepModel, `${path}.steps.${stepName}`);
   }
   return Object.keys(steps).length > 0 ? { ...replay, steps } : replay;
 }

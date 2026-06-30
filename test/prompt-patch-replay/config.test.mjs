@@ -22,6 +22,15 @@ test('validatePatchBundle accepts explicit original and replacement text', () =>
   assert.equal(bundle.patches[0].id, 'rule-a');
 });
 
+test('validatePatchBundle accepts an empty patch list for no-edit replay', () => {
+  const bundle = validatePatchBundle({
+    id: 'bundle-a',
+    patches: [],
+  });
+
+  assert.deepEqual(bundle.patches, []);
+});
+
 test('validatePatchBundle rejects missing original text', () => {
   assert.throws(
     () =>
@@ -115,6 +124,84 @@ test('validateReplayConfig accepts replay step model overrides', () => {
   assert.equal(config.models.replay.steps.director.thinkingEnabled, true);
   assert.equal(config.models.replay.steps.director.reasoningEffort, 'high');
   assert.equal(config.models.replay.steps.stateFold.apiKeyEnv, 'STATE_FOLD_KEY');
+});
+
+test('validateReplayConfig accepts replay model providers supported by oreturn', () => {
+  const config = validateReplayConfig({
+    replayId: 'replay-a',
+    logGroupDir: 'logs/group-a',
+    runId: 'run-a',
+    turns: [3],
+    patchBundlePath: 'patches/a.json',
+    source: {
+      oreturnRepo: '/repo/oreturn',
+    },
+    models: {
+      replay: {
+        provider: 'anthropic',
+        baseUrl: 'https://api.anthropic.com',
+        apiKeyEnv: 'ANTHROPIC_KEY',
+        model: 'claude-model',
+        steps: {
+          narrator: {
+            provider: 'bedrock-native',
+            apiKeyEnv: 'AWS_BEARER_TOKEN_BEDROCK',
+            model: 'anthropic.claude-model',
+          },
+        },
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://judge/v1',
+        apiKeyEnv: 'JUDGE_KEY',
+        model: 'judge-model',
+      },
+    },
+  });
+
+  assert.equal(config.models.replay.provider, 'anthropic');
+  assert.equal(config.models.replay.steps.narrator.provider, 'bedrock-native');
+  assert.equal(config.models.replay.steps.narrator.baseUrl, null);
+});
+
+test('validateReplayConfig accepts none reasoning effort', () => {
+  const config = validateReplayConfig({
+    replayId: 'replay-a',
+    logGroupDir: 'logs/group-a',
+    runId: 'run-a',
+    turns: [3],
+    patchBundlePath: 'patches/a.json',
+    source: {
+      oreturnRepo: '/repo/oreturn',
+    },
+    models: {
+      replay: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://llm/v1',
+        apiKeyEnv: 'REPLAY_KEY',
+        model: 'replay-model',
+        reasoningEffort: 'none',
+        steps: {
+          director: {
+            provider: 'openai-compatible',
+            baseUrl: 'http://director/v1',
+            apiKeyEnv: 'DIRECTOR_KEY',
+            model: 'director-model',
+            reasoningEffort: 'none',
+          },
+        },
+      },
+      judge: {
+        provider: 'openai-compatible',
+        baseUrl: 'http://judge/v1',
+        apiKeyEnv: 'JUDGE_KEY',
+        model: 'judge-model',
+      },
+    },
+  });
+
+  assert.equal(config.models.replay.reasoningEffort, 'none');
+  assert.equal(config.models.replay.steps.director.reasoningEffort, 'none');
 });
 
 test('validateReplayConfig rejects invalid reasoning effort', () => {

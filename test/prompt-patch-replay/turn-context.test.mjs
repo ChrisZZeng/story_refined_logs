@@ -57,15 +57,19 @@ test('buildTurnReplayContext falls back to selected previous choice', async () =
   });
 });
 
-test('buildTurnReplayContext fails when no issues match the turn', async () => {
+test('buildTurnReplayContext allows existing turns without matching issues', async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'story-replay-context-'));
   const logGroupDir = path.join(root, 'a4a2cfc1e411-dev');
   const runId = 'runner-a';
   await writeRunFixture(logGroupDir, runId);
 
-  await assert.rejects(
-    () => buildTurnReplayContext({ logGroupDir, runId, turn: 3 }),
-    /No issues found for turn 3/,
+  const context = await buildTurnReplayContext({ logGroupDir, runId, turn: 3 });
+
+  assert.equal(context.caseId, 'turn-003');
+  assert.deepEqual(context.issues, []);
+  assert.deepEqual(
+    context.visibleContext.map((item) => item.turn),
+    [1, 2],
   );
 });
 

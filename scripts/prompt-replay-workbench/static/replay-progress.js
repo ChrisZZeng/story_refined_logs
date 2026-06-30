@@ -1,11 +1,18 @@
 import { formatRate } from './run-summary.js';
 
-export function buildPendingReplayProgress({ turns = [], repeats = 1, promptEditCount = 0 } = {}) {
+export function buildPendingReplayProgress({
+  turns = [],
+  repeats = 1,
+  promptEditCount = 0,
+  regressionConsistencyOnly = false,
+} = {}) {
   const turnCount = turns.length;
   const totalRuns = Math.max(0, turnCount * Number(repeats || 1));
   return {
     state: 'busy',
-    statusText: `Running ${promptEditCount} prompt edit${promptEditCount === 1 ? '' : 's'} across ${turnCount} turns x ${Number(repeats || 1)} repeats`,
+    statusText: regressionConsistencyOnly
+      ? `Running Regression Consistency only across ${turnCount} turns x ${Number(repeats || 1)} repeats`
+      : `Running ${promptEditCount} prompt edit${promptEditCount === 1 ? '' : 's'} across ${turnCount} turns x ${Number(repeats || 1)} repeats`,
     totals: {
       label: `0/${totalRuns} runs completed`,
       detail: 'Waiting for replay and judge artifacts',

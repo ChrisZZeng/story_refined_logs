@@ -31,6 +31,16 @@ test('buildPendingReplayProgress lists each configured turn while a blocking run
   );
 });
 
+test('buildPendingReplayProgress labels no-edit runs as regression consistency only', () => {
+  const progress = buildPendingReplayProgress({
+    turns: [4, 5],
+    repeats: 1,
+    regressionConsistencyOnly: true,
+  });
+
+  assert.equal(progress.statusText, 'Running Regression Consistency only across 2 turns x 1 repeats');
+});
+
 test('buildReplayProgress summarizes completed cases and repeated run verdicts', () => {
   const progress = buildReplayProgress({
     replayId: 'replay-a',

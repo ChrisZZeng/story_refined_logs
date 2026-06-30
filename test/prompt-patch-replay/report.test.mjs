@@ -149,6 +149,39 @@ test('buildSummary requires regression consistency pass when result is present',
   assert.equal(summary.cases[0].runs[1].overall.passed, false);
 });
 
+test('buildSummary treats completed zero-issue runs as passing issue repair', () => {
+  const summary = buildSummary({
+    replayId: 'replay-a',
+    runId: 'run-a',
+    resultDir: '/tmp/result',
+    patchBundle: { id: 'bundle-a' },
+    patchBundlePath: '/tmp/patch-bundle.json',
+    patchBundleHash: 'sha256:abc',
+    sourceVersion: {},
+    caseResults: [
+      {
+        turn: 3,
+        status: 'completed',
+        issueCount: 0,
+        runs: [
+          {
+            runIndex: 1,
+            status: 'completed',
+            issueCount: 0,
+            judgeResults: [],
+            regressionConsistencyResult: { isViolation: false, confidence: 'high', violations: [] },
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.equal(summary.issueCount, 0);
+  assert.equal(summary.passedRuns, 1);
+  assert.equal(summary.overallPassRate, 1);
+  assert.equal(summary.cases[0].runs[0].overall.issueFix.passed, true);
+});
+
 test('renderSummaryMarkdown includes repeated run pass rates', () => {
   const markdown = renderSummaryMarkdown({
     replayId: 'replay-a',

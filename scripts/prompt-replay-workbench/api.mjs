@@ -22,7 +22,8 @@ const DEFAULT_PROMPT_SOURCES_CONFIG = new URL('./default-prompt-sources.yaml', i
 const WORKBENCH_TASK_DIR = '.workbench-tasks';
 const LAST_MANUAL_SETUP_FILE = 'latest-manual-setup.json';
 const REPLAY_STEP_MODEL_KEYS = ['director', 'narrator', 'choices', 'stateFold'];
-const REASONING_EFFORTS = ['minimal', 'low', 'medium', 'high'];
+const LLM_PROVIDERS = ['openai-compatible', 'anthropic', 'bedrock-native'];
+const REASONING_EFFORTS = ['none', 'minimal', 'low', 'medium', 'high'];
 const REPLAY_STEP_MODEL_ENV = {
   director: 'WORKBENCH_REPLAY_DIRECTOR_API_KEY',
   narrator: 'WORKBENCH_REPLAY_NARRATOR_API_KEY',
@@ -119,15 +120,21 @@ export function createWorkbenchApiHandler({
 
       if (request.method === 'POST' && url.pathname === '/api/replay/run') {
         const body = request.body ?? {};
-        const effectiveTaskPath = Array.isArray(body.promptEdits) && body.promptEdits.length > 0
-          ? await writeWorkbenchTaskSnapshot({ taskPath: requireActiveTaskPath(activeTaskPath), promptEdits: body.promptEdits, cwd, now })
-          : requireActiveTaskPath(activeTaskPath);
+        const promptEdits = Array.isArray(body.promptEdits) ? body.promptEdits : null;
+        const promptEditCount = promptEdits?.length ?? 0;
+        const regressionConsistencyOnly = body.regressionConsistencyOnly === true && promptEditCount === 0;
+        const effectiveTaskPath = promptEditCount > 0
+          ? await writeWorkbenchTaskSnapshot({ taskPath: requireActiveTaskPath(activeTaskPath), promptEdits, cwd, now })
+          : regressionConsistencyOnly
+            ? await writeWorkbenchRegressionOnlyTaskSnapshot({ taskPath: requireActiveTaskPath(activeTaskPath), cwd, now })
+            : requireActiveTaskPath(activeTaskPath);
         const task = await loadReplayTask(effectiveTaskPath);
         const job = replayJobs.enqueue({
           replayId: task.config.replayId,
           configPath: effectiveTaskPath,
           dryRunContextOnly: body.dryRunContextOnly === true,
-          promptEditCount: Array.isArray(body.promptEdits) ? body.promptEdits.length : 0,
+          promptEditCount,
+          regressionConsistencyOnly,
           secrets: { ...activeSecrets },
         });
         return jsonResponse(replayJobResponse(job), { status: 202 });
@@ -200,7 +207,7 @@ function createReplayJobQueue({ runPromptPatchReplay, cwd }) {
   const jobs = new Map();
   const pending = [];
 
-  function enqueue({ replayId, configPath, dryRunContextOnly, promptEditCount, secrets }) {
+  function enqueue({ replayId, configPath, dryRunContextOnly, promptEditCount, regressionConsistencyOnly, secrets }) {
     const job = {
       jobId: `job-${String(nextJobId).padStart(6, '0')}`,
       replayId,
@@ -208,6 +215,7 @@ function createReplayJobQueue({ runPromptPatchReplay, cwd }) {
       configPath,
       dryRunContextOnly,
       promptEditCount,
+      regressionConsistencyOnly,
       secrets,
       resultDir: null,
       summaryPath: null,
@@ -305,6 +313,7 @@ function replayJobResponse(job) {
     status: job.status,
     dryRunContextOnly: job.dryRunContextOnly,
     promptEditCount: job.promptEditCount ?? 0,
+    regressionConsistencyOnly: job.regressionConsistencyOnly === true,
     createdAt: job.createdAt,
     ...(job.startedAt ? { startedAt: job.startedAt } : {}),
     ...(job.finishedAt ? { finishedAt: job.finishedAt } : {}),
@@ -604,11 +613,12 @@ function manualStepModelSetupConfigs(steps, defaults) {
 }
 
 function manualModelSetupConfig(model, defaults) {
+  const provider = normalizeProvider(model?.provider ?? defaults.provider);
   if (model?.keySource === 'direct') {
     return {
       keySource: 'direct',
-      provider: model?.provider ?? defaults.provider,
-      baseUrl: model?.baseUrl ?? defaults.baseUrl,
+      provider,
+      baseUrl: normalizeModelBaseUrl(model?.baseUrl, provider, defaults),
       apiKey: requiredString(model?.apiKey, 'apiKey'),
       apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
       model: model?.model ?? defaults.model,
@@ -617,8 +627,8 @@ function manualModelSetupConfig(model, defaults) {
   }
   return {
     keySource: model?.keySource ?? 'env',
-    provider: model?.provider ?? defaults.provider,
-    baseUrl: model?.baseUrl ?? defaults.baseUrl,
+    provider,
+    baseUrl: normalizeModelBaseUrl(model?.baseUrl, provider, defaults),
     apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
     model: model?.model ?? defaults.model,
     ...modelAdvancedOptions(model, defaults),
@@ -743,11 +753,12 @@ function normalizeStepModels(steps, defaults) {
 }
 
 function normalizeModel(model, defaults, directEnvName) {
+  const provider = normalizeProvider(model?.provider ?? defaults.provider);
   if (model?.keySource === 'direct') {
     return {
       config: {
-        provider: model?.provider ?? defaults.provider,
-        baseUrl: model?.baseUrl ?? defaults.baseUrl,
+        provider,
+        baseUrl: normalizeModelBaseUrl(model?.baseUrl, provider, defaults),
         apiKeyEnv: directEnvName,
         model: model?.model ?? defaults.model,
         ...modelAdvancedOptions(model, defaults),
@@ -759,8 +770,8 @@ function normalizeModel(model, defaults, directEnvName) {
   }
   return {
     config: {
-      provider: model?.provider ?? defaults.provider,
-      baseUrl: model?.baseUrl ?? defaults.baseUrl,
+      provider,
+      baseUrl: normalizeModelBaseUrl(model?.baseUrl, provider, defaults),
       apiKeyEnv: model?.apiKeyEnv ?? defaults.apiKeyEnv,
       model: model?.model ?? defaults.model,
       ...modelAdvancedOptions(model, defaults),
@@ -780,6 +791,23 @@ function modelAdvancedOptions(model, defaults) {
 
 function normalizeThinkingEnabled(value) {
   return value === true || value === 'true' || value === 'on' || value === '1';
+}
+
+function normalizeProvider(value) {
+  if (LLM_PROVIDERS.includes(value)) return value;
+  const error = new Error(`provider must be one of ${LLM_PROVIDERS.join(', ')}`);
+  error.code = 'WORKBENCH_CONFIG_INVALID';
+  throw error;
+}
+
+function normalizeModelBaseUrl(value, provider, defaults) {
+  if (
+    provider === 'bedrock-native' &&
+    (value === undefined || value === null || String(value).trim() === '')
+  ) {
+    return null;
+  }
+  return value ?? defaults.baseUrl;
 }
 
 function normalizeReasoningEffort(value) {
@@ -962,7 +990,10 @@ function hashText(value) {
 }
 
 async function projectCaseContext(context) {
-  const visibleContext = await enrichVisibleContextWithRawNarrative(context);
+  const [visibleContext, originalLlmCalls] = await Promise.all([
+    enrichVisibleContextWithRawNarrative(context),
+    readOriginalLlmCalls(context),
+  ]);
   return {
     caseId: context.caseId,
     runId: context.runId,
@@ -973,6 +1004,7 @@ async function projectCaseContext(context) {
     visibleContext,
     originalOutput: context.originalOutput,
     originalRawNarrativeHtml: rawNarrativeHtml(context.originalOutput),
+    originalDirectorOutput: directorOutputFromCalls(originalLlmCalls),
     sourceFiles: context.sourceFiles,
   };
 }
@@ -1006,6 +1038,22 @@ function rawNarrativeHtml(output) {
     ?? output?.narrative
     ?? output?.writes?.find((write) => write?.target === 'turnContent')?.content?.rawHtml
     ?? null;
+}
+
+async function readOriginalLlmCalls(context) {
+  return await readOptionalJson(path.join(context.runDir, formatTurnDir(context.turn), '06-llm-calls.json')) ?? [];
+}
+
+function directorOutputFromCalls(calls) {
+  if (!Array.isArray(calls)) return null;
+  const call = calls.find((item, index) => (item?.stage ?? inferStage(index)) === 'director');
+  if (!call) return null;
+  return {
+    kind: call.kind ?? null,
+    finishReason: call.finishReason ?? null,
+    text: typeof call.text === 'string' && call.text.trim().length > 0 ? call.text : null,
+    object: call.object ?? null,
+  };
 }
 
 function formatTurnDir(turn) {
@@ -1095,6 +1143,36 @@ async function writeWorkbenchTaskSnapshot({ taskPath, promptEdits, cwd, now }) {
   return snapshotPath;
 }
 
+async function writeWorkbenchRegressionOnlyTaskSnapshot({ taskPath, cwd, now }) {
+  const task = await loadReplayTask(taskPath);
+  const timestamp = formatTimestamp(now());
+  const replayId = `${task.config.replayId}-workbench-${timestamp}`;
+  const snapshot = {
+    replayId,
+    caseSet: {
+      logGroupDir: task.config.logGroupDir,
+      runId: task.config.runId,
+      turns: task.config.turns,
+      repeats: task.config.repeats,
+    },
+    source: task.config.source,
+    models: task.config.models,
+    concurrency: task.config.concurrency,
+    judging: enableWorkbenchRegressionOnly(task.config.judging),
+    ...(task.config.judgeMode !== undefined ? { judgeMode: task.config.judgeMode } : {}),
+    patchBundle: {
+      id: `${replayId}-no-prompt-edits`,
+      description: 'Generated by Prompt Replay Workbench without prompt edits',
+      patches: [],
+    },
+  };
+  const snapshotDir = path.resolve(cwd, '.workbench-tasks');
+  await mkdir(snapshotDir, { recursive: true });
+  const snapshotPath = path.join(snapshotDir, `${replayId}.yaml`);
+  await writeFile(snapshotPath, YAML.stringify(snapshot));
+  return snapshotPath;
+}
+
 function enableWorkbenchRegressionConsistency(judging) {
   return {
     ...(judging ?? {}),
@@ -1104,6 +1182,13 @@ function enableWorkbenchRegressionConsistency(judging) {
       enabled: true,
       target: judging?.regressionConsistency?.target ?? 'fullTurn',
     },
+  };
+}
+
+function enableWorkbenchRegressionOnly(judging) {
+  return {
+    ...enableWorkbenchRegressionConsistency(judging),
+    issueRepair: { enabled: false },
   };
 }
 

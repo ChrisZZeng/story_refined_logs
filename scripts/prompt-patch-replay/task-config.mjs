@@ -95,8 +95,8 @@ function normalizeReplayModel(model, fieldPath) {
 
 async function resolveInlinePatchBundle(value, taskDir) {
   assertObject(value, 'patchBundle');
-  if (!Array.isArray(value.patches) || value.patches.length === 0) {
-    throw new Error('patchBundle.patches must be a non-empty array');
+  if (!Array.isArray(value.patches)) {
+    throw new Error('patchBundle.patches must be an array');
   }
   return {
     id: value.id,

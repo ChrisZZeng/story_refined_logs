@@ -101,6 +101,14 @@
             <legend>Replay Model</legend>
             <p class="setupLegendText">Used by the actual oreturn replay engine.</p>
             <label class="setupField">
+              <span>LLM_PROVIDER</span>
+              <select id="setupReplayProvider">
+                <option value="openai-compatible">openai-compatible</option>
+                <option value="anthropic">anthropic</option>
+                <option value="bedrock-native">bedrock-native</option>
+              </select>
+            </label>
+            <label class="setupField">
               <span>Base URL</span>
               <input id="setupReplayBaseUrl" autocomplete="off" required>
             </label>
@@ -146,13 +154,8 @@
                   <p>Optional overrides; unset steps inherit Replay Model.</p>
                 </div>
                 <div class="setupStepModelAdd">
-                  <select id="setupReplayStepModelType" aria-label="Step model type">
-                    <option value="director">Director</option>
-                    <option value="narrator">Narrator</option>
-                    <option value="choices">Choices</option>
-                    <option value="stateFold">State Fold</option>
-                  </select>
-                  <button id="addReplayStepModelButton" type="button">+ Add step model</button>
+                  <button id="addReplayStepModelButton" type="button" aria-expanded="false" aria-controls="setupReplayStepModelChoices">+ Add step model</button>
+                  <div id="setupReplayStepModelChoices" class="setupStepModelChoices" aria-label="Step model type choices" hidden></div>
                 </div>
               </div>
               <div id="setupReplayStepModels" class="setupStepModelList"></div>
@@ -236,7 +239,15 @@
       <span class="splitResizeHandle"></span>
     </div>
 
-    <main class="workspace workbenchOnly">
+    <main id="workspacePanel" class="workspace workbenchOnly">
+      <div class="workspaceDock" aria-label="Prompt workspace controls">
+        <div>
+          <strong>Prompt Workspace</strong>
+          <span id="workspaceDockStatus">Sources, draft, diff and result</span>
+        </div>
+        <button id="workspaceToggleButton" class="workspaceToggleButton" type="button" aria-expanded="true" aria-controls="workspacePanel">Collapse to bottom</button>
+      </div>
+
       <aside class="sourceList" aria-label="Prompt sources">
         <div class="panelTitle">Prompt</div>
         <div id="sourceTabs" class="tabs"></div>

@@ -22,9 +22,6 @@ export async function buildTurnReplayContext({ logGroupDir, runId, turn }) {
   ]);
 
   const issues = allIssues.filter((issue) => Number(issue.turn) === turn);
-  if (issues.length === 0) {
-    throw new Error(`No issues found for turn ${turn} in ${issuesPath}`);
-  }
   const rootCauseReports = await loadRootCauseReports({
     summaryPath: rootCauseSummaryPath,
     allIssues,

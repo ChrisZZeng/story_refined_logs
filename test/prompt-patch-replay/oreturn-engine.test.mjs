@@ -66,6 +66,37 @@ test('buildReplayEnv maps replay model config to oreturn LLM env', () => {
   assert.equal(env.LLM_STATE_FOLD_MODEL, 'model-a');
 });
 
+test('buildReplayEnv omits none reasoning effort for oreturn core compatibility', () => {
+  const env = buildReplayEnv({
+    baseEnv: { REPLAY_API_KEY: 'secret' },
+    modelConfig: {
+      provider: 'openai-compatible',
+      baseUrl: 'https://example.test/v1',
+      apiKeyEnv: 'REPLAY_API_KEY',
+      model: 'model-a',
+      reasoningEffort: 'none',
+    },
+  });
+
+  assert.equal(env.LLM_REASONING_EFFORT, '');
+  assert.equal(env.LLM_DIRECTOR_REASONING_EFFORT, '');
+});
+
+test('buildReplayEnv omits null bedrock base url', () => {
+  const env = buildReplayEnv({
+    baseEnv: { REPLAY_API_KEY: 'secret', LLM_BASE_URL: 'stale-url' },
+    modelConfig: {
+      provider: 'bedrock-native',
+      baseUrl: null,
+      apiKeyEnv: 'REPLAY_API_KEY',
+      model: 'anthropic.claude-model',
+    },
+  });
+
+  assert.equal(env.LLM_PROVIDER, 'bedrock-native');
+  assert.equal(env.LLM_BASE_URL, undefined);
+});
+
 test('buildReplayEnv maps replay step model overrides to prefixed oreturn env', () => {
   const env = buildReplayEnv({
     baseEnv: {

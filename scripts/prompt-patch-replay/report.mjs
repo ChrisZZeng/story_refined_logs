@@ -214,10 +214,12 @@ export function summarizeCase({ caseResult, passVerdicts = ['fixed'] }) {
 function buildRunOverall({ run, passVerdicts }) {
   const judgeResults = run.judgeResults ?? [];
   const issueRepairEnabled = run.issueRepairEnabled !== false;
+  const hasIssues = Number(run.issueCount ?? judgeResults.length) > 0;
   const issueFixPassed =
     run.status === 'completed' &&
     (
       issueRepairEnabled === false ||
+      hasIssues === false ||
       (
         judgeResults.length > 0 &&
         judgeResults.every((judgeResult) => passVerdicts.includes(judgeResult.verdict))
@@ -244,14 +246,29 @@ function buildRunOverall({ run, passVerdicts }) {
         : {}),
     },
     passed: issueFixPassed && consistencyPassed,
-    reason: overallReason({ issueRepairEnabled, issueFixPassed, consistencyEnabled, consistencyPassed }),
+    reason: overallReason({
+      issueRepairEnabled,
+      hasIssues,
+      issueFixPassed,
+      consistencyEnabled,
+      consistencyPassed,
+    }),
   };
 }
 
-function overallReason({ issueRepairEnabled, issueFixPassed, consistencyEnabled, consistencyPassed }) {
+function overallReason({
+  issueRepairEnabled,
+  hasIssues,
+  issueFixPassed,
+  consistencyEnabled,
+  consistencyPassed,
+}) {
   if (!issueRepairEnabled && consistencyEnabled && !consistencyPassed) return '原 issue judge 已禁用，但发现新增一致性回归';
   if (!issueRepairEnabled && consistencyEnabled) return '原 issue judge 已禁用，且未发现新增一致性问题';
   if (!issueRepairEnabled) return '原 issue judge 已禁用';
+  if (!hasIssues && consistencyEnabled && !consistencyPassed) return '无原 issue 可判断，但发现新增一致性回归';
+  if (!hasIssues && consistencyEnabled) return '无原 issue 可判断，且未发现新增一致性问题';
+  if (!hasIssues) return '无原 issue 可判断';
   if (!issueFixPassed) return '原 issue 未达到当前 pass verdict 口径';
   if (consistencyEnabled && !consistencyPassed) return '原 issue 已通过，但发现新增一致性回归';
   if (consistencyEnabled) return '原 issue 已通过，且未发现新增一致性问题';
@@ -268,6 +285,7 @@ function normalizeRuns(caseResult) {
       runIndex: 1,
       status: caseResult.status,
       error: caseResult.error,
+      ...(caseResult.issueCount !== undefined ? { issueCount: caseResult.issueCount } : {}),
       judgeResults: caseResult.judgeResults ?? [],
       ...(caseResult.outputDir !== undefined ? { outputDir: caseResult.outputDir } : {}),
     },

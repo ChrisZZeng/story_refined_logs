@@ -10,11 +10,18 @@ import {
   caseTurnSelection,
   promptTurnLoadState,
 } from './turn-selection.js';
-import { modelPayload, replayModelPayload, setupModelFormState, STEP_MODEL_TYPES } from './setup-model.js';
+import {
+  LLM_PROVIDERS,
+  modelPayload,
+  replayModelPayload,
+  setupModelFormState,
+  STEP_MODEL_TYPES,
+} from './setup-model.js';
 import { groupPromptSourcesByAccess, isEditablePromptSource } from './prompt-source-access.js';
 
 const DEFAULT_REPLAY_ATTEMPTS = 20;
 const DEFAULT_JUDGE_REQUESTS = 50;
+const WORKSPACE_COLLAPSED_KEY = 'promptReplayWorkbench.workspaceCollapsed';
 
 const state = {
   task: null,
@@ -51,6 +58,8 @@ const elements = {
   replayProgress: document.querySelector('#replayProgress'),
   replayHistory: document.querySelector('#replayHistory'),
   splitResizeBar: document.querySelector('#splitResizeBar'),
+  workspaceToggleButton: document.querySelector('#workspaceToggleButton'),
+  workspaceDockStatus: document.querySelector('#workspaceDockStatus'),
   sourceTabs: document.querySelector('#sourceTabs'),
   sourceTitle: document.querySelector('#sourceTitle'),
   sourcePath: document.querySelector('#sourcePath'),
@@ -84,6 +93,7 @@ const setupFields = {
   followBadcaseCommit: document.querySelector('#setupFollowBadcaseCommit'),
   replayAttempts: document.querySelector('#setupReplayAttempts'),
   judgeRequests: document.querySelector('#setupJudgeRequests'),
+  replayProvider: document.querySelector('#setupReplayProvider'),
   replayBaseUrl: document.querySelector('#setupReplayBaseUrl'),
   replayKeySource: document.querySelector('#setupReplayKeySource'),
   replayApiKeyEnv: document.querySelector('#setupReplayApiKeyEnv'),
@@ -92,7 +102,7 @@ const setupFields = {
   replayThinkingEnabled: document.querySelector('#setupReplayThinkingEnabled'),
   replayReasoningEffort: document.querySelector('#setupReplayReasoningEffort'),
   replayStepModels: document.querySelector('#setupReplayStepModels'),
-  replayStepModelType: document.querySelector('#setupReplayStepModelType'),
+  replayStepModelChoices: document.querySelector('#setupReplayStepModelChoices'),
   addReplayStepModelButton: document.querySelector('#addReplayStepModelButton'),
   judgeBaseUrl: document.querySelector('#setupJudgeBaseUrl'),
   judgeKeySource: document.querySelector('#setupJudgeKeySource'),
@@ -119,10 +129,22 @@ elements.setupForm.addEventListener('submit', (event) => {
   void loadConfiguredWorkbench();
 });
 
+setupFields.replayProvider.addEventListener('change', updateProviderFields);
 setupFields.replayKeySource.addEventListener('change', updateKeySourceFields);
 setupFields.judgeKeySource.addEventListener('change', updateKeySourceFields);
 setupFields.addReplayStepModelButton.addEventListener('click', () => {
-  addReplayStepModel(setupFields.replayStepModelType.value);
+  toggleReplayStepModelChoices();
+});
+setupFields.replayStepModelChoices.addEventListener('click', (event) => {
+  const choice = event.target.closest('[data-step-model-choice]');
+  if (!choice) return;
+  addReplayStepModel(choice.dataset.stepModelChoice);
+  hideReplayStepModelChoices();
+});
+setupFields.replayStepModelChoices.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+  hideReplayStepModelChoices();
+  setupFields.addReplayStepModelButton.focus();
 });
 
 elements.refreshButton.addEventListener('click', () => {
@@ -169,11 +191,13 @@ elements.draftText.addEventListener('input', () => {
   source.draftText = elements.draftText.value;
   source.dirty = source.originalText !== source.draftText;
   renderSource();
+  updateWorkspaceDockStatus();
   updateRunStatusForDirtyEdits();
   void renderDiff(source);
 });
 
 initCaseResize();
+initWorkspaceCollapse();
 void loadBootstrap();
 
 async function loadBootstrap() {
@@ -286,6 +310,38 @@ function showWorkbenchView() {
   elements.configButton.hidden = false;
   elements.refreshButton.hidden = false;
   elements.runButton.hidden = false;
+  updateWorkspaceDockStatus();
+}
+
+function initWorkspaceCollapse() {
+  const collapsed = localStorage.getItem(WORKSPACE_COLLAPSED_KEY) === 'true';
+  setWorkspaceCollapsed(collapsed, { persist: false });
+  elements.workspaceToggleButton.addEventListener('click', () => {
+    setWorkspaceCollapsed(!document.body.classList.contains('workspaceCollapsed'));
+  });
+}
+
+function setWorkspaceCollapsed(collapsed, { persist = true } = {}) {
+  document.body.classList.toggle('workspaceCollapsed', collapsed);
+  elements.workspaceToggleButton.textContent = collapsed
+    ? 'Expand workspace'
+    : 'Collapse to bottom';
+  elements.workspaceToggleButton.setAttribute('aria-expanded', String(!collapsed));
+  updateWorkspaceDockStatus();
+  if (persist) {
+    localStorage.setItem(WORKSPACE_COLLAPSED_KEY, String(collapsed));
+  }
+}
+
+function updateWorkspaceDockStatus() {
+  const source = selectedSource();
+  const sourceLabel = source?.label ?? source?.id;
+  const status = sourceLabel
+    ? `${sourceLabel} | ${source?.dirty ? 'dirty draft' : 'ready'}`
+    : 'Sources, draft, diff and result';
+  elements.workspaceDockStatus.textContent = document.body.classList.contains('workspaceCollapsed')
+    ? `Collapsed | ${status}`
+    : status;
 }
 
 function populateSetupForm(config) {
@@ -301,6 +357,7 @@ function populateSetupForm(config) {
   setupFields.replayAttempts.value = String(config.concurrency?.replayAttempts ?? DEFAULT_REPLAY_ATTEMPTS);
   setupFields.judgeRequests.value = String(config.concurrency?.judgeRequests ?? DEFAULT_JUDGE_REQUESTS);
   populateModelSetupFields({
+    provider: setupFields.replayProvider,
     baseUrl: setupFields.replayBaseUrl,
     keySource: setupFields.replayKeySource,
     apiKeyEnv: setupFields.replayApiKeyEnv,
@@ -325,6 +382,7 @@ function populateSetupForm(config) {
   }));
   setupFields.issueRepairJudger.checked = config.judging?.issueRepair?.enabled !== false;
   setupFields.consistencyJudger.checked = config.judging?.regressionConsistency?.enabled !== false;
+  updateProviderFields();
   updateKeySourceFields();
 }
 
@@ -335,6 +393,7 @@ function setupTurnsFormValue(turns) {
 }
 
 function populateModelSetupFields(fields, modelState) {
+  if (fields.provider) fields.provider.value = modelState.provider;
   fields.baseUrl.value = modelState.baseUrl;
   fields.keySource.value = modelState.keySource;
   fields.apiKeyEnv.value = modelState.apiKeyEnv;
@@ -379,6 +438,11 @@ function addReplayStepModel(stepId, configModel = null) {
   header.append(title, removeButton);
 
   const fields = {
+    provider: setupStepModelSelectField(
+      'Provider',
+      'provider',
+      LLM_PROVIDERS.map((provider) => [provider, provider]),
+    ),
     baseUrl: setupStepModelField('Base URL', 'baseUrl'),
     keySource: setupStepModelSelectField('Key Source', 'keySource'),
     apiKeyEnv: setupStepModelField('API Key Env', 'apiKeyEnv'),
@@ -397,6 +461,7 @@ function addReplayStepModel(stepId, configModel = null) {
   };
   card.append(
     header,
+    fields.provider.label,
     fields.baseUrl.label,
     fields.keySource.label,
     fields.apiKeyEnv.label,
@@ -408,6 +473,7 @@ function addReplayStepModel(stepId, configModel = null) {
   setupFields.replayStepModels.append(card);
 
   populateModelSetupFields({
+    provider: fields.provider.input,
     baseUrl: fields.baseUrl.input,
     keySource: fields.keySource.input,
     apiKeyEnv: fields.apiKeyEnv.input,
@@ -420,6 +486,8 @@ function addReplayStepModel(stepId, configModel = null) {
     currentToken: configModel?.apiKey ?? '',
   }));
   fields.keySource.input.addEventListener('change', updateKeySourceFields);
+  fields.provider.input.addEventListener('change', updateProviderFields);
+  updateProviderFields();
   updateKeySourceFields();
   updateReplayStepModelOptions();
 }
@@ -456,6 +524,7 @@ function setupStepModelSelectField(labelText, fieldName, options = [['direct', '
 
 function replayStepModelDefaults() {
   return {
+    provider: setupFields.replayProvider.value,
     keySource: setupFields.replayKeySource.value,
     baseUrl: setupFields.replayBaseUrl.value,
     apiKeyEnv: setupFields.replayApiKeyEnv.value,
@@ -471,6 +540,7 @@ function replayStepModelPayloads() {
   for (const card of setupFields.replayStepModels.querySelectorAll('[data-step-model]')) {
     const stepId = card.dataset.stepModel;
     stepModels[stepId] = modelPayload({
+      provider: stepModelInputValue(card, 'provider'),
       baseUrl: stepModelInputValue(card, 'baseUrl'),
       keySource: stepModelInputValue(card, 'keySource'),
       apiKeyEnv: stepModelInputValue(card, 'apiKeyEnv'),
@@ -490,13 +560,11 @@ function stepModelInputValue(card, fieldName) {
 function updateReplayStepModelOptions() {
   const cards = Array.from(setupFields.replayStepModels.querySelectorAll('[data-step-model]'));
   const added = new Set(cards.map((card) => card.dataset.stepModel));
-  for (const option of setupFields.replayStepModelType.options) {
-    option.disabled = added.has(option.value);
-  }
-  const firstAvailable = STEP_MODEL_TYPES.find((type) => !added.has(type.id));
-  setupFields.addReplayStepModelButton.disabled = !firstAvailable;
-  if (firstAvailable && added.has(setupFields.replayStepModelType.value)) {
-    setupFields.replayStepModelType.value = firstAvailable.id;
+  const availableStepTypes = STEP_MODEL_TYPES.filter((type) => !added.has(type.id));
+  setupFields.addReplayStepModelButton.disabled = availableStepTypes.length === 0;
+  renderReplayStepModelChoices(availableStepTypes);
+  if (availableStepTypes.length === 0) {
+    hideReplayStepModelChoices();
   }
 
   if (cards.length === 0) {
@@ -507,6 +575,39 @@ function updateReplayStepModelOptions() {
     setupFields.replayStepModels.append(empty);
   } else {
     setupFields.replayStepModels.querySelector('.setupStepModelEmpty')?.remove();
+  }
+}
+
+function toggleReplayStepModelChoices() {
+  if (setupFields.addReplayStepModelButton.disabled) return;
+  const shouldShow = setupFields.replayStepModelChoices.hidden;
+  setupFields.replayStepModelChoices.hidden = !shouldShow;
+  setupFields.addReplayStepModelButton.setAttribute('aria-expanded', String(shouldShow));
+  if (shouldShow) {
+    setupFields.replayStepModelChoices.querySelector('button')?.focus();
+  }
+}
+
+function hideReplayStepModelChoices() {
+  setupFields.replayStepModelChoices.hidden = true;
+  setupFields.addReplayStepModelButton.setAttribute('aria-expanded', 'false');
+}
+
+function renderReplayStepModelChoices(availableStepTypes) {
+  setupFields.replayStepModelChoices.replaceChildren();
+  if (availableStepTypes.length === 0) return;
+
+  const hint = document.createElement('span');
+  hint.className = 'setupStepModelChoiceHint';
+  hint.textContent = 'Choose step';
+  setupFields.replayStepModelChoices.append(hint);
+
+  for (const stepType of availableStepTypes) {
+    const choice = document.createElement('button');
+    choice.type = 'button';
+    choice.dataset.stepModelChoice = stepType.id;
+    choice.textContent = stepType.label;
+    setupFields.replayStepModelChoices.append(choice);
   }
 }
 
@@ -527,6 +628,7 @@ function setupPayload() {
     models: {
       replay: replayModelPayload({
         baseModel: modelPayload({
+          provider: setupFields.replayProvider.value,
           baseUrl: setupFields.replayBaseUrl.value,
           keySource: setupFields.replayKeySource.value,
           apiKeyEnv: setupFields.replayApiKeyEnv.value,
@@ -538,6 +640,7 @@ function setupPayload() {
         stepModels: replayStepModelPayloads(),
       }),
       judge: modelPayload({
+        provider: 'openai-compatible',
         baseUrl: setupFields.judgeBaseUrl.value,
         keySource: setupFields.judgeKeySource.value,
         apiKeyEnv: setupFields.judgeApiKeyEnv.value,
@@ -589,6 +692,28 @@ function updateKeySourceFields() {
       tokenInput: card.querySelector('[data-step-model-field="apiKeyToken"]'),
     });
   }
+}
+
+function updateProviderFields() {
+  updateModelProvider({
+    provider: setupFields.replayProvider,
+    baseUrlInput: setupFields.replayBaseUrl,
+  });
+  for (const card of setupFields.replayStepModels.querySelectorAll('[data-step-model]')) {
+    updateModelProvider({
+      provider: card.querySelector('[data-step-model-field="provider"]'),
+      baseUrlInput: card.querySelector('[data-step-model-field="baseUrl"]'),
+    });
+  }
+}
+
+function updateModelProvider({ provider, baseUrlInput }) {
+  if (!provider || !baseUrlInput) return;
+  const baseUrlRequired = provider.value !== 'bedrock-native';
+  baseUrlInput.required = baseUrlRequired;
+  baseUrlInput.placeholder = baseUrlRequired
+    ? ''
+    : 'Optional; defaults to AWS_REGION runtime URL';
 }
 
 function updateModelKeySource({ keySource, envInput, tokenInput }) {
@@ -772,6 +897,7 @@ function activateReplayJob(job, { resume = false } = {}) {
     turns: state.task?.turns ?? state.cases.map((item) => item.turn),
     repeats: state.task?.repeats ?? 1,
     promptEditCount: job.promptEditCount ?? 0,
+    regressionConsistencyOnly: job.regressionConsistencyOnly === true,
   });
   elements.runButton.disabled = true;
   elements.runButton.textContent = 'Running...';
@@ -948,7 +1074,11 @@ function renderOriginalCaseView(item, target) {
     flowSection({
       title: '当前问题轮次原始输出',
       meta: `Turn ${item.turn}`,
-      content: currentTurnElement(item),
+      content: outputWithDirectorElement({
+        output: currentTurnElement(item),
+        directorOutput: item.originalDirectorOutput,
+        emptyText: 'No original director output found.',
+      }),
     }),
   );
 }
@@ -1034,7 +1164,11 @@ async function renderReplayArtifactInto({ turn, runIndex, target, placeholder, v
       meta: `Turn ${turn} / Run ${runIndex}`,
       content: view === 'judge'
         ? replayJudgeElement(artifact)
-        : replayOutputElement(artifact),
+        : outputWithDirectorElement({
+            output: replayOutputElement(artifact),
+            directorOutput: directorOutputFromCalls(artifact.llmCalls),
+            emptyText: 'No replay director output found.',
+          }),
     }));
   } catch (error) {
     placeholder.remove();
@@ -1081,6 +1215,55 @@ function replayJudgeElement(artifact) {
     text: replayJudgeText(artifact),
   }));
   return transcript;
+}
+
+function outputWithDirectorElement({ output, directorOutput, emptyText }) {
+  const columns = document.createElement('div');
+  columns.className = 'caseFlowColumns';
+  const outputColumn = document.createElement('div');
+  outputColumn.className = 'caseFlowColumn outputColumn';
+  outputColumn.append(output);
+  const directorColumn = document.createElement('aside');
+  directorColumn.className = 'caseFlowColumn directorOutputColumn';
+  directorColumn.append(
+    lineElement('caseFlowColumnTitle', 'Director Output'),
+    directorOutputElement(directorOutput, emptyText),
+  );
+  columns.append(outputColumn, directorColumn);
+  return columns;
+}
+
+function directorOutputElement(directorOutput, emptyText) {
+  const transcript = document.createElement('div');
+  transcript.className = 'bubbleTranscript directorTranscript';
+  transcript.append(bubbleElement({
+    role: 'system',
+    title: 'Director',
+    text: directorOutputText(directorOutput) ?? emptyText,
+  }));
+  return transcript;
+}
+
+function directorOutputFromCalls(calls) {
+  if (!Array.isArray(calls)) return null;
+  return calls.find((call, index) => (call?.stage ?? inferReplayStage(index)) === 'director') ?? null;
+}
+
+function inferReplayStage(index) {
+  return ['director', 'narrator', 'choice'][index] ?? `call-${index + 1}`;
+}
+
+function directorOutputText(directorOutput) {
+  if (!directorOutput) return null;
+  if (typeof directorOutput === 'string') return directorOutput;
+  const structuredOutput = directorOutput.object ?? directorOutput.output ?? directorOutput.result;
+  if (structuredOutput !== undefined && structuredOutput !== null) {
+    return JSON.stringify(structuredOutput, null, 2);
+  }
+  if (typeof directorOutput.text === 'string' && directorOutput.text.trim().length > 0) {
+    return directorOutput.text;
+  }
+  return null;
 }
 
 function issueListElement(item) {
@@ -1205,6 +1388,7 @@ function renderSource() {
     elements.editStatePanel.textContent = '';
     elements.originalText.value = '';
     elements.draftText.value = '';
+    updateWorkspaceDockStatus();
     return;
   }
   elements.sourceTitle.textContent = source.label ?? source.id;
@@ -1245,6 +1429,7 @@ function renderSource() {
   renderEditStatePanel({ source, editable });
   renderPromptTurnControls();
   renderTabs();
+  updateWorkspaceDockStatus();
 }
 
 function renderEditStatePanel({ source, editable }) {
@@ -1362,29 +1547,32 @@ async function renderDiff(source) {
 async function runReplay() {
   syncSelectedDraftFromTextarea();
   const promptEdits = state.sources.filter((source) => isEditablePromptSource(source) && source.originalText !== source.draftText);
-  if (promptEdits.length === 0) {
-    setRunStatus('No prompt edits to run.', 'warn');
-    setResult('No prompt edits. Edit the Draft prompt first, then click Run.');
-    return;
-  }
+  const regressionConsistencyOnly = promptEdits.length === 0;
   elements.runButton.disabled = true;
   elements.runButton.textContent = 'Running...';
   elements.runButton.setAttribute('aria-busy', 'true');
-  setRunStatus(`Running ${promptEdits.length} prompt edit${promptEdits.length === 1 ? '' : 's'}...`, 'busy');
+  setRunStatus(
+    regressionConsistencyOnly
+      ? 'Running Regression Consistency only...'
+      : `Running ${promptEdits.length} prompt edit${promptEdits.length === 1 ? '' : 's'}...`,
+    'busy',
+  );
   state.pendingReplayProgress = buildPendingReplayProgress({
     turns: state.task?.turns ?? state.cases.map((item) => item.turn),
     repeats: state.task?.repeats ?? 1,
     promptEditCount: promptEdits.length,
+    regressionConsistencyOnly,
   });
   renderReplayProgress();
   setResult([
     'Running...',
     `promptEdits: ${promptEdits.length}`,
+    regressionConsistencyOnly ? 'mode: Regression Consistency only' : null,
     `turn: ${state.selectedCaseTurn ?? '-'}`,
     'Waiting for replay and judge results.',
-  ].join('\n'));
+  ].filter(Boolean).join('\n'));
   try {
-    const job = await apiPost('/api/replay/run', { promptEdits });
+    const job = await apiPost('/api/replay/run', { promptEdits, regressionConsistencyOnly });
     activateReplayJob(job);
     await resumeReplayJob(job);
   } catch (error) {
@@ -1421,6 +1609,7 @@ function replayJobText(job) {
     `jobId: ${job.jobId}`,
     `replayId: ${job.replayId}`,
     job.promptEditCount !== undefined ? `promptEdits: ${job.promptEditCount}` : null,
+    job.regressionConsistencyOnly ? 'mode: Regression Consistency only' : null,
     job.resultDir ? `resultDir: ${job.resultDir}` : 'Waiting for resultDir.',
   ].filter(Boolean).join('\n');
 }
@@ -1619,7 +1808,7 @@ function updateRunStatusForDirtyEdits() {
   if (dirtyCount > 0) {
     setRunStatus(`${dirtyCount} prompt edit${dirtyCount === 1 ? '' : 's'} ready`, 'dirty');
   } else {
-    setRunStatus('No prompt edits', 'idle');
+    setRunStatus('No prompt edits; Run checks Regression Consistency only', 'idle');
   }
 }
 

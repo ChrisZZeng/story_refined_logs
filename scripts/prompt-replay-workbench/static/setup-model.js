@@ -1,7 +1,9 @@
 export const DIRECT_TOKEN_KEY_SOURCE = 'direct';
 export const ENV_KEY_SOURCE = 'env';
+export const DEFAULT_PROVIDER = 'openai-compatible';
 export const DEFAULT_THINKING_ENABLED = false;
 export const DEFAULT_REASONING_EFFORT = 'minimal';
+export const LLM_PROVIDERS = ['openai-compatible', 'anthropic', 'bedrock-native'];
 export const REASONING_EFFORTS = ['minimal', 'low', 'medium', 'high'];
 export const STEP_MODEL_TYPES = [
   { id: 'director', label: 'Director' },
@@ -13,6 +15,9 @@ export const STEP_MODEL_TYPES = [
 export function setupModelFormState({ configModel, currentToken = '' } = {}) {
   const keySource = configModel?.keySource === ENV_KEY_SOURCE ? ENV_KEY_SOURCE : DIRECT_TOKEN_KEY_SOURCE;
   return {
+    provider: LLM_PROVIDERS.includes(configModel?.provider)
+      ? configModel.provider
+      : DEFAULT_PROVIDER,
     baseUrl: configModel?.baseUrl ?? '',
     keySource,
     apiKeyEnv: configModel?.apiKeyEnv ?? '',
@@ -26,6 +31,7 @@ export function setupModelFormState({ configModel, currentToken = '' } = {}) {
 }
 
 export function modelPayload({
+  provider = DEFAULT_PROVIDER,
   baseUrl,
   keySource = DIRECT_TOKEN_KEY_SOURCE,
   apiKey,
@@ -35,9 +41,13 @@ export function modelPayload({
   reasoningEffort = DEFAULT_REASONING_EFFORT,
   includeAdvanced = true,
 }) {
+  const providerName = LLM_PROVIDERS.includes(provider) ? provider : DEFAULT_PROVIDER;
+  const baseUrlText = String(baseUrl ?? '').trim();
   const shared = {
-    provider: 'openai-compatible',
-    baseUrl,
+    provider: providerName,
+    baseUrl: providerName === 'bedrock-native' && baseUrlText === ''
+      ? null
+      : baseUrl,
     model,
     ...(includeAdvanced
       ? {

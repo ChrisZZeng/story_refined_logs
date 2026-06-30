@@ -337,10 +337,10 @@ GET /api/replay/history
 
 如果发现同一个 server 进程里还有运行中的 job，就继续显示 `Running...` 并等待完成；如果没有运行中 job，则从 History 中恢复最近完成的结果。
 
-如果没有 dirty prompt，会提示：
+如果没有 dirty prompt，仍然可以点击 Run。此时不会生成 issue fix judge，只会运行 Regression Consistency Judge：
 
 ```text
-No prompt edits. Edit the Draft prompt first, then click Run.
+No prompt edits; Run checks Regression Consistency only
 ```
 
 ## 查看结果

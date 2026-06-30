@@ -323,16 +323,6 @@ fieldset legend {
   justify-content: flex-end;
 }
 
-.setupStepModelAdd select {
-  min-height: 30px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0 10px;
-  color: var(--text);
-  background: #fff;
-  font: inherit;
-}
-
 .setupStepModelAdd button,
 .setupStepModelRemove {
   min-height: 30px;
@@ -352,6 +342,39 @@ fieldset legend {
   color: var(--muted);
   background: #f8fafc;
   cursor: not-allowed;
+}
+
+.setupStepModelChoices {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+.setupStepModelChoices[hidden] {
+  display: none;
+}
+
+.setupStepModelChoiceHint {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 760;
+}
+
+.setupStepModelChoices button {
+  min-height: 28px;
+  border-color: #cbd5e1;
+  color: #334155;
+  background: #fff;
+}
+
+.setupStepModelChoices button:hover,
+.setupStepModelChoices button:focus {
+  border-color: #93c5fd;
+  color: var(--accent-strong);
+  background: #eff6ff;
 }
 
 .setupStepModelList {
@@ -847,11 +870,40 @@ fieldset legend {
   font-size: 11px;
 }
 
+.caseFlowColumns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.caseFlowColumn {
+  min-width: 0;
+}
+
+.directorOutputColumn {
+  border-left: 1px solid #e6ebf2;
+  padding-left: 16px;
+}
+
+.caseFlowColumnTitle {
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 760;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
 .bubbleTranscript {
   display: flex;
   flex-direction: column;
   gap: 10px;
   max-width: 920px;
+}
+
+.directorTranscript {
+  max-width: none;
 }
 
 .bubbleTranscript.compact {
@@ -898,6 +950,12 @@ fieldset legend {
   align-self: flex-start;
   border-color: #d7e2ee;
   background: #f8fafc;
+}
+
+.directorTranscript .caseBubble {
+  align-self: stretch;
+  width: auto;
+  max-width: 100%;
 }
 
 .caseBubble.issue {
@@ -998,11 +1056,86 @@ fieldset legend {
 .workspace {
   display: grid;
   grid-template-columns: minmax(190px, 240px) minmax(520px, 1fr) minmax(300px, 360px);
-  gap: 14px;
+  column-gap: 14px;
+  row-gap: 6px;
   flex: 1 1 auto;
   min-height: 0;
   height: auto;
-  padding: 14px;
+  padding: 8px 14px 10px;
+}
+
+.workspaceDock {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  padding: 3px 6px 3px 10px;
+  background: linear-gradient(135deg, #f8fbff, #fff);
+}
+
+.workspaceDock div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.workspaceDock strong {
+  flex: 0 0 auto;
+  color: #334155;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.workspaceDock span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspaceToggleButton {
+  flex: 0 0 auto;
+  min-height: 22px;
+  border-radius: 999px;
+  border-color: #bfdbfe;
+  color: var(--accent-strong);
+  background: #eff6ff;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+body.workspaceCollapsed .splitResizeBar {
+  display: none;
+}
+
+body.workspaceCollapsed .caseContext {
+  flex: 1 1 auto;
+}
+
+body.workspaceCollapsed .workspace {
+  flex: 0 0 auto;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 4px 14px 6px;
+}
+
+body.workspaceCollapsed .workspace > :not(.workspaceDock) {
+  display: none;
+}
+
+body.workspaceCollapsed .workspaceDock {
+  border-color: #93c5fd;
+  box-shadow: 0 -10px 30px rgba(37, 99, 235, 0.12);
 }
 
 .sourceList,
@@ -1463,6 +1596,20 @@ textarea[readonly] {
     height: auto;
   }
 
+  .workspaceDock {
+    align-items: center;
+    border-radius: 999px;
+    flex-direction: row;
+  }
+
+  .workspaceDock span {
+    white-space: nowrap;
+  }
+
+  .workspaceToggleButton {
+    width: auto;
+  }
+
   .setupGrid,
   .setupModelGrid,
   .setupCheckboxGrid {
@@ -1483,12 +1630,27 @@ textarea[readonly] {
     justify-content: flex-start;
   }
 
+  .setupStepModelChoices {
+    justify-content: flex-start;
+  }
+
   .setupStepModel {
     grid-template-columns: 1fr;
   }
 
   .columns {
     grid-template-columns: 1fr;
+  }
+
+  .caseFlowColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .directorOutputColumn {
+    border-left: 0;
+    border-top: 1px solid #e6ebf2;
+    padding-left: 0;
+    padding-top: 12px;
   }
 
   .promptTextPanel {
