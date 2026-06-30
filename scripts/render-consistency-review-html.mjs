@@ -118,6 +118,11 @@ function readJsonl(filePath) {
     .map((line) => JSON.parse(line));
 }
 
+function turnNumberFromDir(name) {
+  const match = /^turn-(\d+)$/.exec(name);
+  return match ? Number(match[1]) : undefined;
+}
+
 function listDirectories(dirPath) {
   if (!fs.existsSync(dirPath)) return [];
   return fs
@@ -125,6 +130,16 @@ function listDirectories(dirPath) {
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
     .sort((a, b) => a.localeCompare(b));
+}
+
+function listTurnDirectories(runDir) {
+  if (!fs.existsSync(runDir)) return [];
+  return fs
+    .readdirSync(runDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => ({ name: entry.name, turn: turnNumberFromDir(entry.name) }))
+    .filter((entry) => Number.isFinite(entry.turn))
+    .sort((a, b) => a.turn - b.turn);
 }
 
 function countBy(items, keyFn) {
@@ -262,14 +277,122 @@ function issueId(issue, index) {
   return `issue-${issue.turn}-${index + 1}`;
 }
 
-function loadTurnOutput(runDir, turn) {
-  const padded = String(turn).padStart(2, '0');
-  return readJsonIfExists(path.join(runDir, `turn-${padded}`, '04-output.json'));
+function resolveTurnDir(runDir, turn, turnDirName) {
+  const numericTurn = Number(turn);
+  const candidates = [
+    turnDirName,
+    Number.isFinite(numericTurn) ? `turn-${String(numericTurn).padStart(2, '0')}` : null,
+    Number.isFinite(numericTurn) ? `turn-${numericTurn}` : null,
+  ].filter(Boolean);
+  const existing = candidates.find((candidate) => fs.existsSync(path.join(runDir, candidate)));
+  return path.join(runDir, existing ?? candidates[0] ?? '');
 }
 
-function loadTurnScriptState(runDir, turn) {
-  const padded = String(turn).padStart(2, '0');
-  return readJsonIfExists(path.join(runDir, `turn-${padded}`, '02-script-state.json'));
+function loadTurnOutput(runDir, turn, turnDirName = null) {
+  const turnDir = resolveTurnDir(runDir, turn, turnDirName);
+  return readJsonIfExists(path.join(turnDir, '04-output.json'));
+}
+
+function loadTurnScriptState(runDir, turn, turnDirName = null) {
+  const turnDir = resolveTurnDir(runDir, turn, turnDirName);
+  return readJsonIfExists(path.join(turnDir, '02-script-state.json'));
+}
+
+function loadTurnStoryState(runDir, turn, turnDirName = null) {
+  const turnDir = resolveTurnDir(runDir, turn, turnDirName);
+  return readJsonIfExists(path.join(turnDir, '03-story-state.json'));
+}
+
+function pickVisibleText(output) {
+  return output?.normalizedContent?.visibleText
+    ?? output?.visibleText
+    ?? output?.normalizedContent?.rawHtml
+    ?? output?.narrative
+    ?? '';
+}
+
+function pickChoices(summary, output) {
+  const fromSummary = summary?.choices?.options;
+  if (Array.isArray(fromSummary)) {
+    return fromSummary.map((choice) => ({
+      text: choice?.text ?? '',
+      actionId: choice?.actionId,
+    }));
+  }
+
+  const fromOutput = output?.choices?.options ?? output?.choices;
+  if (Array.isArray(fromOutput)) {
+    return fromOutput.map((choice) => ({
+      text: choice?.text ?? String(choice ?? ''),
+      actionId: choice?.actionId,
+    }));
+  }
+
+  return [];
+}
+
+function pickPreLlmEvents(scriptState, storyState) {
+  const events = scriptState?.preLlmEvents?.events ?? storyState?.preLlmEvents?.events ?? [];
+  return Array.isArray(events) ? events : [];
+}
+
+function pickPlayerInput(summary) {
+  if (typeof summary?.playerInput === 'string' && summary.playerInput.length > 0) {
+    return { value: summary.playerInput, source: 'playerInput' };
+  }
+
+  const selectedText = summary?.selectedFromPreviousTurn?.text;
+  if (typeof selectedText === 'string' && selectedText.length > 0) {
+    return { value: selectedText, source: 'selectedFromPreviousTurn' };
+  }
+
+  return { value: null, source: null };
+}
+
+function buildTurnRecordFromRunLog(runDir, turnDir) {
+  const dir = path.join(runDir, turnDir.name);
+  const summary = readJsonIfExists(path.join(dir, '01-summary.json'));
+  const scriptState = loadTurnScriptState(runDir, turnDir.turn, turnDir.name);
+  const storyState = loadTurnStoryState(runDir, turnDir.turn, turnDir.name);
+  const output = loadTurnOutput(runDir, turnDir.turn, turnDir.name);
+  const playerInput = pickPlayerInput(summary);
+
+  return {
+    turn: summary?.turn ?? turnDir.turn,
+    turnDir: turnDir.name,
+    playerInput: playerInput.value,
+    playerInputSource: playerInput.source,
+    preLlmEvents: pickPreLlmEvents(scriptState, storyState),
+    visibleText: pickVisibleText(output),
+    choices: pickChoices(summary, output),
+    plotSummary: summary?.plotSummary ?? null,
+    selectedAction: summary?.selectedAction ?? null,
+    sourceFiles: {
+      summary: path.relative(runDir, path.join(dir, '01-summary.json')),
+      scriptState: path.relative(runDir, path.join(dir, '02-script-state.json')),
+      storyState: path.relative(runDir, path.join(dir, '03-story-state.json')),
+      output: path.relative(runDir, path.join(dir, '04-output.json')),
+    },
+  };
+}
+
+function buildTimelineFromRunLogs(runDir) {
+  const turnDirs = listTurnDirectories(runDir);
+  if (turnDirs.length === 0) throw new Error(`No turn-* directories found in ${runDir}`);
+  return turnDirs.map((turnDir) => buildTurnRecordFromRunLog(runDir, turnDir));
+}
+
+function loadIssues(reviewDir, mode) {
+  const issuesPath = mode === 'visibleText'
+    ? path.join(reviewDir, 'issues-visible-text.json')
+    : path.join(reviewDir, 'issues.json');
+  const fallbackIssuesPath = path.join(reviewDir, 'issues.json');
+  const selectedPath = [issuesPath, fallbackIssuesPath].find((filePath) => fs.existsSync(filePath));
+  const issues = selectedPath ? readJson(selectedPath) : [];
+  return {
+    issues: Array.isArray(issues) ? issues : [],
+    issuesPath: selectedPath ?? null,
+  };
 }
 
 function firstLine(value) {
@@ -548,7 +671,7 @@ function renderTurn(turn, output, scriptState, issuesForTurn, issueIndexByObject
     `<aside class="issues-panel ${hasIssues ? '' : 'clean'}">`,
     hasIssues
       ? ['<h3>本轮问题</h3>', ...issuesForTurn.map((issue) => renderIssueCard(issue, issueIndexByObject.get(issue)))].join('\n')
-      : '<h3>本轮未标记问题</h3><p>consistency review 没有在这一轮记录 issue。</p>',
+      : '<h3>本轮未标记问题</h3><p>当前数据源没有在这一轮记录 issue。</p>',
     '</aside>',
     '</div>',
     '</section>',
@@ -559,6 +682,7 @@ function renderHtml(data) {
   const {
     runId,
     groupDir,
+    runDir,
     runConfig,
     summary,
     issues,
@@ -566,6 +690,9 @@ function renderHtml(data) {
     outputsByTurn,
     scriptStatesByTurn,
     mode,
+    reviewAvailable,
+    timelinePath,
+    issuesPath,
   } = data;
 
   const metrics = buildMetrics(summary, issues, turns, mode);
@@ -581,7 +708,12 @@ function renderHtml(data) {
   const severityCounts = countBy(issues, (issue) => issue.severity);
   const scopeCounts = countBy(issues, (issue) => issue.scope);
   const typeCounts = countBy(issues, (issue) => issue.type);
-  const title = `互动叙事一致性审阅 · ${runConfig?.choiceStrategy ?? 'unknown'} · ${runDisplayName(runId)}`;
+  const titlePrefix = reviewAvailable ? '互动叙事一致性审阅' : '互动叙事运行日志';
+  const title = `${titlePrefix} · ${runConfig?.choiceStrategy ?? 'unknown'} · ${runDisplayName(runId)}`;
+  const sourceLabel = reviewAvailable
+    ? `${path.relative(groupDir, timelinePath)} + ${issuesPath ? path.relative(groupDir, issuesPath) : 'no issues file'} + run log`
+    : `${path.relative(groupDir, runDir)}（由 run_logs 直接生成）`;
+  const versionLabel = reviewAvailable ? `${mode} consistency 版` : 'run_logs 版';
   const nav = issues.map((issue, index) => {
     const id = issueId(issue, index);
     return `<a class="nav-issue severity-${escapeHtml(issue.severity)}" href="#${escapeHtml(id)}"><span>T${escapeHtml(issue.turn)}</span><b>${escapeHtml(issueTypeLabel(issue.type))}</b></a>`;
@@ -599,8 +731,17 @@ function renderHtml(data) {
 html { scroll-behavior:smooth; }
 body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--bg); line-height:1.65; }
 .shell { max-width:1440px; margin:0 auto; padding:24px; }
-.hero { background:var(--panel); border:1px solid var(--line); box-shadow:var(--shadow); padding:22px; border-radius:8px; position:sticky; top:0; z-index:5; }
-.hero h1 { margin:0 0 10px; font-size:24px; }
+.hero { background:var(--panel); border:1px solid var(--line); box-shadow:var(--shadow); padding:22px; border-radius:8px; position:sticky; top:0; z-index:5; transition:padding .25s ease; }
+.hero h1 { margin:0 0 10px; font-size:24px; display:flex; align-items:center; gap:10px; min-width:0; }
+.hero-title { min-width:0; }
+.hero-toggle { flex:0 0 auto; font:inherit; font-size:13px; font-weight:500; line-height:1.4; cursor:pointer; border:1px solid var(--line); border-radius:6px; padding:4px 10px; background:#fff; color:var(--muted); white-space:nowrap; user-select:none; }
+.hero-toggle:hover { background:var(--bg); color:var(--ink); }
+.hero-collapsible { transition:max-height .3s ease, opacity .3s ease, margin .3s ease; overflow:hidden; }
+.hero-collapsible.collapsed { max-height:0 !important; opacity:0; margin:0; pointer-events:none; }
+.hero.collapsed { padding:8px 22px; }
+.hero.collapsed h1 { margin:0; font-size:16px; white-space:nowrap; overflow:hidden; }
+.hero.collapsed .hero-title { flex:1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hero.collapsed > p { display:none; }
 .hero p { margin:0; color:var(--muted); }
 .metrics { display:grid; grid-template-columns:repeat(6,minmax(120px,1fr)); gap:10px; margin-top:16px; }
 .metric { border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:#fbfcfe; }
@@ -678,8 +819,9 @@ dd { margin:3px 0 0; color:#344054; }
 <body>
 <div class="shell">
   <section class="hero">
-    <h1>${escapeHtml(title)} 气泡对照报告</h1>
-    <p>Run：${escapeHtml(runId)} · ${escapeHtml(mode)} consistency 版 · 来源：${escapeHtml(path.relative(groupDir, path.join(groupDir, 'consistency-review', runId, 'visible-timeline.jsonl')))} + issues.json + run log</p>
+    <h1><span class="hero-title">${escapeHtml(title)} 气泡对照报告</span><button class="hero-toggle" type="button" id="hero-toggle-btn" aria-controls="hero-collapsible" aria-expanded="true">收起</button></h1>
+    <p>Run：${escapeHtml(runId)} · ${escapeHtml(versionLabel)} · 来源：${escapeHtml(sourceLabel)}</p>
+    <div class="hero-collapsible" id="hero-collapsible">
     <div class="metrics">
       <div class="metric"><span>首次问题轮次</span><strong>${escapeHtml(metrics.firstIssueTurn ?? '无')}</strong></div>
       <div class="metric"><span>问题轮次数</span><strong>${escapeHtml(metrics.issueTurnCount)}</strong></div>
@@ -697,10 +839,42 @@ dd { margin:3px 0 0; color:#344054; }
       <span>严重度：${escapeHtml(formatCountMap(severityCounts, severityLabel))}</span>
     </div>
     <div class="nav-strip" aria-label="问题轮次导航">${nav.length > 0 ? nav.join('') : '<span class="clean-pill">没有 issue</span>'}</div>
+    </div>
   </section>
   ${turns.map((turn) => renderTurn(turn, outputsByTurn.get(turn.turn), scriptStatesByTurn.get(turn.turn), issuesByTurn.get(turn.turn) ?? [], issueIndexByObject)).join('\n')}
-  <footer class="footer">Generated from ${escapeHtml(path.basename(groupDir))} · ${escapeHtml(mode)} consistency review</footer>
+  <footer class="footer">Generated from ${escapeHtml(path.basename(groupDir))} · ${escapeHtml(versionLabel)}</footer>
 </div>
+<script>
+function toggleHero() {
+  var hero = document.querySelector('.hero');
+  var el = document.getElementById('hero-collapsible');
+  var btn = document.getElementById('hero-toggle-btn');
+  if (!hero || !el || !btn) return;
+
+  if (el.classList.contains('collapsed')) {
+    el.classList.remove('collapsed');
+    hero.classList.remove('collapsed');
+    el.style.maxHeight = el.scrollHeight + 'px';
+    btn.setAttribute('aria-expanded', 'true');
+    btn.textContent = '收起';
+    window.setTimeout(function() {
+      if (!el.classList.contains('collapsed')) el.style.maxHeight = '';
+    }, 320);
+    return;
+  }
+
+  el.style.maxHeight = el.scrollHeight + 'px';
+  el.offsetHeight;
+  el.classList.add('collapsed');
+  hero.classList.add('collapsed');
+  el.style.maxHeight = '0px';
+  btn.setAttribute('aria-expanded', 'false');
+  btn.textContent = '展开';
+}
+
+var heroToggleButton = document.getElementById('hero-toggle-btn');
+if (heroToggleButton) heroToggleButton.addEventListener('click', toggleHero);
+</script>
 </body>
 </html>
 `;
@@ -710,34 +884,33 @@ function loadRunData(groupDir, runId, mode) {
   const runDir = path.join(groupDir, 'run_logs', runId);
   const reviewDir = path.join(groupDir, 'consistency-review', runId);
   const timelinePath = path.join(reviewDir, 'visible-timeline.jsonl');
-  const issuesPath = mode === 'visibleText'
-    ? path.join(reviewDir, 'issues-visible-text.json')
-    : path.join(reviewDir, 'issues.json');
-  const fallbackIssuesPath = path.join(reviewDir, 'issues.json');
 
   if (!fs.existsSync(runDir)) throw new Error(`Missing run log directory: ${runDir}`);
-  if (!fs.existsSync(reviewDir)) throw new Error(`Missing consistency review directory: ${reviewDir}`);
-  if (!fs.existsSync(timelinePath)) throw new Error(`Missing visible timeline: ${timelinePath}`);
 
-  const turns = readJsonl(timelinePath);
-  const issues = fs.existsSync(issuesPath) ? readJson(issuesPath) : readJson(fallbackIssuesPath);
-  const summary = readJsonIfExists(path.join(reviewDir, 'summary.json'), {});
+  const reviewAvailable = fs.existsSync(timelinePath);
+  const turns = reviewAvailable ? readJsonl(timelinePath) : buildTimelineFromRunLogs(runDir);
+  const { issues, issuesPath } = reviewAvailable ? loadIssues(reviewDir, mode) : { issues: [], issuesPath: null };
+  const summary = reviewAvailable ? readJsonIfExists(path.join(reviewDir, 'summary.json'), {}) : {};
   const runConfig = readJsonIfExists(path.join(runDir, '00-run-config.json'), {});
-  const outputsByTurn = new Map(turns.map((turn) => [turn.turn, loadTurnOutput(runDir, turn.turn)]));
-  const scriptStatesByTurn = new Map(turns.map((turn) => [turn.turn, loadTurnScriptState(runDir, turn.turn)]));
+  const outputsByTurn = new Map(turns.map((turn) => [turn.turn, loadTurnOutput(runDir, turn.turn, turn.turnDir)]));
+  const scriptStatesByTurn = new Map(turns.map((turn) => [turn.turn, loadTurnScriptState(runDir, turn.turn, turn.turnDir)]));
 
   return {
     runId,
     groupDir,
     runDir,
     reviewDir,
+    outputDir: reviewAvailable ? reviewDir : runDir,
     runConfig,
     summary,
     issues,
+    issuesPath,
     turns,
     outputsByTurn,
     scriptStatesByTurn,
     mode,
+    reviewAvailable,
+    timelinePath: reviewAvailable ? timelinePath : null,
   };
 }
 
@@ -745,7 +918,7 @@ function renderRun(groupDir, runId, options) {
   const data = loadRunData(groupDir, runId, options.mode);
   const html = renderHtml(data);
   const outputName = options.outputName ?? DEFAULT_OUTPUT_NAMES[options.mode];
-  const outputPath = path.join(data.reviewDir, outputName);
+  const outputPath = path.join(data.outputDir, outputName);
   fs.writeFileSync(outputPath, html);
   return outputPath;
 }
@@ -759,9 +932,7 @@ function main() {
 
   const groupDir = normalizeGroupDir(args._[0]);
   const runLogsDir = path.join(groupDir, 'run_logs');
-  const reviewRoot = path.join(groupDir, 'consistency-review');
   if (!fs.existsSync(runLogsDir)) throw new Error(`Missing run_logs directory: ${runLogsDir}`);
-  if (!fs.existsSync(reviewRoot)) throw new Error(`Missing consistency-review directory: ${reviewRoot}`);
 
   const runIds = args.runIds.length > 0 ? args.runIds : listDirectories(runLogsDir);
   if (runIds.length === 0) throw new Error(`No runs found under ${runLogsDir}`);
